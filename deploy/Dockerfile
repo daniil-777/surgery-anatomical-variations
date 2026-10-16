@@ -54,4 +54,4 @@ ENV PYTHONPATH=/app/py:/app \
     PORT=7860
 EXPOSE 7860
 HEALTHCHECK --interval=30s --timeout=5s --start-period=90s CMD python -c "import urllib.request,os; urllib.request.urlopen(f'http://127.0.0.1:{os.environ.get(\"PORT\",\"7860\")}/api/health', timeout=4)" || exit 1
-CMD ["sh", "-c", "uvicorn services.web.app:app --host 0.0.0.0 --port ${PORT} --limit-concurrency 64 --timeout-keep-alive 5"]
+CMD ["sh", "-c", "uvicorn services.web.app:app --host 0.0.0.0 --port ${PORT} --limit-concurrency 64 --timeout-keep-alive 75"]

@@ -31,7 +31,7 @@ jobs:
       - run: uv venv .venv --python 3.11 && uv pip install --python .venv/bin/python --index-strategy unsafe-best-match --index-url https://download.pytorch.org/whl/cpu --extra-index-url https://pypi.org/simple -r deploy/requirements.txt
       - name: start the API for the snapshots
         run: |
-          PYTHONPATH=py:. PYTHONFAULTHANDLER=1 OMP_NUM_THREADS=2 nohup .venv/bin/python -X faulthandler -m uvicorn services.api.app:app --host 127.0.0.1 --port 8000 --log-level info > api.log 2>&1 &
+          PYTHONPATH=py:. PYTHONFAULTHANDLER=1 OMP_NUM_THREADS=2 nohup .venv/bin/python -X faulthandler -m uvicorn services.api.app:app --host 127.0.0.1 --port 8000 --timeout-keep-alive 75 --log-level info > api.log 2>&1 &
           for i in $(seq 1 90); do curl -sf http://127.0.0.1:8000/api/health >/dev/null && break; sleep 2; done
           curl -sf http://127.0.0.1:8000/api/health
       - run: node scripts/build_public_copy.mjs --out public-copy

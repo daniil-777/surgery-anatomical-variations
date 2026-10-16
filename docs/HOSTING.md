@@ -55,7 +55,7 @@ environment and port, then runs the probe. It needs the text adapter's base mode
 
 `VISCERA_WEB_PRELOAD_LANGUAGE=1` loads the imported text adapter before the port opens (visitors cannot trigger model
 downloads: that route answers 403). `HF_HUB_OFFLINE=1` keeps the server from ever contacting the Hub. `OMP_NUM_THREADS=2`
-matches the free tier. `--limit-concurrency 64` (open connections, not requests: a reverse proxy's pool and a page load's asset burst must fit under it) makes the server answer 503 instead of queueing without bound; behind Caddy, `max_conns_per_host 24` queues at the proxy first.
+matches the free tier. `--limit-concurrency 64` (open connections, not requests: a reverse proxy's pool and a page load's asset burst must fit under it) makes the server answer 503 instead of queueing without bound; behind Caddy, `max_conns_per_host 24` queues at the proxy first. `--timeout-keep-alive 75` keeps idle connections longer than a proxy's own idle limit (Caddy: 30 s), so the proxy, not uvicorn, closes them: a POST landing on a connection the server is closing would otherwise fail.
 
 ## Making the public copy use the host
 

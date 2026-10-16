@@ -13,7 +13,7 @@ PROBE="$PWD/scripts/probe_web_app.py"
 cd "$STAGE"
 PYTHONPATH="$STAGE/py:$STAGE" VISCERA_WEB_DB="$STAGE/web-studio.sqlite" VISCERA_WEB_DIST="$STAGE/apps/studio/dist" \
   VISCERA_WEB_PRELOAD_LANGUAGE=1 TOKENIZERS_PARALLELISM=false \
-  "$VENV/bin/python" -m uvicorn services.web.app:app --host 127.0.0.1 --port "$PORT" --limit-concurrency 64 --timeout-keep-alive 5 --log-level warning &
+  "$VENV/bin/python" -m uvicorn services.web.app:app --host 127.0.0.1 --port "$PORT" --limit-concurrency 64 --timeout-keep-alive 75 --log-level warning &
 SERVER=$!
 trap 'kill $SERVER 2>/dev/null || true' EXIT
 for i in $(seq 1 60); do curl -sf "http://127.0.0.1:$PORT/api/health" >/dev/null && break; sleep 1; done

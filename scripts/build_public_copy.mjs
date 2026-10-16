@@ -29,6 +29,18 @@ const API = (typeof opt.api === 'string' ? opt.api : process.env.VISCERA_API_URL
 const PUB = path.join(ROOT, 'apps/studio/public');
 const mb = (n) => (n / 1048576).toFixed(2) + ' MB';
 const t0 = Date.now();
+/** fetch with one retry on a lost connection: the client may pause longer than the server's keep-alive while it
+ *  gzips a 57 MB specimen, and the next request can race the server closing that idle connection. The calls here
+ *  are deterministic, so repeating one is safe. */
+async function fetchApi(route, init) {
+  for (let attempt = 0; ; attempt++) {
+    try { return await fetch(`${API}${route}`, init); }
+    catch (error) {
+      if (attempt >= 1) throw new Error(`${route}: the API connection failed twice (${error.cause?.message ?? error.message}); is the API still running?`);
+      await new Promise((r) => setTimeout(r, 1500));
+    }
+  }
+}
 
 for (const p of ['apps/studio/vite.config.ts', 'node_modules/vite/bin/vite.js', 'apps/studio/public/anatomy-scene/bodyparts3d-torso.glb'])
   if (!fs.existsSync(path.join(ROOT, p))) throw new Error(`${p} is missing: run pnpm install first`);
@@ -48,9 +60,9 @@ if (opt['keep-specimens']) {
   specimens = fs.readdirSync(path.join(keep, 'specimens')).length;
   console.log(`keeping ${specimens} bundled specimens`);
 } else {
-  const health = await fetch(`${API}/api/health`).then((r) => r.ok, () => false);
+  const health = await fetchApi(`/api/health`).then((r) => r.ok, () => false);
   if (!health) throw new Error(`no VISCERA API at ${API}: start it (pnpm api), or pass --keep-specimens`);
-  const catalog = await fetch(`${API}/api/atlas/catalog`).then((r) => { if (!r.ok) throw new Error(`catalog: HTTP ${r.status}`); return r.json(); });
+  const catalog = await fetchApi(`/api/atlas/catalog`).then((r) => { if (!r.ok) throw new Error(`catalog: HTTP ${r.status}`); return r.json(); });
   if (!Array.isArray(catalog.organs) || !Array.isArray(catalog.controls)) throw new Error('the catalogue has no organs or controls');
   for (const organ of catalog.organs) for (const template of organ.templates) {
     const meta = JSON.parse(fs.readFileSync(path.join(templateRoot, `${template.id}.json`), 'utf8'));
@@ -61,7 +73,7 @@ if (opt['keep-specimens']) {
   for (const d of ['specimens', 'templates', '../physics/playground', 'reference-material/regions', 'reference-material/examples']) fs.mkdirSync(path.join(keep, d), { recursive: true });
   fs.writeFileSync(path.join(keep, 'catalog.json'), JSON.stringify(catalog));
   const post = async (route, body, raw = false) => {
-    const r = await fetch(`${API}${route}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    const r = await fetchApi(`${route}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
     if (!r.ok) throw new Error(`${route}: HTTP ${r.status} ${(await r.text()).slice(0, 160)}`);
     return raw ? r.text() : r.json();
   };
@@ -72,8 +84,8 @@ if (opt['keep-specimens']) {
     const spec = { ...(catalog.renderer_version ? { renderer_version: catalog.renderer_version } : {}), template_id: template.id, seed: 42,
       controls: Object.fromEntries(catalog.controls.map((c) => [c.key, c.default])), appearance: 'tissue',
       ...(catalog.materials ? { material: { ...catalog.materials.defaults[organ.id] } } : {}) };
-    const r = await fetch(`${API}/api/atlas/generate`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(spec) })
-      .catch((error) => { throw new Error(`${template.id}: the API connection failed (${error.cause?.message ?? error.message}); is the API still running?`); });
+    const r = await fetchApi(`/api/atlas/generate`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(spec) })
+
     if (r.status === 422) {   // a template the API itself refuses (its QA gate): the studio says so when picked
       const detail = (await r.text()).slice(0, 200);
       unavailable.push({ id: template.id, detail });
@@ -121,7 +133,7 @@ if (opt['keep-specimens']) {
   }
   for (const [route, file] of [['/api/physics/status', '../physics/status.json'], ['/api/physics/demo-observation', '../physics/demo-observation.json'],
     ['/api/atlas/models', 'models.json'], ['/api/atlas/models/joint/history', 'models/joint/history.json']]) {
-    const r = await fetch(`${API}${route}`);
+    const r = await fetchApi(`${route}`);
     if (!r.ok) throw new Error(`${route}: HTTP ${r.status}`);
     fs.mkdirSync(path.dirname(path.join(keep, file)), { recursive: true });
     fs.writeFileSync(path.join(keep, file), await r.text());
