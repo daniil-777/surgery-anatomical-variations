@@ -1,5 +1,5 @@
 import { apiGet, apiOnline, apiUrl, publicUrl, reportError, reportReady } from "./api";
-import { NEEDS_API, bundledReference } from "./atlasLocal";
+import { bundledReference } from "./atlasLocal";
 // the browser samplers and the disease renderer load on first use: a visitor who never samples offline does not pay
 // for their code at first paint (their weights are fetched on demand by the modules themselves)
 const samplers = {
@@ -7,6 +7,7 @@ const samplers = {
   shape: () => import("./atlasShapeSampler"),
   disease: () => import("./atlasDiseaseSampler"),
   renderer: () => import("./atlasDiseaseLocal"),
+  material: () => import("./atlasMaterialSampler"),
 };
 import { PhotoDetailControl } from "./PhotoDetailControl";
 import type { PhotoTileInfo } from "./photoDetail";
@@ -121,6 +122,7 @@ export default function AtlasStudio({ textureLab = false }: { textureLab?: boole
   // the trained shape and disease samplers: active in the model status and, without the API, bundled with this copy
   const [learnedAvailable, setLearnedAvailable] = useState(false);
   const [diseaseSamplerAvailable, setDiseaseSamplerAvailable] = useState(false);
+  const [materialSamplerAvailable, setMaterialSamplerAvailable] = useState(false);
   const [jointTemperature, setJointTemperature] = useState(1);
   const [jointGeneration, setJointGeneration] = useState<1 | 2>(1);
   const jointGenerationRef = useRef<1 | 2>(1);
@@ -172,13 +174,14 @@ export default function AtlasStudio({ textureLab = false }: { textureLab?: boole
       const online = await apiOnline();
       // offline, a sampler is available when its exported model is bundled (the metadata file is enough to know)
       const bundled = (model: string) => online || fetch(publicUrl(`models/${model}/model.json`), { signal: controller.signal }).then((r) => r.ok, () => false);
-      const [joint, shape, disease] = await Promise.all([bundled("joint-v2"), bundled("shape-v2"), bundled("disease-recipes-v2")]);
+      const [joint, shape, disease, material] = await Promise.all([bundled("joint-v2"), bundled("shape-v2"), bundled("disease-recipes-v2"), bundled("material-v1")]);
       setJointAvailable(joint && status.lanes?.joint?.status === "active" && /^[a-f0-9]{64}$/.test(status.joint_bundle_sha256));
       setLearnedAvailable(shape && status.lanes?.shape?.status === "active");
       setDiseaseSamplerAvailable(disease && status.lanes?.disease?.status === "active");
+      setMaterialSamplerAvailable(material && status.lanes?.material?.status === "active");
       const generation = status.joint_generation === 2 ? 2 : 1;
       setJointGeneration(generation); jointGenerationRef.current = generation;
-    }).catch(() => { if (!controller.signal.aborted) { updateLanguageState(false); setJointAvailable(false); setLearnedAvailable(false); setDiseaseSamplerAvailable(false); } });
+    }).catch(() => { if (!controller.signal.aborted) { updateLanguageState(false); setJointAvailable(false); setLearnedAvailable(false); setDiseaseSamplerAvailable(false); setMaterialSamplerAvailable(false); } });
     return () => controller.abort();
   }, [updateLanguageState, wholeSceneOpen]);
   const [variationStrength, setVariationStrength] = useState(1);
@@ -241,13 +244,14 @@ export default function AtlasStudio({ textureLab = false }: { textureLab?: boole
         // the trained disease sampler (atlasDiseaseSampler.ts), and plain generation through realizeSpecLocally
         // (the disease-v2 morphology in atlasDiseaseLocal.ts, the healthy surface in atlasLocal.ts); the trained
         // material sampler alone still needs the API
-        if (options.sampleSurface) throw new Error(NEEDS_API.materialSampler);
         const reference = await bundledReference(spec.template_id, controller.signal);
         const template = library.organs.flatMap((organ) => organ.templates).find((item) => item.id === spec.template_id);
         if (!template) throw new Error("Unknown reference.");
         result = joint ? await (await samplers.joint()).sampleJointLocally(reference, template, spec, options.jointTemperature!, options.severity ?? "auto", library.diseases, controller.signal)
           : options.learned ? await (await samplers.shape()).sampleShapeLocally(reference, template, spec, options.matchDimensions ?? true, library.diseases, controller.signal)
           : options.sampleDisease ? await (await samplers.disease()).sampleDiseaseLocally(reference, template, spec, library.diseases, controller.signal)
+          // the route's seed defaults to 42 when the recipe names none (MaterialSampleRequest); the studio sends no conditions
+          : options.sampleSurface ? await (await samplers.material()).sampleMaterialLocally(reference, template, spec, spec.material?.seed ?? 42, undefined, library.diseases, controller.signal)
           : sameAtlasRecipe(spec, defaultAtlasSpec(library, spec.template_id)) ? reference
           : await (await samplers.renderer()).realizeSpecLocally(reference, spec, template, library.diseases, controller.signal);
       } else {
@@ -733,7 +737,7 @@ export default function AtlasStudio({ textureLab = false }: { textureLab?: boole
             <label className="atlas-control"><span>Calibre<output>{vesselRadiusScale.toFixed(2)}×</output></span><input aria-label="Vessel calibre" type="range" min="0.5" max="1.8" step="0.05" value={vesselRadiusScale} disabled={!vesselsEnabled || !generated?.spec.material} onChange={e => setVesselRadiusScale(Number(e.target.value))} /></label>
           </div>
           <button className="atlas-sample" disabled={!vesselsEnabled || !generated?.spec.material} onClick={() => setVesselSeed(seed => (seed + 1) >>> 0)}><Shuffle size={13} />New branching pattern</button>
-        </section>{textureLab && displayedOrgan && <PhotoDetailControl organ={displayedOrgan.id} value={photoDetail} relief={photoRelief} tile={photoTile} onTile={setPhotoTile} onChange={setPhotoDetail} onRelief={setPhotoRelief} disabled={(generated?.spec.appearance ?? "tissue") !== "tissue"} onApplyColor={surfaceDraft ? (reference) => applySurface(false, { ...surfaceDraft, reference_color: { ...reference, strength: 0.7, mode: "chroma" } }) : undefined} />}{displayedOrgan && surfaceDraft && <ReferenceMaterialPanel key={displayedOrgan.id} organ={displayedOrgan.id} organLabel={displayedOrgan.label} reference={generated?.spec.material?.reference_color} disabled={!generated || controlsDisabled} onApply={reference => applySurface(false, { ...surfaceDraft, reference_color: reference })} />}<AtlasSurfacePanel library={catalog?.materials} organ={displayedOrgan?.id} recipe={surfaceDraft} seedText={surfaceSeedText} onRecipe={editSurface} onSeedText={editSurfaceSeed} onApply={() => applySurface()} onSample={() => applySurface(true)} disabled={!generated || controlsDisabled} pending={surfacePending} updating={busy === "preview"} /></div> : <div id="atlas-shape-panel" role="tabpanel" aria-labelledby="atlas-tab-shape">
+        </section>{textureLab && displayedOrgan && <PhotoDetailControl organ={displayedOrgan.id} value={photoDetail} relief={photoRelief} tile={photoTile} onTile={setPhotoTile} onChange={setPhotoDetail} onRelief={setPhotoRelief} disabled={(generated?.spec.appearance ?? "tissue") !== "tissue"} onApplyColor={surfaceDraft ? (reference) => applySurface(false, { ...surfaceDraft, reference_color: { ...reference, strength: 0.7, mode: "chroma" } }) : undefined} />}{displayedOrgan && surfaceDraft && <ReferenceMaterialPanel key={displayedOrgan.id} organ={displayedOrgan.id} organLabel={displayedOrgan.label} reference={generated?.spec.material?.reference_color} disabled={!generated || controlsDisabled} onApply={reference => applySurface(false, { ...surfaceDraft, reference_color: reference })} />}<AtlasSurfacePanel library={catalog?.materials} sampleAvailable={materialSamplerAvailable} organ={displayedOrgan?.id} recipe={surfaceDraft} seedText={surfaceSeedText} onRecipe={editSurface} onSeedText={editSurfaceSeed} onApply={() => applySurface()} onSample={() => applySurface(true)} disabled={!generated || controlsDisabled} pending={surfacePending} updating={busy === "preview"} /></div> : <div id="atlas-shape-panel" role="tabpanel" aria-labelledby="atlas-tab-shape">
         <div className="atlas-recipe-heading"><span>Reference variation</span><button onClick={() => { if (catalog && draft) editControls(defaultAtlasSpec(catalog, draft.template_id).controls); }} disabled={!draft || controlsDisabled} title="Reset shape controls to the reference"><RotateCcw size={13} /> Reset</button></div>
         <p className="atlas-control-intro">Sliders update the organ automatically. Camera framing stays fixed so size changes remain visible.</p>
         {appliedShapeFraction !== undefined && <p className="atlas-disease-source-limit" role="status">This source mesh permits {(appliedShapeFraction * 100).toFixed(1)}% of the requested shape edit. Sliders show the applied values.</p>}

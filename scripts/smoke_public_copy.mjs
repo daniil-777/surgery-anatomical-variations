@@ -63,7 +63,8 @@ const enabled = (label) => `[...document.querySelectorAll('button')].some((b) =>
 const shown = (selector, re) => `[...document.querySelectorAll(${JSON.stringify(selector)})].some((e) => ${re}.test(e.textContent)) || window.__viscera.errors.length > 0`;
 await check('atlas', '', 'atlas', async (page) => {
   // every sampler that runs in the browser, pressed once: the joint flow (atlasJointLocal.ts), the trained shape model
-  // (atlasShapeSampler.ts), a disease profile and its variation (atlasDiseaseLocal.ts), the joint flow with that disease
+  // (atlasShapeSampler.ts), a disease profile and its variation (atlasDiseaseLocal.ts), the joint flow with that disease,
+  // the trained material sampler (atlasMaterialSampler.ts)
   await flag(page, enabled('Joint flow variation'));
   if (!await button(page, 'Joint flow variation')) throw new Error('joint flow button unavailable');
   await flag(page, shown('.atlas-model-status', /Joint flow variation applied/));
@@ -89,7 +90,14 @@ await check('atlas', '', 'atlas', async (page) => {
   if (!await page.$('.atlas-stage-disease')) throw new Error('the joint flow variation dropped the disease');
   await page.evaluate(() => [...document.querySelectorAll('button')].find((b) => b.textContent.trim() === 'Surface')?.click());
   await new Promise((r) => setTimeout(r, 2500));
-  return `joint flow, learned shape, disease ${profile} and joint flow with it sampled · Surface tab opened`;
+  // the trained material sampler (atlasMaterialSampler.ts): the surface recipe's sliders take the sampled values
+  const sliders = "[...document.querySelectorAll('#atlas-surface-panel input[type=range]')].map((i) => i.value).join(',')";
+  const before = await page.evaluate(sliders);
+  await flag(page, enabled('Sample surface'));
+  if (!await button(page, 'Sample surface')) throw new Error('surface sample button unavailable');
+  await flag(page, `${sliders} !== ${JSON.stringify(before)} || window.__viscera.errors.length > 0`);
+  await flag(page, shown('#atlas-surface-panel .atlas-recipe-state', /Preview matches this surface/));
+  return `joint flow, learned shape, disease ${profile}, joint flow with it and a surface sampled`;
 });
 await check('scene', '?mode=scene', 'scene', async () => 'whole scene ready');
 await check('legacy', '?mode=legacy', 'legacy', async () => 'procedural studio ready');

@@ -27,7 +27,6 @@ export const LOCAL_REALIZER_VERSION = "browser-realizer-1.0.0";
 export const CONTROL_NAMES = ["scale_x", "scale_y", "scale_z", "bend", "twist", "taper", "asymmetry"] as const;
 export const NEEDS_API = {
   seed: "The shape seed changes the authored tissue colour noise, which the VISCERA API computes; this public copy keeps the reference seed.",
-  materialSampler: "The trained material sampler needs the VISCERA API; this public copy keeps the surface recipe you set and samples shape, disease and joint variations in the browser.",
   referenceColor: "Analysing your own photograph needs the VISCERA API; this public copy carries the analyses of its bundled photographs.",
   physicsTemplate: "This public copy prepares the hands-on liver for the two reference livers only.",
   physicsEdited: "This public copy prepares the hands-on liver for the reference shape only: reset the shape controls and sculpture, or use the local studio for a reshaped liver.",

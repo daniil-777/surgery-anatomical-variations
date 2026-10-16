@@ -4,7 +4,6 @@
     python scripts/probe_web_app.py https://<space>.hf.space      # the published app
 
 Exit status 1 when a feature that the public app promises fails. Routes that the web boundary blocks must answer 403.
-The ridge material sampler is reported but tolerated: it refuses with "source drift" in the local studio too.
 """
 from __future__ import annotations
 
@@ -19,7 +18,7 @@ import zlib
 from typing import Any, Callable
 
 BASE = sys.argv[1].rstrip("/") if len(sys.argv) > 1 else "http://127.0.0.1:8011"
-TOLERATED = {"material sample"}
+TOLERATED: set[str] = set()   # nothing: the material sampler answers since its reviewed-extension fix
 results: dict[str, int] = {}
 
 

@@ -10,11 +10,13 @@ interface Props {
   onSeedText: (value: string) => void;
   onApply: () => void;
   onSample: () => void;
+  /** whether the trained material sampler can answer here (the API, or its browser port with the model bundled) */
+  sampleAvailable: boolean;
   disabled: boolean;
   pending: boolean;
   updating: boolean;
 }
-export function AtlasSurfacePanel({ library, organ, recipe, seedText, onRecipe, onSeedText, onApply, onSample, disabled, pending, updating }: Props) {
+export function AtlasSurfacePanel({ library, organ, recipe, seedText, onRecipe, onSeedText, onApply, onSample, sampleAvailable, disabled, pending, updating }: Props) {
   if (!library || !organ || !recipe) return <div className="atlas-surface-unavailable"><Paintbrush size={24} /><h2>Surface library unavailable</h2><p>This anatomy server does not provide editable tissue materials.</p></div>;
   const palettes = library.organ_presets[organ]!;
   return <div className="atlas-surface-panel">
@@ -30,7 +32,7 @@ export function AtlasSurfacePanel({ library, organ, recipe, seedText, onRecipe, 
     </label>)}</div>
     <div className="atlas-seed-label"><label htmlFor="atlas-surface-seed">Appearance seed</label><span>Independent pattern</span></div>
     <div className="atlas-seed"><input id="atlas-surface-seed" type="text" inputMode="numeric" autoComplete="off" value={seedText} disabled={disabled} onChange={(event) => onSeedText(event.target.value)} /><button aria-label="Randomize appearance seed" title="Randomize appearance seed" disabled={disabled} onClick={() => onRecipe({ ...recipe, seed: crypto.getRandomValues(new Uint32Array(1))[0]! })}><Shuffle size={15} /></button></div>
-    <button className="atlas-sample" disabled={disabled} onClick={onSample}><Shuffle size={13} />Sample surface</button>
+    <button className="atlas-sample" disabled={disabled || !sampleAvailable} onClick={onSample}><Shuffle size={13} />Sample surface</button>
     <p className="atlas-model-help">Samples the trained material prior within this preset.</p>
     <button className="atlas-btn atlas-generate atlas-apply-surface" disabled={disabled} onClick={onApply}><Paintbrush size={15} />Apply surface<ArrowRight size={15} /></button>
     <div className={`atlas-recipe-state ${pending ? "pending" : ""}`} aria-live="polite">{updating ? <><span />Updating surface preview…</> : pending ? <><span />Surface changes not applied</> : <><Check size={12} />Preview matches this surface</>}</div>
