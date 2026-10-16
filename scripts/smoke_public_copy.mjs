@@ -99,11 +99,36 @@ await check('atlas', '', 'atlas', async (page) => {
   await flag(page, shown('#atlas-surface-panel .atlas-recipe-state', /Preview matches this surface/));
   return `joint flow, learned shape, disease ${profile}, joint flow with it and a surface sampled`;
 });
+await check('physics', '', 'atlas', async (page) => {
+  // the physics lab calibrates a measurement of your own in the browser (atlasPhysicsCalibration.ts): the demonstration
+  // with its force scaled by 1.25 must give a stiffer learned material than the demonstration's 4.80 kPa
+  const demo = await page.evaluate(async () => (await fetch('static/api/physics/demo-observation.json')).json());
+  const measurement = { times_s: demo.times_s, force_n: demo.force_n.map((f) => f * 1.25), displacement_mm: demo.displacement_mm,
+    reference_length_mm: demo.reference_length_mm, reference_area_mm2: demo.reference_area_mm2, provenance: 'smoke test: the demonstration with its force scaled by 1.25' };
+  const file = path.join(OUTDIR, 'calibration.json');
+  fs.writeFileSync(file, JSON.stringify(measurement));
+  await flag(page, enabled('Physics lab'));
+  if (!await button(page, 'Physics lab')) throw new Error('physics lab button unavailable');
+  const stiffness = "[...document.querySelectorAll('div')].find((d) => d.querySelector(':scope > span')?.textContent === 'Material stiffness')?.querySelector('strong')?.textContent ?? ''";
+  await flag(page, `/\\d/.test(${stiffness}) || window.__viscera.errors.length > 0`);
+  const before = await page.evaluate(stiffness);
+  await page.evaluate(() => { const d = document.querySelector('details.physics-calibration'); if (d) d.open = true; });
+  const input = await page.waitForSelector('details.physics-calibration input[type=file]');
+  await input.uploadFile(file);
+  await flag(page, shown('.physics-calibration-name', /Loaded/));
+  await flag(page, enabled('Apply material'));
+  if (!await button(page, 'Apply material')) throw new Error('apply material button unavailable');
+  await flag(page, `(${stiffness}) !== ${JSON.stringify(before)} && /\\d/.test(${stiffness}) || window.__viscera.errors.length > 0 || !!document.querySelector('.physics-error')`);
+  const error = await page.evaluate(() => document.querySelector('.physics-error')?.textContent ?? '');
+  if (error) throw new Error(`calibration refused: ${error}`);
+  const after = await page.evaluate(stiffness);
+  return `measurement calibrated in the browser: stiffness ${before} → ${after}`;
+});
 await check('scene', '?mode=scene', 'scene', async () => 'whole scene ready');
 await check('legacy', '?mode=legacy', 'legacy', async () => 'procedural studio ready');
 await check('textures', 'textures.html', 'textures', async () => { await new Promise((r) => setTimeout(r, 2500)); return 'texture lab ready with its tiles'; });
 
 await browser.close();
 server?.close();
-console.log(`${4 - failures}/4 checks passed · screenshots in ${OUTDIR}`);
+console.log(`${5 - failures}/5 checks passed · screenshots in ${OUTDIR}`);
 process.exit(failures ? 1 : 0);

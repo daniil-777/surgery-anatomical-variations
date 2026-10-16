@@ -1,4 +1,4 @@
-import { apiGet, apiUrl } from "./api";
+import { apiGet, apiUrl, useApiOnline } from "./api";
 import { useEffect, useRef, useState } from "react";
 import { Activity, ArrowDownToLine, LoaderCircle, Pause, Play, RotateCcw, X } from "lucide-react";
 import { atlasError, type AtlasGeneration } from "./atlas";
@@ -39,6 +39,7 @@ export function AtlasPhysicsLab({ generation, onClose }: { generation: AtlasGene
   const dialog = useRef<HTMLDialogElement>(null);
   const [status, setStatus] = useState<PhysicsStatus | null>(null);
   const [mode, setMode] = useState<"hands" | "recorded">("hands");
+  const online = useApiOnline();   // offline (the public copy), a measurement is calibrated in the browser
   const [playgroundRevision, setPlaygroundRevision] = useState(0);
   const [playgroundData, setPlaygroundData] = useState<PhysicsPlayground | null>(null);
   const [playgroundAppliedFingerprint, setPlaygroundAppliedFingerprint] = useState("");
@@ -167,7 +168,7 @@ export function AtlasPhysicsLab({ generation, onClose }: { generation: AtlasGene
           {observation && <p>{observation.provenance}</p>}
           {observationError && <p className="physics-error" role="alert">{observationError}</p>}
           <div className="physics-calibration-actions"><button type="button" onClick={() => void downloadExample()} disabled={loadingExample}>{loadingExample ? "Loading example…" : "Download example"}</button>{observationName && <button type="button" onClick={clearObservation}>Use synthetic demo</button>}</div>
-          <p>{observation ? "Your file is sent to the physics API when you run the experiment. Its clinical validity has not been verified." : "Default: built-in synthetic demonstration. Video without calibrated forces and geometry cannot identify these properties."}</p>
+          <p>{observation ? online === false ? "Your file is calibrated in your browser for the hands-on liver, as the physics API would; recorded experiments need the API. Its clinical validity has not been verified." : "Your file is sent to the physics API when you run the experiment. Its clinical validity has not been verified." : "Default: built-in synthetic demonstration. Video without calibrated forces and geometry cannot identify these properties."}</p>
         </details>}
         {status?.status === "unavailable" && source === "learned" && <p className="physics-error">The trained physics network is unavailable. Manual parameters can still be tested.</p>}
         {source === "manual" && parameters && <div className="physics-manual">{physicsParameterFields.map(field => <label className="physics-control" key={field.key}><span>{field.label}<output>{number(parameters[field.key], field.step < 1 ? 3 : 0)} {field.unit}</output></span><input type="range" aria-label={field.label} min={field.min} max={field.max} step={field.step} value={parameters[field.key]} onChange={event => { invalidate(); setParameters({ ...parameters, [field.key]: Number(event.target.value) }); }} /></label>)}</div>}

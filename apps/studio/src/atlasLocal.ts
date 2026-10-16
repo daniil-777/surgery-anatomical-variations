@@ -30,7 +30,6 @@ export const NEEDS_API = {
   referenceColor: "Analysing your own photograph needs the VISCERA API; this public copy carries the analyses of its bundled photographs.",
   physicsTemplate: "This public copy prepares the hands-on liver for the two reference livers only.",
   physicsEdited: "This public copy prepares the hands-on liver for the reference shape only: reset the shape controls and sculpture, or use the local studio for a reshaped liver.",
-  physicsCalibration: "Calibrating the learned material from your own measurement needs the VISCERA API; this public copy carries the learned parameters for the demonstration calibration.",
 } as const;
 
 // ---------------------------------------------------------------------------------------------- material tables
@@ -358,16 +357,16 @@ export async function realizeLocally(reference: AtlasGeneration, spec: AtlasSpec
 // ---------------------------------------------------------------------------------------------- physics
 /** The hands-on liver of the public copy: the API's preparation of the two reference livers, bundled. The cage depends
  *  on the geometry only, so a liver with the reference geometry and another surface recipe uses it too; manual
- *  parameters are substituted here; everything else needs the API. */
+ *  parameters are substituted here, and a measurement of your own is calibrated here as the route does
+ *  (atlasPhysicsCalibration.ts); a reshaped liver's cage and the recorded experiments need the API. */
 export async function bundledPlayground(generation: AtlasGeneration, source: PhysicsSource, parameters: PhysicsParameters | undefined, observation: PhysicsObservation | null | undefined, signal?: AbortSignal): Promise<unknown> {
   const spec = generation.spec;
-  if (source === "learned" && observation) {
-    const demo = await bundledJson("physics/demo-observation.json", signal).catch(() => null);
-    if (!demo || JSON.stringify(demo) !== JSON.stringify(observation)) throw new Error(NEEDS_API.physicsCalibration);
-  }
-  const snapshot = await bundledJson(`physics/playground/${spec.template_id}.${source}.json.gz`, signal).catch(() => { throw new Error(NEEDS_API.physicsTemplate); }) as { source?: { realized_id?: string; geometry_sha256?: string; spec?: unknown }; parameters?: PhysicsParameters; mesh?: { cage_volume_ml?: number; mass_kg?: number } };
+  let snapshot = await bundledJson(`physics/playground/${spec.template_id}.${source}.json.gz`, signal).catch(() => { throw new Error(NEEDS_API.physicsTemplate); }) as { source?: { realized_id?: string; geometry_sha256?: string; spec?: unknown }; parameters?: PhysicsParameters; mesh?: { cage_volume_ml?: number; mass_kg?: number } };
   const geometry = (generation.scene.metadata as { geometry_sha256?: string } | undefined)?.geometry_sha256;
   if (!snapshot.source || !geometry || snapshot.source.geometry_sha256 !== geometry) throw new Error(NEEDS_API.physicsEdited);
+  // a measurement of your own calibrates the learned material in the browser, exactly as the playground route does
+  // (atlasPhysicsCalibration.ts, loaded on first use); the cage is this liver's either way
+  if (source === "learned" && observation) snapshot = await (await import("./atlasPhysicsCalibration")).calibratedPlayground(snapshot, observation) as typeof snapshot;
   // the same surface, perhaps another recipe: the cage is this liver's; the provenance names the displayed spec
   snapshot.source = { ...snapshot.source, realized_id: spec.realized_id as string, spec };
   if (source === "manual" && parameters && snapshot.mesh && typeof snapshot.mesh.cage_volume_ml === "number") {
