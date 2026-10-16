@@ -181,7 +181,7 @@ const post = async (route: string, body: unknown) => {
 };
 
 describe.skipIf(!online)("the browser shape sampler against the API's route", () => {
-  it("samples the same controls, provenance and geometry as /api/atlas/sample", async () => {
+  it("samples the same controls, provenance and geometry as /api/atlas/sample", { timeout: 180_000 }, async () => {
     primeShapeModel(model);
     const catalog = await fetch(`${API}/api/atlas/catalog`).then((r) => r.json());
     const zero = Object.fromEntries(catalog.controls.map((c: { key: string; default: number }) => [c.key, c.default])) as Record<string, number>;

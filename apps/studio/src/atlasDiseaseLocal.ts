@@ -2,7 +2,8 @@
  *  repeated in TypeScript, so the public copy can show a disease specimen without the API. The bundled reference
  *  specimen gives the template's rest geometry; public/models/disease-v2 (scripts/export_disease_morphology_fixtures.py)
  *  gives what the browser cannot derive — the anchorable vertices and the fixed candidate pool, which depend on
- *  component names that are not bundled — and the minimum support radius. Everything else is computed here in float64
+ *  component names that are not bundled, and which of several coincident anchorable vertices scipy's kd-tree answers
+ *  (nearestEligible) — and the minimum support radius. Everything else is computed here in float64
  *  with NumPy's operation order: trimesh's angle-weighted source normals (the anchor directions), numpy's generator
  *  for the pool's permutation and the per-site draws (numpyRandom.ts), the compact displacement map with its
  *  Sherman–Morrison covector transport, the source-capacity and precision back-offs, the all-precision face QA, the
@@ -16,6 +17,8 @@ import { CONTROL_NAMES, LOCAL_REALIZER_VERSION, canonicalJson, deformVertices, g
 import { Pcg64 } from "./numpyRandom";
 
 export const DISEASE_SUPPORT_FORMAT = "viscera-disease-v2-support";
+/** 2: a third bitmask, the tie winners, follows the eligible and pool bitmasks. */
+export const DISEASE_SUPPORT_FORMAT_VERSION = 2;
 export const DISEASE_FIELD_VERSION = "disease-morphology-design-2.0.0";
 /** The exact maximum of the kernel's radial derivative 6t(1-t²)²: 96 / (25√5). */
 export const KERNEL_GRADIENT_MAX = 96 / (25 * Math.sqrt(5));
@@ -47,12 +50,17 @@ export function diseaseProfileV2(library: AtlasDiseaseLibrary | undefined, profi
 // ---------------------------------------------------------------------------------------------- the bundled support
 export interface DiseaseSupportEntry {
   organ: string; vertex_count: number; face_count: number; geometry_sha256: string; template_sha256: string; eligible_count: number;
-  pool_count: number; minimum_support_radius_mm: number; normals_policy: string; source_normals_sha256: string; file: string; bytes: number;
+  pool_count: number; minimum_support_radius_mm: number; normals_policy: string; source_normals_sha256: string;
+  /** groups of anchorable vertices with exactly equal coordinates, how many vertices they hold, and how many groups have
+   *  no recorded winner because scipy's answer varied with the query point (none in templates-v3) */
+  tie_groups: number; tied_vertices: number; query_dependent_tie_groups: number;
+  file: string; bytes: number;
 }
-export interface DiseaseSupportIndex { format: string; version: string; pool_seed: number; pool_size: number; templates: Record<string, DiseaseSupportEntry> }
+export interface DiseaseSupportIndex { format: string; format_version: number; version: string; pool_seed: number; pool_size: number; templates: Record<string, DiseaseSupportEntry> }
 /** A template's anchorable vertices and its fixed candidate pool, both ascending (np.unique's order, which the pool's
- *  permutation starts from). */
-export interface DiseaseSupport { entry: DiseaseSupportEntry; eligible: Int32Array; pool: Int32Array }
+ *  permutation starts from), and the tie winners: for each position several anchorable vertices share exactly, the one
+ *  scipy's cKDTree(v[eligible]).query answers there (nearestEligible). */
+export interface DiseaseSupport { entry: DiseaseSupportEntry; eligible: Int32Array; pool: Int32Array; tieWinners: Set<number> }
 
 function unpackBits(bytes: Uint8Array, offset: number, count: number, expected: number): Int32Array {
   const out = new Int32Array(expected);
@@ -63,8 +71,9 @@ function unpackBits(bytes: Uint8Array, offset: number, count: number, expected: 
 }
 export function parseDiseaseSupport(entry: DiseaseSupportEntry, data: ArrayBuffer): DiseaseSupport {
   const bytes = new Uint8Array(data), stride = Math.ceil(entry.vertex_count / 8);
-  if (bytes.length !== 2 * stride || bytes.length !== entry.bytes) throw new Error("The disease support does not match its index.");
-  return { entry, eligible: unpackBits(bytes, 0, entry.vertex_count, entry.eligible_count), pool: unpackBits(bytes, stride, entry.vertex_count, entry.pool_count) };
+  if (bytes.length !== 3 * stride || bytes.length !== entry.bytes) throw new Error("The disease support does not match its index.");
+  const winners = unpackBits(bytes, 2 * stride, entry.vertex_count, entry.tie_groups - entry.query_dependent_tie_groups);
+  return { entry, eligible: unpackBits(bytes, 0, entry.vertex_count, entry.eligible_count), pool: unpackBits(bytes, stride, entry.vertex_count, entry.pool_count), tieWinners: new Set(winners) };
 }
 let cachedIndex: Promise<DiseaseSupportIndex> | null = null;
 const supports = new Map<string, Promise<DiseaseSupport>>();
@@ -73,7 +82,7 @@ export function diseaseSupportIndex(signal?: AbortSignal): Promise<DiseaseSuppor
   cachedIndex ??= fetch(publicUrl("models/disease-v2/index.json"), { cache: "default" }).then(async (response) => {
     if (!response.ok) throw new Error("The disease renderer's support sets are not bundled with this copy.");
     const index = await response.json() as DiseaseSupportIndex;
-    if (index.format !== DISEASE_SUPPORT_FORMAT || index.version !== DISEASE_FIELD_VERSION) throw new Error("Unsupported disease support export.");
+    if (index.format !== DISEASE_SUPPORT_FORMAT || index.format_version !== DISEASE_SUPPORT_FORMAT_VERSION || index.version !== DISEASE_FIELD_VERSION) throw new Error("Unsupported disease support export.");
     return index;
   }).catch((error) => { cachedIndex = null; throw error; });
   return cachedIndex;
@@ -422,6 +431,25 @@ export function sourceSafeShapeControls(template: DiseaseTemplate, controls: Con
   throw new Error("Source template cannot satisfy full discrete baseline QA");
 }
 
+/** cKDTree(v[eligible]).query(target)'s answer: the nearest anchorable vertex. Vertices with identical coordinates are
+ *  at identical float64 distances, so they tie exactly, and scipy answers the one its tree traversal meets first — the
+ *  support records that winner per coincident group (tieWinners), found by probing the Python tree. A tie set with no
+ *  single recorded winner — a group the exporter found query-dependent, or distinct positions at exactly equal
+ *  distance, where scipy's answer depends on its traversal and cannot be known here — takes the lowest id. */
+export function nearestEligible(template: DiseaseTemplate, target: Vec3): number {
+  const { rest: v, support } = template;
+  let nearest = Infinity;
+  const tied: number[] = [];   // in ascending id order, as the eligible set is
+  for (const e of support.eligible) {
+    const d = (v[e * 3]! - target[0]) ** 2 + (v[e * 3 + 1]! - target[1]) ** 2 + (v[e * 3 + 2]! - target[2]) ** 2;
+    if (d < nearest) { nearest = d; tied.length = 0; tied.push(e); }
+    else if (d === nearest) tied.push(e);
+  }
+  if (tied.length === 1) return tied[0]!;
+  const winners = tied.filter((e) => support.tieWinners.has(e));
+  return winners.length === 1 ? winners[0]! : tied[0]!;
+}
+
 interface FieldBuild { field: DiseaseFieldV2; vertexSupports: Int32Array[]; faceSupports: Int32Array[] }
 /** atlas_disease_v2.disease_field: site placement from the recipe's generator, the certified continuous bound and the
  *  discrete limits. */
@@ -433,9 +461,7 @@ function buildField(template: DiseaseTemplate, recipe: AtlasDiseaseSpec, profile
   const center = lo.map((value, k) => (value + hi[k]!) / 2) as Vec3, extent = hi.map((value, k) => value - lo[k]!) as Vec3;
   const diagonal = Math.max(norm3(extent[0], extent[1], extent[2]), 1.0);
   const target = center.map((value, k) => value + recipe.location[k]! * extent[k]! * 0.5) as Vec3;
-  // the nearest anchorable vertex (cKDTree.query); the first one on an exact tie
-  let first = -1, nearest = Infinity;
-  for (const e of eligible) { const d = (v[e * 3]! - target[0]) ** 2 + (v[e * 3 + 1]! - target[1]) ** 2 + (v[e * 3 + 2]! - target[2]) ** 2; if (d < nearest) { nearest = d; first = e; } }
+  const first = nearestEligible(template, target);
   const rng = new Pcg64(recipe.seed);
   const requestedRadius = diagonal * (profile.radius_min_fraction + profile.radius_range_fraction * recipe.size);
   const radius = Math.max(requestedRadius, support.entry.minimum_support_radius_mm);
@@ -599,12 +625,14 @@ export function diseaseTemplateOf(reference: AtlasGeneration, template: AtlasTem
   return p;
 }
 
-/** POST /api/atlas/generate in the browser, for every spec the studio builds: one with a disease recipe goes through
- *  the disease-v2 renderer below, a healthy one through realizeLocally (whose shape, appearance and surface already
- *  match the API to 1e-6 mm). The samplers realize their proposals through this one dispatch, so a sampled disease
- *  lands in the same renderer as an authored one. */
+/** POST /api/atlas/generate in the browser, for every spec the studio builds: a disease-v2 spec — with a recipe or
+ *  healthy — goes through the disease-v2 renderer below, as the API's generate does for that renderer version (a
+ *  healthy v2 surface carries the source normals transported through the shape map, where realizeLocally computes
+ *  area-weighted normals of the deformed surface; the positions agree either way); a legacy spec without a renderer
+ *  version takes realizeLocally. The samplers realize their proposals through this one dispatch, so a sampled
+ *  specimen lands in the same renderer as an authored one. */
 export function realizeSpecLocally(reference: AtlasGeneration, spec: AtlasSpec, template: AtlasTemplate, library: AtlasDiseaseLibrary | undefined, signal?: AbortSignal): Promise<AtlasGeneration> {
-  return spec.disease ? realizeDiseaseLocally(reference, spec, template, library, signal) : realizeLocally(reference, spec, template, signal);
+  return spec.disease || spec.renderer_version === "disease-v2" ? realizeDiseaseLocally(reference, spec, template, library, signal) : realizeLocally(reference, spec, template, signal);
 }
 
 /** What the API answers for a disease-v2 `spec` (POST /api/atlas/generate), from the bundled reference of its template:

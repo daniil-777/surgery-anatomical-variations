@@ -1,9 +1,11 @@
 /** The browser disease renderer against the Python one. Offline: src/__fixtures__/disease-v2.json (written by
- *  scripts/export_disease_morphology_fixtures.py) holds the API renderer's own outputs for 62 recipes on five templates
- *  read from datasets/anatomy-templates/templates-v3; the bundled support sets come from public/models/disease-v2.
- *  With the API running (VISCERA_API_URL, default port 8000) the same recipes go to POST /api/atlas/generate and the
- *  whole generation is compared: positions to a micrometre, normals and colours to floating-point noise, every
- *  metadata field the UI reads. */
+ *  scripts/export_disease_morphology_fixtures.py) holds the API renderer's own outputs for 66 recipes on seven templates
+ *  read from datasets/anatomy-templates/templates-v3 — four of them placing the first anchor on coincident vertices,
+ *  where scipy's kd-tree answer, not the lowest id, decides the site; the bundled support sets come from
+ *  public/models/disease-v2. With the API running (VISCERA_API_URL, default port 8000) the same recipes go to
+ *  POST /api/atlas/generate and the whole generation is compared: positions to a micrometre, normals and colours to
+ *  floating-point noise, every metadata field the UI reads; healthy disease-v2 specs take the same route through
+ *  realizeSpecLocally and are compared the same way. */
 import { inflateRawSync } from "node:zlib";
 import fs from "node:fs";
 import path from "node:path";
@@ -12,7 +14,8 @@ import type { AtlasDiseaseLibrary, AtlasDiseaseSpec } from "./atlasDisease";
 import type { AtlasCatalog, AtlasGeneration, AtlasSpec, AtlasTemplate } from "./atlas";
 import { sameAtlasRecipe, validateAtlasGeneration } from "./atlas";
 import {
-  applyDiseaseColor, diseaseProfileV2, diseaseTemplate, parseDiseaseSupport, primeDiseaseSupport, realizeDiseaseGeometry, realizeDiseaseLocally, trimeshVertexNormals,
+  DISEASE_SUPPORT_FORMAT_VERSION, applyDiseaseColor, diseaseProfileV2, diseaseTemplate, nearestEligible, parseDiseaseSupport, primeDiseaseSupport, realizeDiseaseGeometry, realizeDiseaseLocally,
+  realizeSpecLocally, trimeshVertexNormals,
   type DiseaseFieldV2, type DiseaseMeshQa, type DiseaseProfileV2, type DiseaseSupport, type DiseaseSupportIndex, type DiseaseTemplate,
 } from "./atlasDiseaseLocal";
 import { deformVertices, geometryHash } from "./atlasLocal";
@@ -26,7 +29,9 @@ interface FixtureTemplate {
 }
 interface FixtureCase {
   template_id: string; profile_id: string; recipe: AtlasDiseaseSpec; controls: Record<string, number>; applied_controls: Record<string, number>; shape_fraction: number;
-  rng: { permutation_head: number[]; draws: number[] }; first_anchor_margin_mm: number | null;
+  rng: { permutation_head: number[]; draws: number[] };
+  /** the anchorable vertices at the first anchor's exact position (several: an exact tie) and that position's margin over the next */
+  first_anchor_ties: number[]; first_anchor_margin_mm: number | null;
   field: { anchor_vertex_ids: number[]; amplitudes_mm: number[]; directions: number[][]; radius_mm: number; requested_radius_mm: number; requested_sites: number; realized_sites: number; global_center_mm: number[]; global_log_scale: number[]; global_scale: number[]; color_strength: number; gradient_bound_per_step: number; continuous_jacobian_lower_bound: number; effective_morphology_strength: number; applied_displacement_fraction: number; discrete_guard: { strength_capacity: number; actual_strength_backoffs: number; intermediate_rejected_strengths: number[]; source_limited: boolean; requested_max_step_amplitude_mm: number; effective_max_step_amplitude_mm: number; minimum_transported_face_alignment: number } | null };
   qa: { passed: boolean; minimum_all_precision_alignment: number; minimum_transported_face_alignment: number; opposed_transported_face_normals: number; new_degenerate_faces: number; area_ratio_min: number; area_ratio_max: number; normal_turns_over_90_degrees: number; min_normal_dot: number; continuous_jacobian_lower_bound: number; surface_area_mm2: number; tested_source_face_count: number; precision_checks: Record<string, { minimum_transported_face_alignment: number; maximum_vertex_roundtrip_error_mm: number }> };
   disease: { max_displacement_mm: number; rms_displacement_mm: number; requested_sites: number; realized_sites: number; applied_displacement_fraction: number; effective_morphology_strength: number; displacement_limited_by_source_mesh: boolean; actual_strength_backoffs: number };
@@ -102,6 +107,8 @@ function templateFromDisk(templateId: string): DiseaseTemplate {
   return t;
 }
 
+/** A vertex's exact rest position as a map key (the shortest round-trip decimal is unique per float64). */
+const positionKey = (t: DiseaseTemplate, vertex: number) => `${t.rest[vertex * 3]},${t.rest[vertex * 3 + 1]},${t.rest[vertex * 3 + 2]}`;
 const maxAbs = (a: ArrayLike<number>, b: ArrayLike<number>) => { expect(a.length).toBe(b.length); let m = 0; for (let i = 0; i < a.length; i++) m = Math.max(m, Math.abs(a[i]! - b[i]!)); return m; };
 const maxRel = (a: ArrayLike<number>, b: ArrayLike<number>) => { expect(a.length).toBe(b.length); let m = 0; for (let i = 0; i < a.length; i++) m = Math.max(m, Math.abs(a[i]! - b[i]!) / Math.max(1e-300, Math.abs(b[i]!))); return m; };
 const rel = (a: number, b: number) => Math.abs(a - b) / Math.max(1e-300, Math.abs(b));
@@ -126,8 +133,10 @@ function expectQaClose(ours: DiseaseMeshQa, theirs: Record<string, unknown>, wor
 
 // ---------------------------------------------------------------------------------------------- offline, from the fixtures
 describe("the disease renderer's support files", () => {
-  it("are the index's bitmasks: ascending vertex ids, the counts the index states, for every template", () => {
+  it("are the index's bitmasks: ascending vertex ids, the counts the index states, the tie winners anchorable, for every template", () => {
+    expect(supportIndex.format_version).toBe(DISEASE_SUPPORT_FORMAT_VERSION);
     expect(Object.keys(supportIndex.templates)).toHaveLength(24);
+    let groups = 0, withTies = 0;
     for (const [templateId, entry] of Object.entries(supportIndex.templates)) {
       const support = supportFromDisk(templateId);
       expect(support.eligible.length).toBe(entry.eligible_count);
@@ -135,7 +144,14 @@ describe("the disease renderer's support files", () => {
       for (let i = 1; i < support.pool.length; i++) expect(support.pool[i]!).toBeGreaterThan(support.pool[i - 1]!);
       const eligible = new Set(support.eligible);
       expect(support.pool.every((v) => eligible.has(v)), `${templateId}: the pool is drawn from the eligible vertices`).toBe(true);
+      // one kd-tree winner per coincident group; a query-dependent group would need scipy's traversal ported
+      expect(support.tieWinners.size).toBe(entry.tie_groups - entry.query_dependent_tie_groups);
+      expect(entry.query_dependent_tie_groups, `${templateId}: every coincident group has a query-independent winner`).toBe(0);
+      expect([...support.tieWinners].every((v) => eligible.has(v)), `${templateId}: the tie winners are anchorable`).toBe(true);
+      groups += entry.tie_groups; if (entry.tie_groups) withTies++;
     }
+    console.log(`disease support: ${groups} coincident anchor groups in ${withTies} templates, each with scipy's winner recorded`);
+    expect(groups).toBeGreaterThan(0);
   });
   it("refuse a payload that disagrees with the index", () => {
     const entry = supportIndex.templates["hra-liver-female"]!;
@@ -168,12 +184,33 @@ describe.skipIf(!templatesOnDisk)("the disease renderer against the Python rende
       for (const e of eligible) for (let k = 0; k < 3; k++) { lo[k] = Math.min(lo[k]!, t.rest[e * 3 + k]!); hi[k] = Math.max(hi[k]!, t.rest[e * 3 + k]!); }
       expect(lo.map((v, k) => (v + hi[k]!) / 2)).toEqual(meta.eligible_center_mm);
       expect(hi.map((v, k) => v - lo[k]!)).toEqual(meta.eligible_extent_mm);
+      // the tie winners stand where other anchorable vertices stand exactly, one per such position
+      const occupancy = new Map<string, number>();
+      for (const e of eligible) occupancy.set(positionKey(t, e), (occupancy.get(positionKey(t, e)) ?? 0) + 1);
+      for (const w of t.support.tieWinners) expect(occupancy.get(positionKey(t, w)), `${templateId}: winner ${w} shares its position`).toBeGreaterThan(1);
+      expect(t.support.tieWinners.size, `${templateId}: one winner per coincident group`).toBe([...occupancy.values()].filter((n) => n > 1).length);
     }
   }, 120000);
 
+  it("answers scipy's twin on an exact tie, the lowest id without a recorded winner", () => {
+    const t = templateFromDisk("hra-pancreas-female");
+    const byPosition = new Map<string, number[]>();
+    for (const e of t.support.eligible) byPosition.set(positionKey(t, e), [...(byPosition.get(positionKey(t, e)) ?? []), e]);
+    // a group whose kd-tree winner is not its lowest id: the case the scan by vertex id got wrong
+    const group = [...byPosition.values()].find((g) => g.length > 1 && !t.support.tieWinners.has(g[0]!))!;
+    expect(group).toBeDefined();
+    const winner = group.find((e) => t.support.tieWinners.has(e))!;
+    const at: [number, number, number] = [t.rest[winner * 3]!, t.rest[winner * 3 + 1]!, t.rest[winner * 3 + 2]!];
+    expect(nearestEligible(t, at)).toBe(winner);
+    // identical coordinates stay tied at any target; the recorded winner stays the answer
+    expect(nearestEligible(t, [at[0] + 1e-3, at[1] - 2e-3, at[2] + 5e-4])).toBe(winner);
+    const unrecorded: DiseaseTemplate = { ...t, support: { ...t.support, tieWinners: new Set<number>() } };
+    expect(nearestEligible(unrecorded, at)).toBe(Math.min(...group));
+  });
+
   it("replays every case: the generator's draws and anchors exactly, the field, the guard, the QA and the surface", async () => {
     const worst = new Worst();
-    let geometryHashes = 0, normalHashes = 0;
+    let geometryHashes = 0, normalHashes = 0, tieCases = 0, lowestIdWrong = 0;
     for (const c of fixture.cases) {
       const where = label(c), t = templateFromDisk(c.template_id), profile = fixture.profiles[c.profile_id]!;
       expect(fixture.kernel_gradient_max).toBe(96 / (25 * Math.sqrt(5)));
@@ -186,6 +223,12 @@ describe.skipIf(!templatesOnDisk)("the disease renderer against the Python rende
       expect(ours.applied, where).toEqual(c.applied_controls);
       const field = ours.field as DiseaseFieldV2;
       expect(field.fields.map((s) => s.anchor_vertex_id), `${where}: anchors`).toEqual(c.field.anchor_vertex_ids);
+      if (c.first_anchor_ties.length > 1) {
+        // the first anchor on coincident vertices: the Python renderer's pick, which the scan by vertex id would miss
+        tieCases++;
+        expect(c.first_anchor_ties, `${where}: the anchor is one of the tied vertices`).toContain(c.field.anchor_vertex_ids[0]);
+        if (c.field.anchor_vertex_ids[0] !== Math.min(...c.first_anchor_ties)) lowestIdWrong++;
+      }
       expect(field.realized_sites).toBe(c.field.realized_sites); expect(field.requested_sites).toBe(c.field.requested_sites);
       expect(field.effective_support_radius_mm).toBe(c.field.radius_mm); expect(field.requested_support_radius_mm).toBe(c.field.requested_radius_mm);
       expect(field.global_center_mm).toEqual(c.field.global_center_mm);
@@ -222,7 +265,9 @@ describe.skipIf(!templatesOnDisk)("the disease renderer against the Python rende
       if (await geometryHash(ours.positions, t.faces) === c.geometry_sha256) geometryHashes++;
     }
     // the hashes are informative: a last-bit difference of V8's exp or tanh against libm's changes a float64 hash
-    console.log(`disease renderer vs Python fixtures (${fixture.cases.length} cases): ${worst.text()}; geometry sha256 equal in ${geometryHashes}/${fixture.cases.length}, float32 normal sha256 equal in ${normalHashes}/${fixture.cases.length}`);
+    console.log(`disease renderer vs Python fixtures (${fixture.cases.length} cases, ${tieCases} with the first anchor on a tie): ${worst.text()}; geometry sha256 equal in ${geometryHashes}/${fixture.cases.length}, float32 normal sha256 equal in ${normalHashes}/${fixture.cases.length}`);
+    expect(tieCases).toBeGreaterThanOrEqual(4);
+    expect(lowestIdWrong, "the tie cases exercise the recorded winner, not the lowest id").toBeGreaterThanOrEqual(1);
     expect(worst.values.get("position mm")!).toBeLessThan(1e-6);
     expect(worst.values.get("normal")!).toBeLessThan(1e-9);
     expect(worst.values.get("colour")!).toBeLessThan(1e-9);
@@ -353,6 +398,64 @@ describe.skipIf(!online || !templatesOnDisk)("the disease renderer against the A
       }
     }, 900000);
   }
+
+  /** Healthy disease-v2 specs: the API's generate takes the v2 path for the renderer version, with or without a recipe, so
+   *  realizeSpecLocally does too — the surface carries the source normals transported through the shape map, not the
+   *  area-weighted normals realizeLocally computes. Eight templates (the two repaired ones among them) at rest, bent and
+   *  at the control limits, where the API may refuse. */
+  const HEALTHY_TEMPLATES = ["hra-liver-female", "hra-kidney-male-left", "hra-lung-male", "bp3d-gallbladder-male", "hra-pancreas-female", "hra-spleen-female", "hra-heart-male", "hra-urinary-bladder-male"];
+  const HEALTHY_CONTROLS: Record<string, number>[] = [{}, { bend: 0.5, taper: -0.4, twist: 0.3 }, { scale_x: 1, taper: 1, asymmetry: -1 }];
+  it("realizes a healthy disease-v2 spec through the v2 renderer: positions and transported normals as /api/atlas/generate", async () => {
+    const library = await catalog();
+    const healthy = new Worst();
+    let generations = 0, refusals = 0, hashes = 0;
+    for (const templateId of HEALTHY_TEMPLATES) {
+      const { template, spec, reference } = await load(templateId);
+      for (const controls of HEALTHY_CONTROLS) {
+        const request: AtlasSpec = { ...spec, controls: { ...spec.controls, ...controls } }, where = `${templateId} ${JSON.stringify(controls)}`;
+        expect(request.renderer_version).toBe("disease-v2"); expect(request.disease).toBeUndefined();
+        const response = await fetch(`${API}/api/atlas/generate`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(request) });
+        const body = await response.json() as AtlasGeneration & { detail?: string };
+        const ours = await realizeSpecLocally(reference, request, template, library.diseases).then((g) => ({ ok: true as const, g }), (e: Error) => ({ ok: false as const, message: e.message }));
+        if (!response.ok) {
+          // the API refused: the browser refuses with the same words
+          refusals++;
+          expect(ours.ok, `${where}: API ${response.status} "${body.detail}" but the browser answered`).toBe(false);
+          if (!ours.ok) expect(ours.message, where).toBe(body.detail);
+          continue;
+        }
+        expect(ours.ok, `${where}: the browser threw ${ours.ok ? "" : ours.message}`).toBe(true);
+        if (!ours.ok) continue;
+        const { g } = ours;
+        validateAtlasGeneration(g, library);
+        const a = body.scene.organs[0]!, b = g.scene.organs[0]!;
+        healthy.note("position mm", maxAbs(b.positions, a.positions));
+        healthy.note("normal", maxAbs(b.normals!, a.normals!));
+        healthy.note("colour", maxAbs(b.colors!, a.colors!));
+        expect(b.metadata!.disease_field).toBeUndefined();
+        const am = body.scene.metadata as Record<string, Record<string, unknown>>, bm = g.scene.metadata as Record<string, Record<string, unknown>>;
+        expect((bm.display_normals as { policy: string }).policy, where).toBe("inverse-transpose-continuous-map-source-normal-v2");
+        expect(bm.display_normals!.policy).toBe(am.display_normals!.policy);
+        expect(bm.disease!.recipe, where).toBeNull(); expect(bm.disease!.profile).toBeNull();
+        expect(bm.disease!.shape_control_projection, where).toEqual(am.disease!.shape_control_projection);
+        for (const key of ["requested_sites", "realized_sites", "applied_displacement_fraction", "effective_morphology_strength", "displacement_limited_by_source_mesh"]) expect(bm.disease![key], `${where} disease.${key}`).toEqual(am.disease![key]);
+        expectQaClose(bm.qa as unknown as DiseaseMeshQa, am.qa!, healthy, where);
+        healthy.note("extent mm", maxAbs(g.summary.extent_mm as number[], body.summary.extent_mm as number[]));
+        healthy.note("summary.min_jacobian rel", rel(g.summary.min_jacobian as number, body.summary.min_jacobian as number));
+        expect(g.summary.min_jacobian_kind).toBe(body.summary.min_jacobian_kind);
+        for (const key of Object.keys(am.measurements!)) if (typeof am.measurements![key] === "number") healthy.note("measurements rel", rel(bm.measurements![key] as number, am.measurements![key] as number)); else expect(bm.measurements![key], `${where} measurements.${key}`).toEqual(am.measurements![key]);
+        if ((bm.display_normals as { sha256: string }).sha256 === (am.display_normals as { sha256: string }).sha256) hashes++;
+        generations++;
+      }
+    }
+    console.log(`healthy disease-v2 specs via realizeSpecLocally vs API (${generations} generations over ${HEALTHY_TEMPLATES.length} templates, ${refusals} refused by both in the same words): ${healthy.text()}; float32 normal sha256 equal in ${hashes}/${generations}`);
+    expect(generations).toBeGreaterThanOrEqual(2 * HEALTHY_TEMPLATES.length);
+    expect(healthy.values.get("position mm")!).toBeLessThan(1e-6);
+    expect(healthy.values.get("normal")!).toBeLessThan(1e-9);
+    expect(healthy.values.get("colour")!).toBe(0);
+    expect(healthy.values.get("extent mm")!).toBeLessThan(1e-6);
+    expect(healthy.values.get("measurements rel")!).toBeLessThan(1e-9);
+  }, 600000);
 
   it("reports the measured agreement", () => {
     console.log(`disease renderer vs API (${compared} generations): ${worst.text()}; geometry sha256 equal in ${geometryHashes}/${compared}, float32 normal sha256 equal in ${normalHashes}/${compared}`);

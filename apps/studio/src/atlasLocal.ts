@@ -265,7 +265,10 @@ const sourceColors = new Map<string, Promise<number[]>>();
 export function bundledReference(templateId: string, signal?: AbortSignal): Promise<AtlasGeneration> {
   let p = references.get(templateId);
   if (!p) {
-    p = bundledJson(`atlas/specimens/${templateId}.json.gz`, signal).then((v) => v as AtlasGeneration);
+    // one download per template, shared by every caller: it must not carry a caller's abort (a second click on the organ
+    // while it loads aborts the first request, and the shared promise would reject for the second as well)
+    void signal;
+    p = bundledJson(`atlas/specimens/${templateId}.json.gz`).then((v) => v as AtlasGeneration);
     references.set(templateId, p);
     p.catch(() => references.delete(templateId));
   }

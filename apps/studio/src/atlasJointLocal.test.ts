@@ -164,6 +164,7 @@ describe.skipIf(!online)("the browser joint flow against the API's route", () =>
   it("samples the same controls, recipe and geometry as /api/atlas/sample-joint for the healthy baseline", async () => {
     primeJointModel(model);
     for (const [templateId, seed, temperature] of [["hra-liver-female", 7, 0.8], ["hra-liver-female", 42, 1.0], ["bp3d-stomach-male", 1729, 1.5]] as const) {
+      primeSupportFromDisk(templateId);   // a healthy disease-v2 spec is realized by the disease renderer too (realizeSpecLocally)
       const { template, spec, reference } = await prepare(templateId, null, seed);
       const api = (await post("/api/atlas/sample-joint", { spec, seed, temperature })) as AtlasGeneration;
       const ours = await sampleJointLocally(reference, template, spec, temperature, "auto");

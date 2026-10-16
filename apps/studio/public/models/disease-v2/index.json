@@ -1,11 +1,13 @@
 {
  "format": "viscera-disease-v2-support",
+ "format_version": 2,
  "version": "disease-morphology-design-2.0.0",
  "template_root": "datasets/anatomy-templates/templates-v3",
  "pool_seed": 20873,
  "pool_size": 8192,
- "layout": "eligible bitmask, then pool bitmask; ceil(vertex_count / 8) bytes each; vertex i is bit i & 7 of byte i >> 3",
+ "layout": "eligible bitmask, then pool bitmask, then tie-winner bitmask; ceil(vertex_count / 8) bytes each; vertex i is bit i & 7 of byte i >> 3",
  "source_normals": "trimesh 4.12.2 angle-weighted vertex normals of the source (lung: welded at 1e-8 mm), repaired where zero",
+ "ties": "a tie winner is the eligible vertex scipy's cKDTree(v[eligible]).query answers for a position several eligible vertices share exactly (the member met first in its leaf, strict < on equal distances), confirmed at the position and 130 probes around it; a group whose answer varied is query-dependent and has no winner (the browser falls back to the lowest id)",
  "templates": {
   "bp3d-gallbladder-male": {
    "organ": "gallbladder",
@@ -18,8 +20,11 @@
    "minimum_support_radius_mm": 10.763951208083462,
    "normals_policy": "source-indexed-trimesh-vertex-normals-1.0.0",
    "source_normals_sha256": "c852861447295ea9be122f59f7de37788c1271db6d66017e600e78ed0c5167af",
+   "tie_groups": 1,
+   "tied_vertices": 2,
+   "query_dependent_tie_groups": 0,
    "file": "bp3d-gallbladder-male.bin",
-   "bytes": 302
+   "bytes": 453
   },
   "bp3d-stomach-male": {
    "organ": "stomach",
@@ -32,8 +37,11 @@
    "minimum_support_radius_mm": 34.17537665820232,
    "normals_policy": "source-indexed-trimesh-vertex-normals-1.0.0",
    "source_normals_sha256": "f69195b27be1885fe03b37177d9ff88ac02f9afba694a0f5bd287d62661615b3",
+   "tie_groups": 6,
+   "tied_vertices": 13,
+   "query_dependent_tie_groups": 0,
    "file": "bp3d-stomach-male.bin",
-   "bytes": 230
+   "bytes": 345
   },
   "hra-brain-female": {
    "organ": "brain",
@@ -46,8 +54,11 @@
    "minimum_support_radius_mm": 8.80608642532846,
    "normals_policy": "source-indexed-trimesh-vertex-normals-1.0.0",
    "source_normals_sha256": "7d2cbc1f616e82e8eb8a2d0036ec2ae80b1db93b63eebb3e633fad7da045cde1",
+   "tie_groups": 0,
+   "tied_vertices": 0,
+   "query_dependent_tie_groups": 0,
    "file": "hra-brain-female.bin",
-   "bytes": 53074
+   "bytes": 79611
   },
   "hra-brain-male": {
    "organ": "brain",
@@ -60,8 +71,11 @@
    "minimum_support_radius_mm": 8.806002383530673,
    "normals_policy": "source-indexed-trimesh-vertex-normals-1.0.0",
    "source_normals_sha256": "8987ca5af99b6f59aa2240fd415fda47c22d6ada0ac4f695a18251801de687ed",
+   "tie_groups": 0,
+   "tied_vertices": 0,
+   "query_dependent_tie_groups": 0,
    "file": "hra-brain-male.bin",
-   "bytes": 53074
+   "bytes": 79611
   },
   "hra-heart-female": {
    "organ": "heart",
@@ -74,8 +88,11 @@
    "minimum_support_radius_mm": 10.780402919689417,
    "normals_policy": "source-indexed-trimesh-vertex-normals-1.0.0",
    "source_normals_sha256": "9a9ed20fb7af8146d2e0bc12cc5231c95286593dd08622e0d2697db3fcb960f1",
+   "tie_groups": 0,
+   "tied_vertices": 0,
+   "query_dependent_tie_groups": 0,
    "file": "hra-heart-female.bin",
-   "bytes": 5744
+   "bytes": 8616
   },
   "hra-heart-male": {
    "organ": "heart",
@@ -88,8 +105,11 @@
    "minimum_support_radius_mm": 7.131667840038084,
    "normals_policy": "source-indexed-trimesh-vertex-normals-1.0.0",
    "source_normals_sha256": "88d71f1300be4cd290a03e48a5ca8393f29591350fe19ff67b941fc6661699f9",
+   "tie_groups": 0,
+   "tied_vertices": 0,
+   "query_dependent_tie_groups": 0,
    "file": "hra-heart-male.bin",
-   "bytes": 14870
+   "bytes": 22305
   },
   "hra-kidney-female-left": {
    "organ": "kidney",
@@ -102,8 +122,11 @@
    "minimum_support_radius_mm": 12.42784898684158,
    "normals_policy": "source-indexed-trimesh-vertex-normals-1.0.0",
    "source_normals_sha256": "f29b75f5dd192db8e987f6e7273a9f9131eb366783392322f01cdbf2c905fa4c",
+   "tie_groups": 0,
+   "tied_vertices": 0,
+   "query_dependent_tie_groups": 0,
    "file": "hra-kidney-female-left.bin",
-   "bytes": 2128
+   "bytes": 3192
   },
   "hra-kidney-female-right": {
    "organ": "kidney",
@@ -116,8 +139,11 @@
    "minimum_support_radius_mm": 11.148647699375978,
    "normals_policy": "source-indexed-trimesh-vertex-normals-1.0.0",
    "source_normals_sha256": "cb65ef7636f00dbb82691cb36721c4eb1451f033cf983f41995734bfd0ef993d",
+   "tie_groups": 0,
+   "tied_vertices": 0,
+   "query_dependent_tie_groups": 0,
    "file": "hra-kidney-female-right.bin",
-   "bytes": 1884
+   "bytes": 2826
   },
   "hra-kidney-male-left": {
    "organ": "kidney",
@@ -130,8 +156,11 @@
    "minimum_support_radius_mm": 11.64135604419555,
    "normals_policy": "source-indexed-trimesh-vertex-normals-1.0.0",
    "source_normals_sha256": "239ded88147f1faaa1690c254a036afc19256f6e8c9a5d40991530e0c26c7c7a",
+   "tie_groups": 0,
+   "tied_vertices": 0,
+   "query_dependent_tie_groups": 0,
    "file": "hra-kidney-male-left.bin",
-   "bytes": 1986
+   "bytes": 2979
   },
   "hra-kidney-male-right": {
    "organ": "kidney",
@@ -144,8 +173,11 @@
    "minimum_support_radius_mm": 10.866989964798535,
    "normals_policy": "source-indexed-trimesh-vertex-normals-1.0.0",
    "source_normals_sha256": "c941e970293ae0342f7cc6c8211263e408a2f167ee598301b3cfac3214bcfac7",
+   "tie_groups": 0,
+   "tied_vertices": 0,
+   "query_dependent_tie_groups": 0,
    "file": "hra-kidney-male-right.bin",
-   "bytes": 1958
+   "bytes": 2937
   },
   "hra-large-intestine-female": {
    "organ": "large-intestine",
@@ -158,8 +190,11 @@
    "minimum_support_radius_mm": 25.097668916853745,
    "normals_policy": "source-indexed-trimesh-vertex-normals-1.0.0",
    "source_normals_sha256": "122738ccf6ee46d09b4fb215b0a23185715a6c41d46ceb77bcdf0655ce0eb5d7",
+   "tie_groups": 0,
+   "tied_vertices": 0,
+   "query_dependent_tie_groups": 0,
    "file": "hra-large-intestine-female.bin",
-   "bytes": 2652
+   "bytes": 3978
   },
   "hra-large-intestine-male": {
    "organ": "large-intestine",
@@ -172,8 +207,11 @@
    "minimum_support_radius_mm": 29.343887135499685,
    "normals_policy": "source-indexed-trimesh-vertex-normals-1.0.0",
    "source_normals_sha256": "d1f08c6a2357e1878a332f1aad210400f6fa39ec5ac6c57cd8c3c1b8eee97ae3",
+   "tie_groups": 0,
+   "tied_vertices": 0,
+   "query_dependent_tie_groups": 0,
    "file": "hra-large-intestine-male.bin",
-   "bytes": 3846
+   "bytes": 5769
   },
   "hra-liver-female": {
    "organ": "liver",
@@ -186,8 +224,11 @@
    "minimum_support_radius_mm": 11.721301731980626,
    "normals_policy": "source-indexed-trimesh-vertex-normals-1.0.0",
    "source_normals_sha256": "8d59ac159289ab3d80a77edfd3a15eb3f260fc43c3ea0dba9033fffffa0f267c",
+   "tie_groups": 0,
+   "tied_vertices": 0,
+   "query_dependent_tie_groups": 0,
    "file": "hra-liver-female.bin",
-   "bytes": 4504
+   "bytes": 6756
   },
   "hra-liver-male": {
    "organ": "liver",
@@ -200,8 +241,11 @@
    "minimum_support_radius_mm": 16.214704084622262,
    "normals_policy": "source-indexed-trimesh-vertex-normals-1.0.0",
    "source_normals_sha256": "3269da3e0f9592ff64f1dcbaba49d0a3afaf21d48f3bc844c1a5fd232badd03d",
+   "tie_groups": 0,
+   "tied_vertices": 0,
+   "query_dependent_tie_groups": 0,
    "file": "hra-liver-male.bin",
-   "bytes": 3784
+   "bytes": 5676
   },
   "hra-lung-female": {
    "organ": "lung",
@@ -214,8 +258,11 @@
    "minimum_support_radius_mm": 19.786830827071107,
    "normals_policy": "coincident-lung-segment-normals-1.0.0",
    "source_normals_sha256": "88c1fb115b9d03cc9e30b6d1aff7022e76c20e3bb73ef10915369212fc73f5e7",
+   "tie_groups": 554,
+   "tied_vertices": 1120,
+   "query_dependent_tie_groups": 0,
    "file": "hra-lung-female.bin",
-   "bytes": 4238
+   "bytes": 6357
   },
   "hra-lung-male": {
    "organ": "lung",
@@ -228,8 +275,11 @@
    "minimum_support_radius_mm": 30.970760702961627,
    "normals_policy": "coincident-lung-segment-normals-1.0.0",
    "source_normals_sha256": "9768cb0e956f475cc3b99063309f1a5333885d5d197a8bb40a931df9f33ceb9b",
+   "tie_groups": 375,
+   "tied_vertices": 763,
+   "query_dependent_tie_groups": 0,
    "file": "hra-lung-male.bin",
-   "bytes": 2274
+   "bytes": 3411
   },
   "hra-pancreas-female": {
    "organ": "pancreas",
@@ -242,8 +292,11 @@
    "minimum_support_radius_mm": 8.290806581228292,
    "normals_policy": "source-indexed-trimesh-vertex-normals-1.0.0",
    "source_normals_sha256": "ab94fb3e0b8e3edee4f2d23c49498c4808549630513c0ebe7cdfcfa37d80740c",
+   "tie_groups": 3859,
+   "tied_vertices": 14940,
+   "query_dependent_tie_groups": 0,
    "file": "hra-pancreas-female.bin",
-   "bytes": 6588
+   "bytes": 9882
   },
   "hra-pancreas-male": {
    "organ": "pancreas",
@@ -256,8 +309,11 @@
    "minimum_support_radius_mm": 4.254462166303865,
    "normals_policy": "source-indexed-trimesh-vertex-normals-1.0.0",
    "source_normals_sha256": "2d93901d744a9cc458f3a41661b213f5aff9a3bb7134faca98f29611b6fce266",
+   "tie_groups": 13668,
+   "tied_vertices": 53475,
+   "query_dependent_tie_groups": 0,
    "file": "hra-pancreas-male.bin",
-   "bytes": 19498
+   "bytes": 29247
   },
   "hra-small-intestine-female": {
    "organ": "small-intestine",
@@ -270,8 +326,11 @@
    "minimum_support_radius_mm": 14.803674874490621,
    "normals_policy": "source-indexed-trimesh-vertex-normals-1.0.0",
    "source_normals_sha256": "46e37332dda24acee1d1da49412e3c09dc7a2606e9f404cc325f8b8d0f7673c5",
+   "tie_groups": 52,
+   "tied_vertices": 104,
+   "query_dependent_tie_groups": 0,
    "file": "hra-small-intestine-female.bin",
-   "bytes": 5020
+   "bytes": 7530
   },
   "hra-small-intestine-male": {
    "organ": "small-intestine",
@@ -284,8 +343,11 @@
    "minimum_support_radius_mm": 20.802076479065956,
    "normals_policy": "source-indexed-trimesh-vertex-normals-1.0.0",
    "source_normals_sha256": "bd1e142630e87f75e1d8c5a97c2ead83f9160b042198523f7eae3090686643f6",
+   "tie_groups": 0,
+   "tied_vertices": 0,
+   "query_dependent_tie_groups": 0,
    "file": "hra-small-intestine-male.bin",
-   "bytes": 4076
+   "bytes": 6114
   },
   "hra-spleen-female": {
    "organ": "spleen",
@@ -298,8 +360,11 @@
    "minimum_support_radius_mm": 9.707797972087846,
    "normals_policy": "source-indexed-trimesh-vertex-normals-1.0.0",
    "source_normals_sha256": "ab3252a4da673fe244458891f2eb38e6ed852749af713e196f35e8d249eec47c",
+   "tie_groups": 228,
+   "tied_vertices": 461,
+   "query_dependent_tie_groups": 0,
    "file": "hra-spleen-female.bin",
-   "bytes": 1142
+   "bytes": 1713
   },
   "hra-spleen-male": {
    "organ": "spleen",
@@ -312,8 +377,11 @@
    "minimum_support_radius_mm": 8.730353491920585,
    "normals_policy": "source-indexed-trimesh-vertex-normals-1.0.0",
    "source_normals_sha256": "7c0c6b2e0a4a0ab8f4f7018885ef852d375785d35ded51f3ba367c163b4fb42a",
+   "tie_groups": 206,
+   "tied_vertices": 415,
+   "query_dependent_tie_groups": 0,
    "file": "hra-spleen-male.bin",
-   "bytes": 2254
+   "bytes": 3381
   },
   "hra-urinary-bladder-female": {
    "organ": "urinary-bladder",
@@ -326,8 +394,11 @@
    "minimum_support_radius_mm": 3.1962567014086747,
    "normals_policy": "source-indexed-trimesh-vertex-normals-1.0.0",
    "source_normals_sha256": "f7902f88d6d78d8e75cb21df0dd7e112c330c48aafc4c7ef8088832a9bb139dd",
+   "tie_groups": 243,
+   "tied_vertices": 486,
+   "query_dependent_tie_groups": 0,
    "file": "hra-urinary-bladder-female.bin",
-   "bytes": 5036
+   "bytes": 7554
   },
   "hra-urinary-bladder-male": {
    "organ": "urinary-bladder",
@@ -340,8 +411,11 @@
    "minimum_support_radius_mm": 8.929591267024366,
    "normals_policy": "source-indexed-trimesh-vertex-normals-1.0.0",
    "source_normals_sha256": "5d09eb0a1f54a1dfe915c443ab9735ebfda85a3af6a1fe46ed811e768efe14c7",
+   "tie_groups": 184,
+   "tied_vertices": 376,
+   "query_dependent_tie_groups": 0,
    "file": "hra-urinary-bladder-male.bin",
-   "bytes": 1288
+   "bytes": 1932
   }
  }
 }

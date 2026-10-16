@@ -209,8 +209,8 @@ export function sampleJointControls(model: JointModel, templateId: string, profi
 }
 
 /** The public copy's joint variation (POST /api/atlas/sample-joint): sampled here for the request's disease profile,
- *  realized here — the disease-v2 renderer for a disease, realizeLocally for the healthy baseline — with the
- *  provenance the API's route attaches. `library` is the catalogue's disease library, which the renderer reads. */
+ *  realized here — the disease-v2 renderer, with a disease or healthy, as realizeSpecLocally routes a disease-v2
+ *  spec — with the provenance the API's route attaches. `library` is the catalogue's disease library, which the renderer reads. */
 export async function sampleJointLocally(reference: AtlasGeneration, template: AtlasTemplate, spec: AtlasSpec, temperature: number, severity: "auto" | "mild" | "moderate" | "severe", library?: AtlasDiseaseLibrary, signal?: AbortSignal): Promise<AtlasGeneration> {
   const model = await loadJointModel(signal);
   const profileId = spec.disease?.profile_id ?? null;
