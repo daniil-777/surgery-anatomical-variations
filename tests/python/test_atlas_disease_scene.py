@@ -177,6 +177,8 @@ def test_api_generation_and_model_failure_are_explicit(library: Path, tmp_path: 
 
     monkeypatch.setenv("VISCERA_ATLAS_TEMPLATES", str(library))
     monkeypatch.setenv("VISCERA_DISEASE_MODEL", str(tmp_path / "missing.npz"))
+    # an empty model store: a developer's active imported bundle would otherwise take precedence over the missing model
+    monkeypatch.setenv("VISCERA_MODEL_STORE", str(tmp_path / "model-store"))
     app = FastAPI()
     app.include_router(router)
     client = TestClient(app)

@@ -167,6 +167,8 @@ def test_surface_routes_validate_and_preserve_material_during_shape_sampling(
     client = TestClient(app)
     monkeypatch.setenv("VISCERA_ATLAS_TEMPLATES", str(library))
     monkeypatch.setenv("VISCERA_ATLAS_MATERIAL_MODEL", str(tmp_path / "unavailable.npz"))
+    # an empty model store: a developer's active imported bundle would otherwise take precedence over the missing model
+    monkeypatch.setenv("VISCERA_MODEL_STORE", str(tmp_path / "model-store"))
     spec = SurfaceAtlasSpec(
         template_id="fixture-liver", material=make_recipe("liver", "moist", 313)
     )
