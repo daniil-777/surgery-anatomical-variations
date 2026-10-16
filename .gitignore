@@ -98,3 +98,6 @@ playwright-report/
 !/artifacts/joint-vae/default/viscera-joint-weights.zip
 *.mp4
 *.bag
+
+# the built public copy (scripts/build_public_copy.mjs); GitHub Pages builds it in CI
+/public-copy/

@@ -1,0 +1,51 @@
+# The public copy of VISCERA Studio on GitHub Pages: built from this repository on every push to main.
+# The browser-only studio (shape, appearance, surface, physics cage, joint flow …) plus the API's snapshots it starts
+# from; the API runs on the runner only during the build (scripts/build_public_copy.mjs asks it for the catalogue,
+# the reference specimens and the physics cages). A headless-Chrome smoke test must pass before the deploy.
+name: pages
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 24 }
+      - run: corepack enable && corepack prepare pnpm@10.17.1 --activate
+      - run: pnpm install --frozen-lockfile
+      - uses: astral-sh/setup-uv@v6
+        with: { enable-cache: true }
+      # the CPU wheels the deploy image pins (torch from PyTorch's CPU index); uv.lock resolves CUDA torch on linux
+      - run: uv venv .venv --python 3.11 && uv pip install --python .venv/bin/python --index-url https://download.pytorch.org/whl/cpu --extra-index-url https://pypi.org/simple -r deploy/requirements.txt
+      - name: start the API for the snapshots
+        run: |
+          PYTHONPATH=py:. nohup .venv/bin/python -m uvicorn services.api.app:app --host 127.0.0.1 --port 8000 --log-level warning > api.log 2>&1 &
+          for i in $(seq 1 90); do curl -sf http://127.0.0.1:8000/api/health >/dev/null && break; sleep 2; done
+          curl -sf http://127.0.0.1:8000/api/health
+      - run: node scripts/build_public_copy.mjs --out public-copy
+      - name: smoke test in headless Chrome
+        run: node scripts/smoke_public_copy.mjs public-copy --chrome "$(which google-chrome || which google-chrome-stable || which chromium-browser)" --budget 480000
+      - uses: actions/upload-pages-artifact@v3
+        with: { path: public-copy }
+      - if: failure()
+        run: tail -50 api.log || true
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

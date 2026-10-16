@@ -47,8 +47,11 @@ The generation-2 joint bundle binds two references (male heart, male bladder) to
 
 ## Publish
 
-- The browser-only public copy is built by the portfolio site repository (`tools/build-anatomy.mjs` there) from this
-  checkout; it needs the API running for the catalogue and specimen snapshots, or `--keep-specimens`.
+- The browser-only public copy: `node scripts/build_public_copy.mjs --out public-copy` (the API must run for the
+  catalogue, specimen and physics snapshots, or pass `--keep-specimens`), checked by `node scripts/smoke_public_copy.mjs
+  public-copy`. GitHub Pages builds and deploys it on every push to main (`.github/workflows/pages.yml`):
+  https://daniil-777.github.io/surgery-anatomical-variations/ . The portfolio site builds the same copy from outside
+  this repository (`tools/build-anatomy.mjs` there).
 - The whole studio with its API as one web app: `docs/HOSTING.md` (Docker image in `deploy/`, Hugging Face Spaces,
   Fly.io, Oracle Cloud in `deploy/oracle/`). `scripts/stage_deploy.py` assembles exactly what the server reads.
 - The joint flow for the browser: `scripts/export_joint_web.py` re-exports `apps/studio/public/models/joint-v2` after a
