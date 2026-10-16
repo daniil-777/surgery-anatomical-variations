@@ -27,7 +27,8 @@ jobs:
       - uses: astral-sh/setup-uv@v6
         with: { enable-cache: true }
       # the CPU wheels the deploy image pins (torch from PyTorch's CPU index); uv.lock resolves CUDA torch on linux
-      - run: uv venv .venv --python 3.11 && uv pip install --python .venv/bin/python --index-url https://download.pytorch.org/whl/cpu --extra-index-url https://pypi.org/simple -r deploy/requirements.txt
+      # both indexes are trusted: uv otherwise takes the first index that has a package and refuses torch==…+cpu, which only PyTorch's index carries
+      - run: uv venv .venv --python 3.11 && uv pip install --python .venv/bin/python --index-strategy unsafe-best-match --index-url https://download.pytorch.org/whl/cpu --extra-index-url https://pypi.org/simple -r deploy/requirements.txt
       - name: start the API for the snapshots
         run: |
           PYTHONPATH=py:. nohup .venv/bin/python -m uvicorn services.api.app:app --host 127.0.0.1 --port 8000 --log-level warning > api.log 2>&1 &
