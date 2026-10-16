@@ -6,10 +6,23 @@
  *  both accurate to ~1e-15 relative) and the BLAS dot products. The iterates therefore agree to that level and the
  *  solver takes the same decisions unless a termination test falls within rounding of its threshold. The atlas
  *  shape sampler's dimension refinement (atlasShapeSampler.ts) is its caller; atlasShapeSampler.test.ts replays
- *  scipy's results on small bounded problems and on the sampler itself. */
+ *  scipy's results on small bounded problems and on the sampler itself.
+ *  The optional `loss` / `fScale` options add scipy's robust losses ("soft_l1", "huber", "cauchy", "arctan" with
+ *  f_scale C): construct_loss_function's rho(z = (f/C)²) scaled as least_squares scales it (rho·C², rho″/C²), the
+ *  cost 0.5·Σrho by numpy's pairwise summation, and scale_for_robust_loss_function's √(rho′ + 2 rho″ f²) on the
+ *  residuals and Jacobian rows before every step — the Jacobian itself still differences the true residuals, as
+ *  VectorFunction does. Without them (loss "linear", the default) the solver runs the very same operations as
+ *  before. The liver physics calibration (atlasPhysicsCalibration.ts, soft_l1 with f_scale 0.02) is that caller;
+ *  atlasPhysicsCalibration.test.ts replays scipy on robust-loss problems and checks the default path bit for bit. */
 
 export type Residuals = (x: Float64Array) => Float64Array;
-export interface TrfOptions { lower: number; upper: number; ftol: number; xtol: number; gtol: number; maxNfev: number }
+/** least_squares' `loss`: "linear" is the plain sum of squares, the others its robust losses. */
+export type RobustLoss = "linear" | "soft_l1" | "huber" | "cauchy" | "arctan";
+export interface TrfOptions {
+  lower: number; upper: number; ftol: number; xtol: number; gtol: number; maxNfev: number;
+  /** least_squares(loss=…), "linear" when absent */ loss?: RobustLoss;
+  /** least_squares(f_scale=…), the soft margin C between inlier and outlier residuals; 1 when absent */ fScale?: number;
+}
 export interface TrfResult {
   x: Float64Array; cost: number; optimality: number; activeMask: number[];
   /** residual evaluations the trust-region loop counts (the finite-difference Jacobians are not among them) */
@@ -55,6 +68,79 @@ function nextAfter(from: number, to: number): number {
   const towardLargerMagnitude = (to > from) === (from > 0);
   view.setBigUint64(0, view.getBigUint64(0) + (towardLargerMagnitude ? 1n : -1n));
   return view.getFloat64(0);
+}
+
+/** np.sum of a contiguous float64 vector: add.reduce from its identity 0 over numpy's pairwise summation (eight
+ *  interleaved accumulators per block of at most 128, halving larger ranges at multiples of 8). */
+export function pairwiseSum(a: ArrayLike<number>): number {
+  const sum = (start: number, n: number): number => {
+    if (n < 8) { let res = 0; for (let i = 0; i < n; i++) res += a[start + i]!; return res; }
+    if (n <= 128) {
+      const r = [a[start]!, a[start + 1]!, a[start + 2]!, a[start + 3]!, a[start + 4]!, a[start + 5]!, a[start + 6]!, a[start + 7]!];
+      let i = 8;
+      for (; i < n - (n % 8); i += 8) for (let j = 0; j < 8; j++) r[j] = r[j]! + a[start + i + j]!;
+      let res = ((r[0]! + r[1]!) + (r[2]! + r[3]!)) + ((r[4]! + r[5]!) + (r[6]! + r[7]!));
+      for (; i < n; i++) res += a[start + i]!;
+      return res;
+    }
+    let half = Math.floor(n / 2);
+    half -= half % 8;
+    return sum(start, half) + sum(start + half, n - half);
+  };
+  return 0 + sum(0, a.length);
+}
+
+// ---------------------------------------------------------------------------------------------- robust losses (least_squares.py)
+/** The loss of z = (f/C)², one residual: rho(z), and with `derivatives` also rho′(z) and rho″(z) (huber, soft_l1,
+ *  cauchy, arctan as least_squares.py writes them; numpy's ** 0.5 is a square root, ** 2 a product). */
+function rhoOf(loss: Exclude<RobustLoss, "linear">, z: number, derivatives: boolean): [number, number, number] {
+  switch (loss) {
+    case "huber":
+      if (z <= 1) return [z, 1, 0];
+      return [2 * Math.sqrt(z) - 1, derivatives ? z ** -0.5 : 0, derivatives ? -0.5 * z ** -1.5 : 0];
+    case "soft_l1": {
+      const t = 1 + z;
+      return [2 * (Math.sqrt(t) - 1), derivatives ? t ** -0.5 : 0, derivatives ? -0.5 * t ** -1.5 : 0];
+    }
+    case "cauchy": {
+      const t = 1 + z;
+      return [Math.log1p(z), derivatives ? 1 / t : 0, derivatives ? -1 / (t * t) : 0];
+    }
+    case "arctan": {
+      const t = 1 + z * z;
+      return [Math.atan(z), derivatives ? 1 / t : 0, derivatives ? -2 * z / (t * t) : 0];
+    }
+  }
+}
+/** construct_loss_function(f): rows rho·C², rho′, rho″/C² of the scaled loss C²·rho(f²/C²). */
+function lossRho(loss: Exclude<RobustLoss, "linear">, f: Float64Array, fScale: number): [Float64Array, Float64Array, Float64Array] {
+  const m = f.length, rho0 = new Float64Array(m), rho1 = new Float64Array(m), rho2 = new Float64Array(m);
+  const c2 = fScale * fScale;
+  for (let i = 0; i < m; i++) {
+    const q = f[i]! / fScale;
+    const [r0, r1, r2] = rhoOf(loss, q * q, true);
+    rho0[i] = r0 * c2; rho1[i] = r1; rho2[i] = r2 / c2;
+  }
+  return [rho0, rho1, rho2];
+}
+/** construct_loss_function(f, cost_only=True): 0.5 · C² · Σ rho(f²/C²). */
+function lossCost(loss: Exclude<RobustLoss, "linear">, f: Float64Array, fScale: number): number {
+  const rho0 = new Float64Array(f.length);
+  for (let i = 0; i < f.length; i++) { const q = f[i]! / fScale; rho0[i] = rhoOf(loss, q * q, false)[0]; }
+  return 0.5 * (fScale * fScale) * pairwiseSum(rho0);
+}
+/** scale_for_robust_loss_function: J_scale = √max(rho′ + 2 rho″ f², eps); f ← f · rho′/J_scale, J rows ← · J_scale. */
+function scaleForRobustLoss(J: Matrix, f: Float64Array, [, rho1, rho2]: [Float64Array, Float64Array, Float64Array]): { J: Matrix; f: Float64Array } {
+  const m = f.length, n = J.cols;
+  const scaledJ: Matrix = { rows: m, cols: n, data: new Float64Array(m * n) }, scaledF = new Float64Array(m);
+  for (let i = 0; i < m; i++) {
+    let jScale = rho1[i]! + 2 * rho2[i]! * (f[i]! * f[i]!);
+    if (jScale < EPS) jScale = EPS;
+    jScale = Math.sqrt(jScale);
+    scaledF[i] = f[i]! * (rho1[i]! / jScale);
+    for (let j = 0; j < n; j++) scaledJ.data[i * n + j] = J.data[i * n + j]! * jScale;
+  }
+  return { J: scaledJ, f: scaledF };
 }
 
 // ---------------------------------------------------------------------------------------------- bounds (common.py)
@@ -304,9 +390,12 @@ function jacobian2Point(fun: Residuals, x0: Float64Array, f0: Float64Array, lb: 
   return J;
 }
 
-/** least_squares(fun, x0, bounds=(lower, upper), max_nfev, ftol, xtol, gtol) with scipy's defaults otherwise. */
+/** least_squares(fun, x0, bounds=(lower, upper), max_nfev, ftol, xtol, gtol[, loss, f_scale]) with scipy's defaults
+ *  otherwise. */
 export function leastSquaresTrf(fun: Residuals, x0Input: ArrayLike<number>, options: TrfOptions): TrfResult {
   const n = x0Input.length;
+  if (options.loss !== undefined && !["linear", "soft_l1", "huber", "cauchy", "arctan"].includes(options.loss)) throw new Error("`loss` must be one of linear, soft_l1, huber, cauchy, arctan.");
+  if (options.fScale !== undefined && !(Number.isFinite(options.fScale) && options.fScale > 0)) throw new Error("`f_scale` must be a positive finite number.");
   const lb = new Float64Array(n).fill(options.lower), ub = new Float64Array(n).fill(options.upper);
   if (!inBounds(x0Input, lb, ub)) throw new Error("Initial guess is outside of provided bounds");
   const x0 = makeStrictlyFeasible(x0Input, lb, ub, 1e-10);
@@ -317,12 +406,19 @@ export function leastSquaresTrf(fun: Residuals, x0Input: ArrayLike<number>, opti
 }
 
 /** trf_bounds with tr_solver "exact" and x_scale 1: the Coleman–Li scaled trust region in "hat" variables, the
- *  augmented system [J·D; diag(diag_h)^½] solved by one SVD per iteration. */
-function trfBounds(fun: Residuals, x0: Float64Array, f0: Float64Array, J0: Matrix, lb: Float64Array, ub: Float64Array, { ftol, xtol, gtol, maxNfev }: TrfOptions): TrfResult {
+ *  augmented system [J·D; diag(diag_h)^½] solved by one SVD per iteration. A robust loss replaces the cost and
+ *  scales f and J (from the true residuals at each accepted point) before the gradient and the step. */
+function trfBounds(fun: Residuals, x0: Float64Array, f0: Float64Array, J0: Matrix, lb: Float64Array, ub: Float64Array, { ftol, xtol, gtol, maxNfev, loss = "linear", fScale = 1 }: TrfOptions): TrfResult {
   const n = x0.length, m = f0.length;
   let x: Float64Array = Float64Array.from(x0), f = f0, J = J0;
   let nfev = 1, njev = 1;
-  let cost = 0.5 * dot(f, f);
+  let cost: number;
+  if (loss === "linear") cost = 0.5 * dot(f, f);
+  else {
+    const rho = lossRho(loss, f, fScale);
+    cost = 0.5 * pairwiseSum(rho[0]);
+    ({ J, f } = scaleForRobustLoss(J, f, rho));
+  }
   let g = matTVec(J, f);
   let { v, dv } = clScalingVector(x, g, lb, ub);
   let delta = norm(x0.map((value, i) => value / Math.sqrt(v[i]!)));
@@ -359,7 +455,7 @@ function trfBounds(fun: Residuals, x0: Float64Array, f0: Float64Array, J0: Matri
       nfev += 1;
       const stepHNorm = norm(stepH);
       if (!fNew.every(Number.isFinite)) { delta = 0.25 * stepHNorm; continue; }
-      costNew = 0.5 * dot(fNew, fNew);
+      costNew = loss === "linear" ? 0.5 * dot(fNew, fNew) : lossCost(loss, fNew, fScale);
       actualReduction = cost - costNew;
       const [deltaNew, ratio] = updateTrRadius(delta, actualReduction, predictedReduction, stepHNorm, stepHNorm > 0.95 * delta);
       terminationStatus = checkTermination(actualReduction, cost, norm(step), norm(x), ratio, ftol, xtol);
@@ -371,6 +467,7 @@ function trfBounds(fun: Residuals, x0: Float64Array, f0: Float64Array, J0: Matri
       x = xNew; f = fNew; cost = costNew;
       J = jacobian2Point(fun, x, f, lb, ub);
       njev += 1;
+      if (loss !== "linear") ({ J, f } = scaleForRobustLoss(J, f, lossRho(loss, f, fScale)));
       g = matTVec(J, f);
     }
   }
