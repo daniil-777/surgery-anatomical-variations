@@ -212,7 +212,7 @@ describe("Disease morphology contracts", () => {
 });
 
 describe("Disease panel content", () => {
-  const props = { library, organ: "liver", recipe: recipe(), seedText: "42", onRecipe: () => {}, onSeedText: () => {}, onApply: () => {}, onSample: () => {}, onLearned: () => {}, disabled: false, pending: false, updating: false, learnedApplied: false };
+  const props = { library, organ: "liver", recipe: recipe(), seedText: "42", onRecipe: () => {}, onSeedText: () => {}, onApply: () => {}, onSample: () => {}, onLearned: () => {}, learnedAvailable: true, disabled: false, pending: false, updating: false, learnedApplied: false };
   it("exposes controls and caveats for all twelve organs", () => {
     for (const organ of organIds) {
       const html = renderToStaticMarkup(createElement(AtlasDiseasePanel, { ...props, organ, recipe: defaultAtlasDisease(library, organ) }));

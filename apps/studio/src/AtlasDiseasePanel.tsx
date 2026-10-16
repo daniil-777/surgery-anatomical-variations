@@ -12,6 +12,8 @@ interface Props {
   onApply: () => void;
   onSample: () => void;
   onLearned: () => void;
+  /** whether the trained disease prior can answer: active in the model status and, without the API, bundled */
+  learnedAvailable: boolean;
   disabled: boolean;
   pending: boolean;
   updating: boolean;
@@ -20,7 +22,7 @@ interface Props {
   displacementFraction?: number | undefined;
   expanded?: boolean;
 }
-export function AtlasDiseasePanel({ library, organ, recipe, seedText, onRecipe, onSeedText, onApply, onSample, onLearned, disabled, pending, updating, learnedApplied, displacementLimited, displacementFraction, expanded }: Props) {
+export function AtlasDiseasePanel({ library, organ, recipe, seedText, onRecipe, onSeedText, onApply, onSample, onLearned, learnedAvailable, disabled, pending, updating, learnedApplied, displacementLimited, displacementFraction, expanded }: Props) {
   if (!library || !organ) return <div className="atlas-surface-unavailable"><Activity size={24} /><h2>Disease controls unavailable</h2><p>This anatomy server does not provide disease morphology profiles.</p></div>;
   const profiles = library.profiles.filter(profile => profile.organ === organ);
   const selected = profiles.find(profile => profile.id === recipe?.profile_id);
@@ -47,8 +49,8 @@ export function AtlasDiseasePanel({ library, organ, recipe, seedText, onRecipe, 
       <div className="atlas-seed"><input id="atlas-disease-seed" type="text" inputMode="numeric" autoComplete="off" value={seedText} disabled={disabled} onChange={event => onSeedText(event.target.value)} /><button aria-label="Randomize disease seed" disabled={disabled} onClick={() => onRecipe({ ...recipe, seed: crypto.getRandomValues(new Uint32Array(1))[0]! })}><Shuffle size={15} /></button></div>
       <button className="atlas-btn atlas-generate" disabled={disabled} onClick={onSample}><Sparkles size={15} />Generate variation<ArrowRight size={15} /></button>
       <p className="atlas-model-help">A new seed varies shape and disease controls together. Surface settings stay fixed.</p>
-      {expanded ? <p className="atlas-model-help">Use Joint flow variation above to sample the expanded disease model. Intensity requests can be limited by this reference mesh.</p> : <><button className="atlas-sample atlas-learned" disabled={disabled} onClick={onLearned}><Sparkles size={13} />Learned disease variation</button>
-      <p className="atlas-model-help">Samples the trained synthetic prior while preserving shape and surface controls. The resulting disease seed replays the realized pattern.</p></>}
+      {expanded ? <p className="atlas-model-help">Use Joint flow variation above to sample the expanded disease model. Intensity requests can be limited by this reference mesh.</p> : <><button className="atlas-sample atlas-learned" disabled={disabled || !learnedAvailable} onClick={onLearned} title={learnedAvailable ? undefined : "The trained disease prior is unavailable"}><Sparkles size={13} />Learned disease variation</button>
+      <p className="atlas-model-help">{learnedAvailable ? "Samples the trained synthetic prior while preserving shape and surface controls. The resulting disease seed replays the realized pattern." : "The trained disease prior is unavailable. Open Trained models to check its status."}</p></>}
       {learnedApplied && <p className="atlas-model-status" role="status"><Check size={11} />Disease model variation applied</p>}
     </>}
     <div className={`atlas-recipe-state ${pending ? "pending" : ""}`} aria-live="polite">{updating ? <><span />Updating disease preview…</> : pending ? <><span />Disease changes not applied</> : <><Check size={12} />Preview matches this recipe</>}</div>

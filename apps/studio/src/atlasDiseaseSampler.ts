@@ -5,11 +5,13 @@
  *  numpy's generator gives the eight normal draws and the spatial seed (numpyRandom.ts); the conditional VAE decoder
  *  runs in float32 as the API's NumPy does; the count column snaps to sevenths and the row is clipped to the profile's
  *  training support before decode_recipe widens it to doubles. The result is the DiseaseSpec the route puts in
- *  spec.disease and the provenance record it attaches as summary.disease_model; realizing the morphology is the
- *  disease renderer's work, not this module's. atlasDiseaseSampler.test.ts replays the API's own proposals. */
+ *  spec.disease and the provenance record it attaches as summary.disease_model; the morphology is the disease
+ *  renderer's work (atlasDiseaseLocal.ts), which sampleDiseaseLocally hands the proposal to, as the route does.
+ *  atlasDiseaseSampler.test.ts replays the API's own proposals. */
 import { publicUrl } from "./api";
-import type { AtlasGeneration, AtlasSpec } from "./atlas";
-import type { AtlasDiseaseSpec } from "./atlasDisease";
+import type { AtlasGeneration, AtlasSpec, AtlasTemplate } from "./atlas";
+import type { AtlasDiseaseLibrary, AtlasDiseaseSpec } from "./atlasDisease";
+import { realizeDiseaseLocally } from "./atlasDiseaseLocal";
 import { Pcg64 } from "./numpyRandom";
 
 export const DISEASE_WEB_FORMAT = "viscera-disease-recipe-model-v1-web";
@@ -139,9 +141,10 @@ function clipToSupport(model: DiseaseModel, profileIndex: number, row: Float32Ar
   const low = tensor(model, "support.min").data, high = tensor(model, "support.max").data, base = profileIndex * FEATURES;
   return row.map((v, i) => Math.min(high[base + i]!, Math.max(low[base + i]!, v)));
 }
-/** viscera_core.atlas_disease_recipe_dataset.decode_recipe: the float32 row widened to doubles — the five controls as
- *  they are, the count back from sevenths, the location from [0, 1] to [-1, 1]; the keys in the API's order. */
-function decodeRecipe(profileId: string, values: Float32Array, seed: number): AtlasDiseaseSpec {
+/** viscera_core.atlas_disease_recipe_dataset.decode_recipe: a normalized row widened to doubles — the five controls as
+ *  they are, the count back from sevenths, the location from [0, 1] to [-1, 1]; the keys in the API's order. The
+ *  joint flow decodes its disease columns through it too (atlasJointLocal.ts). */
+export function decodeRecipe(profileId: string, values: ArrayLike<number>, seed: number): AtlasDiseaseSpec {
   const x = Array.from(values);
   if (x.length !== FEATURES || x.some((v) => !Number.isFinite(v) || v < 0 || v > 1)) throw new Error("Expected nine finite normalized recipe controls");
   return {
@@ -186,4 +189,14 @@ export function attachDiseaseProvenance(generation: AtlasGeneration, provenance:
   generation.summary.disease_model = provenance;
   (generation.scene.metadata as Record<string, unknown>).disease_model = provenance;
   return generation;
+}
+
+/** The public copy's learned disease variation, the route end to end: the proposal for the request's disease seed,
+ *  realized by the disease-v2 renderer from the bundled reference, with the model's provenance attached. The route
+ *  refuses a spec without a profile before it touches the model, so the refusal comes before the download here too. */
+export async function sampleDiseaseLocally(reference: AtlasGeneration, template: AtlasTemplate, spec: AtlasSpec, library: AtlasDiseaseLibrary | undefined, signal?: AbortSignal): Promise<AtlasGeneration> {
+  if (!spec.disease) throw new Error(DISEASE_SAMPLER_MESSAGES.noProfile);
+  const model = await loadDiseaseModel(signal);
+  const { spec: target, provenance } = proposeDiseaseSpec(model, spec);
+  return attachDiseaseProvenance(await realizeDiseaseLocally(reference, target, template, library, signal), provenance);
 }

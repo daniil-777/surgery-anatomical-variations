@@ -12,7 +12,9 @@
 //     the GPU material reads (the shader itself is the same file in both places).
 //   · appearance: tissue keeps the reference's authored colours (they depend on the shape seed, which the API owns),
 //     source uses the template's own colours (bundled), clay is one flat colour.
-// Seeds, disease, learned or joint sampling, photo-based colours and exports still need the API, and say so.
+// The disease-v2 morphology (atlasDiseaseLocal.ts), the joint flow (atlasJointLocal.ts) and the learned shape and
+// disease samplers (atlasShapeSampler.ts, atlasDiseaseSampler.ts) build on this realizer; the shape seed without a
+// surface recipe, the learned material sampler, photo analysis and exports still need the API, and say so.
 // atlasLocal.test.ts compares this file with the running API numerically.
 import type { OrganMesh, SceneData } from "@viscera/render";
 import { bundledJson } from "./api";
@@ -25,8 +27,7 @@ export const LOCAL_REALIZER_VERSION = "browser-realizer-1.0.0";
 export const CONTROL_NAMES = ["scale_x", "scale_y", "scale_z", "bend", "twist", "taper", "asymmetry"] as const;
 export const NEEDS_API = {
   seed: "The shape seed changes the authored tissue colour noise, which the VISCERA API computes; this public copy keeps the reference seed.",
-  jointDisease: "Joint variation with a disease profile needs the VISCERA API, which renders the disease morphology; this public copy samples healthy joint variations in the browser.",
-  disease: "Disease morphology is computed by the VISCERA API; this public copy shows healthy references.",
+  materialSampler: "The trained material sampler needs the VISCERA API; this public copy keeps the surface recipe you set and samples shape, disease and joint variations in the browser.",
   referenceColor: "Analysing your own photograph needs the VISCERA API; this public copy carries the analyses of its bundled photographs.",
   physicsTemplate: "This public copy prepares the hands-on liver for the two reference livers only.",
   physicsEdited: "This public copy prepares the hands-on liver for the reference shape only: reset the shape controls and sculpture, or use the local studio for a reshaped liver.",
@@ -281,10 +282,11 @@ function bundledSourceColors(templateId: string, signal?: AbortSignal): Promise<
 }
 
 // ---------------------------------------------------------------------------------------------- realize
-/** What the API answers for `spec`, from the bundled reference of its template. */
+/** What the API answers for a healthy `spec`, from the bundled reference of its template. A spec with a disease recipe
+ *  belongs to the disease-v2 renderer (atlasDiseaseLocal.ts), whose realizeSpecLocally chooses between the two. */
 export async function realizeLocally(reference: AtlasGeneration, spec: AtlasSpec, template: AtlasTemplate, signal?: AbortSignal): Promise<AtlasGeneration> {
   if (spec.template_id !== reference.spec.template_id) throw new Error("The bundled reference belongs to another template.");
-  if (spec.disease) throw new Error(NEEDS_API.disease);
+  if (spec.disease) throw new Error("realizeLocally renders healthy surfaces; a disease spec goes through realizeSpecLocally (atlasDiseaseLocal.ts).");
   // the seed only colours the authored vertex noise, which the tissue material's shader does not read (vertexColors off):
   // a tissue specimen with a surface recipe may carry any seed (the joint flow samples with the request seed)
   if (spec.seed !== reference.spec.seed && !(spec.appearance === "tissue" && spec.material)) throw new Error(NEEDS_API.seed);

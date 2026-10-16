@@ -154,7 +154,8 @@ if (r.status !== 0) { console.error(r.stdout, r.stderr); throw new Error('vite b
 console.log(r.stdout.split('\n').filter((l) => /built in/.test(l)).join('\n'));
 if (fs.readdirSync(path.join(OUT, 'assets')).some((f) => f.endsWith('.map'))) throw new Error('source maps were written');
 fs.writeFileSync(path.join(OUT, 'api.json'), apiJson);
-for (const f of ['index.html', 'textures.html', 'models/joint-v2/model.json', 'models/joint-v2/weights.bin', 'default-scene.json', 'anatomy-scene/bodyparts3d-torso.glb', 'anatomy-scene/manifest.json', 'body-reference/catalog.json', 'textures/manifest.json'])
+// the models the browser samplers read (joint flow, shape and disease samplers, the disease renderer's support) travel with the build
+for (const f of ['index.html', 'textures.html', 'models/joint-v2/model.json', 'models/joint-v2/weights.bin', 'models/shape-v2/model.json', 'models/shape-v2/weights.bin', 'models/disease-recipes-v2/model.json', 'models/disease-recipes-v2/weights.bin', 'models/disease-v2/index.json', 'default-scene.json', 'anatomy-scene/bodyparts3d-torso.glb', 'anatomy-scene/manifest.json', 'body-reference/catalog.json', 'textures/manifest.json'])
   if (!fs.existsSync(path.join(OUT, f))) throw new Error(`${f} missing after the build`);
 fs.mkdirSync(STATIC_API, { recursive: true });
 fs.cpSync(path.dirname(keep), STATIC_API, { recursive: true });

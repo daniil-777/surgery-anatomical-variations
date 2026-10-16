@@ -599,6 +599,14 @@ export function diseaseTemplateOf(reference: AtlasGeneration, template: AtlasTem
   return p;
 }
 
+/** POST /api/atlas/generate in the browser, for every spec the studio builds: one with a disease recipe goes through
+ *  the disease-v2 renderer below, a healthy one through realizeLocally (whose shape, appearance and surface already
+ *  match the API to 1e-6 mm). The samplers realize their proposals through this one dispatch, so a sampled disease
+ *  lands in the same renderer as an authored one. */
+export function realizeSpecLocally(reference: AtlasGeneration, spec: AtlasSpec, template: AtlasTemplate, library: AtlasDiseaseLibrary | undefined, signal?: AbortSignal): Promise<AtlasGeneration> {
+  return spec.disease ? realizeDiseaseLocally(reference, spec, template, library, signal) : realizeLocally(reference, spec, template, signal);
+}
+
 /** What the API answers for a disease-v2 `spec` (POST /api/atlas/generate), from the bundled reference of its template:
  *  the healthy surface realized by realizeLocally at the source-safe controls, then the disease morphology, its colours,
  *  QA and provenance with the API's field names. `library` is the catalogue's disease library (the profiles). */

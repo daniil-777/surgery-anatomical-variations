@@ -59,18 +59,37 @@ async function check(name, url, mode, steps) {
   console.log(`${ok ? 'ok  ' : 'FAIL'}  ${name.padEnd(14)} ${((Date.now() - t) / 1000).toFixed(1).padStart(5)} s   ${info}`);
 }
 
+const enabled = (label) => `[...document.querySelectorAll('button')].some((b) => b.textContent.trim() === ${JSON.stringify(label)} && !b.disabled)`;
+const shown = (selector, re) => `[...document.querySelectorAll(${JSON.stringify(selector)})].some((e) => ${re}.test(e.textContent)) || window.__viscera.errors.length > 0`;
 await check('atlas', '', 'atlas', async (page) => {
-  // the joint flow samples in the browser (atlasJointLocal.ts): the button must apply a variation without the API
-  await flag(page, "[...document.querySelectorAll('button')].some((b) => b.textContent.trim() === 'Joint flow variation' && !b.disabled)");
+  // every sampler that runs in the browser, pressed once: the joint flow (atlasJointLocal.ts), the trained shape model
+  // (atlasShapeSampler.ts), a disease profile and its variation (atlasDiseaseLocal.ts), the joint flow with that disease
+  await flag(page, enabled('Joint flow variation'));
   if (!await button(page, 'Joint flow variation')) throw new Error('joint flow button unavailable');
-  await flag(page, "[...document.querySelectorAll('.atlas-model-status')].some((e) => /Joint flow variation applied/.test(e.textContent)) || window.__viscera.errors.length > 0");
+  await flag(page, shown('.atlas-model-status', /Joint flow variation applied/));
   const seed = await page.evaluate(() => document.getElementById('atlas-joint-seed')?.value ?? null);
   await button(page, 'New joint variation');
   await flag(page, `(document.getElementById('atlas-joint-seed')?.value ?? null) !== ${JSON.stringify(seed)} || window.__viscera.errors.length > 0`);
   await new Promise((r) => setTimeout(r, 3000));
+  await flag(page, enabled('Learned variation'));
+  if (!await button(page, 'Learned variation')) throw new Error('learned variation button unavailable');
+  await flag(page, shown('.atlas-model-status', /Model variation applied/));
+  await page.click('#atlas-tab-disease');
+  await page.waitForSelector('select[aria-label="Disease profile"]');
+  const profile = await page.$eval('select[aria-label="Disease profile"]', (s) => [...s.options].find((o) => o.value && !o.disabled)?.value ?? null);
+  if (!profile) throw new Error('no supported disease profile to pick');
+  await page.select('select[aria-label="Disease profile"]', profile);
+  await flag(page, shown('.atlas-stage-disease', /synthetic prototype/));
+  const diseaseSeed = await page.evaluate(() => document.getElementById('atlas-disease-seed')?.value ?? null);
+  if (!await button(page, 'Generate variation')) throw new Error('disease variation button unavailable');
+  await flag(page, `(document.getElementById('atlas-disease-seed')?.value ?? null) !== ${JSON.stringify(diseaseSeed)} || window.__viscera.errors.length > 0`);
+  await flag(page, shown('.atlas-disease-panel .atlas-recipe-state', /Preview matches this recipe/));
+  if (!await button(page, 'Joint flow variation')) throw new Error('joint flow button unavailable with a disease');
+  await flag(page, shown('.atlas-model-status', /Joint flow variation applied/));
+  if (!await page.$('.atlas-stage-disease')) throw new Error('the joint flow variation dropped the disease');
   await page.evaluate(() => [...document.querySelectorAll('button')].find((b) => b.textContent.trim() === 'Surface')?.click());
   await new Promise((r) => setTimeout(r, 2500));
-  return 'joint flow sampled twice · Surface tab opened';
+  return `joint flow, learned shape, disease ${profile} and joint flow with it sampled · Surface tab opened`;
 });
 await check('scene', '?mode=scene', 'scene', async () => 'whole scene ready');
 await check('legacy', '?mode=legacy', 'legacy', async () => 'procedural studio ready');

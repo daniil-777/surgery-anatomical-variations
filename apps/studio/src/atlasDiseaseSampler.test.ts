@@ -95,10 +95,20 @@ describe("the disease recipe sampler in the browser", () => {
 });
 
 // ---------------------------------------------------------------------------------------------- against the API itself
-import { validateAtlasDiseaseSampling, type AtlasGeneration } from "./atlas";
+import fs from "node:fs";
+import path from "node:path";
+import { validateAtlasDiseaseSampling, validateAtlasGeneration, type AtlasCatalog, type AtlasGeneration, type AtlasTemplate } from "./atlas";
 import type { AtlasDiseaseSpec } from "./atlasDisease";
-import { primeDiseaseModel } from "./atlasDiseaseSampler";
+import { primeDiseaseModel, sampleDiseaseLocally } from "./atlasDiseaseSampler";
+import { parseDiseaseSupport, primeDiseaseSupport, type DiseaseSupportIndex } from "./atlasDiseaseLocal";
 import type { AtlasMaterialRecipe } from "./atlasMaterial";
+
+/** The disease renderer's bundled support for a template, read from disk: Node has no base URL for publicUrl. */
+function primeSupportFromDisk(templateId: string): void {
+  const index = JSON.parse(read("../public/models/disease-v2/index.json").toString()) as DiseaseSupportIndex;
+  const entry = index.templates[templateId]!, bytes = read(`../public/models/disease-v2/${entry.file}`);
+  primeDiseaseSupport(templateId, parseDiseaseSupport(entry, bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength) as ArrayBuffer));
+}
 
 const API = (process.env.VISCERA_API_URL ?? "http://127.0.0.1:8000").replace(/\/$/, "");
 const online = await fetch(`${API}/api/health`, { signal: AbortSignal.timeout(3000) }).then((r) => r.ok, () => false);
@@ -138,6 +148,37 @@ describe.skipIf(!online)("the browser disease sampler against the API's route", 
     }
     console.log(`${cases.length} profiles live: spec.disease within ${worst.toExponential(2)} relative, disease_model identical`);
   }, 120_000); // the API realizes each proposal's morphology (seconds per organ the first time)
+
+  it("realizes the proposal as the route does: the studio's offline learned disease variation, end to end", async () => {
+    primeDiseaseModel(model);
+    const catalog = (await fetch(`${API}/api/atlas/catalog`).then((r) => r.json())) as AtlasCatalog;
+    const templateRoot = process.env.VISCERA_ATLAS_TEMPLATES ?? path.resolve(process.cwd(), "datasets/atlas/cohort-v2/templates");
+    const controls = Object.fromEntries(catalog.controls.map((c) => [c.key, c.default]));
+    for (const [templateId, profileId, seed] of [["hra-liver-female", "liver-cirrhosis", 42], ["hra-kidney-male-left", "kidney-polycystic", 1729]] as const) {
+      primeSupportFromDisk(templateId);
+      const organ = catalog.organs.find((o) => o.templates.some((t) => t.id === templateId))!;
+      const template = { ...organ.templates.find((t) => t.id === templateId)! } as AtlasTemplate;
+      template.normalization_mm = JSON.parse(fs.readFileSync(path.join(templateRoot, `${templateId}.json`), "utf8")).normalization_mm;
+      const spec: AtlasSpec = { renderer_version: "disease-v2", template_id: templateId, seed: 42, appearance: "tissue", controls, material: { ...catalog.materials!.defaults[organ.id]! }, disease: { ...catalog.diseases!.defaults[organ.id]!, profile_id: profileId, seed } };
+      const reference = (await post("/api/atlas/generate", { ...spec, disease: null })).json as AtlasGeneration;
+      const answer = await post("/api/atlas/sample-disease", { spec, seed });
+      expect(answer.status, JSON.stringify(answer.json).slice(0, 200)).toBe(200);
+      const api = answer.json as AtlasGeneration;
+      const ours = await sampleDiseaseLocally(reference, template, spec, catalog.diseases);
+      expectSameRecipe(ours.spec.disease as unknown as Record<string, unknown>, api.spec.disease as unknown as Record<string, unknown>);
+      expect(ours.summary.disease_model).toEqual(api.summary.disease_model);
+      expect((ours.scene.metadata as Record<string, unknown>).disease_model).toEqual(api.summary.disease_model);
+      const positions = maxAbs(ours.scene.organs[0]!.positions, api.scene.organs[0]!.positions);
+      // the recipe differs from the API's by float32 rounding (≤ 4 ulps, ~2e-7 relative) and enters the site
+      // amplitudes linearly: a few 1e-7 of a displacement of some millimetres
+      expect(positions).toBeLessThan(1e-5);
+      const apiDisease = api.summary.disease as Record<string, unknown>, ourDisease = ours.summary.disease as Record<string, unknown>;
+      for (const key of ["requested_sites", "realized_sites", "displacement_limited_by_source_mesh"]) expect(ourDisease[key], key).toEqual(apiDisease[key]);
+      validateAtlasGeneration(ours, catalog);
+      validateAtlasDiseaseSampling(spec, ours);
+      console.log(`${templateId} ${profileId} seed ${seed}: sampled and realized in the browser, positions within ${positions.toExponential(2)} mm of the route`);
+    }
+  }, 120_000);
 
   it("refuses with the route's own words", async () => {
     const spec: AtlasSpec = { renderer_version: "disease-v2", template_id: "hra-liver-female", seed: 42, appearance: "tissue", controls: {}, disease: { profile_id: "liver-capsular-cyst", seed: 42, severity: 0.55, size: 0.5, spread: 0.5, irregularity: 0.35, contrast: 0.45, count: 3, location: [0.25, 0.15, 0.8] } };

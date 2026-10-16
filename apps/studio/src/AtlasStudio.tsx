@@ -1,6 +1,9 @@
-import { OFFLINE_MESSAGE, apiGet, apiOnline, apiUrl, reportError, reportReady } from "./api";
-import { bundledReference, realizeLocally } from "./atlasLocal";
+import { apiGet, apiOnline, apiUrl, reportError, reportReady } from "./api";
+import { NEEDS_API, bundledReference } from "./atlasLocal";
+import { realizeSpecLocally } from "./atlasDiseaseLocal";
+import { diseaseModelInfo, sampleDiseaseLocally } from "./atlasDiseaseSampler";
 import { jointModelInfo, sampleJointLocally } from "./atlasJointLocal";
+import { sampleShapeLocally, shapeModelInfo } from "./atlasShapeSampler";
 import { PhotoDetailControl } from "./PhotoDetailControl";
 import type { PhotoTileInfo } from "./photoDetail";
 import { ApiNotice } from "./ApiNotice";
@@ -111,6 +114,9 @@ export default function AtlasStudio({ textureLab = false }: { textureLab?: boole
   const [textAdapterAvailable, setTextAdapterAvailable] = useState(false);
   const [useTextAdapter, setUseTextAdapter] = useState(false);
   const [jointAvailable, setJointAvailable] = useState(false);
+  // the trained shape and disease samplers: active in the model status and, without the API, bundled with this copy
+  const [learnedAvailable, setLearnedAvailable] = useState(false);
+  const [diseaseSamplerAvailable, setDiseaseSamplerAvailable] = useState(false);
   const [jointTemperature, setJointTemperature] = useState(1);
   const [jointGeneration, setJointGeneration] = useState<1 | 2>(1);
   const jointGenerationRef = useRef<1 | 2>(1);
@@ -153,16 +159,21 @@ export default function AtlasStudio({ textureLab = false }: { textureLab?: boole
   useEffect(() => {
     if (wholeSceneOpen) return;
     const controller = new AbortController();
-    // the public copy carries the API's model status and, for the joint flow, the model itself
+    // the public copy carries the API's model status and, for the samplers that run in the browser, the models
+    // themselves (public/models/*): without the API a sampler is available when its metadata is bundled
     void apiGet("/api/atlas/models", { signal: controller.signal }, "atlas/models.json").then(async response => {
       if (!response.ok) throw new Error("Text adapter availability could not be checked");
       const status = await response.json();
       updateLanguageState(status.source === "imported" && status.language_enabled === true && !status.wording_bundle_sha256);
-      const sampler = (await apiOnline()) || await jointModelInfo(controller.signal).then(() => true, () => false);
-      setJointAvailable(sampler && status.lanes?.joint?.status === "active" && /^[a-f0-9]{64}$/.test(status.joint_bundle_sha256));
+      const online = await apiOnline();
+      const bundled = (info: (signal: AbortSignal) => Promise<unknown>) => online || info(controller.signal).then(() => true, () => false);
+      const [joint, shape, disease] = await Promise.all([bundled(jointModelInfo), bundled(shapeModelInfo), bundled(diseaseModelInfo)]);
+      setJointAvailable(joint && status.lanes?.joint?.status === "active" && /^[a-f0-9]{64}$/.test(status.joint_bundle_sha256));
+      setLearnedAvailable(shape && status.lanes?.shape?.status === "active");
+      setDiseaseSamplerAvailable(disease && status.lanes?.disease?.status === "active");
       const generation = status.joint_generation === 2 ? 2 : 1;
       setJointGeneration(generation); jointGenerationRef.current = generation;
-    }).catch(() => { if (!controller.signal.aborted) { updateLanguageState(false); setJointAvailable(false); } });
+    }).catch(() => { if (!controller.signal.aborted) { updateLanguageState(false); setJointAvailable(false); setLearnedAvailable(false); setDiseaseSamplerAvailable(false); } });
     return () => controller.abort();
   }, [updateLanguageState, wholeSceneOpen]);
   const [variationStrength, setVariationStrength] = useState(1);
@@ -220,16 +231,20 @@ export default function AtlasStudio({ textureLab = false }: { textureLab?: boole
     try {
       let result: unknown;
       if (!(await apiOnline())) {
-        // the public copy has no generation service: shape controls, appearance and surface recipes are realized here
-        // (atlasLocal.ts) from the bundled reference specimen of the template; sampling, disease and seeds need the API
-        // (atlasLocal.ts) from the bundled reference specimen of the template, and the joint flow samples healthy
-        // variations here (atlasJointLocal.ts); disease, the other samplers and seeds need the API
-        if (options.sampleDisease || options.learned || options.sampleSurface) throw new Error(OFFLINE_MESSAGE);
+        // the public copy has no generation service: the API's routes run in the browser from the bundled reference
+        // specimen of the template — the joint flow (atlasJointLocal.ts), the trained shape sampler (atlasShapeSampler.ts),
+        // the trained disease sampler (atlasDiseaseSampler.ts), and plain generation through realizeSpecLocally
+        // (the disease-v2 morphology in atlasDiseaseLocal.ts, the healthy surface in atlasLocal.ts); the trained
+        // material sampler alone still needs the API
+        if (options.sampleSurface) throw new Error(NEEDS_API.materialSampler);
         const reference = await bundledReference(spec.template_id, controller.signal);
         const template = library.organs.flatMap((organ) => organ.templates).find((item) => item.id === spec.template_id);
         if (!template) throw new Error("Unknown reference.");
-        result = joint ? await sampleJointLocally(reference, template, spec, options.jointTemperature!, options.severity ?? "auto", controller.signal)
-          : sameAtlasRecipe(spec, defaultAtlasSpec(library, spec.template_id)) ? reference : await realizeLocally(reference, spec, template, controller.signal);
+        result = joint ? await sampleJointLocally(reference, template, spec, options.jointTemperature!, options.severity ?? "auto", library.diseases, controller.signal)
+          : options.learned ? await sampleShapeLocally(reference, template, spec, options.matchDimensions ?? true, library.diseases, controller.signal)
+          : options.sampleDisease ? await sampleDiseaseLocally(reference, template, spec, library.diseases, controller.signal)
+          : sameAtlasRecipe(spec, defaultAtlasSpec(library, spec.template_id)) ? reference
+          : await realizeSpecLocally(reference, spec, template, library.diseases, controller.signal);
       } else {
         const response = await fetch(apiUrl(joint ? "/api/atlas/sample-joint" : options.sampleDisease ? "/api/atlas/sample-disease" : options.learned ? "/api/atlas/sample" : options.sampleSurface ? "/api/atlas/sample-material" : "/api/atlas/generate"), {
           method: "POST", headers: { "Content-Type": "application/json" },
@@ -704,7 +719,7 @@ export default function AtlasStudio({ textureLab = false }: { textureLab?: boole
           <p className="atlas-sculpt-report" role="status">{sculptReport || "Drag a point on the organ to begin."}</p>
           <p className="atlas-control-intro">Undo and redo preserve complete strokes. Surface colors and vessels follow the tissue, and both exports include the sculpted shape.</p>
           <p className="atlas-surface-evidence">Geometry-inspired authoring with local stretch and fold guards. This tool does not simulate measured tissue mechanics or prevent every self-intersection.</p>
-        </div> : inspectorTab === "disease" ? <div id="atlas-disease-panel" role="tabpanel" aria-labelledby="atlas-tab-disease"><AtlasDiseasePanel library={catalog?.diseases} organ={selectedOrgan?.id} recipe={draft?.disease} seedText={diseaseSeedText} onRecipe={editDisease} onSeedText={editDiseaseSeed} onApply={applyDraft} onSample={() => sampleVariation(true)} onLearned={learnedDiseaseVariation} disabled={!generated || controlsDisabled} pending={diseasePending} updating={busy === "preview"} learnedApplied={Boolean(generated?.summary.disease_model)} displacementLimited={displacementLimited} displacementFraction={displacementFraction} expanded={jointGeneration === 2} /></div> : inspectorTab === "surface" ? <div id="atlas-surface-panel" role="tabpanel" aria-labelledby="atlas-tab-surface">{textureLab && <div className="atlas-lab-intro" role="note"><strong>Texture lab.</strong> Real tissue detail cut from licensed surgical photographs lies over the procedural material of the organs that have one: strength, relief and the photograph's colour below. The organ studio proper keeps its procedural surfaces; this is a viewer layer, exports do not carry it. <a href="?mode=atlas">Open the organ studio without it</a>.</div>}<section className="atlas-vessel-controls" aria-label="Surface vessels">
+        </div> : inspectorTab === "disease" ? <div id="atlas-disease-panel" role="tabpanel" aria-labelledby="atlas-tab-disease"><AtlasDiseasePanel library={catalog?.diseases} organ={selectedOrgan?.id} recipe={draft?.disease} seedText={diseaseSeedText} onRecipe={editDisease} onSeedText={editDiseaseSeed} onApply={applyDraft} onSample={() => sampleVariation(true)} onLearned={learnedDiseaseVariation} learnedAvailable={diseaseSamplerAvailable} disabled={!generated || controlsDisabled} pending={diseasePending} updating={busy === "preview"} learnedApplied={Boolean(generated?.summary.disease_model)} displacementLimited={displacementLimited} displacementFraction={displacementFraction} expanded={jointGeneration === 2} /></div> : inspectorTab === "surface" ? <div id="atlas-surface-panel" role="tabpanel" aria-labelledby="atlas-tab-surface">{textureLab && <div className="atlas-lab-intro" role="note"><strong>Texture lab.</strong> Real tissue detail cut from licensed surgical photographs lies over the procedural material of the organs that have one: strength, relief and the photograph's colour below. The organ studio proper keeps its procedural surfaces; this is a viewer layer, exports do not carry it. <a href="?mode=atlas">Open the organ studio without it</a>.</div>}<section className="atlas-vessel-controls" aria-label="Surface vessels">
           <div className="atlas-recipe-heading"><span>Surface vessels</span><label><input type="checkbox" aria-label="Show surface vessels" disabled={!generated?.spec.material} checked={vesselsEnabled} onChange={e => setVesselsEnabled(e.target.checked)} /> Visible</label></div>
           <p className="atlas-control-intro">Fine, tapering branches embedded in the tissue finish.</p>
           <div className="atlas-controls">
@@ -731,9 +746,9 @@ export default function AtlasStudio({ textureLab = false }: { textureLab?: boole
         <button className="atlas-sample" onClick={() => sampleVariation()} disabled={!draft || controlsDisabled}><Shuffle size={13} />Sample shape from seed</button>
         <p className="atlas-model-help">The same seed and range reproduce the same shape. Editing the seed alone does not deform it.</p>
         <div className="atlas-model-controls">
-          <button className="atlas-sample atlas-learned" onClick={learnedVariation} disabled={!draft || controlsDisabled || Boolean(draft.disease)} title={draft?.disease ? jointGeneration === 2 ? "Use Joint flow variation above" : "Use Learned disease variation in the Disease tab" : undefined}>{busy === "learned" ? <LoaderCircle size={13} className="atlas-spinning" /> : <Sparkles size={13} />}Learned variation</button>
-          <label className="atlas-model-dimensions"><input type="checkbox" checked={matchDimensions} disabled={!draft || modelSwitching || Boolean(busy) || Boolean(draft.disease)} onChange={(event) => setMatchDimensions(event.target.checked)} />Keep overall dimensions</label>
-          <p className="atlas-model-help">{draft?.disease ? jointGeneration === 2 ? "Use Joint flow variation above to vary shape, colour and the selected disease together." : "Shape-only sampling is unavailable with disease active. Use the Disease tab." : "Trained shape model · synthetic design distribution"}</p>
+          <button className="atlas-sample atlas-learned" onClick={learnedVariation} disabled={!draft || controlsDisabled || Boolean(draft.disease) || !learnedAvailable} title={draft?.disease ? jointGeneration === 2 ? "Use Joint flow variation above" : "Use Learned disease variation in the Disease tab" : learnedAvailable ? undefined : "The trained shape model is unavailable"}>{busy === "learned" ? <LoaderCircle size={13} className="atlas-spinning" /> : <Sparkles size={13} />}Learned variation</button>
+          <label className="atlas-model-dimensions"><input type="checkbox" checked={matchDimensions} disabled={!draft || modelSwitching || Boolean(busy) || Boolean(draft.disease) || !learnedAvailable} onChange={(event) => setMatchDimensions(event.target.checked)} />Keep overall dimensions</label>
+          <p className="atlas-model-help">{draft?.disease ? jointGeneration === 2 ? "Use Joint flow variation above to vary shape, colour and the selected disease together." : "Shape-only sampling is unavailable with disease active. Use the Disease tab." : learnedAvailable ? "Trained shape model · synthetic design distribution" : "The trained shape model is unavailable. Open Trained models to check its status."}</p>
           {Boolean(generated?.summary.model) && <p className="atlas-model-status" role="status"><Check size={11} />Model variation applied</p>}
         </div>
         <section className="atlas-specimen-info"><h2>Displayed specimen</h2><dl><dt>Triangles</dt><dd>{generated ? count(stats.triangles) : "—"}</dd><dt>Vertices</dt><dd>{generated ? count(stats.vertices) : "—"}</dd><dt>Seed</dt><dd>{generated?.spec.seed ?? "—"}</dd><dt>Appearance</dt><dd>{modes.find((mode) => mode.id === generated?.spec.appearance)?.label ?? "—"}</dd></dl>

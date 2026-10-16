@@ -6,19 +6,19 @@
  *  refined against the exact deformation decoder by scipy's bounded trust-region least squares
  *  (trustRegionReflective.ts) until the box matches within 0.1 %; without "keep dimensions" it is one training
  *  design drawn at random. Float64 throughout, with the one float32 rounding numpy applies to the encoded
- *  conditions. Healthy references only: a disease profile needs the API's disease renderer.
+ *  conditions. The sampler sees the geometry alone, as the route's geometry_spec() does; the surface recipe and a
+ *  disease profile ride along into the realizer (realizeSpecLocally), as the route's decoration does.
  *  atlasShapeSampler.test.ts replays the API's own samples and compares with the running API. */
 import { publicUrl } from "./api";
 import type { AtlasGeneration, AtlasSpec, AtlasTemplate } from "./atlas";
-import { CONTROL_NAMES, LOCAL_REALIZER_VERSION, deformVertices, realizeLocally } from "./atlasLocal";
+import type { AtlasDiseaseLibrary } from "./atlasDisease";
+import { realizeSpecLocally } from "./atlasDiseaseLocal";
+import { CONTROL_NAMES, LOCAL_REALIZER_VERSION, deformVertices } from "./atlasLocal";
 import { Pcg64 } from "./numpyRandom";
 import { leastSquaresTrf } from "./trustRegionReflective";
 
 export const SHAPE_WEB_FORMAT = "viscera-atlas-control-model-v1-web";
 export const SHAPE_METHOD = "ridge";
-export const SHAPE_NEEDS_API = {
-  disease: "Learned variation with a disease profile needs the VISCERA API, which renders the disease morphology; this public copy samples healthy learned variations in the browser.",
-} as const;
 
 export interface ShapeTemplateEntry {
   id: string; organ_id: number; condition_mean: number[]; condition_scale: number[]; condition_available: boolean[];
@@ -325,9 +325,10 @@ export function sampleShapeControls(model: ShapeModel, templateId: string, seed:
   return { controls: controlRecord(controls), provenance, targets, currentExtentsMm: current, attempts };
 }
 
-/** The public copy's learned variation: sample here, realize here, and carry the provenance the API's route attaches. */
-export async function sampleShapeLocally(reference: AtlasGeneration, template: AtlasTemplate, spec: AtlasSpec, matchDimensions: boolean, signal?: AbortSignal): Promise<AtlasGeneration> {
-  if (spec.disease) throw new Error(SHAPE_NEEDS_API.disease);
+/** The public copy's learned variation (POST /api/atlas/sample): sample here, realize here — the disease-v2 renderer
+ *  when the spec carries a disease, realizeLocally otherwise — and carry the provenance the API's route attaches.
+ *  `library` is the catalogue's disease library, which the disease renderer reads. */
+export async function sampleShapeLocally(reference: AtlasGeneration, template: AtlasTemplate, spec: AtlasSpec, matchDimensions: boolean, library?: AtlasDiseaseLibrary, signal?: AbortSignal): Promise<AtlasGeneration> {
   const model = await loadShapeModel(signal);
   const entry = model.meta.templates.find((t) => t.id === spec.template_id);
   if (!entry) throw new Error(`Unsupported template: ${spec.template_id}`);
@@ -342,7 +343,7 @@ export async function sampleShapeLocally(reference: AtlasGeneration, template: A
   if (!organ) throw new Error("The reference has no organ.");
   const sample = sampleShapeControls(model, spec.template_id, spec.seed, matchDimensions, { controls: spec.controls, restPositions: organ.rest_positions ?? organ.positions });
   const target: AtlasSpec = { ...spec, controls: sample.controls };
-  const generation = await realizeLocally(reference, target, { ...template, control_limits: entry.control_limits, normalization_mm: entry.normalization_mm }, signal);
+  const generation = await realizeSpecLocally(reference, target, { ...template, control_limits: entry.control_limits, normalization_mm: entry.normalization_mm }, library, signal);
   const provenance = {
     ...sample.provenance,
     sampled_by: { version: LOCAL_REALIZER_VERSION, scope: "public copy: the API's ridge proposal and trust-region dimension refinement repeated in the browser (float64), the result realized here" },

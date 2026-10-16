@@ -118,6 +118,6 @@ describe.skipIf(!online)("browser realizer against the API", () => {
     expect(localReseeded.spec.seed).toBe(43);
     expect(maxAbs(localReseeded.scene.organs[0]!.positions, reseeded.scene.organs[0]!.positions)).toBeLessThan(1e-6);
     await expect(realizeLocally(reference, { ...clay, seed: 43 }, template)).rejects.toThrow(/seed/);
-    await expect(realizeLocally(reference, { ...spec, disease: { profile_id: "x", seed: 1, severity: 0.5 } } as never, template)).rejects.toThrow(/Disease/);
+    await expect(realizeLocally(reference, { ...spec, disease: { profile_id: "x", seed: 1, severity: 0.5 } } as never, template)).rejects.toThrow(/realizeSpecLocally/);
   }, 120000);
 });
