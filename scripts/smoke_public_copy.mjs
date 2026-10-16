@@ -1,7 +1,8 @@
 // scripts/smoke_public_copy.mjs — opens the built public copy in headless Chrome the way a visitor does: the organ
 // studio must become ready without errors and sample a joint flow variation in the browser, the whole scene, the
 // procedural studio and the texture lab must become ready; the organ studio must not carry the texture lab's layer.
-//   node scripts/smoke_public_copy.mjs [dir=public-copy] [--chrome PATH] [--port 8123] [--budget 300000] [--out DIR]
+//   node scripts/smoke_public_copy.mjs [dir=public-copy] [--url https://host/path/] [--chrome PATH] [--port 8123] [--budget 300000] [--out DIR]
+// With --url the published copy is checked instead of a local folder.
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
@@ -20,10 +21,12 @@ const OUTDIR = opt.out || fs.mkdtempSync(path.join(os.tmpdir(), 'viscera-smoke-'
 const CHROME = [opt.chrome, process.env.CHROME, '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', '/usr/bin/google-chrome', '/usr/bin/google-chrome-stable', '/usr/bin/chromium-browser', '/usr/bin/chromium']
   .find((p) => p && fs.existsSync(p));
 if (!CHROME) { console.error('no Chrome found: pass --chrome PATH or set $CHROME'); process.exit(2); }
-if (!fs.existsSync(path.join(DIR, 'index.html'))) { console.error(`${DIR} has no index.html`); process.exit(2); }
+const LIVE = typeof opt.url === 'string' ? opt.url.replace(/\/?$/, '/') : null;
+if (!LIVE && !fs.existsSync(path.join(DIR, 'index.html'))) { console.error(`${DIR} has no index.html`); process.exit(2); }
 
-const server = await serve(DIR, PORT);
-const base = `http://127.0.0.1:${PORT}/`;
+const server = LIVE ? null : await serve(DIR, PORT);
+const base = LIVE ?? `http://127.0.0.1:${PORT}/`;
+console.log(`smoke: ${base}`);
 const browser = await puppeteer.launch({ executablePath: CHROME, headless: true,
   args: ['--no-sandbox', '--disable-dev-shm-usage', '--window-size=1380,820', ...(process.platform === 'darwin' ? ['--use-angle=metal'] : ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'])] });
 let failures = 0;
@@ -74,6 +77,6 @@ await check('legacy', '?mode=legacy', 'legacy', async () => 'procedural studio r
 await check('textures', 'textures.html', 'textures', async () => { await new Promise((r) => setTimeout(r, 2500)); return 'texture lab ready with its tiles'; });
 
 await browser.close();
-server.close();
+server?.close();
 console.log(`${4 - failures}/4 checks passed · screenshots in ${OUTDIR}`);
 process.exit(failures ? 1 : 0);
