@@ -72,7 +72,8 @@ if (opt['keep-specimens']) {
     const spec = { ...(catalog.renderer_version ? { renderer_version: catalog.renderer_version } : {}), template_id: template.id, seed: 42,
       controls: Object.fromEntries(catalog.controls.map((c) => [c.key, c.default])), appearance: 'tissue',
       ...(catalog.materials ? { material: { ...catalog.materials.defaults[organ.id] } } : {}) };
-    const r = await fetch(`${API}/api/atlas/generate`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(spec) });
+    const r = await fetch(`${API}/api/atlas/generate`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(spec) })
+      .catch((error) => { throw new Error(`${template.id}: the API connection failed (${error.cause?.message ?? error.message}); is the API still running?`); });
     if (r.status === 422) {   // a template the API itself refuses (its QA gate): the studio says so when picked
       const detail = (await r.text()).slice(0, 200);
       unavailable.push({ id: template.id, detail });

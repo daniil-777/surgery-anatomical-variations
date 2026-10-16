@@ -31,7 +31,7 @@ jobs:
       - run: uv venv .venv --python 3.11 && uv pip install --python .venv/bin/python --index-strategy unsafe-best-match --index-url https://download.pytorch.org/whl/cpu --extra-index-url https://pypi.org/simple -r deploy/requirements.txt
       - name: start the API for the snapshots
         run: |
-          PYTHONPATH=py:. nohup .venv/bin/python -m uvicorn services.api.app:app --host 127.0.0.1 --port 8000 --log-level warning > api.log 2>&1 &
+          PYTHONPATH=py:. PYTHONFAULTHANDLER=1 OMP_NUM_THREADS=2 nohup .venv/bin/python -X faulthandler -m uvicorn services.api.app:app --host 127.0.0.1 --port 8000 --log-level info > api.log 2>&1 &
           for i in $(seq 1 90); do curl -sf http://127.0.0.1:8000/api/health >/dev/null && break; sleep 2; done
           curl -sf http://127.0.0.1:8000/api/health
       - run: node scripts/build_public_copy.mjs --out public-copy
@@ -40,7 +40,10 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with: { path: public-copy }
       - if: failure()
-        run: tail -50 api.log || true
+        run: |
+          echo "== api.log"; tail -80 api.log || true
+          echo "== kernel"; sudo dmesg 2>/dev/null | grep -iE "killed process|out of memory|segfault" | tail -5 || true
+          echo "== memory"; free -m || true; pgrep -fl uvicorn || echo "uvicorn is gone"
   deploy:
     needs: build
     runs-on: ubuntu-latest
