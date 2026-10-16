@@ -335,11 +335,10 @@ export async function sampleShapeLocally(reference: AtlasGeneration, template: A
   // the API checks the displayed reference against the model's training template by artifact hash and refuses a
   // spec whose template hash is stale; here the bundled reference is the displayed one
   const displayed = reference.spec.template_sha256;
+  // the two repaired references (templates-v3: male heart, male bladder) display a hash the model never saw; the
+  // API's route accepts it, samples on the trained vertices and binds the displayed hash, as extentDecoder and the
+  // realizer do here
   if (typeof displayed === "string" && displayed !== entry.artifact_sha256 && displayed !== entry.display_artifact_sha256) throw new Error("Selected reference does not match the model training template");
-  // the API's /api/atlas/sample binds the frozen cohort-v2 reference and refuses the two repaired references
-  // (templates-v3: male heart, male bladder) whose displayed hash differs from it; the public copy refuses the same
-  // way instead of offering a variation the local studio would not
-  if (typeof displayed === "string" && displayed !== entry.artifact_sha256) throw new Error("The trained shape sampler binds this organ's frozen reference, not its repaired one, so the local studio refuses it too; use the joint flow variation, which samples the repaired reference.");
   if (typeof spec.template_sha256 === "string" && spec.template_sha256 !== displayed) throw new Error("Displayed reference changed; reload before sampling");
   const limits = template.control_limits, normalization = template.normalization_mm;
   if ((Array.isArray(limits) && !(limits.length === CONTROLS && limits.every((value, i) => value === entry.control_limits[i]))) || (typeof normalization === "number" && normalization !== entry.normalization_mm)) throw new Error("Selected reference does not match the model training template");

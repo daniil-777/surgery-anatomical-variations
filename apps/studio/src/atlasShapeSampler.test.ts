@@ -7,6 +7,7 @@ import path from "node:path";
 import { inflateRawSync } from "node:zlib";
 import { describe, expect, it } from "vitest";
 import type { AtlasGeneration, AtlasSpec, AtlasTemplate } from "./atlas";
+import { parseDiseaseSupport, primeDiseaseSupport, type DiseaseSupportIndex } from "./atlasDiseaseLocal";
 import { CONTROL_NAMES } from "./atlasLocal";
 import { parseShapeModel, primeShapeModel, sampleShapeControls, sampleShapeLocally, type ShapeModelMeta, type ShapeProvenance, type ShapeRefinement } from "./atlasShapeSampler";
 import { Pcg64 } from "./numpyRandom";
@@ -184,22 +185,37 @@ describe.skipIf(!online)("the browser shape sampler against the API's route", ()
     primeShapeModel(model);
     const catalog = await fetch(`${API}/api/atlas/catalog`).then((r) => r.json());
     const zero = Object.fromEntries(catalog.controls.map((c: { key: string; default: number }) => [c.key, c.default])) as Record<string, number>;
-    const cases: [string, number, boolean, Record<string, number>][] = [
+    // the last flag asks for a disease-v2 spec: displayed from templates-v3, whose hash differs from the trained
+    // cohort-v2 one for the male bladder and the male heart (the route binds the displayed hash, the sampler
+    // measures on the trained vertices)
+    const cases: [string, number, boolean, Record<string, number>, boolean?][] = [
       ["hra-liver-female", 42, true, zero], ["hra-liver-female", 42, false, zero], ["hra-liver-female", 42, true, { ...zero, scale_x: 0.3, bend: -0.4, twist: 0.2 }],
       ["bp3d-stomach-male", 7, true, zero], ["hra-urinary-bladder-male", 7, true, zero],
+      ["hra-urinary-bladder-male", 7, true, zero, true], ["hra-urinary-bladder-male", 11, true, { ...zero, scale_z: -0.3, taper: 0.25 }, true],
+      ["hra-heart-male", 42, true, zero, true], ["hra-heart-male", 42, false, zero, true],
     ];
+    // a disease-v2 spec realizes through the disease renderer, which reads its template's bundled support files;
+    // node has no page to fetch them from, so they are primed from disk as the browser would have fetched them
+    const supportIndex = JSON.parse(read("../public/models/disease-v2/index.json").toString()) as DiseaseSupportIndex;
+    const primeSupport = (templateId: string) => {
+      const entry = supportIndex.templates[templateId]!, bytes = read(`../public/models/disease-v2/${entry.file}`);
+      primeDiseaseSupport(templateId, parseDiseaseSupport(entry, bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength) as ArrayBuffer));
+    };
     const worst = { controls: 0, positions: 0 };
-    for (const [templateId, seed, match, controls] of cases) {
+    for (const [templateId, seed, match, controls, v2 = false] of cases) {
       const organ = catalog.organs.find((o: { templates: { id: string }[] }) => o.templates.some((t) => t.id === templateId));
       const template = organ.templates.find((t: { id: string }) => t.id === templateId) as AtlasTemplate;
-      const spec: AtlasSpec = { template_id: templateId, seed, controls, appearance: "tissue" };
+      const spec: AtlasSpec = { ...(v2 ? { renderer_version: "disease-v2" as const } : {}), template_id: templateId, seed, controls, appearance: "tissue" };
       // the displayed reference is the template's default specimen with this seed, as the public copy bundles it
       const reference = (await post("/api/atlas/generate", { ...spec, controls: zero })) as AtlasGeneration;
-      const api = (await post("/api/atlas/sample", { spec, match_dimensions: match })) as AtlasGeneration;
-      const ours = await sampleShapeLocally(reference, template, spec, match);
+      // the studio sends the displayed, bound spec; the route must accept the displayed hash and bind it again
+      const api = (await post("/api/atlas/sample", { spec: { ...spec, template_sha256: reference.spec.template_sha256 }, match_dimensions: match })) as AtlasGeneration;
+      expect(api.spec.template_sha256).toBe(reference.spec.template_sha256);
+      if (v2) primeSupport(templateId);
+      const ours = await sampleShapeLocally(reference, template, spec, match, catalog.diseases);
       expect(Object.keys(ours.spec.controls)).toEqual(Object.keys(api.spec.controls));
       const deltaControls = maxAbs(CONTROL_NAMES.map((n) => ours.spec.controls[n]!), CONTROL_NAMES.map((n) => api.spec.controls[n]!));
-      for (const key of ["template_id", "seed", "appearance", "template_sha256"]) expect(ours.spec[key]).toEqual(api.spec[key]);
+      for (const key of ["renderer_version", "template_id", "seed", "appearance", "template_sha256"]) expect(ours.spec[key]).toEqual(api.spec[key]);
       const theirs = api.summary.model as ShapeProvenance, mine = ours.summary.model as ShapeProvenance;
       for (const key of ["method", "model_sha256", "scope", "sampling", "match_dimensions", "refinement_status", "attempt"] as const) expect(mine[key]).toEqual(theirs[key]);
       expect(Object.keys(mine.requested_dimensions_mm)).toEqual(Object.keys(theirs.requested_dimensions_mm));
@@ -212,7 +228,7 @@ describe.skipIf(!online)("the browser shape sampler against the API's route", ()
       expect((ours.scene.metadata as Record<string, unknown>).model).toBe(ours.summary.model);
       const deltaPositions = maxAbs(ours.scene.organs[0]!.positions, api.scene.organs[0]!.positions);
       worst.controls = Math.max(worst.controls, deltaControls); worst.positions = Math.max(worst.positions, deltaPositions);
-      console.log(`${templateId} seed ${seed} match ${match}: provenance agrees; controls within ${deltaControls.toExponential(2)}, positions within ${deltaPositions.toExponential(2)} mm (${match ? `${(theirs.refinement as ShapeRefinement).decoder_calls} decoder calls` : "bootstrap"})`);
+      console.log(`${templateId}${v2 ? " (disease-v2)" : ""} seed ${seed} match ${match}: provenance agrees; controls within ${deltaControls.toExponential(2)}, positions within ${deltaPositions.toExponential(2)} mm (${match ? `${(theirs.refinement as ShapeRefinement).decoder_calls} decoder calls` : "bootstrap"})`);
     }
     // the bootstrap path is exact (positions to 3e-14 mm); the refined one agrees to the solver's level (the fixture
     // test: controls ≤ 1e-7), and a control difference δ moves a vertex by at most δ · limit · normalisation · |q|

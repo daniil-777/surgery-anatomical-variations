@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import os
 from pathlib import Path
-from typing import Any, Literal
+from typing import Any, Literal, TypeVar
 
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import Response
@@ -77,6 +77,29 @@ def template_root() -> Path:
     return Path(
         os.environ.get("VISCERA_ATLAS_TEMPLATES", ROOT / "datasets/atlas/cohort-v2/templates")
     )
+
+
+SamplerSpec = TypeVar("SamplerSpec", bound=BaseModel)
+
+
+def unbind_for_sampler(spec: AtlasSpec, inner: SamplerSpec) -> tuple[SamplerSpec, dict[str, str]]:
+    """The trained shape and material samplers check a request's template_sha256 against the frozen cohort-v2
+    reference they were trained on and bind that hash to their result. A disease-v2 specimen is displayed from the
+    versioned library instead (templates-v3), whose hash differs for the two repaired references (male heart, male
+    bladder): the sampler would refuse the displayed hash, and the v2 realizer the sampler's. So for a v2 request the
+    route itself checks the displayed hash against the versioned library, hands the sampler the hash-free `inner`
+    spec (its geometry or surface part), and returns the binding that restores the displayed hash on the sampler's
+    result before the v2 realizer binds it. A legacy request is realized on the library its sampler binds: unchanged."""
+    if not isinstance(spec, DiseaseAtlasSpecV2):
+        return inner, {}
+    from viscera_core.atlas_scene import get_template
+
+    displayed = get_template(versioned_template_root(template_root()), spec.template_id).metadata[
+        "artifact_sha256"
+    ]
+    if spec.template_sha256 is not None and spec.template_sha256 != displayed:
+        raise ValueError("Displayed reference changed; reload before sampling")
+    return inner.model_copy(update={"template_sha256": None}), {"template_sha256": displayed}
 
 
 class CompileRequest(BaseModel):
@@ -295,9 +318,8 @@ def sample(request: SampleRequest) -> dict[str, Any]:
     dataset = Path(os.environ.get("VISCERA_ATLAS_DATASET", ROOT / "datasets/atlas/cohort-v2"))
     try:
         model = resolve_model(ROOT, "shape")
-        result = sample_model(
-            template_root(), model, dataset, request.spec.geometry_spec(), request.match_dimensions
-        )
+        geometry, binding = unbind_for_sampler(request.spec, request.spec.geometry_spec())
+        result = sample_model(template_root(), model, dataset, geometry, request.match_dimensions)
         if (
             request.spec.material is not None
             or request.spec.disease is not None
@@ -315,6 +337,7 @@ def sample(request: SampleRequest) -> dict[str, Any]:
                     if request.spec.material
                     else None,
                     "disease": request.spec.disease.model_dump() if request.spec.disease else None,
+                    **binding,
                 }
             )
             decorated = realize(template_root(), target)
@@ -390,13 +413,9 @@ def sample_material(request: MaterialSampleRequest) -> dict[str, Any]:
     )
     try:
         model = resolve_model(ROOT, "material")
+        surface, binding = unbind_for_sampler(request.spec, request.spec.surface_spec())
         result = sample_material_model(
-            template_root(),
-            model,
-            dataset,
-            request.spec.surface_spec(),
-            request.seed,
-            request.conditions,
+            template_root(), model, dataset, surface, request.seed, request.conditions
         )
         if request.spec.disease is not None or isinstance(request.spec, DiseaseAtlasSpecV2):
             target = parse_spec(
@@ -408,6 +427,7 @@ def sample_material(request: MaterialSampleRequest) -> dict[str, Any]:
                         else {}
                     ),
                     "disease": request.spec.disease.model_dump() if request.spec.disease else None,
+                    **binding,
                 }
             )
             decorated = realize(template_root(), target)

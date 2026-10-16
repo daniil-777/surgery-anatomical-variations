@@ -296,7 +296,10 @@ export async function realizeLocally(reference: AtlasGeneration, spec: AtlasSpec
   if (!organ) throw new Error("The reference has no organ.");
   const arrays = organ as OrganMesh & { rest_positions?: number[]; material_regions?: number[] };
   const rest = arrays.rest_positions ?? organ.positions, faces = organ.indices;
-  const cache = faceCache(spec.template_id, rest, faces);
+  // the rest surface belongs to the displayed reference, not to the template alone: the two repaired references
+  // (templates-v3) move one vertex of the cohort-v2 surface, and a session that realizes both (the tests do) must
+  // not judge one surface's face areas against the other's
+  const cache = faceCache(`${spec.template_id}:${reference.spec.template_sha256 ?? "unbound"}`, rest, faces);
 
   // the shape: requested controls, halved until the checks pass (the API projects the same way, with its own gate)
   const requested = { ...spec.controls };
