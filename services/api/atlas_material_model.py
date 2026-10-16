@@ -15,7 +15,8 @@ from viscera_core.atlas_surface_scene import SurfaceAtlasSpec, realize
 
 @lru_cache(maxsize=4)
 def _load(path: str, model_mtime: int, metadata_mtime: int) -> Any:
-    from pipelines.train.viscera_train.atlas_material import load_model
+    # The trainer's loader, its pinned source checks under the reviewed renderer extension.
+    from .atlas_material_compat import load_model
 
     return load_model(Path(path))
 
@@ -32,6 +33,8 @@ def sample_material_model(
 
     from pipelines.train.viscera_train import atlas_material as prior
 
+    from .atlas_material_compat import verify_material_release
+
     model = _load(
         str(model_path.resolve()),
         model_path.stat().st_mtime_ns,
@@ -41,7 +44,7 @@ def sample_material_model(
     if model["metadata"]["identity"]["dataset_release_sha256"] != release_hash:
         raise ValueError("Material sampler dataset/model release mismatch")
     # Dataset verifier pins all field anchors and decoder source, not just a path.
-    dataset.verify_material_release(data_path)
+    verify_material_release(data_path)
     template = get_template(template_root, spec.template_id)
     organ = template.metadata["organ"]
     current = spec.material or make_recipe(organ)

@@ -21,7 +21,8 @@ import numpy as np
 FORMAT = "viscera-final-training-v1"
 # This version's dependency set is frozen. Additive modules (such as the joint
 # VAE) must not invalidate already trained original bundles. Every original
-# renderer/trainer dependency is still required to match byte for byte.
+# renderer/trainer dependency is still required to match byte for byte, except
+# the one reviewed renderer extension (atlas_renderer_compat).
 LEGACY_CORE_SOURCES = (
     "__init__.py",
     "atlas.py",
@@ -205,6 +206,21 @@ def _extract(archive_path: Path, target: Path, *, prefix: str = "viscera-weights
                                     raise ValueError("Unsafe or inconsistent NumPy weight array")
 
 
+def _verify_trained_sources(root: Path, code: Any) -> None:
+    """Every original decoder/trainer file is the one the bundle was trained with, byte for byte; the
+    one reviewed renderer extension (atlas_renderer_compat) is accepted for its training bytes."""
+    from .atlas_renderer_compat import matches_renderer_source
+
+    sources = [
+        *(root / "py/viscera_core" / name for name in LEGACY_CORE_SOURCES),
+        *(root / "pipelines/train/viscera_train" / name for name in LEGACY_TRAIN_SOURCES),
+    ]
+    for path in sources:
+        name = str(path.relative_to(root))
+        if not matches_renderer_source(name, code.get(name), digest(path)):
+            raise ValueError(f"Weight decoder/trainer source mismatch: {path.name}")
+
+
 def _validate_models(root: Path, directory: Path, manifest: dict[str, Any]) -> dict[str, Any]:
     """Use the same safe loaders and exact release/decoder contracts as inference."""
     from viscera_core import (
@@ -212,7 +228,6 @@ def _validate_models(root: Path, directory: Path, manifest: dict[str, Any]) -> d
         atlas_disease_dataset,
         atlas_disease_geometry_dataset,
         atlas_disease_recipe_dataset,
-        atlas_material_dataset,
     )
     from viscera_core.atlas_scene import get_template
 
@@ -222,6 +237,8 @@ def _validate_models(root: Path, directory: Path, manifest: dict[str, Any]) -> d
         atlas_material,
         atlas_shape,
     )
+
+    from . import atlas_material_compat as material_compat
 
     paths = data_paths(root)
     dependencies = manifest.get("dataset_dependencies")
@@ -237,16 +254,10 @@ def _validate_models(root: Path, directory: Path, manifest: dict[str, Any]) -> d
         or identity.get("release_hashes") != dependencies
     ):
         raise ValueError("Only complete full-profile runs with matching releases can activate")
-    sources = [
-        *(root / "py/viscera_core" / name for name in LEGACY_CORE_SOURCES),
-        *(root / "pipelines/train/viscera_train" / name for name in LEGACY_TRAIN_SOURCES),
-    ]
-    code = identity.get("code_hashes", {})
-    for path in sources:
-        if code.get(str(path.relative_to(root))) != digest(path):
-            raise ValueError(f"Weight decoder/trainer source mismatch: {path.name}")
+    _verify_trained_sources(root, identity.get("code_hashes", {}))
     atlas_dataset.verify_release(paths["shape"])
-    atlas_material_dataset.verify_material_release(paths["material"])
+    # The material lane's pinned checks run as inference runs them (atlas_material_compat).
+    material_compat.verify_material_release(paths["material"])
     atlas_disease_recipe_dataset.verify_release(paths["disease_recipes"])
     atlas_disease_geometry_dataset.verify_release(paths["disease_geometry"])
     clinical_release = atlas_disease_dataset.verify_release(paths["clinical"])
@@ -263,13 +274,13 @@ def _validate_models(root: Path, directory: Path, manifest: dict[str, Any]) -> d
     ):
         raise ValueError("Shape model allocation exceeds the supported architecture")
     shape = atlas_shape.load_model(directory / FILES["shape"])
-    material = atlas_material.load_model(directory / FILES["material"])
+    material = material_compat.load_model(directory / FILES["material"])
     disease = atlas_disease.load_recipe_model(directory / FILES["disease"])
     clinical = atlas_disease.load_source_model(directory / "clinical/source_model.json")
     if shape["condition_names"] != list(atlas_dataset.CONDITION_NAMES):
         raise ValueError("Shape model measurement names differ from the editor contract")
     shape_train = atlas_shape.read_split(paths["shape"], "train")
-    material_train = atlas_material_dataset.read_split(paths["material"], "train")
+    material_train = material_compat.read_split(paths["material"], "train")
     disease_train = atlas_disease_recipe_dataset.read_split(paths["disease_recipes"], "train")
     if (
         set(shape["preprocessing"]["templates"]) != set(shape_train["template_ids"].tolist())

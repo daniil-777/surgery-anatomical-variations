@@ -1,10 +1,13 @@
-"""Reviewed renderer extensions that preserve joint-model material recipes.
+"""Reviewed renderer extensions that preserve trained models' material recipes.
 
-Joint models never emit reference_color. The optional reference-colour extension
-keeps the original material calculations and serialized recipes unchanged when
-that field is absent. Its exact source revision is covered by frozen-renderer
-parity tests in test_joint_material_compatibility.py. Any other edit still fails
-the normal renderer integrity check; model archives are never rewritten.
+Neither the joint models nor the material prior emit reference_color. The optional
+reference-colour extension keeps the original material calculations and serialized
+recipes unchanged when that field is absent. Its exact source revision is covered by
+frozen-renderer parity tests: test_joint_material_compatibility.py for the joint
+lanes, test_material_lane_compatibility.py for the material sampler lane
+(atlas_material_compat) and the import of trained bundles (atlas_model_registry).
+Any other edit still fails the normal renderer integrity check; releases and model
+archives are never rewritten.
 """
 
 _MATERIAL_SOURCE = "py/viscera_core/atlas_materials.py"
