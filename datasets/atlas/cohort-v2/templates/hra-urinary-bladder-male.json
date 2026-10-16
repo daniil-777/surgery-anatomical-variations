@@ -1,0 +1,297 @@
+{
+  "artifact_sha256": "4870b9af312358bf033da927c0bce9e30caebb7844f6f6e60283c5cd7e532d24",
+  "attribution": "Browne, Kristen, and Heidi Schlehlein. 2024. *3D Reference Organ for Urinary Bladder, Male v1.2*. https://doi.org/10.48539/HBM722.RMHQ.397. Accessed on June 15, 2024.",
+  "attribution_verified": true,
+  "clean_faces_sha256": "40830a265ed34aeb5e3d19f00c1c7fc5c0ac0d02da896ab991ab13d3c77e7b78",
+  "cleaning_components": [
+    {
+      "clean_face_count": 4888,
+      "component": "VH_M_fundus_of_urinary_bladder_base1",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 4888,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 4498,
+      "component": "VH_M_fundus_of_urinary_bladder_dome",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 4498,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 112,
+      "component": "VH_M_urinary_bladder_neck_smooth_muscle",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 112,
+      "winding_after": true,
+      "winding_before": true
+    }
+  ],
+  "cleaning_policy": "Drop triangles with area <=1e-12 mm2; repair winding per connected component on welded audit copy with minimum face reversals and transfer only face reversal. No vertex movement or connectivity additions.",
+  "cohort_eligible": true,
+  "colors_provenance": "Source schematic material colors; glTF linear factors converted to sRGB after trimesh 8-bit quantization",
+  "colors_space": "sRGB",
+  "components": [
+    {
+      "face_count": 4888,
+      "face_start": 0,
+      "name": "VH_M_fundus_of_urinary_bladder_base1",
+      "source_geometry": "VH_M_fundus_of_urinary_bladder_base1",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 2636,
+      "vertex_start": 0
+    },
+    {
+      "face_count": 4498,
+      "face_start": 4888,
+      "name": "VH_M_fundus_of_urinary_bladder_dome",
+      "source_geometry": "VH_M_fundus_of_urinary_bladder_dome",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 2395,
+      "vertex_start": 2636
+    },
+    {
+      "face_count": 112,
+      "face_start": 9386,
+      "name": "VH_M_urinary_bladder_neck_smooth_muscle",
+      "source_geometry": "VH_M_urinary_bladder_neck_smooth_muscle",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 114,
+      "vertex_start": 5031
+    }
+  ],
+  "control_limit_provenance": "design_heuristic; not measured population intervals",
+  "control_limits": [
+    0.09,
+    0.09,
+    0.09,
+    0.045,
+    0.06,
+    0.05,
+    0.03
+  ],
+  "control_names": [
+    "scale_x",
+    "scale_y",
+    "scale_z",
+    "bend",
+    "twist",
+    "taper",
+    "asymmetry"
+  ],
+  "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+  "deformer_version": "invertible-atlas-controls-1.0.0",
+  "evidence_kind": "expert_authored",
+  "excluded_source_nodes": [
+    "VH_M_trigone_of_urinary_bladder",
+    "VH_M_ureteral_orifice_L",
+    "VH_M_ureteral_orifice_R"
+  ],
+  "extent_mm": [
+    63.80895525217056,
+    39.86523766070604,
+    72.3138190805912
+  ],
+  "face_count": 9498,
+  "face_map_keys": [
+    "source_to_clean_face_indices",
+    "clean_to_source_face_indices",
+    "clean_face_orientation_reversed",
+    "source_faces"
+  ],
+  "generator_version": "invertible-atlas-controls-1.0.0",
+  "geometry_sha256": "e9d4b2ecfc6a5ebabcbe2acc834f644e31f83966f9e1b241c0587970fee7f974",
+  "inverse_coordinate_transform": "source_world = source_to_authoring_rotation.T @ (vertices_mm + source_center_mm) / source_to_mm_scale",
+  "laterality": null,
+  "license": "CC-BY-4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "mesh_role": "annotated_display_surface_assembly_not_organ_envelope",
+  "modifications": "Selected named display components, applied scene transforms, explicit units, bounding-box centering. Removed degenerate triangles and repaired winding with reversible face maps. No smoothing, decimation or remeshing.",
+  "normalization_mm": 36.1569095402956,
+  "organ": "urinary-bladder",
+  "organ_id": "urinary-bladder",
+  "population_prevalence": null,
+  "profile": "development_preview",
+  "removed_degenerate_faces": 0,
+  "reversed_faces": 0,
+  "review_status": "unreviewed",
+  "selection_policy_version": "external-display-components-1.1.0",
+  "sex_label": "male",
+  "source_center_mm": [
+    -4.978083074092865,
+    30.371861066669226,
+    18.707504495978355
+  ],
+  "source_citation": "Browne, Kristen, and Heidi Schlehlein. 2024. *3D Reference Organ for Urinary Bladder, Male v1.2*. https://doi.org/10.48539/HBM722.RMHQ.397. Accessed on June 15, 2024.",
+  "source_collection": "HRA",
+  "source_creators": [
+    {
+      "id": "https://orcid.org/0000-0003-4066-7531",
+      "name": "Kristen Browne"
+    },
+    {
+      "id": "https://orcid.org/0000-0002-3333-5646",
+      "name": "Heidi Schlehlein"
+    }
+  ],
+  "source_derivation_description": "This reference organ, Urinary-bladder-male (https://humanatlas.io/3d-reference-library) was created using data from\nthe Visible Human Male, provided by the National Library of Medicine (Spitzer et al. 1996; Ackerman 1998).\n\n**Bibliography:**\n\n* Ackerman, Michael J. 1998. \u201cThe Visible Human Project.\u201d *Proceedings of the IEEE* 86 (3): 504\u201311. https://doi.org/10.1109/5.662875.\n* Spitzer, V., M. J. Ackerman, A. L. Scherzinger, and D. Whitlock. 1996. \u201cThe Visible Human Male: A Technical Report.\u201d *Journal of the American Medical Informatics Association* 3 (2): 118\u201330. https://doi.org/10.1136/jamia.1996.96236280.",
+  "source_doi": "https://doi.org/10.48539/HBM722.RMHQ.397",
+  "source_faces_sha256": "40830a265ed34aeb5e3d19f00c1c7fc5c0ac0d02da896ab991ab13d3c77e7b78",
+  "source_geometry_sha256": "e9d4b2ecfc6a5ebabcbe2acc834f644e31f83966f9e1b241c0587970fee7f974",
+  "source_group_id": "hra-visible-human-male",
+  "source_group_reason": "Conservative atlas ancestry grouping; organ files are not independent donors",
+  "source_license_statement": "Creative Commons Attribution 4.0 International ([CC BY 4.0](https://creativecommons.org/licenses/by/4.0/))",
+  "source_metadata_file": "attribution/hra-urinary-bladder-male.jsonld",
+  "source_metadata_sha256": "12e7ff34f15c73247e96511aa739b75dcb666b8c8511e97cd2c832597ace9fdb",
+  "source_metadata_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/urinary-bladder-male/v1.2/metadata.jsonld",
+  "source_overall_citation": "Browne, Kristen, Heidi Schlehlein, Bruce W. Herr II, Ellen Quardokus, Andreas Bueckle, and Katy B\u00f6rner. 2024. *HuBMAP CCF 3D Reference Object Library*. Accessed on June 15, 2024. https://humanatlas.io/3d-reference-library).",
+  "source_release": "11th Release (v2.5)",
+  "source_sha256": "070893aea9139d9a2c4f8da3aa66ca309a3c683a599d93a37dd7031c7d71021d",
+  "source_title": "3D Reference Organ for Urinary Bladder, Male",
+  "source_to_authoring_rotation": [
+    [
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      1,
+      0
+    ],
+    [
+      0,
+      0,
+      1
+    ]
+  ],
+  "source_to_mm_scale": 1000.0,
+  "source_topology_audit": {
+    "boundary_edges_after_audit_weld": 186,
+    "connected_vertex_components": 2,
+    "degenerate_faces": 0,
+    "method": "trimesh-geometric-weld-audit-copy-1.0",
+    "nonmanifold_edges_after_audit_weld": 0,
+    "self_intersection": {
+      "reason": "No robust intersection backend",
+      "status": "NOT_RUN"
+    },
+    "simulation_readiness": {
+      "reason": "No volumetric domain/materials",
+      "status": "NOT_RUN"
+    },
+    "watertight_after_audit_weld": false,
+    "weld_precision_mm": 1e-08,
+    "winding_consistent_after_audit_weld": true,
+    "zero_length_edges": 0
+  },
+  "source_up_axis": "Y (glTF convention); patient-axis interpretation not asserted",
+  "source_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/urinary-bladder-male/v1.2/assets/3d-vh-m-urinary-bladder.glb",
+  "template_id": "hra-urinary-bladder-male",
+  "template_version": "atlas-display-1.1.0",
+  "topology_audit": {
+    "boundary_edges_after_audit_weld": 186,
+    "connected_vertex_components": 2,
+    "degenerate_faces": 0,
+    "method": "trimesh-geometric-weld-audit-copy-1.0",
+    "nonmanifold_edges_after_audit_weld": 0,
+    "self_intersection": {
+      "reason": "No robust intersection backend",
+      "status": "NOT_RUN"
+    },
+    "simulation_readiness": {
+      "reason": "No volumetric domain/materials",
+      "status": "NOT_RUN"
+    },
+    "watertight_after_audit_weld": false,
+    "weld_precision_mm": 1e-08,
+    "winding_consistent_after_audit_weld": true,
+    "zero_length_edges": 0
+  },
+  "unit": "mm",
+  "units_evidence": "glTF 2.0 linear distances use metres; explicit multiplication by 1000",
+  "vertex_count": 5145
+}

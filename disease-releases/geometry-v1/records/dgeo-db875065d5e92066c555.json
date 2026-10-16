@@ -1,0 +1,245 @@
+{
+  "appearance_evidence": "authored_vertex_color_not_measured_tissue_texture",
+  "clinical_review_status": "unreviewed",
+  "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+  "disease_field": {
+    "applied_displacement_fraction": 1.0,
+    "clinical_stage": null,
+    "color_strength": 0.45249051156906717,
+    "fields": [
+      {
+        "amplitude_mm": 2.013070023083249,
+        "center_mm": [
+          31.5593,
+          -43.77500000000032,
+          10.071050000000014
+        ],
+        "direction": [
+          0.1708703491922945,
+          -0.9201562296348783,
+          -0.3523007760863273
+        ],
+        "radius_mm": 19.3242860440242
+      },
+      {
+        "amplitude_mm": 2.16304766792207,
+        "center_mm": [
+          -24.5565,
+          -32.03500000000031,
+          10.61805000000001
+        ],
+        "direction": [
+          -0.35200280973614795,
+          0.3243478770356984,
+          -0.8780048272078536
+        ],
+        "radius_mm": 19.3242860440242
+      }
+    ],
+    "gradient_bound_per_step": 0.1929714069366455,
+    "pattern": "mass",
+    "profile_id": "stomach-gist",
+    "realized_sites": 2,
+    "requested_sites": 2,
+    "steps": 3,
+    "surface_site_frame": "undeformed-atlas-Y-up-mm",
+    "target_srgb": [
+      0.67,
+      0.45,
+      0.32
+    ],
+    "version": "disease-morphology-design-1.0.0"
+  },
+  "display_normal_sha256": "98fb6064ef3a09eda7341c10a30b2218f1ca491279ea1bc7fe1413575b6d4242",
+  "face_count": 1810,
+  "features": [
+    134.4756,
+    117.00999999999999,
+    112.8901,
+    38615.56111452566,
+    6.110475226082775,
+    1.0
+  ],
+  "geometry_evidence": "authored_disease_surface_from_licensed_reference_template",
+  "geometry_sha256": "23c6c019fc961200dde7ce94cffe023fcd9aef8fd0e3b533868f4ad2194d51a1",
+  "group_id": "stomach-gist:1123915395",
+  "mechanics_evidence": "none",
+  "normal_fallback_count": 0,
+  "organ": "stomach",
+  "parent_recipe_index": 166,
+  "parent_sample_id": "stomach-gist:1123915395",
+  "path": "records/dgeo-db875065d5e92066c555.json",
+  "patient_id": null,
+  "point_count": 2048,
+  "point_sampling_seed": 3937931895,
+  "profile_id": "stomach-gist",
+  "qa": {
+    "anatomical_plausibility": {
+      "status": "NOT_RUN"
+    },
+    "area_ratio_max": 1.780970140615584,
+    "area_ratio_min": 0.9133876936390162,
+    "continuous_jacobian_lower_bound": 0.1452112616085735,
+    "mechanical_validation": {
+      "status": "NOT_RUN"
+    },
+    "min_normal_dot": 0.8016368559839431,
+    "new_degenerate_faces": 0,
+    "normal_turns_over_90_degrees": 0,
+    "passed": true,
+    "scope": "finite nondegenerate same-topology outer-surface design",
+    "self_intersection": {
+      "reason": "Discrete/source triangle intersections not certified",
+      "status": "NOT_RUN"
+    },
+    "source_topology": {
+      "boundary_edges_after_audit_weld": 0,
+      "connected_vertex_components": 1,
+      "degenerate_faces": 0,
+      "method": "trimesh-geometric-weld-audit-copy-1.0",
+      "nonmanifold_edges_after_audit_weld": 0,
+      "self_intersection": {
+        "reason": "No robust intersection backend",
+        "status": "NOT_RUN"
+      },
+      "simulation_readiness": {
+        "reason": "No volumetric domain/materials",
+        "status": "NOT_RUN"
+      },
+      "watertight_after_audit_weld": true,
+      "weld_precision_mm": 1e-08,
+      "winding_consistent_after_audit_weld": true,
+      "zero_length_edges": 0
+    },
+    "status": "PASS",
+    "topology_preserved": true
+  },
+  "realized_id": "5da1d15b7a89bbb6c33c55d3cc07ded031f1796614534e7fafa1a32ade1f35a6",
+  "recipe_features": [
+    0.5609633922576904,
+    0.8705560564994812,
+    0.29826194047927856,
+    0.26771852374076843,
+    0.8066310882568359,
+    0.1428571492433548,
+    0.7021335959434509,
+    0.31894466280937195,
+    0.5986478924751282
+  ],
+  "sample_id": "dgeo-db875065d5e92066c555",
+  "source_attribution": "BodyParts3D, \u00a9 The Database Center for Life Science licensed under CC Attribution 4.0 International",
+  "source_group_id": "bodyparts3d-adult-male-atlas",
+  "source_license": "CC-BY-4.0",
+  "source_template_artifact_sha256": "2c8008326d3c6a2a073bcd3799ad5ebe99518c07793aa0bc6ddb0777e7e254cf",
+  "source_template_geometry_sha256": "cee13678d42392b6abcdbcb1c833e9156584c899f80025b816b39d7721bd44f8",
+  "source_url": "https://dbarchive.biosciencedbc.jp/data/bodyparts3d/LATEST/partof_BP3D_4.0_obj_99.zip",
+  "spec": {
+    "appearance": "tissue",
+    "controls": {
+      "asymmetry": 0.0,
+      "bend": 0.0,
+      "scale_x": 0.0,
+      "scale_y": 0.0,
+      "scale_z": 0.0,
+      "taper": 0.0,
+      "twist": 0.0
+    },
+    "disease": {
+      "contrast": 0.8066310882568359,
+      "count": 2,
+      "irregularity": 0.26771852374076843,
+      "location": [
+        0.40426719188690186,
+        -0.3621106743812561,
+        0.19729578495025635
+      ],
+      "profile_id": "stomach-gist",
+      "seed": 1123915395,
+      "severity": 0.5609633922576904,
+      "size": 0.8705560564994812,
+      "spread": 0.29826194047927856
+    },
+    "realized_id": "5da1d15b7a89bbb6c33c55d3cc07ded031f1796614534e7fafa1a32ade1f35a6",
+    "seed": 1123915395,
+    "template_id": "bp3d-stomach-male",
+    "template_sha256": "2c8008326d3c6a2a073bcd3799ad5ebe99518c07793aa0bc6ddb0777e7e254cf"
+  },
+  "split": "val",
+  "split_track": "within_generator",
+  "summary": {
+    "disease": {
+      "applied_displacement_fraction": 1.0,
+      "displacement_limited_by_source_mesh": false,
+      "evidence": "synthetic_surface_morphology_not_patient_or_population_geometry",
+      "internal_anatomy_generated": false,
+      "max_displacement_mm": 6.110475226082775,
+      "physical_parameters_inferred": false,
+      "profile": {
+        "clinical_source_url": "https://www.cancer.gov/types/soft-tissue-sarcoma/hp/gist-treatment-pdq",
+        "evidence": "image_reference_not_paired_3d_supervision",
+        "id": "stomach-gist",
+        "label": "Gastric stromal tumor (GIST)",
+        "limits": "Resected tumor rather than the whole stomach; archival scan was sharpened and contrast-adjusted by its creator. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+        "morphology_targets": [
+          "exophytic mass shape",
+          "gastric-wall attachment",
+          "internal heterogeneity"
+        ],
+        "organ": "stomach",
+        "pattern": "mass",
+        "source_ref": "I09",
+        "source_url": "https://commons.wikimedia.org/wiki/File:Gastrointestinal_Stromal_Tumor_(GIST)_of_Stomach.jpg",
+        "supported": true,
+        "unavailable_reason": ""
+      },
+      "realized_sites": 2,
+      "recipe": {
+        "contrast": 0.8066310882568359,
+        "count": 2,
+        "irregularity": 0.26771852374076843,
+        "location": [
+          0.40426719188690186,
+          -0.3621106743812561,
+          0.19729578495025635
+        ],
+        "profile_id": "stomach-gist",
+        "seed": 1123915395,
+        "severity": 0.5609633922576904,
+        "size": 0.8705560564994812,
+        "spread": 0.29826194047927856
+      },
+      "requested_sites": 2,
+      "version": "disease-morphology-design-1.0.0"
+    },
+    "extent_mm": [
+      134.4756,
+      117.00999999999999,
+      112.8901
+    ],
+    "measurements": {
+      "compactness": null,
+      "extent_x_mm": 134.4756,
+      "extent_y_mm": 117.00999999999999,
+      "extent_z_mm": 112.8901,
+      "method": "disease-display-triangle-measurements-1.0.0",
+      "surface_area_definition": "Sum of selected triangles including capsule/internal faces",
+      "surface_area_mm2": 38615.56111452566,
+      "volume_ml": null,
+      "volume_reason": "Display surface assembly is not a certified closed outer envelope",
+      "volume_status": "NOT_APPLICABLE"
+    },
+    "min_jacobian": 0.1452112616085735,
+    "min_jacobian_kind": "conservative_bound",
+    "organ": "stomach",
+    "profile": "development_preview",
+    "qa_scope": "finite nondegenerate same-topology outer-surface design",
+    "qa_status": "PASS",
+    "reference": "bp3d-stomach-male",
+    "review_status": "unreviewed",
+    "triangles": 1810,
+    "vertices": 914
+  },
+  "template_id": "bp3d-stomach-male",
+  "units": "mm",
+  "vertex_count": 914
+}

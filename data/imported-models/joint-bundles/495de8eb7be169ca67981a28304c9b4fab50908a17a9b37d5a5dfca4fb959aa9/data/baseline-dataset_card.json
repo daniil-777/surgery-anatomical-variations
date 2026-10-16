@@ -1,0 +1,26 @@
+{
+  "attribution": "See reference_catalog.json for per-template CC BY attribution",
+  "conditions": 24,
+  "coupling": "documented heuristic design correlation; not measured disease physiology",
+  "displacement_limited_count": 0,
+  "independent_patient_count": 0,
+  "lane": "baseline",
+  "limitations": [
+    "not donor-held-out clinical validation",
+    "not measured tissue albedo or physics",
+    "same-topology outer-surface deformations only",
+    "source mesh limitations retained",
+    "fixed spatial field phase within each condition",
+    "baseline does not certify healthy anatomy"
+  ],
+  "points_per_surface": 128,
+  "sample_count": 2304,
+  "scope": "paired authored geometry and colour samples from the frozen Studio renderer",
+  "split_track": "within-generator grouped synthetic parents; shared atlases across splits",
+  "splits": {
+    "audit": 336,
+    "train": 1632,
+    "val": 336
+  },
+  "templates": 24
+}

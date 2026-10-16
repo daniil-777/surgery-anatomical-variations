@@ -1,0 +1,48 @@
+{
+  "artifact_hashes": {
+    "audit.npz": "4fbdc528ba6e0c0b299234912ddd969dffc8864dd8532130af285b7862f9d2af",
+    "dataset_card.json": "f2bdf2780f81e785f0a6460738ac0ec0dc4aef33de55101d3c8564a3617ace74",
+    "manifest.jsonl": "9340b7373a36ba173e396cbec0fdfbdf73a0624ff693ff8b1a3efe0760d7beb8",
+    "surface_anchors.npz": "2fee9225d16d3496e42c83b2b220063af5e0b3443b21dc8af34233bfe928cb12",
+    "train.npz": "2c17e8e254b776ca362ea57fe97e64044ccd116b2da78d91bfc87953a33b6e2f",
+    "val.npz": "7047eb258705d5ebabf33efb512ff79b8e9b85abb56edc795c320205c4bd9aea"
+  },
+  "recipe": {
+    "code_hashes": {
+      "atlas_material_dataset.py": "8827c90c4cbbeb7bd085cd4f0f9298f78b7f10b199bdc204ae54e03ca3081813",
+      "atlas_materials.py": "679aa9214cef534b92e1d64b0043213a88a8c6a0fdd9b25b7ae54e4fa289a0a3"
+    },
+    "conditions": [
+      "mean_red_linear",
+      "mean_green_linear",
+      "mean_blue_linear",
+      "luminance_std",
+      "roughness_mean",
+      "roughness_std",
+      "height_rms_mm",
+      "gradient_rms"
+    ],
+    "controls": [
+      "tint",
+      "pigment_contrast",
+      "mottle_scale_mm",
+      "wetness",
+      "fine_detail",
+      "structure_strength"
+    ],
+    "environment": {
+      "machine": "arm64",
+      "numpy": "2.4.6",
+      "python": "3.11.16"
+    },
+    "parent_release_id": "f1142554e6c82e9a4f80",
+    "parent_release_sha256": "20e738b89d08e2f6c4de9830dec5d6b04773f80233f3f827404773a5c9285a69",
+    "per_organ_preset": 16,
+    "seed": 17017,
+    "split_policy": "whole material recipes and every descendant view/patch; shared geometry lineages, not patient-independent",
+    "surface_points": 1024,
+    "version": "atlas-material-dataset-1.0.0"
+  },
+  "release_id": "813c4803b877a82ff401",
+  "version": "atlas-material-dataset-1.0.0"
+}

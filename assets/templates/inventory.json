@@ -1,0 +1,140 @@
+{
+  "generator_version": "original-abdomen-0.1.0",
+  "independent_construction_lineages": 1,
+  "review_status": "unreviewed",
+  "scene_hash": "3e3936feaf9b2084ea138e524f6702c50b2387c3bac68426786e2081c2f40967",
+  "templates": [
+    {
+      "family": "liver",
+      "frame": "RAS+",
+      "metadata": {
+        "anatomical_review": "unreviewed",
+        "evidence": {
+          "appearance": "procedural",
+          "geometry": "procedural",
+          "mechanics": "unknown"
+        },
+        "limitations": [
+          "Original authored approximation; independent anatomical review pending.",
+          "Surface validity does not establish anatomy, thickness or physiological mechanics."
+        ],
+        "metrics": {
+          "boundary_edge_count": 0,
+          "bounds_mm": [
+            [
+              -82.5,
+              -62.5,
+              17.5
+            ],
+            [
+              152.5,
+              62.5,
+              162.5
+            ]
+          ],
+          "degenerate_triangle_count": 0,
+          "depth_mm": 125.0,
+          "euler_characteristic": 2,
+          "finite": true,
+          "height_mm": 145.0,
+          "measurement_definition": "closed_outer_envelope_ras_extents_v1",
+          "minimum_triangle_area_mm2": 0.0003088900610774461,
+          "nonmanifold_edge_count": 0,
+          "reference_configuration": "authored_unloaded_geometry_not_known_stress_free",
+          "signed_volume_ml": 1847.1853144486481,
+          "surface_area_mm2": 78792.81354835628,
+          "triangle_count": 36480,
+          "vertex_count": 18242,
+          "volume_ml": 1847.1853144486481,
+          "watertight": true,
+          "width_mm": 235.0
+        },
+        "representation": "closed_outer_surface",
+        "topology_id": "liver-radial-18242-36480-v1",
+        "units": "mm",
+        "uv_seam": "periodic_u_seam_requires_wrap_aware_sampling_not_flat_interpolation"
+      },
+      "origin": "authored_scene_anchor",
+      "parent_lineage": "authored-abdominal-construction-v1",
+      "profile": "development_preview",
+      "reference_state": "authored_geometry_not_measured_stress_free",
+      "review_status": "unreviewed",
+      "template_id": "liver-original-authoring-v1",
+      "topology_id": "liver-radial-18242-36480-v1",
+      "units": "mm",
+      "version": "0.1.0"
+    },
+    {
+      "family": "gallbladder",
+      "frame": "RAS+",
+      "metadata": {
+        "anatomical_review": "unreviewed",
+        "evidence": {
+          "appearance": "procedural",
+          "geometry": "procedural",
+          "mechanics": "unknown"
+        },
+        "limitations": [
+          "Original authored approximation; independent anatomical review pending.",
+          "Surface validity does not establish anatomy, thickness or physiological mechanics.",
+          "Effective homogeneous wall; requested wall value is a shrink scale, not constant thickness.",
+          "Lumen sealed by authored neck cap; no fluid/pressure solver or duct junction.",
+          "Authored fossa placement has 0.8 mm geometric clearance; real attachment anatomy is unreviewed."
+        ],
+        "metrics": {
+          "boundary_edge_count": 0,
+          "bounds_mm": [
+            [
+              55.757069500887866,
+              -16.96530937092009,
+              -2.969511624757204
+            ],
+            [
+              86.30168655713906,
+              60.769032625061946,
+              26.60606010005293
+            ]
+          ],
+          "centreline_length_mm": 80.2943886767803,
+          "degenerate_triangle_count": 0,
+          "depth_mm": 77.73434199598204,
+          "euler_characteristic": 2,
+          "finite": true,
+          "height_mm": 29.575571724810132,
+          "liver_clearance_mm": 0.7999999999999998,
+          "lumen_volume_ml": 19.29413833641295,
+          "measurement_definition": "closed_outer_envelope_ras_extents_v1",
+          "minimum_triangle_area_mm2": 0.0021221949367527648,
+          "neck_to_fundus_distance_mm": 80.0,
+          "nonmanifold_edge_count": 0,
+          "placement_adjustment_mm": -7.481893143634523,
+          "reference_configuration": "authored_unloaded_geometry_not_known_stress_free",
+          "requested_wall_scale_mm": 1.5,
+          "signed_volume_ml": 26.46658208012751,
+          "surface_area_mm2": 4958.864663882534,
+          "triangle_count": 9024,
+          "vertex_count": 4514,
+          "volume_ml": 26.46658208012751,
+          "wall_correspondence_thickness_max_mm": 4.00181334177548,
+          "wall_correspondence_thickness_min_mm": 1.2979970342762723,
+          "wall_volume_ml": 7.172443743714557,
+          "watertight": true,
+          "width_mm": 30.544617056251198
+        },
+        "representation": "outer_and_homothetic_inner_surfaces",
+        "topology_id": "gallbladder-radial-4514-9024-v1",
+        "units": "mm",
+        "uv_seam": "periodic_u_seam_requires_wrap_aware_sampling_not_flat_interpolation"
+      },
+      "origin": "authored_scene_anchor",
+      "parent_lineage": "authored-abdominal-construction-v1",
+      "profile": "development_preview",
+      "reference_state": "authored_geometry_not_measured_stress_free",
+      "review_status": "unreviewed",
+      "template_id": "gallbladder-original-authoring-v1",
+      "topology_id": "gallbladder-radial-4514-9024-v1",
+      "units": "mm",
+      "version": "0.1.0"
+    }
+  ]
+}

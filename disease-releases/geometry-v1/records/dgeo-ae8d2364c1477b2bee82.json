@@ -1,0 +1,273 @@
+{
+  "appearance_evidence": "authored_vertex_color_not_measured_tissue_texture",
+  "clinical_review_status": "unreviewed",
+  "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+  "disease_field": {
+    "applied_displacement_fraction": 1.0,
+    "clinical_stage": null,
+    "color_strength": 0.5993267312994064,
+    "fields": [
+      {
+        "amplitude_mm": 0.45752768089617113,
+        "center_mm": [
+          13.474581763148308,
+          42.00774431228638,
+          -15.950493514537811
+        ],
+        "direction": [
+          -0.7122727637190992,
+          -0.6160651450320236,
+          0.3363498879747521
+        ],
+        "radius_mm": 22.82087753338588
+      },
+      {
+        "amplitude_mm": 0.444822197108796,
+        "center_mm": [
+          -4.880988970398903,
+          -8.362919092178345,
+          0.10786205530166626
+        ],
+        "direction": [
+          0.31905405427269345,
+          0.1611200372526129,
+          -0.9339404927766404
+        ],
+        "radius_mm": 22.82087753338588
+      },
+      {
+        "amplitude_mm": 0.47126477182262594,
+        "center_mm": [
+          41.55524633824825,
+          -10.623335838317871,
+          25.22270381450653
+        ],
+        "direction": [
+          -0.7062573822115203,
+          -0.46203113869533113,
+          -0.536402588498253
+        ],
+        "radius_mm": 22.82087753338588
+      },
+      {
+        "amplitude_mm": 0.44303245517472967,
+        "center_mm": [
+          -30.946070328354836,
+          33.50070118904114,
+          -22.814251482486725
+        ],
+        "direction": [
+          0.6905820659192577,
+          -0.4730693347436973,
+          0.5470848332350712
+        ],
+        "radius_mm": 22.82087753338588
+      }
+    ],
+    "gradient_bound_per_step": 0.28821467065811157,
+    "pattern": "scar",
+    "profile_id": "spleen-infarct",
+    "realized_sites": 4,
+    "requested_sites": 8,
+    "steps": 3,
+    "surface_site_frame": "undeformed-atlas-Y-up-mm",
+    "target_srgb": [
+      0.64,
+      0.53,
+      0.43
+    ],
+    "version": "disease-morphology-design-1.0.0"
+  },
+  "display_normal_sha256": "57b27c08a309f952055d828dfb651128ed7fd0cae8c3d8ff2e65ca939877b9cd",
+  "face_count": 8544,
+  "features": [
+    89.36921613098441,
+    102.31509086031363,
+    70.94119489192963,
+    19996.926461562776,
+    1.4107872132711863,
+    1.0
+  ],
+  "geometry_evidence": "authored_disease_surface_from_licensed_reference_template",
+  "geometry_sha256": "1749ec3a70d8f04d287cc3a5687ad8fe2579cb96be9141b22884d92237c5368b",
+  "group_id": "spleen-infarct:1462519472",
+  "mechanics_evidence": "none",
+  "normal_fallback_count": 0,
+  "organ": "spleen",
+  "parent_recipe_index": 988,
+  "parent_sample_id": "spleen-infarct:1462519472",
+  "path": "records/dgeo-ae8d2364c1477b2bee82.json",
+  "patient_id": null,
+  "point_count": 2048,
+  "point_sampling_seed": 2171229495,
+  "profile_id": "spleen-infarct",
+  "qa": {
+    "anatomical_plausibility": {
+      "status": "NOT_RUN"
+    },
+    "area_ratio_max": 1.078258488188705,
+    "area_ratio_min": 0.9130782196398035,
+    "continuous_jacobian_lower_bound": 0.046896592962865746,
+    "mechanical_validation": {
+      "status": "NOT_RUN"
+    },
+    "min_normal_dot": 0.9944492287025967,
+    "new_degenerate_faces": 0,
+    "normal_turns_over_90_degrees": 0,
+    "passed": true,
+    "scope": "finite nondegenerate same-topology outer-surface design",
+    "self_intersection": {
+      "reason": "Discrete/source triangle intersections not certified",
+      "status": "NOT_RUN"
+    },
+    "source_topology": {
+      "boundary_edges_after_audit_weld": 0,
+      "connected_vertex_components": 1,
+      "degenerate_faces": 0,
+      "method": "trimesh-geometric-weld-audit-copy-1.0",
+      "nonmanifold_edges_after_audit_weld": 0,
+      "self_intersection": {
+        "reason": "No robust intersection backend",
+        "status": "NOT_RUN"
+      },
+      "simulation_readiness": {
+        "reason": "No volumetric domain/materials",
+        "status": "NOT_RUN"
+      },
+      "watertight_after_audit_weld": true,
+      "weld_precision_mm": 1e-08,
+      "winding_consistent_after_audit_weld": true,
+      "zero_length_edges": 0
+    },
+    "status": "PASS",
+    "topology_preserved": true
+  },
+  "realized_id": "6c12acd98dc24a3695f74fff571d653706fc250070a7675262af26365140519a",
+  "recipe_features": [
+    0.8378333449363708,
+    0.6061298847198486,
+    0.40742024779319763,
+    0.2848431468009949,
+    0.7153292894363403,
+    1.0,
+    0.6585480570793152,
+    0.9193095564842224,
+    0.2761859595775604
+  ],
+  "sample_id": "dgeo-ae8d2364c1477b2bee82",
+  "source_attribution": "Browne, Kristen, and Heidi Schlehlein. 2024. *3D Reference Organ for Spleen, Female v1.3*. https://doi.org/10.48539/HBM883.DZCZ.658. Accessed on June 15, 2024.",
+  "source_group_id": "hra-visible-human-female",
+  "source_license": "CC-BY-4.0",
+  "source_template_artifact_sha256": "ea5514d20c5fd6bd0a44b7b22510a4e4d8623f945c32ae06c946b9bbdfe6b99a",
+  "source_template_geometry_sha256": "80bfc5e482694bb2319954e237cadbf45a22b969c3d8851704318509b31cc755",
+  "source_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/spleen-female/v1.3/assets/3d-vh-f-spleen.glb",
+  "spec": {
+    "appearance": "tissue",
+    "controls": {
+      "asymmetry": 0.0,
+      "bend": 0.0,
+      "scale_x": 0.0,
+      "scale_y": 0.0,
+      "scale_z": 0.0,
+      "taper": 0.0,
+      "twist": 0.0
+    },
+    "disease": {
+      "contrast": 0.7153292894363403,
+      "count": 8,
+      "irregularity": 0.2848431468009949,
+      "location": [
+        0.31709611415863037,
+        0.8386191129684448,
+        -0.44762808084487915
+      ],
+      "profile_id": "spleen-infarct",
+      "seed": 1462519472,
+      "severity": 0.8378333449363708,
+      "size": 0.6061298847198486,
+      "spread": 0.40742024779319763
+    },
+    "realized_id": "6c12acd98dc24a3695f74fff571d653706fc250070a7675262af26365140519a",
+    "seed": 1462519472,
+    "template_id": "hra-spleen-female",
+    "template_sha256": "ea5514d20c5fd6bd0a44b7b22510a4e4d8623f945c32ae06c946b9bbdfe6b99a"
+  },
+  "split": "train",
+  "split_track": "within_generator",
+  "summary": {
+    "disease": {
+      "applied_displacement_fraction": 1.0,
+      "displacement_limited_by_source_mesh": false,
+      "evidence": "synthetic_surface_morphology_not_patient_or_population_geometry",
+      "internal_anatomy_generated": false,
+      "max_displacement_mm": 1.4107872132711863,
+      "physical_parameters_inferred": false,
+      "profile": {
+        "clinical_source_url": "https://pubmed.ncbi.nlm.nih.gov/9486895/",
+        "evidence": "image_reference_not_paired_3d_supervision",
+        "id": "spleen-infarct",
+        "label": "Healed splenic infarction",
+        "limits": "Healed infarcts, not an acute perfusion image; this section cannot establish viable volume or tissue strength. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+        "morphology_targets": [
+          "wedge-shaped perfusion territory",
+          "scar distribution",
+          "capsular involvement"
+        ],
+        "organ": "spleen",
+        "pattern": "scar",
+        "source_ref": "I13",
+        "source_url": "https://commons.wikimedia.org/wiki/File:Healed_splenic_infarcts.jpg",
+        "supported": true,
+        "unavailable_reason": ""
+      },
+      "realized_sites": 4,
+      "recipe": {
+        "contrast": 0.7153292894363403,
+        "count": 8,
+        "irregularity": 0.2848431468009949,
+        "location": [
+          0.31709611415863037,
+          0.8386191129684448,
+          -0.44762808084487915
+        ],
+        "profile_id": "spleen-infarct",
+        "seed": 1462519472,
+        "severity": 0.8378333449363708,
+        "size": 0.6061298847198486,
+        "spread": 0.40742024779319763
+      },
+      "requested_sites": 8,
+      "version": "disease-morphology-design-1.0.0"
+    },
+    "extent_mm": [
+      89.36921613098441,
+      102.31509086031363,
+      70.94119489192963
+    ],
+    "measurements": {
+      "compactness": null,
+      "extent_x_mm": 89.36921613098441,
+      "extent_y_mm": 102.31509086031363,
+      "extent_z_mm": 70.94119489192963,
+      "method": "disease-display-triangle-measurements-1.0.0",
+      "surface_area_definition": "Sum of selected triangles including capsule/internal faces",
+      "surface_area_mm2": 19996.926461562776,
+      "volume_ml": null,
+      "volume_reason": "Display surface assembly is not a certified closed outer envelope",
+      "volume_status": "NOT_APPLICABLE"
+    },
+    "min_jacobian": 0.046896592962865746,
+    "min_jacobian_kind": "conservative_bound",
+    "organ": "spleen",
+    "profile": "development_preview",
+    "qa_scope": "finite nondegenerate same-topology outer-surface design",
+    "qa_status": "PASS",
+    "reference": "hra-spleen-female",
+    "review_status": "unreviewed",
+    "triangles": 8544,
+    "vertices": 4565
+  },
+  "template_id": "hra-spleen-female",
+  "units": "mm",
+  "vertex_count": 4565
+}

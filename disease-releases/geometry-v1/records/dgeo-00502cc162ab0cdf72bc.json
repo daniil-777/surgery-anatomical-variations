@@ -1,0 +1,315 @@
+{
+  "appearance_evidence": "authored_vertex_color_not_measured_tissue_texture",
+  "clinical_review_status": "unreviewed",
+  "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+  "disease_field": {
+    "applied_displacement_fraction": 1.0,
+    "clinical_stage": null,
+    "color_strength": 0.12890669800337307,
+    "fields": [
+      {
+        "amplitude_mm": 0.872684866833354,
+        "center_mm": [
+          -38.274094462394714,
+          -52.27659037336707,
+          -19.466884434223175
+        ],
+        "direction": [
+          -0.6531917511899593,
+          0.2892895958274004,
+          -0.6997514315265199
+        ],
+        "radius_mm": 6.41421159740056
+      },
+      {
+        "amplitude_mm": 0.866438261303737,
+        "center_mm": [
+          -43.590247631073,
+          -68.04624339565635,
+          33.700354397296906
+        ],
+        "direction": [
+          -0.9043733353990567,
+          -0.09228563038868043,
+          0.41664401188898564
+        ],
+        "radius_mm": 6.41421159740056
+      },
+      {
+        "amplitude_mm": 0.8062766566543901,
+        "center_mm": [
+          -16.67296700179577,
+          -51.1771528981626,
+          34.9905276671052
+        ],
+        "direction": [
+          0.13569102656107485,
+          0.8273952821944583,
+          0.5449816440148737
+        ],
+        "radius_mm": 6.41421159740056
+      },
+      {
+        "amplitude_mm": 0.8883730543181997,
+        "center_mm": [
+          -3.642478957772255,
+          -82.81211322173476,
+          14.232456684112549
+        ],
+        "direction": [
+          -0.025449707751526968,
+          0.21843833803227172,
+          0.9755188387996723
+        ],
+        "radius_mm": 6.41421159740056
+      },
+      {
+        "amplitude_mm": 0.865326602218139,
+        "center_mm": [
+          -37.15241700410843,
+          -54.83207991346717,
+          30.85228241980076
+        ],
+        "direction": [
+          0.6901132007813815,
+          -0.25452618636065094,
+          -0.6774660069435071
+        ],
+        "radius_mm": 6.41421159740056
+      },
+      {
+        "amplitude_mm": 0.7996989530165554,
+        "center_mm": [
+          -2.941576763987541,
+          -59.990310575813055,
+          -17.08775758743286
+        ],
+        "direction": [
+          -0.2689785909673033,
+          -0.16945426880224485,
+          0.9481222328296816
+        ],
+        "radius_mm": 6.41421159740056
+      },
+      {
+        "amplitude_mm": 0.8289690192579022,
+        "center_mm": [
+          -35.630956292152405,
+          -80.81235131248832,
+          29.485801234841347
+        ],
+        "direction": [
+          0.6769031016855407,
+          0.4194721083894757,
+          -0.6048515034384744
+        ],
+        "radius_mm": 6.41421159740056
+      }
+    ],
+    "gradient_bound_per_step": 0.24069903421401975,
+    "pattern": "mass",
+    "profile_id": "colon-cancer",
+    "realized_sites": 7,
+    "requested_sites": 7,
+    "steps": 3,
+    "surface_site_frame": "undeformed-atlas-Y-up-mm",
+    "target_srgb": [
+      0.67,
+      0.45,
+      0.32
+    ],
+    "version": "disease-morphology-design-1.0.0"
+  },
+  "display_normal_sha256": "df8efd549de42b4beabdf1fe043683def1f1b2d8aa40147f25da728071f3e9f5",
+  "face_count": 20375,
+  "features": [
+    243.27576905488968,
+    294.94714457541704,
+    193.41787695884705,
+    255346.94977225762,
+    2.4355117280839425,
+    1.0
+  ],
+  "geometry_evidence": "authored_disease_surface_from_licensed_reference_template",
+  "geometry_sha256": "f526819b91871325c536c5097b789ae5036b5c5090aabeac60b643ee1ddcb3ef",
+  "group_id": "colon-cancer:0226389737",
+  "mechanics_evidence": "none",
+  "normal_fallback_count": 0,
+  "organ": "large-intestine",
+  "parent_recipe_index": 1387,
+  "parent_sample_id": "colon-cancer:0226389737",
+  "path": "records/dgeo-00502cc162ab0cdf72bc.json",
+  "patient_id": null,
+  "point_count": 2048,
+  "point_sampling_seed": 285982292,
+  "profile_id": "colon-cancer",
+  "qa": {
+    "anatomical_plausibility": {
+      "status": "NOT_RUN"
+    },
+    "area_ratio_max": 1.3866655930027993,
+    "area_ratio_min": 0.8873614556574788,
+    "continuous_jacobian_lower_bound": 0.08389297015563715,
+    "mechanical_validation": {
+      "status": "NOT_RUN"
+    },
+    "min_normal_dot": 0.8519759486868645,
+    "new_degenerate_faces": 0,
+    "normal_turns_over_90_degrees": 0,
+    "passed": true,
+    "scope": "finite nondegenerate same-topology outer-surface design",
+    "self_intersection": {
+      "reason": "Discrete/source triangle intersections not certified",
+      "status": "NOT_RUN"
+    },
+    "source_topology": {
+      "boundary_edges_after_audit_weld": 76,
+      "connected_vertex_components": 2,
+      "degenerate_faces": 0,
+      "method": "trimesh-geometric-weld-audit-copy-1.0",
+      "nonmanifold_edges_after_audit_weld": 195,
+      "self_intersection": {
+        "reason": "No robust intersection backend",
+        "status": "NOT_RUN"
+      },
+      "simulation_readiness": {
+        "reason": "No volumetric domain/materials",
+        "status": "NOT_RUN"
+      },
+      "watertight_after_audit_weld": false,
+      "weld_precision_mm": 1e-08,
+      "winding_consistent_after_audit_weld": true,
+      "zero_length_edges": 0
+    },
+    "status": "PASS",
+    "topology_preserved": true
+  },
+  "realized_id": "668bb96e1cca30a0915a990efb8797d02ffe4754a4e05617884a8a21c23f6f6c",
+  "recipe_features": [
+    0.699706494808197,
+    0.15307220816612244,
+    0.3843958079814911,
+    0.5922977924346924,
+    0.18422967195510864,
+    0.8571428656578064,
+    0.09232993423938751,
+    0.8005614876747131,
+    0.20125076174736023
+  ],
+  "sample_id": "dgeo-00502cc162ab0cdf72bc",
+  "source_attribution": "Browne, Kristen, and Heidi Schlehlein. 2024. \"3D Reference Organ for Large Intestine, Female v1.3.\" https://doi.org/10.48539/HBM682.RSXX.965. Accessed on June 15, 2024.",
+  "source_group_id": "hra-visible-human-female",
+  "source_license": "CC-BY-4.0",
+  "source_template_artifact_sha256": "21d1fbb7f2b5578ea648f0d283aad1b9b9a7ba20eda1836f3f4376e5900ade56",
+  "source_template_geometry_sha256": "4f79838e47ca71297c25c37f726906e521c5e708df9938d368036092f6441486",
+  "source_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/large-intestine-female/v1.3/assets/3d-sbu-f-large-intestine.glb",
+  "spec": {
+    "appearance": "tissue",
+    "controls": {
+      "asymmetry": 0.0,
+      "bend": 0.0,
+      "scale_x": 0.0,
+      "scale_y": 0.0,
+      "scale_z": 0.0,
+      "taper": 0.0,
+      "twist": 0.0
+    },
+    "disease": {
+      "contrast": 0.18422967195510864,
+      "count": 7,
+      "irregularity": 0.5922977924346924,
+      "location": [
+        -0.815340131521225,
+        0.6011229753494263,
+        -0.5974984765052795
+      ],
+      "profile_id": "colon-cancer",
+      "seed": 226389737,
+      "severity": 0.699706494808197,
+      "size": 0.15307220816612244,
+      "spread": 0.3843958079814911
+    },
+    "realized_id": "668bb96e1cca30a0915a990efb8797d02ffe4754a4e05617884a8a21c23f6f6c",
+    "seed": 226389737,
+    "template_id": "hra-large-intestine-female",
+    "template_sha256": "21d1fbb7f2b5578ea648f0d283aad1b9b9a7ba20eda1836f3f4376e5900ade56"
+  },
+  "split": "train",
+  "split_track": "within_generator",
+  "summary": {
+    "disease": {
+      "applied_displacement_fraction": 1.0,
+      "displacement_limited_by_source_mesh": false,
+      "evidence": "synthetic_surface_morphology_not_patient_or_population_geometry",
+      "internal_anatomy_generated": false,
+      "max_displacement_mm": 2.4355117280839425,
+      "physical_parameters_inferred": false,
+      "profile": {
+        "clinical_source_url": "https://www.cancer.gov/types/colorectal/hp/colon-treatment-pdq",
+        "evidence": "image_reference_not_paired_3d_supervision",
+        "id": "colon-cancer",
+        "label": "Sigmoid adenocarcinoma",
+        "limits": "Cut specimen; black tattoo pigment is not tumor necrosis. No staging can be inferred from this photograph. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+        "morphology_targets": [
+          "lesion location and width",
+          "wall invasion depth",
+          "luminal narrowing"
+        ],
+        "organ": "large-intestine",
+        "pattern": "mass",
+        "source_ref": "I19",
+        "source_url": "https://commons.wikimedia.org/wiki/File:Adenocarcinoma_of_the_Sigmoid_Colon_%28longitudinal_section%29.jpg",
+        "supported": true,
+        "unavailable_reason": ""
+      },
+      "realized_sites": 7,
+      "recipe": {
+        "contrast": 0.18422967195510864,
+        "count": 7,
+        "irregularity": 0.5922977924346924,
+        "location": [
+          -0.815340131521225,
+          0.6011229753494263,
+          -0.5974984765052795
+        ],
+        "profile_id": "colon-cancer",
+        "seed": 226389737,
+        "severity": 0.699706494808197,
+        "size": 0.15307220816612244,
+        "spread": 0.3843958079814911
+      },
+      "requested_sites": 7,
+      "version": "disease-morphology-design-1.0.0"
+    },
+    "extent_mm": [
+      243.27576905488968,
+      294.94714457541704,
+      193.41787695884705
+    ],
+    "measurements": {
+      "compactness": null,
+      "extent_x_mm": 243.27576905488968,
+      "extent_y_mm": 294.94714457541704,
+      "extent_z_mm": 193.41787695884705,
+      "method": "disease-display-triangle-measurements-1.0.0",
+      "surface_area_definition": "Sum of selected triangles including capsule/internal faces",
+      "surface_area_mm2": 255346.94977225762,
+      "volume_ml": null,
+      "volume_reason": "Display surface assembly is not a certified closed outer envelope",
+      "volume_status": "NOT_APPLICABLE"
+    },
+    "min_jacobian": 0.08389297015563715,
+    "min_jacobian_kind": "conservative_bound",
+    "organ": "large-intestine",
+    "profile": "development_preview",
+    "qa_scope": "finite nondegenerate same-topology outer-surface design",
+    "qa_status": "PASS",
+    "reference": "hra-large-intestine-female",
+    "review_status": "unreviewed",
+    "triangles": 20375,
+    "vertices": 10601
+  },
+  "template_id": "hra-large-intestine-female",
+  "units": "mm",
+  "vertex_count": 10601
+}

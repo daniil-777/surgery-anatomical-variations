@@ -1,0 +1,3487 @@
+{
+  "passed": true,
+  "profiles": 25,
+  "organ_families": 12,
+  "samples": 50,
+  "model_sha256": "4da4239f48576be0b0a4a1db1f5e4cb0611696afa7cc225375333fc4f530c4ed",
+  "decoder_sha256": "6068b50d0a4faa14b52797f1b52451ca6a33164f6a7e176337579cf82a1c2c70",
+  "scene_adapter_sha256": "d4319afee56ec13141d723d9be4ef7c13ac8708058919bc9249db146c9010a0a",
+  "scope": "finite same-topology mesh checks and measured seed sensitivity; not a clinical or perceptual realism score",
+  "checks": [
+    {
+      "profile": "bladder-cancer",
+      "organ": "urinary-bladder",
+      "template": "hra-urinary-bladder-female",
+      "distinct_seed_geometry": true,
+      "between_seed_vertex_rms_mm": 0.18571626905998384,
+      "between_seed_vertex_max_mm": 1.3835443139166337,
+      "between_seed_mean_srgb_difference": 0.0009814136110046414,
+      "samples": [
+        {
+          "seed": 333,
+          "recipe": {
+            "profile_id": "bladder-cancer",
+            "seed": 3292262825,
+            "severity": 0.48646849393844604,
+            "size": 0.32338327169418335,
+            "spread": 0.43111950159072876,
+            "irregularity": 0.5275722146034241,
+            "contrast": 0.5081184506416321,
+            "count": 7,
+            "location": [
+              0.21694910526275635,
+              0.38552653789520264,
+              -0.12415724992752075
+            ]
+          },
+          "realized_id": "1ade4169376e69dd1f4427b07fb9308276f546a217855e71112dae893ffc7175",
+          "geometry_sha256": "a3f956f3e682f420c00f22f2c6c4c21401f28c46446eade2389421fd37350b62",
+          "max_displacement_mm": 1.3835443139166337,
+          "realized_sites": 7,
+          "applied_fraction": 1.0,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.7682732908173516,
+            "area_ratio_max": 1.2668907323437435,
+            "min_normal_dot": 0.8866069986189479,
+            "continuous_jacobian_lower_bound": 0.1923911490722815,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 568,
+              "connected_vertex_components": 3,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 0,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": false,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        },
+        {
+          "seed": 444,
+          "recipe": {
+            "profile_id": "bladder-cancer",
+            "seed": 324967192,
+            "severity": 0.4230829179286957,
+            "size": 0.38390371203422546,
+            "spread": 0.4889938235282898,
+            "irregularity": 0.6159353852272034,
+            "contrast": 0.530160129070282,
+            "count": 6,
+            "location": [
+              0.3410632610321045,
+              0.3993467092514038,
+              -0.2973673343658447
+            ]
+          },
+          "realized_id": "f4f28db47cb7ae6146adb3a72a47128849ab46b75c07bc954b8bb184b14736a9",
+          "geometry_sha256": "439c5ebd05e5a324c0d7d127a45470f0d7bb2b5cca02dc50262ee5d0e556fddb",
+          "max_displacement_mm": 1.3401966290170415,
+          "realized_sites": 6,
+          "applied_fraction": 1.0,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.7506369921840019,
+            "area_ratio_max": 1.280481329289869,
+            "min_normal_dot": 0.90712557496089,
+            "continuous_jacobian_lower_bound": 0.24278577385775207,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 568,
+              "connected_vertex_components": 3,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 0,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": false,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "profile": "bladder-diverticulum",
+      "organ": "urinary-bladder",
+      "template": "hra-urinary-bladder-female",
+      "distinct_seed_geometry": true,
+      "between_seed_vertex_rms_mm": 0.029237121688859682,
+      "between_seed_vertex_max_mm": 0.5878811076197558,
+      "between_seed_mean_srgb_difference": 0.00026128204900905034,
+      "samples": [
+        {
+          "seed": 333,
+          "recipe": {
+            "profile_id": "bladder-diverticulum",
+            "seed": 3292262825,
+            "severity": 0.48395785689353943,
+            "size": 0.2809913456439972,
+            "spread": 0.42543619871139526,
+            "irregularity": 0.5572394728660583,
+            "contrast": 0.5343185067176819,
+            "count": 7,
+            "location": [
+              0.1063392162322998,
+              0.29908287525177,
+              -0.08564132452011108
+            ]
+          },
+          "realized_id": "def679b516dd4b25f4ddf70f08ca99a073e3b86992c15a30e67b0a0483e36a0f",
+          "geometry_sha256": "6be0e1e345c56389a6a5694b7b4c0f78f9f3152580138f2157f67ea2befe2306",
+          "max_displacement_mm": 0.5878811076197558,
+          "realized_sites": 7,
+          "applied_fraction": 1.0,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.9965347839851411,
+            "area_ratio_max": 1.1760019645613857,
+            "min_normal_dot": 0.901005067100844,
+            "continuous_jacobian_lower_bound": 0.19419461294928356,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 568,
+              "connected_vertex_components": 3,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 0,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": false,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        },
+        {
+          "seed": 444,
+          "recipe": {
+            "profile_id": "bladder-diverticulum",
+            "seed": 324967192,
+            "severity": 0.41787874698638916,
+            "size": 0.3402116596698761,
+            "spread": 0.5076300501823425,
+            "irregularity": 0.6411237120628357,
+            "contrast": 0.5403446555137634,
+            "count": 5,
+            "location": [
+              0.24813663959503174,
+              0.32173120975494385,
+              -0.2277178168296814
+            ]
+          },
+          "realized_id": "867b090e0c1a8d85ae70a72d8a8a2140a191984216cad93ab69f9c24a1d7e3d0",
+          "geometry_sha256": "2feef3ff66309bab945073fbc78658d5980d3d88e0f1116eb21fc0278d019830",
+          "max_displacement_mm": 0.5677133882821371,
+          "realized_sites": 5,
+          "applied_fraction": 1.0,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.9976962414552963,
+            "area_ratio_max": 1.2178951522915562,
+            "min_normal_dot": 0.9170101324798208,
+            "continuous_jacobian_lower_bound": 0.2474024188646946,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 568,
+              "connected_vertex_components": 3,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 0,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": false,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "profile": "brain-glioblastoma",
+      "organ": "brain",
+      "template": "hra-brain-female",
+      "distinct_seed_geometry": true,
+      "between_seed_vertex_rms_mm": 0.2739318733707793,
+      "between_seed_vertex_max_mm": 1.771418450813618,
+      "between_seed_mean_srgb_difference": 0.004890732091878565,
+      "samples": [
+        {
+          "seed": 333,
+          "recipe": {
+            "profile_id": "brain-glioblastoma",
+            "seed": 3292262825,
+            "severity": 0.49474748969078064,
+            "size": 0.3319588601589203,
+            "spread": 0.48264917731285095,
+            "irregularity": 0.5772174000740051,
+            "contrast": 0.5249797701835632,
+            "count": 7,
+            "location": [
+              0.26584792137145996,
+              0.33023369312286377,
+              -0.113680899143219
+            ]
+          },
+          "realized_id": "5774312f50dff733887f9ecc38d62de425659a6d2979ba943f1ba5da79247fde",
+          "geometry_sha256": "9bb142d1ac2c4e44d3723af73b09f33c222ab8c8cb5d0d8b3a97f7348d53e20e",
+          "max_displacement_mm": 0.5440575999134499,
+          "realized_sites": 7,
+          "applied_fraction": 0.125,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.28879178209431344,
+            "area_ratio_max": 1.4417389640462497,
+            "min_normal_dot": 0.7968771775664718,
+            "continuous_jacobian_lower_bound": 0.8240424085123939,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 14,
+              "connected_vertex_components": 104,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 198,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": false,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        },
+        {
+          "seed": 444,
+          "recipe": {
+            "profile_id": "brain-glioblastoma",
+            "seed": 324967192,
+            "severity": 0.4106094539165497,
+            "size": 0.40754762291908264,
+            "spread": 0.5560325384140015,
+            "irregularity": 0.6359988451004028,
+            "contrast": 0.5832207798957825,
+            "count": 5,
+            "location": [
+              0.31272685527801514,
+              0.3712531328201294,
+              -0.2759246826171875
+            ]
+          },
+          "realized_id": "429080f7ddd85212e3b83849470d36f6e64171dadb78019218bca8e43841c3c5",
+          "geometry_sha256": "a13a9ae1c18239f0e3045d2603d8713653b9eff23dbb0098ec3403303d76e645",
+          "max_displacement_mm": 1.7767075459547592,
+          "realized_sites": 5,
+          "applied_fraction": 0.5,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.4532900819370898,
+            "area_ratio_max": 1.6754004784268206,
+            "min_normal_dot": 0.9187608086102527,
+            "continuous_jacobian_lower_bound": 0.5172727547092307,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 14,
+              "connected_vertex_components": 104,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 198,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": false,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "profile": "brain-meningioma",
+      "organ": "brain",
+      "template": "hra-brain-female",
+      "distinct_seed_geometry": true,
+      "between_seed_vertex_rms_mm": 0.218098174666407,
+      "between_seed_vertex_max_mm": 3.799415482673282,
+      "between_seed_mean_srgb_difference": 0.0006221845053247108,
+      "samples": [
+        {
+          "seed": 333,
+          "recipe": {
+            "profile_id": "brain-meningioma",
+            "seed": 3292262825,
+            "severity": 0.5026364922523499,
+            "size": 0.34057292342185974,
+            "spread": 0.47729018330574036,
+            "irregularity": 0.5304092764854431,
+            "contrast": 0.4878327548503876,
+            "count": 7,
+            "location": [
+              0.21909236907958984,
+              0.3479725122451782,
+              0.02698206901550293
+            ]
+          },
+          "realized_id": "18f79d6b6e1397a88a1f975a74116fbee521172cd82c9214f3bbdb57df458cd6",
+          "geometry_sha256": "92dcd15a0f6c07d5e5858b945dbc1f09d6deb50119247726cc316548f4cb1c41",
+          "max_displacement_mm": 0.5580543678767631,
+          "realized_sites": 7,
+          "applied_fraction": 0.125,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.6558393001217417,
+            "area_ratio_max": 1.5603034432607563,
+            "min_normal_dot": 0.4864628395025804,
+            "continuous_jacobian_lower_bound": 0.8214754460090656,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 14,
+              "connected_vertex_components": 104,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 198,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": false,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        },
+        {
+          "seed": 444,
+          "recipe": {
+            "profile_id": "brain-meningioma",
+            "seed": 324967192,
+            "severity": 0.44475477933883667,
+            "size": 0.4095461666584015,
+            "spread": 0.5585446357727051,
+            "irregularity": 0.6296703219413757,
+            "contrast": 0.5167652368545532,
+            "count": 5,
+            "location": [
+              0.26004302501678467,
+              0.3494687080383301,
+              -0.17106127738952637
+            ]
+          },
+          "realized_id": "f169e8b51d282358b66013cdbd4a41ff812b52f82b6e262659dddde7ffc87ae9",
+          "geometry_sha256": "0ce3c9b2e32a62ae6b111cc147c9f3712d4cf51764503183dce3670a647ae498",
+          "max_displacement_mm": 3.799415482673282,
+          "realized_sites": 5,
+          "applied_fraction": 1.0,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.5396080593315876,
+            "area_ratio_max": 3.1252759009121043,
+            "min_normal_dot": 0.24313473847247322,
+            "continuous_jacobian_lower_bound": 0.22437310300279223,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 14,
+              "connected_vertex_components": 104,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 198,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": false,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "profile": "colon-cancer",
+      "organ": "large-intestine",
+      "template": "hra-large-intestine-female",
+      "distinct_seed_geometry": true,
+      "between_seed_vertex_rms_mm": 0.1740549102892079,
+      "between_seed_vertex_max_mm": 2.5117370705201707,
+      "between_seed_mean_srgb_difference": 0.00024004933115632889,
+      "samples": [
+        {
+          "seed": 333,
+          "recipe": {
+            "profile_id": "colon-cancer",
+            "seed": 3292262825,
+            "severity": 0.5969482660293579,
+            "size": 0.2913587689399719,
+            "spread": 0.4500903785228729,
+            "irregularity": 0.5764164924621582,
+            "contrast": 0.4783172905445099,
+            "count": 7,
+            "location": [
+              0.10410261154174805,
+              0.3539954423904419,
+              -0.17920970916748047
+            ]
+          },
+          "realized_id": "8238c4f3b7b2f548cfdc612291b03bab31065df9072316497f6387f348d7d4d2",
+          "geometry_sha256": "c3f5dd95116fd40076f1ccfdc74182e5d6ee1d4434a02ee0cc38e8172a2b3b7d",
+          "max_displacement_mm": 2.5117370705201707,
+          "realized_sites": 7,
+          "applied_fraction": 1.0,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.6585603409767619,
+            "area_ratio_max": 1.7936491149573035,
+            "min_normal_dot": 0.4718867305035263,
+            "continuous_jacobian_lower_bound": 0.12635196155423675,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 76,
+              "connected_vertex_components": 2,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 195,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": false,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        },
+        {
+          "seed": 444,
+          "recipe": {
+            "profile_id": "colon-cancer",
+            "seed": 324967192,
+            "severity": 0.5156959891319275,
+            "size": 0.3457034230232239,
+            "spread": 0.5236127376556396,
+            "irregularity": 0.6469100117683411,
+            "contrast": 0.49600645899772644,
+            "count": 6,
+            "location": [
+              0.2261350154876709,
+              0.3555929660797119,
+              -0.3293771743774414
+            ]
+          },
+          "realized_id": "f0ac8543c418a4114946a0c7ad8566022d7462cbce2a728bd408af300b5dc0c2",
+          "geometry_sha256": "3ece32cdd917b46c4a22edbf9e202973e724c4c84838be171e4c912071b67ef8",
+          "max_displacement_mm": 2.3033089262956308,
+          "realized_sites": 6,
+          "applied_fraction": 1.0,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.6571969312634653,
+            "area_ratio_max": 1.358639311371643,
+            "min_normal_dot": 0.5944364284187557,
+            "continuous_jacobian_lower_bound": 0.17246505102323587,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 76,
+              "connected_vertex_components": 2,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 195,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": false,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "profile": "colon-diverticulosis",
+      "organ": "large-intestine",
+      "template": "hra-large-intestine-female",
+      "distinct_seed_geometry": true,
+      "between_seed_vertex_rms_mm": 0.04884741521554931,
+      "between_seed_vertex_max_mm": 1.0896195532731257,
+      "between_seed_mean_srgb_difference": 0.00014039255571991405,
+      "samples": [
+        {
+          "seed": 333,
+          "recipe": {
+            "profile_id": "colon-diverticulosis",
+            "seed": 3292262825,
+            "severity": 0.5294078588485718,
+            "size": 0.35013315081596375,
+            "spread": 0.46299099922180176,
+            "irregularity": 0.5383636355400085,
+            "contrast": 0.4757395386695862,
+            "count": 7,
+            "location": [
+              0.2794620990753174,
+              0.22599399089813232,
+              -0.04735606908798218
+            ]
+          },
+          "realized_id": "3701e70efe4c9305d8d42615ed4e0d02e98f4fca70523d8fc668be88342aafeb",
+          "geometry_sha256": "fdbe8b3afd003651924b5864daff71a51341e1116968612c3d7a16790c7c0e4a",
+          "max_displacement_mm": 1.0896195532731257,
+          "realized_sites": 7,
+          "applied_fraction": 1.0,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.7986041653760102,
+            "area_ratio_max": 1.2995058666346904,
+            "min_normal_dot": 0.8866144554521915,
+            "continuous_jacobian_lower_bound": 0.16376608264965598,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 76,
+              "connected_vertex_components": 2,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 195,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": false,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        },
+        {
+          "seed": 444,
+          "recipe": {
+            "profile_id": "colon-diverticulosis",
+            "seed": 324967192,
+            "severity": 0.4614561200141907,
+            "size": 0.4210120439529419,
+            "spread": 0.531809389591217,
+            "irregularity": 0.6421846747398376,
+            "contrast": 0.5118932127952576,
+            "count": 5,
+            "location": [
+              0.2849074602127075,
+              0.23292005062103271,
+              -0.23149865865707397
+            ]
+          },
+          "realized_id": "42d8f80223ac98c878d4ffcec9bae9280e45de16cb7626d006cc31c841320c77",
+          "geometry_sha256": "c38b53991743ddedc7c69f6eeac8465bb114766e67730673e09ca49ba6b99eae",
+          "max_displacement_mm": 1.0159789843262996,
+          "realized_sites": 5,
+          "applied_fraction": 1.0,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.9631045262529891,
+            "area_ratio_max": 1.1282895208019967,
+            "min_normal_dot": 0.9477130681230763,
+            "continuous_jacobian_lower_bound": 0.21104154183540305,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 76,
+              "connected_vertex_components": 2,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 195,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": false,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "profile": "gallbladder-carcinoma",
+      "organ": "gallbladder",
+      "template": "bp3d-gallbladder-male",
+      "distinct_seed_geometry": true,
+      "between_seed_vertex_rms_mm": 0.21599258365879007,
+      "between_seed_vertex_max_mm": 0.963817372024118,
+      "between_seed_mean_srgb_difference": 0.002027332866199573,
+      "samples": [
+        {
+          "seed": 333,
+          "recipe": {
+            "profile_id": "gallbladder-carcinoma",
+            "seed": 3292262825,
+            "severity": 0.4094133675098419,
+            "size": 0.32850900292396545,
+            "spread": 0.4611651599407196,
+            "irregularity": 0.5240711569786072,
+            "contrast": 0.601669192314148,
+            "count": 7,
+            "location": [
+              -0.02288210391998291,
+              0.4061926603317261,
+              0.006863832473754883
+            ]
+          },
+          "realized_id": "f5f146d808bfd61db7b11c7dbf08af9c95210b8f3be69a6bd45115dd0091b693",
+          "geometry_sha256": "46dc7c19e9cc70b89414ac371e4a358de6c2f6441c62c841c22e9ebccb954441",
+          "max_displacement_mm": 0.963817372024118,
+          "realized_sites": 7,
+          "applied_fraction": 1.0,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.9319527724317265,
+            "area_ratio_max": 1.5979001946608502,
+            "min_normal_dot": 0.7388943398276813,
+            "continuous_jacobian_lower_bound": 0.25507896142925757,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 0,
+              "connected_vertex_components": 1,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 0,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": true,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        },
+        {
+          "seed": 444,
+          "recipe": {
+            "profile_id": "gallbladder-carcinoma",
+            "seed": 324967192,
+            "severity": 0.3695222735404968,
+            "size": 0.3933526277542114,
+            "spread": 0.5382055044174194,
+            "irregularity": 0.6183143854141235,
+            "contrast": 0.6084511876106262,
+            "count": 5,
+            "location": [
+              0.05795788764953613,
+              0.4204423427581787,
+              -0.22758978605270386
+            ]
+          },
+          "realized_id": "0ddfd0cbad1573eaa3b8cb27a3145282b6429ad9fc9e5121858aea7d8a6eebbf",
+          "geometry_sha256": "bd952bbc02f92a6be0694b2bcbae12502c6742efd106edaadffb13f4cfe370ba",
+          "max_displacement_mm": 0.9260854284300531,
+          "realized_sites": 5,
+          "applied_fraction": 1.0,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.8156649943170506,
+            "area_ratio_max": 1.7827582008274083,
+            "min_normal_dot": 0.7027670297732134,
+            "continuous_jacobian_lower_bound": 0.2941780802023104,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 0,
+              "connected_vertex_components": 1,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 0,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": true,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "profile": "gallbladder-cholecystitis",
+      "organ": "gallbladder",
+      "template": "bp3d-gallbladder-male",
+      "distinct_seed_geometry": true,
+      "between_seed_vertex_rms_mm": 0.21598614051807677,
+      "between_seed_vertex_max_mm": 0.6055558952800563,
+      "between_seed_mean_srgb_difference": 0.0067203091583163165,
+      "samples": [
+        {
+          "seed": 333,
+          "recipe": {
+            "profile_id": "gallbladder-cholecystitis",
+            "seed": 3292262825,
+            "severity": 0.5485407710075378,
+            "size": 0.2638740837574005,
+            "spread": 0.4843037724494934,
+            "irregularity": 0.5832515954971313,
+            "contrast": 0.4376259744167328,
+            "count": 7,
+            "location": [
+              0.23633074760437012,
+              0.11473262310028076,
+              -0.14280831813812256
+            ]
+          },
+          "realized_id": "9712640c61d8ec976e89bb8c14f970e12d7302d0b71fe59926cd23386e45b8ff",
+          "geometry_sha256": "c8bc88d183e509a307a4fe9b01e76306f2a549c2115d90a44a04b1d79961a880",
+          "max_displacement_mm": 0.6137874936858113,
+          "realized_sites": 7,
+          "applied_fraction": 1.0,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.9272458545508028,
+            "area_ratio_max": 1.3249609969475231,
+            "min_normal_dot": 0.9636796057395686,
+            "continuous_jacobian_lower_bound": 0.15227997532742177,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 0,
+              "connected_vertex_components": 1,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 0,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": true,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        },
+        {
+          "seed": 444,
+          "recipe": {
+            "profile_id": "gallbladder-cholecystitis",
+            "seed": 324967192,
+            "severity": 0.45782506465911865,
+            "size": 0.32783493399620056,
+            "spread": 0.5399081707000732,
+            "irregularity": 0.6752304434776306,
+            "contrast": 0.5035832524299622,
+            "count": 6,
+            "location": [
+              0.2400580644607544,
+              0.1612410545349121,
+              -0.27428752183914185
+            ]
+          },
+          "realized_id": "3fa666cba13fc0b0e894d568286617eb1477bf499d082d0d427a6dbc85eaf0e5",
+          "geometry_sha256": "54ddff21b536e4230b313e7c7e94dfe379b18e7e7317ce5e13540166d7c9d72e",
+          "max_displacement_mm": 0.5442041637756592,
+          "realized_sites": 6,
+          "applied_fraction": 1.0,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.98851955645072,
+            "area_ratio_max": 1.1615243872235461,
+            "min_normal_dot": 0.9390615147734519,
+            "continuous_jacobian_lower_bound": 0.2138784978208809,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 0,
+              "connected_vertex_components": 1,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 0,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": true,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "profile": "heart-infarction",
+      "organ": "heart",
+      "template": "hra-heart-female",
+      "distinct_seed_geometry": true,
+      "between_seed_vertex_rms_mm": 0.08448729947788418,
+      "between_seed_vertex_max_mm": 0.6577217499849543,
+      "between_seed_mean_srgb_difference": 0.0010689647223900407,
+      "samples": [
+        {
+          "seed": 333,
+          "recipe": {
+            "profile_id": "heart-infarction",
+            "seed": 3292262825,
+            "severity": 0.5340775847434998,
+            "size": 0.3326202630996704,
+            "spread": 0.4889896810054779,
+            "irregularity": 0.5586988925933838,
+            "contrast": 0.4988400936126709,
+            "count": 7,
+            "location": [
+              0.09486138820648193,
+              0.3021271228790283,
+              0.025811195373535156
+            ]
+          },
+          "realized_id": "999ba25fd546977f4985da7a591c1cd06437b347be46efd98edb3c9dfc8de23e",
+          "geometry_sha256": "a17775484863fc5b686b71ad85d75a1131109e288631a3cb02d9f752f85fffed",
+          "max_displacement_mm": 0.6577217499849543,
+          "realized_sites": 7,
+          "applied_fraction": 1.0,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.9644749975518758,
+            "area_ratio_max": 1.0625528306452656,
+            "min_normal_dot": 0.9976374425660938,
+            "continuous_jacobian_lower_bound": 0.16089388024553877,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 395,
+              "connected_vertex_components": 7,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 0,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": false,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        },
+        {
+          "seed": 444,
+          "recipe": {
+            "profile_id": "heart-infarction",
+            "seed": 324967192,
+            "severity": 0.4670034945011139,
+            "size": 0.40306684374809265,
+            "spread": 0.5544552206993103,
+            "irregularity": 0.670324981212616,
+            "contrast": 0.5067824125289917,
+            "count": 6,
+            "location": [
+              0.1723184585571289,
+              0.31186342239379883,
+              -0.1511440873146057
+            ]
+          },
+          "realized_id": "f6a96d1ea3b5f9f8601cdc3414fe17f003a9b5f8bec89702f3be8898c3b49bec",
+          "geometry_sha256": "b3c1ade7b43ee4a262b5693d05ecb619b197be6dfa35c29863186b5c53d6d2a7",
+          "max_displacement_mm": 0.6222702503608112,
+          "realized_sites": 6,
+          "applied_fraction": 1.0,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.9619249754573264,
+            "area_ratio_max": 1.0464455287204684,
+            "min_normal_dot": 0.9981735065343709,
+            "continuous_jacobian_lower_bound": 0.2067719238179161,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 395,
+              "connected_vertex_components": 7,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 0,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": false,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "profile": "kidney-cancer",
+      "organ": "kidney",
+      "template": "hra-kidney-female-left",
+      "distinct_seed_geometry": true,
+      "between_seed_vertex_rms_mm": 0.42209978593146424,
+      "between_seed_vertex_max_mm": 2.4030381870386166,
+      "between_seed_mean_srgb_difference": 0.0007002602600519839,
+      "samples": [
+        {
+          "seed": 333,
+          "recipe": {
+            "profile_id": "kidney-cancer",
+            "seed": 3292262825,
+            "severity": 0.4888487756252289,
+            "size": 0.27729010581970215,
+            "spread": 0.4848645031452179,
+            "irregularity": 0.5430992841720581,
+            "contrast": 0.5510320663452148,
+            "count": 7,
+            "location": [
+              0.07511651515960693,
+              0.36773622035980225,
+              0.017500996589660645
+            ]
+          },
+          "realized_id": "9931d8bdf586f2f118bd54fdc3f9171bb7bee60a0c40223be7d4f127425b99dc",
+          "geometry_sha256": "9705ae641a28718ab60dc38f16cea8716a84dcd51417534edc19ee004626db2f",
+          "max_displacement_mm": 2.386478814189389,
+          "realized_sites": 7,
+          "applied_fraction": 1.0,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.6239479891064458,
+            "area_ratio_max": 1.4956827912681503,
+            "min_normal_dot": 0.8713571735887609,
+            "continuous_jacobian_lower_bound": 0.19069508740372315,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 197,
+              "connected_vertex_components": 2,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 0,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": false,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        },
+        {
+          "seed": 444,
+          "recipe": {
+            "profile_id": "kidney-cancer",
+            "seed": 324967192,
+            "severity": 0.43048951029777527,
+            "size": 0.33985719084739685,
+            "spread": 0.571090817451477,
+            "irregularity": 0.6367267966270447,
+            "contrast": 0.5594440698623657,
+            "count": 5,
+            "location": [
+              0.1953200101852417,
+              0.3803180456161499,
+              -0.18402010202407837
+            ]
+          },
+          "realized_id": "c4121e435ca2b0faff64a01d0148e06bee2e47387af9b7468973a5d845bbdc88",
+          "geometry_sha256": "500e860d7bdcf87e36e216b1900d864c6dc753dcb44a8a49e055f26f43590518",
+          "max_displacement_mm": 2.3017981329536887,
+          "realized_sites": 5,
+          "applied_fraction": 1.0,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.7008980347021361,
+            "area_ratio_max": 1.4133239991630848,
+            "min_normal_dot": 0.9135308813956622,
+            "continuous_jacobian_lower_bound": 0.23634739790794598,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 197,
+              "connected_vertex_components": 2,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 0,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": false,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "profile": "kidney-polycystic",
+      "organ": "kidney",
+      "template": "hra-kidney-female-left",
+      "distinct_seed_geometry": true,
+      "between_seed_vertex_rms_mm": 0.13124626478025364,
+      "between_seed_vertex_max_mm": 1.041872654463788,
+      "between_seed_mean_srgb_difference": 0.000392844331482234,
+      "samples": [
+        {
+          "seed": 333,
+          "recipe": {
+            "profile_id": "kidney-polycystic",
+            "seed": 3292262825,
+            "severity": 0.4451075792312622,
+            "size": 0.32458510994911194,
+            "spread": 0.5191454291343689,
+            "irregularity": 0.5503976345062256,
+            "contrast": 0.5063815712928772,
+            "count": 7,
+            "location": [
+              0.2786659002304077,
+              0.39766860008239746,
+              0.11154162883758545
+            ]
+          },
+          "realized_id": "0daab66f26e9b72d3f8d62cef519b5da5e0d4ee154912f3f272bd68c5e74c396",
+          "geometry_sha256": "ef92ba6f0b542ae5110811763b2490e2b2ad107a5ae4890b15b2c04a338c570e",
+          "max_displacement_mm": 1.041872654463788,
+          "realized_sites": 14,
+          "applied_fraction": 1.0,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.7075750739003308,
+            "area_ratio_max": 1.4047205016688247,
+            "min_normal_dot": 0.887791080226435,
+            "continuous_jacobian_lower_bound": 0.22408392473865332,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 197,
+              "connected_vertex_components": 2,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 0,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": false,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        },
+        {
+          "seed": 444,
+          "recipe": {
+            "profile_id": "kidney-polycystic",
+            "seed": 324967192,
+            "severity": 0.3993436098098755,
+            "size": 0.39540547132492065,
+            "spread": 0.5853672623634338,
+            "irregularity": 0.6802253127098083,
+            "contrast": 0.52686607837677,
+            "count": 5,
+            "location": [
+              0.31221437454223633,
+              0.371174693107605,
+              -0.14060592651367188
+            ]
+          },
+          "realized_id": "c9f203ef240639d9944615ca39f25e270f34a0dcfa048aa3a444a1fc2777e05a",
+          "geometry_sha256": "b2320831ca2fa541dee9b71f6cb750df47ff32f703f525b116c88586660970a1",
+          "max_displacement_mm": 1.0255284453060078,
+          "realized_sites": 10,
+          "applied_fraction": 1.0,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.7695681131429851,
+            "area_ratio_max": 1.3732465419044324,
+            "min_normal_dot": 0.917496959441829,
+            "continuous_jacobian_lower_bound": 0.2644855688529222,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 197,
+              "connected_vertex_components": 2,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 0,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": false,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "profile": "liver-cirrhosis",
+      "organ": "liver",
+      "template": "hra-liver-female",
+      "distinct_seed_geometry": true,
+      "between_seed_vertex_rms_mm": 0.14417001579583785,
+      "between_seed_vertex_max_mm": 1.239708035757125,
+      "between_seed_mean_srgb_difference": 0.00047991401028202503,
+      "samples": [
+        {
+          "seed": 333,
+          "recipe": {
+            "profile_id": "liver-cirrhosis",
+            "seed": 3292262825,
+            "severity": 0.6179518103599548,
+            "size": 0.33778896927833557,
+            "spread": 0.49029454588890076,
+            "irregularity": 0.572361409664154,
+            "contrast": 0.45094552636146545,
+            "count": 7,
+            "location": [
+              0.26543283462524414,
+              0.18668758869171143,
+              -0.19778978824615479
+            ]
+          },
+          "realized_id": "2da9b0f26ab673db5941639be421041b14a3a60e0d420a56dfe6a8f2d47e5843",
+          "geometry_sha256": "1c4a9e74f1bddfa0809c90a0671fab01ead1c4a523218ffcc17b6ac10d7fff5c",
+          "max_displacement_mm": 1.239708035757125,
+          "realized_sites": 48,
+          "applied_fraction": 1.0,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.7545972137363565,
+            "area_ratio_max": 1.1644996040732543,
+            "min_normal_dot": 0.9239269842262011,
+            "continuous_jacobian_lower_bound": 0.11638062723034491,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 240,
+              "connected_vertex_components": 2,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 0,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": false,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        },
+        {
+          "seed": 444,
+          "recipe": {
+            "profile_id": "liver-cirrhosis",
+            "seed": 324967192,
+            "severity": 0.5543603301048279,
+            "size": 0.4006350338459015,
+            "spread": 0.549008309841156,
+            "irregularity": 0.6764346361160278,
+            "contrast": 0.48646169900894165,
+            "count": 5,
+            "location": [
+              0.3103092908859253,
+              0.2153254747390747,
+              -0.3305746912956238
+            ]
+          },
+          "realized_id": "108905271d4d3dccde183f46dd4b47858117fbc22f76c4074cccf8117f0dbfc5",
+          "geometry_sha256": "86071865a7010147e194926d6c1b52631d40502aad6deb80426f3df719f05abc",
+          "max_displacement_mm": 1.2019158357382245,
+          "realized_sites": 48,
+          "applied_fraction": 1.0,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.727310411543344,
+            "area_ratio_max": 1.1591183620038437,
+            "min_normal_dot": 0.9353534694215941,
+            "continuous_jacobian_lower_bound": 0.14893133683893287,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 240,
+              "connected_vertex_components": 2,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 0,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": false,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "profile": "liver-hcc",
+      "organ": "liver",
+      "template": "hra-liver-female",
+      "distinct_seed_geometry": true,
+      "between_seed_vertex_rms_mm": 0.6405976344844749,
+      "between_seed_vertex_max_mm": 4.8190185187495596,
+      "between_seed_mean_srgb_difference": 0.001755007280864603,
+      "samples": [
+        {
+          "seed": 333,
+          "recipe": {
+            "profile_id": "liver-hcc",
+            "seed": 3292262825,
+            "severity": 0.4707035720348358,
+            "size": 0.2704402804374695,
+            "spread": 0.46383190155029297,
+            "irregularity": 0.5410952568054199,
+            "contrast": 0.505678117275238,
+            "count": 7,
+            "location": [
+              0.10552012920379639,
+              0.32608675956726074,
+              -0.08553189039230347
+            ]
+          },
+          "realized_id": "f8d4922267c0f1856c67b1eae2abb6de739bcd0f7f1fed418142cc738fd498a7",
+          "geometry_sha256": "de4172cca31c9b55e4cf9a39b7a7310e409f08685910d4ceb792a892b26323f2",
+          "max_displacement_mm": 4.755629786033933,
+          "realized_sites": 7,
+          "applied_fraction": 1.0,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.6240859140464763,
+            "area_ratio_max": 1.3349666356899048,
+            "min_normal_dot": 0.8950197463955402,
+            "continuous_jacobian_lower_bound": 0.20396696271708295,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 240,
+              "connected_vertex_components": 2,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 0,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": false,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        },
+        {
+          "seed": 444,
+          "recipe": {
+            "profile_id": "liver-hcc",
+            "seed": 324967192,
+            "severity": 0.4532243609428406,
+            "size": 0.3440732955932617,
+            "spread": 0.5479356646537781,
+            "irregularity": 0.66524738073349,
+            "contrast": 0.5207984447479248,
+            "count": 6,
+            "location": [
+              0.23063206672668457,
+              0.31687605381011963,
+              -0.27514296770095825
+            ]
+          },
+          "realized_id": "d8e871aa85461ca53c3e1cc632898c4c2b2682289af696e1dbac47ff35d7cb3f",
+          "geometry_sha256": "1f9a283dd7879b5b0aaad834376730b5dee798e950eb882ad1f949cd9ab1ee1e",
+          "max_displacement_mm": 4.899487181266781,
+          "realized_sites": 6,
+          "applied_fraction": 1.0,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.8194610096719228,
+            "area_ratio_max": 1.317865200557301,
+            "min_normal_dot": 0.8955551061695702,
+            "continuous_jacobian_lower_bound": 0.21752170211003752,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 240,
+              "connected_vertex_components": 2,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 0,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": false,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "profile": "liver-metastases",
+      "organ": "liver",
+      "template": "hra-liver-female",
+      "distinct_seed_geometry": true,
+      "between_seed_vertex_rms_mm": 0.9164109133078985,
+      "between_seed_vertex_max_mm": 6.341612827317877,
+      "between_seed_mean_srgb_difference": 0.0028621118383092047,
+      "samples": [
+        {
+          "seed": 333,
+          "recipe": {
+            "profile_id": "liver-metastases",
+            "seed": 3292262825,
+            "severity": 0.5712379217147827,
+            "size": 0.36857378482818604,
+            "spread": 0.45897483825683594,
+            "irregularity": 0.6333829164505005,
+            "contrast": 0.5279667973518372,
+            "count": 7,
+            "location": [
+              0.2960951328277588,
+              0.3672173023223877,
+              -0.07850021123886108
+            ]
+          },
+          "realized_id": "c3c62ce27be81c5551316cd3652a0d3077f2d67f84d6b1531c121a9621422470",
+          "geometry_sha256": "11f63b24b2b8603c1f4aed8fc51b8b87b6b087bcb405e3c4c7ea7935c63870ad",
+          "max_displacement_mm": 6.341612827317877,
+          "realized_sites": 7,
+          "applied_fraction": 1.0,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.5563922010420137,
+            "area_ratio_max": 1.413119928660438,
+            "min_normal_dot": 0.8523692712800226,
+            "continuous_jacobian_lower_bound": 0.13958684661039833,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 240,
+              "connected_vertex_components": 2,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 0,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": false,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        },
+        {
+          "seed": 444,
+          "recipe": {
+            "profile_id": "liver-metastases",
+            "seed": 324967192,
+            "severity": 0.4628729820251465,
+            "size": 0.422278493642807,
+            "spread": 0.5346189141273499,
+            "irregularity": 0.6611030101776123,
+            "contrast": 0.5588405728340149,
+            "count": 5,
+            "location": [
+              0.37133288383483887,
+              0.4148879051208496,
+              -0.2271530032157898
+            ]
+          },
+          "realized_id": "4767f3ac17c09bf50765ee6c27bcf7f60cee2bc3e7c260a0c51595e9d708e935",
+          "geometry_sha256": "56ec39931407fefa848933d037265215c3b3b3a0ccbca2ba4f1a392f6d9f8231",
+          "max_displacement_mm": 5.35112506780073,
+          "realized_sites": 5,
+          "applied_fraction": 1.0,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.790171243241701,
+            "area_ratio_max": 1.3461450931651424,
+            "min_normal_dot": 0.9123036581771534,
+            "continuous_jacobian_lower_bound": 0.20994364783424974,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 240,
+              "connected_vertex_components": 2,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 0,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": false,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "profile": "lung-cancer",
+      "organ": "lung",
+      "template": "hra-lung-female",
+      "distinct_seed_geometry": true,
+      "between_seed_vertex_rms_mm": 0.6816941414431783,
+      "between_seed_vertex_max_mm": 5.501461914815402,
+      "between_seed_mean_srgb_difference": 0.0008847523148638331,
+      "samples": [
+        {
+          "seed": 333,
+          "recipe": {
+            "profile_id": "lung-cancer",
+            "seed": 3292262825,
+            "severity": 0.4480879604816437,
+            "size": 0.3592813313007355,
+            "spread": 0.47442346811294556,
+            "irregularity": 0.546762228012085,
+            "contrast": 0.5443300604820251,
+            "count": 7,
+            "location": [
+              0.09045577049255371,
+              0.4022115468978882,
+              -0.05601239204406738
+            ]
+          },
+          "realized_id": "c4ff2b55f90ee23e58741d5bb674d7bee645dc57cc5b34c4a5dee2d1dcd2b3be",
+          "geometry_sha256": "60240d992335e41989918b11e655201ec9ca44cb878324ead88f9a020c60cd5e",
+          "max_displacement_mm": 5.501461914815402,
+          "realized_sites": 7,
+          "applied_fraction": 1.0,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.6956280202381844,
+            "area_ratio_max": 1.4070158203450818,
+            "min_normal_dot": 0.9034429160950728,
+            "continuous_jacobian_lower_bound": 0.22165419562105962,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 4,
+              "connected_vertex_components": 5,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 0,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": false,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        },
+        {
+          "seed": 444,
+          "recipe": {
+            "profile_id": "lung-cancer",
+            "seed": 324967192,
+            "severity": 0.4199066460132599,
+            "size": 0.4169240891933441,
+            "spread": 0.5694388151168823,
+            "irregularity": 0.6488744020462036,
+            "contrast": 0.516014814376831,
+            "count": 5,
+            "location": [
+              0.2051478624343872,
+              0.40762245655059814,
+              -0.20751512050628662
+            ]
+          },
+          "realized_id": "b7a3b081c5f0b0ff51915b5a1614d8fc7c5eb5546d87925b710475d2f9408b60",
+          "geometry_sha256": "ffe382f96a9d7c07b5ef70429f2adffb868d4967ff25b81c96bb53f3b5c3ef8e",
+          "max_displacement_mm": 5.482627585520968,
+          "realized_sites": 5,
+          "applied_fraction": 1.0,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.8197712492016124,
+            "area_ratio_max": 1.464561402809269,
+            "min_normal_dot": 0.9096842188085238,
+            "continuous_jacobian_lower_bound": 0.24559426299004655,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 4,
+              "connected_vertex_components": 5,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 0,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": false,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "profile": "lung-emphysema",
+      "organ": "lung",
+      "template": "hra-lung-female",
+      "distinct_seed_geometry": true,
+      "between_seed_vertex_rms_mm": 1.0537705544021019,
+      "between_seed_vertex_max_mm": 4.358730392093162,
+      "between_seed_mean_srgb_difference": 0.005735474308324947,
+      "samples": [
+        {
+          "seed": 333,
+          "recipe": {
+            "profile_id": "lung-emphysema",
+            "seed": 3292262825,
+            "severity": 0.5387949347496033,
+            "size": 0.3424038887023926,
+            "spread": 0.5037181377410889,
+            "irregularity": 0.5303341150283813,
+            "contrast": 0.47721588611602783,
+            "count": 7,
+            "location": [
+              0.24501526355743408,
+              0.3657543659210205,
+              -0.06614547967910767
+            ]
+          },
+          "realized_id": "0d72417a32a81c12c209c0ba16e2e24d782716f14e06dcbcc656dc67ee258085",
+          "geometry_sha256": "478061cdad28add9009aface5a8b6dd47d0008163977407a5bc003af4de9d611",
+          "max_displacement_mm": 4.358730392093162,
+          "realized_sites": 7,
+          "applied_fraction": 1.0,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.8940329212109864,
+            "area_ratio_max": 1.162367193277842,
+            "min_normal_dot": 0.9823008143613999,
+            "continuous_jacobian_lower_bound": 0.1580379366959455,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 4,
+              "connected_vertex_components": 5,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 0,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": false,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        },
+        {
+          "seed": 444,
+          "recipe": {
+            "profile_id": "lung-emphysema",
+            "seed": 324967192,
+            "severity": 0.4639818072319031,
+            "size": 0.40399256348609924,
+            "spread": 0.5635671019554138,
+            "irregularity": 0.6333745121955872,
+            "contrast": 0.5153913497924805,
+            "count": 5,
+            "location": [
+              0.3381723165512085,
+              0.3332538604736328,
+              -0.2583656907081604
+            ]
+          },
+          "realized_id": "36e5f85d622b6bc21c3f9aad62fe757ec2a0645944d3a9b480de83636f91f8e3",
+          "geometry_sha256": "c734a51f89563fcaed81790b001474e909d39680959a7e31356d0fc659af605c",
+          "max_displacement_mm": 3.984074855447609,
+          "realized_sites": 5,
+          "applied_fraction": 1.0,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.8754135468743611,
+            "area_ratio_max": 1.133044059639208,
+            "min_normal_dot": 0.986904888810464,
+            "continuous_jacobian_lower_bound": 0.2090879888660477,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 4,
+              "connected_vertex_components": 5,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 0,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": false,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "profile": "pancreas-cancer",
+      "organ": "pancreas",
+      "template": "hra-pancreas-female",
+      "distinct_seed_geometry": true,
+      "between_seed_vertex_rms_mm": 0.5082653563817289,
+      "between_seed_vertex_max_mm": 2.6665653237215894,
+      "between_seed_mean_srgb_difference": 0.0017854549794656964,
+      "samples": [
+        {
+          "seed": 333,
+          "recipe": {
+            "profile_id": "pancreas-cancer",
+            "seed": 3292262825,
+            "severity": 0.4389151632785797,
+            "size": 0.28080981969833374,
+            "spread": 0.4634825587272644,
+            "irregularity": 0.5447947978973389,
+            "contrast": 0.49960774183273315,
+            "count": 7,
+            "location": [
+              0.2767602205276489,
+              0.33917760848999023,
+              -0.06672996282577515
+            ]
+          },
+          "realized_id": "1c195b0c60604117a5b10d0c25c43304dab77517e010567e9480d7205e594280",
+          "geometry_sha256": "fff25fd66e3b513b267dab8e406f97bbc16cbdcc6a204ea91a1dc937a7c99056",
+          "max_displacement_mm": 2.6665653237215894,
+          "realized_sites": 7,
+          "applied_fraction": 1.0,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.7341050869909865,
+            "area_ratio_max": 1.361829111252339,
+            "min_normal_dot": 0.8430510364396161,
+            "continuous_jacobian_lower_bound": 0.22920807186879438,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 0,
+              "connected_vertex_components": 1,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 0,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": true,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        },
+        {
+          "seed": 444,
+          "recipe": {
+            "profile_id": "pancreas-cancer",
+            "seed": 324967192,
+            "severity": 0.4027320146560669,
+            "size": 0.35341063141822815,
+            "spread": 0.5287269353866577,
+            "irregularity": 0.6452099680900574,
+            "contrast": 0.5436346530914307,
+            "count": 5,
+            "location": [
+              0.2881355285644531,
+              0.361301064491272,
+              -0.22000885009765625
+            ]
+          },
+          "realized_id": "d655f45b70580643648e8a53786d73592452e9bdc21ff4d21fb04753068fe86f",
+          "geometry_sha256": "da3fb3c3bddafae74a07990bb02ec0948c3d9c63d5a9e70cb2a2cd621a2168e6",
+          "max_displacement_mm": 2.648883209675198,
+          "realized_sites": 5,
+          "applied_fraction": 1.0,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.7833344951396053,
+            "area_ratio_max": 1.2886018144506257,
+            "min_normal_dot": 0.9215396639377353,
+            "continuous_jacobian_lower_bound": 0.26128645640197523,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 0,
+              "connected_vertex_components": 1,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 0,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": true,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "profile": "pancreas-pancreatitis",
+      "organ": "pancreas",
+      "template": "hra-pancreas-female",
+      "distinct_seed_geometry": true,
+      "between_seed_vertex_rms_mm": 0.3386101389145077,
+      "between_seed_vertex_max_mm": 1.2870156704198565,
+      "between_seed_mean_srgb_difference": 0.0034861316242358943,
+      "samples": [
+        {
+          "seed": 333,
+          "recipe": {
+            "profile_id": "pancreas-pancreatitis",
+            "seed": 3292262825,
+            "severity": 0.5074928402900696,
+            "size": 0.37708744406700134,
+            "spread": 0.42552080750465393,
+            "irregularity": 0.5851404070854187,
+            "contrast": 0.44570979475975037,
+            "count": 7,
+            "location": [
+              0.25405633449554443,
+              0.35246527194976807,
+              -0.14811605215072632
+            ]
+          },
+          "realized_id": "e8d2ae79ea640d2f08b7ae19a05aa4e8df1397f2c7facca9d00d1bf970cc947d",
+          "geometry_sha256": "33b528eab46c6e2492455f9de4b10e2a2150556c584888e2dc5d84a924608819",
+          "max_displacement_mm": 1.2478334862626785,
+          "realized_sites": 4,
+          "applied_fraction": 1.0,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.9277978598084515,
+            "area_ratio_max": 1.0801588860658737,
+            "min_normal_dot": 0.9953966888537437,
+            "continuous_jacobian_lower_bound": 0.1778633843891283,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 0,
+              "connected_vertex_components": 1,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 0,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": true,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        },
+        {
+          "seed": 444,
+          "recipe": {
+            "profile_id": "pancreas-pancreatitis",
+            "seed": 324967192,
+            "severity": 0.4513449966907501,
+            "size": 0.46247029304504395,
+            "spread": 0.49607333540916443,
+            "irregularity": 0.6465638279914856,
+            "contrast": 0.4860197603702545,
+            "count": 5,
+            "location": [
+              0.2831399440765381,
+              0.36721813678741455,
+              -0.2672250270843506
+            ]
+          },
+          "realized_id": "bc5027d471218a4b4f2cebf00d09596659164152d72f6c4f649dc74f25242475",
+          "geometry_sha256": "1586fbc296ee17c1f726ef2b358323f0ef1d98a4234c35b6a11087e2fc1fe301",
+          "max_displacement_mm": 1.2004015902149292,
+          "realized_sites": 4,
+          "applied_fraction": 1.0,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.9418742501408853,
+            "area_ratio_max": 1.0688747053220065,
+            "min_normal_dot": 0.9969415219538642,
+            "continuous_jacobian_lower_bound": 0.2190257310698438,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 0,
+              "connected_vertex_components": 1,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 0,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": true,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "profile": "pancreas-pseudocyst",
+      "organ": "pancreas",
+      "template": "hra-pancreas-female",
+      "distinct_seed_geometry": true,
+      "between_seed_vertex_rms_mm": 0.645626860835477,
+      "between_seed_vertex_max_mm": 3.06683073935328,
+      "between_seed_mean_srgb_difference": 0.0038727328531296306,
+      "samples": [
+        {
+          "seed": 333,
+          "recipe": {
+            "profile_id": "pancreas-pseudocyst",
+            "seed": 3292262825,
+            "severity": 0.47240450978279114,
+            "size": 0.342415988445282,
+            "spread": 0.4644448459148407,
+            "irregularity": 0.5696775317192078,
+            "contrast": 0.5425140857696533,
+            "count": 7,
+            "location": [
+              0.16834688186645508,
+              0.4122138023376465,
+              -0.07896894216537476
+            ]
+          },
+          "realized_id": "5fda56d95234beeb42dfdea4bf1f00eaf56eccad12939e143cda29c14f0164b0",
+          "geometry_sha256": "c4ec327ea8a4f90997f6113b777cc05e8265a67787d4b807b474d8b3424d2daa",
+          "max_displacement_mm": 3.06683073935328,
+          "realized_sites": 7,
+          "applied_fraction": 1.0,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.7058922251798502,
+            "area_ratio_max": 1.4175333771799516,
+            "min_normal_dot": 0.8307424312295155,
+            "continuous_jacobian_lower_bound": 0.20268889987571798,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 0,
+              "connected_vertex_components": 1,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 0,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": true,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        },
+        {
+          "seed": 444,
+          "recipe": {
+            "profile_id": "pancreas-pseudocyst",
+            "seed": 324967192,
+            "severity": 0.4353504180908203,
+            "size": 0.40852856636047363,
+            "spread": 0.5361750721931458,
+            "irregularity": 0.6760222315788269,
+            "contrast": 0.5449391007423401,
+            "count": 5,
+            "location": [
+              0.23746097087860107,
+              0.4076855182647705,
+              -0.23479890823364258
+            ]
+          },
+          "realized_id": "16e914f192b9bc8fb159392d364ae4f850a18f3947fb768059d1742d2eae2b51",
+          "geometry_sha256": "c69c3e42556d8adc4e173ae997eed18a3a9c73e8057489b77b96f54a9daf1e64",
+          "max_displacement_mm": 3.0219199885999846,
+          "realized_sites": 5,
+          "applied_fraction": 1.0,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.756573652933256,
+            "area_ratio_max": 1.3043962442834796,
+            "min_normal_dot": 0.9117309282000586,
+            "continuous_jacobian_lower_bound": 0.23220485431184143,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 0,
+              "connected_vertex_components": 1,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 0,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": true,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "profile": "small-intestine-crohn",
+      "organ": "small-intestine",
+      "template": "hra-small-intestine-female",
+      "distinct_seed_geometry": true,
+      "between_seed_vertex_rms_mm": 0.723550004326723,
+      "between_seed_vertex_max_mm": 3.258300967143055,
+      "between_seed_mean_srgb_difference": 0.010732649854614617,
+      "samples": [
+        {
+          "seed": 333,
+          "recipe": {
+            "profile_id": "small-intestine-crohn",
+            "seed": 3292262825,
+            "severity": 0.5076812505722046,
+            "size": 0.3309139311313629,
+            "spread": 0.43033385276794434,
+            "irregularity": 0.5555058121681213,
+            "contrast": 0.5504446625709534,
+            "count": 7,
+            "location": [
+              0.1738501787185669,
+              0.4228416681289673,
+              0.027783989906311035
+            ]
+          },
+          "realized_id": "6806b19b6b7c349ea1221bf90b16ec448041a90c02af48ce904e5529886a653a",
+          "geometry_sha256": "19e7369c14261b70c980221274fc17b4607f1f41c70b1a3042ecbe79ceca3171",
+          "max_displacement_mm": 2.3533322161484524,
+          "realized_sites": 7,
+          "applied_fraction": 1.0,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.8993033992140069,
+            "area_ratio_max": 1.1322999989086442,
+            "min_normal_dot": 0.9926494631383462,
+            "continuous_jacobian_lower_bound": 0.17773772949212044,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 268,
+              "connected_vertex_components": 4,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 0,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": false,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        },
+        {
+          "seed": 444,
+          "recipe": {
+            "profile_id": "small-intestine-crohn",
+            "seed": 324967192,
+            "severity": 0.45720431208610535,
+            "size": 0.39262789487838745,
+            "spread": 0.5053571462631226,
+            "irregularity": 0.6300848722457886,
+            "contrast": 0.5464344024658203,
+            "count": 6,
+            "location": [
+              0.23538458347320557,
+              0.44077932834625244,
+              -0.19281303882598877
+            ]
+          },
+          "realized_id": "392dc6649f7f3334cb7f0581ab2c60155edb65aef716919dafbf4ed7198c07b1",
+          "geometry_sha256": "7dfac0e5aa7099a837b91a993186126c20714780da919479b4dee97567b7b294",
+          "max_displacement_mm": 2.201801024165096,
+          "realized_sites": 6,
+          "applied_fraction": 1.0,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.9050165480918684,
+            "area_ratio_max": 1.1011227325064026,
+            "min_normal_dot": 0.9939058571973414,
+            "continuous_jacobian_lower_bound": 0.2143668721370886,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 268,
+              "connected_vertex_components": 4,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 0,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": false,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "profile": "small-intestine-net",
+      "organ": "small-intestine",
+      "template": "hra-small-intestine-female",
+      "distinct_seed_geometry": true,
+      "between_seed_vertex_rms_mm": 0.6976193369744991,
+      "between_seed_vertex_max_mm": 5.050953545926925,
+      "between_seed_mean_srgb_difference": 0.0014375261538086238,
+      "samples": [
+        {
+          "seed": 333,
+          "recipe": {
+            "profile_id": "small-intestine-net",
+            "seed": 3292262825,
+            "severity": 0.5431005358695984,
+            "size": 0.3538855016231537,
+            "spread": 0.506278932094574,
+            "irregularity": 0.5560159683227539,
+            "contrast": 0.4964602291584015,
+            "count": 7,
+            "location": [
+              0.22427988052368164,
+              0.36630403995513916,
+              -0.07178390026092529
+            ]
+          },
+          "realized_id": "22dbcb7ca4e2164ef621a713fe962968345cda53fe5e30b48fe1f1243d9df137",
+          "geometry_sha256": "436180f4c7fb0a35b4bf55fc404969b337d66bfb62f1c7c3791c79b6b7483ab1",
+          "max_displacement_mm": 5.050953545926925,
+          "realized_sites": 7,
+          "applied_fraction": 1.0,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.617182661022562,
+            "area_ratio_max": 1.4477582649784777,
+            "min_normal_dot": 0.8605688992379861,
+            "continuous_jacobian_lower_bound": 0.15547069852223772,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 268,
+              "connected_vertex_components": 4,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 0,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": false,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        },
+        {
+          "seed": 444,
+          "recipe": {
+            "profile_id": "small-intestine-net",
+            "seed": 324967192,
+            "severity": 0.4601592719554901,
+            "size": 0.42544853687286377,
+            "spread": 0.565116822719574,
+            "irregularity": 0.6480191349983215,
+            "contrast": 0.5514496564865112,
+            "count": 5,
+            "location": [
+              0.2789691686630249,
+              0.3715634346008301,
+              -0.24795877933502197
+            ]
+          },
+          "realized_id": "71e46a9517f098b8206ebdbe37ada1b05ae3a553a495e145c776f71b82d45823",
+          "geometry_sha256": "a2846b466bc48fbfef9dc1cd492961fbe7bd4a547f403ae88c0c90b2e0c5affc",
+          "max_displacement_mm": 4.51401723884047,
+          "realized_sites": 5,
+          "applied_fraction": 1.0,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.6782506020280052,
+            "area_ratio_max": 1.4470081520498888,
+            "min_normal_dot": 0.9091880178465304,
+            "continuous_jacobian_lower_bound": 0.21205091000930723,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 268,
+              "connected_vertex_components": 4,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 0,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": false,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "profile": "spleen-cyst",
+      "organ": "spleen",
+      "template": "hra-spleen-female",
+      "distinct_seed_geometry": true,
+      "between_seed_vertex_rms_mm": 0.3301707262600803,
+      "between_seed_vertex_max_mm": 2.3840144887585684,
+      "between_seed_mean_srgb_difference": 0.0008546758558332064,
+      "samples": [
+        {
+          "seed": 333,
+          "recipe": {
+            "profile_id": "spleen-cyst",
+            "seed": 3292262825,
+            "severity": 0.5415120124816895,
+            "size": 0.24813847243785858,
+            "spread": 0.45752742886543274,
+            "irregularity": 0.5300390124320984,
+            "contrast": 0.47831565141677856,
+            "count": 7,
+            "location": [
+              0.07303500175476074,
+              0.3071674108505249,
+              -0.09637433290481567
+            ]
+          },
+          "realized_id": "0a636c6a482e70855ec444d42e68ac8042c48fa07e08d9194ec51dc0778dfd7b",
+          "geometry_sha256": "d4ee10c898e043f272c7b971a98303fc01475c719a8d327d59477b22d23fa67c",
+          "max_displacement_mm": 2.3840144887585684,
+          "realized_sites": 7,
+          "applied_fraction": 1.0,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.942383056989081,
+            "area_ratio_max": 1.3107532047867982,
+            "min_normal_dot": 0.851120509866762,
+            "continuous_jacobian_lower_bound": 0.15641351591739072,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 0,
+              "connected_vertex_components": 1,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 0,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": true,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        },
+        {
+          "seed": 444,
+          "recipe": {
+            "profile_id": "spleen-cyst",
+            "seed": 324967192,
+            "severity": 0.4812903106212616,
+            "size": 0.32352414727211,
+            "spread": 0.5279473066329956,
+            "irregularity": 0.6420114040374756,
+            "contrast": 0.5095586180686951,
+            "count": 5,
+            "location": [
+              0.1472172737121582,
+              0.3208428621292114,
+              -0.25007402896881104
+            ]
+          },
+          "realized_id": "b5674a33e201200c0a0a0da9adb8bf4017eab79daf72cdddb6efac06481940ec",
+          "geometry_sha256": "03f90ef08c6786327f02f6431b01c216b1c0fc6f3bdf90f061c5bde7636c5a19",
+          "max_displacement_mm": 2.2514938766227113,
+          "realized_sites": 5,
+          "applied_fraction": 1.0,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.6598188829763277,
+            "area_ratio_max": 1.2755099003911636,
+            "min_normal_dot": 0.9004247666785554,
+            "continuous_jacobian_lower_bound": 0.19612723994546055,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 0,
+              "connected_vertex_components": 1,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 0,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": true,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "profile": "spleen-infarct",
+      "organ": "spleen",
+      "template": "hra-spleen-female",
+      "distinct_seed_geometry": true,
+      "between_seed_vertex_rms_mm": 0.15928351848527456,
+      "between_seed_vertex_max_mm": 0.6399473831523468,
+      "between_seed_mean_srgb_difference": 0.009397040495161187,
+      "samples": [
+        {
+          "seed": 333,
+          "recipe": {
+            "profile_id": "spleen-infarct",
+            "seed": 3292262825,
+            "severity": 0.4979713261127472,
+            "size": 0.3309033215045929,
+            "spread": 0.44709670543670654,
+            "irregularity": 0.5087813138961792,
+            "contrast": 0.5614469647407532,
+            "count": 7,
+            "location": [
+              0.171372652053833,
+              0.33710551261901855,
+              0.07280027866363525
+            ]
+          },
+          "realized_id": "2a73d75c47522d89b1597b97784f003b523628e992f8850539ec3d372f0c6e67",
+          "geometry_sha256": "f55ceb4c3711e60748b51ae6cbd08436acd1efab85a3d27c6ae3c62563ca9719",
+          "max_displacement_mm": 0.6399503239141066,
+          "realized_sites": 7,
+          "applied_fraction": 1.0,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.9514076626808275,
+            "area_ratio_max": 1.0232386549999608,
+            "min_normal_dot": 0.9977533107004488,
+            "continuous_jacobian_lower_bound": 0.184317246562822,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 0,
+              "connected_vertex_components": 1,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 0,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": true,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        },
+        {
+          "seed": 444,
+          "recipe": {
+            "profile_id": "spleen-infarct",
+            "seed": 324967192,
+            "severity": 0.4505143463611603,
+            "size": 0.39731159806251526,
+            "spread": 0.5162591934204102,
+            "irregularity": 0.6198539137840271,
+            "contrast": 0.5680835247039795,
+            "count": 5,
+            "location": [
+              0.2284085750579834,
+              0.33993232250213623,
+              -0.15749764442443848
+            ]
+          },
+          "realized_id": "085974ab7bc43d856397e9f64175f64530d80ef5beb526524b37e2cf98df1a21",
+          "geometry_sha256": "98f914b3aafa3e152200fa7fb3baccb2998ae85021964fdc3961400a13345953",
+          "max_displacement_mm": 0.596327707783184,
+          "realized_sites": 5,
+          "applied_fraction": 1.0,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.9607946024050664,
+            "area_ratio_max": 1.0312364094515103,
+            "min_normal_dot": 0.9983662687734781,
+            "continuous_jacobian_lower_bound": 0.2196934294770184,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 0,
+              "connected_vertex_components": 1,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 0,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": true,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "profile": "stomach-adenocarcinoma",
+      "organ": "stomach",
+      "template": "bp3d-stomach-male",
+      "distinct_seed_geometry": true,
+      "between_seed_vertex_rms_mm": 0.45671949386406646,
+      "between_seed_vertex_max_mm": 3.452561288980052,
+      "between_seed_mean_srgb_difference": 0.0008959424755001482,
+      "samples": [
+        {
+          "seed": 333,
+          "recipe": {
+            "profile_id": "stomach-adenocarcinoma",
+            "seed": 3292262825,
+            "severity": 0.5384202003479004,
+            "size": 0.2890213131904602,
+            "spread": 0.4387083947658539,
+            "irregularity": 0.57718425989151,
+            "contrast": 0.5671175122261047,
+            "count": 7,
+            "location": [
+              0.24903583526611328,
+              0.17703771591186523,
+              -0.0393824577331543
+            ]
+          },
+          "realized_id": "6fedbd67f14b4140794a93577024b278db642092461557359b73c88c4c7b380e",
+          "geometry_sha256": "45dbcfa6dc8fea4c6e911938307c5e4bbae9bbc9c35bce45e1ed5887895486f0",
+          "max_displacement_mm": 3.452561288980052,
+          "realized_sites": 7,
+          "applied_fraction": 1.0,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.8128641008488111,
+            "area_ratio_max": 1.2895831565670537,
+            "min_normal_dot": 0.8811860326598603,
+            "continuous_jacobian_lower_bound": 0.1582631464957924,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 0,
+              "connected_vertex_components": 1,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 0,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": true,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        },
+        {
+          "seed": 444,
+          "recipe": {
+            "profile_id": "stomach-adenocarcinoma",
+            "seed": 324967192,
+            "severity": 0.47329607605934143,
+            "size": 0.3499995470046997,
+            "spread": 0.5187127590179443,
+            "irregularity": 0.6438117623329163,
+            "contrast": 0.568790078163147,
+            "count": 5,
+            "location": [
+              0.323783278465271,
+              0.2298295497894287,
+              -0.18862271308898926
+            ]
+          },
+          "realized_id": "61b3d2dfd08596bceefb8009cb875ccf23bd4ccfe45c8b4f7339851ddfd19461",
+          "geometry_sha256": "caefaa9330c4c3ec6ec5c6433bd846b6053299716e27af45f925cf20460c7c07",
+          "max_displacement_mm": 3.2117186080019544,
+          "realized_sites": 5,
+          "applied_fraction": 1.0,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.8692911938492001,
+            "area_ratio_max": 1.2161276129461709,
+            "min_normal_dot": 0.9179953849245946,
+            "continuous_jacobian_lower_bound": 0.20202183611460534,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 0,
+              "connected_vertex_components": 1,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 0,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": true,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "profile": "stomach-gist",
+      "organ": "stomach",
+      "template": "bp3d-stomach-male",
+      "distinct_seed_geometry": true,
+      "between_seed_vertex_rms_mm": 0.5537698339012612,
+      "between_seed_vertex_max_mm": 4.051660661039085,
+      "between_seed_mean_srgb_difference": 0.0010751936286512473,
+      "samples": [
+        {
+          "seed": 333,
+          "recipe": {
+            "profile_id": "stomach-gist",
+            "seed": 3292262825,
+            "severity": 0.592743992805481,
+            "size": 0.35340559482574463,
+            "spread": 0.526918351650238,
+            "irregularity": 0.5557758212089539,
+            "contrast": 0.5453283786773682,
+            "count": 7,
+            "location": [
+              0.22172653675079346,
+              0.28128039836883545,
+              0.08176696300506592
+            ]
+          },
+          "realized_id": "e365bcbbfc6e8aa06886306133b46ac7b1b530424e925438a390ced865b4699c",
+          "geometry_sha256": "af69d702d11122e294e31b44f0ea4bc45b314bfff01c4e92ef05f18075cecce4",
+          "max_displacement_mm": 4.051660661039085,
+          "realized_sites": 7,
+          "applied_fraction": 1.0,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.7703318456986488,
+            "area_ratio_max": 1.3403980981105303,
+            "min_normal_dot": 0.8585633025428019,
+            "continuous_jacobian_lower_bound": 0.1284367485464916,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 0,
+              "connected_vertex_components": 1,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 0,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": true,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        },
+        {
+          "seed": 444,
+          "recipe": {
+            "profile_id": "stomach-gist",
+            "seed": 324967192,
+            "severity": 0.5188606977462769,
+            "size": 0.41106465458869934,
+            "spread": 0.57301926612854,
+            "irregularity": 0.6360698938369751,
+            "contrast": 0.5729168057441711,
+            "count": 5,
+            "location": [
+              0.29238462448120117,
+              0.32910215854644775,
+              -0.12364155054092407
+            ]
+          },
+          "realized_id": "1b90ae3e78220b39af1cd5732f868d9a57364977324bb761b2ccfbe947b78ec9",
+          "geometry_sha256": "f7fe82579009dc8576a5ff8dd2c1ae0cedafcf7c2cab01e888f522eec86a8ea9",
+          "max_displacement_mm": 3.7345062103522735,
+          "realized_sites": 5,
+          "applied_fraction": 1.0,
+          "qa": {
+            "passed": true,
+            "status": "PASS",
+            "scope": "finite nondegenerate same-topology outer-surface design",
+            "topology_preserved": true,
+            "new_degenerate_faces": 0,
+            "normal_turns_over_90_degrees": 0,
+            "area_ratio_min": 0.8449519340540358,
+            "area_ratio_max": 1.2576549070979497,
+            "min_normal_dot": 0.8998212920444181,
+            "continuous_jacobian_lower_bound": 0.17042167288573162,
+            "source_topology": {
+              "boundary_edges_after_audit_weld": 0,
+              "connected_vertex_components": 1,
+              "degenerate_faces": 0,
+              "method": "trimesh-geometric-weld-audit-copy-1.0",
+              "nonmanifold_edges_after_audit_weld": 0,
+              "self_intersection": {
+                "reason": "No robust intersection backend",
+                "status": "NOT_RUN"
+              },
+              "simulation_readiness": {
+                "reason": "No volumetric domain/materials",
+                "status": "NOT_RUN"
+              },
+              "watertight_after_audit_weld": true,
+              "weld_precision_mm": 1e-08,
+              "winding_consistent_after_audit_weld": true,
+              "zero_length_edges": 0
+            },
+            "self_intersection": {
+              "status": "NOT_RUN",
+              "reason": "Discrete/source triangle intersections not certified"
+            },
+            "anatomical_plausibility": {
+              "status": "NOT_RUN"
+            },
+            "mechanical_validation": {
+              "status": "NOT_RUN"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,78 @@
+.physics-lab-modes { display: flex; align-items: center; gap: 7px; padding: 15px 24px; border-bottom: 1px solid #40516066; background: #111b22; }
+.physics-lab-modes button { min-height: 36px; padding: 8px 15px; border: 1px solid #41515c; border-radius: 6px; background: #182731; color: #aac0c9; font-size: 11px; }
+.physics-lab-modes button[aria-pressed="true"] { color: #122d24; background: #b4dccb; border-color: #b4dccb; font-weight: 600; }
+.physics-lab-modes p { font-size: 10px; color: #94b0bb; margin: 0 0 0 auto; line-height: 1.6; }
+.physics-hands-on .physics-experiment { padding-top: 23px; }
+.physics-playground { min-width: 0; }
+.playground-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 14px 18px; border-bottom: 1px solid #40516066; background: #17242d; }
+.playground-tools { display: flex; align-items: center; gap: 5px; }
+.playground-tools button { display: inline-flex; align-items: center; gap: 7px; color: #afc7d0; background: #22343f; border: 1px solid #415e69; border-radius: 6px; padding: 9px 13px; font-size: 11px; min-height: 36px; }
+.playground-tools button[aria-pressed="true"] { color: #d7f1e3; background: #32574d; border-color: #8cbcac; }
+.playground-live-badge { color: #a6cbbb; font-size: 8px; letter-spacing: .12em; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+.playground-live-badge i { width: 5px; height: 5px; border-radius: 50%; background: #94d5b5; box-shadow: 0 0 12px #94d5b560; }
+.playground-live-badge i.paused { background: #b6ac80; box-shadow: none; }
+.playground-stage { position: relative; height: clamp(360px, 43vh, 500px); overflow: hidden; background: #1b2931; }
+.playground-canvas { position: absolute; inset: 0; }
+.playground-canvas canvas { display: block; width: 100%; height: 100%; touch-action: none; outline-offset: -4px !important; }
+.playground-room-label { position: absolute; left: 20px; top: 18px; pointer-events: none; }
+.playground-room-label span { display: block; color: #a2bcc4; letter-spacing: .12em; font-size: 8px; }
+.playground-room-label small { display: block; color: #8da8b2; font-size: 9px; margin-top: 7px; }
+.playground-view-actions { position: absolute; right: 18px; top: 14px; display: flex; flex-direction: column; align-items: stretch; gap: 5px; }
+.playground-view-actions button { justify-content: center; font-size: 9px; min-height: 28px; padding: 6px 9px; background: #14242de8; }
+.playground-view-hint { position: absolute; right: 18px; top: 88px; width: 125px; font-size: 9px; line-height: 1.5; color: #d4dfd3; text-align: right; pointer-events: none; }
+.playground-body-state { position: absolute; left: 20px; top: 67px; display: inline-flex; align-items: center; gap: 10px; color: #bedecb; background: #142b2ac9; border: 1px solid #71978833; border-radius: 5px; padding: 7px 9px; pointer-events: none; }
+.playground-body-state strong { font-weight: 500; font-size: 10px; }.playground-body-state small { font: 8px "JetBrains Mono", monospace; color: #9dbbb0; }
+.playground-instrument-label { position: absolute; left: 20px; top: 108px; pointer-events: none; color: #d0e3e9; }
+.playground-instrument-label span { display: block; font-size: 11px; font-weight: 500; }
+.playground-instrument-label small { display: block; margin-top: 5px; font: 8px "JetBrains Mono", monospace; color: #8eabb8; }
+.playground-ground-label, .playground-camera-hint { position: absolute; bottom: 14px; font-size: 9px; color: #b0c5ca; pointer-events: none; text-shadow: 0 1px 8px #091d24; }
+.playground-ground-label { left: 20px; font-family: "JetBrains Mono", monospace; }
+.playground-camera-hint { right: 20px; }
+.playground-loading { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 13px; background: #16242edf; color: #a3d0bd; }
+.playground-loading strong { font-size: 15px; font-weight: 500; color: #cfdfda; }
+.playground-loading span { max-width: 300px; font-size: 11px; color: #96afb9; line-height: 1.7; text-align: center; }
+.playground-instruction { display: flex; align-items: flex-start; gap: 9px; padding: 13px 20px; margin: 0; background: #1b302f; border-block: 1px solid #53837450; color: #c5e3d5; font-size: 11px; line-height: 1.7; }
+.playground-instruction svg { flex-shrink: 0; margin-top: 2px; color: #a0cdbb; }
+.playground-actions { display: flex; gap: 7px; flex-wrap: wrap; padding: 16px 20px 10px; }
+.playground-actions button { font-size: 10px; min-height: 34px; padding: 8px 10px; }
+.playground-actions button[aria-pressed="true"] { color: #bde0d2; border-color: #7eaa9877; background: #203b33; }
+.playground-tool-settings { display: grid; grid-template-columns: 1fr 1fr; gap: 27px; padding: 8px 22px 15px; }
+.playground-tool-settings label > span { display: flex; justify-content: space-between; gap: 10px; color: #abc3cd; font-size: 10px; }
+.playground-tool-settings output { font: 9px "JetBrains Mono", monospace; color: #b6d9cc; }
+.playground-tool-settings input { width: 100%; display: block; margin: 10px 0 0; height: 18px; }
+.playground-metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding: 0 20px 15px; }
+.playground-metrics > div { min-width: 0; background: #192830; border: 1px solid #374b5466; padding: 12px 10px; border-radius: 6px; }
+.playground-metrics span { display: block; font-size: 9px; color: #9bb5bd; }
+.playground-metrics strong { display: block; font: 19px "JetBrains Mono", monospace; color: #cfe6d9; margin-block: 10px 8px; }
+.playground-metrics small { font: 10px Inter, sans-serif; color: #90b4a5; }
+.playground-metrics em { display: block; font-size: 8px; font-style: normal; color: #92a9b3; line-height: 1.5; }
+.playground-notes { margin: 0 20px 17px; font-size: 10px; color: #93b2ba; }
+.playground-notes summary { cursor: pointer; padding: 6px 0; }
+.playground-notes p { font-size: 10px; line-height: 1.7; color: #8da5b1; }
+.playground-solver-note { margin: -2px 20px 12px; color: #8da8b1; font-size: 9px; line-height: 1.7; }
+.playground-timing-warning { margin: 0 20px 12px; color: #e0c3a2; font-size: 10px; line-height: 1.7; }
+.playground-error { padding: 10px 16px; margin: 6px 20px 14px; border: 1px solid #c58a6355; border-radius: 6px; background: #69442b22; }
+.playground-error p { font-size: 11px; line-height: 1.7; color: #e4bfa5; }
+.playground-capture { margin: 0 20px 15px; border: 1px solid #40516066; border-radius: 6px; padding: 11px; }
+.playground-capture-actions { display: flex; flex-wrap: wrap; gap: 7px; }
+.playground-capture button { min-height: 32px; font-size: 10px; }
+.playground-capture button[aria-pressed="true"] { background: #503433; border-color: #ac7470; color: #f0d0c9; }
+.playground-capture p { margin: 8px 0 0; color: #b1c9c6; font-size: 10px; line-height: 1.6; }
+.playground-capture small { display: block; color: #89a6b0; font-size: 9px; margin-top: 3px; }
+.playground-contact-measurements { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; padding: 0 20px 12px; }
+.playground-contact-measurements span { display: block; font-size: 9px; color: #97b3ba; }
+.playground-contact-measurements strong { display: block; font: 12px "JetBrains Mono", monospace; color: #c6ded1; margin-top: 6px; }
+.playground-contact-measurements p { grid-column: 1 / -1; margin: 0; font-size: 9px; line-height: 1.6; color: #8da8b1; }
+@media (max-width: 1000px) { .playground-toolbar { flex-wrap: wrap; } .playground-live-badge { margin-left: auto; } .playground-metrics { grid-template-columns: repeat(2, 1fr); } .physics-lab-modes p { max-width: 230px; font-size: 9px; } }
+@media (max-width: 700px) {
+  .physics-lab-modes { padding: 12px 16px; gap: 6px; flex-wrap: wrap; } .physics-lab-modes button { font-size: 10px; padding: 8px 12px; } .physics-lab-modes p { flex-basis: 100%; margin: 4px 0 0; max-width: none; }
+  .physics-hands-on .physics-layout { display: flex; flex-direction: column; } .physics-hands-on .physics-result { order: 0; } .physics-hands-on .physics-experiment { order: 1; }
+  .playground-toolbar { padding: 12px; gap: 9px; } .playground-tools { flex: 1; gap: 4px; } .playground-tools button { flex: 1; padding: 8px; gap: 4px; font-size: 10px; } .playground-tools button svg { width: 13px; }
+  .playground-live-badge { font-size: 7px; } .playground-stage { height: 340px; } .playground-room-label { top: 16px; left: 15px; } .playground-room-label span { font-size: 7px; } .playground-room-label small { font-size: 8px; max-width: 140px; line-height: 1.6; }
+  .playground-view-actions { right: 10px; } .playground-view-actions button { font-size: 8px; padding-inline: 6px; } .playground-view-hint { right: 10px; width: 95px; font-size: 8px; } .playground-ground-label { left: 15px; font-size: 8px; } .playground-camera-hint { right: 12px; max-width: 150px; text-align: right; font-size: 8px; }
+  .playground-instrument-label { left: 15px; top: 105px; }.playground-instrument-label span { font-size: 10px; }
+  .playground-actions { padding-inline: 14px; gap: 6px; } .playground-actions button { font-size: 9px; padding: 8px; } .playground-instruction { padding-inline: 15px; font-size: 10px; }
+  .playground-tool-settings { padding-inline: 15px; gap: 16px; } .playground-metrics { padding-inline: 15px; } .playground-notes { margin-inline: 15px; }
+  .playground-capture { margin-inline: 15px; }
+  .playground-contact-measurements { padding-inline: 15px; }
+}

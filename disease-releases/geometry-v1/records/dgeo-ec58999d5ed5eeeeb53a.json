@@ -1,0 +1,553 @@
+{
+  "appearance_evidence": "authored_vertex_color_not_measured_tissue_texture",
+  "clinical_review_status": "unreviewed",
+  "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+  "disease_field": {
+    "applied_displacement_fraction": 1.0,
+    "clinical_stage": null,
+    "color_strength": 0.1426224562753582,
+    "fields": [
+      {
+        "amplitude_mm": 0.8650608459638816,
+        "center_mm": [
+          72.83203303813934,
+          16.589611768722534,
+          1.8503805622458458
+        ],
+        "direction": [
+          0.31353178064966836,
+          -0.5173867902246554,
+          -0.7962466526294958
+        ],
+        "radius_mm": 9.218682989008569
+      },
+      {
+        "amplitude_mm": 0.8526361069719743,
+        "center_mm": [
+          63.67584317922592,
+          -48.057109117507935,
+          46.189372427761555
+        ],
+        "direction": [
+          0.2627805142053932,
+          -0.6027262141205588,
+          -0.7534371321920944
+        ],
+        "radius_mm": 9.218682989008569
+      },
+      {
+        "amplitude_mm": 0.9108174732970792,
+        "center_mm": [
+          85.3082686662674,
+          -14.329135417938232,
+          53.51642519235611
+        ],
+        "direction": [
+          0.48167585411945024,
+          0.1841802562788764,
+          0.8567765197269037
+        ],
+        "radius_mm": 9.218682989008569
+      },
+      {
+        "amplitude_mm": 0.9110307516498277,
+        "center_mm": [
+          60.05813181400299,
+          28.997182846069336,
+          45.80161068588495
+        ],
+        "direction": [
+          0.26960228751365406,
+          0.5475343725518733,
+          0.7921620525130142
+        ],
+        "radius_mm": 9.218682989008569
+      },
+      {
+        "amplitude_mm": 0.8519100386747066,
+        "center_mm": [
+          -10.082544758915901,
+          60.664474964141846,
+          3.6342917010188103
+        ],
+        "direction": [
+          0.6015796422162201,
+          0.7934291338466729,
+          -0.09258587167772005
+        ],
+        "radius_mm": 9.218682989008569
+      },
+      {
+        "amplitude_mm": 0.873796922532427,
+        "center_mm": [
+          86.49513870477676,
+          7.137566804885864,
+          46.461199410259724
+        ],
+        "direction": [
+          0.43268199104289384,
+          0.33114917522835496,
+          0.8385263969445073
+        ],
+        "radius_mm": 9.218682989008569
+      },
+      {
+        "amplitude_mm": 0.8694800332683265,
+        "center_mm": [
+          -30.348893254995346,
+          -41.086822748184204,
+          -31.358019448816776
+        ],
+        "direction": [
+          0.7231310101611687,
+          -0.5657122364856746,
+          -0.396296868059368
+        ],
+        "radius_mm": 9.218682989008569
+      },
+      {
+        "amplitude_mm": 0.8848039708950586,
+        "center_mm": [
+          -44.92781683802605,
+          -48.935890197753906,
+          -1.8517831340432167
+        ],
+        "direction": [
+          0.7606836210956077,
+          -0.5866312190072229,
+          0.277892499868157
+        ],
+        "radius_mm": 9.218682989008569
+      },
+      {
+        "amplitude_mm": 0.8752576171106177,
+        "center_mm": [
+          27.05296315252781,
+          -46.11438512802124,
+          75.84105618298054
+        ],
+        "direction": [
+          0.015757899151565745,
+          0.13185656184186478,
+          0.9911435494990479
+        ],
+        "radius_mm": 9.218682989008569
+      },
+      {
+        "amplitude_mm": 0.8531956249786273,
+        "center_mm": [
+          10.205558151938021,
+          -29.867231845855713,
+          8.586856536567211
+        ],
+        "direction": [
+          0.3760902457067217,
+          -0.9264808966398397,
+          0.013757734032049064
+        ],
+        "radius_mm": 9.218682989008569
+      },
+      {
+        "amplitude_mm": 0.8819954865081875,
+        "center_mm": [
+          -70.98078727722168,
+          -9.136617183685303,
+          49.49941951781511
+        ],
+        "direction": [
+          -0.30980204007672013,
+          0.24287636369931606,
+          0.9192571826863796
+        ],
+        "radius_mm": 9.218682989008569
+      },
+      {
+        "amplitude_mm": 0.8762114452890354,
+        "center_mm": [
+          25.33018495887518,
+          3.518402576446533,
+          -11.934013105928898
+        ],
+        "direction": [
+          0.7242719565651154,
+          -0.09843866109076412,
+          -0.6824514363205615
+        ],
+        "radius_mm": 9.218682989008569
+      },
+      {
+        "amplitude_mm": 0.8348409363309254,
+        "center_mm": [
+          -33.403124660253525,
+          -61.198413372039795,
+          14.99213557690382
+        ],
+        "direction": [
+          0.37575557345317556,
+          -0.7187257280868162,
+          -0.5850137406975593
+        ],
+        "radius_mm": 9.218682989008569
+      },
+      {
+        "amplitude_mm": 0.8736701734544262,
+        "center_mm": [
+          -75.78767836093903,
+          63.043296337127686,
+          -50.184802152216434
+        ],
+        "direction": [
+          -0.17655777616623275,
+          0.7776215844898544,
+          -0.6034335282454254
+        ],
+        "radius_mm": 9.218682989008569
+      },
+      {
+        "amplitude_mm": 0.8280820949888327,
+        "center_mm": [
+          11.819724284578115,
+          11.391520500183105,
+          59.96750062331557
+        ],
+        "direction": [
+          -0.06907109142594506,
+          0.3864586116220293,
+          0.9197167639183285
+        ],
+        "radius_mm": 9.218682989008569
+      },
+      {
+        "amplitude_mm": 0.8419380939712076,
+        "center_mm": [
+          2.0095231011509895,
+          49.18941855430603,
+          33.23268797248602
+        ],
+        "direction": [
+          0.06756449391277282,
+          0.8519759825879064,
+          0.5192032013149401
+        ],
+        "radius_mm": 9.218682989008569
+      },
+      {
+        "amplitude_mm": 0.8864068311985248,
+        "center_mm": [
+          58.82792919874191,
+          -63.44723701477051,
+          67.6866490393877
+        ],
+        "direction": [
+          0.5395068814655383,
+          -0.7918575297503566,
+          0.28617123794852756
+        ],
+        "radius_mm": 9.218682989008569
+      },
+      {
+        "amplitude_mm": 0.8537434481011523,
+        "center_mm": [
+          -46.783000230789185,
+          -60.29203534126282,
+          -19.491040147840977
+        ],
+        "direction": [
+          0.6222219306821556,
+          -0.773696014710902,
+          -0.1193077776116822
+        ],
+        "radius_mm": 9.218682989008569
+      },
+      {
+        "amplitude_mm": 0.8325324544631513,
+        "center_mm": [
+          50.291508436203,
+          5.096942186355591,
+          59.94552746415138
+        ],
+        "direction": [
+          0.18590682856229804,
+          0.36884272070847235,
+          0.9107105459333829
+        ],
+        "radius_mm": 9.218682989008569
+      },
+      {
+        "amplitude_mm": 0.8552634113400303,
+        "center_mm": [
+          44.51096057891846,
+          -51.1302649974823,
+          39.301241748034954
+        ],
+        "direction": [
+          0.39775646565377937,
+          -0.6266499176299797,
+          -0.6701489944519455
+        ],
+        "radius_mm": 9.218682989008569
+      },
+      {
+        "amplitude_mm": 0.8357126976603148,
+        "center_mm": [
+          12.66049244441092,
+          -26.311010122299194,
+          -11.354492045938969
+        ],
+        "direction": [
+          0.4968395651900971,
+          -0.6711598978507145,
+          -0.5501770969231033
+        ],
+        "radius_mm": 9.218682989008569
+      },
+      {
+        "amplitude_mm": 0.8786384967310688,
+        "center_mm": [
+          -21.228428930044174,
+          -19.956886768341064,
+          3.7860749289393425
+        ],
+        "direction": [
+          0.18094139438378884,
+          -0.7572533330078582,
+          0.627556851167239
+        ],
+        "radius_mm": 9.218682989008569
+      },
+      {
+        "amplitude_mm": 0.8361252569801073,
+        "center_mm": [
+          -27.747005224227905,
+          -57.34896659851074,
+          53.94330993294716
+        ],
+        "direction": [
+          0.7717863733427744,
+          -0.6148167992301156,
+          0.16231480926533948
+        ],
+        "radius_mm": 9.218682989008569
+      },
+      {
+        "amplitude_mm": 0.8856210386973116,
+        "center_mm": [
+          -68.39732080698013,
+          -64.14622068405151,
+          -38.3692616596818
+        ],
+        "direction": [
+          0.5838553217758224,
+          -0.740124057680194,
+          -0.3336605198057689
+        ],
+        "radius_mm": 9.218682989008569
+      }
+    ],
+    "gradient_bound_per_step": 0.2833053574562073,
+    "pattern": "nodular",
+    "profile_id": "liver-cirrhosis",
+    "realized_sites": 24,
+    "requested_sites": 24,
+    "steps": 3,
+    "surface_site_frame": "undeformed-atlas-Y-up-mm",
+    "target_srgb": [
+      0.45,
+      0.26,
+      0.13
+    ],
+    "version": "disease-morphology-design-1.0.0"
+  },
+  "display_normal_sha256": "390cb0004dce29932de8f5fdbb51329a16ac3d26d227f81e9a64c56ae1bd3e16",
+  "face_count": 35606,
+  "features": [
+    247.10749089717865,
+    169.910728931427,
+    156.25100216001385,
+    102695.1798378412,
+    2.6068512414495815,
+    1.0
+  ],
+  "geometry_evidence": "authored_disease_surface_from_licensed_reference_template",
+  "geometry_sha256": "065bfe95df02f365e6fcae0e387d128b0bd75f540c01c352853a8952b6d0e709",
+  "group_id": "liver-cirrhosis:2420630019",
+  "mechanics_evidence": "none",
+  "normal_fallback_count": 0,
+  "organ": "liver",
+  "parent_recipe_index": 1,
+  "parent_sample_id": "liver-cirrhosis:2420630019",
+  "path": "records/dgeo-ec58999d5ed5eeeeb53a.json",
+  "patient_id": null,
+  "point_count": 2048,
+  "point_sampling_seed": 536730604,
+  "profile_id": "liver-cirrhosis",
+  "qa": {
+    "anatomical_plausibility": {
+      "status": "NOT_RUN"
+    },
+    "area_ratio_max": 1.399318148007224,
+    "area_ratio_min": 0.636936329209538,
+    "continuous_jacobian_lower_bound": 0.04988930136847594,
+    "mechanical_validation": {
+      "status": "NOT_RUN"
+    },
+    "min_normal_dot": 0.8807354446420078,
+    "new_degenerate_faces": 0,
+    "normal_turns_over_90_degrees": 0,
+    "passed": true,
+    "scope": "finite nondegenerate same-topology outer-surface design",
+    "self_intersection": {
+      "reason": "Discrete/source triangle intersections not certified",
+      "status": "NOT_RUN"
+    },
+    "source_topology": {
+      "boundary_edges_after_audit_weld": 240,
+      "connected_vertex_components": 2,
+      "degenerate_faces": 0,
+      "method": "trimesh-geometric-weld-audit-copy-1.0",
+      "nonmanifold_edges_after_audit_weld": 0,
+      "self_intersection": {
+        "reason": "No robust intersection backend",
+        "status": "NOT_RUN"
+      },
+      "simulation_readiness": {
+        "reason": "No volumetric domain/materials",
+        "status": "NOT_RUN"
+      },
+      "watertight_after_audit_weld": false,
+      "weld_precision_mm": 1e-08,
+      "winding_consistent_after_audit_weld": true,
+      "zero_length_edges": 0
+    },
+    "status": "PASS",
+    "topology_preserved": true
+  },
+  "realized_id": "be570e1f8c019170de1ea882b998e92e4766669dcd61d9316548c4bab3320e75",
+  "recipe_features": [
+    0.8235620856285095,
+    0.8666640520095825,
+    0.41406741738319397,
+    0.31266114115715027,
+    0.1731775403022766,
+    0.1428571492433548,
+    0.8575338125228882,
+    0.4513341188430786,
+    0.24215686321258545
+  ],
+  "sample_id": "dgeo-ec58999d5ed5eeeeb53a",
+  "source_attribution": "Browne, Kristen. 2024. \"3D Reference Organ for Liver, Female v1.2.\" https://doi.org/10.48539/HBM599.GZLD.639. Accessed on June 15, 2024.",
+  "source_group_id": "hra-visible-human-female",
+  "source_license": "CC-BY-4.0",
+  "source_template_artifact_sha256": "2dd9b70daf0924cb8f56b80df10065c57e7422e93ce40909406b3c57a195e20d",
+  "source_template_geometry_sha256": "5c24c76d1a590d49b973ad2178025628302e7e4558247441cfa242e934210dcd",
+  "source_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/liver-female/v1.2/assets/3d-vh-f-liver.glb",
+  "spec": {
+    "appearance": "tissue",
+    "controls": {
+      "asymmetry": 0.0,
+      "bend": 0.0,
+      "scale_x": 0.0,
+      "scale_y": 0.0,
+      "scale_z": 0.0,
+      "taper": 0.0,
+      "twist": 0.0
+    },
+    "disease": {
+      "contrast": 0.1731775403022766,
+      "count": 2,
+      "irregularity": 0.31266114115715027,
+      "location": [
+        0.7150676250457764,
+        -0.09733176231384277,
+        -0.5156862735748291
+      ],
+      "profile_id": "liver-cirrhosis",
+      "seed": 2420630019,
+      "severity": 0.8235620856285095,
+      "size": 0.8666640520095825,
+      "spread": 0.41406741738319397
+    },
+    "realized_id": "be570e1f8c019170de1ea882b998e92e4766669dcd61d9316548c4bab3320e75",
+    "seed": 2420630019,
+    "template_id": "hra-liver-female",
+    "template_sha256": "2dd9b70daf0924cb8f56b80df10065c57e7422e93ce40909406b3c57a195e20d"
+  },
+  "split": "train",
+  "split_track": "within_generator",
+  "summary": {
+    "disease": {
+      "applied_displacement_fraction": 1.0,
+      "displacement_limited_by_source_mesh": false,
+      "evidence": "synthetic_surface_morphology_not_patient_or_population_geometry",
+      "internal_anatomy_generated": false,
+      "max_displacement_mm": 2.6068512414495815,
+      "physical_parameters_inferred": false,
+      "profile": {
+        "clinical_source_url": "https://www.niddk.nih.gov/health-information/liver-disease/cirrhosis/treatment",
+        "evidence": "image_reference_not_paired_3d_supervision",
+        "id": "liver-cirrhosis",
+        "label": "Alcohol-associated cirrhosis",
+        "limits": "Cut surface only; no intact capsule or calibrated in-vivo color. Not a stiffness measurement. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+        "morphology_targets": [
+          "nodule size and distribution",
+          "fibrous septa",
+          "regional volume redistribution"
+        ],
+        "organ": "liver",
+        "pattern": "nodular",
+        "source_ref": "I01",
+        "source_url": "https://commons.wikimedia.org/wiki/File:Gross_pathology_of_alcoholic_liver_cirrhosis.jpg",
+        "supported": true,
+        "unavailable_reason": ""
+      },
+      "realized_sites": 24,
+      "recipe": {
+        "contrast": 0.1731775403022766,
+        "count": 2,
+        "irregularity": 0.31266114115715027,
+        "location": [
+          0.7150676250457764,
+          -0.09733176231384277,
+          -0.5156862735748291
+        ],
+        "profile_id": "liver-cirrhosis",
+        "seed": 2420630019,
+        "severity": 0.8235620856285095,
+        "size": 0.8666640520095825,
+        "spread": 0.41406741738319397
+      },
+      "requested_sites": 24,
+      "version": "disease-morphology-design-1.0.0"
+    },
+    "extent_mm": [
+      247.10749089717865,
+      169.910728931427,
+      156.25100216001385
+    ],
+    "measurements": {
+      "compactness": null,
+      "extent_x_mm": 247.10749089717865,
+      "extent_y_mm": 169.910728931427,
+      "extent_z_mm": 156.25100216001385,
+      "method": "disease-display-triangle-measurements-1.0.0",
+      "surface_area_definition": "Sum of selected triangles including capsule/internal faces",
+      "surface_area_mm2": 102695.1798378412,
+      "volume_ml": null,
+      "volume_reason": "Display surface assembly is not a certified closed outer envelope",
+      "volume_status": "NOT_APPLICABLE"
+    },
+    "min_jacobian": 0.04988930136847594,
+    "min_jacobian_kind": "conservative_bound",
+    "organ": "liver",
+    "profile": "development_preview",
+    "qa_scope": "finite nondegenerate same-topology outer-surface design",
+    "qa_status": "PASS",
+    "reference": "hra-liver-female",
+    "review_status": "unreviewed",
+    "triangles": 35606,
+    "vertices": 18011
+  },
+  "template_id": "hra-liver-female",
+  "units": "mm",
+  "vertex_count": 18011
+}

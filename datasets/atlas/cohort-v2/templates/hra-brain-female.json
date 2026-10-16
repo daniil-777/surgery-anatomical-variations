@@ -1,0 +1,5175 @@
+{
+  "artifact_sha256": "57d2f3eed5bdd6cde6b070ba5f963b0456206437546cb6f271d69d7ed05437b8",
+  "attribution": "Browne, Kristen,\tand Heidi Schlehlein.\t 2024.\t\"3D Reference Organ for Brain, Female v1.4.\"\t https://doi.org/10.48539/HBM674.NTLM.353.\tAccessed June 15, 2024.",
+  "attribution_verified": true,
+  "clean_faces_sha256": "acf93106ff74cdf9d5da497f60a8b643c0f273a194ea282bb65aab0901d0bd35",
+  "cleaning_components": [
+    {
+      "clean_face_count": 6246,
+      "component": "Allen_angular_gyrus_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 6246,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 6246,
+      "component": "Allen_angular_gyrus_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 6246,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 1162,
+      "component": "Allen_anterior_intermediate_orbital_gyrus_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 1162,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 1162,
+      "component": "Allen_anterior_intermediate_orbital_gyrus_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 1162,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 1342,
+      "component": "Allen_anterior_parahippocampal_gyrus_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 1342,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 1342,
+      "component": "Allen_anterior_parahippocampal_gyrus_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 1342,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 940,
+      "component": "Allen_basilar_part_of_pons_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 940,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 940,
+      "component": "Allen_basilar_part_of_pons_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 940,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 4732,
+      "component": "Allen_cerebellar_vermis_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 4732,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 4732,
+      "component": "Allen_cerebellar_vermis_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 4732,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 4316,
+      "component": "Allen_cingulate_gyrus_caudal_posterior_part_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 4316,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 4316,
+      "component": "Allen_cingulate_gyrus_caudal_posterior_part_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 4316,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 3508,
+      "component": "Allen_cingulate_gyrus_rostral_anterior_part_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 3508,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 3508,
+      "component": "Allen_cingulate_gyrus_rostral_anterior_part_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 3508,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 6032,
+      "component": "Allen_cuneus_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 6032,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 6032,
+      "component": "Allen_cuneus_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 6032,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 1330,
+      "component": "Allen_frontal_operculum_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 1330,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 1330,
+      "component": "Allen_frontal_operculum_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 1330,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 2116,
+      "component": "Allen_frontal_pole_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 2116,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 2116,
+      "component": "Allen_frontal_pole_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 2116,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 1084,
+      "component": "Allen_frontomarginal_gyrus_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 1084,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 1084,
+      "component": "Allen_frontomarginal_gyrus_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 1084,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 180,
+      "component": "Allen_gyrus_ambiens_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 180,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 180,
+      "component": "Allen_gyrus_ambiens_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 180,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 1866,
+      "component": "Allen_gyrus_rectus_straight_gyrus_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 1866,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 1866,
+      "component": "Allen_gyrus_rectus_straight_gyrus_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 1866,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 2974,
+      "component": "Allen_inferior_frontal_gyrus_opercular_part_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 2974,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 2974,
+      "component": "Allen_inferior_frontal_gyrus_opercular_part_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 2974,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 5096,
+      "component": "Allen_inferior_frontal_gyrus_triangular_part_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 5096,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 5096,
+      "component": "Allen_inferior_frontal_gyrus_triangular_part_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 5096,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 4628,
+      "component": "Allen_inferior_occipital_gyrus_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 4628,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 4628,
+      "component": "Allen_inferior_occipital_gyrus_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 4628,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 124,
+      "component": "Allen_inferior_olive_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 124,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 124,
+      "component": "Allen_inferior_olive_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 124,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 7058,
+      "component": "Allen_inferior_temporal_gyrus_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 7058,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 7058,
+      "component": "Allen_inferior_temporal_gyrus_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 7058,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 11928,
+      "component": "Allen_lateral_hemisphere_of_cerebellum_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 11928,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 11928,
+      "component": "Allen_lateral_hemisphere_of_cerebellum_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 11928,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 1908,
+      "component": "Allen_lateral_occipitotemporal_fusiform_gyrus_occipital_part_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 1908,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 1908,
+      "component": "Allen_lateral_occipitotemporal_fusiform_gyrus_occipital_part_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 1908,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 130,
+      "component": "Allen_lateral_olfactory_gyrus_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 130,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 130,
+      "component": "Allen_lateral_olfactory_gyrus_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 130,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 2986,
+      "component": "Allen_lateral_orbital_gyrus_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 2986,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 2986,
+      "component": "Allen_lateral_orbital_gyrus_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 2986,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 64,
+      "component": "Allen_limen_insula_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 64,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 64,
+      "component": "Allen_limen_insula_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 64,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 7406,
+      "component": "Allen_lingual_gyrus_medial_occipitotemporal_gyrus_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 7406,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 7406,
+      "component": "Allen_lingual_gyrus_medial_occipitotemporal_gyrus_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 7406,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 1218,
+      "component": "Allen_long_insular_gyri_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 1218,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 1218,
+      "component": "Allen_long_insular_gyri_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 1218,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 2406,
+      "component": "Allen_medial_orbital_gyrus_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 2406,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 2406,
+      "component": "Allen_medial_orbital_gyrus_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 2406,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 13462,
+      "component": "Allen_middle_frontal_gyrus_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 13462,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 13462,
+      "component": "Allen_middle_frontal_gyrus_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 13462,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 10316,
+      "component": "Allen_middle_temporal_gyrus_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 10316,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 10316,
+      "component": "Allen_middle_temporal_gyrus_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 10316,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 1520,
+      "component": "Allen_occipital_pole_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 1520,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 1520,
+      "component": "Allen_occipital_pole_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 1520,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 4584,
+      "component": "Allen_occipitotemporal_fusiform_gyrus_temporal_part_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 4584,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 4584,
+      "component": "Allen_occipitotemporal_fusiform_gyrus_temporal_part_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 4584,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 2020,
+      "component": "Allen_paracentral_lobule_caudal_part_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 2020,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 2020,
+      "component": "Allen_paracentral_lobule_caudal_part_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 2020,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 3082,
+      "component": "Allen_paracentral_lobule_rostral_part_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 3082,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 3082,
+      "component": "Allen_paracentral_lobule_rostral_part_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 3082,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 824,
+      "component": "Allen_paracingulate_gyrus_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 824,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 824,
+      "component": "Allen_paracingulate_gyrus_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 824,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 3423,
+      "component": "Allen_paravermis_of_cerebellum_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 3423,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 3423,
+      "component": "Allen_paravermis_of_cerebellum_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 3423,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 1234,
+      "component": "Allen_parietal_operculum_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 1234,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 1234,
+      "component": "Allen_parietal_operculum_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 1234,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 90,
+      "component": "Allen_perirhinal_gyrus_rostral_part_of_FuGt_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 90,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 90,
+      "component": "Allen_perirhinal_gyrus_rostral_part_of_FuGt_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 90,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 2336,
+      "component": "Allen_planum_polare_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 2336,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 2336,
+      "component": "Allen_planum_polare_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 2336,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 1646,
+      "component": "Allen_planum_temporale_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 1646,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 1646,
+      "component": "Allen_planum_temporale_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 1646,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 9084,
+      "component": "Allen_postcentral_gyrus_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 9084,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 9084,
+      "component": "Allen_postcentral_gyrus_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 9084,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 1938,
+      "component": "Allen_posterior_intermediate_orbital_gyrus_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 1938,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 1938,
+      "component": "Allen_posterior_intermediate_orbital_gyrus_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 1938,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 1110,
+      "component": "Allen_posterior_parahippocampal_gyrus_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 1110,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 1110,
+      "component": "Allen_posterior_parahippocampal_gyrus_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 1110,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 9366,
+      "component": "Allen_precuneus_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 9366,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 9366,
+      "component": "Allen_precuneus_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 9366,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 11082,
+      "component": "Allen_primary_motor_cortex_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 11082,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 11082,
+      "component": "Allen_primary_motor_cortex_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 11082,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 116,
+      "component": "Allen_pyramidal_part_of_medulla_oblongata_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 116,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 116,
+      "component": "Allen_pyramidal_part_of_medulla_oblongata_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 116,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 1160,
+      "component": "Allen_rostral_gyrus_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 1160,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 1160,
+      "component": "Allen_rostral_gyrus_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 1160,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 1480,
+      "component": "Allen_short_insular_gyri_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 1480,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 1480,
+      "component": "Allen_short_insular_gyri_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 1480,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 406,
+      "component": "Allen_subcallosal_gyrus_parolfactory_gyrus_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 406,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 406,
+      "component": "Allen_subcallosal_gyrus_parolfactory_gyrus_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 406,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 20300,
+      "component": "Allen_superior_frontal_gyrus_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 20300,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 20300,
+      "component": "Allen_superior_frontal_gyrus_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 20300,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 6032,
+      "component": "Allen_superior_occipital_gyrus_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 6032,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 6032,
+      "component": "Allen_superior_occipital_gyrus_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 6032,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 4198,
+      "component": "Allen_superior_temporal_gyrus_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 4198,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 4198,
+      "component": "Allen_superior_temporal_gyrus_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 4198,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 4734,
+      "component": "Allen_supramarginal_gyrus_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 4734,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 4734,
+      "component": "Allen_supramarginal_gyrus_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 4734,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 9278,
+      "component": "Allen_supraparietal_lobule_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 9278,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 9278,
+      "component": "Allen_supraparietal_lobule_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 9278,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 632,
+      "component": "Allen_tegmentum_of_medulla_oblongata_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 632,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 632,
+      "component": "Allen_tegmentum_of_medulla_oblongata_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 632,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 2570,
+      "component": "Allen_temporal_pole_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 2570,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 2570,
+      "component": "Allen_temporal_pole_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 2570,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 1434,
+      "component": "Allen_transverse_temporal_gyrus_Heschls_gyrus_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 1434,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 1434,
+      "component": "Allen_transverse_temporal_gyrus_Heschls_gyrus_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 1434,
+      "winding_after": true,
+      "winding_before": true
+    }
+  ],
+  "cleaning_policy": "Drop triangles with area <=1e-12 mm2; repair winding per connected component on welded audit copy with minimum face reversals and transfer only face reversal. No vertex movement or connectivity additions.",
+  "cohort_eligible": true,
+  "colors_provenance": "Source schematic material colors; glTF linear factors converted to sRGB after trimesh 8-bit quantization",
+  "colors_space": "sRGB",
+  "components": [
+    {
+      "face_count": 6246,
+      "face_start": 0,
+      "name": "Allen_angular_gyrus_L",
+      "source_geometry": "Allen_angular_gyrus_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 3125,
+      "vertex_start": 0
+    },
+    {
+      "face_count": 6246,
+      "face_start": 6246,
+      "name": "Allen_angular_gyrus_R",
+      "source_geometry": "Allen_angular_gyrus_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 3125,
+      "vertex_start": 3125
+    },
+    {
+      "face_count": 1162,
+      "face_start": 12492,
+      "name": "Allen_anterior_intermediate_orbital_gyrus_L",
+      "source_geometry": "Allen_anterior_intermediate_orbital_gyrus_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 583,
+      "vertex_start": 6250
+    },
+    {
+      "face_count": 1162,
+      "face_start": 13654,
+      "name": "Allen_anterior_intermediate_orbital_gyrus_R",
+      "source_geometry": "Allen_anterior_intermediate_orbital_gyrus_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 583,
+      "vertex_start": 6833
+    },
+    {
+      "face_count": 1342,
+      "face_start": 14816,
+      "name": "Allen_anterior_parahippocampal_gyrus_L",
+      "source_geometry": "Allen_anterior_parahippocampal_gyrus_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 673,
+      "vertex_start": 7416
+    },
+    {
+      "face_count": 1342,
+      "face_start": 16158,
+      "name": "Allen_anterior_parahippocampal_gyrus_R",
+      "source_geometry": "Allen_anterior_parahippocampal_gyrus_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 673,
+      "vertex_start": 8089
+    },
+    {
+      "face_count": 940,
+      "face_start": 17500,
+      "name": "Allen_basilar_part_of_pons_L",
+      "source_geometry": "Allen_basilar_part_of_pons_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 472,
+      "vertex_start": 8762
+    },
+    {
+      "face_count": 940,
+      "face_start": 18440,
+      "name": "Allen_basilar_part_of_pons_R",
+      "source_geometry": "Allen_basilar_part_of_pons_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 472,
+      "vertex_start": 9234
+    },
+    {
+      "face_count": 4732,
+      "face_start": 19380,
+      "name": "Allen_cerebellar_vermis_L",
+      "source_geometry": "Allen_cerebellar_vermis_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 2363,
+      "vertex_start": 9706
+    },
+    {
+      "face_count": 4732,
+      "face_start": 24112,
+      "name": "Allen_cerebellar_vermis_R",
+      "source_geometry": "Allen_cerebellar_vermis_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 2363,
+      "vertex_start": 12069
+    },
+    {
+      "face_count": 4316,
+      "face_start": 28844,
+      "name": "Allen_cingulate_gyrus_caudal_posterior_part_L",
+      "source_geometry": "Allen_cingulate_gyrus_caudal_posterior_part_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 2143,
+      "vertex_start": 14432
+    },
+    {
+      "face_count": 4316,
+      "face_start": 33160,
+      "name": "Allen_cingulate_gyrus_caudal_posterior_part_R",
+      "source_geometry": "Allen_cingulate_gyrus_caudal_posterior_part_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 2143,
+      "vertex_start": 16575
+    },
+    {
+      "face_count": 3508,
+      "face_start": 37476,
+      "name": "Allen_cingulate_gyrus_rostral_anterior_part_L",
+      "source_geometry": "Allen_cingulate_gyrus_rostral_anterior_part_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 1756,
+      "vertex_start": 18718
+    },
+    {
+      "face_count": 3508,
+      "face_start": 40984,
+      "name": "Allen_cingulate_gyrus_rostral_anterior_part_R",
+      "source_geometry": "Allen_cingulate_gyrus_rostral_anterior_part_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 1756,
+      "vertex_start": 20474
+    },
+    {
+      "face_count": 6032,
+      "face_start": 44492,
+      "name": "Allen_cuneus_L",
+      "source_geometry": "Allen_cuneus_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 3013,
+      "vertex_start": 22230
+    },
+    {
+      "face_count": 6032,
+      "face_start": 50524,
+      "name": "Allen_cuneus_R",
+      "source_geometry": "Allen_cuneus_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 3013,
+      "vertex_start": 25243
+    },
+    {
+      "face_count": 1330,
+      "face_start": 56556,
+      "name": "Allen_frontal_operculum_L",
+      "source_geometry": "Allen_frontal_operculum_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 667,
+      "vertex_start": 28256
+    },
+    {
+      "face_count": 1330,
+      "face_start": 57886,
+      "name": "Allen_frontal_operculum_R",
+      "source_geometry": "Allen_frontal_operculum_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 667,
+      "vertex_start": 28923
+    },
+    {
+      "face_count": 2116,
+      "face_start": 59216,
+      "name": "Allen_frontal_pole_L",
+      "source_geometry": "Allen_frontal_pole_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 1060,
+      "vertex_start": 29590
+    },
+    {
+      "face_count": 2116,
+      "face_start": 61332,
+      "name": "Allen_frontal_pole_R",
+      "source_geometry": "Allen_frontal_pole_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 1060,
+      "vertex_start": 30650
+    },
+    {
+      "face_count": 1084,
+      "face_start": 63448,
+      "name": "Allen_frontomarginal_gyrus_L",
+      "source_geometry": "Allen_frontomarginal_gyrus_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 544,
+      "vertex_start": 31710
+    },
+    {
+      "face_count": 1084,
+      "face_start": 64532,
+      "name": "Allen_frontomarginal_gyrus_R",
+      "source_geometry": "Allen_frontomarginal_gyrus_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 544,
+      "vertex_start": 32254
+    },
+    {
+      "face_count": 180,
+      "face_start": 65616,
+      "name": "Allen_gyrus_ambiens_L",
+      "source_geometry": "Allen_gyrus_ambiens_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 92,
+      "vertex_start": 32798
+    },
+    {
+      "face_count": 180,
+      "face_start": 65796,
+      "name": "Allen_gyrus_ambiens_R",
+      "source_geometry": "Allen_gyrus_ambiens_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 92,
+      "vertex_start": 32890
+    },
+    {
+      "face_count": 1866,
+      "face_start": 65976,
+      "name": "Allen_gyrus_rectus_straight_gyrus_L",
+      "source_geometry": "Allen_gyrus_rectus_straight_gyrus_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 935,
+      "vertex_start": 32982
+    },
+    {
+      "face_count": 1866,
+      "face_start": 67842,
+      "name": "Allen_gyrus_rectus_straight_gyrus_R",
+      "source_geometry": "Allen_gyrus_rectus_straight_gyrus_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 935,
+      "vertex_start": 33917
+    },
+    {
+      "face_count": 2974,
+      "face_start": 69708,
+      "name": "Allen_inferior_frontal_gyrus_opercular_part_L",
+      "source_geometry": "Allen_inferior_frontal_gyrus_opercular_part_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 1489,
+      "vertex_start": 34852
+    },
+    {
+      "face_count": 2974,
+      "face_start": 72682,
+      "name": "Allen_inferior_frontal_gyrus_opercular_part_R",
+      "source_geometry": "Allen_inferior_frontal_gyrus_opercular_part_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 1489,
+      "vertex_start": 36341
+    },
+    {
+      "face_count": 5096,
+      "face_start": 75656,
+      "name": "Allen_inferior_frontal_gyrus_triangular_part_L",
+      "source_geometry": "Allen_inferior_frontal_gyrus_triangular_part_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 2550,
+      "vertex_start": 37830
+    },
+    {
+      "face_count": 5096,
+      "face_start": 80752,
+      "name": "Allen_inferior_frontal_gyrus_triangular_part_R",
+      "source_geometry": "Allen_inferior_frontal_gyrus_triangular_part_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 2550,
+      "vertex_start": 40380
+    },
+    {
+      "face_count": 4628,
+      "face_start": 85848,
+      "name": "Allen_inferior_occipital_gyrus_L",
+      "source_geometry": "Allen_inferior_occipital_gyrus_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 2314,
+      "vertex_start": 42930
+    },
+    {
+      "face_count": 4628,
+      "face_start": 90476,
+      "name": "Allen_inferior_occipital_gyrus_R",
+      "source_geometry": "Allen_inferior_occipital_gyrus_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 2314,
+      "vertex_start": 45244
+    },
+    {
+      "face_count": 124,
+      "face_start": 95104,
+      "name": "Allen_inferior_olive_L",
+      "source_geometry": "Allen_inferior_olive_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 64,
+      "vertex_start": 47558
+    },
+    {
+      "face_count": 124,
+      "face_start": 95228,
+      "name": "Allen_inferior_olive_R",
+      "source_geometry": "Allen_inferior_olive_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 64,
+      "vertex_start": 47622
+    },
+    {
+      "face_count": 7058,
+      "face_start": 95352,
+      "name": "Allen_inferior_temporal_gyrus_L",
+      "source_geometry": "Allen_inferior_temporal_gyrus_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 3530,
+      "vertex_start": 47686
+    },
+    {
+      "face_count": 7058,
+      "face_start": 102410,
+      "name": "Allen_inferior_temporal_gyrus_R",
+      "source_geometry": "Allen_inferior_temporal_gyrus_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 3530,
+      "vertex_start": 51216
+    },
+    {
+      "face_count": 11928,
+      "face_start": 109468,
+      "name": "Allen_lateral_hemisphere_of_cerebellum_L",
+      "source_geometry": "Allen_lateral_hemisphere_of_cerebellum_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 5953,
+      "vertex_start": 54746
+    },
+    {
+      "face_count": 11928,
+      "face_start": 121396,
+      "name": "Allen_lateral_hemisphere_of_cerebellum_R",
+      "source_geometry": "Allen_lateral_hemisphere_of_cerebellum_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 5953,
+      "vertex_start": 60699
+    },
+    {
+      "face_count": 1908,
+      "face_start": 133324,
+      "name": "Allen_lateral_occipitotemporal_fusiform_gyrus_occipital_part_L",
+      "source_geometry": "Allen_lateral_occipitotemporal_fusiform_gyrus_occipital_part_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 956,
+      "vertex_start": 66652
+    },
+    {
+      "face_count": 1908,
+      "face_start": 135232,
+      "name": "Allen_lateral_occipitotemporal_fusiform_gyrus_occipital_part_R",
+      "source_geometry": "Allen_lateral_occipitotemporal_fusiform_gyrus_occipital_part_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 956,
+      "vertex_start": 67608
+    },
+    {
+      "face_count": 130,
+      "face_start": 137140,
+      "name": "Allen_lateral_olfactory_gyrus_L",
+      "source_geometry": "Allen_lateral_olfactory_gyrus_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 67,
+      "vertex_start": 68564
+    },
+    {
+      "face_count": 130,
+      "face_start": 137270,
+      "name": "Allen_lateral_olfactory_gyrus_R",
+      "source_geometry": "Allen_lateral_olfactory_gyrus_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 67,
+      "vertex_start": 68631
+    },
+    {
+      "face_count": 2986,
+      "face_start": 137400,
+      "name": "Allen_lateral_orbital_gyrus_L",
+      "source_geometry": "Allen_lateral_orbital_gyrus_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 1495,
+      "vertex_start": 68698
+    },
+    {
+      "face_count": 2986,
+      "face_start": 140386,
+      "name": "Allen_lateral_orbital_gyrus_R",
+      "source_geometry": "Allen_lateral_orbital_gyrus_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 1495,
+      "vertex_start": 70193
+    },
+    {
+      "face_count": 64,
+      "face_start": 143372,
+      "name": "Allen_limen_insula_L",
+      "source_geometry": "Allen_limen_insula_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 34,
+      "vertex_start": 71688
+    },
+    {
+      "face_count": 64,
+      "face_start": 143436,
+      "name": "Allen_limen_insula_R",
+      "source_geometry": "Allen_limen_insula_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 34,
+      "vertex_start": 71722
+    },
+    {
+      "face_count": 7406,
+      "face_start": 143500,
+      "name": "Allen_lingual_gyrus_medial_occipitotemporal_gyrus_L",
+      "source_geometry": "Allen_lingual_gyrus_medial_occipitotemporal_gyrus_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 3705,
+      "vertex_start": 71756
+    },
+    {
+      "face_count": 7406,
+      "face_start": 150906,
+      "name": "Allen_lingual_gyrus_medial_occipitotemporal_gyrus_R",
+      "source_geometry": "Allen_lingual_gyrus_medial_occipitotemporal_gyrus_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 3705,
+      "vertex_start": 75461
+    },
+    {
+      "face_count": 1218,
+      "face_start": 158312,
+      "name": "Allen_long_insular_gyri_L",
+      "source_geometry": "Allen_long_insular_gyri_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 611,
+      "vertex_start": 79166
+    },
+    {
+      "face_count": 1218,
+      "face_start": 159530,
+      "name": "Allen_long_insular_gyri_R",
+      "source_geometry": "Allen_long_insular_gyri_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 611,
+      "vertex_start": 79777
+    },
+    {
+      "face_count": 2406,
+      "face_start": 160748,
+      "name": "Allen_medial_orbital_gyrus_L",
+      "source_geometry": "Allen_medial_orbital_gyrus_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 1205,
+      "vertex_start": 80388
+    },
+    {
+      "face_count": 2406,
+      "face_start": 163154,
+      "name": "Allen_medial_orbital_gyrus_R",
+      "source_geometry": "Allen_medial_orbital_gyrus_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 1205,
+      "vertex_start": 81593
+    },
+    {
+      "face_count": 13462,
+      "face_start": 165560,
+      "name": "Allen_middle_frontal_gyrus_L",
+      "source_geometry": "Allen_middle_frontal_gyrus_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 6733,
+      "vertex_start": 82798
+    },
+    {
+      "face_count": 13462,
+      "face_start": 179022,
+      "name": "Allen_middle_frontal_gyrus_R",
+      "source_geometry": "Allen_middle_frontal_gyrus_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 6733,
+      "vertex_start": 89531
+    },
+    {
+      "face_count": 10316,
+      "face_start": 192484,
+      "name": "Allen_middle_temporal_gyrus_L",
+      "source_geometry": "Allen_middle_temporal_gyrus_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 5158,
+      "vertex_start": 96264
+    },
+    {
+      "face_count": 10316,
+      "face_start": 202800,
+      "name": "Allen_middle_temporal_gyrus_R",
+      "source_geometry": "Allen_middle_temporal_gyrus_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 5158,
+      "vertex_start": 101422
+    },
+    {
+      "face_count": 1520,
+      "face_start": 213116,
+      "name": "Allen_occipital_pole_L",
+      "source_geometry": "Allen_occipital_pole_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 759,
+      "vertex_start": 106580
+    },
+    {
+      "face_count": 1520,
+      "face_start": 214636,
+      "name": "Allen_occipital_pole_R",
+      "source_geometry": "Allen_occipital_pole_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 759,
+      "vertex_start": 107339
+    },
+    {
+      "face_count": 4584,
+      "face_start": 216156,
+      "name": "Allen_occipitotemporal_fusiform_gyrus_temporal_part_L",
+      "source_geometry": "Allen_occipitotemporal_fusiform_gyrus_temporal_part_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 2294,
+      "vertex_start": 108098
+    },
+    {
+      "face_count": 4584,
+      "face_start": 220740,
+      "name": "Allen_occipitotemporal_fusiform_gyrus_temporal_part_R",
+      "source_geometry": "Allen_occipitotemporal_fusiform_gyrus_temporal_part_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 2294,
+      "vertex_start": 110392
+    },
+    {
+      "face_count": 2020,
+      "face_start": 225324,
+      "name": "Allen_paracentral_lobule_caudal_part_L",
+      "source_geometry": "Allen_paracentral_lobule_caudal_part_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 1012,
+      "vertex_start": 112686
+    },
+    {
+      "face_count": 2020,
+      "face_start": 227344,
+      "name": "Allen_paracentral_lobule_caudal_part_R",
+      "source_geometry": "Allen_paracentral_lobule_caudal_part_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 1012,
+      "vertex_start": 113698
+    },
+    {
+      "face_count": 3082,
+      "face_start": 229364,
+      "name": "Allen_paracentral_lobule_rostral_part_L",
+      "source_geometry": "Allen_paracentral_lobule_rostral_part_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 1543,
+      "vertex_start": 114710
+    },
+    {
+      "face_count": 3082,
+      "face_start": 232446,
+      "name": "Allen_paracentral_lobule_rostral_part_R",
+      "source_geometry": "Allen_paracentral_lobule_rostral_part_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 1543,
+      "vertex_start": 116253
+    },
+    {
+      "face_count": 824,
+      "face_start": 235528,
+      "name": "Allen_paracingulate_gyrus_L",
+      "source_geometry": "Allen_paracingulate_gyrus_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 414,
+      "vertex_start": 117796
+    },
+    {
+      "face_count": 824,
+      "face_start": 236352,
+      "name": "Allen_paracingulate_gyrus_R",
+      "source_geometry": "Allen_paracingulate_gyrus_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 414,
+      "vertex_start": 118210
+    },
+    {
+      "face_count": 3423,
+      "face_start": 237176,
+      "name": "Allen_paravermis_of_cerebellum_L",
+      "source_geometry": "Allen_paravermis_of_cerebellum_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 1699,
+      "vertex_start": 118624
+    },
+    {
+      "face_count": 3423,
+      "face_start": 240599,
+      "name": "Allen_paravermis_of_cerebellum_R",
+      "source_geometry": "Allen_paravermis_of_cerebellum_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 1699,
+      "vertex_start": 120323
+    },
+    {
+      "face_count": 1234,
+      "face_start": 244022,
+      "name": "Allen_parietal_operculum_L",
+      "source_geometry": "Allen_parietal_operculum_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 619,
+      "vertex_start": 122022
+    },
+    {
+      "face_count": 1234,
+      "face_start": 245256,
+      "name": "Allen_parietal_operculum_R",
+      "source_geometry": "Allen_parietal_operculum_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 619,
+      "vertex_start": 122641
+    },
+    {
+      "face_count": 90,
+      "face_start": 246490,
+      "name": "Allen_perirhinal_gyrus_rostral_part_of_FuGt_L",
+      "source_geometry": "Allen_perirhinal_gyrus_rostral_part_of_FuGt_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 47,
+      "vertex_start": 123260
+    },
+    {
+      "face_count": 90,
+      "face_start": 246580,
+      "name": "Allen_perirhinal_gyrus_rostral_part_of_FuGt_R",
+      "source_geometry": "Allen_perirhinal_gyrus_rostral_part_of_FuGt_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 47,
+      "vertex_start": 123307
+    },
+    {
+      "face_count": 2336,
+      "face_start": 246670,
+      "name": "Allen_planum_polare_L",
+      "source_geometry": "Allen_planum_polare_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 1170,
+      "vertex_start": 123354
+    },
+    {
+      "face_count": 2336,
+      "face_start": 249006,
+      "name": "Allen_planum_polare_R",
+      "source_geometry": "Allen_planum_polare_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 1170,
+      "vertex_start": 124524
+    },
+    {
+      "face_count": 1646,
+      "face_start": 251342,
+      "name": "Allen_planum_temporale_L",
+      "source_geometry": "Allen_planum_temporale_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 825,
+      "vertex_start": 125694
+    },
+    {
+      "face_count": 1646,
+      "face_start": 252988,
+      "name": "Allen_planum_temporale_R",
+      "source_geometry": "Allen_planum_temporale_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 825,
+      "vertex_start": 126519
+    },
+    {
+      "face_count": 9084,
+      "face_start": 254634,
+      "name": "Allen_postcentral_gyrus_L",
+      "source_geometry": "Allen_postcentral_gyrus_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 4544,
+      "vertex_start": 127344
+    },
+    {
+      "face_count": 9084,
+      "face_start": 263718,
+      "name": "Allen_postcentral_gyrus_R",
+      "source_geometry": "Allen_postcentral_gyrus_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 4544,
+      "vertex_start": 131888
+    },
+    {
+      "face_count": 1938,
+      "face_start": 272802,
+      "name": "Allen_posterior_intermediate_orbital_gyrus_L",
+      "source_geometry": "Allen_posterior_intermediate_orbital_gyrus_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 971,
+      "vertex_start": 136432
+    },
+    {
+      "face_count": 1938,
+      "face_start": 274740,
+      "name": "Allen_posterior_intermediate_orbital_gyrus_R",
+      "source_geometry": "Allen_posterior_intermediate_orbital_gyrus_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 971,
+      "vertex_start": 137403
+    },
+    {
+      "face_count": 1110,
+      "face_start": 276678,
+      "name": "Allen_posterior_parahippocampal_gyrus_L",
+      "source_geometry": "Allen_posterior_parahippocampal_gyrus_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 557,
+      "vertex_start": 138374
+    },
+    {
+      "face_count": 1110,
+      "face_start": 277788,
+      "name": "Allen_posterior_parahippocampal_gyrus_R",
+      "source_geometry": "Allen_posterior_parahippocampal_gyrus_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 557,
+      "vertex_start": 138931
+    },
+    {
+      "face_count": 9366,
+      "face_start": 278898,
+      "name": "Allen_precuneus_L",
+      "source_geometry": "Allen_precuneus_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 4684,
+      "vertex_start": 139488
+    },
+    {
+      "face_count": 9366,
+      "face_start": 288264,
+      "name": "Allen_precuneus_R",
+      "source_geometry": "Allen_precuneus_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 4684,
+      "vertex_start": 144172
+    },
+    {
+      "face_count": 11082,
+      "face_start": 297630,
+      "name": "Allen_primary_motor_cortex_L",
+      "source_geometry": "Allen_primary_motor_cortex_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 5543,
+      "vertex_start": 148856
+    },
+    {
+      "face_count": 11082,
+      "face_start": 308712,
+      "name": "Allen_primary_motor_cortex_R",
+      "source_geometry": "Allen_primary_motor_cortex_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 5543,
+      "vertex_start": 154399
+    },
+    {
+      "face_count": 116,
+      "face_start": 319794,
+      "name": "Allen_pyramidal_part_of_medulla_oblongata_L",
+      "source_geometry": "Allen_pyramidal_part_of_medulla_oblongata_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 60,
+      "vertex_start": 159942
+    },
+    {
+      "face_count": 116,
+      "face_start": 319910,
+      "name": "Allen_pyramidal_part_of_medulla_oblongata_R",
+      "source_geometry": "Allen_pyramidal_part_of_medulla_oblongata_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 60,
+      "vertex_start": 160002
+    },
+    {
+      "face_count": 1160,
+      "face_start": 320026,
+      "name": "Allen_rostral_gyrus_L",
+      "source_geometry": "Allen_rostral_gyrus_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 582,
+      "vertex_start": 160062
+    },
+    {
+      "face_count": 1160,
+      "face_start": 321186,
+      "name": "Allen_rostral_gyrus_R",
+      "source_geometry": "Allen_rostral_gyrus_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 582,
+      "vertex_start": 160644
+    },
+    {
+      "face_count": 1480,
+      "face_start": 322346,
+      "name": "Allen_short_insular_gyri_L",
+      "source_geometry": "Allen_short_insular_gyri_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 742,
+      "vertex_start": 161226
+    },
+    {
+      "face_count": 1480,
+      "face_start": 323826,
+      "name": "Allen_short_insular_gyri_R",
+      "source_geometry": "Allen_short_insular_gyri_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 742,
+      "vertex_start": 161968
+    },
+    {
+      "face_count": 406,
+      "face_start": 325306,
+      "name": "Allen_subcallosal_gyrus_parolfactory_gyrus_L",
+      "source_geometry": "Allen_subcallosal_gyrus_parolfactory_gyrus_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 205,
+      "vertex_start": 162710
+    },
+    {
+      "face_count": 406,
+      "face_start": 325712,
+      "name": "Allen_subcallosal_gyrus_parolfactory_gyrus_R",
+      "source_geometry": "Allen_subcallosal_gyrus_parolfactory_gyrus_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 205,
+      "vertex_start": 162915
+    },
+    {
+      "face_count": 20300,
+      "face_start": 326118,
+      "name": "Allen_superior_frontal_gyrus_L",
+      "source_geometry": "Allen_superior_frontal_gyrus_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 10150,
+      "vertex_start": 163120
+    },
+    {
+      "face_count": 20300,
+      "face_start": 346418,
+      "name": "Allen_superior_frontal_gyrus_R",
+      "source_geometry": "Allen_superior_frontal_gyrus_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 10150,
+      "vertex_start": 173270
+    },
+    {
+      "face_count": 6032,
+      "face_start": 366718,
+      "name": "Allen_superior_occipital_gyrus_L",
+      "source_geometry": "Allen_superior_occipital_gyrus_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 3008,
+      "vertex_start": 183420
+    },
+    {
+      "face_count": 6032,
+      "face_start": 372750,
+      "name": "Allen_superior_occipital_gyrus_R",
+      "source_geometry": "Allen_superior_occipital_gyrus_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 3008,
+      "vertex_start": 186428
+    },
+    {
+      "face_count": 4198,
+      "face_start": 378782,
+      "name": "Allen_superior_temporal_gyrus_L",
+      "source_geometry": "Allen_superior_temporal_gyrus_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 2100,
+      "vertex_start": 189436
+    },
+    {
+      "face_count": 4198,
+      "face_start": 382980,
+      "name": "Allen_superior_temporal_gyrus_R",
+      "source_geometry": "Allen_superior_temporal_gyrus_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 2100,
+      "vertex_start": 191536
+    },
+    {
+      "face_count": 4734,
+      "face_start": 387178,
+      "name": "Allen_supramarginal_gyrus_L",
+      "source_geometry": "Allen_supramarginal_gyrus_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 2369,
+      "vertex_start": 193636
+    },
+    {
+      "face_count": 4734,
+      "face_start": 391912,
+      "name": "Allen_supramarginal_gyrus_R",
+      "source_geometry": "Allen_supramarginal_gyrus_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 2369,
+      "vertex_start": 196005
+    },
+    {
+      "face_count": 9278,
+      "face_start": 396646,
+      "name": "Allen_supraparietal_lobule_L",
+      "source_geometry": "Allen_supraparietal_lobule_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 4637,
+      "vertex_start": 198374
+    },
+    {
+      "face_count": 9278,
+      "face_start": 405924,
+      "name": "Allen_supraparietal_lobule_R",
+      "source_geometry": "Allen_supraparietal_lobule_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 4637,
+      "vertex_start": 203011
+    },
+    {
+      "face_count": 632,
+      "face_start": 415202,
+      "name": "Allen_tegmentum_of_medulla_oblongata_L",
+      "source_geometry": "Allen_tegmentum_of_medulla_oblongata_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 318,
+      "vertex_start": 207648
+    },
+    {
+      "face_count": 632,
+      "face_start": 415834,
+      "name": "Allen_tegmentum_of_medulla_oblongata_R",
+      "source_geometry": "Allen_tegmentum_of_medulla_oblongata_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 318,
+      "vertex_start": 207966
+    },
+    {
+      "face_count": 2570,
+      "face_start": 416466,
+      "name": "Allen_temporal_pole_L",
+      "source_geometry": "Allen_temporal_pole_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 1287,
+      "vertex_start": 208284
+    },
+    {
+      "face_count": 2570,
+      "face_start": 419036,
+      "name": "Allen_temporal_pole_R",
+      "source_geometry": "Allen_temporal_pole_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 1287,
+      "vertex_start": 209571
+    },
+    {
+      "face_count": 1434,
+      "face_start": 421606,
+      "name": "Allen_transverse_temporal_gyrus_Heschls_gyrus_L",
+      "source_geometry": "Allen_transverse_temporal_gyrus_Heschls_gyrus_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 719,
+      "vertex_start": 210858
+    },
+    {
+      "face_count": 1434,
+      "face_start": 423040,
+      "name": "Allen_transverse_temporal_gyrus_Heschls_gyrus_R",
+      "source_geometry": "Allen_transverse_temporal_gyrus_Heschls_gyrus_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 719,
+      "vertex_start": 211577
+    }
+  ],
+  "control_limit_provenance": "design_heuristic; not measured population intervals",
+  "control_limits": [
+    0.035,
+    0.035,
+    0.035,
+    0.015,
+    0.02,
+    0.02,
+    0.01
+  ],
+  "control_names": [
+    "scale_x",
+    "scale_y",
+    "scale_z",
+    "bend",
+    "twist",
+    "taper",
+    "asymmetry"
+  ],
+  "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+  "deformer_version": "invertible-atlas-controls-1.0.0",
+  "evidence_kind": "expert_authored",
+  "excluded_source_nodes": [
+    "Allen_amygdalohippocampal_area_L",
+    "Allen_amygdalohippocampal_area_R",
+    "Allen_amygdaloid_complex_L",
+    "Allen_amygdaloid_complex_R",
+    "Allen_anterior_amygdaloid_area_L",
+    "Allen_anterior_amygdaloid_area_R",
+    "Allen_anterior_commissure_L",
+    "Allen_anterior_commissure_R",
+    "Allen_anterior_cortical_nucleus_L",
+    "Allen_anterior_cortical_nucleus_R",
+    "Allen_anterior_horn_of_lateral_ventricle_L",
+    "Allen_anterior_horn_of_lateral_ventricle_R",
+    "Allen_anterior_nuclear_complex_of_thalamus_L",
+    "Allen_anterior_nuclear_complex_of_thalamus_R",
+    "Allen_anterior_olfactory_nucleus_L",
+    "Allen_anterior_olfactory_nucleus_R",
+    "Allen_atrium_of_lateral_ventricle_L",
+    "Allen_atrium_of_lateral_ventricle_R",
+    "Allen_basal_forebrain_L",
+    "Allen_basal_forebrain_R",
+    "Allen_basolateral_nucleus_basal_nucleus_L",
+    "Allen_basolateral_nucleus_basal_nucleus_R",
+    "Allen_basomedial_nucleus_accessory_basal_nucleus_L",
+    "Allen_basomedial_nucleus_accessory_basal_nucleus_R",
+    "Allen_bed_nucleus_of_stria_terminalis_L",
+    "Allen_bed_nucleus_of_stria_terminalis_R",
+    "Allen_body_of_caudate_L",
+    "Allen_body_of_caudate_R",
+    "Allen_body_of_hippocampus_L",
+    "Allen_body_of_hippocampus_R",
+    "Allen_body_of_lateral_ventricle_L",
+    "Allen_body_of_lateral_ventricle_R",
+    "Allen_central_canal_of_medulla_oblongata_L",
+    "Allen_central_canal_of_medulla_oblongata_R",
+    "Allen_central_nuclear_group_L",
+    "Allen_central_nuclear_group_R",
+    "Allen_centromedian_nucleus_of_thalamus_L",
+    "Allen_centromedian_nucleus_of_thalamus_R",
+    "Allen_cerebellar_deep_nuclei_L",
+    "Allen_cerebellar_deep_nuclei_R",
+    "Allen_cerebral_aqueduct_L",
+    "Allen_cerebral_aqueduct_R",
+    "Allen_cerebral_peduncle_crus_cerebri_L",
+    "Allen_cerebral_peduncle_crus_cerebri_R",
+    "Allen_claustrum_L",
+    "Allen_claustrum_R",
+    "Allen_corpus_callosum_L",
+    "Allen_corpus_callosum_R",
+    "Allen_dorsal_lateral_geniculate_nucleus_L",
+    "Allen_dorsal_lateral_geniculate_nucleus_R",
+    "Allen_external_segment_of_globus_pallidus_L",
+    "Allen_external_segment_of_globus_pallidus_R",
+    "Allen_fornix_L",
+    "Allen_fornix_R",
+    "Allen_fourth_ventricle_L",
+    "Allen_fourth_ventricle_R",
+    "Allen_frontal_agranular_insular_cortex_area_Fl_L",
+    "Allen_frontal_agranular_insular_cortex_area_Fl_R",
+    "Allen_habenular_nuclei_L",
+    "Allen_habenular_nuclei_R",
+    "Allen_head_of_caudate_L",
+    "Allen_head_of_caudate_R",
+    "Allen_head_of_hippocampus_L",
+    "Allen_head_of_hippocampus_R",
+    "Allen_hypothalamus_L",
+    "Allen_hypothalamus_R",
+    "Allen_inferior_cerebellar_peduncle_L",
+    "Allen_inferior_cerebellar_peduncle_R",
+    "Allen_inferior_colliculus_L",
+    "Allen_inferior_colliculus_R",
+    "Allen_inferior_horn_of_lateral_ventricle_L",
+    "Allen_inferior_horn_of_lateral_ventricle_R",
+    "Allen_ingulo_parahippocampal_isthmus_L",
+    "Allen_ingulo_parahippocampal_isthmus_R",
+    "Allen_internal_segment_of_globus_pallidus_L",
+    "Allen_internal_segment_of_globus_pallidus_R",
+    "Allen_lateral_dorsal_nucleus_of_thalamus_L",
+    "Allen_lateral_dorsal_nucleus_of_thalamus_R",
+    "Allen_lateral_nucleus_L",
+    "Allen_lateral_nucleus_R",
+    "Allen_lateral_posterior_nucleus_of_thalamus_L",
+    "Allen_lateral_posterior_nucleus_of_thalamus_R",
+    "Allen_mammillary_region_of_HTH_L",
+    "Allen_mammillary_region_of_HTH_R",
+    "Allen_mammillothalamic_tract_L",
+    "Allen_mammillothalamic_tract_R",
+    "Allen_medial_geniculate_nuclei_L",
+    "Allen_medial_geniculate_nuclei_R",
+    "Allen_medial_nucleus_L",
+    "Allen_medial_nucleus_R",
+    "Allen_mediodorsal_nucleus_of_thalamus_L",
+    "Allen_mediodorsal_nucleus_of_thalamus_R",
+    "Allen_midbrain_tegmentum_L",
+    "Allen_midbrain_tegmentum_R",
+    "Allen_middle_cerebellar_peduncle_L",
+    "Allen_middle_cerebellar_peduncle_R",
+    "Allen_midline_nuclear_complex_L",
+    "Allen_midline_nuclear_complex_R",
+    "Allen_nucleus_accumbens_L",
+    "Allen_nucleus_accumbens_R",
+    "Allen_olfactory_bulb_L",
+    "Allen_olfactory_bulb_R",
+    "Allen_olfactory_tract_L",
+    "Allen_olfactory_tract_R",
+    "Allen_optic_radiation_L",
+    "Allen_optic_radiation_R",
+    "Allen_optic_tract_L",
+    "Allen_optic_tract_R",
+    "Allen_parafascicular_nucleus_of_thalamus_L",
+    "Allen_parafascicular_nucleus_of_thalamus_R",
+    "Allen_pineal_body_L",
+    "Allen_pineal_body_R",
+    "Allen_piriform_region_L",
+    "Allen_piriform_region_R",
+    "Allen_pontine_tegmentum_L",
+    "Allen_pontine_tegmentum_R",
+    "Allen_posterior_cortical_nucleus_L",
+    "Allen_posterior_cortical_nucleus_R",
+    "Allen_posterior_horn_of_lateral_ventricle_L",
+    "Allen_posterior_horn_of_lateral_ventricle_R",
+    "Allen_posteroventral_putamen_L",
+    "Allen_posteroventral_putamen_R",
+    "Allen_preoptic_region_of_HTH_L",
+    "Allen_preoptic_region_of_HTH_R",
+    "Allen_pretectal_region_L",
+    "Allen_pretectal_region_R",
+    "Allen_pulvinar_of_thalamus_L",
+    "Allen_pulvinar_of_thalamus_R",
+    "Allen_putamen_L",
+    "Allen_putamen_R",
+    "Allen_red_nucleus_L",
+    "Allen_red_nucleus_R",
+    "Allen_reuniens_nucleus_medioventral_nucleus_of_thalamus_L",
+    "Allen_reuniens_nucleus_medioventral_nucleus_of_thalamus_R",
+    "Allen_septal_nuclei_L",
+    "Allen_septal_nuclei_R",
+    "Allen_substantia_nigra_L",
+    "Allen_substantia_nigra_R",
+    "Allen_subthalamic_nucleus_L",
+    "Allen_subthalamic_nucleus_R",
+    "Allen_superior_cerebellar_peduncle_brachium_conjunctivum_L",
+    "Allen_superior_cerebellar_peduncle_brachium_conjunctivum_R",
+    "Allen_superior_colliculus_L",
+    "Allen_superior_colliculus_R",
+    "Allen_supraoptic_region_of_HTH_L",
+    "Allen_supraoptic_region_of_HTH_R",
+    "Allen_tail_of_caudate_L",
+    "Allen_tail_of_caudate_R",
+    "Allen_tail_of_hippocampus_L",
+    "Allen_tail_of_hippocampus_R",
+    "Allen_temporal_agranular_insular_cortex_area_Tl_L",
+    "Allen_temporal_agranular_insular_cortex_area_Tl_R",
+    "Allen_thalamus_L",
+    "Allen_thalamus_R",
+    "Allen_third_ventricle_L",
+    "Allen_third_ventricle_R",
+    "Allen_tuberal_region_of_HTH_L",
+    "Allen_tuberal_region_of_HTH_R",
+    "Allen_ventral_anterior_nucleus_of_thalamus_L",
+    "Allen_ventral_anterior_nucleus_of_thalamus_R",
+    "Allen_ventral_lateral_nucleus_of_thalamus_L",
+    "Allen_ventral_lateral_nucleus_of_thalamus_R",
+    "Allen_ventral_posterior_lateral_nucleus_L",
+    "Allen_ventral_posterior_lateral_nucleus_R",
+    "Allen_ventral_posterior_medial_nucleus_L",
+    "Allen_ventral_posterior_medial_nucleus_R",
+    "Allen_white_matter_of_forebrain_L",
+    "Allen_white_matter_of_forebrain_R",
+    "Allen_white_matter_of_hindbrain_L",
+    "Allen_white_matter_of_hindbrain_R",
+    "Allen_zona_incerta_L",
+    "Allen_zona_incerta_R",
+    "VH_F_optic_chiasm"
+  ],
+  "extent_mm": [
+    136.3772340118885,
+    145.70128917694092,
+    167.0395266264677
+  ],
+  "face_count": 424474,
+  "face_map_keys": [
+    "source_to_clean_face_indices",
+    "clean_to_source_face_indices",
+    "clean_face_orientation_reversed",
+    "source_faces"
+  ],
+  "generator_version": "invertible-atlas-controls-1.0.0",
+  "geometry_sha256": "fafc6579c2204fde5397347754854bf006eff079e043006c92fcbe6e0314abb0",
+  "inverse_coordinate_transform": "source_world = source_to_authoring_rotation.T @ (vertices_mm + source_center_mm) / source_to_mm_scale",
+  "laterality": null,
+  "license": "CC-BY-4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "mesh_role": "annotated_display_surface_assembly_not_organ_envelope",
+  "modifications": "Selected named display components, applied scene transforms, explicit units, bounding-box centering. Removed degenerate triangles and repaired winding with reversible face maps. No smoothing, decimation or remeshing.",
+  "normalization_mm": 83.51976331323385,
+  "organ": "brain",
+  "organ_id": "brain",
+  "population_prevalence": null,
+  "profile": "development_preview",
+  "removed_degenerate_faces": 0,
+  "reversed_faces": 0,
+  "review_status": "unreviewed",
+  "selection_policy_version": "external-display-components-1.1.0",
+  "sex_label": "female",
+  "source_center_mm": [
+    -6.4917635172605515,
+    784.2675447463989,
+    -64.5727152004838
+  ],
+  "source_citation": "Browne, Kristen,\tand Heidi Schlehlein.\t 2024.\t\"3D Reference Organ for Brain, Female v1.4.\"\t https://doi.org/10.48539/HBM674.NTLM.353.\tAccessed June 15, 2024.",
+  "source_collection": "HRA",
+  "source_creators": [
+    {
+      "id": "https://orcid.org/0000-0002-3333-5646",
+      "name": "Heidi Schlehlein"
+    },
+    {
+      "id": "https://orcid.org/0000-0003-4066-7531",
+      "name": "Kristen Browne"
+    }
+  ],
+  "source_derivation_description": "This reference organ, Brain-female (https://humanatlas.io/3d-reference-library) was created using data from the Allen\nbrain reference atlas (Ding et al. 2016). The 141 anatomical structures were mirrored to arrive at a whole human brain\n(as intended) and resized to fit the Visible Human Male and Female bodies (Spitzer et al. 1996; Ackerman 1998; Spitzer\nand Whitlock 2002). In version v1.3, an update in licensing occurred; this brain model is now licensed under Creative\nCommons Attribution 4.0 International (CC BY 4.0). Ding et al. 2016 was used to inform the creation of this model.\n\n**Bibliography:**\n\n* Ackerman, Michael J. 1998. \u201cThe Visible Human Project.\u201d *Proceedings of the IEEE* 86 (3): 504\u201311. https://doi.org/10.1109/5.662875.\n* Ding, Song-Lin, Joshua J. Royall, Susan M. Sunkin, Lydia Ng, Benjamin A.C. Facer, Phil Lesnar, Angie Guillozet-Bongaarts, et al. 2016. \u201cComprehensive Cellular-Resolution Atlas of the Adult Human Brain.\u201d *Journal of Comparative Neurology* 524 (16): 3127\u20133481.\n* Spitzer, Victor M., and David G. Whitlock. 2002. \u201cThe Visible Human Dataset: The Anatomical Platform for Human Simulation.\u201d *The Anatomical Record* 253 (2): 49\u201357. https://doi.org/10.1002/(SICI)1097-0185(199804)253:2<49::AID-AR8>3.0.CO;2-9.",
+  "source_doi": "https://doi.org/10.48539/HBM674.NTLM.353",
+  "source_faces_sha256": "acf93106ff74cdf9d5da497f60a8b643c0f273a194ea282bb65aab0901d0bd35",
+  "source_geometry_sha256": "fafc6579c2204fde5397347754854bf006eff079e043006c92fcbe6e0314abb0",
+  "source_group_id": "hra-allen-brain-shared-atlas",
+  "source_group_reason": "Conservative atlas ancestry grouping; organ files are not independent donors",
+  "source_license_statement": "Creative Commons Attribution 4.0 International ([CC BY 4.0](https://creativecommons.org/licenses/by/4.0/))",
+  "source_metadata_file": "attribution/hra-brain-female.jsonld",
+  "source_metadata_sha256": "f66ddd984364cfbe22da8824a13d96e3e17ebe8e19ebb0e4b52005feee452c8f",
+  "source_metadata_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/brain-female/v1.4/metadata.jsonld",
+  "source_overall_citation": "Browne, Kristen,\tHeidi Schlehlein,\tBruce W. Herr II,\tEllen Quardokus,\tAndreas Bueckle,\t and Katy B\u00f6rner.\t 2024.\t\"HuBMAP CCF 3D Reference Object Library.\"\t https://humanatlas.io/3d-reference-library.\tAccessed June 15, 2024.",
+  "source_release": "11th Release (v2.5)",
+  "source_sha256": "f20d87a347f8d5c6467439cba7db18f19307d29b2c3e0c2b6ddb7e9d49e1c1fc",
+  "source_title": "3D Reference Organ for Brain, Female",
+  "source_to_authoring_rotation": [
+    [
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      1,
+      0
+    ],
+    [
+      0,
+      0,
+      1
+    ]
+  ],
+  "source_to_mm_scale": 1000.0,
+  "source_topology_audit": {
+    "boundary_edges_after_audit_weld": 14,
+    "connected_vertex_components": 104,
+    "degenerate_faces": 0,
+    "method": "trimesh-geometric-weld-audit-copy-1.0",
+    "nonmanifold_edges_after_audit_weld": 198,
+    "self_intersection": {
+      "reason": "No robust intersection backend",
+      "status": "NOT_RUN"
+    },
+    "simulation_readiness": {
+      "reason": "No volumetric domain/materials",
+      "status": "NOT_RUN"
+    },
+    "watertight_after_audit_weld": false,
+    "weld_precision_mm": 1e-08,
+    "winding_consistent_after_audit_weld": true,
+    "zero_length_edges": 0
+  },
+  "source_up_axis": "Y (glTF convention); patient-axis interpretation not asserted",
+  "source_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/brain-female/v1.4/assets/3d-allen-f-brain.glb",
+  "template_id": "hra-brain-female",
+  "template_version": "atlas-display-1.1.0",
+  "topology_audit": {
+    "boundary_edges_after_audit_weld": 14,
+    "connected_vertex_components": 104,
+    "degenerate_faces": 0,
+    "method": "trimesh-geometric-weld-audit-copy-1.0",
+    "nonmanifold_edges_after_audit_weld": 198,
+    "self_intersection": {
+      "reason": "No robust intersection backend",
+      "status": "NOT_RUN"
+    },
+    "simulation_readiness": {
+      "reason": "No volumetric domain/materials",
+      "status": "NOT_RUN"
+    },
+    "watertight_after_audit_weld": false,
+    "weld_precision_mm": 1e-08,
+    "winding_consistent_after_audit_weld": true,
+    "zero_length_edges": 0
+  },
+  "unit": "mm",
+  "units_evidence": "glTF 2.0 linear distances use metres; explicit multiplication by 1000",
+  "vertex_count": 212296
+}

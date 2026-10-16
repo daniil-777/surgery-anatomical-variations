@@ -1,0 +1,25 @@
+# what the image build never needs from a checkout (deploy/Dockerfile copies py, services, pipelines, datasets,
+# disease-releases, artifacts, data, apps/studio sources, packages and the lockfiles)
+.git
+.venv
+node_modules
+**/node_modules
+apps/studio/dist*
+**/__pycache__
+.pytest_cache
+.mypy_cache
+.ruff_cache
+.swarm
+.claude-flow
+test-results
+playwright-report
+benchmarks
+disease-qa
+physics-review
+research-report
+references
+physics-releases
+notebooks
+docs
+tests
+*.sqlite*

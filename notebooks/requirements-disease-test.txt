@@ -1,0 +1,5 @@
+# Optional focused tests for the standalone disease bundle.
+-r requirements-disease-colab.txt
+pytest==9.1.1
+nibabel==5.4.2
+scikit-image==0.26.0

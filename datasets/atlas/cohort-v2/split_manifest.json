@@ -1,0 +1,11 @@
+{
+  "forbidden_overlap": "realized parent group_id and all render/material/text descendants",
+  "independent_reference_evaluation": "unavailable; finite shared atlas ancestries, no claim of unseen-donor performance",
+  "permitted_overlap": "same source template in all splits, explicitly measures procedural interpolation",
+  "roles": {
+    "audit": 240,
+    "train": 1056,
+    "val": 240
+  },
+  "track": "within_generator"
+}

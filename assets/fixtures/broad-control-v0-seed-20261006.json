@@ -1,0 +1,16 @@
+{
+  "original_scene_hash": "fa7469664e35f2593e93a0758d0199cc3ad649c3742a2ce814502c011d475911",
+  "parameters": {
+    "fissure_depth_mm": 7.719998465847858,
+    "gallbladder_length_mm": 70.99550000754323,
+    "gallbladder_radius_mm": 19.825366318922203,
+    "inferior_concavity": 0.21216552481807865,
+    "left_lobe_ratio": 0.5603712927769602,
+    "liver_depth_mm": 174.95885130253842,
+    "liver_height_mm": 177.90410037963545,
+    "liver_width_mm": 269.2145334248167
+  },
+  "resolution": "medium",
+  "seed": 20261006,
+  "source_release": "c98d9d06e111fac9"
+}

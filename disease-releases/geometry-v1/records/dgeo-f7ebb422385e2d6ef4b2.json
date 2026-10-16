@@ -1,0 +1,315 @@
+{
+  "appearance_evidence": "authored_vertex_color_not_measured_tissue_texture",
+  "clinical_review_status": "unreviewed",
+  "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+  "disease_field": {
+    "applied_displacement_fraction": 1.0,
+    "clinical_stage": null,
+    "color_strength": 0.16004602762237852,
+    "fields": [
+      {
+        "amplitude_mm": 2.480001944811248,
+        "center_mm": [
+          -22.6844884455204,
+          -64.45552408695221,
+          -53.241267800331116
+        ],
+        "direction": [
+          0.9394666742423841,
+          -0.026836624939386,
+          -0.3415877098928135
+        ],
+        "radius_mm": 29.873714249469117
+      },
+      {
+        "amplitude_mm": 2.4971048455737206,
+        "center_mm": [
+          -83.00824090838432,
+          -26.233091950416565,
+          8.106168359518051
+        ],
+        "direction": [
+          0.15015770225858188,
+          0.8228249171172954,
+          0.5480983672876055
+        ],
+        "radius_mm": 29.873714249469117
+      },
+      {
+        "amplitude_mm": 2.5272691330017367,
+        "center_mm": [
+          42.742300778627396,
+          -22.016242146492004,
+          -43.19804534316063
+        ],
+        "direction": [
+          0.7772462479480439,
+          0.5511674604048689,
+          -0.3034842675354611
+        ],
+        "radius_mm": 29.873714249469117
+      },
+      {
+        "amplitude_mm": 2.094228244207229,
+        "center_mm": [
+          22.89172075688839,
+          58.357492089271545,
+          -58.54698643088341
+        ],
+        "direction": [
+          -0.5908527106843897,
+          -0.3607705303684033,
+          -0.7216215758239287
+        ],
+        "radius_mm": 29.873714249469117
+      },
+      {
+        "amplitude_mm": 2.2150970731254134,
+        "center_mm": [
+          103.18892076611519,
+          -12.710973620414734,
+          -6.555572617799044
+        ],
+        "direction": [
+          0.02734323782201145,
+          -0.7790331671527732,
+          -0.6263862002162311
+        ],
+        "radius_mm": 29.873714249469117
+      },
+      {
+        "amplitude_mm": 2.5666885647909705,
+        "center_mm": [
+          73.3635239303112,
+          -61.63187325000763,
+          36.039937287569046
+        ],
+        "direction": [
+          -0.4341511914021543,
+          -0.8796375108228254,
+          -0.19429511717362768
+        ],
+        "radius_mm": 29.873714249469117
+      },
+      {
+        "amplitude_mm": 2.2148233526479237,
+        "center_mm": [
+          -23.456238210201263,
+          -40.353044867515564,
+          78.5047672688961
+        ],
+        "direction": [
+          0.5312109082229689,
+          -0.45767022288411724,
+          -0.712988736285596
+        ],
+        "radius_mm": 29.873714249469117
+      }
+    ],
+    "gradient_bound_per_step": 0.14859423542022704,
+    "pattern": "mass",
+    "profile_id": "lung-cancer",
+    "realized_sites": 7,
+    "requested_sites": 7,
+    "steps": 3,
+    "surface_site_frame": "undeformed-atlas-Y-up-mm",
+    "target_srgb": [
+      0.67,
+      0.45,
+      0.32
+    ],
+    "version": "disease-morphology-design-1.0.0"
+  },
+  "display_normal_sha256": "8085509c25571e05d93d7ef96be1e75764b262b0b673d129ce94898cff611fa0",
+  "face_count": 16664,
+  "features": [
+    259.4186142086983,
+    229.1373312473297,
+    189.71354514360428,
+    276685.8792115156,
+    7.496140399561647,
+    1.0
+  ],
+  "geometry_evidence": "authored_disease_surface_from_licensed_reference_template",
+  "geometry_sha256": "2b72a3c6f4823e70bc521656b7bc2226d5b2048acd077c4827b9f3468d86d1fc",
+  "group_id": "lung-cancer:3399725811",
+  "mechanics_evidence": "none",
+  "normal_fallback_count": 0,
+  "organ": "lung",
+  "parent_recipe_index": 2088,
+  "parent_sample_id": "lung-cancer:3399725811",
+  "path": "records/dgeo-f7ebb422385e2d6ef4b2.json",
+  "patient_id": null,
+  "point_count": 2048,
+  "point_sampling_seed": 4025073121,
+  "profile_id": "lung-cancer",
+  "qa": {
+    "anatomical_plausibility": {
+      "status": "NOT_RUN"
+    },
+    "area_ratio_max": 1.4972863397531968,
+    "area_ratio_min": 0.6971700295314626,
+    "continuous_jacobian_lower_bound": 0.23508735884789386,
+    "mechanical_validation": {
+      "status": "NOT_RUN"
+    },
+    "min_normal_dot": 0.9076684044288629,
+    "new_degenerate_faces": 0,
+    "normal_turns_over_90_degrees": 0,
+    "passed": true,
+    "scope": "finite nondegenerate same-topology outer-surface design",
+    "self_intersection": {
+      "reason": "Discrete/source triangle intersections not certified",
+      "status": "NOT_RUN"
+    },
+    "source_topology": {
+      "boundary_edges_after_audit_weld": 4,
+      "connected_vertex_components": 5,
+      "degenerate_faces": 0,
+      "method": "trimesh-geometric-weld-audit-copy-1.0",
+      "nonmanifold_edges_after_audit_weld": 0,
+      "self_intersection": {
+        "reason": "No robust intersection backend",
+        "status": "NOT_RUN"
+      },
+      "simulation_readiness": {
+        "reason": "No volumetric domain/materials",
+        "status": "NOT_RUN"
+      },
+      "watertight_after_audit_weld": false,
+      "weld_precision_mm": 1e-08,
+      "winding_consistent_after_audit_weld": true,
+      "zero_length_edges": 0
+    },
+    "status": "PASS",
+    "topology_preserved": true
+  },
+  "realized_id": "ad9f8e1b16ad2069c9b8d0345e323ab3f54a30027572a8f38620c6aa7e116d8e",
+  "recipe_features": [
+    0.43195998668670654,
+    0.6259370446205139,
+    0.3461327850818634,
+    0.8686996698379517,
+    0.3705112338066101,
+    0.8571428656578064,
+    0.41571101546287537,
+    0.2022692710161209,
+    0.21950304508209229
+  ],
+  "sample_id": "dgeo-f7ebb422385e2d6ef4b2",
+  "source_attribution": "Browne, Kristen, and Heidi Schlehlein. 2024. \"3D Reference Organ for Lung, Male v1.4.\" https://doi.org/10.48539/HBM532.KLZD.394. Accessed on June 15, 2024.",
+  "source_group_id": "hra-visible-human-male",
+  "source_license": "CC-BY-4.0",
+  "source_template_artifact_sha256": "06df9d8fe8520dbbb54853392e8adcc078143c5c3ef0e927bd9fa6699f12000b",
+  "source_template_geometry_sha256": "84ed95d7854af14879b9158944e78417ec129c65ca0fe52b5b97724c4d3421c6",
+  "source_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/lung-male/v1.4/assets/3d-vh-m-lung.glb",
+  "spec": {
+    "appearance": "tissue",
+    "controls": {
+      "asymmetry": 0.0,
+      "bend": 0.0,
+      "scale_x": 0.0,
+      "scale_y": 0.0,
+      "scale_z": 0.0,
+      "taper": 0.0,
+      "twist": 0.0
+    },
+    "disease": {
+      "contrast": 0.3705112338066101,
+      "count": 7,
+      "irregularity": 0.8686996698379517,
+      "location": [
+        -0.16857796907424927,
+        -0.5954614579677582,
+        -0.5609939098358154
+      ],
+      "profile_id": "lung-cancer",
+      "seed": 3399725811,
+      "severity": 0.43195998668670654,
+      "size": 0.6259370446205139,
+      "spread": 0.3461327850818634
+    },
+    "realized_id": "ad9f8e1b16ad2069c9b8d0345e323ab3f54a30027572a8f38620c6aa7e116d8e",
+    "seed": 3399725811,
+    "template_id": "hra-lung-male",
+    "template_sha256": "06df9d8fe8520dbbb54853392e8adcc078143c5c3ef0e927bd9fa6699f12000b"
+  },
+  "split": "train",
+  "split_track": "within_generator",
+  "summary": {
+    "disease": {
+      "applied_displacement_fraction": 1.0,
+      "displacement_limited_by_source_mesh": false,
+      "evidence": "synthetic_surface_morphology_not_patient_or_population_geometry",
+      "internal_anatomy_generated": false,
+      "max_displacement_mm": 7.496140399561647,
+      "physical_parameters_inferred": false,
+      "profile": {
+        "clinical_source_url": "https://www.cancer.gov/types/lung/patient/non-small-cell-lung-treatment-pdq",
+        "evidence": "image_reference_not_paired_3d_supervision",
+        "id": "lung-cancer",
+        "label": "Squamous cell lung carcinoma",
+        "limits": "Only one cut surface is shown; staging and resectability require more information. Source resolution is limited. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+        "morphology_targets": [
+          "tumor size and centrality",
+          "bronchial involvement",
+          "relationship to fissures and vessels"
+        ],
+        "organ": "lung",
+        "pattern": "mass",
+        "source_ref": "I31",
+        "source_url": "https://commons.wikimedia.org/wiki/File:Lung_cancer.jpg",
+        "supported": true,
+        "unavailable_reason": ""
+      },
+      "realized_sites": 7,
+      "recipe": {
+        "contrast": 0.3705112338066101,
+        "count": 7,
+        "irregularity": 0.8686996698379517,
+        "location": [
+          -0.16857796907424927,
+          -0.5954614579677582,
+          -0.5609939098358154
+        ],
+        "profile_id": "lung-cancer",
+        "seed": 3399725811,
+        "severity": 0.43195998668670654,
+        "size": 0.6259370446205139,
+        "spread": 0.3461327850818634
+      },
+      "requested_sites": 7,
+      "version": "disease-morphology-design-1.0.0"
+    },
+    "extent_mm": [
+      259.4186142086983,
+      229.1373312473297,
+      189.71354514360428
+    ],
+    "measurements": {
+      "compactness": null,
+      "extent_x_mm": 259.4186142086983,
+      "extent_y_mm": 229.1373312473297,
+      "extent_z_mm": 189.71354514360428,
+      "method": "disease-display-triangle-measurements-1.0.0",
+      "surface_area_definition": "Sum of selected triangles including capsule/internal faces",
+      "surface_area_mm2": 276685.8792115156,
+      "volume_ml": null,
+      "volume_reason": "Display surface assembly is not a certified closed outer envelope",
+      "volume_status": "NOT_APPLICABLE"
+    },
+    "min_jacobian": 0.23508735884789386,
+    "min_jacobian_kind": "conservative_bound",
+    "organ": "lung",
+    "profile": "development_preview",
+    "qa_scope": "finite nondegenerate same-topology outer-surface design",
+    "qa_status": "PASS",
+    "reference": "hra-lung-male",
+    "review_status": "unreviewed",
+    "triangles": 16664,
+    "vertices": 9089
+  },
+  "template_id": "hra-lung-male",
+  "units": "mm",
+  "vertex_count": 9089
+}

@@ -1,0 +1,32 @@
+{
+  "attribution_path": "templates/attribution",
+  "color_definition": "Editor vertex colors interpolated in linear RGB, stored in sRGB; display proxy, not calibrated surgical photographs",
+  "disease_design_mask": "Authored compact-support weight on the surface; NOT clinical lesion segmentation",
+  "format": "viscera-disease-realized-geometry-1.0.0",
+  "full_resolution_geometry": "Lossless source indexing replay through bound editor specs and frozen decoder; source templates copied once",
+  "licenses": [
+    "CC-BY-4.0"
+  ],
+  "limitations": [
+    "No patient-specific disease geometry or prevalence is inferred from these synthetic forms",
+    "Held-out recipes share reference anatomy lineages with training and do not test unseen patient generalization",
+    "Geometry acceptance filters failed source-face realizations; all rejections are recorded",
+    "No vasculature, lumen, internal lesion volume or FEM domain is generated",
+    "No measured optical or mechanical material properties; specialist anatomical review pending"
+  ],
+  "normal_definition": "Barycentric interpolated displayed vertex normal, renormalized; vanishing interpolation falls back to face normal with count recorded",
+  "organ_count": 12,
+  "patient_count": 0,
+  "profile_count": 25,
+  "rejected_attempt_count": 0,
+  "release_id": "dc4986c54970c08c8b12",
+  "sample_count": 200,
+  "shared_reference_lineages_across_splits": true,
+  "split_counts": {
+    "audit": 25,
+    "train": 150,
+    "val": 25
+  },
+  "split_track": "within_generator",
+  "volume_status": "NOT_APPLICABLE: source display surface assemblies are not certified organ envelopes"
+}

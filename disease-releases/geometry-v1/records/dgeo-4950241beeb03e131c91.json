@@ -1,0 +1,287 @@
+{
+  "appearance_evidence": "authored_vertex_color_not_measured_tissue_texture",
+  "clinical_review_status": "unreviewed",
+  "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+  "disease_field": {
+    "applied_displacement_fraction": 1.0,
+    "clinical_stage": null,
+    "color_strength": 0.1615773029096772,
+    "fields": [
+      {
+        "amplitude_mm": 0.567251819621299,
+        "center_mm": [
+          -30.992381391115487,
+          18.96364614367485,
+          34.39329192042351
+        ],
+        "direction": [
+          -0.38175194968387377,
+          0.7214809477892763,
+          -0.5776942884343317
+        ],
+        "radius_mm": 22.22987125030816
+      },
+      {
+        "amplitude_mm": 0.6088021933968772,
+        "center_mm": [
+          4.16041724383831,
+          70.78460976481438,
+          -13.249542564153671
+        ],
+        "direction": [
+          -0.026916685673165856,
+          0.056346507448097896,
+          0.9980483771495114
+        ],
+        "radius_mm": 22.22987125030816
+      },
+      {
+        "amplitude_mm": 0.6757082000000827,
+        "center_mm": [
+          41.825590655207634,
+          49.19762536883354,
+          -39.42715749144554
+        ],
+        "direction": [
+          -0.7299551693703428,
+          0.02590895418617486,
+          -0.683003789742409
+        ],
+        "radius_mm": 22.22987125030816
+      },
+      {
+        "amplitude_mm": 0.6347196913903218,
+        "center_mm": [
+          10.625546798110008,
+          -12.988347560167313,
+          -16.55806601047516
+        ],
+        "direction": [
+          -0.032876012050050134,
+          0.5852517468713018,
+          0.8101848928582751
+        ],
+        "radius_mm": 22.22987125030816
+      },
+      {
+        "amplitude_mm": 0.6427001412357395,
+        "center_mm": [
+          74.83215443789959,
+          48.58262464404106,
+          -8.640699088573456
+        ],
+        "direction": [
+          0.4700914330658998,
+          0.4562041184410913,
+          0.7555738526943845
+        ],
+        "radius_mm": 22.22987125030816
+      }
+    ],
+    "gradient_bound_per_step": 0.22530826187133787,
+    "pattern": "inflammation",
+    "profile_id": "small-intestine-crohn",
+    "realized_sites": 5,
+    "requested_sites": 5,
+    "steps": 3,
+    "surface_site_frame": "undeformed-atlas-Y-up-mm",
+    "target_srgb": [
+      0.46,
+      0.055,
+      0.045
+    ],
+    "version": "disease-morphology-design-1.0.0"
+  },
+  "display_normal_sha256": "d48677594e92f735d570be5496ba1d666af4ceea5171a5212f60c589ab57210f",
+  "face_count": 32122,
+  "features": [
+    187.9874682959308,
+    265.37128537893295,
+    122.16299027204514,
+    229690.34786043217,
+    2.0178098403907025,
+    1.0
+  ],
+  "geometry_evidence": "authored_disease_surface_from_licensed_reference_template",
+  "geometry_sha256": "e424cab3a4f2684a3b9de458719754ffe385a6a1499bd921e9d2cd88b7fbabe0",
+  "group_id": "small-intestine-crohn:3456513700",
+  "mechanics_evidence": "none",
+  "normal_fallback_count": 0,
+  "organ": "small-intestine",
+  "parent_recipe_index": 306,
+  "parent_sample_id": "small-intestine-crohn:3456513700",
+  "path": "records/dgeo-4950241beeb03e131c91.json",
+  "patient_id": null,
+  "point_count": 2048,
+  "point_sampling_seed": 3603088311,
+  "profile_id": "small-intestine-crohn",
+  "qa": {
+    "anatomical_plausibility": {
+      "status": "NOT_RUN"
+    },
+    "area_ratio_max": 1.1680278413583798,
+    "area_ratio_min": 0.8818327867331791,
+    "continuous_jacobian_lower_bound": 0.10049867113811381,
+    "mechanical_validation": {
+      "status": "NOT_RUN"
+    },
+    "min_normal_dot": 0.988739895391649,
+    "new_degenerate_faces": 0,
+    "normal_turns_over_90_degrees": 0,
+    "passed": true,
+    "scope": "finite nondegenerate same-topology outer-surface design",
+    "self_intersection": {
+      "reason": "Discrete/source triangle intersections not certified",
+      "status": "NOT_RUN"
+    },
+    "source_topology": {
+      "boundary_edges_after_audit_weld": 94,
+      "connected_vertex_components": 1,
+      "degenerate_faces": 0,
+      "method": "trimesh-geometric-weld-audit-copy-1.0",
+      "nonmanifold_edges_after_audit_weld": 0,
+      "self_intersection": {
+        "reason": "No robust intersection backend",
+        "status": "NOT_RUN"
+      },
+      "simulation_readiness": {
+        "reason": "No volumetric domain/materials",
+        "status": "NOT_RUN"
+      },
+      "watertight_after_audit_weld": false,
+      "weld_precision_mm": 1e-08,
+      "winding_consistent_after_audit_weld": true,
+      "zero_length_edges": 0
+    },
+    "status": "PASS",
+    "topology_preserved": true
+  },
+  "realized_id": "5c2eeabdb599ff148554d8cdf0ccc95cbe301592a9e0b733eda9f63abc5ae13d",
+  "recipe_features": [
+    0.654965877532959,
+    0.13204845786094666,
+    0.7208867073059082,
+    0.7735745906829834,
+    0.24669575691223145,
+    0.5714285969734192,
+    0.1683940291404724,
+    0.34363624453544617,
+    0.7990915775299072
+  ],
+  "sample_id": "dgeo-4950241beeb03e131c91",
+  "source_attribution": "Browne, Kristen, and Heidi Schlehlein. 2024. *3D Reference Organ for Small Intestine, Male v1.2*. https://doi.org/10.48539/HBM789.XTDK.794. Accessed on June 15, 2024.",
+  "source_group_id": "hra-visible-human-male",
+  "source_license": "CC-BY-4.0",
+  "source_template_artifact_sha256": "d9ead1dfc12da020a5d3fffac71a76b05023313a1b874b63519ff8cc77b9bfd6",
+  "source_template_geometry_sha256": "ee35af74bce1a4f5fb3e39e4cf81994d430baeff66a039a4271226b47ae26b14",
+  "source_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/small-intestine-male/v1.2/assets/3d-vh-m-small-intestine.glb",
+  "spec": {
+    "appearance": "tissue",
+    "controls": {
+      "asymmetry": 0.0,
+      "bend": 0.0,
+      "scale_x": 0.0,
+      "scale_y": 0.0,
+      "scale_z": 0.0,
+      "taper": 0.0,
+      "twist": 0.0
+    },
+    "disease": {
+      "contrast": 0.24669575691223145,
+      "count": 5,
+      "irregularity": 0.7735745906829834,
+      "location": [
+        -0.6632119417190552,
+        -0.31272751092910767,
+        0.5981831550598145
+      ],
+      "profile_id": "small-intestine-crohn",
+      "seed": 3456513700,
+      "severity": 0.654965877532959,
+      "size": 0.13204845786094666,
+      "spread": 0.7208867073059082
+    },
+    "realized_id": "5c2eeabdb599ff148554d8cdf0ccc95cbe301592a9e0b733eda9f63abc5ae13d",
+    "seed": 3456513700,
+    "template_id": "hra-small-intestine-male",
+    "template_sha256": "d9ead1dfc12da020a5d3fffac71a76b05023313a1b874b63519ff8cc77b9bfd6"
+  },
+  "split": "audit",
+  "split_track": "within_generator",
+  "summary": {
+    "disease": {
+      "applied_displacement_fraction": 1.0,
+      "displacement_limited_by_source_mesh": false,
+      "evidence": "synthetic_surface_morphology_not_patient_or_population_geometry",
+      "internal_anatomy_generated": false,
+      "max_displacement_mm": 2.0178098403907025,
+      "physical_parameters_inferred": false,
+      "profile": {
+        "clinical_source_url": "https://www.niddk.nih.gov/health-information/digestive-diseases/crohns-disease/treatment",
+        "evidence": "image_reference_not_paired_3d_supervision",
+        "id": "small-intestine-crohn",
+        "label": "Crohn's disease of jejunum",
+        "limits": "Low-resolution regional specimen; external creeping fat, fistulas and whole-bowel length are not represented. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+        "morphology_targets": [
+          "segmental mucosal relief",
+          "wall thickening",
+          "stricture location"
+        ],
+        "organ": "small-intestine",
+        "pattern": "inflammation",
+        "source_ref": "I16",
+        "source_url": "https://commons.wikimedia.org/wiki/File:Crohn_Jejunum.PNG",
+        "supported": true,
+        "unavailable_reason": ""
+      },
+      "realized_sites": 5,
+      "recipe": {
+        "contrast": 0.24669575691223145,
+        "count": 5,
+        "irregularity": 0.7735745906829834,
+        "location": [
+          -0.6632119417190552,
+          -0.31272751092910767,
+          0.5981831550598145
+        ],
+        "profile_id": "small-intestine-crohn",
+        "seed": 3456513700,
+        "severity": 0.654965877532959,
+        "size": 0.13204845786094666,
+        "spread": 0.7208867073059082
+      },
+      "requested_sites": 5,
+      "version": "disease-morphology-design-1.0.0"
+    },
+    "extent_mm": [
+      187.9874682959308,
+      265.37128537893295,
+      122.16299027204514
+    ],
+    "measurements": {
+      "compactness": null,
+      "extent_x_mm": 187.9874682959308,
+      "extent_y_mm": 265.37128537893295,
+      "extent_z_mm": 122.16299027204514,
+      "method": "disease-display-triangle-measurements-1.0.0",
+      "surface_area_definition": "Sum of selected triangles including capsule/internal faces",
+      "surface_area_mm2": 229690.34786043217,
+      "volume_ml": null,
+      "volume_reason": "Display surface assembly is not a certified closed outer envelope",
+      "volume_status": "NOT_APPLICABLE"
+    },
+    "min_jacobian": 0.10049867113811381,
+    "min_jacobian_kind": "conservative_bound",
+    "organ": "small-intestine",
+    "profile": "development_preview",
+    "qa_scope": "finite nondegenerate same-topology outer-surface design",
+    "qa_status": "PASS",
+    "reference": "hra-small-intestine-male",
+    "review_status": "unreviewed",
+    "triangles": 32122,
+    "vertices": 16297
+  },
+  "template_id": "hra-small-intestine-male",
+  "units": "mm",
+  "vertex_count": 16297
+}

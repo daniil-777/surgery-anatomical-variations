@@ -1,0 +1,234 @@
+{
+  "retrieved": "2026-10-08",
+  "dataset_paper": "https://doi.org/10.1038/s41597-022-01719-2",
+  "original_dataset": "https://doi.org/10.6084/m9.figshare.21702600",
+  "official_mirror": "https://huggingface.co/datasets/nct-tso/dsad",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "sources": [
+    {
+      "id": "dsad-25-6",
+      "dataset": "nct-tso/dsad",
+      "config": "multi_organ",
+      "split": "train",
+      "row_index": 581,
+      "surgery_id": "25",
+      "frame_id": "6",
+      "revision": "010f843e7231420408ab2c878eb46c8df70f390d",
+      "container_url": "https://huggingface.co/datasets/nct-tso/dsad/resolve/010f843e7231420408ab2c878eb46c8df70f390d/multi_organ/train.parquet",
+      "image": {
+        "filename": "dsad-25-6.png",
+        "sha256": "bae3823b2c28354f32464ade306bd9971273e313e8c4f1cc5016b148d3168e05",
+        "bytes": 901686,
+        "width": 1280,
+        "height": 1024,
+        "transformation": "none; original embedded PNG bytes"
+      },
+      "regions": [
+        {
+          "dataset_label": "liver",
+          "canonical_organ": "liver",
+          "scene_targets": [
+            "liver"
+          ],
+          "filename": "dsad-25-6-liver-mask.png",
+          "sha256": "4cc87aec694376a8889c892723288ed239152f0e3ccfe6f16c50bf0e21ce9e1f",
+          "bytes": 6312,
+          "selected_pixels": 603053,
+          "transformation": "none; original expert-reviewed binary PNG bytes",
+          "surface": "outer",
+          "surface_basis": "Visual review of laparoscopic exterior; not a dataset-provided surface or tissue-health label"
+        },
+        {
+          "dataset_label": "stomach",
+          "canonical_organ": "stomach",
+          "scene_targets": [
+            "stomach"
+          ],
+          "filename": "dsad-25-6-stomach-mask.png",
+          "sha256": "da2fa8b9d9891128de532acdeec056d9e9bcaf131032f11da0191ee2365cff46",
+          "bytes": 5857,
+          "selected_pixels": 564475,
+          "transformation": "none; original expert-reviewed binary PNG bytes",
+          "surface": "outer",
+          "surface_basis": "Visual review of laparoscopic exterior; not a dataset-provided surface or tissue-health label"
+        }
+      ]
+    },
+    {
+      "id": "dsad-12-29",
+      "dataset": "nct-tso/dsad",
+      "config": "multi_organ",
+      "split": "train",
+      "row_index": 200,
+      "surgery_id": "12",
+      "frame_id": "29",
+      "revision": "010f843e7231420408ab2c878eb46c8df70f390d",
+      "container_url": "https://huggingface.co/datasets/nct-tso/dsad/resolve/010f843e7231420408ab2c878eb46c8df70f390d/multi_organ/train.parquet",
+      "image": {
+        "filename": "dsad-12-29.png",
+        "sha256": "ada6d6404ca2dd1ff7fdc38dbd96c168a58ee305c770ef8f0877ff513e998ca9",
+        "bytes": 1687329,
+        "width": 1280,
+        "height": 1024,
+        "transformation": "none; original embedded PNG bytes"
+      },
+      "regions": [
+        {
+          "dataset_label": "spleen",
+          "canonical_organ": "spleen",
+          "scene_targets": [
+            "spleen"
+          ],
+          "filename": "dsad-12-29-spleen-mask.png",
+          "sha256": "f8fed450517c1976e97710187a7a3fed25394341dadaa9d5b09d6424507d4438",
+          "bytes": 6524,
+          "selected_pixels": 250196,
+          "transformation": "none; original expert-reviewed binary PNG bytes",
+          "surface": "outer",
+          "surface_basis": "Visual review of laparoscopic exterior; not a dataset-provided surface or tissue-health label"
+        }
+      ]
+    },
+    {
+      "id": "dsad-22-6",
+      "dataset": "nct-tso/dsad",
+      "config": "multi_organ",
+      "split": "train",
+      "row_index": 383,
+      "surgery_id": "22",
+      "frame_id": "6",
+      "revision": "010f843e7231420408ab2c878eb46c8df70f390d",
+      "container_url": "https://huggingface.co/datasets/nct-tso/dsad/resolve/010f843e7231420408ab2c878eb46c8df70f390d/multi_organ/train.parquet",
+      "image": {
+        "filename": "dsad-22-6.png",
+        "sha256": "6ba0e37e809a5047d82a9dc14021ec8ba8a3c1687224537a2334718244da6110",
+        "bytes": 1707901,
+        "width": 1280,
+        "height": 1024,
+        "transformation": "none; original embedded PNG bytes"
+      },
+      "regions": [
+        {
+          "dataset_label": "pancreas",
+          "canonical_organ": "pancreas",
+          "scene_targets": [
+            "pancreas"
+          ],
+          "filename": "dsad-22-6-pancreas-mask.png",
+          "sha256": "25d6088314777e1224f377cd2707c8f6c63d8115c80932c3af21aed9d7d810e3",
+          "bytes": 6456,
+          "selected_pixels": 208465,
+          "transformation": "none; original expert-reviewed binary PNG bytes",
+          "surface": "unknown",
+          "surface_basis": "Dissected/partially exposed region; no confident surface classification"
+        }
+      ]
+    },
+    {
+      "id": "dsad-25-47",
+      "dataset": "nct-tso/dsad",
+      "config": "multi_organ",
+      "split": "train",
+      "row_index": 622,
+      "surgery_id": "25",
+      "frame_id": "47",
+      "revision": "010f843e7231420408ab2c878eb46c8df70f390d",
+      "container_url": "https://huggingface.co/datasets/nct-tso/dsad/resolve/010f843e7231420408ab2c878eb46c8df70f390d/multi_organ/train.parquet",
+      "image": {
+        "filename": "dsad-25-47.png",
+        "sha256": "ccad9e0775bbf7c59870c06c4db1d8e62bda43fd46c44bbb4fab571de67a3128",
+        "bytes": 1415047,
+        "width": 1280,
+        "height": 1024,
+        "transformation": "none; original embedded PNG bytes"
+      },
+      "regions": [
+        {
+          "dataset_label": "small_intestine",
+          "canonical_organ": "small-intestine",
+          "scene_targets": [
+            "small-intestine"
+          ],
+          "filename": "dsad-25-47-small-intestine-mask.png",
+          "sha256": "0d5435f390e99d3ce0cb42831e92f30ccedf0fc1ee3ddbe6ce497c128bec504d",
+          "bytes": 4814,
+          "selected_pixels": 151449,
+          "transformation": "none; original expert-reviewed binary PNG bytes",
+          "surface": "outer",
+          "surface_basis": "Visual review of laparoscopic exterior; not a dataset-provided surface or tissue-health label"
+        }
+      ]
+    },
+    {
+      "id": "dsad-21-5",
+      "dataset": "nct-tso/dsad",
+      "config": "multi_organ",
+      "split": "validation",
+      "row_index": 89,
+      "surgery_id": "21",
+      "frame_id": "5",
+      "revision": "010f843e7231420408ab2c878eb46c8df70f390d",
+      "container_url": "https://huggingface.co/datasets/nct-tso/dsad/resolve/010f843e7231420408ab2c878eb46c8df70f390d/multi_organ/validation.parquet",
+      "image": {
+        "filename": "dsad-21-5.png",
+        "sha256": "00672f5ce35efd969a8c4830b29771c97bbbf9593089129d9a50de15223557b8",
+        "bytes": 1355295,
+        "width": 1280,
+        "height": 1024,
+        "transformation": "none; original embedded PNG bytes"
+      },
+      "regions": [
+        {
+          "dataset_label": "colon",
+          "canonical_organ": "large-intestine",
+          "scene_targets": [
+            "colon"
+          ],
+          "filename": "dsad-21-5-colon-mask.png",
+          "sha256": "104c6957212a4043240cd19e063cf6e00fb503f8368f199f5d47ff0605a15801",
+          "bytes": 7514,
+          "selected_pixels": 244884,
+          "transformation": "none; original expert-reviewed binary PNG bytes",
+          "surface": "outer",
+          "surface_basis": "Visual review of laparoscopic exterior; not a dataset-provided surface or tissue-health label"
+        }
+      ]
+    },
+    {
+      "id": "dsad-03-2",
+      "dataset": "nct-tso/dsad",
+      "config": "multi_organ",
+      "split": "validation",
+      "row_index": 2,
+      "surgery_id": "03",
+      "frame_id": "2",
+      "revision": "010f843e7231420408ab2c878eb46c8df70f390d",
+      "container_url": "https://huggingface.co/datasets/nct-tso/dsad/resolve/010f843e7231420408ab2c878eb46c8df70f390d/multi_organ/validation.parquet",
+      "image": {
+        "filename": "dsad-03-2.png",
+        "sha256": "ed0cc1d853c5d4f719884261a9ac8d3c1dd3b43addadcb994f2aead7000cce45",
+        "bytes": 1105797,
+        "width": 1280,
+        "height": 1024,
+        "transformation": "none; original embedded PNG bytes"
+      },
+      "regions": [
+        {
+          "dataset_label": "liver",
+          "canonical_organ": "liver",
+          "scene_targets": [
+            "liver"
+          ],
+          "filename": "dsad-03-2-liver-mask.png",
+          "sha256": "c583b80d60e45ab0387bb5035190ccc0fc2328ff4518180643224ece6a2db2d4",
+          "bytes": 6859,
+          "selected_pixels": 826640,
+          "transformation": "none; original expert-reviewed binary PNG bytes",
+          "surface": "outer",
+          "surface_basis": "Visual review of laparoscopic exterior; not a dataset-provided surface or tissue-health label"
+        }
+      ]
+    }
+  ]
+}

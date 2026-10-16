@@ -1,0 +1,7 @@
+{
+  "dataset_release_sha256": "f4b532c0af4f6f366fd0d26fa4bfe04cc6d54df8c19714285bd77e321188ed7d",
+  "model_sha256": "b10d7d207d304c51c5d0cdafcb2e40f421f7e4437db194221c85d7995409759e",
+  "selected": "ridge",
+  "selection_evidence_sha256": "eeb7752398fa083d4d6cdec4ec2e1620b8e7ccee23559aa869f28715203a8886",
+  "tuning_closed": true
+}

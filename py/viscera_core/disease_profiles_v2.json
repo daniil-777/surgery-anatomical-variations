@@ -1,0 +1,3743 @@
+{
+  "version": "disease-morphology-design-2.0.0",
+  "profiles": [
+    {
+      "id": "liver-cirrhosis",
+      "organ": "liver",
+      "label": "Alcohol-associated cirrhosis",
+      "pattern": "nodular",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I01",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Gross_pathology_of_alcoholic_liver_cirrhosis.jpg",
+      "clinical_source_url": "https://www.niddk.nih.gov/health-information/liver-disease/cirrhosis/treatment",
+      "morphology_targets": [
+        "nodule size and distribution",
+        "fibrous septa",
+        "regional volume redistribution"
+      ],
+      "limits": "Cut surface only; no intact capsule or calibrated in-vivo color. Not a stiffness measurement. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision",
+      "mechanism": "nodular",
+      "radius_min_fraction": 0.02,
+      "radius_range_fraction": 0.02,
+      "amplitude_ratio": 0.17,
+      "steps": 6,
+      "count_multiplier": 6,
+      "global_log_scale": [
+        -0.06,
+        -0.035,
+        -0.04
+      ],
+      "target_srgb": [
+        0.55833333,
+        0.32632353,
+        0.18176471
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "nodular",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "palette_design_guidance": {
+        "profile_id": "liver-cirrhosis",
+        "source_asset_id": "liver-cirrhosis",
+        "roi_id": "liver-cirrhosis--tan_cut_parenchyma",
+        "source_sha256": "3e9e28d44061419b6f5e3f6f1989e3323a7703904edef1038a3abc205118f9bc",
+        "observed_srgb_median_8bit": [
+          187.0,
+          111.0,
+          63.0
+        ],
+        "observed_srgb_q10_8bit": [
+          167.0,
+          92.0,
+          44.0
+        ],
+        "observed_srgb_q90_8bit": [
+          207.0,
+          135.0,
+          91.0
+        ],
+        "direct_external_surface_reference": false,
+        "transfer_status": "authored cut/mucosal-to-external proxy transfer; target compartment differs",
+        "clinical_severity": null,
+        "calibrated_albedo": false,
+        "license": "CC0",
+        "guidance_sha256": "a9c0e0003580c0b25b6f3f3ce76b9bb3d7e401eb9b837ef909317ae6e133add3",
+        "authored_original_target_srgb": [
+          0.5,
+          0.29,
+          0.16
+        ],
+        "observed_rgb_blend_weight": 0.25,
+        "method": "bounded authored sRGB interpolation with unpaired observed tissue ROI; not albedo fitting",
+        "used_in_renderer": true
+      },
+      "maximum_sites": 48
+    },
+    {
+      "id": "liver-hcc",
+      "organ": "liver",
+      "label": "Hepatocellular carcinoma",
+      "pattern": "mass",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I02",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Hepatocellular_carcinoma_1.jpg",
+      "clinical_source_url": "https://www.cancer.gov/types/liver/what-is-liver-cancer/treatment",
+      "morphology_targets": [
+        "tumor extent and position",
+        "mass effect",
+        "cirrhotic background"
+      ],
+      "limits": "Historical formalin-fixed autopsy specimen; alcohol immersion altered color and reflections. One severe case, not all HCC. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision",
+      "mechanism": "irregular-mass",
+      "radius_min_fraction": 0.075,
+      "radius_range_fraction": 0.08,
+      "amplitude_ratio": 0.21,
+      "steps": 6,
+      "count_multiplier": 1,
+      "global_log_scale": [
+        0.025,
+        0.015,
+        0.02
+      ],
+      "target_srgb": [
+        0.63,
+        0.43,
+        0.27
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "irregular mass",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "maximum_sites": 3
+    },
+    {
+      "id": "liver-metastases",
+      "organ": "liver",
+      "label": "Hepatic metastases",
+      "pattern": "multifocal",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I03",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Secondary_tumor_deposits_in_the_liver_from_a_primary_cancer_of_the_pancreas.jpg",
+      "clinical_source_url": "https://www.cancer.gov/types/pancreatic/treatment",
+      "morphology_targets": [
+        "lesion number",
+        "lesion diameter and distribution",
+        "parenchymal replacement"
+      ],
+      "limits": "Autopsy section; pancreatic metastases must not be treated as interchangeable with colorectal metastases or a resection recommendation. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision",
+      "mechanism": "multifocal",
+      "radius_min_fraction": 0.032,
+      "radius_range_fraction": 0.04,
+      "amplitude_ratio": 0.19,
+      "steps": 6,
+      "count_multiplier": 3,
+      "global_log_scale": [
+        0.045,
+        0.025,
+        0.035
+      ],
+      "target_srgb": [
+        0.69205882,
+        0.55240196,
+        0.37882353
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "multifocal",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "palette_design_guidance": {
+        "profile_id": "liver-metastases",
+        "source_asset_id": "liver-metastases",
+        "roi_id": "liver-metastases--pale_cut_deposit",
+        "source_sha256": "11cd32d204522edce2e6aba8e53af81ec00e6faf061473d1884cb3f05e9c5702",
+        "observed_srgb_median_8bit": [
+          201.0,
+          158.0,
+          111.0
+        ],
+        "observed_srgb_q10_8bit": [
+          186.0,
+          136.0,
+          91.0
+        ],
+        "observed_srgb_q90_8bit": [
+          214.0,
+          174.0,
+          126.0
+        ],
+        "direct_external_surface_reference": false,
+        "transfer_status": "authored cut/mucosal-to-external proxy transfer; target compartment differs",
+        "clinical_severity": null,
+        "calibrated_albedo": false,
+        "license": "Public domain",
+        "guidance_sha256": "a9c0e0003580c0b25b6f3f3ce76b9bb3d7e401eb9b837ef909317ae6e133add3",
+        "authored_original_target_srgb": [
+          0.66,
+          0.53,
+          0.36
+        ],
+        "observed_rgb_blend_weight": 0.25,
+        "method": "bounded authored sRGB interpolation with unpaired observed tissue ROI; not albedo fitting",
+        "used_in_renderer": true
+      },
+      "maximum_sites": 48
+    },
+    {
+      "id": "gallbladder-stones",
+      "organ": "gallbladder",
+      "label": "Cholelithiasis",
+      "pattern": "reference",
+      "supported": false,
+      "unavailable_reason": "The source template has no validated gallbladder lumen for stone placement.",
+      "source_ref": "I04",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Gross_pathology_of_a_trabeculated_gallbladder.jpg",
+      "clinical_source_url": "https://www.niddk.nih.gov/health-information/digestive-diseases/gallstones/treatment",
+      "morphology_targets": [
+        "stone number and size",
+        "intraluminal position",
+        "mucosal relief"
+      ],
+      "limits": "Opened specimen, not intact operative geometry; visible dark color alone does not establish stone composition. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision",
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "internal_or_topology_change_reference_only"
+    },
+    {
+      "id": "gallbladder-cholecystitis",
+      "organ": "gallbladder",
+      "label": "Chronic calculous cholecystitis",
+      "pattern": "inflammation",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I05",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Chronic_calculous_cholecystitis.jpg",
+      "clinical_source_url": "https://www.niddk.nih.gov/health-information/digestive-diseases/gallstones/treatment",
+      "morphology_targets": [
+        "wall profile",
+        "stone burden",
+        "contracted or distorted cavity"
+      ],
+      "limits": "Museum preservation changes color and surface appearance; fibrosis or wall stiffness cannot be estimated from this photo. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision",
+      "mechanism": "diffuse-swelling",
+      "radius_min_fraction": 0.16,
+      "radius_range_fraction": 0.12,
+      "amplitude_ratio": 0.034999999999999996,
+      "steps": 5,
+      "count_multiplier": 1,
+      "global_log_scale": [
+        0.1,
+        0.04,
+        0.1
+      ],
+      "target_srgb": [
+        0.48,
+        0.1,
+        0.055
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "diffuse swelling",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "maximum_sites": 48
+    },
+    {
+      "id": "gallbladder-carcinoma",
+      "organ": "gallbladder",
+      "label": "Gallbladder carcinoma",
+      "pattern": "mass",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I06",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Gross_pathology_of_gallbladder_carcinoma.jpg",
+      "clinical_source_url": "https://www.cancer.gov/types/gallbladder/patient/gallbladder-treatment-pdq",
+      "morphology_targets": [
+        "focal mural mass",
+        "surface irregularity",
+        "lesion attachment extent"
+      ],
+      "limits": "Close-up lacks whole-organ orientation and calibrated scale; the photo cannot establish invasion depth or stage. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision",
+      "mechanism": "irregular-mass",
+      "radius_min_fraction": 0.07,
+      "radius_range_fraction": 0.08,
+      "amplitude_ratio": 0.19,
+      "steps": 6,
+      "count_multiplier": 1,
+      "global_log_scale": [
+        0.025,
+        0,
+        0.025
+      ],
+      "target_srgb": [
+        0.64740196,
+        0.5120098,
+        0.28063725
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "irregular mass",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "palette_design_guidance": {
+        "profile_id": "gallbladder-carcinoma",
+        "source_asset_id": "gallbladder-carcinoma",
+        "roi_id": "gallbladder-carcinoma--pale_mucosal_nodule",
+        "source_sha256": "72770cb266a5bdefcb3af3ca1b7bc73040531d2d0b294683f45c60dffe6e4b5b",
+        "observed_srgb_median_8bit": [
+          209.0,
+          178.0,
+          95.0
+        ],
+        "observed_srgb_q10_8bit": [
+          162.0,
+          112.0,
+          48.0
+        ],
+        "observed_srgb_q90_8bit": [
+          224.0,
+          198.0,
+          132.0
+        ],
+        "direct_external_surface_reference": false,
+        "transfer_status": "authored cut/mucosal-to-external proxy transfer; target compartment differs",
+        "clinical_severity": null,
+        "calibrated_albedo": false,
+        "license": "CC BY 4.0",
+        "guidance_sha256": "a9c0e0003580c0b25b6f3f3ce76b9bb3d7e401eb9b837ef909317ae6e133add3",
+        "authored_original_target_srgb": [
+          0.59,
+          0.45,
+          0.25
+        ],
+        "observed_rgb_blend_weight": 0.25,
+        "method": "bounded authored sRGB interpolation with unpaired observed tissue ROI; not albedo fitting",
+        "used_in_renderer": true
+      },
+      "maximum_sites": 3
+    },
+    {
+      "id": "stomach-adenocarcinoma",
+      "organ": "stomach",
+      "label": "Gastric adenocarcinoma",
+      "pattern": "mass",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I07",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Adenocarcinoma_of_the_stomach.jpg",
+      "clinical_source_url": "https://www.cancer.gov/types/stomach/treatment",
+      "morphology_targets": [
+        "ulcer crater",
+        "irregular raised edge",
+        "local wall involvement"
+      ],
+      "limits": "Cut-open resection specimen; image appearance alone cannot distinguish all benign from malignant ulcers. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision",
+      "mechanism": "infiltrative-retraction",
+      "radius_min_fraction": 0.1,
+      "radius_range_fraction": 0.11,
+      "amplitude_ratio": -0.072,
+      "steps": 6,
+      "count_multiplier": 2,
+      "global_log_scale": [
+        -0.02,
+        -0.015,
+        -0.025
+      ],
+      "target_srgb": [
+        0.48,
+        0.28,
+        0.18
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "infiltrative retraction",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "maximum_sites": 48
+    },
+    {
+      "id": "stomach-ulcer",
+      "organ": "stomach",
+      "label": "Benign gastric ulcer",
+      "pattern": "reference",
+      "supported": false,
+      "unavailable_reason": "The source template has no annotated gastric mucosal surface for ulcer modeling.",
+      "source_ref": "I08",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Benign_gastric_ulcer_1.jpg",
+      "clinical_source_url": "https://www.niddk.nih.gov/health-information/digestive-diseases/peptic-ulcers-stomach-ulcers/treatment",
+      "morphology_targets": [
+        "ulcer depth and radius",
+        "fold convergence",
+        "localized wall defect"
+      ],
+      "limits": "Formalin-fixed and pinned-out specimen; source diagnosis is benign, but visual resemblance is not diagnostic. Low-resolution original. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision",
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "internal_or_topology_change_reference_only"
+    },
+    {
+      "id": "stomach-gist",
+      "organ": "stomach",
+      "label": "Gastric stromal tumor (GIST)",
+      "pattern": "mass",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I09",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Gastrointestinal_Stromal_Tumor_(GIST)_of_Stomach.jpg",
+      "clinical_source_url": "https://www.cancer.gov/types/soft-tissue-sarcoma/hp/gist-treatment-pdq",
+      "morphology_targets": [
+        "exophytic mass shape",
+        "gastric-wall attachment",
+        "internal heterogeneity"
+      ],
+      "limits": "Resected tumor rather than the whole stomach; archival scan was sharpened and contrast-adjusted by its creator. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision",
+      "mechanism": "circumscribed-mass",
+      "radius_min_fraction": 0.065,
+      "radius_range_fraction": 0.07,
+      "amplitude_ratio": 0.21,
+      "steps": 7,
+      "count_multiplier": 1,
+      "global_log_scale": [
+        0,
+        0,
+        0
+      ],
+      "target_srgb": [
+        0.65328431,
+        0.4125,
+        0.30151961
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "circumscribed mass",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "palette_design_guidance": {
+        "profile_id": "stomach-gist",
+        "source_asset_id": "stomach-gist",
+        "roi_id": "stomach-gist--pale_cut_mass",
+        "source_sha256": "fcd587d22b42331e241bd0af123dced01090b89027e9cd90d0a367fbf9298d45",
+        "observed_srgb_median_8bit": [
+          215.0,
+          153.0,
+          101.0
+        ],
+        "observed_srgb_q10_8bit": [
+          177.0,
+          97.0,
+          53.0
+        ],
+        "observed_srgb_q90_8bit": [
+          244.0,
+          180.4,
+          129.0
+        ],
+        "direct_external_surface_reference": false,
+        "transfer_status": "authored cut/mucosal-to-external proxy transfer; target compartment differs",
+        "clinical_severity": null,
+        "calibrated_albedo": false,
+        "license": "Public domain",
+        "guidance_sha256": "a9c0e0003580c0b25b6f3f3ce76b9bb3d7e401eb9b837ef909317ae6e133add3",
+        "authored_original_target_srgb": [
+          0.59,
+          0.35,
+          0.27
+        ],
+        "observed_rgb_blend_weight": 0.25,
+        "method": "bounded authored sRGB interpolation with unpaired observed tissue ROI; not albedo fitting",
+        "used_in_renderer": true
+      },
+      "maximum_sites": 1
+    },
+    {
+      "id": "pancreas-cancer",
+      "organ": "pancreas",
+      "label": "Pancreatic ductal adenocarcinoma",
+      "pattern": "mass",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I10",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Macroscopic_image_of_pancreas_adenocarcinoma_removed_by_Whipple_procedure.jpg",
+      "clinical_source_url": "https://www.cancer.gov/types/pancreatic/treatment",
+      "morphology_targets": [
+        "focal pancreatic-head lesion",
+        "duct relationship",
+        "duodenal interface"
+      ],
+      "limits": "Original is only 291 x 512 pixels; adjacent tissues dominate this view, so fine tumor margins are not reliable. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision",
+      "mechanism": "irregular-mass",
+      "radius_min_fraction": 0.08,
+      "radius_range_fraction": 0.08,
+      "amplitude_ratio": 0.2,
+      "steps": 6,
+      "count_multiplier": 1,
+      "global_log_scale": [
+        0.03,
+        0,
+        0.02
+      ],
+      "target_srgb": [
+        0.57,
+        0.45,
+        0.3
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "irregular mass",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "maximum_sites": 3
+    },
+    {
+      "id": "pancreas-pancreatitis",
+      "organ": "pancreas",
+      "label": "Chronic calculous pancreatitis",
+      "pattern": "fibrosis",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I11",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Pancr%C3%A9as_Pancr%C3%A9atite_55-o.apatho-650t-pancreas.jpg",
+      "clinical_source_url": "https://www.niddk.nih.gov/health-information/digestive-diseases/pancreatitis/treatment",
+      "morphology_targets": [
+        "duct dilation",
+        "intraductal calculi",
+        "fibrotic head remodeling"
+      ],
+      "limits": "Preserved historical specimen including bowel; yellow cast is not a live-tissue texture target. No mechanical properties measured. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision",
+      "mechanism": "multifocal-retraction",
+      "radius_min_fraction": 0.08,
+      "radius_range_fraction": 0.08,
+      "amplitude_ratio": -0.072,
+      "steps": 6,
+      "count_multiplier": 2,
+      "global_log_scale": [
+        -0.12,
+        -0.07,
+        -0.1
+      ],
+      "target_srgb": [
+        0.59,
+        0.49,
+        0.36
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "multifocal retraction",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "maximum_sites": 48
+    },
+    {
+      "id": "pancreas-pseudocyst",
+      "organ": "pancreas",
+      "label": "Pancreatic pseudocyst",
+      "pattern": "cyst",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I12",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Large_Pancreatic_Pseudocyst.PNG",
+      "clinical_source_url": "https://www.niddk.nih.gov/health-information/digestive-diseases/pancreatitis/treatment",
+      "morphology_targets": [
+        "collection volume and shape",
+        "wall thickness",
+        "displacement of adjacent organs"
+      ],
+      "limits": "CT is a spatial reference only: no true surface color, histology, texture, or complete volumetric series. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision",
+      "mechanism": "single-cyst",
+      "radius_min_fraction": 0.09,
+      "radius_range_fraction": 0.08,
+      "amplitude_ratio": 0.21,
+      "steps": 7,
+      "count_multiplier": 1,
+      "global_log_scale": [
+        0.02,
+        0.01,
+        0.025
+      ],
+      "target_srgb": [
+        0.48,
+        0.35,
+        0.23
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "single cyst",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "maximum_sites": 1
+    },
+    {
+      "id": "spleen-infarct",
+      "organ": "spleen",
+      "label": "Healed splenic infarction",
+      "pattern": "scar",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I13",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Healed_splenic_infarcts.jpg",
+      "clinical_source_url": "https://pubmed.ncbi.nlm.nih.gov/9486895/",
+      "morphology_targets": [
+        "wedge-shaped perfusion territory",
+        "scar distribution",
+        "capsular involvement"
+      ],
+      "limits": "Healed infarcts, not an acute perfusion image; this section cannot establish viable volume or tissue strength. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision",
+      "mechanism": "wedge-retraction",
+      "radius_min_fraction": 0.07,
+      "radius_range_fraction": 0.07,
+      "amplitude_ratio": -0.078,
+      "steps": 6,
+      "count_multiplier": 3,
+      "global_log_scale": [
+        -0.015,
+        0,
+        -0.01
+      ],
+      "target_srgb": [
+        0.57877451,
+        0.39107843,
+        0.26813725
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "wedge retraction",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "palette_design_guidance": {
+        "profile_id": "spleen-infarct",
+        "source_asset_id": "spleen-infarct",
+        "roi_id": "spleen-infarct--red_cut_parenchyma",
+        "source_sha256": "76acb784811691e3555681728e37c2575d11e80fc5708924fd5011149198ab8d",
+        "observed_srgb_median_8bit": [
+          139.0,
+          47.0,
+          44.0
+        ],
+        "observed_srgb_q10_8bit": [
+          119.0,
+          25.0,
+          25.0
+        ],
+        "observed_srgb_q90_8bit": [
+          161.0,
+          101.0,
+          97.0
+        ],
+        "direct_external_surface_reference": false,
+        "transfer_status": "authored cut/mucosal-to-external proxy transfer; target compartment differs",
+        "clinical_severity": null,
+        "calibrated_albedo": false,
+        "license": "CC0",
+        "guidance_sha256": "a9c0e0003580c0b25b6f3f3ce76b9bb3d7e401eb9b837ef909317ae6e133add3",
+        "authored_original_target_srgb": [
+          0.59,
+          0.46,
+          0.3
+        ],
+        "observed_rgb_blend_weight": 0.25,
+        "method": "bounded authored sRGB interpolation with unpaired observed tissue ROI; not albedo fitting",
+        "used_in_renderer": true
+      },
+      "maximum_sites": 48
+    },
+    {
+      "id": "spleen-rupture",
+      "organ": "spleen",
+      "label": "Traumatic splenic rupture",
+      "pattern": "reference",
+      "supported": false,
+      "unavailable_reason": "Rupture requires topology changes and tissue failure mechanics, not a smooth surface deformation.",
+      "source_ref": "I14",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Milzruptur_THWZ.JPG",
+      "clinical_source_url": "https://www.nhs.uk/tests-and-treatments/spleen-problems-and-spleen-removal/",
+      "morphology_targets": [
+        "laceration location and depth",
+        "capsular disruption",
+        "hematoma extent"
+      ],
+      "limits": "Traumatic injury, not a chronic disease. Removed specimen; no injury grade or active bleeding rate can be inferred. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision",
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "internal_or_topology_change_reference_only"
+    },
+    {
+      "id": "spleen-cyst",
+      "organ": "spleen",
+      "label": "Splenic cystic lesion",
+      "pattern": "cyst",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I15",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Pseudozyste_der_Milz_mit_Randverkalkungen_83W_-_CT_KM_pv_-_001.jpg",
+      "clinical_source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5755232/",
+      "morphology_targets": [
+        "cyst position and diameter",
+        "rim calcification",
+        "residual splenic tissue"
+      ],
+      "limits": "Source favors a pseudocyst but does not establish histology; CT provides no operative color or material properties. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision",
+      "mechanism": "single-cyst",
+      "radius_min_fraction": 0.055,
+      "radius_range_fraction": 0.065,
+      "amplitude_ratio": 0.2,
+      "steps": 7,
+      "count_multiplier": 1,
+      "global_log_scale": [
+        0,
+        0,
+        0
+      ],
+      "target_srgb": [
+        0.45,
+        0.32,
+        0.22
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "single cyst",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "maximum_sites": 1
+    },
+    {
+      "id": "small-intestine-crohn",
+      "organ": "small-intestine",
+      "label": "Crohn's disease of jejunum",
+      "pattern": "inflammation",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I16",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Crohn_Jejunum.PNG",
+      "clinical_source_url": "https://www.niddk.nih.gov/health-information/digestive-diseases/crohns-disease/treatment",
+      "morphology_targets": [
+        "segmental mucosal relief",
+        "wall thickening",
+        "stricture location"
+      ],
+      "limits": "Low-resolution regional specimen; external creeping fat, fistulas and whole-bowel length are not represented. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision",
+      "mechanism": "regional-swelling",
+      "radius_min_fraction": 0.1,
+      "radius_range_fraction": 0.09,
+      "amplitude_ratio": 0.12,
+      "steps": 6,
+      "count_multiplier": 2,
+      "global_log_scale": [
+        0.025,
+        0.015,
+        0.025
+      ],
+      "target_srgb": [
+        0.49,
+        0.115,
+        0.095
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "regional swelling",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "maximum_sites": 48
+    },
+    {
+      "id": "small-intestine-net",
+      "organ": "small-intestine",
+      "label": "Small-bowel neuroendocrine tumor (carcinoid)",
+      "pattern": "mass",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I17",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Multiple_Carcinoid_Tumors_of_the_Small_Bowel_2.jpg",
+      "clinical_source_url": "https://www.cancer.gov/types/gi-neuroendocrine-tumors/patient/gi-neuroendocrine-treatment-pdq",
+      "morphology_targets": [
+        "mural nodule size and location",
+        "multifocal lesion count",
+        "mucosal preservation around lesion"
+      ],
+      "limits": "Low-resolution archival film photo (550 x 384 original); regional specimen rather than whole-organ geometry. Source uses older carcinoid terminology. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision",
+      "mechanism": "circumscribed-mass",
+      "radius_min_fraction": 0.04,
+      "radius_range_fraction": 0.045,
+      "amplitude_ratio": 0.2,
+      "steps": 6,
+      "count_multiplier": 1,
+      "global_log_scale": [
+        0,
+        0,
+        0
+      ],
+      "target_srgb": [
+        0.62,
+        0.44,
+        0.29
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "circumscribed mass",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "maximum_sites": 1
+    },
+    {
+      "id": "small-intestine-obstruction",
+      "organ": "small-intestine",
+      "label": "Closed-loop small-bowel obstruction",
+      "pattern": "reference",
+      "supported": false,
+      "unavailable_reason": "Closed-loop obstruction requires bowel lumen, mesentery and contact constraints that are not modeled.",
+      "source_ref": "I18",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Intestinal_Obstruction.JPG",
+      "clinical_source_url": "https://www.niddk.nih.gov/health-information/digestive-diseases/abdominal-adhesions",
+      "morphology_targets": [
+        "loop dilation",
+        "closed-loop topology",
+        "transition points"
+      ],
+      "limits": "Source notes previous appendectomy, but the obstructing band is not established in this image; intraoperative handling alters pose. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision",
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "internal_or_topology_change_reference_only"
+    },
+    {
+      "id": "colon-cancer",
+      "organ": "large-intestine",
+      "label": "Sigmoid adenocarcinoma",
+      "pattern": "mass",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I19",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Adenocarcinoma_of_the_Sigmoid_Colon_%28longitudinal_section%29.jpg",
+      "clinical_source_url": "https://www.cancer.gov/types/colorectal/hp/colon-treatment-pdq",
+      "morphology_targets": [
+        "lesion location and width",
+        "wall invasion depth",
+        "luminal narrowing"
+      ],
+      "limits": "Cut specimen; black tattoo pigment is not tumor necrosis. No staging can be inferred from this photograph. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision",
+      "mechanism": "irregular-mass",
+      "radius_min_fraction": 0.05,
+      "radius_range_fraction": 0.06,
+      "amplitude_ratio": 0.19,
+      "steps": 6,
+      "count_multiplier": 1,
+      "global_log_scale": [
+        0,
+        0,
+        0
+      ],
+      "target_srgb": [
+        0.57,
+        0.34,
+        0.24
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "irregular mass",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "maximum_sites": 3
+    },
+    {
+      "id": "colon-ulcerative-colitis-detail",
+      "organ": "large-intestine",
+      "label": "Ulcerative colitis with pseudopolyps",
+      "pattern": "reference",
+      "supported": false,
+      "unavailable_reason": "Mucosal pseudopolyps require a labeled internal colon surface.",
+      "source_ref": "I20",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Chronic_Ulcerative_Colitis_1.jpg",
+      "clinical_source_url": "https://www.niddk.nih.gov/health-information/digestive-diseases/ulcerative-colitis/treatment",
+      "morphology_targets": [
+        "mucosal pseudopolyp density",
+        "ulcerated mucosal coverage",
+        "segmental extent"
+      ],
+      "limits": "Formalin-fixed and alcohol-treated specimen; its restored red color is not a live-tissue color standard. Low-resolution source. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision",
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "internal_or_topology_change_reference_only"
+    },
+    {
+      "id": "colon-diverticulosis",
+      "organ": "large-intestine",
+      "label": "Diverticulosis",
+      "pattern": "pouches",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I21",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Gross_pathology_of_diverticulosis.jpg",
+      "clinical_source_url": "https://www.niddk.nih.gov/health-information/digestive-diseases/diverticulosis-diverticulitis/treatment",
+      "morphology_targets": [
+        "pouch count and location",
+        "diverticulum neck size",
+        "bowel wall thickness"
+      ],
+      "limits": "Diverticulosis is shown, not demonstrated acute diverticulitis; inflammation and abscess need separate references. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision",
+      "mechanism": "pouches",
+      "radius_min_fraction": 0.021,
+      "radius_range_fraction": 0.021,
+      "amplitude_ratio": 0.21,
+      "steps": 7,
+      "count_multiplier": 3,
+      "global_log_scale": [
+        0,
+        0,
+        0
+      ],
+      "target_srgb": [
+        0.54294118,
+        0.33936275,
+        0.27735294
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "pouches",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "palette_design_guidance": {
+        "profile_id": "colon-diverticulosis",
+        "source_asset_id": "colon-diverticulosis",
+        "roi_id": "colon-diverticulosis--pink_opened_mucosa",
+        "source_sha256": "b43b6ee809b8795c01089246fa0bb29ad372c8c3a6d4d3b40504700fc6197188",
+        "observed_srgb_median_8bit": [
+          156.0,
+          109.0,
+          84.0
+        ],
+        "observed_srgb_q10_8bit": [
+          124.0,
+          80.0,
+          58.0
+        ],
+        "observed_srgb_q90_8bit": [
+          182.0,
+          138.0,
+          118.0
+        ],
+        "direct_external_surface_reference": false,
+        "transfer_status": "authored cut/mucosal-to-external proxy transfer; target compartment differs",
+        "clinical_severity": null,
+        "calibrated_albedo": false,
+        "license": "CC0",
+        "guidance_sha256": "a9c0e0003580c0b25b6f3f3ce76b9bb3d7e401eb9b837ef909317ae6e133add3",
+        "authored_original_target_srgb": [
+          0.52,
+          0.31,
+          0.26
+        ],
+        "observed_rgb_blend_weight": 0.25,
+        "method": "bounded authored sRGB interpolation with unpaired observed tissue ROI; not albedo fitting",
+        "used_in_renderer": true
+      },
+      "maximum_sites": 48
+    },
+    {
+      "id": "kidney-cancer",
+      "organ": "kidney",
+      "label": "Renal cell carcinoma",
+      "pattern": "mass",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I22",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Kidney_cancer.jpg",
+      "clinical_source_url": "https://www.cancer.gov/types/kidney/hp/kidney-treatment-pdq",
+      "morphology_targets": [
+        "tumor position and diameter",
+        "endophytic versus exophytic extent",
+        "relationship to collecting system"
+      ],
+      "limits": "Sectioned specimen; vascular involvement, histologic subtype and stage are not established by this view. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision",
+      "mechanism": "irregular-mass",
+      "radius_min_fraction": 0.075,
+      "radius_range_fraction": 0.075,
+      "amplitude_ratio": 0.21,
+      "steps": 6,
+      "count_multiplier": 1,
+      "global_log_scale": [
+        0.02,
+        0.01,
+        0.015
+      ],
+      "target_srgb": [
+        0.70323529,
+        0.4702451,
+        0.3002451
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "irregular mass",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "palette_design_guidance": {
+        "profile_id": "kidney-cancer",
+        "source_asset_id": "kidney-cancer",
+        "roi_id": "kidney-cancer--orange_pale_cut_mass",
+        "source_sha256": "620298f1344c7ee294de9ff9a92012f63023418cb811a713d12ba4ad695bfda2",
+        "observed_srgb_median_8bit": [
+          243.0,
+          166.0,
+          115.0
+        ],
+        "observed_srgb_q10_8bit": [
+          221.0,
+          130.0,
+          82.0
+        ],
+        "observed_srgb_q90_8bit": [
+          255.0,
+          199.0,
+          156.0
+        ],
+        "direct_external_surface_reference": false,
+        "transfer_status": "authored cut/mucosal-to-external proxy transfer; target compartment differs",
+        "clinical_severity": null,
+        "calibrated_albedo": false,
+        "license": "CC BY 3.0",
+        "guidance_sha256": "a9c0e0003580c0b25b6f3f3ce76b9bb3d7e401eb9b837ef909317ae6e133add3",
+        "authored_original_target_srgb": [
+          0.62,
+          0.41,
+          0.25
+        ],
+        "observed_rgb_blend_weight": 0.25,
+        "method": "bounded authored sRGB interpolation with unpaired observed tissue ROI; not albedo fitting",
+        "used_in_renderer": true
+      },
+      "maximum_sites": 3
+    },
+    {
+      "id": "kidney-polycystic",
+      "organ": "kidney",
+      "label": "Polycystic kidney disease",
+      "pattern": "cysts",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I23",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Polycystic_kidney.jpg",
+      "clinical_source_url": "https://www.niddk.nih.gov/health-information/kidney-disease/polycystic-kidney-disease/autosomal-dominant-pkd",
+      "morphology_targets": [
+        "cyst number and diameter distribution",
+        "cyst depth",
+        "overall kidney enlargement"
+      ],
+      "limits": "Single historical specimen; patient age and genotype are not supplied. Do not infer a population distribution. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision",
+      "mechanism": "cysts",
+      "radius_min_fraction": 0.035,
+      "radius_range_fraction": 0.045,
+      "amplitude_ratio": 0.21,
+      "steps": 7,
+      "count_multiplier": 4,
+      "global_log_scale": [
+        0.1,
+        0.08,
+        0.1
+      ],
+      "target_srgb": [
+        0.46441176,
+        0.33343137,
+        0.26078431
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "cysts",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "palette_design_guidance": {
+        "profile_id": "kidney-polycystic",
+        "source_asset_id": "kidney-polycystic",
+        "roi_id": "kidney-polycystic--mixed_external_cyst_surface",
+        "source_sha256": "329f55b07e92e68d31f4a47ade072e12f84d0a9af24cb1fa670aa28b82fb40c4",
+        "observed_srgb_median_8bit": [
+          117.0,
+          91.0,
+          82.0
+        ],
+        "observed_srgb_q10_8bit": [
+          54.0,
+          45.0,
+          44.0
+        ],
+        "observed_srgb_q90_8bit": [
+          154.0,
+          121.0,
+          114.0
+        ],
+        "direct_external_surface_reference": true,
+        "transfer_status": "unpaired external surface reference",
+        "clinical_severity": null,
+        "calibrated_albedo": false,
+        "license": "CC0",
+        "guidance_sha256": "a9c0e0003580c0b25b6f3f3ce76b9bb3d7e401eb9b837ef909317ae6e133add3",
+        "authored_original_target_srgb": [
+          0.47,
+          0.31,
+          0.2
+        ],
+        "observed_rgb_blend_weight": 0.5,
+        "method": "bounded authored sRGB interpolation with unpaired observed tissue ROI; not albedo fitting",
+        "used_in_renderer": true
+      },
+      "maximum_sites": 48
+    },
+    {
+      "id": "kidney-hydronephrosis",
+      "organ": "kidney",
+      "label": "Hydronephrosis with calculi",
+      "pattern": "reference",
+      "supported": false,
+      "unavailable_reason": "Hydronephrosis requires a segmented collecting system and renal parenchymal thickness.",
+      "source_ref": "I24",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Hydronephrosis_of_kidney_with_Calculi.JPG",
+      "clinical_source_url": "https://www.nhs.uk/conditions/hydronephrosis/",
+      "morphology_targets": [
+        "collecting-system dilation",
+        "residual parenchymal thickness",
+        "stone burden and location"
+      ],
+      "limits": "Jar preservation alters color and appearance; cavities are not evidence of polycystic disease. No live mechanical measurements. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision",
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "internal_or_topology_change_reference_only"
+    },
+    {
+      "id": "bladder-cancer",
+      "organ": "urinary-bladder",
+      "label": "Bladder carcinoma",
+      "pattern": "mass",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I25",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Carcinoma_of_the_urinary_bladder.jpg",
+      "clinical_source_url": "https://www.cancer.gov/types/bladder/treatment",
+      "morphology_targets": [
+        "lesion attachment and location",
+        "intraluminal tumor burden",
+        "wall invasion depth"
+      ],
+      "limits": "Preserved specimen photographed through a jar; subtype and muscle invasion cannot be assigned visually. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision",
+      "mechanism": "infiltrative-mass",
+      "radius_min_fraction": 0.085,
+      "radius_range_fraction": 0.1,
+      "amplitude_ratio": 0.14,
+      "steps": 6,
+      "count_multiplier": 2,
+      "global_log_scale": [
+        0.02,
+        0.02,
+        0.025
+      ],
+      "target_srgb": [
+        0.51,
+        0.33,
+        0.24
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "infiltrative mass",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "maximum_sites": 3
+    },
+    {
+      "id": "bladder-stones",
+      "organ": "urinary-bladder",
+      "label": "Bladder calculi",
+      "pattern": "reference",
+      "supported": false,
+      "unavailable_reason": "Stone placement requires a validated bladder lumen.",
+      "source_ref": "I26",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Urinary_Bladder_stones.jpg",
+      "clinical_source_url": "https://www.nhs.uk/conditions/bladder-stones/",
+      "morphology_targets": [
+        "stone count",
+        "stone size and roughness",
+        "free versus impacted position"
+      ],
+      "limits": "Stones are shown outside the bladder; bladder-wall changes and actual stone dimensions are not documented. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision",
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "internal_or_topology_change_reference_only"
+    },
+    {
+      "id": "bladder-diverticulum",
+      "organ": "urinary-bladder",
+      "label": "Bladder diverticulum",
+      "pattern": "pouches",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I27",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Bladderdiverticulum.png",
+      "clinical_source_url": "https://www.urologyhealth.org/urology-a-z/b/bladder-diverticulum",
+      "morphology_targets": [
+        "pouch volume",
+        "neck width and position",
+        "relation to ureteric orifices"
+      ],
+      "limits": "Single annotated CT slice; full 3D extent, wall material and live surface texture cannot be recovered from it. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision",
+      "mechanism": "pouches",
+      "radius_min_fraction": 0.05,
+      "radius_range_fraction": 0.055,
+      "amplitude_ratio": 0.21,
+      "steps": 7,
+      "count_multiplier": 1,
+      "global_log_scale": [
+        0,
+        0,
+        0
+      ],
+      "target_srgb": [
+        0.53,
+        0.32,
+        0.28
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "pouches",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "maximum_sites": 48
+    },
+    {
+      "id": "heart-infarction",
+      "organ": "heart",
+      "label": "Healed myocardial infarction",
+      "pattern": "scar",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I28",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Gross_pathology_of_old_myocardial_infarction.jpg",
+      "clinical_source_url": "https://www.nhlbi.nih.gov/health/coronary-artery-bypass-grafting/who-needs",
+      "morphology_targets": [
+        "scar extent and depth",
+        "regional wall thickness",
+        "ventricular shape"
+      ],
+      "limits": "Old infarction is shown; this photograph cannot establish viability, coronary anatomy or a surgical indication. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision",
+      "mechanism": "regional-retraction",
+      "radius_min_fraction": 0.075,
+      "radius_range_fraction": 0.08,
+      "amplitude_ratio": -0.06,
+      "steps": 6,
+      "count_multiplier": 2,
+      "global_log_scale": [
+        -0.02,
+        -0.025,
+        -0.025
+      ],
+      "target_srgb": [
+        0.59205882,
+        0.43671569,
+        0.33039216
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "regional retraction",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "palette_design_guidance": {
+        "profile_id": "heart-infarction",
+        "source_asset_id": "heart-infarction",
+        "roi_id": "heart-infarction--dark_red_cut_myocardium",
+        "source_sha256": "c414fb6252c42e3a66021b33a944e3bd4e3bc9fa70f1f59e524f3330ca573657",
+        "observed_srgb_median_8bit": [
+          99.0,
+          40.0,
+          31.0
+        ],
+        "observed_srgb_q10_8bit": [
+          83.0,
+          29.0,
+          22.0
+        ],
+        "observed_srgb_q90_8bit": [
+          113.0,
+          52.0,
+          42.0
+        ],
+        "direct_external_surface_reference": false,
+        "transfer_status": "authored cut/mucosal-to-external proxy transfer; target compartment differs",
+        "clinical_severity": null,
+        "calibrated_albedo": false,
+        "license": "CC0",
+        "guidance_sha256": "a9c0e0003580c0b25b6f3f3ce76b9bb3d7e401eb9b837ef909317ae6e133add3",
+        "authored_original_target_srgb": [
+          0.66,
+          0.53,
+          0.4
+        ],
+        "observed_rgb_blend_weight": 0.25,
+        "method": "bounded authored sRGB interpolation with unpaired observed tissue ROI; not albedo fitting",
+        "used_in_renderer": true
+      },
+      "maximum_sites": 48
+    },
+    {
+      "id": "heart-aortic-stenosis",
+      "organ": "heart",
+      "label": "Rheumatic aortic stenosis",
+      "pattern": "reference",
+      "supported": false,
+      "unavailable_reason": "The heart templates contain chambers but no annotated aortic valve leaflets.",
+      "source_ref": "I29",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Aortic_stenosis_rheumatic%2C_gross_pathology_20G0014_lores.jpg",
+      "clinical_source_url": "https://www.rbht.nhs.uk/our-services/transcatheter-aortic-valve-implantation-tavi-for-aortic-stenosis",
+      "morphology_targets": [
+        "valve opening area",
+        "commissural fusion",
+        "leaflet thickness"
+      ],
+      "limits": "Rheumatic disease reference; do not treat as a generic degenerative calcific valve. Static autopsy image gives no motion. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision",
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "internal_or_topology_change_reference_only"
+    },
+    {
+      "id": "heart-endocarditis",
+      "organ": "heart",
+      "label": "Infective mitral endocarditis",
+      "pattern": "reference",
+      "supported": false,
+      "unavailable_reason": "The heart templates contain chambers but no annotated mitral valve leaflets.",
+      "source_ref": "I30",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Haemophilus_parainfluenzae_Endocarditis_PHIL_851_lores.jpg",
+      "clinical_source_url": "https://www.guysandstthomas.nhs.uk/health-information/infective-endocarditis",
+      "morphology_targets": [
+        "vegetation size and position",
+        "leaflet destruction",
+        "annular or periannular extent"
+      ],
+      "limits": "Source identifies Haemophilus parainfluenzae; a photograph alone cannot identify the pathogen or embolic risk. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision",
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "internal_or_topology_change_reference_only"
+    },
+    {
+      "id": "lung-cancer",
+      "organ": "lung",
+      "label": "Squamous cell lung carcinoma",
+      "pattern": "mass",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I31",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Lung_cancer.jpg",
+      "clinical_source_url": "https://www.cancer.gov/types/lung/patient/non-small-cell-lung-treatment-pdq",
+      "morphology_targets": [
+        "tumor size and centrality",
+        "bronchial involvement",
+        "relationship to fissures and vessels"
+      ],
+      "limits": "Only one cut surface is shown; staging and resectability require more information. Source resolution is limited. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision",
+      "mechanism": "irregular-mass",
+      "radius_min_fraction": 0.05,
+      "radius_range_fraction": 0.055,
+      "amplitude_ratio": 0.2,
+      "steps": 6,
+      "count_multiplier": 1,
+      "global_log_scale": [
+        0,
+        0,
+        0
+      ],
+      "target_srgb": [
+        0.57,
+        0.44,
+        0.34
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "irregular mass",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "maximum_sites": 3
+    },
+    {
+      "id": "lung-emphysema",
+      "organ": "lung",
+      "label": "Centrilobular emphysema",
+      "pattern": "dilation",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I32",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Centrilobular_emphysema_865_lores.jpg",
+      "clinical_source_url": "https://www.nhlbi.nih.gov/health/copd/treatment",
+      "morphology_targets": [
+        "airspace enlargement",
+        "regional distribution",
+        "residual parenchymal structure"
+      ],
+      "limits": "Fixed cut surface; black pigment and cavities do not determine lung function or suitability for surgery. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision",
+      "mechanism": "bullous-enlargement",
+      "radius_min_fraction": 0.07,
+      "radius_range_fraction": 0.08,
+      "amplitude_ratio": 0.16,
+      "steps": 6,
+      "count_multiplier": 2,
+      "global_log_scale": [
+        0.1,
+        0.12,
+        0.1
+      ],
+      "target_srgb": [
+        0.54803922,
+        0.40416667,
+        0.33504902
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "bullous enlargement",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "palette_design_guidance": {
+        "profile_id": "lung-emphysema",
+        "source_asset_id": "lung-emphysema",
+        "roi_id": "lung-emphysema--mixed_cut_parenchyma",
+        "source_sha256": "aab5b19c776ff1f6bccfc2340129a86f8922506bae87b74a0182ee9fb85463eb",
+        "observed_srgb_median_8bit": [
+          100.0,
+          68.0,
+          74.0
+        ],
+        "observed_srgb_q10_8bit": [
+          25.0,
+          22.0,
+          35.0
+        ],
+        "observed_srgb_q90_8bit": [
+          168.0,
+          140.0,
+          148.0
+        ],
+        "direct_external_surface_reference": false,
+        "transfer_status": "authored cut/mucosal-to-external proxy transfer; target compartment differs",
+        "clinical_severity": null,
+        "calibrated_albedo": false,
+        "license": "Public domain",
+        "guidance_sha256": "a9c0e0003580c0b25b6f3f3ce76b9bb3d7e401eb9b837ef909317ae6e133add3",
+        "authored_original_target_srgb": [
+          0.6,
+          0.45,
+          0.35
+        ],
+        "observed_rgb_blend_weight": 0.25,
+        "method": "bounded authored sRGB interpolation with unpaired observed tissue ROI; not albedo fitting",
+        "used_in_renderer": true
+      },
+      "maximum_sites": 48
+    },
+    {
+      "id": "lung-bronchiectasis",
+      "organ": "lung",
+      "label": "Obstructive bronchiectasis",
+      "pattern": "reference",
+      "supported": false,
+      "unavailable_reason": "Bronchiectasis requires airway lumen and wall geometry.",
+      "source_ref": "I33",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Bronchiectasis_.jpg",
+      "clinical_source_url": "https://www.rbht.nhs.uk/our-services/bronchiectasis-treatment",
+      "morphology_targets": [
+        "bronchial dilation and taper loss",
+        "airway wall thickness",
+        "localized distribution"
+      ],
+      "limits": "The source reports an obstructing carcinoid, but it is not visible in this photograph. Not representative of all bronchiectasis. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision",
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "internal_or_topology_change_reference_only"
+    },
+    {
+      "id": "brain-meningioma",
+      "organ": "brain",
+      "label": "Meningioma",
+      "pattern": "mass",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I34",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Meningioma_seen_at_autopsy.jpg",
+      "clinical_source_url": "https://www.cancer.gov/types/brain/patient/adult-brain-treatment-pdq",
+      "morphology_targets": [
+        "dural attachment footprint",
+        "extra-axial tumor size",
+        "mass effect on adjacent brain"
+      ],
+      "limits": "Autopsy view of dura and skull, not an intact brain; grade and operative plane cannot be determined from this photograph. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision",
+      "mechanism": "circumscribed-mass",
+      "radius_min_fraction": 0.05,
+      "radius_range_fraction": 0.055,
+      "amplitude_ratio": 0.2,
+      "steps": 6,
+      "count_multiplier": 1,
+      "global_log_scale": [
+        0,
+        0,
+        0
+      ],
+      "target_srgb": [
+        0.62848039,
+        0.39735294,
+        0.3379902
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "circumscribed mass",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "palette_design_guidance": {
+        "profile_id": "brain-meningioma",
+        "source_asset_id": "brain-meningioma",
+        "roi_id": "brain-meningioma--red_dural_attached_nodule",
+        "source_sha256": "8f700e7e6643995003aac65ed60b1443377f5d0f7bedd793557641858a945e38",
+        "observed_srgb_median_8bit": [
+          205.0,
+          84.0,
+          77.0
+        ],
+        "observed_srgb_q10_8bit": [
+          188.0,
+          63.0,
+          58.0
+        ],
+        "observed_srgb_q90_8bit": [
+          218.0,
+          102.0,
+          93.0
+        ],
+        "direct_external_surface_reference": false,
+        "transfer_status": "authored exposed-dural-lesion-to-brain-envelope proxy; this is not photographed cortex",
+        "clinical_severity": null,
+        "calibrated_albedo": false,
+        "license": "CC0",
+        "guidance_sha256": "a9c0e0003580c0b25b6f3f3ce76b9bb3d7e401eb9b837ef909317ae6e133add3",
+        "authored_original_target_srgb": [
+          0.57,
+          0.42,
+          0.35
+        ],
+        "observed_rgb_blend_weight": 0.25,
+        "method": "bounded authored sRGB interpolation with unpaired observed tissue ROI; not albedo fitting",
+        "used_in_renderer": true
+      },
+      "maximum_sites": 1
+    },
+    {
+      "id": "brain-glioblastoma",
+      "organ": "brain",
+      "label": "Glioblastoma",
+      "pattern": "infiltrative",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I35",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Glioblastoma_macro.jpg",
+      "clinical_source_url": "https://www.cancer.gov/news-events/cancer-currents-blog/2017/glioblastoma-research-making-progress",
+      "morphology_targets": [
+        "infiltrative lesion extent",
+        "necrotic and hemorrhagic heterogeneity",
+        "mass effect and ventricular displacement"
+      ],
+      "limits": "Historical source label; current molecular classification is not supplied. A visible border does not equal the microscopic tumor boundary. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision",
+      "mechanism": "broad-mass-effect",
+      "radius_min_fraction": 0.11,
+      "radius_range_fraction": 0.09,
+      "amplitude_ratio": 0.13,
+      "steps": 6,
+      "count_multiplier": 2,
+      "global_log_scale": [
+        0.025,
+        0.015,
+        0.02
+      ],
+      "target_srgb": [
+        0.47,
+        0.32,
+        0.25
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "broad mass effect",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "maximum_sites": 48
+    },
+    {
+      "id": "brain-aneurysm",
+      "organ": "brain",
+      "label": "Cerebral aneurysm",
+      "pattern": "reference",
+      "supported": false,
+      "unavailable_reason": "Aneurysms require arterial centerlines, lumen and vessel-wall geometry.",
+      "source_ref": "I36",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Cerebral_aneurysm.png",
+      "clinical_source_url": "https://www.ninds.nih.gov/health-information/disorders/cerebral-aneurysms",
+      "morphology_targets": [
+        "sac size and lobulation",
+        "neck width",
+        "parent-vessel and branch geometry"
+      ],
+      "limits": "A rendered image, not a mesh download or tissue photograph. Underlying scan license and scale require separate verification. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision",
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "internal_or_topology_change_reference_only"
+    },
+    {
+      "id": "liver-steatotic-enlargement",
+      "organ": "liver",
+      "label": "Diffuse enlarged fatty-liver appearance",
+      "pattern": "diffuse-enlargement",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I01",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Gross_pathology_of_alcoholic_liver_cirrhosis.jpg",
+      "clinical_source_url": "https://www.niddk.nih.gov/health-information/liver-disease/cirrhosis/treatment",
+      "morphology_targets": [
+        "Diffuse enlarged fatty-liver appearance"
+      ],
+      "limits": "External phenotype illustration only. Internal cavities, histology, diagnosis, etiology, physical material parameters and clinical stage are not inferred.",
+      "evidence": "authored_external_phenotype_proxy; organ-reference image is contextual, not paired geometry supervision",
+      "mechanism": "diffuse-enlargement",
+      "radius_min_fraction": 0.18,
+      "radius_range_fraction": 0.13,
+      "amplitude_ratio": 0.027999999999999997,
+      "steps": 5,
+      "count_multiplier": 1,
+      "global_log_scale": [
+        0.18,
+        0.13,
+        0.15
+      ],
+      "target_srgb": [
+        0.64,
+        0.43,
+        0.21
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "diffuse enlargement",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "maximum_sites": 48
+    },
+    {
+      "id": "liver-capsular-cyst",
+      "organ": "liver",
+      "label": "Subcapsular cystic bulge",
+      "pattern": "single-cyst",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I01",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Gross_pathology_of_alcoholic_liver_cirrhosis.jpg",
+      "clinical_source_url": "https://www.niddk.nih.gov/health-information/liver-disease/cirrhosis/treatment",
+      "morphology_targets": [
+        "Subcapsular cystic bulge"
+      ],
+      "limits": "External phenotype illustration only. Internal cavities, histology, diagnosis, etiology, physical material parameters and clinical stage are not inferred.",
+      "evidence": "authored_external_phenotype_proxy; organ-reference image is contextual, not paired geometry supervision",
+      "mechanism": "single-cyst",
+      "radius_min_fraction": 0.05,
+      "radius_range_fraction": 0.06,
+      "amplitude_ratio": 0.21,
+      "steps": 7,
+      "count_multiplier": 1,
+      "global_log_scale": [
+        0,
+        0,
+        0
+      ],
+      "target_srgb": [
+        0.5,
+        0.36,
+        0.23
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "single cyst",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "maximum_sites": 1
+    },
+    {
+      "id": "kidney-cortical-cyst",
+      "organ": "kidney",
+      "label": "Single cortical cystic bulge",
+      "pattern": "single-cyst",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I22",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Kidney_cancer.jpg",
+      "clinical_source_url": "https://www.cancer.gov/types/kidney/hp/kidney-treatment-pdq",
+      "morphology_targets": [
+        "Single cortical cystic bulge"
+      ],
+      "limits": "External phenotype illustration only. Internal cavities, histology, diagnosis, etiology, physical material parameters and clinical stage are not inferred.",
+      "evidence": "authored_external_phenotype_proxy; organ-reference image is contextual, not paired geometry supervision",
+      "mechanism": "single-cyst",
+      "radius_min_fraction": 0.065,
+      "radius_range_fraction": 0.06,
+      "amplitude_ratio": 0.21,
+      "steps": 7,
+      "count_multiplier": 1,
+      "global_log_scale": [
+        0,
+        0,
+        0
+      ],
+      "target_srgb": [
+        0.48,
+        0.35,
+        0.25
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "single cyst",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "maximum_sites": 1
+    },
+    {
+      "id": "kidney-cortical-scarring",
+      "organ": "kidney",
+      "label": "Multifocal cortical retraction",
+      "pattern": "multifocal-retraction",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I22",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Kidney_cancer.jpg",
+      "clinical_source_url": "https://www.cancer.gov/types/kidney/hp/kidney-treatment-pdq",
+      "morphology_targets": [
+        "Multifocal cortical retraction"
+      ],
+      "limits": "External phenotype illustration only. Internal cavities, histology, diagnosis, etiology, physical material parameters and clinical stage are not inferred.",
+      "evidence": "authored_external_phenotype_proxy; organ-reference image is contextual, not paired geometry supervision",
+      "mechanism": "multifocal-retraction",
+      "radius_min_fraction": 0.045,
+      "radius_range_fraction": 0.055,
+      "amplitude_ratio": -0.096,
+      "steps": 6,
+      "count_multiplier": 3,
+      "global_log_scale": [
+        -0.04,
+        -0.015,
+        -0.04
+      ],
+      "target_srgb": [
+        0.63,
+        0.51,
+        0.36
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "multifocal retraction",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "maximum_sites": 48
+    },
+    {
+      "id": "kidney-atrophy",
+      "organ": "kidney",
+      "label": "Contracted scarred kidney phenotype",
+      "pattern": "diffuse-atrophy",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I22",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Kidney_cancer.jpg",
+      "clinical_source_url": "https://www.cancer.gov/types/kidney/hp/kidney-treatment-pdq",
+      "morphology_targets": [
+        "Contracted scarred kidney phenotype"
+      ],
+      "limits": "External phenotype illustration only. Internal cavities, histology, diagnosis, etiology, physical material parameters and clinical stage are not inferred.",
+      "evidence": "authored_external_phenotype_proxy; organ-reference image is contextual, not paired geometry supervision",
+      "mechanism": "diffuse-atrophy",
+      "radius_min_fraction": 0.12,
+      "radius_range_fraction": 0.08,
+      "amplitude_ratio": -0.027999999999999997,
+      "steps": 5,
+      "count_multiplier": 2,
+      "global_log_scale": [
+        -0.18,
+        -0.13,
+        -0.17
+      ],
+      "target_srgb": [
+        0.55,
+        0.35,
+        0.25
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "diffuse atrophy",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "maximum_sites": 48
+    },
+    {
+      "id": "spleen-enlargement",
+      "organ": "spleen",
+      "label": "Diffuse splenic enlargement",
+      "pattern": "diffuse-enlargement",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I13",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Healed_splenic_infarcts.jpg",
+      "clinical_source_url": "https://pubmed.ncbi.nlm.nih.gov/9486895/",
+      "morphology_targets": [
+        "Diffuse splenic enlargement"
+      ],
+      "limits": "External phenotype illustration only. Internal cavities, histology, diagnosis, etiology, physical material parameters and clinical stage are not inferred.",
+      "evidence": "authored_external_phenotype_proxy; organ-reference image is contextual, not paired geometry supervision",
+      "mechanism": "diffuse-enlargement",
+      "radius_min_fraction": 0.2,
+      "radius_range_fraction": 0.12,
+      "amplitude_ratio": 0.017499999999999998,
+      "steps": 5,
+      "count_multiplier": 1,
+      "global_log_scale": [
+        0.14,
+        0.2,
+        0.13
+      ],
+      "target_srgb": [
+        0.4,
+        0.12,
+        0.11
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "diffuse enlargement",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "maximum_sites": 48
+    },
+    {
+      "id": "spleen-exophytic-mass",
+      "organ": "spleen",
+      "label": "Focal exophytic splenic mass",
+      "pattern": "circumscribed-mass",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I13",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Healed_splenic_infarcts.jpg",
+      "clinical_source_url": "https://pubmed.ncbi.nlm.nih.gov/9486895/",
+      "morphology_targets": [
+        "Focal exophytic splenic mass"
+      ],
+      "limits": "External phenotype illustration only. Internal cavities, histology, diagnosis, etiology, physical material parameters and clinical stage are not inferred.",
+      "evidence": "authored_external_phenotype_proxy; organ-reference image is contextual, not paired geometry supervision",
+      "mechanism": "circumscribed-mass",
+      "radius_min_fraction": 0.07,
+      "radius_range_fraction": 0.08,
+      "amplitude_ratio": 0.2,
+      "steps": 7,
+      "count_multiplier": 1,
+      "global_log_scale": [
+        0,
+        0,
+        0
+      ],
+      "target_srgb": [
+        0.6,
+        0.39,
+        0.27
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "circumscribed mass",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "maximum_sites": 1
+    },
+    {
+      "id": "spleen-capsular-retraction",
+      "organ": "spleen",
+      "label": "Multifocal capsular retraction",
+      "pattern": "multifocal-retraction",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I13",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Healed_splenic_infarcts.jpg",
+      "clinical_source_url": "https://pubmed.ncbi.nlm.nih.gov/9486895/",
+      "morphology_targets": [
+        "Multifocal capsular retraction"
+      ],
+      "limits": "External phenotype illustration only. Internal cavities, histology, diagnosis, etiology, physical material parameters and clinical stage are not inferred.",
+      "evidence": "authored_external_phenotype_proxy; organ-reference image is contextual, not paired geometry supervision",
+      "mechanism": "multifocal-retraction",
+      "radius_min_fraction": 0.06,
+      "radius_range_fraction": 0.07,
+      "amplitude_ratio": -0.096,
+      "steps": 6,
+      "count_multiplier": 2,
+      "global_log_scale": [
+        -0.06,
+        -0.025,
+        -0.035
+      ],
+      "target_srgb": [
+        0.63,
+        0.53,
+        0.43
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "multifocal retraction",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "maximum_sites": 48
+    },
+    {
+      "id": "pancreas-diffuse-swelling",
+      "organ": "pancreas",
+      "label": "Diffuse inflammatory pancreatic enlargement",
+      "pattern": "diffuse-swelling",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I10",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Macroscopic_image_of_pancreas_adenocarcinoma_removed_by_Whipple_procedure.jpg",
+      "clinical_source_url": "https://www.cancer.gov/types/pancreatic/treatment",
+      "morphology_targets": [
+        "Diffuse inflammatory pancreatic enlargement"
+      ],
+      "limits": "External phenotype illustration only. Internal cavities, histology, diagnosis, etiology, physical material parameters and clinical stage are not inferred.",
+      "evidence": "authored_external_phenotype_proxy; organ-reference image is contextual, not paired geometry supervision",
+      "mechanism": "diffuse-swelling",
+      "radius_min_fraction": 0.14,
+      "radius_range_fraction": 0.1,
+      "amplitude_ratio": 0.027999999999999997,
+      "steps": 5,
+      "count_multiplier": 2,
+      "global_log_scale": [
+        0.06,
+        0.17,
+        0.14
+      ],
+      "target_srgb": [
+        0.55,
+        0.21,
+        0.13
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "diffuse swelling",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "maximum_sites": 48
+    },
+    {
+      "id": "pancreas-multicystic-surface",
+      "organ": "pancreas",
+      "label": "Multifocal cystic pancreatic surface",
+      "pattern": "cysts",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I10",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Macroscopic_image_of_pancreas_adenocarcinoma_removed_by_Whipple_procedure.jpg",
+      "clinical_source_url": "https://www.cancer.gov/types/pancreatic/treatment",
+      "morphology_targets": [
+        "Multifocal cystic pancreatic surface"
+      ],
+      "limits": "External phenotype illustration only. Internal cavities, histology, diagnosis, etiology, physical material parameters and clinical stage are not inferred.",
+      "evidence": "authored_external_phenotype_proxy; organ-reference image is contextual, not paired geometry supervision",
+      "mechanism": "cysts",
+      "radius_min_fraction": 0.04,
+      "radius_range_fraction": 0.045,
+      "amplitude_ratio": 0.2,
+      "steps": 7,
+      "count_multiplier": 3,
+      "global_log_scale": [
+        0.025,
+        0.04,
+        0.03
+      ],
+      "target_srgb": [
+        0.51,
+        0.39,
+        0.28
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "cysts",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "maximum_sites": 48
+    },
+    {
+      "id": "stomach-distension",
+      "organ": "stomach",
+      "label": "Distended external gastric envelope",
+      "pattern": "diffuse-enlargement",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I07",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Adenocarcinoma_of_the_stomach.jpg",
+      "clinical_source_url": "https://www.cancer.gov/types/stomach/treatment",
+      "morphology_targets": [
+        "Distended external gastric envelope"
+      ],
+      "limits": "External phenotype illustration only. Internal cavities, histology, diagnosis, etiology, physical material parameters and clinical stage are not inferred.",
+      "evidence": "authored_external_phenotype_proxy; organ-reference image is contextual, not paired geometry supervision",
+      "mechanism": "diffuse-enlargement",
+      "radius_min_fraction": 0.18,
+      "radius_range_fraction": 0.12,
+      "amplitude_ratio": 0.017499999999999998,
+      "steps": 5,
+      "count_multiplier": 1,
+      "global_log_scale": [
+        0.17,
+        0.1,
+        0.21
+      ],
+      "target_srgb": [
+        0.59,
+        0.39,
+        0.32
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "diffuse enlargement",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "maximum_sites": 48
+    },
+    {
+      "id": "stomach-serosal-retraction",
+      "organ": "stomach",
+      "label": "Focal serosal scar retraction",
+      "pattern": "regional-retraction",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I07",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Adenocarcinoma_of_the_stomach.jpg",
+      "clinical_source_url": "https://www.cancer.gov/types/stomach/treatment",
+      "morphology_targets": [
+        "Focal serosal scar retraction"
+      ],
+      "limits": "External phenotype illustration only. Internal cavities, histology, diagnosis, etiology, physical material parameters and clinical stage are not inferred.",
+      "evidence": "authored_external_phenotype_proxy; organ-reference image is contextual, not paired geometry supervision",
+      "mechanism": "regional-retraction",
+      "radius_min_fraction": 0.075,
+      "radius_range_fraction": 0.09,
+      "amplitude_ratio": -0.096,
+      "steps": 7,
+      "count_multiplier": 1,
+      "global_log_scale": [
+        -0.03,
+        -0.01,
+        -0.025
+      ],
+      "target_srgb": [
+        0.69,
+        0.56,
+        0.43
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "regional retraction",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "maximum_sites": 48
+    },
+    {
+      "id": "stomach-regional-narrowing",
+      "organ": "stomach",
+      "label": "Regional gastric envelope constriction",
+      "pattern": "regional-constriction",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I07",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Adenocarcinoma_of_the_stomach.jpg",
+      "clinical_source_url": "https://www.cancer.gov/types/stomach/treatment",
+      "morphology_targets": [
+        "Regional gastric envelope constriction"
+      ],
+      "limits": "External phenotype illustration only. Internal cavities, histology, diagnosis, etiology, physical material parameters and clinical stage are not inferred.",
+      "evidence": "authored_external_phenotype_proxy; organ-reference image is contextual, not paired geometry supervision",
+      "mechanism": "regional-constriction",
+      "radius_min_fraction": 0.1,
+      "radius_range_fraction": 0.08,
+      "amplitude_ratio": -0.11399999999999999,
+      "steps": 7,
+      "count_multiplier": 3,
+      "global_log_scale": [
+        -0.03,
+        0,
+        -0.04
+      ],
+      "target_srgb": [
+        0.57,
+        0.37,
+        0.29
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "regional constriction",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "maximum_sites": 48
+    },
+    {
+      "id": "gallbladder-distension",
+      "organ": "gallbladder",
+      "label": "Distended gallbladder envelope",
+      "pattern": "fusiform-enlargement",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I05",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Chronic_calculous_cholecystitis.jpg",
+      "clinical_source_url": "https://www.niddk.nih.gov/health-information/digestive-diseases/gallstones/treatment",
+      "morphology_targets": [
+        "Distended gallbladder envelope"
+      ],
+      "limits": "External phenotype illustration only. Internal cavities, histology, diagnosis, etiology, physical material parameters and clinical stage are not inferred.",
+      "evidence": "authored_external_phenotype_proxy; organ-reference image is contextual, not paired geometry supervision",
+      "mechanism": "fusiform-enlargement",
+      "radius_min_fraction": 0.18,
+      "radius_range_fraction": 0.12,
+      "amplitude_ratio": 0.0245,
+      "steps": 5,
+      "count_multiplier": 1,
+      "global_log_scale": [
+        0.18,
+        0.08,
+        0.18
+      ],
+      "target_srgb": [
+        0.41,
+        0.4,
+        0.18
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "fusiform enlargement",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "maximum_sites": 48
+    },
+    {
+      "id": "gallbladder-contraction",
+      "organ": "gallbladder",
+      "label": "Contracted fibrotic gallbladder envelope",
+      "pattern": "diffuse-atrophy",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I05",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Chronic_calculous_cholecystitis.jpg",
+      "clinical_source_url": "https://www.niddk.nih.gov/health-information/digestive-diseases/gallstones/treatment",
+      "morphology_targets": [
+        "Contracted fibrotic gallbladder envelope"
+      ],
+      "limits": "External phenotype illustration only. Internal cavities, histology, diagnosis, etiology, physical material parameters and clinical stage are not inferred.",
+      "evidence": "authored_external_phenotype_proxy; organ-reference image is contextual, not paired geometry supervision",
+      "mechanism": "diffuse-atrophy",
+      "radius_min_fraction": 0.13,
+      "radius_range_fraction": 0.1,
+      "amplitude_ratio": -0.0245,
+      "steps": 5,
+      "count_multiplier": 2,
+      "global_log_scale": [
+        -0.16,
+        -0.1,
+        -0.16
+      ],
+      "target_srgb": [
+        0.59,
+        0.47,
+        0.29
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "diffuse atrophy",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "maximum_sites": 48
+    },
+    {
+      "id": "gallbladder-focal-bulge",
+      "organ": "gallbladder",
+      "label": "Smooth focal serosal bulge",
+      "pattern": "single-cyst",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I05",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Chronic_calculous_cholecystitis.jpg",
+      "clinical_source_url": "https://www.niddk.nih.gov/health-information/digestive-diseases/gallstones/treatment",
+      "morphology_targets": [
+        "Smooth focal serosal bulge"
+      ],
+      "limits": "External phenotype illustration only. Internal cavities, histology, diagnosis, etiology, physical material parameters and clinical stage are not inferred.",
+      "evidence": "authored_external_phenotype_proxy; organ-reference image is contextual, not paired geometry supervision",
+      "mechanism": "single-cyst",
+      "radius_min_fraction": 0.06,
+      "radius_range_fraction": 0.07,
+      "amplitude_ratio": 0.19,
+      "steps": 7,
+      "count_multiplier": 1,
+      "global_log_scale": [
+        0,
+        0,
+        0
+      ],
+      "target_srgb": [
+        0.45,
+        0.4,
+        0.25
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "single cyst",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "maximum_sites": 1
+    },
+    {
+      "id": "small-intestine-regional-dilation",
+      "organ": "small-intestine",
+      "label": "Regional small-bowel envelope dilation",
+      "pattern": "regional-swelling",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I16",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Crohn_Jejunum.PNG",
+      "clinical_source_url": "https://www.niddk.nih.gov/health-information/digestive-diseases/crohns-disease/treatment",
+      "morphology_targets": [
+        "Regional small-bowel envelope dilation"
+      ],
+      "limits": "External phenotype illustration only. Internal cavities, histology, diagnosis, etiology, physical material parameters and clinical stage are not inferred.",
+      "evidence": "authored_external_phenotype_proxy; organ-reference image is contextual, not paired geometry supervision",
+      "mechanism": "regional-swelling",
+      "radius_min_fraction": 0.11,
+      "radius_range_fraction": 0.09,
+      "amplitude_ratio": 0.18,
+      "steps": 6,
+      "count_multiplier": 2,
+      "global_log_scale": [
+        0.015,
+        0.025,
+        0.015
+      ],
+      "target_srgb": [
+        0.6,
+        0.32,
+        0.24
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "regional swelling",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "maximum_sites": 48
+    },
+    {
+      "id": "small-intestine-pouching",
+      "organ": "small-intestine",
+      "label": "Multifocal small-bowel pouching",
+      "pattern": "pouches",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I16",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Crohn_Jejunum.PNG",
+      "clinical_source_url": "https://www.niddk.nih.gov/health-information/digestive-diseases/crohns-disease/treatment",
+      "morphology_targets": [
+        "Multifocal small-bowel pouching"
+      ],
+      "limits": "External phenotype illustration only. Internal cavities, histology, diagnosis, etiology, physical material parameters and clinical stage are not inferred.",
+      "evidence": "authored_external_phenotype_proxy; organ-reference image is contextual, not paired geometry supervision",
+      "mechanism": "pouches",
+      "radius_min_fraction": 0.025,
+      "radius_range_fraction": 0.025,
+      "amplitude_ratio": 0.21,
+      "steps": 7,
+      "count_multiplier": 3,
+      "global_log_scale": [
+        0,
+        0,
+        0
+      ],
+      "target_srgb": [
+        0.55,
+        0.32,
+        0.27
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "pouches",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "maximum_sites": 48
+    },
+    {
+      "id": "small-intestine-constriction",
+      "organ": "small-intestine",
+      "label": "Regional small-bowel constriction",
+      "pattern": "regional-constriction",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I16",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Crohn_Jejunum.PNG",
+      "clinical_source_url": "https://www.niddk.nih.gov/health-information/digestive-diseases/crohns-disease/treatment",
+      "morphology_targets": [
+        "Regional small-bowel constriction"
+      ],
+      "limits": "External phenotype illustration only. Internal cavities, histology, diagnosis, etiology, physical material parameters and clinical stage are not inferred.",
+      "evidence": "authored_external_phenotype_proxy; organ-reference image is contextual, not paired geometry supervision",
+      "mechanism": "regional-constriction",
+      "radius_min_fraction": 0.06,
+      "radius_range_fraction": 0.06,
+      "amplitude_ratio": -0.10200000000000001,
+      "steps": 7,
+      "count_multiplier": 2,
+      "global_log_scale": [
+        0,
+        0,
+        0
+      ],
+      "target_srgb": [
+        0.63,
+        0.5,
+        0.39
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "regional constriction",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "maximum_sites": 48
+    },
+    {
+      "id": "colon-regional-dilation",
+      "organ": "large-intestine",
+      "label": "Regional colonic envelope dilation",
+      "pattern": "regional-swelling",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I19",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Adenocarcinoma_of_the_Sigmoid_Colon_%28longitudinal_section%29.jpg",
+      "clinical_source_url": "https://www.cancer.gov/types/colorectal/hp/colon-treatment-pdq",
+      "morphology_targets": [
+        "Regional colonic envelope dilation"
+      ],
+      "limits": "External phenotype illustration only. Internal cavities, histology, diagnosis, etiology, physical material parameters and clinical stage are not inferred.",
+      "evidence": "authored_external_phenotype_proxy; organ-reference image is contextual, not paired geometry supervision",
+      "mechanism": "regional-swelling",
+      "radius_min_fraction": 0.11,
+      "radius_range_fraction": 0.08,
+      "amplitude_ratio": 0.16,
+      "steps": 6,
+      "count_multiplier": 2,
+      "global_log_scale": [
+        0.015,
+        0.025,
+        0.015
+      ],
+      "target_srgb": [
+        0.59,
+        0.33,
+        0.27
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "regional swelling",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "maximum_sites": 48
+    },
+    {
+      "id": "colon-serosal-scarring",
+      "organ": "large-intestine",
+      "label": "Multifocal colonic serosal retraction",
+      "pattern": "multifocal-retraction",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I19",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Adenocarcinoma_of_the_Sigmoid_Colon_%28longitudinal_section%29.jpg",
+      "clinical_source_url": "https://www.cancer.gov/types/colorectal/hp/colon-treatment-pdq",
+      "morphology_targets": [
+        "Multifocal colonic serosal retraction"
+      ],
+      "limits": "External phenotype illustration only. Internal cavities, histology, diagnosis, etiology, physical material parameters and clinical stage are not inferred.",
+      "evidence": "authored_external_phenotype_proxy; organ-reference image is contextual, not paired geometry supervision",
+      "mechanism": "multifocal-retraction",
+      "radius_min_fraction": 0.04,
+      "radius_range_fraction": 0.055,
+      "amplitude_ratio": -0.10200000000000001,
+      "steps": 6,
+      "count_multiplier": 3,
+      "global_log_scale": [
+        -0.02,
+        0,
+        -0.015
+      ],
+      "target_srgb": [
+        0.64,
+        0.53,
+        0.4
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "multifocal retraction",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "maximum_sites": 48
+    },
+    {
+      "id": "colon-diffuse-wall-swelling",
+      "organ": "large-intestine",
+      "label": "Diffuse colonic wall-envelope swelling",
+      "pattern": "diffuse-swelling",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I19",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Adenocarcinoma_of_the_Sigmoid_Colon_%28longitudinal_section%29.jpg",
+      "clinical_source_url": "https://www.cancer.gov/types/colorectal/hp/colon-treatment-pdq",
+      "morphology_targets": [
+        "Diffuse colonic wall-envelope swelling"
+      ],
+      "limits": "External phenotype illustration only. Internal cavities, histology, diagnosis, etiology, physical material parameters and clinical stage are not inferred.",
+      "evidence": "authored_external_phenotype_proxy; organ-reference image is contextual, not paired geometry supervision",
+      "mechanism": "diffuse-swelling",
+      "radius_min_fraction": 0.17,
+      "radius_range_fraction": 0.1,
+      "amplitude_ratio": 0.027999999999999997,
+      "steps": 5,
+      "count_multiplier": 2,
+      "global_log_scale": [
+        0.06,
+        0.04,
+        0.06
+      ],
+      "target_srgb": [
+        0.5,
+        0.13,
+        0.1
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "diffuse swelling",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "maximum_sites": 48
+    },
+    {
+      "id": "bladder-distension",
+      "organ": "urinary-bladder",
+      "label": "Distended bladder envelope",
+      "pattern": "diffuse-enlargement",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I25",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Carcinoma_of_the_urinary_bladder.jpg",
+      "clinical_source_url": "https://www.cancer.gov/types/bladder/treatment",
+      "morphology_targets": [
+        "Distended bladder envelope"
+      ],
+      "limits": "External phenotype illustration only. Internal cavities, histology, diagnosis, etiology, physical material parameters and clinical stage are not inferred.",
+      "evidence": "authored_external_phenotype_proxy; organ-reference image is contextual, not paired geometry supervision",
+      "mechanism": "diffuse-enlargement",
+      "radius_min_fraction": 0.2,
+      "radius_range_fraction": 0.13,
+      "amplitude_ratio": 0.017499999999999998,
+      "steps": 5,
+      "count_multiplier": 1,
+      "global_log_scale": [
+        0.19,
+        0.16,
+        0.2
+      ],
+      "target_srgb": [
+        0.6,
+        0.4,
+        0.33
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "diffuse enlargement",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "maximum_sites": 48
+    },
+    {
+      "id": "bladder-contraction",
+      "organ": "urinary-bladder",
+      "label": "Contracted fibrotic bladder envelope",
+      "pattern": "diffuse-atrophy",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I25",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Carcinoma_of_the_urinary_bladder.jpg",
+      "clinical_source_url": "https://www.cancer.gov/types/bladder/treatment",
+      "morphology_targets": [
+        "Contracted fibrotic bladder envelope"
+      ],
+      "limits": "External phenotype illustration only. Internal cavities, histology, diagnosis, etiology, physical material parameters and clinical stage are not inferred.",
+      "evidence": "authored_external_phenotype_proxy; organ-reference image is contextual, not paired geometry supervision",
+      "mechanism": "diffuse-atrophy",
+      "radius_min_fraction": 0.15,
+      "radius_range_fraction": 0.1,
+      "amplitude_ratio": -0.0245,
+      "steps": 5,
+      "count_multiplier": 2,
+      "global_log_scale": [
+        -0.18,
+        -0.15,
+        -0.17
+      ],
+      "target_srgb": [
+        0.64,
+        0.53,
+        0.41
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "diffuse atrophy",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "maximum_sites": 48
+    },
+    {
+      "id": "bladder-diffuse-wall-swelling",
+      "organ": "urinary-bladder",
+      "label": "Diffuse bladder wall-envelope swelling",
+      "pattern": "diffuse-swelling",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I25",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Carcinoma_of_the_urinary_bladder.jpg",
+      "clinical_source_url": "https://www.cancer.gov/types/bladder/treatment",
+      "morphology_targets": [
+        "Diffuse bladder wall-envelope swelling"
+      ],
+      "limits": "External phenotype illustration only. Internal cavities, histology, diagnosis, etiology, physical material parameters and clinical stage are not inferred.",
+      "evidence": "authored_external_phenotype_proxy; organ-reference image is contextual, not paired geometry supervision",
+      "mechanism": "diffuse-swelling",
+      "radius_min_fraction": 0.14,
+      "radius_range_fraction": 0.12,
+      "amplitude_ratio": 0.034999999999999996,
+      "steps": 5,
+      "count_multiplier": 2,
+      "global_log_scale": [
+        0.08,
+        0.07,
+        0.09
+      ],
+      "target_srgb": [
+        0.54,
+        0.19,
+        0.14
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "diffuse swelling",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "maximum_sites": 48
+    },
+    {
+      "id": "heart-ventricular-dilation",
+      "organ": "heart",
+      "label": "Externally dilated ventricular phenotype",
+      "pattern": "fusiform-enlargement",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I28",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Gross_pathology_of_old_myocardial_infarction.jpg",
+      "clinical_source_url": "https://www.nhlbi.nih.gov/health/coronary-artery-bypass-grafting/who-needs",
+      "morphology_targets": [
+        "Externally dilated ventricular phenotype"
+      ],
+      "limits": "External phenotype illustration only. Internal cavities, histology, diagnosis, etiology, physical material parameters and clinical stage are not inferred.",
+      "evidence": "authored_external_phenotype_proxy; organ-reference image is contextual, not paired geometry supervision",
+      "mechanism": "fusiform-enlargement",
+      "radius_min_fraction": 0.15,
+      "radius_range_fraction": 0.09,
+      "amplitude_ratio": 0.027999999999999997,
+      "steps": 6,
+      "count_multiplier": 2,
+      "global_log_scale": [
+        0.15,
+        0.1,
+        0.14
+      ],
+      "target_srgb": [
+        0.54,
+        0.2,
+        0.17
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "fusiform enlargement",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "maximum_sites": 48
+    },
+    {
+      "id": "heart-hypertrophic-envelope",
+      "organ": "heart",
+      "label": "Bulky ventricular external-envelope phenotype",
+      "pattern": "lobulated-enlargement",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I28",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Gross_pathology_of_old_myocardial_infarction.jpg",
+      "clinical_source_url": "https://www.nhlbi.nih.gov/health/coronary-artery-bypass-grafting/who-needs",
+      "morphology_targets": [
+        "Bulky ventricular external-envelope phenotype"
+      ],
+      "limits": "External phenotype illustration only. Internal cavities, histology, diagnosis, etiology, physical material parameters and clinical stage are not inferred.",
+      "evidence": "authored_external_phenotype_proxy; organ-reference image is contextual, not paired geometry supervision",
+      "mechanism": "lobulated-enlargement",
+      "radius_min_fraction": 0.1,
+      "radius_range_fraction": 0.07,
+      "amplitude_ratio": 0.13,
+      "steps": 6,
+      "count_multiplier": 3,
+      "global_log_scale": [
+        0.08,
+        0.035,
+        0.11
+      ],
+      "target_srgb": [
+        0.58,
+        0.23,
+        0.18
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "lobulated enlargement",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "maximum_sites": 48
+    },
+    {
+      "id": "heart-focal-aneurysmal-bulge",
+      "organ": "heart",
+      "label": "Focal ventricular aneurysmal bulge",
+      "pattern": "single-cyst",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I28",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Gross_pathology_of_old_myocardial_infarction.jpg",
+      "clinical_source_url": "https://www.nhlbi.nih.gov/health/coronary-artery-bypass-grafting/who-needs",
+      "morphology_targets": [
+        "Focal ventricular aneurysmal bulge"
+      ],
+      "limits": "External phenotype illustration only. Internal cavities, histology, diagnosis, etiology, physical material parameters and clinical stage are not inferred.",
+      "evidence": "authored_external_phenotype_proxy; organ-reference image is contextual, not paired geometry supervision",
+      "mechanism": "single-cyst",
+      "radius_min_fraction": 0.07,
+      "radius_range_fraction": 0.07,
+      "amplitude_ratio": 0.21,
+      "steps": 7,
+      "count_multiplier": 1,
+      "global_log_scale": [
+        0.015,
+        0.01,
+        0.015
+      ],
+      "target_srgb": [
+        0.64,
+        0.43,
+        0.34
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "single cyst",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "maximum_sites": 1
+    },
+    {
+      "id": "heart-surface-scarring",
+      "organ": "heart",
+      "label": "Multifocal epicardial retraction",
+      "pattern": "multifocal-retraction",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I28",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Gross_pathology_of_old_myocardial_infarction.jpg",
+      "clinical_source_url": "https://www.nhlbi.nih.gov/health/coronary-artery-bypass-grafting/who-needs",
+      "morphology_targets": [
+        "Multifocal epicardial retraction"
+      ],
+      "limits": "External phenotype illustration only. Internal cavities, histology, diagnosis, etiology, physical material parameters and clinical stage are not inferred.",
+      "evidence": "authored_external_phenotype_proxy; organ-reference image is contextual, not paired geometry supervision",
+      "mechanism": "multifocal-retraction",
+      "radius_min_fraction": 0.04,
+      "radius_range_fraction": 0.05,
+      "amplitude_ratio": -0.078,
+      "steps": 7,
+      "count_multiplier": 3,
+      "global_log_scale": [
+        -0.015,
+        0,
+        -0.015
+      ],
+      "target_srgb": [
+        0.69,
+        0.58,
+        0.46
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "multifocal retraction",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "maximum_sites": 48
+    },
+    {
+      "id": "lung-pleural-retraction",
+      "organ": "lung",
+      "label": "Patchy pleural fibrotic retraction",
+      "pattern": "multifocal-retraction",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I31",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Lung_cancer.jpg",
+      "clinical_source_url": "https://www.cancer.gov/types/lung/patient/non-small-cell-lung-treatment-pdq",
+      "morphology_targets": [
+        "Patchy pleural fibrotic retraction"
+      ],
+      "limits": "External phenotype illustration only. Internal cavities, histology, diagnosis, etiology, physical material parameters and clinical stage are not inferred.",
+      "evidence": "authored_external_phenotype_proxy; organ-reference image is contextual, not paired geometry supervision",
+      "mechanism": "multifocal-retraction",
+      "radius_min_fraction": 0.06,
+      "radius_range_fraction": 0.065,
+      "amplitude_ratio": -0.096,
+      "steps": 7,
+      "count_multiplier": 3,
+      "global_log_scale": [
+        -0.055,
+        -0.045,
+        -0.035
+      ],
+      "target_srgb": [
+        0.6,
+        0.51,
+        0.41
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "multifocal retraction",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "maximum_sites": 48
+    },
+    {
+      "id": "lung-subpleural-cystic-bulge",
+      "organ": "lung",
+      "label": "Localized subpleural cystic bulge",
+      "pattern": "single-cyst",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I31",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Lung_cancer.jpg",
+      "clinical_source_url": "https://www.cancer.gov/types/lung/patient/non-small-cell-lung-treatment-pdq",
+      "morphology_targets": [
+        "Localized subpleural cystic bulge"
+      ],
+      "limits": "External phenotype illustration only. Internal cavities, histology, diagnosis, etiology, physical material parameters and clinical stage are not inferred.",
+      "evidence": "authored_external_phenotype_proxy; organ-reference image is contextual, not paired geometry supervision",
+      "mechanism": "single-cyst",
+      "radius_min_fraction": 0.05,
+      "radius_range_fraction": 0.06,
+      "amplitude_ratio": 0.21,
+      "steps": 7,
+      "count_multiplier": 1,
+      "global_log_scale": [
+        0.01,
+        0.01,
+        0.01
+      ],
+      "target_srgb": [
+        0.6,
+        0.44,
+        0.34
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "single cyst",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "maximum_sites": 1
+    },
+    {
+      "id": "lung-regional-contraction",
+      "organ": "lung",
+      "label": "Regional contracted lung envelope",
+      "pattern": "regional-constriction",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I31",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Lung_cancer.jpg",
+      "clinical_source_url": "https://www.cancer.gov/types/lung/patient/non-small-cell-lung-treatment-pdq",
+      "morphology_targets": [
+        "Regional contracted lung envelope"
+      ],
+      "limits": "External phenotype illustration only. Internal cavities, histology, diagnosis, etiology, physical material parameters and clinical stage are not inferred.",
+      "evidence": "authored_external_phenotype_proxy; organ-reference image is contextual, not paired geometry supervision",
+      "mechanism": "regional-constriction",
+      "radius_min_fraction": 0.13,
+      "radius_range_fraction": 0.08,
+      "amplitude_ratio": -0.10200000000000001,
+      "steps": 6,
+      "count_multiplier": 2,
+      "global_log_scale": [
+        -0.045500000000000006,
+        -0.0195,
+        -0.035750000000000004
+      ],
+      "target_srgb": [
+        0.52,
+        0.34,
+        0.28
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "regional constriction",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "maximum_sites": 48
+    },
+    {
+      "id": "brain-cortical-atrophy",
+      "organ": "brain",
+      "label": "Cortical volume-loss surface phenotype",
+      "pattern": "diffuse-atrophy",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I34",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Meningioma_seen_at_autopsy.jpg",
+      "clinical_source_url": "https://www.cancer.gov/types/brain/patient/adult-brain-treatment-pdq",
+      "morphology_targets": [
+        "Cortical volume-loss surface phenotype"
+      ],
+      "limits": "External phenotype illustration only. Internal cavities, histology, diagnosis, etiology, physical material parameters and clinical stage are not inferred.",
+      "evidence": "authored_external_phenotype_proxy; organ-reference image is contextual, not paired geometry supervision",
+      "mechanism": "diffuse-atrophy",
+      "radius_min_fraction": 0.11,
+      "radius_range_fraction": 0.09,
+      "amplitude_ratio": -0.017499999999999998,
+      "steps": 5,
+      "count_multiplier": 2,
+      "global_log_scale": [
+        -0.1,
+        -0.075,
+        -0.1
+      ],
+      "target_srgb": [
+        0.56,
+        0.48,
+        0.4
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "diffuse atrophy",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "maximum_sites": 48
+    },
+    {
+      "id": "brain-diffuse-swelling",
+      "organ": "brain",
+      "label": "Diffuse swollen brain-envelope phenotype",
+      "pattern": "diffuse-enlargement",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I34",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Meningioma_seen_at_autopsy.jpg",
+      "clinical_source_url": "https://www.cancer.gov/types/brain/patient/adult-brain-treatment-pdq",
+      "morphology_targets": [
+        "Diffuse swollen brain-envelope phenotype"
+      ],
+      "limits": "External phenotype illustration only. Internal cavities, histology, diagnosis, etiology, physical material parameters and clinical stage are not inferred.",
+      "evidence": "authored_external_phenotype_proxy; organ-reference image is contextual, not paired geometry supervision",
+      "mechanism": "diffuse-enlargement",
+      "radius_min_fraction": 0.2,
+      "radius_range_fraction": 0.12,
+      "amplitude_ratio": 0.013999999999999999,
+      "steps": 5,
+      "count_multiplier": 1,
+      "global_log_scale": [
+        0.07,
+        0.08,
+        0.07
+      ],
+      "target_srgb": [
+        0.6,
+        0.45,
+        0.38
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "diffuse enlargement",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "maximum_sites": 48
+    },
+    {
+      "id": "brain-cortical-retraction",
+      "organ": "brain",
+      "label": "Focal cortical tissue-loss surface proxy",
+      "pattern": "regional-retraction",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I34",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Meningioma_seen_at_autopsy.jpg",
+      "clinical_source_url": "https://www.cancer.gov/types/brain/patient/adult-brain-treatment-pdq",
+      "morphology_targets": [
+        "Focal cortical tissue-loss surface proxy"
+      ],
+      "limits": "External phenotype illustration only. Internal cavities, histology, diagnosis, etiology, physical material parameters and clinical stage are not inferred.",
+      "evidence": "authored_external_phenotype_proxy; organ-reference image is contextual, not paired geometry supervision",
+      "mechanism": "regional-retraction",
+      "radius_min_fraction": 0.065,
+      "radius_range_fraction": 0.07,
+      "amplitude_ratio": -0.084,
+      "steps": 6,
+      "count_multiplier": 1,
+      "global_log_scale": [
+        -0.015,
+        0,
+        -0.015
+      ],
+      "target_srgb": [
+        0.54,
+        0.4,
+        0.32
+      ],
+      "renderer_version": "disease-v2",
+      "severity_semantics": "normalized synthetic morphology strength, not clinical stage",
+      "clinical_stage": null,
+      "visibility": "external_surface_proxy",
+      "internal_anatomy_generated": false,
+      "evidence_role": "contextual organ/pathology reference; profile-specific geometric validation NOT_RUN",
+      "represented_features": [
+        "regional retraction",
+        "bounded same-topology external contour",
+        "authored surface pigment field"
+      ],
+      "not_represented": [
+        "internal lesion volume",
+        "histologic subtype",
+        "mechanical stiffness",
+        "diagnostic stage",
+        "population prevalence"
+      ],
+      "maximum_sites": 48
+    }
+  ],
+  "scope": "60 authored external phenotype designs; disease-name labels are contextual, not diagnoses or patient-ground-truth claims"
+}

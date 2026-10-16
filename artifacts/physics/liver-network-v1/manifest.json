@@ -1,0 +1,5 @@
+{
+  "version": "liver-inverse-sls-1.0.0",
+  "model_sha256": "e75002f0e3b1ebfa5cb1d311c82321c584a7321f7511c4b016eb6168dd1be834",
+  "scope": "Separate neural inverse model trained on synthetic small-strain force/strain ramp-hold-release experiments; not calibrated human liver mechanics."
+}

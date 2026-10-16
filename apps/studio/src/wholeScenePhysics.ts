@@ -1,0 +1,363 @@
+/** Coupled reduced-order viscoelastic preview, SI integration / mm rendering.
+ * Material estimates come from synthetic SLS histories. Anatomical attachments,
+ * modal mass/stiffness, damping and loading are authored; not surgical FEM.
+ * A shared trilinear displacement lattice keeps coincident attachments together.
+ */
+import type { WholeSceneCategory } from "./wholeSceneModel";
+export interface SceneLearnedMaterial {
+  id: string; young_pa: number; relaxation_fraction: number; relaxation_time_s: number;
+  density_kg_m3: number; accepted_for_application: true; observation_origin: "synthetic-design-history";
+}
+export interface LearnedSceneMaterials {
+  schema_version: "whole-scene-materials-1.0.0"; model_id: string; scope: string; materials: SceneLearnedMaterial[];
+}
+export function readLearnedSceneMaterials(value: unknown): LearnedSceneMaterials {
+  const data = value as Partial<LearnedSceneMaterials> | null;
+  if (!data || data.schema_version !== "whole-scene-materials-1.0.0" || !/^[a-f0-9]{64}$/.test(data.model_id ?? "") || typeof data.scope !== "string" || !Array.isArray(data.materials) || !data.materials.length) throw new Error("Learned scene materials are missing or unsupported.");
+  const ids = new Set<string>();
+  for (const m of data.materials) {
+    if (!m || typeof m.id !== "string" || !m.id || ids.has(m.id) || m.accepted_for_application !== true || m.observation_origin !== "synthetic-design-history" ||
+      ![m.young_pa, m.relaxation_fraction, m.relaxation_time_s, m.density_kg_m3].every(Number.isFinite) ||
+      m.young_pa < 500 || m.young_pa > 20000 || m.relaxation_fraction < .05 || m.relaxation_fraction > .75 || m.relaxation_time_s < .05 || m.relaxation_time_s > 2 || m.density_kg_m3 < 900 || m.density_kg_m3 > 1200) throw new Error("A learned organ material failed its application checks.");
+    ids.add(m.id);
+  }
+  return data as LearnedSceneMaterials;
+}
+export interface ScenePhysicsOrgan { id: string; category: WholeSceneCategory; bounds: { min: number[]; max: number[] } }
+export interface ScenePhysicsBinding { indices: Uint16Array; weights: Float32Array; vertices: number }
+interface Mode {
+  id: string; category: WholeSceneCategory; center: number[]; radius: number; mass: number; k: number; fraction: number; tau: number;
+  q: Float64Array; v: Float64Array; memory: Float64Array; material: SceneLearnedMaterial;
+}
+export interface SceneToolContactInput {
+  mode: "push" | "grasp"; organId: string; restPointMm: number[]; normal: number[];
+  targetPointMm: number[]; radiusMm: number; strength?: number;
+  attachment?: { verticesMm: [number[], number[], number[]]; barycentric: number[] } | undefined;
+}
+interface LocalToolMode {
+  input: SceneToolContactInput; active: boolean; radius: number; anchorFactor: number;
+  q: Float64Array; v: Float64Array; memory: Float64Array; force: Float64Array;
+  mass: number; k: number; fraction: number; tau: number; materialMode: number;
+  limits: number; clamped: boolean;
+}
+const H = 1 / 120;
+const MAX_FRAME_TIME = .1;
+const NX = 9, NY = 15, NZ = 7, N = NX * NY * NZ;
+const nodeId = (x: number, y: number, z: number) => (y * NZ + z) * NX + x;
+const smooth = (v: number) => { const t = Math.max(0, Math.min(1, v)); return t * t * (3 - 2 * t); };
+const compactWeight = (distance: number, radius: number) => { const r = distance / radius; return r >= 1 ? 0 : (1 - r) ** 4 * (1 + 4 * r); };
+const validPoint = (p: number[]) => p.length === 3 && p.every(Number.isFinite);
+export class WholeScenePhysics {
+  private modes: Mode[];
+  private minimum: number[];
+  private spacing: number[];
+  private lattice = new Float64Array(N * 3);
+  private weights: Float64Array;
+  private couplings: { a: number; b: number; k: number }[] = [];
+  private pulseMode = -1;
+  private pulseUntil = 0;
+  private time = 0;
+  private accumulator = 0;
+  private dropped = 0;
+  private limits = 0;
+  private gradientBound = 0;
+  private peakDisplacement = 0;
+  private maxDisplacement = 0;
+  private maxSpeed = 0;
+  private tools: LocalToolMode[] = [];
+  private selectedTool: LocalToolMode | null = null;
+  private localScale = 1;
+  readonly modelId: string;
+  constructor(organs: ScenePhysicsOrgan[], source: LearnedSceneMaterials) {
+    const materials = readLearnedSceneMaterials(source);
+    if (!organs.length || organs.some(o => o.bounds.min.length !== 3 || o.bounds.max.length !== 3 || ![...o.bounds.min, ...o.bounds.max].every(Number.isFinite) || o.bounds.min.some((v, a) => v >= o.bounds.max[a]!))) throw new Error("Physics requires finite, nonempty anatomical bounds.");
+    this.modelId = materials.model_id;
+    const soft = organs.filter(o => o.category !== "skeleton");
+    if (!soft.length) throw new Error("No soft organs are available for physics.");
+    const map = new Map(materials.materials.map(m => [m.id, m]));
+    this.modes = soft.map(organ => {
+      const material = map.get(organ.id); if (!material) throw new Error(`No accepted learned material for ${organ.id}; no partial assignment was applied.`);
+      const extent = organ.bounds.max.map((v, a) => v - organ.bounds.min[a]!);
+      const length = Math.max(20, Math.cbrt(extent[0]! * extent[1]! * extent[2]!));
+      const mass = Math.max(.025, Math.min(2.5, material.density_kg_m3 * extent[0]! * extent[1]! * extent[2]! * 1e-9 * .35));
+      return { id: organ.id, category: organ.category, center: extent.map((v, a) => organ.bounds.min[a]! + v / 2), radius: Math.max(55, Math.hypot(...extent) * .65), mass,
+        k: material.young_pa * length * .001 * .35, fraction: material.relaxation_fraction, tau: material.relaxation_time_s,
+        q: new Float64Array(3), v: new Float64Array(3), memory: new Float64Array(3), material };
+    });
+    this.minimum = [0, 1, 2].map(a => Math.min(...organs.map(o => o.bounds.min[a]!)) - 5);
+    const maximum = [0, 1, 2].map(a => Math.max(...organs.map(o => o.bounds.max[a]!)) + 5);
+    this.spacing = [NX, NY, NZ].map((n, a) => (maximum[a]! - this.minimum[a]!) / (n - 1));
+    this.weights = new Float64Array(N * this.modes.length);
+    for (let y = 0; y < NY; y++) for (let z = 0; z < NZ; z++) for (let x = 0; x < NX; x++) {
+      const id = nodeId(x, y, z); const p = [x, y, z].map((v, a) => this.minimum[a]! + v * this.spacing[a]!);
+      let sum = 0;
+      this.modes.forEach((mode, i) => {
+        const d2 = p.reduce((sum, v, a) => sum + ((v - mode.center[a]!) / mode.radius) ** 2, 0);
+        const w = Math.exp(-2 * d2); this.weights[id * this.modes.length + i] = w; sum += w;
+      });
+      // Authored posterior support and end taper. This is not a reconstructed ligament map.
+      const support = smooth(z / (NZ - 1) * 2.2) * (.45 + .55 * Math.sin(Math.PI * y / (NY - 1)));
+      for (let i = 0; i < this.modes.length; i++) this.weights[id * this.modes.length + i]! *= support / Math.max(sum, 1e-12);
+    }
+    for (let a = 0; a < this.modes.length; a++) {
+      const mode = this.modes[a]!;
+      const neighbors = this.modes.map((other, b) => ({ b, d: Math.hypot(...mode.center.map((v, axis) => v - other.center[axis]!)) })).filter(n => n.b !== a).sort((u, v) => u.d - v.d).slice(0, 3);
+      for (const { b } of neighbors) {
+        if (this.couplings.some(c => (c.a === a && c.b === b) || (c.a === b && c.b === a))) continue;
+        this.couplings.push({ a, b, k: .06 * 2 * mode.k * this.modes[b]!.k / (mode.k + this.modes[b]!.k) });
+      }
+    }
+  }
+  bind(rest: Float32Array): ScenePhysicsBinding {
+    if (rest.length % 3 || !rest.every(Number.isFinite)) throw new Error("Cannot bind invalid anatomy positions.");
+    const vertices = rest.length / 3, indices = new Uint16Array(vertices * 8), weights = new Float32Array(vertices * 8);
+    for (let v = 0; v < vertices; v++) {
+      const cell = [0, 1, 2].map(a => Math.max(0, Math.min([NX, NY, NZ][a]! - 1.000001, (rest[3 * v + a]! - this.minimum[a]!) / this.spacing[a]!)));
+      const base = cell.map(Math.floor), f = cell.map((u, a) => u - base[a]!);
+      for (let corner = 0; corner < 8; corner++) {
+        const dx = corner & 1, dy = (corner >> 1) & 1, dz = (corner >> 2) & 1;
+        indices[v * 8 + corner] = nodeId(base[0]! + dx, base[1]! + dy, base[2]! + dz);
+        weights[v * 8 + corner] = (dx ? f[0]! : 1 - f[0]!) * (dy ? f[1]! : 1 - f[1]!) * (dz ? f[2]! : 1 - f[2]!);
+      }
+    }
+    return { vertices, indices, weights };
+  }
+  deform(rest: Float32Array, out: Float32Array, binding: ScenePhysicsBinding) {
+    if (rest.length !== out.length || rest.length !== binding.vertices * 3) throw new Error("Physics binding no longer matches the scene.");
+    // Accumulate in registers, then store each Float32 coordinate once. This is
+    // the same shared trilinear field, with less roundoff and memory traffic.
+    for (let v = 0; v < binding.vertices; v++) {
+      const position = v * 3, corner = v * 8;
+      let x = rest[position]!, y = rest[position + 1]!, z = rest[position + 2]!;
+      for (let c = 0; c < 8; c++) {
+        const id = binding.indices[corner + c]! * 3, w = binding.weights[corner + c]!;
+        x += this.lattice[id]! * w;
+        y += this.lattice[id + 1]! * w;
+        z += this.lattice[id + 2]! * w;
+      }
+      for (const tool of this.tools) {
+        const w = compactWeight(Math.hypot(rest[position]! - tool.input.restPointMm[0]!, rest[position + 1]! - tool.input.restPointMm[1]!, rest[position + 2]! - tool.input.restPointMm[2]!), tool.radius) * 1000 * this.localScale;
+        x += tool.q[0]! * w; y += tool.q[1]! * w; z += tool.q[2]! * w;
+      }
+      out[position] = x; out[position + 1] = y; out[position + 2] = z;
+    }
+  }
+  /** Same continuous field used for every displayed soft structure. */
+  samplePoint(rest: number[]): number[] {
+    if (!validPoint(rest)) throw new Error("Invalid physics sample coordinate.");
+    const out = [...rest];
+    const cell = rest.map((v, a) => Math.max(0, Math.min([NX, NY, NZ][a]! - 1.000001, (v - this.minimum[a]!) / this.spacing[a]!)));
+    const base = cell.map(Math.floor), f = cell.map((v, a) => v - base[a]!);
+    for (let c = 0; c < 8; c++) {
+      const dx = c & 1, dy = (c >> 1) & 1, dz = (c >> 2) & 1;
+      const id = nodeId(base[0]! + dx, base[1]! + dy, base[2]! + dz) * 3;
+      const w = (dx ? f[0]! : 1 - f[0]!) * (dy ? f[1]! : 1 - f[1]!) * (dz ? f[2]! : 1 - f[2]!);
+      for (let a = 0; a < 3; a++) out[a]! += this.lattice[id + a]! * w;
+    }
+    for (const tool of this.tools) {
+      const w = compactWeight(Math.hypot(...rest.map((v, a) => v - tool.input.restPointMm[a]!)), tool.radius) * 1000 * this.localScale;
+      for (let a = 0; a < 3; a++) out[a]! += tool.q[a]! * w;
+    }
+    return out;
+  }
+  private toolAnchor(tool: LocalToolMode): number[] {
+    const attachment = tool.input.attachment;
+    if (!attachment) return this.samplePoint(tool.input.restPointMm);
+    const out = [0, 0, 0];
+    attachment.verticesMm.forEach((p, i) => { const deformed = this.samplePoint(p); for (let a = 0; a < 3; a++) out[a]! += deformed[a]! * attachment.barycentric[i]!; });
+    return out;
+  }
+  beginToolContact(input: SceneToolContactInput) {
+    const modeIndex = this.modes.findIndex(m => m.id === input.organId);
+    if (modeIndex < 0 || !["push", "grasp"].includes(input.mode) || !validPoint(input.restPointMm) || !validPoint(input.targetPointMm) || !validPoint(input.normal) || Math.hypot(...input.normal) < 1e-8 || !Number.isFinite(input.radiusMm) || input.radiusMm < .5 || input.radiusMm > 25 || (input.strength !== undefined && (!Number.isFinite(input.strength) || input.strength <= 0 || input.strength > 3))) throw new Error("Invalid anatomical tool contact.");
+    const attachment = input.attachment;
+    if (attachment && (attachment.verticesMm.length !== 3 || !attachment.verticesMm.every(validPoint) || attachment.barycentric.length !== 3 || !attachment.barycentric.every(v => Number.isFinite(v) && v >= -1e-6 && v <= 1 + 1e-6) || Math.abs(attachment.barycentric.reduce((a, b) => a + b, 0) - 1) > 1e-5)) throw new Error("Invalid surface attachment weights.");
+    this.releaseToolContact();
+    const normalLength = Math.hypot(...input.normal);
+    const copy: SceneToolContactInput = { ...input, restPointMm: [...input.restPointMm], targetPointMm: [...input.targetPointMm], normal: input.normal.map(v => v / normalLength), attachment: attachment ? { verticesMm: attachment.verticesMm.map(p => [...p]) as [number[], number[], number[]], barycentric: [...attachment.barycentric] } : undefined };
+    const minimumSupport = input.mode === "grasp" ? 85 : Math.max(38, input.radiusMm * 7);
+    const vertexRadius = attachment ? Math.max(...attachment.verticesMm.map(p => Math.hypot(...p.map((v, a) => v - input.restPointMm[a]!)))) : 0;
+    const radius = Math.max(minimumSupport, vertexRadius * 2 + input.radiusMm);
+    const anchorFactor = attachment ? attachment.verticesMm.reduce((sum, p, i) => sum + attachment.barycentric[i]! * compactWeight(Math.hypot(...p.map((v, a) => v - input.restPointMm[a]!)), radius), 0) : 1;
+    const material = this.modes[modeIndex]!.material;
+    const tool: LocalToolMode = { input: copy, active: true, radius, anchorFactor, q: new Float64Array(3), v: new Float64Array(3), memory: new Float64Array(3), force: new Float64Array(3), mass: Math.max(.015, Math.min(.3, material.density_kg_m3 * (radius * .001) ** 3 * .3)), k: material.young_pa * radius * .001 * .22, fraction: material.relaxation_fraction, tau: material.relaxation_time_s, materialMode: modeIndex, limits: 0, clamped: false };
+    // Released local modes keep recovering instead of disappearing at a new grab.
+    this.tools.push(tool); this.selectedTool = tool;
+    this.moveToolTarget(copy.targetPointMm);
+  }
+  moveToolTarget(targetPointMm: number[], normal?: number[]) {
+    const tool = this.selectedTool; if (!tool?.active) return;
+    if (!validPoint(targetPointMm) || (normal && (!validPoint(normal) || Math.hypot(...normal) < 1e-8))) throw new Error("Invalid tool target.");
+    const delta = targetPointMm.map((v, a) => v - tool.input.restPointMm[a]!); const distance = Math.hypot(...delta), maximum = 45;
+    tool.clamped = distance > maximum;
+    if (tool.clamped) tool.limits++;
+    tool.input.targetPointMm = delta.map((v, a) => tool.input.restPointMm[a]! + v * Math.min(1, maximum / Math.max(distance, 1e-12)));
+    if (normal) { const size = Math.hypot(...normal); tool.input.normal = normal.map(v => v / size); }
+  }
+  slideToolContact(input: SceneToolContactInput) {
+    const previous = this.selectedTool;
+    const carry = previous?.active && previous.input.mode === "push" && input.mode === "push" && previous.input.organId === input.organId && Math.hypot(...input.restPointMm.map((v, a) => v - previous.input.restPointMm[a]!)) <= previous.radius * .5;
+    this.beginToolContact(input);
+    if (carry && previous && this.selectedTool) {
+      this.selectedTool.q.set(previous.q); this.selectedTool.v.set(previous.v); this.selectedTool.memory.set(previous.memory);
+      this.tools = this.tools.filter(mode => mode !== previous);
+    }
+  }
+  releaseToolContact() { if (this.selectedTool) { this.selectedTool.active = false; this.selectedTool.force.fill(0); } }
+  toolSnapshot() {
+    const tool = this.selectedTool; if (!tool) return null;
+    const actual = this.toolAnchor(tool), residual = tool.input.targetPointMm.map((v, a) => v - actual[a]!);
+    return { active: tool.active, mode: tool.input.mode, organId: tool.input.organId, restPointMm: [...tool.input.restPointMm], normal: [...tool.input.normal], targetPointMm: [...tool.input.targetPointMm], actualSurfacePointMm: actual, forceN: Array.from(tool.force), normalForceN: Math.max(0, -tool.force.reduce((sum, v, a) => sum + v * tool.input.normal[a]!, 0)), displacementMm: actual.map((v, a) => v - tool.input.restPointMm[a]!), residualMm: Math.hypot(...residual), requestedPenetrationMm: tool.input.mode === "push" ? Math.max(0, -residual.reduce((sum, v, a) => sum + v * tool.input.normal[a]!, 0)) : 0, clamped: tool.clamped || this.localScale < .999999, supportRadiusMm: tool.radius, limitCount: tool.limits, anchorKernelWeight: tool.anchorFactor, projectionScale: this.localScale, forceLimitN: 3 * (tool.input.strength ?? 1), forceEvaluation: "bounded spring at final rendered barycentric anchor; implicit step uses prior shared-field projection" };
+  }
+  pulse(id?: string | null) {
+    const selected = id ? this.modes.findIndex(m => m.id === id) : -1;
+    this.pulseMode = selected >= 0 ? selected : Math.max(0, this.modes.findIndex(m => /liver/i.test(m.id)));
+    this.pulseUntil = this.time + .35;
+  }
+  reset() {
+    for (const mode of this.modes) { mode.q.fill(0); mode.v.fill(0); mode.memory.fill(0); }
+    this.lattice.fill(0); this.time = 0; this.accumulator = 0; this.dropped = 0; this.limits = 0; this.pulseUntil = 0; this.pulseMode = -1; this.peakDisplacement = 0; this.maxDisplacement = 0; this.maxSpeed = 0; this.gradientBound = 0;
+    this.tools = []; this.selectedTool = null; this.localScale = 1;
+  }
+  step(dt: number, breathing: boolean) {
+    if (!Number.isFinite(dt) || dt < 0) throw new Error("Invalid physics time step.");
+    // Admit up to twelve unchanged 120 Hz steps so 10–20 FPS rendering does not
+    // slow the physical clock. Longer stalls remain bounded and explicitly lost.
+    const admitted = Math.min(dt, MAX_FRAME_TIME); this.dropped += dt - admitted; this.accumulator += admitted;
+    const localFieldNeeded = this.tools.length > 0;
+    let integrated = false;
+    while (this.accumulator + 1e-12 >= H) {
+      this.integrate(breathing); this.time += H; this.accumulator -= H;
+      // Local attachment forces read the projected shared field. Refresh that
+      // physical state at H, independently of how substeps are batched for draw.
+      if (localFieldNeeded) this.updateField();
+      integrated = true;
+    }
+    if (!localFieldNeeded || !integrated) this.updateField();
+  }
+  private integrate(breathing: boolean) {
+    this.integrateTools();
+    const count = this.modes.length;
+    const previous = this.modes.map(m => m.q.slice());
+    const denominator = new Float64Array(count), rhs = new Float64Array(count * 3), branch = new Float64Array(count), decay = new Float64Array(count);
+    const phase = breathing ? .5 - .5 * Math.cos(this.time * Math.PI * 2 / 4.8) : 0;
+    this.modes.forEach((m, i) => {
+      const damping = 2 * .65 * Math.sqrt(m.k * m.mass);
+      decay[i] = Math.exp(-H / m.tau); branch[i] = m.k * m.fraction * m.tau * (1 - decay[i]!) / H;
+      denominator[i] = m.mass / H ** 2 + damping / H + m.k * (1 - m.fraction) + branch[i]!;
+      const amplitude = m.category === "respiratory" ? .0035 : m.category === "digestive" || m.category === "connective" ? .0017 : .0007;
+      for (let a = 0; a < 3; a++) {
+        const force = a === 1 ? -m.k * amplitude * phase : a === 2 ? m.k * amplitude * .35 * phase : 0;
+        const pulse = i === this.pulseMode && this.time < this.pulseUntil && a === 2 ? -1.5 * Math.sin(Math.PI * (this.pulseUntil - this.time) / .35) : 0;
+        const localReaction = this.tools.reduce((sum, tool) => sum + (tool.materialMode === i ? tool.force[a]! * .1 : 0), 0);
+        rhs[i * 3 + a] = m.mass / H ** 2 * (m.q[a]! + H * m.v[a]!) + (damping / H + branch[i]!) * m.q[a]! - decay[i]! * m.memory[a]! + force + pulse + localReaction;
+      }
+    });
+    for (const c of this.couplings) { denominator[c.a]! += c.k; denominator[c.b]! += c.k; }
+    // Implicit positive-definite coupled linear system; mass dominates at 120 Hz.
+    for (let sweep = 0; sweep < 7; sweep++) this.modes.forEach((m, i) => {
+      for (let a = 0; a < 3; a++) {
+        let coupled = 0;
+        for (const c of this.couplings) { if (c.a === i) coupled += c.k * this.modes[c.b]!.q[a]!; else if (c.b === i) coupled += c.k * this.modes[c.a]!.q[a]!; }
+        m.q[a] = (rhs[3 * i + a]! + coupled) / denominator[i]!;
+      }
+    });
+    this.maxSpeed = 0;
+    this.modes.forEach((m, i) => {
+      const norm = Math.hypot(...m.q);
+      if (norm > .008) { for (let a = 0; a < 3; a++) m.q[a]! *= .008 / norm; this.limits++; }
+      for (let a = 0; a < 3; a++) {
+        const delta = m.q[a]! - previous[i]![a]!;
+        m.memory[a] = decay[i]! * m.memory[a]! + branch[i]! * delta;
+        m.v[a] = delta / H;
+        if (!Number.isFinite(m.q[a]) || !Number.isFinite(m.v[a]) || !Number.isFinite(m.memory[a])) throw new Error("Physics state became non-finite; reset the scene.");
+      }
+      this.maxSpeed = Math.max(this.maxSpeed, Math.hypot(...m.v));
+    });
+    this.maxSpeed += this.tools.reduce((sum, tool) => sum + Math.hypot(...tool.v) * this.localScale, 0);
+  }
+  private integrateTools() {
+    for (const tool of this.tools) {
+      const previous = tool.q.slice(), decay = Math.exp(-H / tool.tau);
+      const branch = tool.k * tool.fraction * tool.tau * (1 - decay) / H;
+      const damping = 2 * .9 * Math.sqrt(tool.k * tool.mass);
+      const denominator = tool.mass / H ** 2 + damping / H + tool.k * (1 - tool.fraction) + branch;
+      const rhs = Array.from(tool.q, (q, a) => tool.mass / H ** 2 * (q + H * tool.v[a]!) + (damping / H + branch) * q - decay * tool.memory[a]!);
+      const g = tool.anchorFactor * this.localScale;
+      const anchor = this.toolAnchor(tool), target = tool.input.targetPointMm;
+      let desired = target.map((v, a) => (v - anchor[a]!) * .001 + g * tool.q[a]!);
+      const stiffness = 180 * (tool.input.strength ?? 1);
+      const forceCap = 3 * (tool.input.strength ?? 1);
+      const requested = desired.map((v, a) => v - g * tool.q[a]!);
+      const requestLength = tool.input.mode === "push" ? Math.max(0, -requested.reduce((sum, v, a) => sum + v * tool.input.normal[a]!, 0)) : Math.hypot(...requested);
+      if (requestLength * stiffness > forceCap) {
+        const factor = forceCap / (requestLength * stiffness);
+        desired = desired.map((_, a) => g * tool.q[a]! + requested[a]! * factor);
+        tool.clamped = true; tool.limits++;
+      }
+      tool.force.fill(0);
+      if (tool.active && tool.input.mode === "grasp") {
+        for (let a = 0; a < 3; a++) tool.q[a] = (rhs[a]! + stiffness * g * desired[a]!) / (denominator + stiffness * g * g);
+      } else if (tool.active) {
+        const n = tool.input.normal, desiredNormal = desired.reduce((sum, v, a) => sum + v * n[a]!, 0);
+        const free = rhs.map(v => v / denominator), freeNormal = free.reduce((sum, v, a) => sum + v * n[a]!, 0);
+        const force = Math.min(0, stiffness * (desiredNormal - g * freeNormal) / (1 + stiffness * g * g / denominator));
+        for (let a = 0; a < 3; a++) tool.q[a] = free[a]! + g * force * n[a]! / denominator;
+      } else for (let a = 0; a < 3; a++) tool.q[a] = rhs[a]! / denominator;
+      const norm = Math.hypot(...tool.q), max = Math.min(tool.input.mode === "grasp" ? .018 : .010, tool.radius * .001 * .36 / 2.109375);
+      if (norm > max) { for (let a = 0; a < 3; a++) tool.q[a]! *= max / norm; tool.clamped = true; tool.limits++; }
+      if (tool.active) {
+        let force = desired.map((v, a) => stiffness * (v - g * tool.q[a]!));
+        if (tool.input.mode === "push") { const signed = Math.min(0, force.reduce((sum, v, a) => sum + v * tool.input.normal[a]!, 0)); force = tool.input.normal.map(v => signed * v); }
+        const magnitude = Math.hypot(...force), cap = 3 * (tool.input.strength ?? 1);
+        if (magnitude > cap) { force = force.map(v => v * cap / magnitude); tool.clamped = true; tool.limits++; }
+        tool.force.set(force);
+      }
+      for (let a = 0; a < 3; a++) { const delta = tool.q[a]! - previous[a]!; tool.memory[a] = decay * tool.memory[a]! + branch * delta; tool.v[a] = delta / H; }
+      if (![...tool.q, ...tool.v, ...tool.memory, ...tool.force].every(Number.isFinite)) throw new Error("Local contact state became non-finite.");
+    }
+    this.tools = this.tools.filter(tool => tool === this.selectedTool || tool.active || Math.hypot(...tool.q, ...tool.v, ...tool.memory) > 1e-8);
+  }
+  private updateField() {
+    this.lattice.fill(0);
+    for (let id = 0; id < N; id++) for (let i = 0; i < this.modes.length; i++) {
+      const w = this.weights[id * this.modes.length + i]! * 1000;
+      for (let a = 0; a < 3; a++) this.lattice[id * 3 + a]! += this.modes[i]!.q[a]! * w;
+    }
+    // Row-sum bound of the spatial displacement gradient. <1 protects orientation
+    // for the shared interpolant. A .25 cap limits authored preview strain.
+    const derivative = new Float64Array(9);
+    for (let y = 0; y < NY; y++) for (let z = 0; z < NZ; z++) for (let x = 0; x < NX; x++) {
+      const id = nodeId(x, y, z);
+      const neighbors = [x < NX - 1 ? nodeId(x + 1, y, z) : -1, y < NY - 1 ? nodeId(x, y + 1, z) : -1, z < NZ - 1 ? nodeId(x, y, z + 1) : -1];
+      for (let direction = 0; direction < 3; direction++) if (neighbors[direction]! >= 0) for (let a = 0; a < 3; a++) derivative[a * 3 + direction] = Math.max(derivative[a * 3 + direction]!, Math.abs(this.lattice[neighbors[direction]! * 3 + a]! - this.lattice[id * 3 + a]!) / this.spacing[direction]!);
+    }
+    const bound = Math.max(...[0, 1, 2].map(a => derivative[a * 3]! + derivative[a * 3 + 1]! + derivative[a * 3 + 2]!));
+    if (bound > .25) { for (let i = 0; i < this.lattice.length; i++) this.lattice[i]! *= .25 / bound; this.limits++; }
+    const sharedBound = Math.min(bound, .25);
+    // Wendland C2 |d phi/dr| <= 2.109375/R. This sum is a conservative
+    // infinity-norm derivative bound for the superposed continuous local fields.
+    const localBound = this.tools.reduce((sum, tool) => sum + Math.max(...Array.from(tool.q, Math.abs)) * 1000 * 2.109375 * Math.sqrt(3) / tool.radius, 0);
+    this.localScale = localBound > 0 ? Math.min(1, Math.max(0, .45 - sharedBound) / localBound) : 1;
+    if (this.localScale < 1) this.limits++;
+    this.gradientBound = sharedBound + localBound * this.localScale; this.maxDisplacement = 0;
+    for (let i = 0; i < N; i++) this.maxDisplacement = Math.max(this.maxDisplacement, Math.hypot(this.lattice[i * 3]!, this.lattice[i * 3 + 1]!, this.lattice[i * 3 + 2]!));
+    for (const tool of this.tools) this.maxDisplacement = Math.max(this.maxDisplacement, Math.hypot(...this.samplePoint(tool.input.restPointMm).map((v, a) => v - tool.input.restPointMm[a]!)));
+    for (const tool of this.tools) {
+      if (!tool.active) { tool.force.fill(0); continue; }
+      const anchor = this.toolAnchor(tool), stiffness = 180 * (tool.input.strength ?? 1);
+      let force = tool.input.targetPointMm.map((v, a) => stiffness * .001 * (v - anchor[a]!));
+      if (tool.input.mode === "push") { const normal = tool.input.normal, signed = Math.min(0, force.reduce((sum, v, a) => sum + v * normal[a]!, 0)); force = normal.map(v => signed * v); }
+      const magnitude = Math.hypot(...force), cap = 3 * (tool.input.strength ?? 1);
+      tool.force.set(force.map(v => v * Math.min(1, cap / Math.max(magnitude, 1e-12))));
+    }
+    this.peakDisplacement = Math.max(this.peakDisplacement, this.maxDisplacement);
+  }
+  snapshot() {
+    return { solver: "coupled-modal-SLS-local-tool-field-2.0.0", scope: "Synthetic material estimates; authored supports and local tool compliance. Triangle tool contact is separate; no resolved organ-organ collision, fluid pressure, cutting or validated surgical mechanics.",
+      model_id: this.modelId, time_s: this.time, fixed_step_s: H, dropped_time_s: this.dropped, displacement_mm: this.maxDisplacement, peak_displacement_mm: this.peakDisplacement, maximum_speed_m_s: this.maxSpeed, speed_scope: "Sum bound of coarse modal and local modal velocities; excludes repositioning of a sliding pressure footprint and projection-scale changes.", maximum_local_mode_speed_m_s: this.tools.reduce((sum, tool) => sum + Math.hypot(...tool.v) * this.localScale, 0), displacement_gradient_bound: this.gradientBound, stabilization_count: this.limits,
+      finite: this.modes.every(m => [...m.q, ...m.v, ...m.memory].every(Number.isFinite)) && this.tools.every(m => [...m.q, ...m.v, ...m.memory].every(Number.isFinite)), tool: this.toolSnapshot(), local_modes: this.tools.length,
+      organs: this.modes.map(m => ({ id: m.id, parameters: m.material, displacement_mm: Array.from(m.q, q => q * 1000), mass_kg: m.mass, effective_stiffness_n_m: m.k })),
+    };
+  }
+}

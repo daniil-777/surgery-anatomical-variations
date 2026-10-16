@@ -1,0 +1,1114 @@
+{
+  "control_names": [
+    "scale_x",
+    "scale_y",
+    "scale_z",
+    "bend",
+    "twist",
+    "taper",
+    "asymmetry"
+  ],
+  "deformer_version": "invertible-atlas-controls-1.0.0",
+  "limitations": [
+    "Not all human organs or anatomical variations are covered.",
+    "Synthetic deformations do not add independent donor observations.",
+    "Source display surfaces have open boundaries/internal faces; not simulation domains.",
+    "Textures, physiology, prevalence, material parameters and pathology are not inferred.",
+    "BodyParts3D millimetre scale is an explicit assumption pending source-unit confirmation."
+  ],
+  "profile": "development_preview",
+  "schema_version": "1.0.0",
+  "template_version": "atlas-display-1.1.0",
+  "templates": [
+    {
+      "artifact_sha256": "6e94e0266417eb204fe9056dd9a49fcd288417318162ca27c31000b869441bab",
+      "attribution": "BodyParts3D, \u00a9 The Database Center for Life Science licensed under CC Attribution 4.0 International",
+      "attribution_verified": true,
+      "cohort_eligible": true,
+      "control_limits": [
+        0.09,
+        0.12,
+        0.09,
+        0.06,
+        0.1,
+        0.08,
+        0.04
+      ],
+      "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+      "extent_mm": [
+        36.4413,
+        40.41000000000008,
+        48.40899999999999
+      ],
+      "face_count": 2396,
+      "geometry_sha256": "6331d533a0051ab3b65e8d27e21cd048fde89543103ab85d9947f7198263ef8e",
+      "laterality": null,
+      "license": "CC-BY-4.0",
+      "metadata_sha256": "3e057a5ddc537042bc8bc1a66f3b3b56802721a7d6fc266a6f5ce2ab7518d6b0",
+      "organ": "gallbladder",
+      "organ_id": "gallbladder",
+      "sex_label": "male",
+      "source_collection": "BodyParts3D",
+      "source_creators": [
+        {
+          "id": "https://dbcls.rois.ac.jp/",
+          "name": "The Database Center for Life Science"
+        }
+      ],
+      "source_group_id": "bodyparts3d-adult-male-atlas",
+      "source_sha256": "625af13ef374a4df98eb5e51f9c2201a1436ca33168ce4deb277ce811c3fb8c8",
+      "source_url": "https://dbarchive.biosciencedbc.jp/data/bodyparts3d/LATEST/partof_BP3D_4.0_obj_99.zip",
+      "template_id": "bp3d-gallbladder-male",
+      "vertex_count": 1202
+    },
+    {
+      "artifact_sha256": "2c8008326d3c6a2a073bcd3799ad5ebe99518c07793aa0bc6ddb0777e7e254cf",
+      "attribution": "BodyParts3D, \u00a9 The Database Center for Life Science licensed under CC Attribution 4.0 International",
+      "attribution_verified": true,
+      "cohort_eligible": true,
+      "control_limits": [
+        0.1,
+        0.1,
+        0.1,
+        0.06,
+        0.09,
+        0.07,
+        0.04
+      ],
+      "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+      "extent_mm": [
+        134.4756,
+        117.00999999999999,
+        112.8901
+      ],
+      "face_count": 1810,
+      "geometry_sha256": "cee13678d42392b6abcdbcb1c833e9156584c899f80025b816b39d7721bd44f8",
+      "laterality": null,
+      "license": "CC-BY-4.0",
+      "metadata_sha256": "a6e75ef8270a7138d937cc5d2b1f9874bb1de2ed7346b64d3e9ad3e130b116b3",
+      "organ": "stomach",
+      "organ_id": "stomach",
+      "sex_label": "male",
+      "source_collection": "BodyParts3D",
+      "source_creators": [
+        {
+          "id": "https://dbcls.rois.ac.jp/",
+          "name": "The Database Center for Life Science"
+        }
+      ],
+      "source_group_id": "bodyparts3d-adult-male-atlas",
+      "source_sha256": "cb78c3f2214fd21a16fa6c9f2389b9aa874e9d3ce624c42b34d4563c31554c67",
+      "source_url": "https://dbarchive.biosciencedbc.jp/data/bodyparts3d/LATEST/partof_BP3D_4.0_obj_99.zip",
+      "template_id": "bp3d-stomach-male",
+      "vertex_count": 914
+    },
+    {
+      "artifact_sha256": "57d2f3eed5bdd6cde6b070ba5f963b0456206437546cb6f271d69d7ed05437b8",
+      "attribution": "Browne, Kristen,\tand Heidi Schlehlein.\t 2024.\t\"3D Reference Organ for Brain, Female v1.4.\"\t https://doi.org/10.48539/HBM674.NTLM.353.\tAccessed June 15, 2024.",
+      "attribution_verified": true,
+      "cohort_eligible": true,
+      "control_limits": [
+        0.035,
+        0.035,
+        0.035,
+        0.015,
+        0.02,
+        0.02,
+        0.01
+      ],
+      "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+      "extent_mm": [
+        136.3772340118885,
+        145.70128917694092,
+        167.0395266264677
+      ],
+      "face_count": 424474,
+      "geometry_sha256": "fafc6579c2204fde5397347754854bf006eff079e043006c92fcbe6e0314abb0",
+      "laterality": null,
+      "license": "CC-BY-4.0",
+      "metadata_sha256": "680cc615cd7efb1fc1503fc4376540af447f9df4b292624a9a7cc71986b73edc",
+      "organ": "brain",
+      "organ_id": "brain",
+      "sex_label": "female",
+      "source_collection": "HRA",
+      "source_creators": [
+        {
+          "id": "https://orcid.org/0000-0002-3333-5646",
+          "name": "Heidi Schlehlein"
+        },
+        {
+          "id": "https://orcid.org/0000-0003-4066-7531",
+          "name": "Kristen Browne"
+        }
+      ],
+      "source_doi": "https://doi.org/10.48539/HBM674.NTLM.353",
+      "source_group_id": "hra-allen-brain-shared-atlas",
+      "source_sha256": "f20d87a347f8d5c6467439cba7db18f19307d29b2c3e0c2b6ddb7e9d49e1c1fc",
+      "source_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/brain-female/v1.4/assets/3d-allen-f-brain.glb",
+      "template_id": "hra-brain-female",
+      "vertex_count": 212296
+    },
+    {
+      "artifact_sha256": "35e9d313ca187af7eca9394b53cf5015e3a17c05e5e92fd2532f44eb427ce7ac",
+      "attribution": "Browne, Kristen,\tand Heidi Schlehlein.\t 2024.\t\"3D Reference Organ for Brain, Male v1.4.\"\t https://doi.org/10.48539/HBM538.NKCT.649.\tAccessed June 15, 2024.",
+      "attribution_verified": true,
+      "cohort_eligible": true,
+      "control_limits": [
+        0.035,
+        0.035,
+        0.035,
+        0.015,
+        0.02,
+        0.02,
+        0.01
+      ],
+      "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+      "extent_mm": [
+        136.3772377371788,
+        145.70128917694092,
+        167.03951358795166
+      ],
+      "face_count": 424474,
+      "geometry_sha256": "dc6c7ac57efd2a43acfade82ef811c4f3cf7facb5762f622bd5efa5624a2fd59",
+      "laterality": null,
+      "license": "CC-BY-4.0",
+      "metadata_sha256": "9267d244adef34dfb12cb9433b565a505b4468b5d8e6b31a5bea3110bd86b73f",
+      "organ": "brain",
+      "organ_id": "brain",
+      "sex_label": "male",
+      "source_collection": "HRA",
+      "source_creators": [
+        {
+          "id": "https://orcid.org/0000-0002-3333-5646",
+          "name": "Heidi Schlehlein"
+        },
+        {
+          "id": "https://orcid.org/0000-0003-4066-7531",
+          "name": "Kristen Browne"
+        }
+      ],
+      "source_doi": "https://doi.org/10.48539/HBM538.NKCT.649",
+      "source_group_id": "hra-allen-brain-shared-atlas",
+      "source_sha256": "c97d7d0b9ff0baebbdec5566fa7b08d789195ef965e0bd04cf743a8d683882db",
+      "source_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/brain-male/v1.4/assets/3d-allen-m-brain.glb",
+      "template_id": "hra-brain-male",
+      "vertex_count": 212296
+    },
+    {
+      "artifact_sha256": "0d3bea64d3617276953883a948043e42627d8eb5ecaabaa4c33047301d5dde04",
+      "attribution": "Browne, Kristen, and Heidi Schlehlein. 2024. \"3D Reference Organ for Heart, Female v1.3.\" https://doi.org/10.48539/HBM449.SHRV.225. Accessed on June 15, 2024.",
+      "attribution_verified": true,
+      "cohort_eligible": true,
+      "control_limits": [
+        0.06,
+        0.06,
+        0.06,
+        0.035,
+        0.05,
+        0.035,
+        0.025
+      ],
+      "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+      "extent_mm": [
+        142.54222437739372,
+        109.98499393463135,
+        101.4974252320826
+      ],
+      "face_count": 45587,
+      "geometry_sha256": "14c0598aecbf6582de75a25aa2b6b7e93096222ae539835ad80c26378ca927e3",
+      "laterality": null,
+      "license": "CC-BY-4.0",
+      "metadata_sha256": "ac9fff24f1f369af05309ff8687d7e225d4f068465836b958017155aafe3e8aa",
+      "organ": "heart",
+      "organ_id": "heart",
+      "sex_label": "female",
+      "source_collection": "HRA",
+      "source_creators": [
+        {
+          "id": "https://orcid.org/0000-0002-3333-5646",
+          "name": "Heidi Schlehlein"
+        },
+        {
+          "id": "https://orcid.org/0000-0003-4066-7531",
+          "name": "Kristen Browne"
+        }
+      ],
+      "source_doi": "https://doi.org/10.48539/HBM449.SHRV.225",
+      "source_group_id": "hra-visible-human-female",
+      "source_sha256": "98f66e46b149bfc3836592d9404c50290e21d302ec55c98813435e2d9847b1d9",
+      "source_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/heart-female/v1.3/assets/3d-vh-f-heart.glb",
+      "template_id": "hra-heart-female",
+      "vertex_count": 22975
+    },
+    {
+      "artifact_sha256": "ac3825959ab0398f61610ccfefbdecf55840b4392a856647a993034baba8d774",
+      "attribution": "Browne, Kristen, and Heidi Schlehlein. 2024. \"3D Reference Organ for Heart, Male v1.3.\" https://doi.org/10.48539/HBM564.WKNG.249. Accessed on June 15, 2024.",
+      "attribution_verified": true,
+      "cohort_eligible": true,
+      "control_limits": [
+        0.06,
+        0.06,
+        0.06,
+        0.035,
+        0.05,
+        0.035,
+        0.025
+      ],
+      "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+      "extent_mm": [
+        124.35118481516838,
+        105.43522238731384,
+        105.21523747593164
+      ],
+      "face_count": 118284,
+      "geometry_sha256": "69b5e9cca6e03033522a376bbaea800522d52ad3519da4f7c0361ff8349b8b4a",
+      "laterality": null,
+      "license": "CC-BY-4.0",
+      "metadata_sha256": "816a94939504c6eeeff27a6901e9d4559e14da173efa695bf7331c0de4e367b9",
+      "organ": "heart",
+      "organ_id": "heart",
+      "sex_label": "male",
+      "source_collection": "HRA",
+      "source_creators": [
+        {
+          "id": "https://orcid.org/0000-0003-4066-7531",
+          "name": "Kristen Browne"
+        }
+      ],
+      "source_doi": "https://doi.org/10.48539/HBM564.WKNG.249",
+      "source_group_id": "hra-visible-human-male",
+      "source_sha256": "689df039c8bc264ea06a44cd926762976f0666c0ff2dc532d046409b185e6b0c",
+      "source_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/heart-male/v1.3/assets/3d-vh-m-heart.glb",
+      "template_id": "hra-heart-male",
+      "vertex_count": 59473
+    },
+    {
+      "artifact_sha256": "1beac6dc86fa65ed7d5e731908e013aacb03dedd2f2d07cb381a8e7e4739f634",
+      "attribution": "Browne, Kristen, and Heidi Schlehlein. 2024. \"3D Reference Organ for Kidney, Female, Left v1.3.\" https://doi.org/10.48539/HBM449.JPXL.964. Accessed on June 15, 2024.",
+      "attribution_verified": true,
+      "cohort_eligible": true,
+      "control_limits": [
+        0.08,
+        0.1,
+        0.08,
+        0.05,
+        0.08,
+        0.06,
+        0.04
+      ],
+      "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+      "extent_mm": [
+        73.11071828007698,
+        124.8563677072525,
+        77.5795467197895
+      ],
+      "face_count": 16777,
+      "geometry_sha256": "5fba8ee3ffba56abad1f4208e353b4ae82aa67fb9991f4f139d3bf1c3de482c3",
+      "laterality": "left",
+      "license": "CC-BY-4.0",
+      "metadata_sha256": "dc39df9073e2e0405412b92939af047a57128576838700b5381e46fc662b9aeb",
+      "organ": "kidney",
+      "organ_id": "kidney",
+      "sex_label": "female",
+      "source_collection": "HRA",
+      "source_creators": [
+        {
+          "id": "https://orcid.org/0000-0003-4066-7531",
+          "name": "Kristen Browne"
+        },
+        {
+          "id": "https://orcid.org/0000-0002-3333-5646",
+          "name": "Heidi Schlehlein"
+        }
+      ],
+      "source_doi": "https://doi.org/10.48539/HBM449.JPXL.964",
+      "source_group_id": "hra-visible-human-female",
+      "source_sha256": "58f0227d45b14d7bcfd2ed05a7bcd76000051ea08d52f844feebd70d612f8084",
+      "source_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/kidney-female-left/v1.3/assets/3d-vh-f-kidney-l.glb",
+      "template_id": "hra-kidney-female-left",
+      "vertex_count": 8508
+    },
+    {
+      "artifact_sha256": "bb19b672ed692fe8ab8e7b62a3df738d6cd65acafe08645aab52c9c2c24c3cc0",
+      "attribution": "Browne, Kristen, and Heidi Schlehlein. 2024. \"3D Reference Organ for Kidney, Female, Right v1.3.\" https://doi.org/10.48539/HBM968.HSNL.854. Accessed on June 15, 2024.",
+      "attribution_verified": true,
+      "cohort_eligible": true,
+      "control_limits": [
+        0.08,
+        0.1,
+        0.08,
+        0.05,
+        0.08,
+        0.06,
+        0.04
+      ],
+      "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+      "extent_mm": [
+        73.39071109890938,
+        97.85470366477966,
+        69.54015791416168
+      ],
+      "face_count": 14858,
+      "geometry_sha256": "afd131e49221122f8ad9007197fc931bf18059484f13b0fb654aec104d5fe815",
+      "laterality": "right",
+      "license": "CC-BY-4.0",
+      "metadata_sha256": "47beffc1cba966e1ae9bff99928544e6e8e2e04c8a55041aeee30ec3234beb99",
+      "organ": "kidney",
+      "organ_id": "kidney",
+      "sex_label": "female",
+      "source_collection": "HRA",
+      "source_creators": [
+        {
+          "id": "https://orcid.org/0000-0002-3333-5646",
+          "name": "Heidi Schlehlein"
+        },
+        {
+          "id": "https://orcid.org/0000-0003-4066-7531",
+          "name": "Kristen Browne"
+        }
+      ],
+      "source_doi": "https://doi.org/10.48539/HBM968.HSNL.854",
+      "source_group_id": "hra-visible-human-female",
+      "source_sha256": "d80ee5a109a5cd5c90ca0770d1087e28786e2c545747cbae15a5ea22b4b0af86",
+      "source_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/kidney-female-right/v1.3/assets/3d-vh-f-kidney-r.glb",
+      "template_id": "hra-kidney-female-right",
+      "vertex_count": 7532
+    },
+    {
+      "artifact_sha256": "595f743de22be092209bf47feb5c4b6ee2e42e889f750b0977438eaaaff01604",
+      "attribution": "Browne, Kristen, and Heidi Schlehlein. 2024. \"3D Reference Organ for Kidney, Male, Left v1.3.\" https://doi.org/10.48539/HBM759.JKKF.434. Accessed on June 15, 2024.",
+      "attribution_verified": true,
+      "cohort_eligible": true,
+      "control_limits": [
+        0.08,
+        0.1,
+        0.08,
+        0.05,
+        0.08,
+        0.06,
+        0.04
+      ],
+      "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+      "extent_mm": [
+        75.71038231253624,
+        106.54804110527039,
+        82.43028819561005
+      ],
+      "face_count": 15643,
+      "geometry_sha256": "d600b73f38791c7fe961de87960c8d4c3a76349aa297107b2089a451b3c9e48d",
+      "laterality": "left",
+      "license": "CC-BY-4.0",
+      "metadata_sha256": "534f68d09ea63e66b4c804599c33e93202b0beb2c36c2b60b15b42b2eb27c119",
+      "organ": "kidney",
+      "organ_id": "kidney",
+      "sex_label": "male",
+      "source_collection": "HRA",
+      "source_creators": [
+        {
+          "id": "https://orcid.org/0000-0003-4066-7531",
+          "name": "Kristen Browne"
+        },
+        {
+          "id": "https://orcid.org/0000-0002-3333-5646",
+          "name": "Heidi Schlehlein"
+        }
+      ],
+      "source_doi": "https://doi.org/10.48539/HBM759.JKKF.434",
+      "source_group_id": "hra-visible-human-male",
+      "source_sha256": "1e9f54281652d0b05c9ae54a06380a41a8d9c62c1036829180750995b1730fac",
+      "source_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/kidney-male-left/v1.3/assets/3d-vh-m-kidney-l.glb",
+      "template_id": "hra-kidney-male-left",
+      "vertex_count": 7937
+    },
+    {
+      "artifact_sha256": "ad3efc6d3988871ec8340f73f79cf7bdba5b5149aa3a4d1d7c6b64d6bc5156f5",
+      "attribution": "Browne, Kristen, and Heidi Schlehlein. 2024. \"3D Reference Organ for Kidney, Male, Right v1.3.\" https://doi.org/10.48539/HBM364.QTSC.334. Accessed on June 15, 2024.",
+      "attribution_verified": true,
+      "cohort_eligible": true,
+      "control_limits": [
+        0.08,
+        0.1,
+        0.08,
+        0.05,
+        0.08,
+        0.06,
+        0.04
+      ],
+      "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+      "extent_mm": [
+        65.49602374434471,
+        112.53462731838226,
+        76.35380886495113
+      ],
+      "face_count": 15397,
+      "geometry_sha256": "a191cdafd35e023611ba81d0e5a6987bf6682e8f5c38640d408de65b462bd3f4",
+      "laterality": "right",
+      "license": "CC-BY-4.0",
+      "metadata_sha256": "1a57c234603f21c92fbddd3f978ff399acef821bce31d55350b53c75f2ff5f16",
+      "organ": "kidney",
+      "organ_id": "kidney",
+      "sex_label": "male",
+      "source_collection": "HRA",
+      "source_creators": [
+        {
+          "id": "https://orcid.org/0000-0003-4066-7531",
+          "name": "Kristen Browne"
+        },
+        {
+          "id": "https://orcid.org/0000-0002-3333-5646",
+          "name": "Heidi Schlehlein"
+        }
+      ],
+      "source_doi": "https://doi.org/10.48539/HBM364.QTSC.334",
+      "source_group_id": "hra-visible-human-male",
+      "source_sha256": "f23bac3f62fd050b689bdee86bb8a20bff6997e830cb508c847f74c03c6a964b",
+      "source_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/kidney-male-right/v1.3/assets/3d-vh-m-kidney-r.glb",
+      "template_id": "hra-kidney-male-right",
+      "vertex_count": 7832
+    },
+    {
+      "artifact_sha256": "21d1fbb7f2b5578ea648f0d283aad1b9b9a7ba20eda1836f3f4376e5900ade56",
+      "attribution": "Browne, Kristen, and Heidi Schlehlein. 2024. \"3D Reference Organ for Large Intestine, Female v1.3.\" https://doi.org/10.48539/HBM682.RSXX.965. Accessed on June 15, 2024.",
+      "attribution_verified": true,
+      "cohort_eligible": true,
+      "control_limits": [
+        0.07,
+        0.07,
+        0.07,
+        0.04,
+        0.05,
+        0.04,
+        0.025
+      ],
+      "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+      "extent_mm": [
+        243.27576905488968,
+        294.94714457541704,
+        193.41787695884705
+      ],
+      "face_count": 20375,
+      "geometry_sha256": "4f79838e47ca71297c25c37f726906e521c5e708df9938d368036092f6441486",
+      "laterality": null,
+      "license": "CC-BY-4.0",
+      "metadata_sha256": "1d23166d97cc6025f1ca7c611ca54dc62704095d61ede97a6075f9dd14d817ec",
+      "organ": "large-intestine",
+      "organ_id": "large-intestine",
+      "sex_label": "female",
+      "source_collection": "HRA",
+      "source_creators": [
+        {
+          "id": "https://orcid.org/0000-0003-4066-7531",
+          "name": "Kristen Browne"
+        },
+        {
+          "id": "https://orcid.org/0000-0002-3333-5646",
+          "name": "Heidi Schlehlein"
+        }
+      ],
+      "source_doi": "https://doi.org/10.48539/HBM682.RSXX.965",
+      "source_group_id": "hra-visible-human-female",
+      "source_sha256": "b3046d2af718e7f031578db4089a9f4bea707aa4a75af98aab78f172c2f53d74",
+      "source_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/large-intestine-female/v1.3/assets/3d-sbu-f-large-intestine.glb",
+      "template_id": "hra-large-intestine-female",
+      "vertex_count": 10601
+    },
+    {
+      "artifact_sha256": "a9c0c7f665daf19380f7fc6f184abc87f3b0ad58880ab1372eacb3a962715e1b",
+      "attribution": "Browne, Kristen, and Heidi Schlehlein. 2024. \"3D Reference Organ for Large Intestine, Male v1.3.\" https://doi.org/10.48539/HBM487.ZKSN.693. Accessed on June 15, 2024.",
+      "attribution_verified": true,
+      "cohort_eligible": true,
+      "control_limits": [
+        0.07,
+        0.07,
+        0.07,
+        0.04,
+        0.05,
+        0.04,
+        0.025
+      ],
+      "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+      "extent_mm": [
+        259.1260001063347,
+        450.3008648753166,
+        224.84415024518967
+      ],
+      "face_count": 30082,
+      "geometry_sha256": "3c212e8de298592cb60d94d2d8193d510941193a3a14d0cfa8ddf6fa689b0b64",
+      "laterality": null,
+      "license": "CC-BY-4.0",
+      "metadata_sha256": "f8a84e2b51b7bbb75027219e32bde6336b5384c303a15ad3b07337b90364eb82",
+      "organ": "large-intestine",
+      "organ_id": "large-intestine",
+      "sex_label": "male",
+      "source_collection": "HRA",
+      "source_creators": [
+        {
+          "id": "https://orcid.org/0000-0002-3333-5646",
+          "name": "Heidi Schlehlein"
+        },
+        {
+          "id": "https://orcid.org/0000-0003-4066-7531",
+          "name": "Kristen Browne"
+        }
+      ],
+      "source_doi": "https://doi.org/10.48539/HBM487.ZKSN.693",
+      "source_group_id": "hra-visible-human-male",
+      "source_sha256": "908a5c38bf14574a673f2d2619502281f7f9e47c46c4eba837aae2e80e38c489",
+      "source_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/large-intestine-male/v1.3/assets/3d-sbu-m-large-intestine.glb",
+      "template_id": "hra-large-intestine-male",
+      "vertex_count": 15382
+    },
+    {
+      "artifact_sha256": "2dd9b70daf0924cb8f56b80df10065c57e7422e93ce40909406b3c57a195e20d",
+      "attribution": "Browne, Kristen. 2024. \"3D Reference Organ for Liver, Female v1.2.\" https://doi.org/10.48539/HBM599.GZLD.639. Accessed on June 15, 2024.",
+      "attribution_verified": true,
+      "cohort_eligible": true,
+      "control_limits": [
+        0.1,
+        0.09,
+        0.1,
+        0.06,
+        0.09,
+        0.07,
+        0.04
+      ],
+      "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+      "extent_mm": [
+        247.10749089717865,
+        169.910728931427,
+        155.83770163357258
+      ],
+      "face_count": 35606,
+      "geometry_sha256": "5c24c76d1a590d49b973ad2178025628302e7e4558247441cfa242e934210dcd",
+      "laterality": null,
+      "license": "CC-BY-4.0",
+      "metadata_sha256": "d91679f6ebaee72201ad97d9d43499e146310337a661fd728b0cf226bec6617d",
+      "organ": "liver",
+      "organ_id": "liver",
+      "sex_label": "female",
+      "source_collection": "HRA",
+      "source_creators": [
+        {
+          "id": "https://orcid.org/0000-0002-3333-5646",
+          "name": "Heidi Schlehlein"
+        },
+        {
+          "id": "https://orcid.org/0000-0003-4066-7531",
+          "name": "Kristen Browne"
+        }
+      ],
+      "source_doi": "https://doi.org/10.48539/HBM599.GZLD.639",
+      "source_group_id": "hra-visible-human-female",
+      "source_sha256": "2ab712216dc8af026f87c43b0ad783273fffdf080bb312bcb4c34724f53e5fa6",
+      "source_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/liver-female/v1.2/assets/3d-vh-f-liver.glb",
+      "template_id": "hra-liver-female",
+      "vertex_count": 18011
+    },
+    {
+      "artifact_sha256": "c74d7787e13b9b6ada02b10fde915158aea10ea789b5f693f41b1c93d7e8815f",
+      "attribution": "Browne, Kristen, and Heidi Schlehlein. 2024. \"3D Reference Organ for Liver, Male v1.2.\" https://doi.org/10.48539/HBM896.WMSL.867. Accessed on June 15, 2024.",
+      "attribution_verified": true,
+      "cohort_eligible": true,
+      "control_limits": [
+        0.1,
+        0.09,
+        0.1,
+        0.06,
+        0.09,
+        0.07,
+        0.04
+      ],
+      "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+      "extent_mm": [
+        191.36759638786316,
+        174.55455660820007,
+        201.7567679286003
+      ],
+      "face_count": 30132,
+      "geometry_sha256": "e245d564c783caa97b78616678332509a2f33fd55311c3ae811a008648d58b7d",
+      "laterality": null,
+      "license": "CC-BY-4.0",
+      "metadata_sha256": "7c67826e00aaece505fb4a02ef0c317400e0417fd9af5286b98afaf3842dffc0",
+      "organ": "liver",
+      "organ_id": "liver",
+      "sex_label": "male",
+      "source_collection": "HRA",
+      "source_creators": [
+        {
+          "id": "https://orcid.org/0000-0003-4066-7531",
+          "name": "Kristen Browne"
+        },
+        {
+          "id": "https://orcid.org/0000-0002-3333-5646",
+          "name": "Heidi Schlehlein"
+        }
+      ],
+      "source_doi": "https://doi.org/10.48539/HBM896.WMSL.867",
+      "source_group_id": "hra-visible-human-male",
+      "source_sha256": "8e4c38293cfdb6b4f47ef2930c7f4af9e37b9144d1cf26d07c8f12c5045eb404",
+      "source_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/liver-male/v1.2/assets/3d-vh-m-liver.glb",
+      "template_id": "hra-liver-male",
+      "vertex_count": 15136
+    },
+    {
+      "artifact_sha256": "f1658bf4878c81271d5edc9510b1e5166b810f31ce19110e676df2db59de8c1d",
+      "attribution": "Browne, Kristen, and Heidi Schlehlein. 2024. \"3D Reference Organ for Lung, Female v1.4.\" https://doi.org/10.48539/HBM994.HXJP.575. Accessed on June 15, 2024.",
+      "attribution_verified": true,
+      "cohort_eligible": true,
+      "control_limits": [
+        0.07,
+        0.07,
+        0.07,
+        0.035,
+        0.04,
+        0.035,
+        0.025
+      ],
+      "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+      "extent_mm": [
+        251.1347383260727,
+        223.03622961044312,
+        152.6048977393657
+      ],
+      "face_count": 31566,
+      "geometry_sha256": "007df4a5764d0fb92a0d9be6ba53e05e90723980ee9f12b71bfbbb262c8cceb1",
+      "laterality": null,
+      "license": "CC-BY-4.0",
+      "metadata_sha256": "f2eeaf35bc7a8f7c09515f5ce56c7fb5c6cfff9777331dede050dbd4165c7432",
+      "organ": "lung",
+      "organ_id": "lung",
+      "sex_label": "female",
+      "source_collection": "HRA",
+      "source_creators": [
+        {
+          "id": "https://orcid.org/0000-0002-3333-5646",
+          "name": "Heidi Schlehlein"
+        },
+        {
+          "id": "https://orcid.org/0000-0003-4066-7531",
+          "name": "Kristen Browne"
+        }
+      ],
+      "source_doi": "https://doi.org/10.48539/HBM994.HXJP.575",
+      "source_group_id": "hra-visible-human-female",
+      "source_sha256": "101f48ec64f2ed762fde03fc1193eaae583a0d35c47b72a9ca007d72eefb5f71",
+      "source_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/lung-female/v1.4/assets/3d-vh-f-lung.glb",
+      "template_id": "hra-lung-female",
+      "vertex_count": 16949
+    },
+    {
+      "artifact_sha256": "06df9d8fe8520dbbb54853392e8adcc078143c5c3ef0e927bd9fa6699f12000b",
+      "attribution": "Browne, Kristen, and Heidi Schlehlein. 2024. \"3D Reference Organ for Lung, Male v1.4.\" https://doi.org/10.48539/HBM532.KLZD.394. Accessed on June 15, 2024.",
+      "attribution_verified": true,
+      "cohort_eligible": true,
+      "control_limits": [
+        0.07,
+        0.07,
+        0.07,
+        0.035,
+        0.04,
+        0.035,
+        0.025
+      ],
+      "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+      "extent_mm": [
+        259.4186142086983,
+        229.1373312473297,
+        189.71354514360428
+      ],
+      "face_count": 16664,
+      "geometry_sha256": "84ed95d7854af14879b9158944e78417ec129c65ca0fe52b5b97724c4d3421c6",
+      "laterality": null,
+      "license": "CC-BY-4.0",
+      "metadata_sha256": "e02a7ce9bc0945d04ee6cd4b46bf534668e9dd1c1f1c4105f72f84afb76ee3a9",
+      "organ": "lung",
+      "organ_id": "lung",
+      "sex_label": "male",
+      "source_collection": "HRA",
+      "source_creators": [
+        {
+          "id": "https://orcid.org/0000-0002-3333-5646",
+          "name": "Heidi Schlehlein"
+        },
+        {
+          "id": "https://orcid.org/0000-0003-4066-7531",
+          "name": "Kristen Browne"
+        }
+      ],
+      "source_doi": "https://doi.org/10.48539/HBM532.KLZD.394",
+      "source_group_id": "hra-visible-human-male",
+      "source_sha256": "bba95516fa993ac45c3b1c53f32b58d97232ffd78ae56397e5a2589c6ce4903d",
+      "source_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/lung-male/v1.4/assets/3d-vh-m-lung.glb",
+      "template_id": "hra-lung-male",
+      "vertex_count": 9089
+    },
+    {
+      "artifact_sha256": "bd78c289f6e6a1bb4bf105ff074c432a83b3c47aee94a988d58535952ab6245d",
+      "attribution": "Browne, Kristen, and Heidi Schlehlein. 2024. \"3D Reference Organ for Pancreas, Female v1.3.\" https://doi.org/10.48539/HBM866.PNNZ.328. Accessed on June 15, 2024.",
+      "attribution_verified": true,
+      "cohort_eligible": true,
+      "control_limits": [
+        0.08,
+        0.08,
+        0.08,
+        0.05,
+        0.07,
+        0.05,
+        0.03
+      ],
+      "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+      "extent_mm": [
+        172.0317266881466,
+        56.53838813304901,
+        84.37345363199711
+      ],
+      "face_count": 12886,
+      "geometry_sha256": "12c5ba96d705f1007f3d121494c632121aa88c6ba7f48aa76d520b6d11d1af19",
+      "laterality": null,
+      "license": "CC-BY-4.0",
+      "metadata_sha256": "ed0dbaea88ab73d1548928ff32f8aa8db646d58436af7179d702e25983d292a0",
+      "organ": "pancreas",
+      "organ_id": "pancreas",
+      "sex_label": "female",
+      "source_collection": "HRA",
+      "source_creators": [
+        {
+          "id": "https://orcid.org/0000-0002-3333-5646",
+          "name": "Heidi Schlehlein"
+        },
+        {
+          "id": "https://orcid.org/0000-0003-4066-7531",
+          "name": "Kristen Browne"
+        }
+      ],
+      "source_doi": "https://doi.org/10.48539/HBM866.PNNZ.328",
+      "source_group_id": "hra-visible-human-female",
+      "source_sha256": "553411dfc0391d305191a8f204c88e9fd3c05f7a2c7501023914728f294d8b4e",
+      "source_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/pancreas-female/v1.3/assets/3d-vh-f-pancreas.glb",
+      "template_id": "hra-pancreas-female",
+      "vertex_count": 26351
+    },
+    {
+      "artifact_sha256": "c3a1859cc09580d2c5b7f075d3ffad15a14d90afcfd2a577f0f5171d38c967a7",
+      "attribution": "Browne, Kristen, and Heidi Schlehlein. 2024. \"3D Reference Organ for Pancreas, Male v1.3.\" https://doi.org/10.48539/HBM396.QWWJ.639. Accessed on June 15, 2024.",
+      "attribution_verified": true,
+      "cohort_eligible": true,
+      "control_limits": [
+        0.08,
+        0.08,
+        0.08,
+        0.05,
+        0.07,
+        0.05,
+        0.03
+      ],
+      "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+      "extent_mm": [
+        111.43391206860542,
+        72.01209664344788,
+        83.61521363258362
+      ],
+      "face_count": 38930,
+      "geometry_sha256": "d3d666ab87f5261603ba7b658c6085bb941d8a3d1b42f0ca59f54e9a6b06eca7",
+      "laterality": null,
+      "license": "CC-BY-4.0",
+      "metadata_sha256": "f0b5070ca1c94d75f7a47d4d8cbfd6232046728cc51a133b46fde0a0bfb2f41f",
+      "organ": "pancreas",
+      "organ_id": "pancreas",
+      "sex_label": "male",
+      "source_collection": "HRA",
+      "source_creators": [
+        {
+          "id": "https://orcid.org/0000-0003-4066-7531",
+          "name": "Kristen Browne"
+        },
+        {
+          "id": "https://orcid.org/0000-0002-3333-5646",
+          "name": "Heidi Schlehlein"
+        }
+      ],
+      "source_doi": "https://doi.org/10.48539/HBM396.QWWJ.639",
+      "source_group_id": "hra-visible-human-male",
+      "source_sha256": "a89d7acbc9448ca1e6c09f7f6d6a18b2bd8a2e94cd4a0b51709915a8b7bea84e",
+      "source_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/pancreas-male/v1.3/assets/3d-vh-m-pancreas.glb",
+      "template_id": "hra-pancreas-male",
+      "vertex_count": 77986
+    },
+    {
+      "artifact_sha256": "7fb66e6101fe83f3092c7037798f4751cb51f3dcb558d6440f912039e5467fed",
+      "attribution": "Browne, Kristen, and Heidi Schlehlein. 2024. *3D Reference Organ for Small Intestine, Female v1.2*. https://doi.org/10.48539/HBM784.FBXB.245. Accessed on June 15, 2024.",
+      "attribution_verified": true,
+      "cohort_eligible": true,
+      "control_limits": [
+        0.06,
+        0.06,
+        0.06,
+        0.035,
+        0.04,
+        0.035,
+        0.025
+      ],
+      "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+      "extent_mm": [
+        161.5714728832245,
+        217.23270416259766,
+        99.9937541782856
+      ],
+      "face_count": 39656,
+      "geometry_sha256": "c6c515b547d8bf35ae89ba29b87350e9ddd73fc8713ba7283acd28b53f54530d",
+      "laterality": null,
+      "license": "CC-BY-4.0",
+      "metadata_sha256": "f8545dcc5b89c5ba70f3502db9596bbb1471e51e35cd02650f3b1cb0db5071f9",
+      "organ": "small-intestine",
+      "organ_id": "small-intestine",
+      "sex_label": "female",
+      "source_collection": "HRA",
+      "source_creators": [
+        {
+          "id": "https://orcid.org/0000-0002-3333-5646",
+          "name": "Heidi Schlehlein"
+        },
+        {
+          "id": "https://orcid.org/0000-0003-4066-7531",
+          "name": "Kristen Browne"
+        }
+      ],
+      "source_doi": "https://doi.org/10.48539/HBM784.FBXB.245",
+      "source_group_id": "hra-visible-human-female",
+      "source_sha256": "850052a437ac12a57e05bdd97d314ade6f8e1cc4801d13cfbcdffe8d83fa3842",
+      "source_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/small-intestine-female/v1.2/assets/3d-vh-f-small-intestine.glb",
+      "template_id": "hra-small-intestine-female",
+      "vertex_count": 20080
+    },
+    {
+      "artifact_sha256": "d9ead1dfc12da020a5d3fffac71a76b05023313a1b874b63519ff8cc77b9bfd6",
+      "attribution": "Browne, Kristen, and Heidi Schlehlein. 2024. *3D Reference Organ for Small Intestine, Male v1.2*. https://doi.org/10.48539/HBM789.XTDK.794. Accessed on June 15, 2024.",
+      "attribution_verified": true,
+      "cohort_eligible": true,
+      "control_limits": [
+        0.06,
+        0.06,
+        0.06,
+        0.035,
+        0.04,
+        0.035,
+        0.025
+      ],
+      "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+      "extent_mm": [
+        187.98230215907097,
+        265.37128537893295,
+        122.16299027204514
+      ],
+      "face_count": 32122,
+      "geometry_sha256": "ee35af74bce1a4f5fb3e39e4cf81994d430baeff66a039a4271226b47ae26b14",
+      "laterality": null,
+      "license": "CC-BY-4.0",
+      "metadata_sha256": "28aaa51cd26134ea065cfd68efa1e64a8689c35125d78417c1dffb40aa4c3320",
+      "organ": "small-intestine",
+      "organ_id": "small-intestine",
+      "sex_label": "male",
+      "source_collection": "HRA",
+      "source_creators": [
+        {
+          "id": "https://orcid.org/0000-0002-3333-5646",
+          "name": "Heidi Schlehlein"
+        },
+        {
+          "id": "https://orcid.org/0000-0003-4066-7531",
+          "name": "Kristen Browne"
+        }
+      ],
+      "source_doi": "https://doi.org/10.48539/HBM789.XTDK.794",
+      "source_group_id": "hra-visible-human-male",
+      "source_sha256": "5d51b9b102e762f9b64fd1e7d9fbd1f1a23ed9cfdb536a9e756cca3206fbc5bb",
+      "source_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/small-intestine-male/v1.2/assets/3d-vh-m-small-intestine.glb",
+      "template_id": "hra-small-intestine-male",
+      "vertex_count": 16297
+    },
+    {
+      "artifact_sha256": "ea5514d20c5fd6bd0a44b7b22510a4e4d8623f945c32ae06c946b9bbdfe6b99a",
+      "attribution": "Browne, Kristen, and Heidi Schlehlein. 2024. *3D Reference Organ for Spleen, Female v1.3*. https://doi.org/10.48539/HBM883.DZCZ.658. Accessed on June 15, 2024.",
+      "attribution_verified": true,
+      "cohort_eligible": true,
+      "control_limits": [
+        0.1,
+        0.1,
+        0.08,
+        0.06,
+        0.1,
+        0.07,
+        0.04
+      ],
+      "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+      "extent_mm": [
+        89.56065401434898,
+        102.31512784957886,
+        70.94119489192963
+      ],
+      "face_count": 8544,
+      "geometry_sha256": "80bfc5e482694bb2319954e237cadbf45a22b969c3d8851704318509b31cc755",
+      "laterality": null,
+      "license": "CC-BY-4.0",
+      "metadata_sha256": "ad301275d88257466f8f6984312b140c92dae85bd7e387c84798f388da3a76a6",
+      "organ": "spleen",
+      "organ_id": "spleen",
+      "sex_label": "female",
+      "source_collection": "HRA",
+      "source_creators": [
+        {
+          "id": "https://orcid.org/0000-0002-3333-5646",
+          "name": "Heidi Schlehlein"
+        },
+        {
+          "id": "https://orcid.org/0000-0003-4066-7531",
+          "name": "Kristen Browne"
+        }
+      ],
+      "source_doi": "https://doi.org/10.48539/HBM883.DZCZ.658",
+      "source_group_id": "hra-visible-human-female",
+      "source_sha256": "09231afe99908ac8c08be0945c76431ac247faed2e7f10e80ae4374f8c1f0251",
+      "source_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/spleen-female/v1.3/assets/3d-vh-f-spleen.glb",
+      "template_id": "hra-spleen-female",
+      "vertex_count": 4565
+    },
+    {
+      "artifact_sha256": "0177454d0735a3158981d0e16c48b929282023a7741d4903a6e78f817ec64701",
+      "attribution": "Browne, Kristen, and Heidi Schlehlein. 2024. *3D Reference Organ for Spleen, Male v1.3*. https://doi.org/10.48539/HBM437.LMTZ.752. Accessed on June 15, 2024.",
+      "attribution_verified": true,
+      "cohort_eligible": true,
+      "control_limits": [
+        0.1,
+        0.1,
+        0.08,
+        0.06,
+        0.1,
+        0.07,
+        0.04
+      ],
+      "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+      "extent_mm": [
+        110.40755361318588,
+        118.6375617980957,
+        88.63268792629242
+      ],
+      "face_count": 16872,
+      "geometry_sha256": "89d5a59239c3b6964f3ecd407065a06ae69bbbeae0f98e1bf9e11c2984df49cf",
+      "laterality": null,
+      "license": "CC-BY-4.0",
+      "metadata_sha256": "7cdc68f95410a87be7a2fec6c8c71d77fe5977810a5e3484817d79db031b671c",
+      "organ": "spleen",
+      "organ_id": "spleen",
+      "sex_label": "male",
+      "source_collection": "HRA",
+      "source_creators": [
+        {
+          "id": "https://orcid.org/0000-0003-4066-7531",
+          "name": "Kristen Browne"
+        },
+        {
+          "id": "https://orcid.org/0000-0002-3333-5646",
+          "name": "Heidi Schlehlein"
+        }
+      ],
+      "source_doi": "https://doi.org/10.48539/HBM437.LMTZ.752",
+      "source_group_id": "hra-visible-human-male",
+      "source_sha256": "826012b9dc6b69064b76c3aabbce32a2baa32d1f97fde3e88a015f399c9040b8",
+      "source_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/spleen-male/v1.3/assets/3d-vh-m-spleen.glb",
+      "template_id": "hra-spleen-male",
+      "vertex_count": 9014
+    },
+    {
+      "artifact_sha256": "03b753c162fd2b14e238712b50b9996cdb4a5e5e3f67e5693975fa0a40ce406e",
+      "attribution": "Browne, Kristen, and Heidi Schlehlein. 2024. *3D Reference Organ for Urinary Bladder, Female v1.2*. https://doi.org/10.48539/HBM595.LMKX.573. Accessed on June 15, 2024.",
+      "attribution_verified": true,
+      "cohort_eligible": true,
+      "control_limits": [
+        0.09,
+        0.09,
+        0.09,
+        0.045,
+        0.06,
+        0.05,
+        0.03
+      ],
+      "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+      "extent_mm": [
+        51.97650659829378,
+        44.2211776971817,
+        61.69912265613675
+      ],
+      "face_count": 39232,
+      "geometry_sha256": "ff3bdf699dd8f0629d30e87f2926ef2597c3d73ce51a7d30ee486f65e3a3e668",
+      "laterality": null,
+      "license": "CC-BY-4.0",
+      "metadata_sha256": "32dd7443f92dc838526b19ad748d3ba1fbfb107f014ddd3e57e16172c59f1211",
+      "organ": "urinary-bladder",
+      "organ_id": "urinary-bladder",
+      "sex_label": "female",
+      "source_collection": "HRA",
+      "source_creators": [
+        {
+          "id": "https://orcid.org/0000-0003-4066-7531",
+          "name": "Kristen Browne"
+        },
+        {
+          "id": "https://orcid.org/0000-0002-3333-5646",
+          "name": "Heidi Schlehlein"
+        }
+      ],
+      "source_doi": "https://doi.org/10.48539/HBM595.LMKX.573",
+      "source_group_id": "hra-visible-human-female",
+      "source_sha256": "4bec5fdc117cbc4247a7d16f22f320717264f0fe7cae75fcb2e06432e1ab1a3c",
+      "source_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/urinary-bladder-female/v1.2/assets/3d-vh-f-urinary-bladder.glb",
+      "template_id": "hra-urinary-bladder-female",
+      "vertex_count": 20144
+    },
+    {
+      "artifact_sha256": "4870b9af312358bf033da927c0bce9e30caebb7844f6f6e60283c5cd7e532d24",
+      "attribution": "Browne, Kristen, and Heidi Schlehlein. 2024. *3D Reference Organ for Urinary Bladder, Male v1.2*. https://doi.org/10.48539/HBM722.RMHQ.397. Accessed on June 15, 2024.",
+      "attribution_verified": true,
+      "cohort_eligible": true,
+      "control_limits": [
+        0.09,
+        0.09,
+        0.09,
+        0.045,
+        0.06,
+        0.05,
+        0.03
+      ],
+      "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+      "extent_mm": [
+        63.80895525217056,
+        39.86523766070604,
+        72.3138190805912
+      ],
+      "face_count": 9498,
+      "geometry_sha256": "e9d4b2ecfc6a5ebabcbe2acc834f644e31f83966f9e1b241c0587970fee7f974",
+      "laterality": null,
+      "license": "CC-BY-4.0",
+      "metadata_sha256": "9db2c655d3faa2b65e8d2afcb4484984367c3799f49fc55d2d07b7385c1fcbec",
+      "organ": "urinary-bladder",
+      "organ_id": "urinary-bladder",
+      "sex_label": "male",
+      "source_collection": "HRA",
+      "source_creators": [
+        {
+          "id": "https://orcid.org/0000-0003-4066-7531",
+          "name": "Kristen Browne"
+        },
+        {
+          "id": "https://orcid.org/0000-0002-3333-5646",
+          "name": "Heidi Schlehlein"
+        }
+      ],
+      "source_doi": "https://doi.org/10.48539/HBM722.RMHQ.397",
+      "source_group_id": "hra-visible-human-male",
+      "source_sha256": "070893aea9139d9a2c4f8da3aa66ca309a3c683a599d93a37dd7031c7d71021d",
+      "source_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/urinary-bladder-male/v1.2/assets/3d-vh-m-urinary-bladder.glb",
+      "template_id": "hra-urinary-bladder-male",
+      "vertex_count": 5145
+    }
+  ]
+}

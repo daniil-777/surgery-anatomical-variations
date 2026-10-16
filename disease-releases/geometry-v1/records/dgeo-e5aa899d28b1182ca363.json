@@ -1,0 +1,315 @@
+{
+  "appearance_evidence": "authored_vertex_color_not_measured_tissue_texture",
+  "clinical_review_status": "unreviewed",
+  "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+  "disease_field": {
+    "applied_displacement_fraction": 1.0,
+    "clinical_stage": null,
+    "color_strength": 0.6472917732101919,
+    "fields": [
+      {
+        "amplitude_mm": 0.5996168847286717,
+        "center_mm": [
+          17.24407239817083,
+          14.351684600114822,
+          -12.795873219147325
+        ],
+        "direction": [
+          0.2956834782139884,
+          0.944726421118237,
+          -0.14164487266542816
+        ],
+        "radius_mm": 4.313464355647837
+      },
+      {
+        "amplitude_mm": 0.6155046671186275,
+        "center_mm": [
+          15.66776738036424,
+          -3.6905524611938745,
+          -20.778563106432557
+        ],
+        "direction": [
+          -0.6055411797285262,
+          0.7926655160577931,
+          0.07071958219487241
+        ],
+        "radius_mm": 4.313464355647837
+      },
+      {
+        "amplitude_mm": 0.5565800033399707,
+        "center_mm": [
+          11.48249115794897,
+          6.954752840101719,
+          -25.374084943905473
+        ],
+        "direction": [
+          -0.14364938558267573,
+          0.15815341248898218,
+          0.976909592613262
+        ],
+        "radius_mm": 4.313464355647837
+      },
+      {
+        "amplitude_mm": 0.6032270394839577,
+        "center_mm": [
+          19.729718565940857,
+          7.050279527902603,
+          7.32958666048944
+        ],
+        "direction": [
+          -0.9240742042332354,
+          0.29389675691880307,
+          -0.24435949202624205
+        ],
+        "radius_mm": 4.313464355647837
+      },
+      {
+        "amplitude_mm": 0.597440452311831,
+        "center_mm": [
+          3.3394689671695232,
+          -8.399353828281164,
+          -15.163235599175096
+        ],
+        "direction": [
+          -0.15970464256110528,
+          0.7475520255268038,
+          -0.6447172995004885
+        ],
+        "radius_mm": 4.313464355647837
+      },
+      {
+        "amplitude_mm": 0.5923382524638332,
+        "center_mm": [
+          -8.637009654194117,
+          18.885573372244835,
+          -4.086282337084413
+        ],
+        "direction": [
+          -0.14034312280307581,
+          0.9692878377765415,
+          -0.2019527059000643
+        ],
+        "radius_mm": 4.313464355647837
+      },
+      {
+        "amplitude_mm": 0.6078207118003778,
+        "center_mm": [
+          11.244622990489006,
+          -4.860313900280744,
+          -12.52451934851706
+        ],
+        "direction": [
+          0.4241024360231269,
+          -0.8293832053960146,
+          0.36367653535288996
+        ],
+        "radius_mm": 4.313464355647837
+      }
+    ],
+    "gradient_bound_per_step": 0.2547628698348999,
+    "pattern": "mass",
+    "profile_id": "bladder-cancer",
+    "realized_sites": 7,
+    "requested_sites": 7,
+    "steps": 3,
+    "surface_site_frame": "undeformed-atlas-Y-up-mm",
+    "target_srgb": [
+      0.67,
+      0.45,
+      0.32
+    ],
+    "version": "disease-morphology-design-1.0.0"
+  },
+  "display_normal_sha256": "c43bf615e42eb51ffd49262192515dccd36a07d014d2043bfe36491bcdd8fa82",
+  "face_count": 39232,
+  "features": [
+    51.97650659829378,
+    44.2211776971817,
+    61.69912265613675,
+    10539.753935509987,
+    1.7170793862758214,
+    1.0
+  ],
+  "geometry_evidence": "authored_disease_surface_from_licensed_reference_template",
+  "geometry_sha256": "5409131e5a55506096c4d792c36669af1073cbb646b6ef0872c0537551f5c64d",
+  "group_id": "bladder-cancer:2012635891",
+  "mechanics_evidence": "none",
+  "normal_fallback_count": 0,
+  "organ": "urinary-bladder",
+  "parent_recipe_index": 1810,
+  "parent_sample_id": "bladder-cancer:2012635891",
+  "path": "records/dgeo-e5aa899d28b1182ca363.json",
+  "patient_id": null,
+  "point_count": 2048,
+  "point_sampling_seed": 3466817734,
+  "profile_id": "bladder-cancer",
+  "qa": {
+    "anatomical_plausibility": {
+      "status": "NOT_RUN"
+    },
+    "area_ratio_max": 1.453884020500589,
+    "area_ratio_min": 0.6905472219426939,
+    "continuous_jacobian_lower_bound": 0.0709006738315564,
+    "mechanical_validation": {
+      "status": "NOT_RUN"
+    },
+    "min_normal_dot": 0.7682901574654829,
+    "new_degenerate_faces": 0,
+    "normal_turns_over_90_degrees": 0,
+    "passed": true,
+    "scope": "finite nondegenerate same-topology outer-surface design",
+    "self_intersection": {
+      "reason": "Discrete/source triangle intersections not certified",
+      "status": "NOT_RUN"
+    },
+    "source_topology": {
+      "boundary_edges_after_audit_weld": 568,
+      "connected_vertex_components": 3,
+      "degenerate_faces": 0,
+      "method": "trimesh-geometric-weld-audit-copy-1.0",
+      "nonmanifold_edges_after_audit_weld": 0,
+      "self_intersection": {
+        "reason": "No robust intersection backend",
+        "status": "NOT_RUN"
+      },
+      "simulation_readiness": {
+        "reason": "No volumetric domain/materials",
+        "status": "NOT_RUN"
+      },
+      "watertight_after_audit_weld": false,
+      "weld_precision_mm": 1e-08,
+      "winding_consistent_after_audit_weld": true,
+      "zero_length_edges": 0
+    },
+    "status": "PASS",
+    "topology_preserved": true
+  },
+  "realized_id": "9528e5f290662d6cdeedbcc6aa806a1f04b1f9ef24d6a1ac7d9e2afefbb41220",
+  "recipe_features": [
+    0.7405897378921509,
+    0.1828598976135254,
+    0.18733876943588257,
+    0.4566231071949005,
+    0.8740220665931702,
+    0.8571428656578064,
+    0.8222059011459351,
+    0.7681261897087097,
+    0.3028869330883026
+  ],
+  "sample_id": "dgeo-e5aa899d28b1182ca363",
+  "source_attribution": "Browne, Kristen, and Heidi Schlehlein. 2024. *3D Reference Organ for Urinary Bladder, Female v1.2*. https://doi.org/10.48539/HBM595.LMKX.573. Accessed on June 15, 2024.",
+  "source_group_id": "hra-visible-human-female",
+  "source_license": "CC-BY-4.0",
+  "source_template_artifact_sha256": "03b753c162fd2b14e238712b50b9996cdb4a5e5e3f67e5693975fa0a40ce406e",
+  "source_template_geometry_sha256": "ff3bdf699dd8f0629d30e87f2926ef2597c3d73ce51a7d30ee486f65e3a3e668",
+  "source_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/urinary-bladder-female/v1.2/assets/3d-vh-f-urinary-bladder.glb",
+  "spec": {
+    "appearance": "tissue",
+    "controls": {
+      "asymmetry": 0.0,
+      "bend": 0.0,
+      "scale_x": 0.0,
+      "scale_y": 0.0,
+      "scale_z": 0.0,
+      "taper": 0.0,
+      "twist": 0.0
+    },
+    "disease": {
+      "contrast": 0.8740220665931702,
+      "count": 7,
+      "irregularity": 0.4566231071949005,
+      "location": [
+        0.6444118022918701,
+        0.5362523794174194,
+        -0.3942261338233948
+      ],
+      "profile_id": "bladder-cancer",
+      "seed": 2012635891,
+      "severity": 0.7405897378921509,
+      "size": 0.1828598976135254,
+      "spread": 0.18733876943588257
+    },
+    "realized_id": "9528e5f290662d6cdeedbcc6aa806a1f04b1f9ef24d6a1ac7d9e2afefbb41220",
+    "seed": 2012635891,
+    "template_id": "hra-urinary-bladder-female",
+    "template_sha256": "03b753c162fd2b14e238712b50b9996cdb4a5e5e3f67e5693975fa0a40ce406e"
+  },
+  "split": "train",
+  "split_track": "within_generator",
+  "summary": {
+    "disease": {
+      "applied_displacement_fraction": 1.0,
+      "displacement_limited_by_source_mesh": false,
+      "evidence": "synthetic_surface_morphology_not_patient_or_population_geometry",
+      "internal_anatomy_generated": false,
+      "max_displacement_mm": 1.7170793862758214,
+      "physical_parameters_inferred": false,
+      "profile": {
+        "clinical_source_url": "https://www.cancer.gov/types/bladder/treatment",
+        "evidence": "image_reference_not_paired_3d_supervision",
+        "id": "bladder-cancer",
+        "label": "Bladder carcinoma",
+        "limits": "Preserved specimen photographed through a jar; subtype and muscle invasion cannot be assigned visually. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+        "morphology_targets": [
+          "lesion attachment and location",
+          "intraluminal tumor burden",
+          "wall invasion depth"
+        ],
+        "organ": "urinary-bladder",
+        "pattern": "mass",
+        "source_ref": "I25",
+        "source_url": "https://commons.wikimedia.org/wiki/File:Carcinoma_of_the_urinary_bladder.jpg",
+        "supported": true,
+        "unavailable_reason": ""
+      },
+      "realized_sites": 7,
+      "recipe": {
+        "contrast": 0.8740220665931702,
+        "count": 7,
+        "irregularity": 0.4566231071949005,
+        "location": [
+          0.6444118022918701,
+          0.5362523794174194,
+          -0.3942261338233948
+        ],
+        "profile_id": "bladder-cancer",
+        "seed": 2012635891,
+        "severity": 0.7405897378921509,
+        "size": 0.1828598976135254,
+        "spread": 0.18733876943588257
+      },
+      "requested_sites": 7,
+      "version": "disease-morphology-design-1.0.0"
+    },
+    "extent_mm": [
+      51.97650659829378,
+      44.2211776971817,
+      61.69912265613675
+    ],
+    "measurements": {
+      "compactness": null,
+      "extent_x_mm": 51.97650659829378,
+      "extent_y_mm": 44.2211776971817,
+      "extent_z_mm": 61.69912265613675,
+      "method": "disease-display-triangle-measurements-1.0.0",
+      "surface_area_definition": "Sum of selected triangles including capsule/internal faces",
+      "surface_area_mm2": 10539.753935509987,
+      "volume_ml": null,
+      "volume_reason": "Display surface assembly is not a certified closed outer envelope",
+      "volume_status": "NOT_APPLICABLE"
+    },
+    "min_jacobian": 0.0709006738315564,
+    "min_jacobian_kind": "conservative_bound",
+    "organ": "urinary-bladder",
+    "profile": "development_preview",
+    "qa_scope": "finite nondegenerate same-topology outer-surface design",
+    "qa_status": "PASS",
+    "reference": "hra-urinary-bladder-female",
+    "review_status": "unreviewed",
+    "triangles": 39232,
+    "vertices": 20144
+  },
+  "template_id": "hra-urinary-bladder-female",
+  "units": "mm",
+  "vertex_count": 20144
+}

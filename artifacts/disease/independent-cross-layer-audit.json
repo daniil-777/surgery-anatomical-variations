@@ -1,0 +1,38 @@
+{
+  "status": "PASS",
+  "scope": "cross-layer release integrity, not clinical realism",
+  "supported_profile_count": 25,
+  "reference_only_profile_count": 11,
+  "organ_count": 12,
+  "split_counts": {
+    "train": {
+      "recipe_count": 2400,
+      "geometry_count": 150,
+      "organs": 12
+    },
+    "val": {
+      "recipe_count": 600,
+      "geometry_count": 25,
+      "organs": 12
+    },
+    "audit": {
+      "recipe_count": 600,
+      "geometry_count": 25,
+      "organs": 12
+    }
+  },
+  "recipe_model_dataset_hashes_match": true,
+  "source_model_dataset_hashes_match": true,
+  "geometry_parent_recipe_hash_matches": true,
+  "unsupported_profiles_in_generation_or_training": [],
+  "default_clinical_noncommercial": false,
+  "optional_clinical_noncommercial": true,
+  "reference_registry_count": 36,
+  "all_image_references_are_unmeasured_review_guidance": true,
+  "bundle_audit": "PASS",
+  "frozen_decoder_sha256": "6068b50d0a4faa14b52797f1b52451ca6a33164f6a7e176337579cf82a1c2c70",
+  "recipe_model_sha256": "4da4239f48576be0b0a4a1db1f5e4cb0611696afa7cc225375333fc4f530c4ed",
+  "source_model_sha256": "784b140b55f5cb73e9dd43e5d7ac1683fa17ed2f554d8dcd71608f57b91131a8",
+  "default_bundle_sha256": "e883ad0358b488b3133756d1c86076ee00fb8738a2d7b8fbb620964e52774ab8",
+  "default_bundle_hashed_files": 395
+}

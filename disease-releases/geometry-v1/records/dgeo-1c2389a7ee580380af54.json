@@ -1,0 +1,245 @@
+{
+  "appearance_evidence": "authored_vertex_color_not_measured_tissue_texture",
+  "clinical_review_status": "unreviewed",
+  "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+  "disease_field": {
+    "applied_displacement_fraction": 1.0,
+    "clinical_stage": null,
+    "color_strength": 0.3154174710791935,
+    "fields": [
+      {
+        "amplitude_mm": 0.6651743006855255,
+        "center_mm": [
+          63.53930942714214,
+          3.6644861102104187,
+          -11.663009412586689
+        ],
+        "direction": [
+          -0.17274217995322688,
+          -0.45354878758981526,
+          -0.8743303932386292
+        ],
+        "radius_mm": 37.28385303690382
+      },
+      {
+        "amplitude_mm": 0.6724773602310276,
+        "center_mm": [
+          -5.764270201325417,
+          -4.469461739063263,
+          29.066703282296658
+        ],
+        "direction": [
+          0.46711769889312893,
+          0.8777258641291746,
+          0.10676311544481061
+        ],
+        "radius_mm": 37.28385303690382
+      }
+    ],
+    "gradient_bound_per_step": 0.18141496419906614,
+    "pattern": "fibrosis",
+    "profile_id": "pancreas-pancreatitis",
+    "realized_sites": 2,
+    "requested_sites": 5,
+    "steps": 3,
+    "surface_site_frame": "undeformed-atlas-Y-up-mm",
+    "target_srgb": [
+      0.6,
+      0.48,
+      0.36
+    ],
+    "version": "disease-morphology-design-1.0.0"
+  },
+  "display_normal_sha256": "4c8b2ce3e5f1b3fc5e2c3af7a0104b0f1fe6021cf4641380d9fe158c6eebd5e9",
+  "face_count": 12886,
+  "features": [
+    172.0317266881466,
+    56.53838813304901,
+    84.4166324613999,
+    18739.30063124826,
+    2.0141566853104087,
+    1.0
+  ],
+  "geometry_evidence": "authored_disease_surface_from_licensed_reference_template",
+  "geometry_sha256": "8e0177c71dbcccb9687b7513a7304bec2b254096ad96e20db134d3ba578d6227",
+  "group_id": "pancreas-pancreatitis:2556798749",
+  "mechanics_evidence": "none",
+  "normal_fallback_count": 0,
+  "organ": "pancreas",
+  "parent_recipe_index": 785,
+  "parent_sample_id": "pancreas-pancreatitis:2556798749",
+  "path": "records/dgeo-1c2389a7ee580380af54.json",
+  "patient_id": null,
+  "point_count": 2048,
+  "point_sampling_seed": 2916711379,
+  "profile_id": "pancreas-pancreatitis",
+  "qa": {
+    "anatomical_plausibility": {
+      "status": "NOT_RUN"
+    },
+    "area_ratio_max": 1.0481637745118508,
+    "area_ratio_min": 0.9397521848170683,
+    "continuous_jacobian_lower_bound": 0.16503429834611638,
+    "mechanical_validation": {
+      "status": "NOT_RUN"
+    },
+    "min_normal_dot": 0.9956827507412425,
+    "new_degenerate_faces": 0,
+    "normal_turns_over_90_degrees": 0,
+    "passed": true,
+    "scope": "finite nondegenerate same-topology outer-surface design",
+    "self_intersection": {
+      "reason": "Discrete/source triangle intersections not certified",
+      "status": "NOT_RUN"
+    },
+    "source_topology": {
+      "boundary_edges_after_audit_weld": 0,
+      "connected_vertex_components": 1,
+      "degenerate_faces": 0,
+      "method": "trimesh-geometric-weld-audit-copy-1.0",
+      "nonmanifold_edges_after_audit_weld": 0,
+      "self_intersection": {
+        "reason": "No robust intersection backend",
+        "status": "NOT_RUN"
+      },
+      "simulation_readiness": {
+        "reason": "No volumetric domain/materials",
+        "status": "NOT_RUN"
+      },
+      "watertight_after_audit_weld": true,
+      "weld_precision_mm": 1e-08,
+      "winding_consistent_after_audit_weld": true,
+      "zero_length_edges": 0
+    },
+    "status": "PASS",
+    "topology_preserved": true
+  },
+  "realized_id": "340ccb78620fe09c005e0507fd709bd8b92ea0a3abc5d8af348755af326aa725",
+  "recipe_features": [
+    0.5273690819740295,
+    0.8971418738365173,
+    0.4166968762874603,
+    0.14537261426448822,
+    0.5980962514877319,
+    0.5714285969734192,
+    0.9037701487541199,
+    0.811991274356842,
+    0.6585127115249634
+  ],
+  "sample_id": "dgeo-1c2389a7ee580380af54",
+  "source_attribution": "Browne, Kristen, and Heidi Schlehlein. 2024. \"3D Reference Organ for Pancreas, Female v1.3.\" https://doi.org/10.48539/HBM866.PNNZ.328. Accessed on June 15, 2024.",
+  "source_group_id": "hra-visible-human-female",
+  "source_license": "CC-BY-4.0",
+  "source_template_artifact_sha256": "bd78c289f6e6a1bb4bf105ff074c432a83b3c47aee94a988d58535952ab6245d",
+  "source_template_geometry_sha256": "12c5ba96d705f1007f3d121494c632121aa88c6ba7f48aa76d520b6d11d1af19",
+  "source_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/pancreas-female/v1.3/assets/3d-vh-f-pancreas.glb",
+  "spec": {
+    "appearance": "tissue",
+    "controls": {
+      "asymmetry": 0.0,
+      "bend": 0.0,
+      "scale_x": 0.0,
+      "scale_y": 0.0,
+      "scale_z": 0.0,
+      "taper": 0.0,
+      "twist": 0.0
+    },
+    "disease": {
+      "contrast": 0.5980962514877319,
+      "count": 5,
+      "irregularity": 0.14537261426448822,
+      "location": [
+        0.8075402975082397,
+        0.6239825487136841,
+        0.31702542304992676
+      ],
+      "profile_id": "pancreas-pancreatitis",
+      "seed": 2556798749,
+      "severity": 0.5273690819740295,
+      "size": 0.8971418738365173,
+      "spread": 0.4166968762874603
+    },
+    "realized_id": "340ccb78620fe09c005e0507fd709bd8b92ea0a3abc5d8af348755af326aa725",
+    "seed": 2556798749,
+    "template_id": "hra-pancreas-female",
+    "template_sha256": "bd78c289f6e6a1bb4bf105ff074c432a83b3c47aee94a988d58535952ab6245d"
+  },
+  "split": "train",
+  "split_track": "within_generator",
+  "summary": {
+    "disease": {
+      "applied_displacement_fraction": 1.0,
+      "displacement_limited_by_source_mesh": false,
+      "evidence": "synthetic_surface_morphology_not_patient_or_population_geometry",
+      "internal_anatomy_generated": false,
+      "max_displacement_mm": 2.0141566853104087,
+      "physical_parameters_inferred": false,
+      "profile": {
+        "clinical_source_url": "https://www.niddk.nih.gov/health-information/digestive-diseases/pancreatitis/treatment",
+        "evidence": "image_reference_not_paired_3d_supervision",
+        "id": "pancreas-pancreatitis",
+        "label": "Chronic calculous pancreatitis",
+        "limits": "Preserved historical specimen including bowel; yellow cast is not a live-tissue texture target. No mechanical properties measured. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+        "morphology_targets": [
+          "duct dilation",
+          "intraductal calculi",
+          "fibrotic head remodeling"
+        ],
+        "organ": "pancreas",
+        "pattern": "fibrosis",
+        "source_ref": "I11",
+        "source_url": "https://commons.wikimedia.org/wiki/File:Pancr%C3%A9as_Pancr%C3%A9atite_55-o.apatho-650t-pancreas.jpg",
+        "supported": true,
+        "unavailable_reason": ""
+      },
+      "realized_sites": 2,
+      "recipe": {
+        "contrast": 0.5980962514877319,
+        "count": 5,
+        "irregularity": 0.14537261426448822,
+        "location": [
+          0.8075402975082397,
+          0.6239825487136841,
+          0.31702542304992676
+        ],
+        "profile_id": "pancreas-pancreatitis",
+        "seed": 2556798749,
+        "severity": 0.5273690819740295,
+        "size": 0.8971418738365173,
+        "spread": 0.4166968762874603
+      },
+      "requested_sites": 5,
+      "version": "disease-morphology-design-1.0.0"
+    },
+    "extent_mm": [
+      172.0317266881466,
+      56.53838813304901,
+      84.4166324613999
+    ],
+    "measurements": {
+      "compactness": null,
+      "extent_x_mm": 172.0317266881466,
+      "extent_y_mm": 56.53838813304901,
+      "extent_z_mm": 84.4166324613999,
+      "method": "disease-display-triangle-measurements-1.0.0",
+      "surface_area_definition": "Sum of selected triangles including capsule/internal faces",
+      "surface_area_mm2": 18739.30063124826,
+      "volume_ml": null,
+      "volume_reason": "Display surface assembly is not a certified closed outer envelope",
+      "volume_status": "NOT_APPLICABLE"
+    },
+    "min_jacobian": 0.16503429834611638,
+    "min_jacobian_kind": "conservative_bound",
+    "organ": "pancreas",
+    "profile": "development_preview",
+    "qa_scope": "finite nondegenerate same-topology outer-surface design",
+    "qa_status": "PASS",
+    "reference": "hra-pancreas-female",
+    "review_status": "unreviewed",
+    "triangles": 12886,
+    "vertices": 26351
+  },
+  "template_id": "hra-pancreas-female",
+  "units": "mm",
+  "vertex_count": 26351
+}

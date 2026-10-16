@@ -1,0 +1,301 @@
+{
+    "@graph": [
+        {
+            "@id": "https://github.com/hubmapconsortium/hra-do-processor",
+            "dcat:conforms_to": "SoftwareApplication",
+            "schema1:version": "0.10.0",
+            "schema1:targetProduct": {
+                "@id": "_:b0"
+            },
+            "schema1:name": "HRA Digital Object Processor",
+            "rdfs:label": "HRA Digital Object Processor",
+            "@type": "schema1:SoftwareApplication"
+        },
+        {
+            "@id": "_:b0",
+            "rdfs:seeAlso": {
+                "@id": "https://github.com/hubmapconsortium/hra-do-processor/commit/cd8d578a4c9da7c0539008bc2742971b4a545121"
+            },
+            "schema1:codeRepository": {
+                "@id": "https://github.com/hubmapconsortium/hra-do-processor"
+            },
+            "@type": "schema1:SoftwareSourceCode"
+        },
+        {
+            "@id": "https://orcid.org/0000-0002-3321-6137",
+            "dcat:conforms_to": "Person",
+            "schema1:name": "Katy Börner",
+            "schema1:identifier": "0000-0002-3321-6137",
+            "schema1:givenName": "Katy",
+            "schema1:familyName": "Börner",
+            "rdfs:label": "Katy Börner",
+            "@type": "schema1:Person"
+        },
+        {
+            "@id": "https://lod.humanatlas.io/ref-organ/lung-female/v1.4#jsonld",
+            "dcat:mediaType": "application/ld+json",
+            "dcat:downloadURL": {
+                "@value": "https://cdn.humanatlas.io/digital-objects/ref-organ/lung-female/v1.4/graph.jsonld",
+                "@type": "xsd:anyURI"
+            },
+            "dcat:accessURL": {
+                "@value": "https://lod.humanatlas.io/ref-organ/lung-female/v1.4#jsonld",
+                "@type": "xsd:anyURI"
+            },
+            "dct:title": "Graph data distribution lung-female (v1.4) in JSON-LD format",
+            "rdfs:label": "Graph data distribution lung-female (v1.4) in JSON-LD format",
+            "@type": "dcat:Distribution"
+        },
+        {
+            "@id": "_:b1",
+            "schema1:funder": "National Institutes of Health",
+            "schema1:award": "OT2OD026671",
+            "@type": "schema1:Grant"
+        },
+        {
+            "@id": "https://lod.humanatlas.io/ref-organ/lung-female/v1.4#nquads",
+            "dcat:mediaType": "application/n-quads",
+            "dcat:downloadURL": {
+                "@value": "https://cdn.humanatlas.io/digital-objects/ref-organ/lung-female/v1.4/graph.nq",
+                "@type": "xsd:anyURI"
+            },
+            "dcat:accessURL": {
+                "@value": "https://lod.humanatlas.io/ref-organ/lung-female/v1.4#nquads",
+                "@type": "xsd:anyURI"
+            },
+            "dct:title": "Graph data distribution lung-female (v1.4) in N-Quads format",
+            "rdfs:label": "Graph data distribution lung-female (v1.4) in N-Quads format",
+            "@type": "dcat:Distribution"
+        },
+        {
+            "@id": "https://lod.humanatlas.io/ref-organ/lung-female/v1.4#turtle",
+            "dcat:mediaType": "text/turtle",
+            "dcat:downloadURL": {
+                "@value": "https://cdn.humanatlas.io/digital-objects/ref-organ/lung-female/v1.4/graph.ttl",
+                "@type": "xsd:anyURI"
+            },
+            "dcat:accessURL": {
+                "@value": "https://lod.humanatlas.io/ref-organ/lung-female/v1.4#turtle",
+                "@type": "xsd:anyURI"
+            },
+            "dct:title": "Graph data distribution lung-female (v1.4) in Turtle format",
+            "rdfs:label": "Graph data distribution lung-female (v1.4) in Turtle format",
+            "@type": "dcat:Distribution"
+        },
+        {
+            "@id": "https://orcid.org/0000-0002-3333-5646",
+            "dcat:conforms_to": "Person",
+            "schema1:name": "Heidi Schlehlein",
+            "schema1:identifier": "0000-0002-3333-5646",
+            "schema1:givenName": "Heidi",
+            "schema1:familyName": "Schlehlein",
+            "rdfs:label": "Heidi Schlehlein",
+            "@type": "schema1:Person"
+        },
+        {
+            "@id": "https://orcid.org/0000-0002-9185-3994",
+            "dcat:conforms_to": "Person",
+            "schema1:name": "Gloria Pryhuber",
+            "schema1:identifier": "0000-0002-9185-3994",
+            "schema1:givenName": "Gloria",
+            "schema1:familyName": "Pryhuber",
+            "rdfs:label": "Gloria Pryhuber",
+            "@type": "schema1:Person"
+        },
+        {
+            "@id": "https://lod.humanatlas.io/ref-organ/lung-female/v1.4#raw-data",
+            "ccf:doi": {
+                "@id": "https://doi.org/10.48539/HBM994.HXJP.575"
+            },
+            "rdfs:comment": "This reference organ, Lung-female (https://humanatlas.io/3d-reference-library) was created using data from the Visible\nHuman Dataset, provided by the National Library of Medicine (Spitzer and Whitlock 2002). In version 1.3, the larynx,\ntrachea, and main bronchi were removed; however, lung lobes and intrapulmonary bronchi remain part of the lung model.\n\n**Bibliography:**\n\n* Spitzer, Victor M., and David G. Whitlock. 2002. “The Visible Human Dataset: The Anatomical Platform for Human Simulation.” *The Anatomical Record*  253 (2): 49–57. https://doi.org/10.1002/(SICI)1097-0185(199804)253:2<49::AID-AR8>3.0.CO;2-9.",
+            "dcat:distribution": [
+                {
+                    "@id": "https://lod.humanatlas.io/ref-organ/lung-female/v1.4#crosswalk.csv"
+                },
+                {
+                    "@id": "https://lod.humanatlas.io/ref-organ/lung-female/v1.4#3d-vh-f-lung.glb"
+                }
+            ],
+            "dct:creator": [
+                {
+                    "@id": "https://orcid.org/0000-0002-3333-5646"
+                },
+                {
+                    "@id": "https://orcid.org/0000-0003-4066-7531"
+                }
+            ],
+            "dct:references": "https://doi.org/10.1002/(SICI)1097-0185(199804)253:2<49::AID-AR8>3.0.CO;2-9",
+            "ccf:hubmap_id": "HBM994.HXJP.575",
+            "ccf:citation_overall": "Browne, Kristen, Heidi Schlehlein, Bruce W. Herr II, Ellen Quardokus, Andreas Bueckle, and Katy Börner. 2024. \"HuBMAP CCF 3D Reference Object Library.\" https://humanatlas.io/3d-reference-library. Accessed on June 15, 2024.",
+            "schema1:reviewedBy": {
+                "@id": "https://orcid.org/0000-0002-9185-3994"
+            },
+            "schema1:citation": "Browne, Kristen, and Heidi Schlehlein. 2024. \"3D Reference Organ for Lung, Female v1.4.\" https://doi.org/10.48539/HBM994.HXJP.575. Accessed on June 15, 2024.",
+            "schema1:funding": [
+                {
+                    "@id": "_:b1"
+                },
+                {
+                    "@id": "_:b2"
+                }
+            ],
+            "@type": "dcat:Dataset",
+            "ccf:project_lead": {
+                "@id": "https://orcid.org/0000-0002-3321-6137"
+            },
+            "rdfs:label": "3D Reference Organ for Lung, Female",
+            "dct:license": "Creative Commons Attribution 4.0 International ([CC BY 4.0](https://creativecommons.org/licenses/by/4.0/))",
+            "schema1:dateCreated": {
+                "@value": "2024-06-15",
+                "@type": "xsd:date"
+            },
+            "dct:publisher": "HuBMAP",
+            "dct:title": "3D Reference Organ for Lung, Female"
+        },
+        {
+            "@id": "https://lod.humanatlas.io/ref-organ/lung-female/v1.4#crosswalk.csv",
+            "dcat:mediaType": "text/csv",
+            "dcat:downloadURL": {
+                "@value": "https://cdn.humanatlas.io/digital-objects/ref-organ/lung-female/v1.4/assets/crosswalk.csv",
+                "@type": "xsd:anyURI"
+            },
+            "dcat:accessURL": {
+                "@value": "https://lod.humanatlas.io/ref-organ/lung-female/v1.4#crosswalk.csv",
+                "@type": "xsd:anyURI"
+            },
+            "dct:title": "Raw data distribution 'crosswalk.csv' file",
+            "rdfs:label": "Raw data distribution 'crosswalk.csv' file",
+            "@type": "dcat:Distribution"
+        },
+        {
+            "@id": "https://lod.humanatlas.io/ref-organ/lung-female/v1.4#3d-vh-f-lung.glb",
+            "dcat:mediaType": "model/gltf-binary",
+            "dcat:downloadURL": {
+                "@value": "https://cdn.humanatlas.io/digital-objects/ref-organ/lung-female/v1.4/assets/3d-vh-f-lung.glb",
+                "@type": "xsd:anyURI"
+            },
+            "dcat:accessURL": {
+                "@value": "https://lod.humanatlas.io/ref-organ/lung-female/v1.4#3d-vh-f-lung.glb",
+                "@type": "xsd:anyURI"
+            },
+            "dct:title": "Raw data distribution '3d-vh-f-lung.glb' file",
+            "rdfs:label": "Raw data distribution '3d-vh-f-lung.glb' file",
+            "@type": "dcat:Distribution"
+        },
+        {
+            "@id": "_:b2",
+            "schema1:funder": "National Institutes of Health",
+            "schema1:award": "OT2OD033756",
+            "@type": "schema1:Grant"
+        },
+        {
+            "@id": "https://orcid.org/0000-0003-4066-7531",
+            "dcat:conforms_to": "Person",
+            "schema1:name": "Kristen Browne",
+            "schema1:identifier": "0000-0003-4066-7531",
+            "schema1:givenName": "Kristen",
+            "schema1:familyName": "Browne",
+            "rdfs:label": "Kristen Browne",
+            "@type": "schema1:Person"
+        },
+        {
+            "@id": "https://lod.humanatlas.io/ref-organ/lung-female/v1.4#ntriples",
+            "dcat:mediaType": "application/n-triples",
+            "dcat:downloadURL": {
+                "@value": "https://cdn.humanatlas.io/digital-objects/ref-organ/lung-female/v1.4/graph.nt",
+                "@type": "xsd:anyURI"
+            },
+            "dcat:accessURL": {
+                "@value": "https://lod.humanatlas.io/ref-organ/lung-female/v1.4#ntriples",
+                "@type": "xsd:anyURI"
+            },
+            "dct:title": "Graph data distribution lung-female (v1.4) in N-Triples format",
+            "rdfs:label": "Graph data distribution lung-female (v1.4) in N-Triples format",
+            "@type": "dcat:Distribution"
+        },
+        {
+            "@id": "https://lod.humanatlas.io/ref-organ/lung-female/v1.4#rdfxml",
+            "dcat:mediaType": "application/rdf+xml",
+            "dcat:downloadURL": {
+                "@value": "https://cdn.humanatlas.io/digital-objects/ref-organ/lung-female/v1.4/graph.xml",
+                "@type": "xsd:anyURI"
+            },
+            "dcat:accessURL": {
+                "@value": "https://lod.humanatlas.io/ref-organ/lung-female/v1.4#rdfxml",
+                "@type": "xsd:anyURI"
+            },
+            "dct:title": "Graph data distribution lung-female (v1.4) in RDF/XML format",
+            "rdfs:label": "Graph data distribution lung-female (v1.4) in RDF/XML format",
+            "@type": "dcat:Distribution"
+        },
+        {
+            "@id": "https://lod.humanatlas.io/ref-organ/lung-female/v1.4#json",
+            "dcat:mediaType": "application/json",
+            "dcat:downloadURL": {
+                "@value": "https://cdn.humanatlas.io/digital-objects/ref-organ/lung-female/v1.4/graph.json",
+                "@type": "xsd:anyURI"
+            },
+            "dcat:accessURL": {
+                "@value": "https://lod.humanatlas.io/ref-organ/lung-female/v1.4#json",
+                "@type": "xsd:anyURI"
+            },
+            "dct:title": "Graph data distribution lung-female (v1.4) in JSON format",
+            "rdfs:label": "Graph data distribution lung-female (v1.4) in JSON format",
+            "@type": "dcat:Distribution"
+        },
+        {
+            "@id": "https://lod.humanatlas.io/ref-organ/lung-female/v1.4",
+            "schema1:version": "v1.4",
+            "dcat:distribution": [
+                {
+                    "@id": "https://lod.humanatlas.io/ref-organ/lung-female/v1.4#ntriples"
+                },
+                {
+                    "@id": "https://lod.humanatlas.io/ref-organ/lung-female/v1.4#turtle"
+                },
+                {
+                    "@id": "https://lod.humanatlas.io/ref-organ/lung-female/v1.4#json"
+                },
+                {
+                    "@id": "https://lod.humanatlas.io/ref-organ/lung-female/v1.4#nquads"
+                },
+                {
+                    "@id": "https://lod.humanatlas.io/ref-organ/lung-female/v1.4#jsonld"
+                },
+                {
+                    "@id": "https://lod.humanatlas.io/ref-organ/lung-female/v1.4#rdfxml"
+                }
+            ],
+            "rdfs:comment": "The graph representation of the 3D Reference Organ for Lung, Female dataset.",
+            "schema1:additionalType": "ref-organ",
+            "@type": "dcat:Dataset",
+            "dct:creator": {
+                "@id": "https://github.com/hubmapconsortium/hra-do-processor"
+            },
+            "dct:publisher": "HuBMAP",
+            "prov:wasDerivedFrom": {
+                "@id": "https://lod.humanatlas.io/ref-organ/lung-female/v1.4#raw-data"
+            },
+            "rdfs:seeAlso": {
+                "@id": "https://purl.humanatlas.io/ref-organ/lung-female/v1.4"
+            },
+            "dct:title": "lung-female (v1.4) graph data",
+            "dct:license": "https://creativecommons.org/licenses/by/4.0/",
+            "schema1:dateCreated": {
+                "@value": "2026-06-08",
+                "@type": "xsd:date"
+            },
+            "schema1:name": "lung-female",
+            "rdfs:label": "lung-female (v1.4) graph data"
+        }
+    ],
+    "@context": {
+        "dct": "http://purl.org/dc/terms/",
+        "schema1": "http://schema.org/",
+        "ccf": "http://purl.org/ccf/",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "dcat": "http://www.w3.org/ns/dcat#",
+        "prov": "http://www.w3.org/ns/prov#"
+    }
+}

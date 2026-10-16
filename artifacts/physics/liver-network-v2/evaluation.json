@@ -1,0 +1,421 @@
+{
+  "schema": "viscera.physics.learning-evaluation.v2",
+  "model_sha256": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+  "version": "liver-inverse-sls-2.0.0",
+  "scope": "Protocol-conditioned neural inverse model with bounded physical refinement and synthetic uncertainty calibration; not validated human liver mechanics.",
+  "split_unit": "Independent synthetic parameter specimens; one history per specimen; no frame-level splits",
+  "split_seeds": {
+    "train": 27103,
+    "validation": 28103,
+    "calibration": 29103,
+    "development": 39103,
+    "test": 139103,
+    "parameter_region_test": 149103,
+    "ood": 159103
+  },
+  "split_counts": {
+    "train": 12000,
+    "validation": 1200,
+    "calibration": 900,
+    "test": 640,
+    "parameter_region_test": 320
+  },
+  "excluded_encoded_parameter_region": [
+    [
+      0.68,
+      0.86
+    ],
+    [
+      0.58,
+      0.9
+    ],
+    [
+      0.25,
+      0.6
+    ]
+  ],
+  "excluded_region_definition": "All three encoded coordinates simultaneously inside the box; excluded from train, validation, calibration and IID test",
+  "dataset_fingerprint": {
+    "train": "8080381f968c1f6429c08d1fbb2bdf035f27594a426c6dcc2297f30dcbe2070e",
+    "validation": "aa4d3e4e0dc3b0fe2a96e49ae5b84557eb031a8a2d0fd41ecf9fe8131e308ce6",
+    "calibration": "bec45533d109aa2d2c8c1a409da4f68e61a5b2758d70252c42fe4c4f4b528279",
+    "test": "a1cecf57bdd5090b8852d201f063262adf0d4269da2b2daf46c50b48f0ce35e6",
+    "region": "264d35b912bbbc56332665893580b6b317c42e904df13d0b41791714c074828e"
+  },
+  "training_domains": {
+    "protocols": [
+      "ramp_hold_release",
+      "triangle",
+      "cyclic"
+    ],
+    "force_noise_peak_fraction": [
+      0.001,
+      0.03
+    ],
+    "strain_noise_amplitude_fraction": 0.001,
+    "multiplicative_stress_scale_log_sd": 0.008,
+    "strain_scale_log_sd": 0.006,
+    "sample_counts": [
+      33,
+      65,
+      81,
+      129,
+      193
+    ],
+    "duration_s": [
+      1,
+      12
+    ],
+    "strain_amplitude": [
+      0.0053,
+      0.0485
+    ],
+    "accepted_strain_margin": [
+      0.005,
+      0.05
+    ]
+  },
+  "selection": "Validation selects weights; separate calibration determines conformal quantiles; frozen test never selects weights or intervals",
+  "histories": [
+    {
+      "member": 0,
+      "best_epoch": 276,
+      "validation_normalized_mse": 0.005993762519210577
+    },
+    {
+      "member": 1,
+      "best_epoch": 280,
+      "validation_normalized_mse": 0.005596478935331106
+    },
+    {
+      "member": 2,
+      "best_epoch": 261,
+      "validation_normalized_mse": 0.005900337360799313
+    }
+  ],
+  "parameter_metrics": {
+    "young_pa": {
+      "median_absolute_relative_error": 0.014349535267655478,
+      "p95_absolute_relative_error": 0.17717931716417243,
+      "mae": 205.48679513782787
+    },
+    "relaxation_fraction": {
+      "median_absolute_relative_error": 0.021659612346478396,
+      "p95_absolute_relative_error": 0.44791711261906814,
+      "mae": 0.024458972941200814
+    },
+    "relaxation_time_s": {
+      "median_absolute_relative_error": 0.05302476913398185,
+      "p95_absolute_relative_error": 0.796093967952,
+      "mae": 0.057479750911578434
+    }
+  },
+  "held_out_stress_nrmse_median": 0.014259981216587728,
+  "held_out_stress_nrmse_p95": 0.02804811187581788,
+  "iid": {
+    "count": 640,
+    "parameter_metrics": {
+      "young_pa": {
+        "median_absolute_relative_error": 0.014349535267655478,
+        "p95_absolute_relative_error": 0.17717931716417243,
+        "mae": 205.48679513782787
+      },
+      "relaxation_fraction": {
+        "median_absolute_relative_error": 0.021659612346478396,
+        "p95_absolute_relative_error": 0.44791711261906814,
+        "mae": 0.024458972941200814
+      },
+      "relaxation_time_s": {
+        "median_absolute_relative_error": 0.05302476913398185,
+        "p95_absolute_relative_error": 0.796093967952,
+        "mae": 0.057479750911578434
+      }
+    },
+    "neural_only_parameter_metrics": {
+      "young_pa": {
+        "median_absolute_relative_error": 0.059861559432268785,
+        "p95_absolute_relative_error": 0.21412520618151687,
+        "mae": 373.3505052340212
+      },
+      "relaxation_fraction": {
+        "median_absolute_relative_error": 0.05088540988842616,
+        "p95_absolute_relative_error": 0.538690402915857,
+        "mae": 0.0334270100696781
+      },
+      "relaxation_time_s": {
+        "median_absolute_relative_error": 0.11872296529963333,
+        "p95_absolute_relative_error": 0.6843567240176229,
+        "mae": 0.08255894072832679
+      }
+    },
+    "stress_nrmse_median": 0.014259981216587728,
+    "stress_nrmse_p95": 0.02804811187581788,
+    "clean_response_nrmse_median": 0.004967229952064457,
+    "clean_response_nrmse_p95": 0.011827922146174471,
+    "application_acceptance_rate": 0.9234375,
+    "refinement_evaluations_median": 9.0,
+    "interval_coverage_90": {
+      "young_pa": 0.9109375,
+      "relaxation_fraction": 0.9234375,
+      "relaxation_time_s": 0.9171875
+    },
+    "interval_relative_width_median": {
+      "young_pa": 0.07415127228425183,
+      "relaxation_fraction": 0.123877289740232,
+      "relaxation_time_s": 0.2927158618690778
+    },
+    "interval_relative_width_p95": {
+      "young_pa": 1.0068251278492044,
+      "relaxation_fraction": 1.8750361075767115,
+      "relaxation_time_s": 11.65354161483025
+    },
+    "non_neural_bounded_fit": {
+      "parameter_metrics": {
+        "young_pa": {
+          "median_absolute_relative_error": 0.014338913857026292,
+          "p95_absolute_relative_error": 0.17721305718272384,
+          "mae": 205.4869555243984
+        },
+        "relaxation_fraction": {
+          "median_absolute_relative_error": 0.021678325425708134,
+          "p95_absolute_relative_error": 0.447885736281712,
+          "mae": 0.024458315139082566
+        },
+        "relaxation_time_s": {
+          "median_absolute_relative_error": 0.05302497067449996,
+          "p95_absolute_relative_error": 0.7962589274196804,
+          "mae": 0.05747880647337382
+        }
+      },
+      "stress_nrmse_median": 0.014259972606609921,
+      "stress_nrmse_p95": 0.028048121483727713,
+      "refinement_evaluations_median": 16.0
+    }
+  },
+  "heldout_parameter_region": {
+    "count": 320,
+    "parameter_metrics": {
+      "young_pa": {
+        "median_absolute_relative_error": 0.016711633081489874,
+        "p95_absolute_relative_error": 0.13815090582284187,
+        "mae": 316.16916328072244
+      },
+      "relaxation_fraction": {
+        "median_absolute_relative_error": 0.009047105741767147,
+        "p95_absolute_relative_error": 0.10370771628703677,
+        "mae": 0.014067311219218087
+      },
+      "relaxation_time_s": {
+        "median_absolute_relative_error": 0.02793167507114941,
+        "p95_absolute_relative_error": 0.28644028410547495,
+        "mae": 0.014787920836258132
+      }
+    },
+    "neural_only_parameter_metrics": {
+      "young_pa": {
+        "median_absolute_relative_error": 0.051447071761365315,
+        "p95_absolute_relative_error": 0.18098408729017695,
+        "mae": 559.6588339565731
+      },
+      "relaxation_fraction": {
+        "median_absolute_relative_error": 0.023028166482584822,
+        "p95_absolute_relative_error": 0.12555747958873784,
+        "mae": 0.02283517297216524
+      },
+      "relaxation_time_s": {
+        "median_absolute_relative_error": 0.09458620734530299,
+        "p95_absolute_relative_error": 0.35915488030699416,
+        "mae": 0.029833196399787366
+      }
+    },
+    "stress_nrmse_median": 0.01592879890645086,
+    "stress_nrmse_p95": 0.027762511210179412,
+    "clean_response_nrmse_median": 0.004634509124052531,
+    "clean_response_nrmse_p95": 0.011637046022294094,
+    "application_acceptance_rate": 0.996875,
+    "refinement_evaluations_median": 8.0,
+    "interval_coverage_90": {
+      "young_pa": 0.890625,
+      "relaxation_fraction": 0.928125,
+      "relaxation_time_s": 0.9375
+    },
+    "interval_relative_width_median": {
+      "young_pa": 0.0851978031085194,
+      "relaxation_fraction": 0.06271783925020129,
+      "relaxation_time_s": 0.1952469110863772
+    },
+    "interval_relative_width_p95": {
+      "young_pa": 0.3900652028125705,
+      "relaxation_fraction": 0.3573165640695396,
+      "relaxation_time_s": 0.9577317876758639
+    }
+  },
+  "fixed_protocol": {
+    "count": 320,
+    "parameter_metrics": {
+      "young_pa": {
+        "median_absolute_relative_error": 0.007651088184480015,
+        "p95_absolute_relative_error": 0.02542776839687017,
+        "mae": 47.293981738355946
+      },
+      "relaxation_fraction": {
+        "median_absolute_relative_error": 0.002823497376185702,
+        "p95_absolute_relative_error": 0.038685663134184686,
+        "mae": 0.0022855550752361262
+      },
+      "relaxation_time_s": {
+        "median_absolute_relative_error": 0.009318413865385067,
+        "p95_absolute_relative_error": 0.08626795941123046,
+        "mae": 0.007420229535630934
+      }
+    },
+    "neural_only_parameter_metrics": {
+      "young_pa": {
+        "median_absolute_relative_error": 0.05125755817503774,
+        "p95_absolute_relative_error": 0.1480680849316155,
+        "mae": 313.8040176650574
+      },
+      "relaxation_fraction": {
+        "median_absolute_relative_error": 0.040353164295107324,
+        "p95_absolute_relative_error": 0.28867443811867993,
+        "mae": 0.019049445762129295
+      },
+      "relaxation_time_s": {
+        "median_absolute_relative_error": 0.07211434251869941,
+        "p95_absolute_relative_error": 0.31663490833089974,
+        "mae": 0.03877908098482202
+      }
+    },
+    "stress_nrmse_median": 0.002434569462177548,
+    "stress_nrmse_p95": 0.0034506349076841645,
+    "clean_response_nrmse_median": 0.00440624778281418,
+    "clean_response_nrmse_p95": 0.013993226682934339,
+    "application_acceptance_rate": 1.0,
+    "refinement_evaluations_median": 9.0,
+    "interval_coverage_90": {
+      "young_pa": 0.98125,
+      "relaxation_fraction": 0.9875,
+      "relaxation_time_s": 0.978125
+    },
+    "interval_relative_width_median": {
+      "young_pa": 0.06360559276634425,
+      "relaxation_fraction": 0.04218414655986278,
+      "relaxation_time_s": 0.11155012999061366
+    },
+    "interval_relative_width_p95": {
+      "young_pa": 0.07398129874144371,
+      "relaxation_fraction": 0.24206633723694032,
+      "relaxation_time_s": 0.2940169351375514
+    }
+  },
+  "v1_same_fixed_test": {
+    "parameter_metrics": {
+      "young_pa": {
+        "median_absolute_relative_error": 0.008425073939942518,
+        "p95_absolute_relative_error": 0.0299944838123868,
+        "mae": 52.61257094207076
+      },
+      "relaxation_fraction": {
+        "median_absolute_relative_error": 0.010399469397936678,
+        "p95_absolute_relative_error": 0.10994419968129768,
+        "mae": 0.005891844400444485
+      },
+      "relaxation_time_s": {
+        "median_absolute_relative_error": 0.019530813380736867,
+        "p95_absolute_relative_error": 0.14845501623411486,
+        "mae": 0.012764071408786559
+      }
+    },
+    "stress_nrmse_median": 0.004498473569495506,
+    "stress_nrmse_p95": 0.01035932157850996
+  },
+  "ood": {
+    "two_branch": {
+      "count": 240,
+      "rejection_rate": 0.23333333333333328,
+      "stress_nrmse_median": 0.0028813632037323405
+    },
+    "nonlinear": {
+      "count": 240,
+      "rejection_rate": 0.3458333333333333,
+      "stress_nrmse_median": 0.03892312431311441
+    },
+    "gross_mismatch": {
+      "count": 240,
+      "rejection_rate": 1.0,
+      "stress_nrmse_median": 0.1905512380825041
+    }
+  },
+  "calibration": {
+    "quantiles_90": [
+      1.4234834943535997,
+      1.8035798643082708,
+      1.7916804545221938
+    ],
+    "count": 900,
+    "seed": 29103,
+    "nominal_marginal_coverage": 0.9,
+    "method": "split conformal standardized encoded-parameter error",
+    "scope": "same-distribution synthetic specimens, not simultaneous joint or human coverage"
+  },
+  "gates": {
+    "fixed_protocol_stress_p95_below_1pct": true,
+    "iid_stress_p95_below_5pct": true,
+    "iid_median_E_error_below_5pct": true,
+    "iid_median_g_tau_error_below_15pct": true,
+    "marginal_coverage_at_least_85pct": true,
+    "median_interval_width_useful": true,
+    "iid_false_reject_at_most_10pct": true,
+    "gross_mismatch_rejected_90pct": true,
+    "heldout_region_E_median_below_8pct": true
+  },
+  "synthetic_gate_passed": true,
+  "torch_numpy_export_max_relative_difference": 1.7773009666210982e-06,
+  "development_history": "Initial implementation evaluated seeds39103/49103/59103 in development only; final audit uses untouched139103/149103/159103. Support bounds expanded before final freeze; gates unchanged.",
+  "human_liver_validation": "NOT_RUN",
+  "independent_solver_validation": "NOT_RUN",
+  "training_and_evaluation_seconds": 92.71549991704524,
+  "limitations": [
+    "One-term small-strain SLS is not a complete liver constitutive model",
+    "Some multi-branch/nonlinear histories fit one-term SLS and are not detectable from one experiment",
+    "Calibration scale errors beyond randomized support are not identifiable from force/displacement alone",
+    "Non-neural bounded fitting can be equally accurate; the network supplies a learned proposal, not independent physical evidence"
+  ],
+  "accepted_rejected_tails": {
+    "accepted": {
+      "count": 591,
+      "interval_relative_width_p95": {
+        "young_pa": 0.4032021582337799,
+        "relaxation_fraction": 1.0664118134694884,
+        "relaxation_time_s": 3.8391582771966872
+      },
+      "parameter_absolute_relative_error_p95": {
+        "young_pa": 0.1520793337878183,
+        "relaxation_fraction": 0.3322712768594397,
+        "relaxation_time_s": 0.6552373005992709
+      }
+    },
+    "rejected": {
+      "count": 49,
+      "interval_relative_width_p95": {
+        "young_pa": 18.157919379091446,
+        "relaxation_fraction": 8.634005801622322,
+        "relaxation_time_s": 33.3590677564989
+      },
+      "parameter_absolute_relative_error_p95": {
+        "young_pa": 0.6879947485106568,
+        "relaxation_fraction": 1.1948554033734773,
+        "relaxation_time_s": 2.952930580614763
+      }
+    }
+  },
+  "latency_audit": {
+    "warm_neural_plus_refinement_median_ms": 8.894812490325421,
+    "warm_neural_plus_refinement_p95_ms": 19.625878843362443,
+    "non_neural_refinement_median_ms": 8.720729500055313,
+    "non_neural_refinement_p95_ms": 22.788122849306074,
+    "artifact_load_and_checksum_median_ms": 35.60391700011678,
+    "definition": "Single CPU process OPENBLAS_NUM_THREADS=1; warm includes shared preprocessing, network, physical fit and intervals; cold load separate. Interleaved NN then baseline per same specimen, no serving/network overhead."
+  },
+  "latency_conclusion": "No demonstrated median latency advantage over non-neural bounded fitting; lower median residual evaluation count and lower measured p95 only."
+}

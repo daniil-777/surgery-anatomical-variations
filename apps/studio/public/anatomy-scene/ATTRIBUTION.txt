@@ -1,0 +1,11 @@
+BodyParts3D, © The Database Center for Life Science licensed under CC Attribution 4.0 International
+https://dbarchive.biosciencedbc.jp/en/bodyparts3d/lic.html
+CC BY 4.0: https://creativecommons.org/licenses/by/4.0/
+
+Browne, Kristen, and Heidi Schlehlein. 2024. "3D Reference Organ for Heart, Male v1.3." https://doi.org/10.48539/HBM564.WKNG.249. Accessed on June 15, 2024.
+Browne, Kristen, and Heidi Schlehlein. 2024. "3D Reference Organ for Lung, Male v1.4." https://doi.org/10.48539/HBM532.KLZD.394. Accessed on June 15, 2024.
+Human Reference Atlas geometry: CC BY 4.0 https://creativecommons.org/licenses/by/4.0/
+
+Modifications: Shared atlas coordinate rotation/translation, component selection, schematic display colors, coincident-vertex normal welding. Heart/lungs are explicitly approximate cross-atlas HRA fits. Liver is a reconstructed visual exterior, generated using a 1 mm voxel grid, closing/fill, Gaussian-smoothed signed distance field, marching cubes and Taubin smoothing. This display reconstruction has no anatomical-fidelity or physiological guarantee. Mesentery and additional native mesenteric, renal and splenic vascular branches retain source registration. A separate bowel ambient-visibility attribute adds bounded self-organ diffuse shading without changing coordinates or topology; it is an authored display-lighting approximation. Original geometry, comparison evidence and regeneration scripts retained; full details in manifest.json and viscera/references/whole-scene/README.md.
+
+Reference images: OpenStax College, Anatomy & Physiology (2013), CC BY 3.0 https://creativecommons.org/licenses/by/3.0/; Gray plate 1086, Henry Vandyke Carter (1918), public domain. Original image bytes unchanged.

@@ -1,0 +1,45 @@
+{
+  "artifact_hashes": {
+    "audit.jsonl": "8056c56c9418413b7557f95357318f5a5527cb01ebe71039f5176b6d31065e6b",
+    "code/atlas.py": "23e21cf860a2e75e565e91a6e7ed4c3a115a87847f01882665e39e2bef94f897",
+    "code/atlas_language.py": "33a4d692d44a521d9ca0ff6d814506546d40a21565a31a9e2373d1fd0ff0e2b3",
+    "code/atlas_scene_contract.txt": "bee523930b3353ae11eedcfd4f0713efe138f72507674389498d9e953c5017b1",
+    "code/atlas_text.py": "4fb73dc23e3e85a275baf07f961b05f570ca8eb1dfa34617f139af6c9eb8bda3",
+    "dataset_card.json": "95962fe3bdb7722d5d22b8384194d0156a3fedd72a97f4bd565cd8ce5d11b38b",
+    "pairs.jsonl": "e5fa16734dcebcecf2a998ba0eaffd45e00e218f16dfa10131951a9b4f4de757",
+    "replay_report.json": "0918176433035a0383bdf68b2c6c60f0da82481d150a0744065b691d8d09e143",
+    "split_manifest.json": "26fa65aaa27f46b240a1801688b95c0a56d3544ecf5b4ae8bfa1bdd2ce0c5af7",
+    "train.jsonl": "15b95262496428999e5e71c21f07d49cd74448d07dc19f3b735cce5e7bfcce6d",
+    "val.jsonl": "01b6a5966bfd93fe4bcdbbec99f6aa1ee26ca83fc95d0852d32e05019f5bd538"
+  },
+  "language_version": "atlas-compiler-pairs-1.0.0",
+  "pair_count": 9216,
+  "parent_count": 1536,
+  "recipe": {
+    "compiler_policy_version": "atlas-text-1.0.0",
+    "environment": {
+      "numpy": "2.4.6",
+      "pydantic": "2.13.5",
+      "python": "3.11.16",
+      "scipy": "1.17.1",
+      "trimesh": "4.12.2"
+    },
+    "language_version": "atlas-compiler-pairs-1.0.0",
+    "parent_manifest_sha256": "07f81144763224fbd7480663c71c81ead38bda6ecf47095debfa92b62a78953f",
+    "parent_release_id": "f1142554e6c82e9a4f80",
+    "parent_release_sha256": "20e738b89d08e2f6c4de9830dec5d6b04773f80233f3f827404773a5c9285a69",
+    "semantic_code_hashes": {
+      "atlas.py": "23e21cf860a2e75e565e91a6e7ed4c3a115a87847f01882665e39e2bef94f897",
+      "atlas_language.py": "33a4d692d44a521d9ca0ff6d814506546d40a21565a31a9e2373d1fd0ff0e2b3",
+      "atlas_scene_contract.txt": "c777e0bf1550de5b59bd5cc7ac5ec9a3b68e73f9c855f6b2c7769b75ecdfbe3f",
+      "atlas_text.py": "4fb73dc23e3e85a275baf07f961b05f570ca8eb1dfa34617f139af6c9eb8bda3"
+    },
+    "split_policy": "Inherit exact shape parent group, source group and split; no independent language holdout claim",
+    "utterances_per_parent": 6
+  },
+  "release_id": "de4d43f73deac4c1817e",
+  "status_counts": {
+    "accepted": 7680,
+    "unsupported": 1536
+  }
+}

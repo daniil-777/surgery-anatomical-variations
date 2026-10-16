@@ -1,0 +1,245 @@
+{
+  "appearance_evidence": "authored_vertex_color_not_measured_tissue_texture",
+  "clinical_review_status": "unreviewed",
+  "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+  "disease_field": {
+    "applied_displacement_fraction": 1.0,
+    "clinical_stage": null,
+    "color_strength": 0.0950688971985576,
+    "fields": [
+      {
+        "amplitude_mm": 1.6846000429847459,
+        "center_mm": [
+          -27.5225,
+          22.554999999999836,
+          -16.55695
+        ],
+        "direction": [
+          -0.799789021847281,
+          -0.5778057154418906,
+          0.16272085218328508
+        ],
+        "radius_mm": 10.914626628367348
+      },
+      {
+        "amplitude_mm": 1.5892037827052061,
+        "center_mm": [
+          13.537700000000001,
+          -50.74500000000012,
+          43.16505000000001
+        ],
+        "direction": [
+          0.364876414025668,
+          -0.7907219457963974,
+          0.49155264918798736
+        ],
+        "radius_mm": 10.914626628367348
+      }
+    ],
+    "gradient_bound_per_step": 0.2763717050552368,
+    "pattern": "mass",
+    "profile_id": "stomach-adenocarcinoma",
+    "realized_sites": 2,
+    "requested_sites": 2,
+    "steps": 3,
+    "surface_site_frame": "undeformed-atlas-Y-up-mm",
+    "target_srgb": [
+      0.67,
+      0.45,
+      0.32
+    ],
+    "version": "disease-morphology-design-1.0.0"
+  },
+  "display_normal_sha256": "b96083a0a0fa28d29d4416868184d4ff7080fe911edd7e62086f58ec3499feea",
+  "face_count": 1810,
+  "features": [
+    134.4756,
+    117.00999999999999,
+    112.8901,
+    38521.21234886564,
+    4.526339142677913,
+    1.0
+  ],
+  "geometry_evidence": "authored_disease_surface_from_licensed_reference_template",
+  "geometry_sha256": "283dd84a5d2236db7dba2daa6438df94c84b88e8d4ac2af45fb92d78f76a789c",
+  "group_id": "stomach-adenocarcinoma:1767498650",
+  "mechanics_evidence": "none",
+  "normal_fallback_count": 0,
+  "organ": "stomach",
+  "parent_recipe_index": 508,
+  "parent_sample_id": "stomach-adenocarcinoma:1767498650",
+  "path": "records/dgeo-402a64b7cc6e6e6fbde4.json",
+  "patient_id": null,
+  "point_count": 2048,
+  "point_sampling_seed": 2893351378,
+  "profile_id": "stomach-adenocarcinoma",
+  "qa": {
+    "anatomical_plausibility": {
+      "status": "NOT_RUN"
+    },
+    "area_ratio_max": 1.5123288834484716,
+    "area_ratio_min": 0.9998321312073556,
+    "continuous_jacobian_lower_bound": 0.05440513104675073,
+    "mechanical_validation": {
+      "status": "NOT_RUN"
+    },
+    "min_normal_dot": 0.861578658950376,
+    "new_degenerate_faces": 0,
+    "normal_turns_over_90_degrees": 0,
+    "passed": true,
+    "scope": "finite nondegenerate same-topology outer-surface design",
+    "self_intersection": {
+      "reason": "Discrete/source triangle intersections not certified",
+      "status": "NOT_RUN"
+    },
+    "source_topology": {
+      "boundary_edges_after_audit_weld": 0,
+      "connected_vertex_components": 1,
+      "degenerate_faces": 0,
+      "method": "trimesh-geometric-weld-audit-copy-1.0",
+      "nonmanifold_edges_after_audit_weld": 0,
+      "self_intersection": {
+        "reason": "No robust intersection backend",
+        "status": "NOT_RUN"
+      },
+      "simulation_readiness": {
+        "reason": "No volumetric domain/materials",
+        "status": "NOT_RUN"
+      },
+      "watertight_after_audit_weld": true,
+      "weld_precision_mm": 1e-08,
+      "winding_consistent_after_audit_weld": true,
+      "zero_length_edges": 0
+    },
+    "status": "PASS",
+    "topology_preserved": true
+  },
+  "realized_id": "c14b2e7d2dddbe0385f4656bf5babd4c9e48bb7be5dc93388a8cc2303df5da53",
+  "recipe_features": [
+    0.8034061193466187,
+    0.25737127661705017,
+    0.5403594374656677,
+    0.48724403977394104,
+    0.11833230406045914,
+    0.1428571492433548,
+    0.16079623997211456,
+    0.5796715021133423,
+    0.40515467524528503
+  ],
+  "sample_id": "dgeo-402a64b7cc6e6e6fbde4",
+  "source_attribution": "BodyParts3D, \u00a9 The Database Center for Life Science licensed under CC Attribution 4.0 International",
+  "source_group_id": "bodyparts3d-adult-male-atlas",
+  "source_license": "CC-BY-4.0",
+  "source_template_artifact_sha256": "2c8008326d3c6a2a073bcd3799ad5ebe99518c07793aa0bc6ddb0777e7e254cf",
+  "source_template_geometry_sha256": "cee13678d42392b6abcdbcb1c833e9156584c899f80025b816b39d7721bd44f8",
+  "source_url": "https://dbarchive.biosciencedbc.jp/data/bodyparts3d/LATEST/partof_BP3D_4.0_obj_99.zip",
+  "spec": {
+    "appearance": "tissue",
+    "controls": {
+      "asymmetry": 0.0,
+      "bend": 0.0,
+      "scale_x": 0.0,
+      "scale_y": 0.0,
+      "scale_z": 0.0,
+      "taper": 0.0,
+      "twist": 0.0
+    },
+    "disease": {
+      "contrast": 0.11833230406045914,
+      "count": 2,
+      "irregularity": 0.48724403977394104,
+      "location": [
+        -0.6784075200557709,
+        0.15934300422668457,
+        -0.18969064950942993
+      ],
+      "profile_id": "stomach-adenocarcinoma",
+      "seed": 1767498650,
+      "severity": 0.8034061193466187,
+      "size": 0.25737127661705017,
+      "spread": 0.5403594374656677
+    },
+    "realized_id": "c14b2e7d2dddbe0385f4656bf5babd4c9e48bb7be5dc93388a8cc2303df5da53",
+    "seed": 1767498650,
+    "template_id": "bp3d-stomach-male",
+    "template_sha256": "2c8008326d3c6a2a073bcd3799ad5ebe99518c07793aa0bc6ddb0777e7e254cf"
+  },
+  "split": "train",
+  "split_track": "within_generator",
+  "summary": {
+    "disease": {
+      "applied_displacement_fraction": 1.0,
+      "displacement_limited_by_source_mesh": false,
+      "evidence": "synthetic_surface_morphology_not_patient_or_population_geometry",
+      "internal_anatomy_generated": false,
+      "max_displacement_mm": 4.526339142677913,
+      "physical_parameters_inferred": false,
+      "profile": {
+        "clinical_source_url": "https://www.cancer.gov/types/stomach/treatment",
+        "evidence": "image_reference_not_paired_3d_supervision",
+        "id": "stomach-adenocarcinoma",
+        "label": "Gastric adenocarcinoma",
+        "limits": "Cut-open resection specimen; image appearance alone cannot distinguish all benign from malignant ulcers. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+        "morphology_targets": [
+          "ulcer crater",
+          "irregular raised edge",
+          "local wall involvement"
+        ],
+        "organ": "stomach",
+        "pattern": "mass",
+        "source_ref": "I07",
+        "source_url": "https://commons.wikimedia.org/wiki/File:Adenocarcinoma_of_the_stomach.jpg",
+        "supported": true,
+        "unavailable_reason": ""
+      },
+      "realized_sites": 2,
+      "recipe": {
+        "contrast": 0.11833230406045914,
+        "count": 2,
+        "irregularity": 0.48724403977394104,
+        "location": [
+          -0.6784075200557709,
+          0.15934300422668457,
+          -0.18969064950942993
+        ],
+        "profile_id": "stomach-adenocarcinoma",
+        "seed": 1767498650,
+        "severity": 0.8034061193466187,
+        "size": 0.25737127661705017,
+        "spread": 0.5403594374656677
+      },
+      "requested_sites": 2,
+      "version": "disease-morphology-design-1.0.0"
+    },
+    "extent_mm": [
+      134.4756,
+      117.00999999999999,
+      112.8901
+    ],
+    "measurements": {
+      "compactness": null,
+      "extent_x_mm": 134.4756,
+      "extent_y_mm": 117.00999999999999,
+      "extent_z_mm": 112.8901,
+      "method": "disease-display-triangle-measurements-1.0.0",
+      "surface_area_definition": "Sum of selected triangles including capsule/internal faces",
+      "surface_area_mm2": 38521.21234886564,
+      "volume_ml": null,
+      "volume_reason": "Display surface assembly is not a certified closed outer envelope",
+      "volume_status": "NOT_APPLICABLE"
+    },
+    "min_jacobian": 0.05440513104675073,
+    "min_jacobian_kind": "conservative_bound",
+    "organ": "stomach",
+    "profile": "development_preview",
+    "qa_scope": "finite nondegenerate same-topology outer-surface design",
+    "qa_status": "PASS",
+    "reference": "bp3d-stomach-male",
+    "review_status": "unreviewed",
+    "triangles": 1810,
+    "vertices": 914
+  },
+  "template_id": "bp3d-stomach-male",
+  "units": "mm",
+  "vertex_count": 914
+}

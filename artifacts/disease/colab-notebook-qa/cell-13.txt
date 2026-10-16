@@ -1,0 +1,60 @@
+{
+  "format": "viscera-disease-source-prior-report-v1",
+  "status": "trained",
+  "training_patients": 1,
+  "validation": {
+    "patients": 1,
+    "supported_patients": 1,
+    "unsupported_patients": [],
+    "per_patient": [
+      {
+        "case_id": "PDA-C3L-00401",
+        "training_patients": 1,
+        "absolute_error": {
+          "organ_extent_x_mm": 45.586029052734375,
+          "organ_extent_y_mm": 61.289100646972656,
+          "organ_extent_z_mm": 14.0,
+          "organ_volume_ml": 170.9278335571289,
+          "lesion_extent_x_mm": 45.351585388183594,
+          "lesion_extent_y_mm": 55.97657775878906,
+          "lesion_extent_z_mm": 28.0,
+          "lesion_volume_ml": 71.75829315185547,
+          "lesion_center_x_relative": 0.34331077709794044,
+          "lesion_center_y_relative": 0.48808997869491577,
+          "lesion_center_z_relative": 0.127370685338974,
+          "lesion_to_organ_volume_ratio": 0.2149600088596344
+        }
+      }
+    ],
+    "feature_mae": {
+      "organ_extent_x_mm": 45.586029052734375,
+      "organ_extent_y_mm": 61.289100646972656,
+      "organ_extent_z_mm": 14.0,
+      "organ_volume_ml": 170.9278335571289,
+      "lesion_extent_x_mm": 45.351585388183594,
+      "lesion_extent_y_mm": 55.97657775878906,
+      "lesion_extent_z_mm": 28.0,
+      "lesion_volume_ml": 71.75829315185547,
+      "lesion_center_x_relative": 0.34331077709794044,
+      "lesion_center_y_relative": 0.48808997869491577,
+      "lesion_center_z_relative": 0.127370685338974,
+      "lesion_to_organ_volume_ratio": 0.2149600088596344
+    },
+    "interpretation": "patient-held-out feature prediction; too few cases for population claims"
+  },
+  "scope": "measured_source_case_retrieval_not_a_population_generator",
+  "rights": {
+    "commercial_use": "CC-BY attribution conditions apply",
+    "contains_noncommercial": false,
+    "license_lanes": [
+      "attribution"
+    ],
+    "no_blanket_license": true
+  },
+  "audit_opened": false,
+  "limitations": [
+    "No paired healthy source anatomy is available.",
+    "Singleton classes cannot estimate disease population variability.",
+    "Photographs were not treated as measured 3D training labels."
+  ]
+}

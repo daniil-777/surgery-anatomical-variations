@@ -1,0 +1,271 @@
+{
+  "version": "body-reference-1",
+  "sources": [
+    {
+      "id": "dsad-25-6",
+      "label": "Liver + Stomach",
+      "src": "/body-reference/dsad-25-6.png",
+      "credit": "Carstens et al. \u00b7 DSAD / NCT Dresden",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "source_url": "https://doi.org/10.6084/m9.figshare.21702600",
+      "regions": [
+        {
+          "id": "dsad-25-6-liver",
+          "label": "Liver",
+          "organ": "liver",
+          "targets": [
+            "liver"
+          ],
+          "selection": {
+            "box": [
+              0,
+              0,
+              0.999406,
+              0.706242
+            ],
+            "foreground_points": [
+              [
+                0.296875,
+                0.295898
+              ]
+            ],
+            "background_points": []
+          },
+          "mask_src": "/body-reference/dsad-25-6-liver-mask.png",
+          "identity_source": "DSAD final expert-reviewed semantic mask",
+          "surface": "outer"
+        },
+        {
+          "id": "dsad-25-6-stomach",
+          "label": "Stomach",
+          "organ": "stomach",
+          "targets": [
+            "stomach"
+          ],
+          "selection": {
+            "box": [
+              0.002156,
+              0.290828,
+              1,
+              0.951359
+            ],
+            "foreground_points": [
+              [
+                0.763281,
+                0.65332
+              ]
+            ],
+            "background_points": []
+          },
+          "mask_src": "/body-reference/dsad-25-6-stomach-mask.png",
+          "identity_source": "DSAD final expert-reviewed semantic mask",
+          "surface": "outer"
+        }
+      ],
+      "capture_group": "dsad-surgery-25",
+      "surgery_id": "25",
+      "provenance_url": "/body-reference/provenance.json"
+    },
+    {
+      "id": "dsad-12-29",
+      "label": "Spleen",
+      "src": "/body-reference/dsad-12-29.png",
+      "credit": "Carstens et al. \u00b7 DSAD / NCT Dresden",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "source_url": "https://doi.org/10.6084/m9.figshare.21702600",
+      "regions": [
+        {
+          "id": "dsad-12-29-spleen",
+          "label": "Spleen",
+          "organ": "spleen",
+          "targets": [
+            "spleen"
+          ],
+          "selection": {
+            "box": [
+              0.019344,
+              0,
+              0.844719,
+              0.412297
+            ],
+            "foreground_points": [
+              [
+                0.233594,
+                0.175781
+              ]
+            ],
+            "background_points": []
+          },
+          "mask_src": "/body-reference/dsad-12-29-spleen-mask.png",
+          "identity_source": "DSAD final expert-reviewed semantic mask",
+          "surface": "outer"
+        }
+      ],
+      "capture_group": "dsad-surgery-12",
+      "surgery_id": "12",
+      "provenance_url": "/body-reference/provenance.json"
+    },
+    {
+      "id": "dsad-22-6",
+      "label": "Pancreas",
+      "src": "/body-reference/dsad-22-6.png",
+      "credit": "Carstens et al. \u00b7 DSAD / NCT Dresden",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "source_url": "https://doi.org/10.6084/m9.figshare.21702600",
+      "regions": [
+        {
+          "id": "dsad-22-6-pancreas",
+          "label": "Pancreas",
+          "organ": "pancreas",
+          "targets": [
+            "pancreas"
+          ],
+          "selection": {
+            "box": [
+              0.036531,
+              0.420711,
+              0.744719,
+              0.930852
+            ],
+            "foreground_points": [
+              [
+                0.502344,
+                0.585938
+              ]
+            ],
+            "background_points": []
+          },
+          "mask_src": "/body-reference/dsad-22-6-pancreas-mask.png",
+          "identity_source": "DSAD final expert-reviewed semantic mask",
+          "surface": "unknown"
+        }
+      ],
+      "capture_group": "dsad-surgery-22",
+      "surgery_id": "22",
+      "provenance_url": "/body-reference/provenance.json"
+    },
+    {
+      "id": "dsad-25-47",
+      "label": "Small intestine",
+      "src": "/body-reference/dsad-25-47.png",
+      "credit": "Carstens et al. \u00b7 DSAD / NCT Dresden",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "source_url": "https://doi.org/10.6084/m9.figshare.21702600",
+      "regions": [
+        {
+          "id": "dsad-25-47-small-intestine",
+          "label": "Small intestine",
+          "organ": "small-intestine",
+          "targets": [
+            "small-intestine"
+          ],
+          "selection": {
+            "box": [
+              0.516219,
+              0.567195,
+              1,
+              0.951359
+            ],
+            "foreground_points": [
+              [
+                0.757031,
+                0.783203
+              ]
+            ],
+            "background_points": []
+          },
+          "mask_src": "/body-reference/dsad-25-47-small-intestine-mask.png",
+          "identity_source": "DSAD final expert-reviewed semantic mask",
+          "surface": "outer"
+        }
+      ],
+      "capture_group": "dsad-surgery-25",
+      "surgery_id": "25",
+      "provenance_url": "/body-reference/provenance.json"
+    },
+    {
+      "id": "dsad-21-5",
+      "label": "Colon",
+      "src": "/body-reference/dsad-21-5.png",
+      "credit": "Carstens et al. \u00b7 DSAD / NCT Dresden",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "source_url": "https://doi.org/10.6084/m9.figshare.21702600",
+      "regions": [
+        {
+          "id": "dsad-21-5-colon",
+          "label": "Colon",
+          "organ": "large-intestine",
+          "targets": [
+            "colon"
+          ],
+          "selection": {
+            "box": [
+              0.174812,
+              0.23907,
+              0.819719,
+              0.805852
+            ],
+            "foreground_points": [
+              [
+                0.66875,
+                0.423828
+              ]
+            ],
+            "background_points": []
+          },
+          "mask_src": "/body-reference/dsad-21-5-colon-mask.png",
+          "identity_source": "DSAD final expert-reviewed semantic mask",
+          "surface": "outer"
+        }
+      ],
+      "capture_group": "dsad-surgery-21",
+      "surgery_id": "21",
+      "provenance_url": "/body-reference/provenance.json"
+    },
+    {
+      "id": "dsad-03-2",
+      "label": "Liver",
+      "src": "/body-reference/dsad-03-2.png",
+      "credit": "Carstens et al. \u00b7 DSAD / NCT Dresden",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "source_url": "https://doi.org/10.6084/m9.figshare.21702600",
+      "regions": [
+        {
+          "id": "dsad-03-2-liver",
+          "label": "Liver",
+          "organ": "liver",
+          "targets": [
+            "liver"
+          ],
+          "selection": {
+            "box": [
+              0,
+              0.053523,
+              0.8705,
+              0.954289
+            ],
+            "foreground_points": [
+              [
+                0.335156,
+                0.523438
+              ]
+            ],
+            "background_points": []
+          },
+          "mask_src": "/body-reference/dsad-03-2-liver-mask.png",
+          "identity_source": "DSAD final expert-reviewed semantic mask",
+          "surface": "outer"
+        }
+      ],
+      "capture_group": "dsad-surgery-03",
+      "surgery_id": "03",
+      "provenance_url": "/body-reference/provenance.json"
+    }
+  ]
+}

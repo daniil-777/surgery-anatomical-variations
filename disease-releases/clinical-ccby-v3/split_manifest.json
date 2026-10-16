@@ -1,0 +1,9 @@
+{
+  "groups": {
+    "tcia:C3L_00395": "train",
+    "tcia:C3L_00401": "val",
+    "tcia:C3L_00622": "audit"
+  },
+  "inheritance": "Every crop, view, mesh resample, synthetic edit and texture derivative inherits this patient split",
+  "policy": "source-stratified patient groups; one val + one audit per source; remaining train"
+}

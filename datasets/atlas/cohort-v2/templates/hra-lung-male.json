@@ -1,0 +1,1295 @@
+{
+  "artifact_sha256": "06df9d8fe8520dbbb54853392e8adcc078143c5c3ef0e927bd9fa6699f12000b",
+  "attribution": "Browne, Kristen, and Heidi Schlehlein. 2024. \"3D Reference Organ for Lung, Male v1.4.\" https://doi.org/10.48539/HBM532.KLZD.394. Accessed on June 15, 2024.",
+  "attribution_verified": true,
+  "clean_faces_sha256": "6be81bb1c8fc4b2fb1ed49fe29b0af357cd43daff0c66c1fc187d7f07c9b07ab",
+  "cleaning_components": [
+    {
+      "clean_face_count": 744,
+      "component": "VH_M_hilum_lower_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 744,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 833,
+      "component": "VH_M_hilum_lower_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 833,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 288,
+      "component": "VH_M_hilum_middle_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 288,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 618,
+      "component": "VH_M_hilum_upper_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 618,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 302,
+      "component": "VH_M_hilum_upper_R",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 302,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 302,
+      "component": "VH_M_left_anterior_basal_bronchopulmonary_segment",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 302,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 714,
+      "component": "VH_M_left_anterior_bronchopulmonary_segment",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 714,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 408,
+      "component": "VH_M_left_apical_bronchopulmonary_segment",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 408,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 225,
+      "component": "VH_M_left_lateral_basal_bronchopulmonary_segment",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 225,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 949,
+      "component": "VH_M_left_lingula_inferior_bronchopulmonary_segment",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 949,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 857,
+      "component": "VH_M_left_lingula_superior_bronchopulmonary_segment",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 857,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 371,
+      "component": "VH_M_left_medial_basal_bronchopulmonary_segment",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 371,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 800,
+      "component": "VH_M_left_posetrior_basal_bronchopulmonary_segment",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 800,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 448,
+      "component": "VH_M_left_posterior_bronchopulmonary_segment",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 448,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 1026,
+      "component": "VH_M_left_superior_bronchopulmonary_segment",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 1026,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 986,
+      "component": "VH_M_right_anterior_basal_bronchopulmonary_segment",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 986,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 1196,
+      "component": "VH_M_right_anterior_bronchopulmonary_segment",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 1196,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 262,
+      "component": "VH_M_right_apical_bronchopulmonary_segment",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 262,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 448,
+      "component": "VH_M_right_lateral_basal_bronchopulmonary_segment",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 448,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 954,
+      "component": "VH_M_right_lateral_bronchopulmonary_segment",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 954,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 268,
+      "component": "VH_M_right_medial_basal_bronchopulmonary_segment",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 268,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 1406,
+      "component": "VH_M_right_medial_bronchopulmonary_segment",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 1406,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 583,
+      "component": "VH_M_right_posterior_basal_bronchopulmonary_segment",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 583,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 782,
+      "component": "VH_M_right_posterior_bronchopulmonary_segment",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 782,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 894,
+      "component": "VH_M_right_superior_bronchopulmonary_segment",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 894,
+      "winding_after": true,
+      "winding_before": true
+    }
+  ],
+  "cleaning_policy": "Drop triangles with area <=1e-12 mm2; repair winding per connected component on welded audit copy with minimum face reversals and transfer only face reversal. No vertex movement or connectivity additions.",
+  "cohort_eligible": true,
+  "colors_provenance": "Source schematic material colors; glTF linear factors converted to sRGB after trimesh 8-bit quantization",
+  "colors_space": "sRGB",
+  "components": [
+    {
+      "face_count": 744,
+      "face_start": 0,
+      "name": "VH_M_hilum_lower_L",
+      "source_geometry": "VH_M_hilum_lower_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 393,
+      "vertex_start": 0
+    },
+    {
+      "face_count": 833,
+      "face_start": 744,
+      "name": "VH_M_hilum_lower_R",
+      "source_geometry": "VH_M_hilum_lower_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 436,
+      "vertex_start": 393
+    },
+    {
+      "face_count": 288,
+      "face_start": 1577,
+      "name": "VH_M_hilum_middle_R",
+      "source_geometry": "VH_M_hilum_middle_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 163,
+      "vertex_start": 829
+    },
+    {
+      "face_count": 618,
+      "face_start": 1865,
+      "name": "VH_M_hilum_upper_L",
+      "source_geometry": "VH_M_hilum_upper_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 333,
+      "vertex_start": 992
+    },
+    {
+      "face_count": 302,
+      "face_start": 2483,
+      "name": "VH_M_hilum_upper_R",
+      "source_geometry": "VH_M_hilum_upper_R",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 170,
+      "vertex_start": 1325
+    },
+    {
+      "face_count": 302,
+      "face_start": 2785,
+      "name": "VH_M_left_anterior_basal_bronchopulmonary_segment",
+      "source_geometry": "VH_M_left_anterior_basal_bronchopulmonary_segment",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 186,
+      "vertex_start": 1495
+    },
+    {
+      "face_count": 714,
+      "face_start": 3087,
+      "name": "VH_M_left_anterior_bronchopulmonary_segment",
+      "source_geometry": "VH_M_left_anterior_bronchopulmonary_segment",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 397,
+      "vertex_start": 1681
+    },
+    {
+      "face_count": 408,
+      "face_start": 3801,
+      "name": "VH_M_left_apical_bronchopulmonary_segment",
+      "source_geometry": "VH_M_left_apical_bronchopulmonary_segment",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 229,
+      "vertex_start": 2078
+    },
+    {
+      "face_count": 225,
+      "face_start": 4209,
+      "name": "VH_M_left_lateral_basal_bronchopulmonary_segment",
+      "source_geometry": "VH_M_left_lateral_basal_bronchopulmonary_segment",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 146,
+      "vertex_start": 2307
+    },
+    {
+      "face_count": 949,
+      "face_start": 4434,
+      "name": "VH_M_left_lingula_inferior_bronchopulmonary_segment",
+      "source_geometry": "VH_M_left_lingula_inferior_bronchopulmonary_segment",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 508,
+      "vertex_start": 2453
+    },
+    {
+      "face_count": 857,
+      "face_start": 5383,
+      "name": "VH_M_left_lingula_superior_bronchopulmonary_segment",
+      "source_geometry": "VH_M_left_lingula_superior_bronchopulmonary_segment",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 485,
+      "vertex_start": 2961
+    },
+    {
+      "face_count": 371,
+      "face_start": 6240,
+      "name": "VH_M_left_medial_basal_bronchopulmonary_segment",
+      "source_geometry": "VH_M_left_medial_basal_bronchopulmonary_segment",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 215,
+      "vertex_start": 3446
+    },
+    {
+      "face_count": 800,
+      "face_start": 6611,
+      "name": "VH_M_left_posetrior_basal_bronchopulmonary_segment",
+      "source_geometry": "VH_M_left_posetrior_basal_bronchopulmonary_segment",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 431,
+      "vertex_start": 3661
+    },
+    {
+      "face_count": 448,
+      "face_start": 7411,
+      "name": "VH_M_left_posterior_bronchopulmonary_segment",
+      "source_geometry": "VH_M_left_posterior_bronchopulmonary_segment",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 250,
+      "vertex_start": 4092
+    },
+    {
+      "face_count": 1026,
+      "face_start": 7859,
+      "name": "VH_M_left_superior_bronchopulmonary_segment",
+      "source_geometry": "VH_M_left_superior_bronchopulmonary_segment",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 545,
+      "vertex_start": 4342
+    },
+    {
+      "face_count": 986,
+      "face_start": 8885,
+      "name": "VH_M_right_anterior_basal_bronchopulmonary_segment",
+      "source_geometry": "VH_M_right_anterior_basal_bronchopulmonary_segment",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 531,
+      "vertex_start": 4887
+    },
+    {
+      "face_count": 1196,
+      "face_start": 9871,
+      "name": "VH_M_right_anterior_bronchopulmonary_segment",
+      "source_geometry": "VH_M_right_anterior_bronchopulmonary_segment",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 627,
+      "vertex_start": 5418
+    },
+    {
+      "face_count": 262,
+      "face_start": 11067,
+      "name": "VH_M_right_apical_bronchopulmonary_segment",
+      "source_geometry": "VH_M_right_apical_bronchopulmonary_segment",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 148,
+      "vertex_start": 6045
+    },
+    {
+      "face_count": 448,
+      "face_start": 11329,
+      "name": "VH_M_right_lateral_basal_bronchopulmonary_segment",
+      "source_geometry": "VH_M_right_lateral_basal_bronchopulmonary_segment",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 264,
+      "vertex_start": 6193
+    },
+    {
+      "face_count": 954,
+      "face_start": 11777,
+      "name": "VH_M_right_lateral_bronchopulmonary_segment",
+      "source_geometry": "VH_M_right_lateral_bronchopulmonary_segment",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 511,
+      "vertex_start": 6457
+    },
+    {
+      "face_count": 268,
+      "face_start": 12731,
+      "name": "VH_M_right_medial_basal_bronchopulmonary_segment",
+      "source_geometry": "VH_M_right_medial_basal_bronchopulmonary_segment",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 162,
+      "vertex_start": 6968
+    },
+    {
+      "face_count": 1406,
+      "face_start": 12999,
+      "name": "VH_M_right_medial_bronchopulmonary_segment",
+      "source_geometry": "VH_M_right_medial_bronchopulmonary_segment",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 730,
+      "vertex_start": 7130
+    },
+    {
+      "face_count": 583,
+      "face_start": 14405,
+      "name": "VH_M_right_posterior_basal_bronchopulmonary_segment",
+      "source_geometry": "VH_M_right_posterior_basal_bronchopulmonary_segment",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 326,
+      "vertex_start": 7860
+    },
+    {
+      "face_count": 782,
+      "face_start": 14988,
+      "name": "VH_M_right_posterior_bronchopulmonary_segment",
+      "source_geometry": "VH_M_right_posterior_bronchopulmonary_segment",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 425,
+      "vertex_start": 8186
+    },
+    {
+      "face_count": 894,
+      "face_start": 15770,
+      "name": "VH_M_right_superior_bronchopulmonary_segment",
+      "source_geometry": "VH_M_right_superior_bronchopulmonary_segment",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 478,
+      "vertex_start": 8611
+    }
+  ],
+  "control_limit_provenance": "design_heuristic; not measured population intervals",
+  "control_limits": [
+    0.07,
+    0.07,
+    0.07,
+    0.035,
+    0.04,
+    0.035,
+    0.025
+  ],
+  "control_names": [
+    "scale_x",
+    "scale_y",
+    "scale_z",
+    "bend",
+    "twist",
+    "taper",
+    "asymmetry"
+  ],
+  "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+  "deformer_version": "invertible-atlas-controls-1.0.0",
+  "evidence_kind": "expert_authored",
+  "excluded_source_nodes": [
+    "VH_M_bronchus",
+    "VH_M_cartilage_of_the_lobar_bronchus_L",
+    "VH_M_cartilage_of_the_lobar_bronchus_R",
+    "VH_M_cartilage_of_the_tertiary_bronchus_L",
+    "VH_M_cartilage_of_the_tertiary_bronchus_R",
+    "VH_M_hilum_L",
+    "VH_M_hilum_R",
+    "VH_M_left_anterior_basal_bronchus",
+    "VH_M_left_anterior_bronchus",
+    "VH_M_left_apical_bronchus",
+    "VH_M_left_inferior_lobar_bronchus",
+    "VH_M_left_lateral_basal_bronchus",
+    "VH_M_left_lingula_inferior_bronchus",
+    "VH_M_left_lingula_superior_bronchus",
+    "VH_M_left_lingular_bronchus",
+    "VH_M_left_medial_basal_bronchus",
+    "VH_M_left_posterior_basal_bronchus",
+    "VH_M_left_superior_bronchus",
+    "VH_M_left_superior_lobar_bronchus",
+    "VH_M_right_anterior_basal_bronchus",
+    "VH_M_right_anterior_bronchus",
+    "VH_M_right_apical_bronchus",
+    "VH_M_right_intermediate_bronchus",
+    "VH_M_right_lateral_basal_bronchus",
+    "VH_M_right_lateral_bronchus",
+    "VH_M_right_lower_lobar_bronchus",
+    "VH_M_right_medial_basal_bronchus",
+    "VH_M_right_medial_bronchus",
+    "VH_M_right_middle_lobar_bronchus",
+    "VH_M_right_posterior_basal",
+    "VH_M_right_posterior_bronchus",
+    "VH_M_right_superior_bronchus",
+    "VH_M_right_superior_lobar_bronchus"
+  ],
+  "extent_mm": [
+    259.4186142086983,
+    229.1373312473297,
+    189.71354514360428
+  ],
+  "face_count": 16664,
+  "face_map_keys": [
+    "source_to_clean_face_indices",
+    "clean_to_source_face_indices",
+    "clean_face_orientation_reversed",
+    "source_faces"
+  ],
+  "generator_version": "invertible-atlas-controls-1.0.0",
+  "geometry_sha256": "84ed95d7854af14879b9158944e78417ec129c65ca0fe52b5b97724c4d3421c6",
+  "inverse_coordinate_transform": "source_world = source_to_authoring_rotation.T @ (vertices_mm + source_center_mm) / source_to_mm_scale",
+  "laterality": null,
+  "license": "CC-BY-4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "mesh_role": "annotated_display_surface_assembly_not_organ_envelope",
+  "modifications": "Selected named display components, applied scene transforms, explicit units, bounding-box centering. Removed degenerate triangles and repaired winding with reversible face maps. No smoothing, decimation or remeshing.",
+  "normalization_mm": 129.70930710434914,
+  "organ": "lung",
+  "organ_id": "lung",
+  "population_prevalence": null,
+  "profile": "development_preview",
+  "removed_degenerate_faces": 0,
+  "reversed_faces": 0,
+  "review_status": "unreviewed",
+  "selection_policy_version": "external-display-components-1.1.0",
+  "sex_label": "male",
+  "source_center_mm": [
+    4.7336481511592865,
+    500.180646777153,
+    2.616945654153824
+  ],
+  "source_citation": "Browne, Kristen, and Heidi Schlehlein. 2024. \"3D Reference Organ for Lung, Male v1.4.\" https://doi.org/10.48539/HBM532.KLZD.394. Accessed on June 15, 2024.",
+  "source_collection": "HRA",
+  "source_creators": [
+    {
+      "id": "https://orcid.org/0000-0002-3333-5646",
+      "name": "Heidi Schlehlein"
+    },
+    {
+      "id": "https://orcid.org/0000-0003-4066-7531",
+      "name": "Kristen Browne"
+    }
+  ],
+  "source_derivation_description": "This reference organ, Lung-male (https://humanatlas.io/3d-reference-library) was created using data from the Visible\nHuman Male, provided by the National Library of Medicine (Spitzer et al. 1996; Ackerman 1998). In version 1.3, the\nlarynx, trachea, and main bronchi were removed; however, lung lobes and intrapulmonary bronchi remain part of the lung\nmodel.\n\n**Bibliography:**\n\n* Ackerman, Michael J. 1998. \u201cThe Visible Human Project.\u201d *Proceedings of the IEEE* 86 (3): 504\u201311. https://doi.org/10.1109/5.662875.\n* Spitzer, V., M. J. Ackerman, A. L. Scherzinger, and D. Whitlock. 1996. \u201cThe Visible Human Male: A Technical Report.\u201d *Journal of the American Medical Informatics Association* 3 (2): 118\u201330. https://doi.org/10.1136/jamia.1996.96236280.",
+  "source_doi": "https://doi.org/10.48539/HBM532.KLZD.394",
+  "source_faces_sha256": "6be81bb1c8fc4b2fb1ed49fe29b0af357cd43daff0c66c1fc187d7f07c9b07ab",
+  "source_geometry_sha256": "84ed95d7854af14879b9158944e78417ec129c65ca0fe52b5b97724c4d3421c6",
+  "source_group_id": "hra-visible-human-male",
+  "source_group_reason": "Conservative atlas ancestry grouping; organ files are not independent donors",
+  "source_license_statement": "Creative Commons Attribution 4.0 International ([CC BY 4.0](https://creativecommons.org/licenses/by/4.0/))",
+  "source_metadata_file": "attribution/hra-lung-male.jsonld",
+  "source_metadata_sha256": "509ee70bc497d47496866aece462f956c49010f8fe4c60125bb6853012764cec",
+  "source_metadata_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/lung-male/v1.4/metadata.jsonld",
+  "source_overall_citation": "Browne, Kristen, Heidi Schlehlein, Bruce W. Herr II, Ellen Quardokus, Andreas Bueckle, and Katy B\u00f6rner. 2024. \"HuBMAP CCF 3D Reference Object Library.\" https://humanatlas.io/3d-reference-library. Accessed on June 15, 2024.",
+  "source_release": "11th Release (v2.5)",
+  "source_sha256": "bba95516fa993ac45c3b1c53f32b58d97232ffd78ae56397e5a2589c6ce4903d",
+  "source_title": "3D Reference Organ for Lung, Male",
+  "source_to_authoring_rotation": [
+    [
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      1,
+      0
+    ],
+    [
+      0,
+      0,
+      1
+    ]
+  ],
+  "source_to_mm_scale": 1000.0,
+  "source_topology_audit": {
+    "boundary_edges_after_audit_weld": 4,
+    "connected_vertex_components": 5,
+    "degenerate_faces": 0,
+    "method": "trimesh-geometric-weld-audit-copy-1.0",
+    "nonmanifold_edges_after_audit_weld": 0,
+    "self_intersection": {
+      "reason": "No robust intersection backend",
+      "status": "NOT_RUN"
+    },
+    "simulation_readiness": {
+      "reason": "No volumetric domain/materials",
+      "status": "NOT_RUN"
+    },
+    "watertight_after_audit_weld": false,
+    "weld_precision_mm": 1e-08,
+    "winding_consistent_after_audit_weld": true,
+    "zero_length_edges": 0
+  },
+  "source_up_axis": "Y (glTF convention); patient-axis interpretation not asserted",
+  "source_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/lung-male/v1.4/assets/3d-vh-m-lung.glb",
+  "template_id": "hra-lung-male",
+  "template_version": "atlas-display-1.1.0",
+  "topology_audit": {
+    "boundary_edges_after_audit_weld": 4,
+    "connected_vertex_components": 5,
+    "degenerate_faces": 0,
+    "method": "trimesh-geometric-weld-audit-copy-1.0",
+    "nonmanifold_edges_after_audit_weld": 0,
+    "self_intersection": {
+      "reason": "No robust intersection backend",
+      "status": "NOT_RUN"
+    },
+    "simulation_readiness": {
+      "reason": "No volumetric domain/materials",
+      "status": "NOT_RUN"
+    },
+    "watertight_after_audit_weld": false,
+    "weld_precision_mm": 1e-08,
+    "winding_consistent_after_audit_weld": true,
+    "zero_length_edges": 0
+  },
+  "unit": "mm",
+  "units_evidence": "glTF 2.0 linear distances use metres; explicit multiplication by 1000",
+  "vertex_count": 9089
+}

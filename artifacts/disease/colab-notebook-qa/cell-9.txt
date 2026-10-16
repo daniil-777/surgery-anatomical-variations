@@ -1,0 +1,42 @@
+Saved full-resolution mesh: /private/tmp/viscera-disease-colab-qa-final/viscera-disease/artifacts/disease/colab-recipes-new-run/liver-cirrhosis-3796938855.glb
+{
+  "passed": true,
+  "status": "PASS",
+  "scope": "finite nondegenerate same-topology outer-surface design",
+  "topology_preserved": true,
+  "new_degenerate_faces": 0,
+  "normal_turns_over_90_degrees": 0,
+  "area_ratio_min": 0.819738261706984,
+  "area_ratio_max": 1.1789304052102763,
+  "min_normal_dot": 0.944808929330895,
+  "continuous_jacobian_lower_bound": 0.16049073163771263,
+  "source_topology": {
+    "boundary_edges_after_audit_weld": 240,
+    "connected_vertex_components": 2,
+    "degenerate_faces": 0,
+    "method": "trimesh-geometric-weld-audit-copy-1.0",
+    "nonmanifold_edges_after_audit_weld": 0,
+    "self_intersection": {
+      "reason": "No robust intersection backend",
+      "status": "NOT_RUN"
+    },
+    "simulation_readiness": {
+      "reason": "No volumetric domain/materials",
+      "status": "NOT_RUN"
+    },
+    "watertight_after_audit_weld": false,
+    "weld_precision_mm": 1e-08,
+    "winding_consistent_after_audit_weld": true,
+    "zero_length_edges": 0
+  },
+  "self_intersection": {
+    "status": "NOT_RUN",
+    "reason": "Discrete/source triangle intersections not certified"
+  },
+  "anatomical_plausibility": {
+    "status": "NOT_RUN"
+  },
+  "mechanical_validation": {
+    "status": "NOT_RUN"
+  }
+}

@@ -1,0 +1,1062 @@
+{
+  "split": "audit",
+  "selected_method": "ridge",
+  "model_frozen": true,
+  "model_sha256": "0464b98318df4461128e2d18b1ce1168f853214f519a3a53b051bae98118a090",
+  "split_sha256": "9f2eeb2149695370dc81d0626369c5456b70dbd6e3e866b846026c005a27433d",
+  "release_sha256": "20e738b89d08e2f6c4de9830dec5d6b04773f80233f3f827404773a5c9285a69",
+  "methods": {
+    "ridge": {
+      "rows": 240,
+      "method": "ridge",
+      "macro_template_control_nrmse": 0.2052910870510002,
+      "per_template_control_nrmse": {
+        "bp3d-gallbladder-male": 0.20212463955770085,
+        "bp3d-stomach-male": 0.2137855841703995,
+        "hra-brain-female": 0.19814988038146839,
+        "hra-brain-male": 0.21012229688987444,
+        "hra-heart-female": 0.1871937160634382,
+        "hra-heart-male": 0.22639343023438693,
+        "hra-kidney-female-left": 0.22630687362559898,
+        "hra-kidney-female-right": 0.21890344506499174,
+        "hra-kidney-male-left": 0.23926457732123815,
+        "hra-kidney-male-right": 0.2029055918050262,
+        "hra-large-intestine-female": 0.20863277248678616,
+        "hra-large-intestine-male": 0.18038104675697084,
+        "hra-liver-female": 0.18705483815287102,
+        "hra-liver-male": 0.19076422596063303,
+        "hra-lung-female": 0.21185164834771106,
+        "hra-lung-male": 0.2090016497018697,
+        "hra-pancreas-female": 0.18927693286401387,
+        "hra-pancreas-male": 0.18878075301425856,
+        "hra-small-intestine-female": 0.16896765997532448,
+        "hra-small-intestine-male": 0.22837898417340263,
+        "hra-spleen-female": 0.19809146360216243,
+        "hra-spleen-male": 0.2516531238104067,
+        "hra-urinary-bladder-female": 0.19892335302533554,
+        "hra-urinary-bladder-male": 0.19007760223813522
+      },
+      "per_organ_control_nrmse": {
+        "brain": 0.20422384134261448,
+        "gallbladder": 0.20212463955770085,
+        "heart": 0.2077203319212293,
+        "kidney": 0.22223396255859126,
+        "large-intestine": 0.19501917314031406,
+        "liver": 0.1889186364321374,
+        "lung": 0.21043147398350998,
+        "pancreas": 0.18902900574123394,
+        "small-intestine": 0.20088184403973913,
+        "spleen": 0.22646139039092597,
+        "stomach": 0.2137855841703995,
+        "urinary-bladder": 0.19455075848148345
+      },
+      "per_control_nrmse": {
+        "scale_x": 0.020430157753439766,
+        "scale_y": 0.02277011350431951,
+        "scale_z": 0.03328870512792169,
+        "bend": 0.28500434013635223,
+        "twist": 0.28223104076098066,
+        "taper": 0.23152515865790882,
+        "asymmetry": 0.28469074756687623
+      },
+      "unconditional_empirical_diversity": {
+        "bp3d-gallbladder-male": {
+          "mean_control_std": 0.5684458086271776,
+          "unique_fraction": 0.328125
+        },
+        "bp3d-stomach-male": {
+          "mean_control_std": 0.59431789989698,
+          "unique_fraction": 0.328125
+        },
+        "hra-brain-female": {
+          "mean_control_std": 0.577061554898832,
+          "unique_fraction": 0.328125
+        },
+        "hra-brain-male": {
+          "mean_control_std": 0.5663595965788494,
+          "unique_fraction": 0.328125
+        },
+        "hra-heart-female": {
+          "mean_control_std": 0.5669223359838792,
+          "unique_fraction": 0.328125
+        },
+        "hra-heart-male": {
+          "mean_control_std": 0.5632396627963375,
+          "unique_fraction": 0.328125
+        },
+        "hra-kidney-female-left": {
+          "mean_control_std": 0.5570084989659726,
+          "unique_fraction": 0.328125
+        },
+        "hra-kidney-female-right": {
+          "mean_control_std": 0.5658951273412184,
+          "unique_fraction": 0.328125
+        },
+        "hra-kidney-male-left": {
+          "mean_control_std": 0.5453906948863352,
+          "unique_fraction": 0.328125
+        },
+        "hra-kidney-male-right": {
+          "mean_control_std": 0.5853545177005134,
+          "unique_fraction": 0.328125
+        },
+        "hra-large-intestine-female": {
+          "mean_control_std": 0.5539145074988724,
+          "unique_fraction": 0.328125
+        },
+        "hra-large-intestine-male": {
+          "mean_control_std": 0.5658880109771786,
+          "unique_fraction": 0.328125
+        },
+        "hra-liver-female": {
+          "mean_control_std": 0.5613621086090588,
+          "unique_fraction": 0.328125
+        },
+        "hra-liver-male": {
+          "mean_control_std": 0.5698124566483888,
+          "unique_fraction": 0.328125
+        },
+        "hra-lung-female": {
+          "mean_control_std": 0.5725611644661063,
+          "unique_fraction": 0.328125
+        },
+        "hra-lung-male": {
+          "mean_control_std": 0.5562988028473828,
+          "unique_fraction": 0.328125
+        },
+        "hra-pancreas-female": {
+          "mean_control_std": 0.5816561052650331,
+          "unique_fraction": 0.328125
+        },
+        "hra-pancreas-male": {
+          "mean_control_std": 0.5665024595101282,
+          "unique_fraction": 0.328125
+        },
+        "hra-small-intestine-female": {
+          "mean_control_std": 0.5665916950398934,
+          "unique_fraction": 0.328125
+        },
+        "hra-small-intestine-male": {
+          "mean_control_std": 0.5657412313581431,
+          "unique_fraction": 0.328125
+        },
+        "hra-spleen-female": {
+          "mean_control_std": 0.5868464134250638,
+          "unique_fraction": 0.328125
+        },
+        "hra-spleen-male": {
+          "mean_control_std": 0.5572384088919903,
+          "unique_fraction": 0.328125
+        },
+        "hra-urinary-bladder-female": {
+          "mean_control_std": 0.5896306298596851,
+          "unique_fraction": 0.328125
+        },
+        "hra-urinary-bladder-male": {
+          "mean_control_std": 0.582293116247892,
+          "unique_fraction": 0.328125
+        }
+      },
+      "conditional_proposal_diversity": {
+        "bp3d-gallbladder-male": {
+          "status": "MEASURED",
+          "mean_control_std": 0.29165711050210036,
+          "secondary_controls_mean_std": 0.4665934176449851,
+          "unique_fraction": 0.53125
+        },
+        "bp3d-stomach-male": {
+          "status": "MEASURED",
+          "mean_control_std": 0.310075549745079,
+          "secondary_controls_mean_std": 0.5157084732535753,
+          "unique_fraction": 0.59375
+        },
+        "hra-brain-female": {
+          "status": "UNSUPPORTED",
+          "reason": "Requested surface_area_mm2 exceeds training support for hra-brain-female"
+        },
+        "hra-brain-male": {
+          "status": "MEASURED",
+          "mean_control_std": 0.2919060975472147,
+          "secondary_controls_mean_std": 0.4916312592432349,
+          "unique_fraction": 0.625
+        },
+        "hra-heart-female": {
+          "status": "MEASURED",
+          "mean_control_std": 0.24592263499978367,
+          "secondary_controls_mean_std": 0.4140196636801018,
+          "unique_fraction": 0.625
+        },
+        "hra-heart-male": {
+          "status": "MEASURED",
+          "mean_control_std": 0.2587589610921452,
+          "secondary_controls_mean_std": 0.4228162277229943,
+          "unique_fraction": 0.65625
+        },
+        "hra-kidney-female-left": {
+          "status": "MEASURED",
+          "mean_control_std": 0.2896051187662175,
+          "secondary_controls_mean_std": 0.49237149846288386,
+          "unique_fraction": 0.625
+        },
+        "hra-kidney-female-right": {
+          "status": "MEASURED",
+          "mean_control_std": 0.3076753592337133,
+          "secondary_controls_mean_std": 0.5190791058687245,
+          "unique_fraction": 0.625
+        },
+        "hra-kidney-male-left": {
+          "status": "MEASURED",
+          "mean_control_std": 0.2904744480505848,
+          "secondary_controls_mean_std": 0.4952677654715938,
+          "unique_fraction": 0.625
+        },
+        "hra-kidney-male-right": {
+          "status": "MEASURED",
+          "mean_control_std": 0.28284524962735424,
+          "secondary_controls_mean_std": 0.483883500578201,
+          "unique_fraction": 0.40625
+        },
+        "hra-large-intestine-female": {
+          "status": "UNSUPPORTED",
+          "reason": "Requested extent_x_mm exceeds training support for hra-large-intestine-female"
+        },
+        "hra-large-intestine-male": {
+          "status": "MEASURED",
+          "mean_control_std": 0.28808540903116336,
+          "secondary_controls_mean_std": 0.4876492612684543,
+          "unique_fraction": 0.5625
+        },
+        "hra-liver-female": {
+          "status": "MEASURED",
+          "mean_control_std": 0.20724896084709826,
+          "secondary_controls_mean_std": 0.32684442398451286,
+          "unique_fraction": 0.59375
+        },
+        "hra-liver-male": {
+          "status": "MEASURED",
+          "mean_control_std": 0.2839018287944814,
+          "secondary_controls_mean_std": 0.47024520450687457,
+          "unique_fraction": 0.59375
+        },
+        "hra-lung-female": {
+          "status": "MEASURED",
+          "mean_control_std": 0.27727953195399124,
+          "secondary_controls_mean_std": 0.4550829038571364,
+          "unique_fraction": 0.59375
+        },
+        "hra-lung-male": {
+          "status": "MEASURED",
+          "mean_control_std": 0.3114423746723249,
+          "secondary_controls_mean_std": 0.494504269534816,
+          "unique_fraction": 0.65625
+        },
+        "hra-pancreas-female": {
+          "status": "MEASURED",
+          "mean_control_std": 0.27618195790735356,
+          "secondary_controls_mean_std": 0.42995056695761724,
+          "unique_fraction": 0.65625
+        },
+        "hra-pancreas-male": {
+          "status": "MEASURED",
+          "mean_control_std": 0.21391176494875447,
+          "secondary_controls_mean_std": 0.34774059296481724,
+          "unique_fraction": 0.53125
+        },
+        "hra-small-intestine-female": {
+          "status": "MEASURED",
+          "mean_control_std": 0.2364387857414456,
+          "secondary_controls_mean_std": 0.39991961932433445,
+          "unique_fraction": 0.5
+        },
+        "hra-small-intestine-male": {
+          "status": "MEASURED",
+          "mean_control_std": 0.23731655707637703,
+          "secondary_controls_mean_std": 0.39595291157620155,
+          "unique_fraction": 0.4375
+        },
+        "hra-spleen-female": {
+          "status": "UNSUPPORTED",
+          "reason": "Requested extent_x_mm exceeds training support for hra-spleen-female"
+        },
+        "hra-spleen-male": {
+          "status": "MEASURED",
+          "mean_control_std": 0.28671583571674514,
+          "secondary_controls_mean_std": 0.4548600037083639,
+          "unique_fraction": 0.65625
+        },
+        "hra-urinary-bladder-female": {
+          "status": "MEASURED",
+          "mean_control_std": 0.27457203224850923,
+          "secondary_controls_mean_std": 0.45802746155775087,
+          "unique_fraction": 0.6875
+        },
+        "hra-urinary-bladder-male": {
+          "status": "MEASURED",
+          "mean_control_std": 0.24045398460990006,
+          "secondary_controls_mean_std": 0.3830615730227018,
+          "unique_fraction": 0.625
+        }
+      },
+      "control_bound_violation_count": 0,
+      "decoded_geometry": {
+        "status": "MEASURED",
+        "conditions": {
+          "extent_x_mm": {
+            "observed_rows": 240,
+            "mae_original_units": 0.1354829133209783,
+            "nrmse_training_std": 0.027699743505084192
+          },
+          "extent_y_mm": {
+            "observed_rows": 240,
+            "mae_original_units": 0.14345475913290295,
+            "nrmse_training_std": 0.028532144421727818
+          },
+          "extent_z_mm": {
+            "observed_rows": 240,
+            "mae_original_units": 0.1428327580974324,
+            "nrmse_training_std": 0.03827650341966081
+          },
+          "surface_area_mm2": {
+            "observed_rows": 240,
+            "mae_original_units": 147.69673682532982,
+            "nrmse_training_std": 0.0361340443873011
+          },
+          "volume_ml": {
+            "observed_rows": 0,
+            "mae_original_units": null,
+            "nrmse_training_std": null
+          },
+          "compactness": {
+            "observed_rows": 0,
+            "mae_original_units": null,
+            "nrmse_training_std": null
+          }
+        }
+      },
+      "scope": "Within-generator held-out seeds; not unseen-person anatomical validation",
+      "per_organ": {
+        "brain": {
+          "rows": 20,
+          "method": "ridge",
+          "macro_template_control_nrmse": 0.2041360886356714,
+          "per_template_control_nrmse": {
+            "hra-brain-female": 0.19814988038146839,
+            "hra-brain-male": 0.21012229688987444
+          },
+          "per_organ_control_nrmse": {
+            "brain": 0.20422384134261448
+          },
+          "per_control_nrmse": {
+            "scale_x": 0.015272516844827447,
+            "scale_y": 0.021939791097196692,
+            "scale_z": 0.007131940583550814,
+            "bend": 0.2614093579558911,
+            "twist": 0.28572151771614274,
+            "taper": 0.2229414690454287,
+            "asymmetry": 0.3025089025060603
+          },
+          "unconditional_empirical_diversity": {},
+          "conditional_proposal_diversity": {},
+          "control_bound_violation_count": 0,
+          "decoded_geometry": {
+            "status": "MEASURED",
+            "conditions": {
+              "extent_x_mm": {
+                "observed_rows": 20,
+                "mae_original_units": 0.04887371998036798,
+                "nrmse_training_std": 0.021252098897996168
+              },
+              "extent_y_mm": {
+                "observed_rows": 20,
+                "mae_original_units": 0.03952724585074492,
+                "nrmse_training_std": 0.020359163187324447
+              },
+              "extent_z_mm": {
+                "observed_rows": 20,
+                "mae_original_units": 0.033602580296961546,
+                "nrmse_training_std": 0.011426505948686017
+              },
+              "surface_area_mm2": {
+                "observed_rows": 20,
+                "mae_original_units": 189.35821941836622,
+                "nrmse_training_std": 0.023149047053411392
+              },
+              "volume_ml": {
+                "observed_rows": 0,
+                "mae_original_units": null,
+                "nrmse_training_std": null
+              },
+              "compactness": {
+                "observed_rows": 0,
+                "mae_original_units": null,
+                "nrmse_training_std": null
+              }
+            }
+          },
+          "scope": "Within-generator held-out seeds; not unseen-person anatomical validation"
+        },
+        "gallbladder": {
+          "rows": 10,
+          "method": "ridge",
+          "macro_template_control_nrmse": 0.20212463955770085,
+          "per_template_control_nrmse": {
+            "bp3d-gallbladder-male": 0.20212463955770085
+          },
+          "per_organ_control_nrmse": {
+            "gallbladder": 0.20212463955770085
+          },
+          "per_control_nrmse": {
+            "scale_x": 0.040417333136302726,
+            "scale_y": 0.027154315334692213,
+            "scale_z": 0.012459493646206875,
+            "bend": 0.2938249886363281,
+            "twist": 0.2320636567092782,
+            "taper": 0.18436829142780622,
+            "asymmetry": 0.33056935910156304
+          },
+          "unconditional_empirical_diversity": {},
+          "conditional_proposal_diversity": {},
+          "control_bound_violation_count": 0,
+          "decoded_geometry": {
+            "status": "MEASURED",
+            "conditions": {
+              "extent_x_mm": {
+                "observed_rows": 10,
+                "mae_original_units": 0.060877983073302035,
+                "nrmse_training_std": 0.03201332359817157
+              },
+              "extent_y_mm": {
+                "observed_rows": 10,
+                "mae_original_units": 0.08303234253489862,
+                "nrmse_training_std": 0.03865198063511355
+              },
+              "extent_z_mm": {
+                "observed_rows": 10,
+                "mae_original_units": 0.048808415775256006,
+                "nrmse_training_std": 0.022871925177843252
+              },
+              "surface_area_mm2": {
+                "observed_rows": 10,
+                "mae_original_units": 8.095949436857472,
+                "nrmse_training_std": 0.034245767004285464
+              },
+              "volume_ml": {
+                "observed_rows": 0,
+                "mae_original_units": null,
+                "nrmse_training_std": null
+              },
+              "compactness": {
+                "observed_rows": 0,
+                "mae_original_units": null,
+                "nrmse_training_std": null
+              }
+            }
+          },
+          "scope": "Within-generator held-out seeds; not unseen-person anatomical validation"
+        },
+        "heart": {
+          "rows": 20,
+          "method": "ridge",
+          "macro_template_control_nrmse": 0.20679357314891256,
+          "per_template_control_nrmse": {
+            "hra-heart-female": 0.1871937160634382,
+            "hra-heart-male": 0.22639343023438693
+          },
+          "per_organ_control_nrmse": {
+            "heart": 0.2077203319212293
+          },
+          "per_control_nrmse": {
+            "scale_x": 0.02890434029395241,
+            "scale_y": 0.024579722176431153,
+            "scale_z": 0.015445389373753218,
+            "bend": 0.2767634872060093,
+            "twist": 0.21295406498683045,
+            "taper": 0.2316690163777951,
+            "asymmetry": 0.3531826377059786
+          },
+          "unconditional_empirical_diversity": {},
+          "conditional_proposal_diversity": {},
+          "control_bound_violation_count": 0,
+          "decoded_geometry": {
+            "status": "MEASURED",
+            "conditions": {
+              "extent_x_mm": {
+                "observed_rows": 20,
+                "mae_original_units": 0.05486734092110197,
+                "nrmse_training_std": 0.01385570052284408
+              },
+              "extent_y_mm": {
+                "observed_rows": 20,
+                "mae_original_units": 0.08602712949028586,
+                "nrmse_training_std": 0.027683853634964797
+              },
+              "extent_z_mm": {
+                "observed_rows": 20,
+                "mae_original_units": 0.07216006783637,
+                "nrmse_training_std": 0.02662906191713018
+              },
+              "surface_area_mm2": {
+                "observed_rows": 20,
+                "mae_original_units": 101.95503464753202,
+                "nrmse_training_std": 0.030768304622372736
+              },
+              "volume_ml": {
+                "observed_rows": 0,
+                "mae_original_units": null,
+                "nrmse_training_std": null
+              },
+              "compactness": {
+                "observed_rows": 0,
+                "mae_original_units": null,
+                "nrmse_training_std": null
+              }
+            }
+          },
+          "scope": "Within-generator held-out seeds; not unseen-person anatomical validation"
+        },
+        "kidney": {
+          "rows": 40,
+          "method": "ridge",
+          "macro_template_control_nrmse": 0.22184512195421377,
+          "per_template_control_nrmse": {
+            "hra-kidney-female-left": 0.22630687362559898,
+            "hra-kidney-female-right": 0.21890344506499174,
+            "hra-kidney-male-left": 0.23926457732123815,
+            "hra-kidney-male-right": 0.2029055918050262
+          },
+          "per_organ_control_nrmse": {
+            "kidney": 0.22223396255859126
+          },
+          "per_control_nrmse": {
+            "scale_x": 0.010486131750685555,
+            "scale_y": 0.01388135399940788,
+            "scale_z": 0.00987130632166397,
+            "bend": 0.2941925443754622,
+            "twist": 0.31280792564348636,
+            "taper": 0.27828810107784596,
+            "asymmetry": 0.2889171619201687
+          },
+          "unconditional_empirical_diversity": {},
+          "conditional_proposal_diversity": {},
+          "control_bound_violation_count": 0,
+          "decoded_geometry": {
+            "status": "MEASURED",
+            "conditions": {
+              "extent_x_mm": {
+                "observed_rows": 40,
+                "mae_original_units": 0.07362096357160208,
+                "nrmse_training_std": 0.02609720186939194
+              },
+              "extent_y_mm": {
+                "observed_rows": 40,
+                "mae_original_units": 0.15996129606787618,
+                "nrmse_training_std": 0.02820903480204296
+              },
+              "extent_z_mm": {
+                "observed_rows": 40,
+                "mae_original_units": 0.06235322346207468,
+                "nrmse_training_std": 0.02111314903569785
+              },
+              "surface_area_mm2": {
+                "observed_rows": 40,
+                "mae_original_units": 56.21782448786953,
+                "nrmse_training_std": 0.02911891681879736
+              },
+              "volume_ml": {
+                "observed_rows": 0,
+                "mae_original_units": null,
+                "nrmse_training_std": null
+              },
+              "compactness": {
+                "observed_rows": 0,
+                "mae_original_units": null,
+                "nrmse_training_std": null
+              }
+            }
+          },
+          "scope": "Within-generator held-out seeds; not unseen-person anatomical validation"
+        },
+        "large-intestine": {
+          "rows": 20,
+          "method": "ridge",
+          "macro_template_control_nrmse": 0.1945069096218785,
+          "per_template_control_nrmse": {
+            "hra-large-intestine-female": 0.20863277248678616,
+            "hra-large-intestine-male": 0.18038104675697084
+          },
+          "per_organ_control_nrmse": {
+            "large-intestine": 0.19501917314031406
+          },
+          "per_control_nrmse": {
+            "scale_x": 0.009200320879210109,
+            "scale_y": 0.013266209995396802,
+            "scale_z": 0.00968990747640921,
+            "bend": 0.27015272073657176,
+            "twist": 0.274295246794965,
+            "taper": 0.10354429720107862,
+            "asymmetry": 0.3270030829960944
+          },
+          "unconditional_empirical_diversity": {},
+          "conditional_proposal_diversity": {},
+          "control_bound_violation_count": 0,
+          "decoded_geometry": {
+            "status": "MEASURED",
+            "conditions": {
+              "extent_x_mm": {
+                "observed_rows": 20,
+                "mae_original_units": 0.19106178960951326,
+                "nrmse_training_std": 0.02388386105735083
+              },
+              "extent_y_mm": {
+                "observed_rows": 20,
+                "mae_original_units": 0.27242945214437386,
+                "nrmse_training_std": 0.02622927080981337
+              },
+              "extent_z_mm": {
+                "observed_rows": 20,
+                "mae_original_units": 0.18405882141432245,
+                "nrmse_training_std": 0.028292888661175478
+              },
+              "surface_area_mm2": {
+                "observed_rows": 20,
+                "mae_original_units": 445.62808950752077,
+                "nrmse_training_std": 0.03426366025352977
+              },
+              "volume_ml": {
+                "observed_rows": 0,
+                "mae_original_units": null,
+                "nrmse_training_std": null
+              },
+              "compactness": {
+                "observed_rows": 0,
+                "mae_original_units": null,
+                "nrmse_training_std": null
+              }
+            }
+          },
+          "scope": "Within-generator held-out seeds; not unseen-person anatomical validation"
+        },
+        "liver": {
+          "rows": 20,
+          "method": "ridge",
+          "macro_template_control_nrmse": 0.18890953205675204,
+          "per_template_control_nrmse": {
+            "hra-liver-female": 0.18705483815287102,
+            "hra-liver-male": 0.19076422596063303
+          },
+          "per_organ_control_nrmse": {
+            "liver": 0.1889186364321374
+          },
+          "per_control_nrmse": {
+            "scale_x": 0.01781966611128432,
+            "scale_y": 0.016353088370563835,
+            "scale_z": 0.04215851233154764,
+            "bend": 0.2857597330466036,
+            "twist": 0.22543755758630282,
+            "taper": 0.225166310945276,
+            "asymmetry": 0.25355249790135365
+          },
+          "unconditional_empirical_diversity": {},
+          "conditional_proposal_diversity": {},
+          "control_bound_violation_count": 0,
+          "decoded_geometry": {
+            "status": "MEASURED",
+            "conditions": {
+              "extent_x_mm": {
+                "observed_rows": 20,
+                "mae_original_units": 0.31189613036496694,
+                "nrmse_training_std": 0.030502108836568533
+              },
+              "extent_y_mm": {
+                "observed_rows": 20,
+                "mae_original_units": 0.34230942050518676,
+                "nrmse_training_std": 0.04604175258617939
+              },
+              "extent_z_mm": {
+                "observed_rows": 20,
+                "mae_original_units": 0.34235092990109023,
+                "nrmse_training_std": 0.06061153548214045
+              },
+              "surface_area_mm2": {
+                "observed_rows": 20,
+                "mae_original_units": 278.95277834268273,
+                "nrmse_training_std": 0.043045609887283856
+              },
+              "volume_ml": {
+                "observed_rows": 0,
+                "mae_original_units": null,
+                "nrmse_training_std": null
+              },
+              "compactness": {
+                "observed_rows": 0,
+                "mae_original_units": null,
+                "nrmse_training_std": null
+              }
+            }
+          },
+          "scope": "Within-generator held-out seeds; not unseen-person anatomical validation"
+        },
+        "lung": {
+          "rows": 20,
+          "method": "ridge",
+          "macro_template_control_nrmse": 0.21042664902479039,
+          "per_template_control_nrmse": {
+            "hra-lung-female": 0.21185164834771106,
+            "hra-lung-male": 0.2090016497018697
+          },
+          "per_organ_control_nrmse": {
+            "lung": 0.21043147398350998
+          },
+          "per_control_nrmse": {
+            "scale_x": 0.013247241171768582,
+            "scale_y": 0.029560274117165084,
+            "scale_z": 0.021160242774870653,
+            "bend": 0.3203877153547809,
+            "twist": 0.3002643046857267,
+            "taper": 0.2098469150904791,
+            "asymmetry": 0.26763802612786974
+          },
+          "unconditional_empirical_diversity": {},
+          "conditional_proposal_diversity": {},
+          "control_bound_violation_count": 0,
+          "decoded_geometry": {
+            "status": "MEASURED",
+            "conditions": {
+              "extent_x_mm": {
+                "observed_rows": 20,
+                "mae_original_units": 0.18773350867248836,
+                "nrmse_training_std": 0.021122879514562203
+              },
+              "extent_y_mm": {
+                "observed_rows": 20,
+                "mae_original_units": 0.17492631786457907,
+                "nrmse_training_std": 0.02320277076176804
+              },
+              "extent_z_mm": {
+                "observed_rows": 20,
+                "mae_original_units": 0.5666917664329262,
+                "nrmse_training_std": 0.09168519254076063
+              },
+              "surface_area_mm2": {
+                "observed_rows": 20,
+                "mae_original_units": 316.7332386537353,
+                "nrmse_training_std": 0.031076202310482966
+              },
+              "volume_ml": {
+                "observed_rows": 0,
+                "mae_original_units": null,
+                "nrmse_training_std": null
+              },
+              "compactness": {
+                "observed_rows": 0,
+                "mae_original_units": null,
+                "nrmse_training_std": null
+              }
+            }
+          },
+          "scope": "Within-generator held-out seeds; not unseen-person anatomical validation"
+        },
+        "pancreas": {
+          "rows": 20,
+          "method": "ridge",
+          "macro_template_control_nrmse": 0.18902884293913622,
+          "per_template_control_nrmse": {
+            "hra-pancreas-female": 0.18927693286401387,
+            "hra-pancreas-male": 0.18878075301425856
+          },
+          "per_organ_control_nrmse": {
+            "pancreas": 0.18902900574123394
+          },
+          "per_control_nrmse": {
+            "scale_x": 0.02139595396478889,
+            "scale_y": 0.03313665162407339,
+            "scale_z": 0.0439950031732994,
+            "bend": 0.26158889078588443,
+            "twist": 0.2688835189300603,
+            "taper": 0.2920804340033667,
+            "asymmetry": 0.14350712800102478
+          },
+          "unconditional_empirical_diversity": {},
+          "conditional_proposal_diversity": {},
+          "control_bound_violation_count": 0,
+          "decoded_geometry": {
+            "status": "MEASURED",
+            "conditions": {
+              "extent_x_mm": {
+                "observed_rows": 20,
+                "mae_original_units": 0.13508037107830972,
+                "nrmse_training_std": 0.02601986083623509
+              },
+              "extent_y_mm": {
+                "observed_rows": 20,
+                "mae_original_units": 0.05137465131746666,
+                "nrmse_training_std": 0.021897487746969715
+              },
+              "extent_z_mm": {
+                "observed_rows": 20,
+                "mae_original_units": 0.08259885480267357,
+                "nrmse_training_std": 0.025391407130463197
+              },
+              "surface_area_mm2": {
+                "observed_rows": 20,
+                "mae_original_units": 26.51390864600371,
+                "nrmse_training_std": 0.030615027527322067
+              },
+              "volume_ml": {
+                "observed_rows": 0,
+                "mae_original_units": null,
+                "nrmse_training_std": null
+              },
+              "compactness": {
+                "observed_rows": 0,
+                "mae_original_units": null,
+                "nrmse_training_std": null
+              }
+            }
+          },
+          "scope": "Within-generator held-out seeds; not unseen-person anatomical validation"
+        },
+        "small-intestine": {
+          "rows": 20,
+          "method": "ridge",
+          "macro_template_control_nrmse": 0.19867332207436356,
+          "per_template_control_nrmse": {
+            "hra-small-intestine-female": 0.16896765997532448,
+            "hra-small-intestine-male": 0.22837898417340263
+          },
+          "per_organ_control_nrmse": {
+            "small-intestine": 0.20088184403973913
+          },
+          "per_control_nrmse": {
+            "scale_x": 0.009021270444521995,
+            "scale_y": 0.022643430155180843,
+            "scale_z": 0.01384072446148084,
+            "bend": 0.3218121303489274,
+            "twist": 0.301259568752418,
+            "taper": 0.2767725787917308,
+            "asymmetry": 0.10375691579246858
+          },
+          "unconditional_empirical_diversity": {},
+          "conditional_proposal_diversity": {},
+          "control_bound_violation_count": 0,
+          "decoded_geometry": {
+            "status": "MEASURED",
+            "conditions": {
+              "extent_x_mm": {
+                "observed_rows": 20,
+                "mae_original_units": 0.13565717204777883,
+                "nrmse_training_std": 0.024880407167753422
+              },
+              "extent_y_mm": {
+                "observed_rows": 20,
+                "mae_original_units": 0.1453123040841689,
+                "nrmse_training_std": 0.020814771633927167
+              },
+              "extent_z_mm": {
+                "observed_rows": 20,
+                "mae_original_units": 0.08179415746443439,
+                "nrmse_training_std": 0.025622170377235156
+              },
+              "surface_area_mm2": {
+                "observed_rows": 20,
+                "mae_original_units": 164.15999589074198,
+                "nrmse_training_std": 0.025863831677685894
+              },
+              "volume_ml": {
+                "observed_rows": 0,
+                "mae_original_units": null,
+                "nrmse_training_std": null
+              },
+              "compactness": {
+                "observed_rows": 0,
+                "mae_original_units": null,
+                "nrmse_training_std": null
+              }
+            }
+          },
+          "scope": "Within-generator held-out seeds; not unseen-person anatomical validation"
+        },
+        "spleen": {
+          "rows": 20,
+          "method": "ridge",
+          "macro_template_control_nrmse": 0.2248722937062846,
+          "per_template_control_nrmse": {
+            "hra-spleen-female": 0.19809146360216243,
+            "hra-spleen-male": 0.2516531238104067
+          },
+          "per_organ_control_nrmse": {
+            "spleen": 0.22646139039092597
+          },
+          "per_control_nrmse": {
+            "scale_x": 0.026768940678941117,
+            "scale_y": 0.02227616139496256,
+            "scale_z": 0.08885942466399344,
+            "bend": 0.267263634941351,
+            "twist": 0.30589949059650834,
+            "taper": 0.21753477927758422,
+            "asymmetry": 0.37088920091685385
+          },
+          "unconditional_empirical_diversity": {},
+          "conditional_proposal_diversity": {},
+          "control_bound_violation_count": 0,
+          "decoded_geometry": {
+            "status": "MEASURED",
+            "conditions": {
+              "extent_x_mm": {
+                "observed_rows": 20,
+                "mae_original_units": 0.2126983066992878,
+                "nrmse_training_std": 0.04428526019451731
+              },
+              "extent_y_mm": {
+                "observed_rows": 20,
+                "mae_original_units": 0.12375686407799336,
+                "nrmse_training_std": 0.02425153614624184
+              },
+              "extent_z_mm": {
+                "observed_rows": 20,
+                "mae_original_units": 0.07090619647235955,
+                "nrmse_training_std": 0.021962000048899328
+              },
+              "surface_area_mm2": {
+                "observed_rows": 20,
+                "mae_original_units": 67.88167827670168,
+                "nrmse_training_std": 0.051029312516126316
+              },
+              "volume_ml": {
+                "observed_rows": 0,
+                "mae_original_units": null,
+                "nrmse_training_std": null
+              },
+              "compactness": {
+                "observed_rows": 0,
+                "mae_original_units": null,
+                "nrmse_training_std": null
+              }
+            }
+          },
+          "scope": "Within-generator held-out seeds; not unseen-person anatomical validation"
+        },
+        "stomach": {
+          "rows": 10,
+          "method": "ridge",
+          "macro_template_control_nrmse": 0.2137855841703995,
+          "per_template_control_nrmse": {
+            "bp3d-stomach-male": 0.2137855841703995
+          },
+          "per_organ_control_nrmse": {
+            "stomach": 0.2137855841703995
+          },
+          "per_control_nrmse": {
+            "scale_x": 0.01852173027785353,
+            "scale_y": 0.020157859879578046,
+            "scale_z": 0.01208119959857676,
+            "bend": 0.30428561851531216,
+            "twist": 0.31962534809783266,
+            "taper": 0.2637255466182848,
+            "asymmetry": 0.23395152934183175
+          },
+          "unconditional_empirical_diversity": {},
+          "conditional_proposal_diversity": {},
+          "control_bound_violation_count": 0,
+          "decoded_geometry": {
+            "status": "MEASURED",
+            "conditions": {
+              "extent_x_mm": {
+                "observed_rows": 10,
+                "mae_original_units": 0.15553363448728988,
+                "nrmse_training_std": 0.023787959708456614
+              },
+              "extent_y_mm": {
+                "observed_rows": 10,
+                "mae_original_units": 0.12689611124242078,
+                "nrmse_training_std": 0.02148688325698957
+              },
+              "extent_z_mm": {
+                "observed_rows": 10,
+                "mae_original_units": 0.13070325414315392,
+                "nrmse_training_std": 0.023992012926254237
+              },
+              "surface_area_mm2": {
+                "observed_rows": 10,
+                "mae_original_units": 73.12693503725458,
+                "nrmse_training_std": 0.03246239149811024
+              },
+              "volume_ml": {
+                "observed_rows": 0,
+                "mae_original_units": null,
+                "nrmse_training_std": null
+              },
+              "compactness": {
+                "observed_rows": 0,
+                "mae_original_units": null,
+                "nrmse_training_std": null
+              }
+            }
+          },
+          "scope": "Within-generator held-out seeds; not unseen-person anatomical validation"
+        },
+        "urinary-bladder": {
+          "rows": 20,
+          "method": "ridge",
+          "macro_template_control_nrmse": 0.1945004776317354,
+          "per_template_control_nrmse": {
+            "hra-urinary-bladder-female": 0.19892335302533554,
+            "hra-urinary-bladder-male": 0.19007760223813522
+          },
+          "per_organ_control_nrmse": {
+            "urinary-bladder": 0.19455075848148345
+          },
+          "per_control_nrmse": {
+            "scale_x": 0.029972283249313354,
+            "scale_y": 0.027473113896869125,
+            "scale_z": 0.017906251066393385,
+            "bend": 0.25792599339942085,
+            "twist": 0.2869019971761308,
+            "taper": 0.1360917711698026,
+            "asymmetry": 0.3092194941583711
+          },
+          "unconditional_empirical_diversity": {},
+          "conditional_proposal_diversity": {},
+          "control_bound_violation_count": 0,
+          "decoded_geometry": {
+            "status": "MEASURED",
+            "conditions": {
+              "extent_x_mm": {
+                "observed_rows": 20,
+                "mae_original_units": 0.09247888455442457,
+                "nrmse_training_std": 0.034669062568995795
+              },
+              "extent_y_mm": {
+                "observed_rows": 20,
+                "mae_original_units": 0.06090690523562401,
+                "nrmse_training_std": 0.03423010144120686
+              },
+              "extent_z_mm": {
+                "observed_rows": 20,
+                "mae_original_units": 0.06536744066469673,
+                "nrmse_training_std": 0.025229877404615457
+              },
+              "surface_area_mm2": {
+                "observed_rows": 20,
+                "mae_original_units": 28.130807307878513,
+                "nrmse_training_std": 0.05633372829346948
+              },
+              "volume_ml": {
+                "observed_rows": 0,
+                "mae_original_units": null,
+                "nrmse_training_std": null
+              },
+              "compactness": {
+                "observed_rows": 0,
+                "mae_original_units": null,
+                "nrmse_training_std": null
+              }
+            }
+          },
+          "scope": "Within-generator held-out seeds; not unseen-person anatomical validation"
+        }
+      }
+    }
+  },
+  "scope": "Within-generator controls and decoded geometry; independent anatomy, textures and mechanics not validated"
+}

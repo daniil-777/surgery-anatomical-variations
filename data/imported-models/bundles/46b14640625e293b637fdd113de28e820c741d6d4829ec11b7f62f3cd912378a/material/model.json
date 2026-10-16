@@ -1,0 +1,48 @@
+{
+  "conditions": [
+    "mean_red_linear",
+    "mean_green_linear",
+    "mean_blue_linear",
+    "luminance_std",
+    "roughness_mean",
+    "roughness_std",
+    "height_rms_mm",
+    "gradient_rms"
+  ],
+  "controls": [
+    "tint",
+    "pigment_contrast",
+    "mottle_scale_mm",
+    "wetness",
+    "fine_detail",
+    "structure_strength"
+  ],
+  "format": "viscera-material-prior-1.0.0",
+  "identity": {
+    "config": {
+      "batch_size": 96,
+      "checkpoint_every": 250,
+      "lr": 0.001,
+      "ridge": 0.1,
+      "seed": 1923,
+      "steps": 2000,
+      "width": 64
+    },
+    "dataset_code_hashes": {
+      "atlas_material_dataset.py": "8827c90c4cbbeb7bd085cd4f0f9298f78b7f10b199bdc204ae54e03ca3081813",
+      "atlas_materials.py": "679aa9214cef534b92e1d64b0043213a88a8c6a0fdd9b25b7ae54e4fa289a0a3"
+    },
+    "dataset_release_sha256": "f4b532c0af4f6f366fd0d26fa4bfe04cc6d54df8c19714285bd77e321188ed7d",
+    "device": "cpu",
+    "format": "viscera-material-prior-1.0.0",
+    "numpy": "2.4.6",
+    "platform": "Linux-6.6.122+-x86_64-with-glibc2.39",
+    "python": "3.13.15",
+    "source_sha256": "ff8ec950b4318dcc27cd5288ee077a4230cd4b1faa7aa6c9ff248d00abf76356",
+    "threads": 1,
+    "torch": "2.11.0+cu130"
+  },
+  "model_sha256": "d06e4083b5ea3ed81e6fc7ac190782188579be3a0440399498b2a7fbf3268f24",
+  "scope": "Authored procedural appearance design-space prior; never empirical anatomy or tissue frequency",
+  "selected": "ridge"
+}

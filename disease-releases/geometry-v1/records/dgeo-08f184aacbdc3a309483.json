@@ -1,0 +1,315 @@
+{
+  "appearance_evidence": "authored_vertex_color_not_measured_tissue_texture",
+  "clinical_review_status": "unreviewed",
+  "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+  "disease_field": {
+    "applied_displacement_fraction": 1.0,
+    "clinical_stage": null,
+    "color_strength": 0.074775084728544,
+    "fields": [
+      {
+        "amplitude_mm": 0.07447027916743008,
+        "center_mm": [
+          -20.22412419319153,
+          -5.325961392372847,
+          7.370058447122574
+        ],
+        "direction": [
+          -0.6458331906146461,
+          -0.7604940821461822,
+          0.06744064739563534
+        ],
+        "radius_mm": 4.308156737187933
+      },
+      {
+        "amplitude_mm": 0.08257274122634188,
+        "center_mm": [
+          -12.143362313508987,
+          15.076322946697474,
+          -0.9641312062740326
+        ],
+        "direction": [
+          -0.0275673171218387,
+          -0.9749341061303147,
+          -0.22077937342647788
+        ],
+        "radius_mm": 4.308156737187933
+      },
+      {
+        "amplitude_mm": 0.07996111963675401,
+        "center_mm": [
+          -26.732027530670166,
+          1.6336389817297459,
+          2.9061399400234222
+        ],
+        "direction": [
+          0.8002815880906079,
+          0.5948084023339026,
+          -0.07584421056458292
+        ],
+        "radius_mm": 4.308156737187933
+      },
+      {
+        "amplitude_mm": 0.07128418052982383,
+        "center_mm": [
+          -21.814417093992233,
+          -0.05376851186156273,
+          -17.56528636906296
+        ],
+        "direction": [
+          -0.6064780444673858,
+          -0.7455317350148297,
+          -0.2763454607276797
+        ],
+        "radius_mm": 4.308156737187933
+      },
+      {
+        "amplitude_mm": 0.08009067062485178,
+        "center_mm": [
+          -10.371154174208641,
+          -10.692528914660215,
+          11.66428066790104
+        ],
+        "direction": [
+          0.423565564009119,
+          0.8657761195065212,
+          -0.26650314046529844
+        ],
+        "radius_mm": 4.308156737187933
+      },
+      {
+        "amplitude_mm": 0.07822137743393408,
+        "center_mm": [
+          -3.2823747023940086,
+          13.674090150743723,
+          4.42105159163475
+        ],
+        "direction": [
+          0.1386092237390102,
+          0.9652362479696134,
+          0.22159979399812677
+        ],
+        "radius_mm": 4.308156737187933
+      },
+      {
+        "amplitude_mm": 0.08513762295869273,
+        "center_mm": [
+          -12.915199622511864,
+          12.378974352031946,
+          18.79243366420269
+        ],
+        "direction": [
+          -0.043720345984144295,
+          0.9932815245260179,
+          0.1071463689645928
+        ],
+        "radius_mm": 4.308156737187933
+      }
+    ],
+    "gradient_bound_per_step": 0.03509713900089264,
+    "pattern": "pouches",
+    "profile_id": "bladder-diverticulum",
+    "realized_sites": 7,
+    "requested_sites": 7,
+    "steps": 3,
+    "surface_site_frame": "undeformed-atlas-Y-up-mm",
+    "target_srgb": [
+      0.53,
+      0.29,
+      0.24
+    ],
+    "version": "disease-morphology-design-1.0.0"
+  },
+  "display_normal_sha256": "06b942883a910b0ff647c17e928377fffc88a8f344fb090eb1837762ff6970e2",
+  "face_count": 9498,
+  "features": [
+    63.80895525217056,
+    39.86523766070604,
+    72.3138190805912,
+    18407.042025659972,
+    0.25491525803790815,
+    1.0
+  ],
+  "geometry_evidence": "authored_disease_surface_from_licensed_reference_template",
+  "geometry_sha256": "812011a43e4ebe9f8603f3745f132dbb277299daf74f4d4594c507601310789a",
+  "group_id": "bladder-diverticulum:4129912507",
+  "mechanics_evidence": "none",
+  "normal_fallback_count": 0,
+  "organ": "urinary-bladder",
+  "parent_recipe_index": 1873,
+  "parent_sample_id": "bladder-diverticulum:4129912507",
+  "path": "records/dgeo-08f184aacbdc3a309483.json",
+  "patient_id": null,
+  "point_count": 2048,
+  "point_sampling_seed": 2975909661,
+  "profile_id": "bladder-diverticulum",
+  "qa": {
+    "anatomical_plausibility": {
+      "status": "NOT_RUN"
+    },
+    "area_ratio_max": 1.0167114302208944,
+    "area_ratio_min": 0.9858310348965571,
+    "continuous_jacobian_lower_bound": 0.7250239399998608,
+    "mechanical_validation": {
+      "status": "NOT_RUN"
+    },
+    "min_normal_dot": 0.9946410841482167,
+    "new_degenerate_faces": 0,
+    "normal_turns_over_90_degrees": 0,
+    "passed": true,
+    "scope": "finite nondegenerate same-topology outer-surface design",
+    "self_intersection": {
+      "reason": "Discrete/source triangle intersections not certified",
+      "status": "NOT_RUN"
+    },
+    "source_topology": {
+      "boundary_edges_after_audit_weld": 186,
+      "connected_vertex_components": 2,
+      "degenerate_faces": 0,
+      "method": "trimesh-geometric-weld-audit-copy-1.0",
+      "nonmanifold_edges_after_audit_weld": 0,
+      "self_intersection": {
+        "reason": "No robust intersection backend",
+        "status": "NOT_RUN"
+      },
+      "simulation_readiness": {
+        "reason": "No volumetric domain/materials",
+        "status": "NOT_RUN"
+      },
+      "watertight_after_audit_weld": false,
+      "weld_precision_mm": 1e-08,
+      "winding_consistent_after_audit_weld": true,
+      "zero_length_edges": 0
+    },
+    "status": "PASS",
+    "topology_preserved": true
+  },
+  "realized_id": "b02792bb422c1d55aeb25cb998fa34fae6f8fed8157936a62a7aa63b4486f42f",
+  "recipe_features": [
+    0.10202656686306,
+    0.8729365468025208,
+    0.12411844730377197,
+    0.7462654113769531,
+    0.7328981757164001,
+    0.8571428656578064,
+    0.15910004079341888,
+    0.32789793610572815,
+    0.6220906376838684
+  ],
+  "sample_id": "dgeo-08f184aacbdc3a309483",
+  "source_attribution": "Browne, Kristen, and Heidi Schlehlein. 2024. *3D Reference Organ for Urinary Bladder, Male v1.2*. https://doi.org/10.48539/HBM722.RMHQ.397. Accessed on June 15, 2024.",
+  "source_group_id": "hra-visible-human-male",
+  "source_license": "CC-BY-4.0",
+  "source_template_artifact_sha256": "4870b9af312358bf033da927c0bce9e30caebb7844f6f6e60283c5cd7e532d24",
+  "source_template_geometry_sha256": "e9d4b2ecfc6a5ebabcbe2acc834f644e31f83966f9e1b241c0587970fee7f974",
+  "source_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/urinary-bladder-male/v1.2/assets/3d-vh-m-urinary-bladder.glb",
+  "spec": {
+    "appearance": "tissue",
+    "controls": {
+      "asymmetry": 0.0,
+      "bend": 0.0,
+      "scale_x": 0.0,
+      "scale_y": 0.0,
+      "scale_z": 0.0,
+      "taper": 0.0,
+      "twist": 0.0
+    },
+    "disease": {
+      "contrast": 0.7328981757164001,
+      "count": 7,
+      "irregularity": 0.7462654113769531,
+      "location": [
+        -0.6817999184131622,
+        -0.3442041277885437,
+        0.24418127536773682
+      ],
+      "profile_id": "bladder-diverticulum",
+      "seed": 4129912507,
+      "severity": 0.10202656686306,
+      "size": 0.8729365468025208,
+      "spread": 0.12411844730377197
+    },
+    "realized_id": "b02792bb422c1d55aeb25cb998fa34fae6f8fed8157936a62a7aa63b4486f42f",
+    "seed": 4129912507,
+    "template_id": "hra-urinary-bladder-male",
+    "template_sha256": "4870b9af312358bf033da927c0bce9e30caebb7844f6f6e60283c5cd7e532d24"
+  },
+  "split": "train",
+  "split_track": "within_generator",
+  "summary": {
+    "disease": {
+      "applied_displacement_fraction": 1.0,
+      "displacement_limited_by_source_mesh": false,
+      "evidence": "synthetic_surface_morphology_not_patient_or_population_geometry",
+      "internal_anatomy_generated": false,
+      "max_displacement_mm": 0.25491525803790815,
+      "physical_parameters_inferred": false,
+      "profile": {
+        "clinical_source_url": "https://www.urologyhealth.org/urology-a-z/b/bladder-diverticulum",
+        "evidence": "image_reference_not_paired_3d_supervision",
+        "id": "bladder-diverticulum",
+        "label": "Bladder diverticulum",
+        "limits": "Single annotated CT slice; full 3D extent, wall material and live surface texture cannot be recovered from it. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+        "morphology_targets": [
+          "pouch volume",
+          "neck width and position",
+          "relation to ureteric orifices"
+        ],
+        "organ": "urinary-bladder",
+        "pattern": "pouches",
+        "source_ref": "I27",
+        "source_url": "https://commons.wikimedia.org/wiki/File:Bladderdiverticulum.png",
+        "supported": true,
+        "unavailable_reason": ""
+      },
+      "realized_sites": 7,
+      "recipe": {
+        "contrast": 0.7328981757164001,
+        "count": 7,
+        "irregularity": 0.7462654113769531,
+        "location": [
+          -0.6817999184131622,
+          -0.3442041277885437,
+          0.24418127536773682
+        ],
+        "profile_id": "bladder-diverticulum",
+        "seed": 4129912507,
+        "severity": 0.10202656686306,
+        "size": 0.8729365468025208,
+        "spread": 0.12411844730377197
+      },
+      "requested_sites": 7,
+      "version": "disease-morphology-design-1.0.0"
+    },
+    "extent_mm": [
+      63.80895525217056,
+      39.86523766070604,
+      72.3138190805912
+    ],
+    "measurements": {
+      "compactness": null,
+      "extent_x_mm": 63.80895525217056,
+      "extent_y_mm": 39.86523766070604,
+      "extent_z_mm": 72.3138190805912,
+      "method": "disease-display-triangle-measurements-1.0.0",
+      "surface_area_definition": "Sum of selected triangles including capsule/internal faces",
+      "surface_area_mm2": 18407.042025659972,
+      "volume_ml": null,
+      "volume_reason": "Display surface assembly is not a certified closed outer envelope",
+      "volume_status": "NOT_APPLICABLE"
+    },
+    "min_jacobian": 0.7250239399998608,
+    "min_jacobian_kind": "conservative_bound",
+    "organ": "urinary-bladder",
+    "profile": "development_preview",
+    "qa_scope": "finite nondegenerate same-topology outer-surface design",
+    "qa_status": "PASS",
+    "reference": "hra-urinary-bladder-male",
+    "review_status": "unreviewed",
+    "triangles": 9498,
+    "vertices": 5145
+  },
+  "template_id": "hra-urinary-bladder-male",
+  "units": "mm",
+  "vertex_count": 5145
+}

@@ -1,0 +1,35 @@
+{
+  "date": "2026-10-06",
+  "template_count": 24,
+  "organ_groups": 12,
+  "scope": "Display-source preservation and bounded smooth morphology, not expert anatomy or mechanics validation",
+  "geometry_tests": {
+    "passed": 16,
+    "failed": 0
+  },
+  "stress": {
+    "checked": 3840,
+    "passed": 3840,
+    "minimum_jacobian": 0.6598899496932084,
+    "minimum_normal_dot": 0.929716937318457,
+    "maximum_inverse_error_mm": 8.526512829121202e-14
+  },
+  "source_cleaning": {
+    "vertices_changed": 0,
+    "zero_area_faces_removed": 828,
+    "face_orientations_reversed": 1,
+    "original_face_transfer_maps": "preserved in every NPZ"
+  },
+  "artifact_hashes": {
+    "py/viscera_core/atlas.py": "23e21cf860a2e75e565e91a6e7ed4c3a115a87847f01882665e39e2bef94f897",
+    "tests/python/test_atlas_geometry.py": "6ed64ba82efda80198777034d4c96f310e8d7747f52fa008c25772de134b384b",
+    "benchmarks/results/atlas-geometry-2026-10-06.json": "3443877ab495a19296bc4b9268bcbf28ae489701af37b1c67721ad26ba5d049b",
+    "datasets/atlas/templates-v2/release-lock.json": "c0f520cae40edb61d78ca0ea5003978425773a5b1c30c0aa291f3257f3520c56"
+  },
+  "remaining_limits": [
+    "Discrete and inherited source self-intersection checks not run",
+    "No independently reviewed population distribution or mechanical parameters",
+    "Stomach and gallbladder are low-resolution BodyParts3D v4 sources",
+    "Higher-resolution historical BodyParts3D v3 candidates quarantined for license review"
+  ]
+}

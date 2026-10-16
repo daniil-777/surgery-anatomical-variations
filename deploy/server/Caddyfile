@@ -1,0 +1,28 @@
+# Automatic HTTPS for SITE_HOST (a domain, or <ip>.sslip.io). Long requests (physics, bakes, text) need patient timeouts.
+{$SITE_HOST} {
+	encode zstd gzip
+	reverse_proxy app:7860 {
+		# backpressure lives here, where requests queue instead of failing: uvicorn's own cap (64 connections) stays above
+		# Caddy's idle pool (32) plus a page load's burst of assets
+		transport http {
+			read_timeout 300s
+			write_timeout 300s
+			dial_timeout 10s
+			max_conns_per_host 24
+		}
+	}
+	request_body {
+		max_size 160MB
+	}
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+		-Server
+	}
+	log {
+		output file /data/access.log {
+			roll_size 20MiB
+			roll_keep 5
+		}
+	}
+}

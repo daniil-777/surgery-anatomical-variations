@@ -1,0 +1,287 @@
+{
+  "appearance_evidence": "authored_vertex_color_not_measured_tissue_texture",
+  "clinical_review_status": "unreviewed",
+  "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+  "disease_field": {
+    "applied_displacement_fraction": 1.0,
+    "clinical_stage": null,
+    "color_strength": 0.03344963518925015,
+    "fields": [
+      {
+        "amplitude_mm": 0.11040822368383356,
+        "center_mm": [
+          -25.361953303217888,
+          -55.19157042726874,
+          -23.664548993110657
+        ],
+        "direction": [
+          0.0759973247296433,
+          0.26326557892885927,
+          -0.9617253462320673
+        ],
+        "radius_mm": 3.9120595583984037
+      },
+      {
+        "amplitude_mm": 0.11246183016830606,
+        "center_mm": [
+          7.95259396545589,
+          -76.97826763615012,
+          -33.79605710506439
+        ],
+        "direction": [
+          0.15512315621842865,
+          0.9310813231549023,
+          -0.33018839482475665
+        ],
+        "radius_mm": 3.9120595583984037
+      },
+      {
+        "amplitude_mm": 0.10906639559451117,
+        "center_mm": [
+          3.3551661763340235,
+          -53.721973206847906,
+          -24.134598672389984
+        ],
+        "direction": [
+          -0.46523222932057107,
+          0.28233643268344694,
+          0.8389547732631343
+        ],
+        "radius_mm": 3.9120595583984037
+      },
+      {
+        "amplitude_mm": 0.11354428425905642,
+        "center_mm": [
+          -31.027451157569885,
+          -45.56885501369834,
+          -18.06221902370453
+        ],
+        "direction": [
+          0.06485219123648193,
+          -0.6985171481371931,
+          0.7126485719133306
+        ],
+        "radius_mm": 3.9120595583984037
+      },
+      {
+        "amplitude_mm": 0.11040485728045348,
+        "center_mm": [
+          -27.230769395828247,
+          -78.46708362922072,
+          3.21974977850914
+        ],
+        "direction": [
+          -0.17292525814553036,
+          -0.9769927243512547,
+          0.12482816853585108
+        ],
+        "radius_mm": 3.9120595583984037
+      }
+    ],
+    "gradient_bound_per_step": 0.052664226174354546,
+    "pattern": "pouches",
+    "profile_id": "colon-diverticulosis",
+    "realized_sites": 5,
+    "requested_sites": 5,
+    "steps": 3,
+    "surface_site_frame": "undeformed-atlas-Y-up-mm",
+    "target_srgb": [
+      0.53,
+      0.29,
+      0.24
+    ],
+    "version": "disease-morphology-design-1.0.0"
+  },
+  "display_normal_sha256": "6ad419e4edc66f5499989fac94ae908e166b9a1b4198757a86f023196be2d1cd",
+  "face_count": 20375,
+  "features": [
+    243.27576905488968,
+    294.94714457541704,
+    193.41787695884705,
+    255261.74600496038,
+    0.33920508491955,
+    1.0
+  ],
+  "geometry_evidence": "authored_disease_surface_from_licensed_reference_template",
+  "geometry_sha256": "ac92abcdfdea376d5440f0ec0bf09085f4ece2bdc26a2d2cb81f74bb22d70362",
+  "group_id": "colon-diverticulosis:0550760176",
+  "mechanics_evidence": "none",
+  "normal_fallback_count": 0,
+  "organ": "large-intestine",
+  "parent_recipe_index": 364,
+  "parent_sample_id": "colon-diverticulosis:0550760176",
+  "path": "records/dgeo-ad009eeb7efc46e1bdd5.json",
+  "patient_id": null,
+  "point_count": 2048,
+  "point_sampling_seed": 219961191,
+  "profile_id": "colon-diverticulosis",
+  "qa": {
+    "anatomical_plausibility": {
+      "status": "NOT_RUN"
+    },
+    "area_ratio_max": 1.014128857257731,
+    "area_ratio_min": 0.9759357237462482,
+    "continuous_jacobian_lower_bound": 0.6145191754908927,
+    "mechanical_validation": {
+      "status": "NOT_RUN"
+    },
+    "min_normal_dot": 0.9911037341710123,
+    "new_degenerate_faces": 0,
+    "normal_turns_over_90_degrees": 0,
+    "passed": true,
+    "scope": "finite nondegenerate same-topology outer-surface design",
+    "self_intersection": {
+      "reason": "Discrete/source triangle intersections not certified",
+      "status": "NOT_RUN"
+    },
+    "source_topology": {
+      "boundary_edges_after_audit_weld": 76,
+      "connected_vertex_components": 2,
+      "degenerate_faces": 0,
+      "method": "trimesh-geometric-weld-audit-copy-1.0",
+      "nonmanifold_edges_after_audit_weld": 195,
+      "self_intersection": {
+        "reason": "No robust intersection backend",
+        "status": "NOT_RUN"
+      },
+      "simulation_readiness": {
+        "reason": "No volumetric domain/materials",
+        "status": "NOT_RUN"
+      },
+      "watertight_after_audit_weld": false,
+      "weld_precision_mm": 1e-08,
+      "winding_consistent_after_audit_weld": true,
+      "zero_length_edges": 0
+    },
+    "status": "PASS",
+    "topology_preserved": true
+  },
+  "realized_id": "c245b67d8901ea38952bfc34624c76b2447ea03782cd4df29ee7dd6f0d8ef3d8",
+  "recipe_features": [
+    0.15309368073940277,
+    0.39880484342575073,
+    0.1993216723203659,
+    0.32858747243881226,
+    0.21849128603935242,
+    0.5714285969734192,
+    0.26355457305908203,
+    0.7570748329162598,
+    0.18312610685825348
+  ],
+  "sample_id": "dgeo-ad009eeb7efc46e1bdd5",
+  "source_attribution": "Browne, Kristen, and Heidi Schlehlein. 2024. \"3D Reference Organ for Large Intestine, Female v1.3.\" https://doi.org/10.48539/HBM682.RSXX.965. Accessed on June 15, 2024.",
+  "source_group_id": "hra-visible-human-female",
+  "source_license": "CC-BY-4.0",
+  "source_template_artifact_sha256": "21d1fbb7f2b5578ea648f0d283aad1b9b9a7ba20eda1836f3f4376e5900ade56",
+  "source_template_geometry_sha256": "4f79838e47ca71297c25c37f726906e521c5e708df9938d368036092f6441486",
+  "source_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/large-intestine-female/v1.3/assets/3d-sbu-f-large-intestine.glb",
+  "spec": {
+    "appearance": "tissue",
+    "controls": {
+      "asymmetry": 0.0,
+      "bend": 0.0,
+      "scale_x": 0.0,
+      "scale_y": 0.0,
+      "scale_z": 0.0,
+      "taper": 0.0,
+      "twist": 0.0
+    },
+    "disease": {
+      "contrast": 0.21849128603935242,
+      "count": 5,
+      "irregularity": 0.32858747243881226,
+      "location": [
+        -0.47289085388183594,
+        0.5141496658325195,
+        -0.633747786283493
+      ],
+      "profile_id": "colon-diverticulosis",
+      "seed": 550760176,
+      "severity": 0.15309368073940277,
+      "size": 0.39880484342575073,
+      "spread": 0.1993216723203659
+    },
+    "realized_id": "c245b67d8901ea38952bfc34624c76b2447ea03782cd4df29ee7dd6f0d8ef3d8",
+    "seed": 550760176,
+    "template_id": "hra-large-intestine-female",
+    "template_sha256": "21d1fbb7f2b5578ea648f0d283aad1b9b9a7ba20eda1836f3f4376e5900ade56"
+  },
+  "split": "val",
+  "split_track": "within_generator",
+  "summary": {
+    "disease": {
+      "applied_displacement_fraction": 1.0,
+      "displacement_limited_by_source_mesh": false,
+      "evidence": "synthetic_surface_morphology_not_patient_or_population_geometry",
+      "internal_anatomy_generated": false,
+      "max_displacement_mm": 0.33920508491955,
+      "physical_parameters_inferred": false,
+      "profile": {
+        "clinical_source_url": "https://www.niddk.nih.gov/health-information/digestive-diseases/diverticulosis-diverticulitis/treatment",
+        "evidence": "image_reference_not_paired_3d_supervision",
+        "id": "colon-diverticulosis",
+        "label": "Diverticulosis",
+        "limits": "Diverticulosis is shown, not demonstrated acute diverticulitis; inflammation and abscess need separate references. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+        "morphology_targets": [
+          "pouch count and location",
+          "diverticulum neck size",
+          "bowel wall thickness"
+        ],
+        "organ": "large-intestine",
+        "pattern": "pouches",
+        "source_ref": "I21",
+        "source_url": "https://commons.wikimedia.org/wiki/File:Gross_pathology_of_diverticulosis.jpg",
+        "supported": true,
+        "unavailable_reason": ""
+      },
+      "realized_sites": 5,
+      "recipe": {
+        "contrast": 0.21849128603935242,
+        "count": 5,
+        "irregularity": 0.32858747243881226,
+        "location": [
+          -0.47289085388183594,
+          0.5141496658325195,
+          -0.633747786283493
+        ],
+        "profile_id": "colon-diverticulosis",
+        "seed": 550760176,
+        "severity": 0.15309368073940277,
+        "size": 0.39880484342575073,
+        "spread": 0.1993216723203659
+      },
+      "requested_sites": 5,
+      "version": "disease-morphology-design-1.0.0"
+    },
+    "extent_mm": [
+      243.27576905488968,
+      294.94714457541704,
+      193.41787695884705
+    ],
+    "measurements": {
+      "compactness": null,
+      "extent_x_mm": 243.27576905488968,
+      "extent_y_mm": 294.94714457541704,
+      "extent_z_mm": 193.41787695884705,
+      "method": "disease-display-triangle-measurements-1.0.0",
+      "surface_area_definition": "Sum of selected triangles including capsule/internal faces",
+      "surface_area_mm2": 255261.74600496038,
+      "volume_ml": null,
+      "volume_reason": "Display surface assembly is not a certified closed outer envelope",
+      "volume_status": "NOT_APPLICABLE"
+    },
+    "min_jacobian": 0.6145191754908927,
+    "min_jacobian_kind": "conservative_bound",
+    "organ": "large-intestine",
+    "profile": "development_preview",
+    "qa_scope": "finite nondegenerate same-topology outer-surface design",
+    "qa_status": "PASS",
+    "reference": "hra-large-intestine-female",
+    "review_status": "unreviewed",
+    "triangles": 20375,
+    "vertices": 10601
+  },
+  "template_id": "hra-large-intestine-female",
+  "units": "mm",
+  "vertex_count": 10601
+}

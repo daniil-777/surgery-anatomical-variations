@@ -1,0 +1,315 @@
+{
+  "appearance_evidence": "authored_vertex_color_not_measured_tissue_texture",
+  "clinical_review_status": "unreviewed",
+  "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+  "disease_field": {
+    "applied_displacement_fraction": 1.0,
+    "clinical_stage": null,
+    "color_strength": 0.13497760095187417,
+    "fields": [
+      {
+        "amplitude_mm": 0.7405621175179101,
+        "center_mm": [
+          28.039325028657913,
+          27.883321046829224,
+          10.71879081428051
+        ],
+        "direction": [
+          -0.6077011644821279,
+          0.5395644128524066,
+          0.5827259553772286
+        ],
+        "radius_mm": 15.209982188520836
+      },
+      {
+        "amplitude_mm": 0.7644158713872289,
+        "center_mm": [
+          -17.90836825966835,
+          19.987910985946655,
+          -16.177009791135788
+        ],
+        "direction": [
+          -0.12070370864948834,
+          -0.14622685404949576,
+          0.9818596243216475
+        ],
+        "radius_mm": 15.209982188520836
+      },
+      {
+        "amplitude_mm": 0.7603986182431945,
+        "center_mm": [
+          40.08064046502113,
+          -49.98365044593811,
+          29.410062823444605
+        ],
+        "direction": [
+          -0.24179909459439763,
+          -0.31442644237142864,
+          0.9179701575710271
+        ],
+        "radius_mm": 15.209982188520836
+      },
+      {
+        "amplitude_mm": 0.7598430559734558,
+        "center_mm": [
+          4.725847393274307,
+          -24.097532033920288,
+          -13.492636382579803
+        ],
+        "direction": [
+          -0.6823954707244221,
+          -0.730084036671936,
+          -0.03624528840560765
+        ],
+        "radius_mm": 15.209982188520836
+      },
+      {
+        "amplitude_mm": 0.7313790091241403,
+        "center_mm": [
+          -3.2481811940670013,
+          16.59548282623291,
+          -43.50533336400986
+        ],
+        "direction": [
+          -0.009042923307690479,
+          0.14915563152365377,
+          -0.9887723818568314
+        ],
+        "radius_mm": 15.209982188520836
+      },
+      {
+        "amplitude_mm": 0.7090913300792799,
+        "center_mm": [
+          44.27495226264,
+          -11.321663856506348,
+          41.53988556936383
+        ],
+        "direction": [
+          -0.5392630133112282,
+          0.2225498727932733,
+          0.8121988405521102
+        ],
+        "radius_mm": 15.209982188520836
+      },
+      {
+        "amplitude_mm": 0.6973791271627248,
+        "center_mm": [
+          21.3831327855587,
+          -2.889096736907959,
+          0.7251240313053131
+        ],
+        "direction": [
+          0.030167646399273655,
+          0.010392959549140015,
+          0.9994908201191937
+        ],
+        "radius_mm": 15.209982188520836
+      }
+    ],
+    "gradient_bound_per_step": 0.08696261143684386,
+    "pattern": "cyst",
+    "profile_id": "spleen-cyst",
+    "realized_sites": 7,
+    "requested_sites": 7,
+    "steps": 3,
+    "surface_site_frame": "undeformed-atlas-Y-up-mm",
+    "target_srgb": [
+      0.49,
+      0.38,
+      0.26
+    ],
+    "version": "disease-morphology-design-1.0.0"
+  },
+  "display_normal_sha256": "4b46ab08a525a27ae32af93de64d4dc5584df2a051e698b9ed116a24142a337e",
+  "face_count": 16872,
+  "features": [
+    110.40755361318588,
+    118.6375617980957,
+    90.80831444633037,
+    27641.396349032002,
+    2.2647051933825115,
+    1.0
+  ],
+  "geometry_evidence": "authored_disease_surface_from_licensed_reference_template",
+  "geometry_sha256": "3451517da950ba633a3bd432e6be4d2eebe2290049c25e51525438de7dbf3e19",
+  "group_id": "spleen-cyst:1861361014",
+  "mechanics_evidence": "none",
+  "normal_fallback_count": 0,
+  "organ": "spleen",
+  "parent_recipe_index": 279,
+  "parent_sample_id": "spleen-cyst:1861361014",
+  "path": "records/dgeo-8f218f98558e15ca7fc4.json",
+  "patient_id": null,
+  "point_count": 2048,
+  "point_sampling_seed": 2390904291,
+  "profile_id": "spleen-cyst",
+  "qa": {
+    "anatomical_plausibility": {
+      "status": "NOT_RUN"
+    },
+    "area_ratio_max": 1.2172793109633566,
+    "area_ratio_min": 0.7985891185216211,
+    "continuous_jacobian_lower_bound": 0.4409578302726199,
+    "mechanical_validation": {
+      "status": "NOT_RUN"
+    },
+    "min_normal_dot": 0.9658912504552808,
+    "new_degenerate_faces": 0,
+    "normal_turns_over_90_degrees": 0,
+    "passed": true,
+    "scope": "finite nondegenerate same-topology outer-surface design",
+    "self_intersection": {
+      "reason": "Discrete/source triangle intersections not certified",
+      "status": "NOT_RUN"
+    },
+    "source_topology": {
+      "boundary_edges_after_audit_weld": 0,
+      "connected_vertex_components": 1,
+      "degenerate_faces": 0,
+      "method": "trimesh-geometric-weld-audit-copy-1.0",
+      "nonmanifold_edges_after_audit_weld": 0,
+      "self_intersection": {
+        "reason": "No robust intersection backend",
+        "status": "NOT_RUN"
+      },
+      "simulation_readiness": {
+        "reason": "No volumetric domain/materials",
+        "status": "NOT_RUN"
+      },
+      "watertight_after_audit_weld": true,
+      "weld_precision_mm": 1e-08,
+      "winding_consistent_after_audit_weld": true,
+      "zero_length_edges": 0
+    },
+    "status": "PASS",
+    "topology_preserved": true
+  },
+  "realized_id": "1e4436be457793f118c23182f8a3ff5e50e8edf1a07504af661d145de6fe7542",
+  "recipe_features": [
+    0.25279828906059265,
+    0.7283381819725037,
+    0.8314080834388733,
+    0.31335413455963135,
+    0.5339339971542358,
+    0.8571428656578064,
+    0.5733439326286316,
+    0.859902560710907,
+    0.7793494462966919
+  ],
+  "sample_id": "dgeo-8f218f98558e15ca7fc4",
+  "source_attribution": "Browne, Kristen, and Heidi Schlehlein. 2024. *3D Reference Organ for Spleen, Male v1.3*. https://doi.org/10.48539/HBM437.LMTZ.752. Accessed on June 15, 2024.",
+  "source_group_id": "hra-visible-human-male",
+  "source_license": "CC-BY-4.0",
+  "source_template_artifact_sha256": "0177454d0735a3158981d0e16c48b929282023a7741d4903a6e78f817ec64701",
+  "source_template_geometry_sha256": "89d5a59239c3b6964f3ecd407065a06ae69bbbeae0f98e1bf9e11c2984df49cf",
+  "source_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/spleen-male/v1.3/assets/3d-vh-m-spleen.glb",
+  "spec": {
+    "appearance": "tissue",
+    "controls": {
+      "asymmetry": 0.0,
+      "bend": 0.0,
+      "scale_x": 0.0,
+      "scale_y": 0.0,
+      "scale_z": 0.0,
+      "taper": 0.0,
+      "twist": 0.0
+    },
+    "disease": {
+      "contrast": 0.5339339971542358,
+      "count": 7,
+      "irregularity": 0.31335413455963135,
+      "location": [
+        0.14668786525726318,
+        0.719805121421814,
+        0.5586988925933838
+      ],
+      "profile_id": "spleen-cyst",
+      "seed": 1861361014,
+      "severity": 0.25279828906059265,
+      "size": 0.7283381819725037,
+      "spread": 0.8314080834388733
+    },
+    "realized_id": "1e4436be457793f118c23182f8a3ff5e50e8edf1a07504af661d145de6fe7542",
+    "seed": 1861361014,
+    "template_id": "hra-spleen-male",
+    "template_sha256": "0177454d0735a3158981d0e16c48b929282023a7741d4903a6e78f817ec64701"
+  },
+  "split": "audit",
+  "split_track": "within_generator",
+  "summary": {
+    "disease": {
+      "applied_displacement_fraction": 1.0,
+      "displacement_limited_by_source_mesh": false,
+      "evidence": "synthetic_surface_morphology_not_patient_or_population_geometry",
+      "internal_anatomy_generated": false,
+      "max_displacement_mm": 2.2647051933825115,
+      "physical_parameters_inferred": false,
+      "profile": {
+        "clinical_source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5755232/",
+        "evidence": "image_reference_not_paired_3d_supervision",
+        "id": "spleen-cyst",
+        "label": "Splenic cystic lesion",
+        "limits": "Source favors a pseudocyst but does not establish histology; CT provides no operative color or material properties. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+        "morphology_targets": [
+          "cyst position and diameter",
+          "rim calcification",
+          "residual splenic tissue"
+        ],
+        "organ": "spleen",
+        "pattern": "cyst",
+        "source_ref": "I15",
+        "source_url": "https://commons.wikimedia.org/wiki/File:Pseudozyste_der_Milz_mit_Randverkalkungen_83W_-_CT_KM_pv_-_001.jpg",
+        "supported": true,
+        "unavailable_reason": ""
+      },
+      "realized_sites": 7,
+      "recipe": {
+        "contrast": 0.5339339971542358,
+        "count": 7,
+        "irregularity": 0.31335413455963135,
+        "location": [
+          0.14668786525726318,
+          0.719805121421814,
+          0.5586988925933838
+        ],
+        "profile_id": "spleen-cyst",
+        "seed": 1861361014,
+        "severity": 0.25279828906059265,
+        "size": 0.7283381819725037,
+        "spread": 0.8314080834388733
+      },
+      "requested_sites": 7,
+      "version": "disease-morphology-design-1.0.0"
+    },
+    "extent_mm": [
+      110.40755361318588,
+      118.6375617980957,
+      90.80831444633037
+    ],
+    "measurements": {
+      "compactness": null,
+      "extent_x_mm": 110.40755361318588,
+      "extent_y_mm": 118.6375617980957,
+      "extent_z_mm": 90.80831444633037,
+      "method": "disease-display-triangle-measurements-1.0.0",
+      "surface_area_definition": "Sum of selected triangles including capsule/internal faces",
+      "surface_area_mm2": 27641.396349032002,
+      "volume_ml": null,
+      "volume_reason": "Display surface assembly is not a certified closed outer envelope",
+      "volume_status": "NOT_APPLICABLE"
+    },
+    "min_jacobian": 0.4409578302726199,
+    "min_jacobian_kind": "conservative_bound",
+    "organ": "spleen",
+    "profile": "development_preview",
+    "qa_scope": "finite nondegenerate same-topology outer-surface design",
+    "qa_status": "PASS",
+    "reference": "hra-spleen-male",
+    "review_status": "unreviewed",
+    "triangles": 16872,
+    "vertices": 9014
+  },
+  "template_id": "hra-spleen-male",
+  "units": "mm",
+  "vertex_count": 9014
+}

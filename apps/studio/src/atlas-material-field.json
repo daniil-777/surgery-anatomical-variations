@@ -1,0 +1,14 @@
+{
+  "version": "atlas-material-field-glsl-2.0.0",
+  "sha256": "1320bb268f9128a13ad116e7f16f9aa7e0d2cacfe3c08f4dd853cf43f62e9afd",
+  "requirements": "WebGL2 / GLSL ES 3 integer arithmetic; highp float and highp int",
+  "entry_point": "AtlasMaterialSample atlasSampleMaterial(vec3 restMm, float region, float footprintMm)",
+  "input_coordinates": "Interpolated undeformed canonical atlas Y-up centered mm",
+  "input_region": "0 tissue / 1 ligament; keep one region per surface component, never infer from pigment",
+  "output_color_space": "linear-sRGB",
+  "height_units": "mm",
+  "normal_gradient_units": "height mm per rest-position mm",
+  "geometry_policy": "Use height/gradient for fragment normal perturbation only; never displace vertices",
+  "filtering": "footprintMm is a local rest-mm sampling diameter; analytic gradients assume locally constant footprint",
+  "precision_policy": "Hash values use 24 high bits exactly representable in float32; field arithmetic is tolerance-tested, not byte-identical CPU float64/GPU float32"
+}

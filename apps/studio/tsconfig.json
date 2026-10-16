@@ -1,0 +1,18 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@viscera/ui": ["../../packages/ui/src/index.tsx"],
+      "@viscera/render": ["../../packages/render/src/index.tsx"],
+      "@viscera/geometry": ["../../packages/geometry/src/index.ts"]
+    },
+    "types": ["vite/client"]
+  },
+  "include": [
+    "src",
+    "../../packages/ui/src",
+    "../../packages/render/src",
+    "../../packages/geometry/src"
+  ]
+}

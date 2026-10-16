@@ -1,0 +1,194 @@
+{
+  "center_mm": [
+    -24.70242604613304,
+    21.181121468544006,
+    -135.0947804749012
+  ],
+  "coordinate_frame": "RAS",
+  "features": {
+    "lesion_center_x_relative": 0.3293902277946472,
+    "lesion_center_y_relative": 0.2393452674150467,
+    "lesion_center_z_relative": -0.3052609860897064,
+    "lesion_extent_x_mm": 38.016395568847656,
+    "lesion_extent_y_mm": 27.914077758789062,
+    "lesion_extent_z_mm": 25.136545181274414,
+    "lesion_to_organ_volume_ratio": 0.14639483392238617,
+    "lesion_volume_ml": 15.887518882751465,
+    "organ_extent_x_mm": 147.8492889404297,
+    "organ_extent_y_mm": 64.35745239257812,
+    "organ_extent_z_mm": 85.59902954101562,
+    "organ_volume_ml": 108.52513122558594
+  },
+  "lesion": {
+    "bounds_mm": [
+      [
+        7.306281477212906,
+        21.568816155195236,
+        -172.91539907455444
+      ],
+      [
+        45.32267525792122,
+        49.48289319872856,
+        -147.77885377407074
+      ]
+    ],
+    "centroid_mm": [
+      23.99768457589161,
+      36.58477281689531,
+      -161.22482399399513
+    ],
+    "coordinate_units": "mm",
+    "extent_mm": [
+      38.01639378070831,
+      27.914077043533325,
+      25.136545300483704
+    ],
+    "half_voxel_alignment_error": 4.750121036067867e-06,
+    "header_spatial_units": "mm",
+    "label_value": 1,
+    "mesh_volume_ml": 15.786436594697385,
+    "shape": [
+      512,
+      512,
+      108
+    ],
+    "source_mask_surface_bounds_mm": [
+      [
+        7.306281433147399,
+        21.568816602230072,
+        -172.91540373543253
+      ],
+      [
+        45.322675576007306,
+        49.48289197683334,
+        -147.77884643289698
+      ]
+    ],
+    "surface_area_mm2": 3964.53695886455,
+    "units_basis": "NIfTI header",
+    "volume_ml": 15.887518672697704,
+    "voxel_count": 5285,
+    "voxel_spacing_mm": [
+      0.7753909826278685,
+      0.7753909826278687,
+      4.999995231628418
+    ],
+    "voxel_to_RAS_mm": [
+      [
+        -0.7753830442835685,
+        0.0,
+        0.02262497296505065,
+        201.552001953125
+      ],
+      [
+        0.0,
+        -0.7753909826278687,
+        0.0,
+        221.23199462890625
+      ],
+      [
+        0.003508643349962966,
+        0.0,
+        4.9999440423773995,
+        -506.1449890136719
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "watertight": true
+  },
+  "lesion_center_relative_definition": "(source-mask lesion centroid - organ bounding-box center) / organ XYZ extent",
+  "measured_material_properties": null,
+  "measured_surface_texture": null,
+  "organ": {
+    "bounds_mm": [
+      [
+        -98.62706810235977,
+        -10.997604578733444,
+        -177.89429426193237
+      ],
+      [
+        49.22221601009369,
+        53.35984751582146,
+        -92.29526668787003
+      ]
+    ],
+    "centroid_mm": [
+      -16.28758241339395,
+      27.44913515676828,
+      -135.27340771870223
+    ],
+    "coordinate_units": "mm",
+    "extent_mm": [
+      147.84928411245346,
+      64.3574520945549,
+      85.59902757406235
+    ],
+    "half_voxel_alignment_error": 9.58604789502715e-06,
+    "header_spatial_units": "mm",
+    "label_value": 1,
+    "mesh_volume_ml": 108.13984189421878,
+    "shape": [
+      512,
+      512,
+      108
+    ],
+    "source_mask_surface_bounds_mm": [
+      [
+        -98.62707098515585,
+        -10.997604668140411,
+        -177.8942959177102
+      ],
+      [
+        49.22221577039017,
+        53.35984688997269,
+        -92.2952691844507
+      ]
+    ],
+    "surface_area_mm2": 23229.231361533297,
+    "units_basis": "NIfTI header",
+    "volume_ml": 108.52512991543233,
+    "voxel_count": 36101,
+    "voxel_spacing_mm": [
+      0.7753909826278685,
+      0.7753909826278687,
+      4.999995231628418
+    ],
+    "voxel_to_RAS_mm": [
+      [
+        -0.7753830442835685,
+        0.0,
+        0.02262497296505065,
+        201.552001953125
+      ],
+      [
+        0.0,
+        -0.7753909826278687,
+        0.0,
+        221.23199462890625
+      ],
+      [
+        0.003508643349962966,
+        0.0,
+        4.9999440423773995,
+        -506.1449890136719
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "watertight": true
+  },
+  "organ_scope": "single_pancreas",
+  "scale_mm": 147.84928411245346,
+  "self_intersections": "not evaluated",
+  "units": "mm",
+  "volume_basis": "Source annotation voxel count, not fitted mesh volume"
+}

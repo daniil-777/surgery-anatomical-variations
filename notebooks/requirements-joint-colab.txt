@@ -1,0 +1,8 @@
+numpy==2.4.6
+scipy==1.17.1
+scikit-image==0.26.0
+trimesh==4.12.2
+pydantic==2.13.5
+pillow==12.3.0
+matplotlib==3.11.2
+xatlas==0.0.11

@@ -1,0 +1,108 @@
+{
+  "artifact_hashes": {
+    "audit.npz": "6df55e6e5af647bf86fc257fde4d2b5cd9dce15a6118a196a5bb04186ddb717c",
+    "cases/PDA-C3L-00395/geometry.npz": "a954b6cbb52d31a6ef70f4204e15eb8debfc6203fcba5132cbb192300181ddc0",
+    "cases/PDA-C3L-00395/lesion.glb": "8a16f77aca07994e3d1f24cc6f472ac23425f7fbf04cb66855f176a26ec69769",
+    "cases/PDA-C3L-00395/measurements.json": "6f6a797bc0b8a9e759b3f0907e90bb33282baf04ad4ddd58eb690b5a74612746",
+    "cases/PDA-C3L-00395/organ.glb": "2848e333e1b4faee7fce3780382663b578dc82c132de2523c037db808b5bb41a",
+    "cases/PDA-C3L-00395/points.npz": "49243bffda2cac5576e83ed7c12f76980495633fc85606dc724b3936789a25f4",
+    "cases/PDA-C3L-00395/source_lesion.nii.gz": "b6e21c3a69ccd609dea1256992e6001df5a8e2095c80a28becc0088b4e1bb103",
+    "cases/PDA-C3L-00395/source_organ.nii.gz": "34500c74cea77a649e3d4303d1544cb2b6041fd5a45b627b320577238219f006",
+    "cases/PDA-C3L-00401/geometry.npz": "4db43f89b419205f1b0b4e7bf9d2a8629615666872650ed0b092b687213cf50e",
+    "cases/PDA-C3L-00401/lesion.glb": "5f209ed4187ec29df03779e5684a3167bf5c299536c60f52fac068174657aefa",
+    "cases/PDA-C3L-00401/measurements.json": "59feb2ca415a9a9e107a592d1f3846e0db545dded2a666e8eba1f6304085d514",
+    "cases/PDA-C3L-00401/organ.glb": "ebe030587375469c833c323e20b629587764a0b5f547050d8ee25eb3e08f3081",
+    "cases/PDA-C3L-00401/points.npz": "16f1990d86cbfbf3683c6d29e781659ef9dad950bfb2e38374ed70d89d0deca6",
+    "cases/PDA-C3L-00401/source_lesion.nii.gz": "c29d30c5f4754e4789c67d7b015f0b37f3e62992eddf5a66aaedeacd9c80b0d3",
+    "cases/PDA-C3L-00401/source_organ.nii.gz": "e43aa8dfba9cff6d6c09458d2c3195cd68b597762baf7204413364d82e026db6",
+    "cases/PDA-C3L-00622/geometry.npz": "15e4481909454dd27db21124eb71f006f609908719daa770fb150f30ad8ba72a",
+    "cases/PDA-C3L-00622/lesion.glb": "8976105052b250034b6d30f4d60d6c8daa22ee2df147aced53b326d3ea546846",
+    "cases/PDA-C3L-00622/measurements.json": "c07dd5e390ff81f1a369b7de0dd46f8159502ef7ce7d19d93c2b91f1b95c4bfa",
+    "cases/PDA-C3L-00622/organ.glb": "9b912da7bf11b9f4c850f40c982cbf1cd27206ba1a61667b4c09eb02041b142b",
+    "cases/PDA-C3L-00622/points.npz": "20233b1292e8fe4c0fa6332eafb50987d580abe3c368207d5f2500b05149a045",
+    "cases/PDA-C3L-00622/source_lesion.nii.gz": "c9c58d01d80617458d8ca499374adb72c091f35dfdc6792dc11b429bc1a43401",
+    "cases/PDA-C3L-00622/source_organ.nii.gz": "05cca7dc2e67dda6437dc1eafab0531e6d68ff407dc36f1ad220ee9fc6b27118",
+    "dataset_card.json": "688a1af6fb81022f624a8fb9cdb3512486e4db84ca290d1ad73d1c600a67f8cd",
+    "manifest.jsonl": "9780deab503432f5020cabc6bdb999fea122c6e5d1566757a8040bf701d8a36d",
+    "provenance/atlas_disease_dataset.py": "54b2f9094a68d7fdc083a7a3e177adf564e0bd92b35be9bc5e4d3a66b9232644",
+    "provenance/dataset_helpers.py": "e34547c00cd77c1ca6ffe7bc1ebd8a0305754992f4fcef126d92d3614892f602",
+    "provenance/pancreas-zenodo-record.json": "cfc1c8379d0e647b34c243b7c2143e8993daf6709c7d9c165790d36a8d59fac5",
+    "reference_registry.json": "9123415a01fa95b6b56d136931ad29928ba69f65eb4ef68edd50c9f0884661c1",
+    "split_manifest.json": "744ae7dc3e1bfed48fe8719c2b01bc351a0a0789b668ecffc4ee1d79538a577c",
+    "train.npz": "dd6b40d7dea054a4355d4c51a2d02f8ede6fe06cb7325a0e41c1417ab8c7bb5b",
+    "val.npz": "668c50ef477a28ee0dba23adc4b69d356a73b822ea1b891b47fd6b9eaf6679f5"
+  },
+  "case_count": 3,
+  "dataset_version": "atlas-disease-cases-1.0.0",
+  "recipe": {
+    "allow_noncommercial": false,
+    "augmentation_policy": "none; all future derivatives inherit patient split",
+    "code_sha256": "54b2f9094a68d7fdc083a7a3e177adf564e0bd92b35be9bc5e4d3a66b9232644",
+    "coordinates": "NIfTI RAS millimetres",
+    "dataset_version": "atlas-disease-cases-1.0.0",
+    "feature_names": [
+      "organ_extent_x_mm",
+      "organ_extent_y_mm",
+      "organ_extent_z_mm",
+      "organ_volume_ml",
+      "lesion_extent_x_mm",
+      "lesion_extent_y_mm",
+      "lesion_extent_z_mm",
+      "lesion_volume_ml",
+      "lesion_center_x_relative",
+      "lesion_center_y_relative",
+      "lesion_center_z_relative",
+      "lesion_to_organ_volume_ratio"
+    ],
+    "feature_volume_basis": "annotation voxel count times affine determinant",
+    "generator_snapshot_path": "provenance/atlas_disease_dataset.py",
+    "point_count": 2048,
+    "seed": 20261007,
+    "shared_dataset_helpers_sha256": "e34547c00cd77c1ca6ffe7bc1ebd8a0305754992f4fcef126d92d3614892f602",
+    "software_versions": {
+      "nibabel": "5.4.2",
+      "numpy": "2.4.6",
+      "python": "3.11.16",
+      "trimesh": "4.12.2"
+    },
+    "source_hashes": {
+      "catalog.json": "3b31b63a4f0068f13fb4c58128f63276a15db66af17aa8ea0b4927c20a470414",
+      "models/pancreas_C3L-00395_organ.glb": "2848e333e1b4faee7fce3780382663b578dc82c132de2523c037db808b5bb41a",
+      "models/pancreas_C3L-00395_organ_tumor.glb": "a336aed2b524f5b300a8f416be71e896480c491d82bd24d5d4f92058b1b80c2f",
+      "models/pancreas_C3L-00395_tumor.glb": "8a16f77aca07994e3d1f24cc6f472ac23425f7fbf04cb66855f176a26ec69769",
+      "models/pancreas_C3L-00401_organ.glb": "ebe030587375469c833c323e20b629587764a0b5f547050d8ee25eb3e08f3081",
+      "models/pancreas_C3L-00401_organ_tumor.glb": "3c8c17a055a52d8b6514c6ff69202d357373597875dd3c927a78393dc0126f5d",
+      "models/pancreas_C3L-00401_tumor.glb": "5f209ed4187ec29df03779e5684a3167bf5c299536c60f52fac068174657aefa",
+      "models/pancreas_C3L-00622_organ.glb": "9b912da7bf11b9f4c850f40c982cbf1cd27206ba1a61667b4c09eb02041b142b",
+      "models/pancreas_C3L-00622_organ_tumor.glb": "6e84f142a8d1d9dc1264b8b5202d133473bd0da8ecac4319968a06eac3ba2e13",
+      "models/pancreas_C3L-00622_tumor.glb": "8976105052b250034b6d30f4d60d6c8daa22ee2df147aced53b326d3ea546846",
+      "provenance/pancreas-zenodo-record.json": "cfc1c8379d0e647b34c243b7c2143e8993daf6709c7d9c165790d36a8d59fac5",
+      "provenance/source-labels/C3L-00395_pancreas.nii.gz": "34500c74cea77a649e3d4303d1544cb2b6041fd5a45b627b320577238219f006",
+      "provenance/source-labels/C3L-00395_tumor.nii.gz": "b6e21c3a69ccd609dea1256992e6001df5a8e2095c80a28becc0088b4e1bb103",
+      "provenance/source-labels/C3L-00401_pancreas.nii.gz": "e43aa8dfba9cff6d6c09458d2c3195cd68b597762baf7204413364d82e026db6",
+      "provenance/source-labels/C3L-00401_tumor.nii.gz": "c29d30c5f4754e4789c67d7b015f0b37f3e62992eddf5a66aaedeacd9c80b0d3",
+      "provenance/source-labels/C3L-00622_pancreas.nii.gz": "05cca7dc2e67dda6437dc1eafab0531e6d68ff407dc36f1ad220ee9fc6b27118",
+      "provenance/source-labels/C3L-00622_tumor.nii.gz": "c9c58d01d80617458d8ca499374adb72c091f35dfdc6792dc11b429bc1a43401"
+    },
+    "split_assignments": {
+      "tcia:C3L_00395": "train",
+      "tcia:C3L_00401": "val",
+      "tcia:C3L_00622": "audit"
+    },
+    "split_policy": "source-stratified patient groups; one val + one audit per source; remaining train"
+  },
+  "release_id": "638b3382d40e8648b1f8",
+  "rights": {
+    "commercial_use": "CC-BY attribution conditions apply",
+    "contains_noncommercial": false,
+    "license_lanes": [
+      "attribution"
+    ],
+    "no_blanket_license": true
+  },
+  "split_counts": {
+    "audit": 1,
+    "train": 1,
+    "val": 1
+  }
+}

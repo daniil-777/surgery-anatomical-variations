@@ -1,0 +1,2738 @@
+{
+  "release": "disease-all-organs-2026-10-07",
+  "file_count": 546,
+  "bytes": 296161262,
+  "files": [
+    {
+      "path": "apps/studio/src/AtlasDiseasePanel.tsx",
+      "sha256": "142aeca27af54e083e4bc4e79fa981f88a15cdcbf3fc78e8b028e636c9756d7d",
+      "bytes": 6662
+    },
+    {
+      "path": "apps/studio/src/AtlasStudio.tsx",
+      "sha256": "326c17c23bd47728b677a5d5f4cf6bc6a28226079cbd3dba048b7ec8d0e4928d",
+      "bytes": 40269
+    },
+    {
+      "path": "apps/studio/src/atlas.css",
+      "sha256": "3785273f46883c0a8267fdabef34e6a13838c024119ffdd527e912182b2382a3",
+      "bytes": 24529
+    },
+    {
+      "path": "apps/studio/src/atlas.test.ts",
+      "sha256": "8407b0b74d8b756cf3d9427bae26f5520fe68a2432e2d115357721ca1bde5218",
+      "bytes": 7769
+    },
+    {
+      "path": "apps/studio/src/atlas.ts",
+      "sha256": "d139c0eaf484c0fe27a20c7fbf0b6928b45c8e1d13e1483fa97903b153cd0cda",
+      "bytes": 11181
+    },
+    {
+      "path": "apps/studio/src/atlasDisease.test.ts",
+      "sha256": "38665219655ee1cbbcdbe13ddfb00a82a51df2b8f469dc052adc2718ae08141e",
+      "bytes": 15070
+    },
+    {
+      "path": "apps/studio/src/atlasDisease.ts",
+      "sha256": "048a3280275df2b05d085508d04613e5233583e761ba0a7ed25fb94755d51ae8",
+      "bytes": 7860
+    },
+    {
+      "path": "apps/studio/src/atlasMaterialShader.test.ts",
+      "sha256": "ce6cb5495ff4d3a94b834d41a5631003ac02fdc089450091e6265a491ac9c10a",
+      "bytes": 7212
+    },
+    {
+      "path": "apps/studio/src/atlasMaterialShader.ts",
+      "sha256": "a8060e4a71b92b28f564529a5f1efa9d902901622888826dcee23c39cbdcecf6",
+      "bytes": 11884
+    },
+    {
+      "path": "apps/studio/vite.disease-qa.config.ts",
+      "sha256": "ff5fed67bd261ea446b489d2cd9ab681572bce96b1f4f130f25b17274d468ea9",
+      "bytes": 581
+    },
+    {
+      "path": "artifacts/colab/viscera-disease-colab.sha256.json",
+      "sha256": "4a7b356df997f04ab41efb22cc642e78d4f1bc57d1b454272537c7c0a38efa36",
+      "bytes": 596
+    },
+    {
+      "path": "artifacts/colab/viscera-disease-colab.zip",
+      "sha256": "e883ad0358b488b3133756d1c86076ee00fb8738a2d7b8fbb620964e52774ab8",
+      "bytes": 67248267
+    },
+    {
+      "path": "artifacts/colab/viscera-disease-noncommercial-colab.sha256.json",
+      "sha256": "1be6a610441e384feb7af1cda81aa853895675a62186c786ea93a1410a871bfa",
+      "bytes": 635
+    },
+    {
+      "path": "artifacts/colab/viscera-disease-noncommercial-colab.zip",
+      "sha256": "551d5fc197c4b60ac4854bb5acdf26b93a2c34149c09382381053a0def7ac88c",
+      "bytes": 75616421
+    },
+    {
+      "path": "artifacts/disease/clinical-ccby-run-v1/audit.json",
+      "sha256": "ec6a075feecea41b230a1ef93cb1001a20835b2f977f5b5fefed01ddc066f869",
+      "bytes": 1794
+    },
+    {
+      "path": "artifacts/disease/clinical-ccby-run-v1/freeze.json",
+      "sha256": "2b25d8ecbfccdc854388169cce25ca8f3f3cb44716d68de07fdba362f797b626",
+      "bytes": 114
+    },
+    {
+      "path": "artifacts/disease/clinical-ccby-run-v1/serving_smoke.json",
+      "sha256": "baa692309cd1963d96dacd648734bca6b9546bd7f4325a50dcbe9d817337de71",
+      "bytes": 1466
+    },
+    {
+      "path": "artifacts/disease/clinical-ccby-run-v1/source_model.json",
+      "sha256": "784b140b55f5cb73e9dd43e5d7ac1683fa17ed2f554d8dcd71608f57b91131a8",
+      "bytes": 5190
+    },
+    {
+      "path": "artifacts/disease/clinical-ccby-run-v1/source_model.json.sha256.json",
+      "sha256": "5f755f82698252f2223b079d639bcd3d59c994653bb21a6a102c319e60127359",
+      "bytes": 83
+    },
+    {
+      "path": "artifacts/disease/clinical-ccby-run-v1/training_report.json",
+      "sha256": "8b60cf78a1c8f2a92fc3d750483684a38d9382e3036eecd708cf7b9f6086843f",
+      "bytes": 2174
+    },
+    {
+      "path": "artifacts/disease/clinical-nc-run-v1/audit.json",
+      "sha256": "b8c76b06b9b58e975f15b5a55489c7435986a53d875c26b09e45480e9d1468d3",
+      "bytes": 2499
+    },
+    {
+      "path": "artifacts/disease/clinical-nc-run-v1/freeze.json",
+      "sha256": "35ea861fd4739803246b1d1bcca4818bf30378883d9c3c3858155d3bbff5c19e",
+      "bytes": 114
+    },
+    {
+      "path": "artifacts/disease/clinical-nc-run-v1/source_model.json",
+      "sha256": "a5b9aa1a4bc7d05a8657ec5ac5dee62977dcc527049f528c584f6cae7ad12a53",
+      "bytes": 13100
+    },
+    {
+      "path": "artifacts/disease/clinical-nc-run-v1/source_model.json.sha256.json",
+      "sha256": "69809a1e093166cd5490c0d7911a10a66428f9e07f12a37e50d8ed4296f8f21e",
+      "bytes": 83
+    },
+    {
+      "path": "artifacts/disease/clinical-nc-run-v1/training_report.json",
+      "sha256": "f59f27c990fa7af8d459d66ab22a6c48b2e65dd45f81dcad3362124e62881ecc",
+      "bytes": 2384
+    },
+    {
+      "path": "artifacts/disease/colab-notebook-qa/cell-1.txt",
+      "sha256": "2e1d93201cdaf8090379ffb9ae1d76f1c385f6c4f2e31efe4ec474b9360663d8",
+      "bytes": 187
+    },
+    {
+      "path": "artifacts/disease/colab-notebook-qa/cell-11.txt",
+      "sha256": "2c680beef7fde633ce3b82dcffa7db16e5bf073726213ef477219f807be73404",
+      "bytes": 325
+    },
+    {
+      "path": "artifacts/disease/colab-notebook-qa/cell-13.txt",
+      "sha256": "8b60cf78a1c8f2a92fc3d750483684a38d9382e3036eecd708cf7b9f6086843f",
+      "bytes": 2174
+    },
+    {
+      "path": "artifacts/disease/colab-notebook-qa/cell-15.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "artifacts/disease/colab-notebook-qa/cell-17.txt",
+      "sha256": "a9076a672ae7242197f07dc36d9f0b2c4ebfdc587eaf10475b1b2c50b37f01da",
+      "bytes": 8073
+    },
+    {
+      "path": "artifacts/disease/colab-notebook-qa/cell-19.txt",
+      "sha256": "9afd436aad44bae7224940294d8e2a9824d7e2583f2112f7997420a9ebc44934",
+      "bytes": 221
+    },
+    {
+      "path": "artifacts/disease/colab-notebook-qa/cell-3.txt",
+      "sha256": "3edafeabb775fa34c20fe202cec87f8be628525c8c3ad740500737de587977b2",
+      "bytes": 521
+    },
+    {
+      "path": "artifacts/disease/colab-notebook-qa/cell-5.txt",
+      "sha256": "6603d83b98aa3ecaa2f01840d68228ffa9f0f1ab3e48d9bf962f396afab4bda2",
+      "bytes": 304
+    },
+    {
+      "path": "artifacts/disease/colab-notebook-qa/cell-7.txt",
+      "sha256": "0999e4730e63c7c8e4d1404930b71d5916b0ac2bbe97aa400185ba40a46dce87",
+      "bytes": 890
+    },
+    {
+      "path": "artifacts/disease/colab-notebook-qa/cell-9.txt",
+      "sha256": "26d7f46a262892b9cd000b8f260785197dea7c68f90b696eab164cbd94bee14c",
+      "bytes": 1394
+    },
+    {
+      "path": "artifacts/disease/colab-notebook-qa/figure-1.png",
+      "sha256": "642526291f937f3e148f38e5eca7a03571af1cf6d2298e7ef961f983d1257033",
+      "bytes": 322187
+    },
+    {
+      "path": "artifacts/disease/colab-notebook-qa/figure-2.png",
+      "sha256": "f8757ca83758e591d6671fa2c2cfe17b4812bda0b45289c2b1b7325c104f240e",
+      "bytes": 378658
+    },
+    {
+      "path": "artifacts/disease/colab-notebook-qa/figure-3.png",
+      "sha256": "d757534879356eea03fda536570772b42c24e9726571d3e8cadc68f76e943ead",
+      "bytes": 229802
+    },
+    {
+      "path": "artifacts/disease/colab-notebook-qa/report.json",
+      "sha256": "f11af1902125294ad80ab9065cb0ee013b04fa897f4057da5b3a8e9ebe802100",
+      "bytes": 1266
+    },
+    {
+      "path": "artifacts/disease/geometry-replay-qa.json",
+      "sha256": "9962a2f9f6e95fb3e025788facf6b5ec010a12d28117b0f91b67e229d99d7898",
+      "bytes": 1340
+    },
+    {
+      "path": "artifacts/disease/independent-cross-layer-audit.json",
+      "sha256": "2fee57b61c0aa89846477a0b9a13588a2e0de8dffdff8c07eafe59a5cc6dc559",
+      "bytes": 1309
+    },
+    {
+      "path": "artifacts/disease/independent-default-bundle-audit.json",
+      "sha256": "d3eca5b92aabbac41ff1df032254ec08e26bc0dedb8d4a348bc8b2f73fca9d4f",
+      "bytes": 576
+    },
+    {
+      "path": "artifacts/disease/independent-geometry-review.jsonl",
+      "sha256": "15f5ff58089e03b7acae099ffd87dee924098fad5e3602397d3be255b535ca99",
+      "bytes": 17942
+    },
+    {
+      "path": "artifacts/disease/recipes-run-v2/audit.json",
+      "sha256": "b1065c64ab437cc77218ab8c3a33287b1807c881e837c29677e535e623c4b778",
+      "bytes": 6255
+    },
+    {
+      "path": "artifacts/disease/recipes-run-v2/freeze.json",
+      "sha256": "a4d332a85a0dd51abdcd0d9829a53b9e76714162f4853b4c2ce119a82909e40a",
+      "bytes": 154
+    },
+    {
+      "path": "artifacts/disease/recipes-run-v2/learned_geometry_qa.json",
+      "sha256": "9f96f135451c1b817069d9bb6ce6dc4d26628e032eb15e569a4ec1ce8c720218",
+      "bytes": 134676
+    },
+    {
+      "path": "artifacts/disease/recipes-run-v2/model.json",
+      "sha256": "01564b2fed01ee53acc6589104b00d3bb93c07340b04b84622a85283e2e99071",
+      "bytes": 2980
+    },
+    {
+      "path": "artifacts/disease/recipes-run-v2/model.npz",
+      "sha256": "4da4239f48576be0b0a4a1db1f5e4cb0611696afa7cc225375333fc4f530c4ed",
+      "bytes": 124645
+    },
+    {
+      "path": "artifacts/disease/recipes-run-v2/training_report.json",
+      "sha256": "19a297b54536c90a38e396ff7ef880dfa4f4be6511d3ae3e596503cfbbb568fd",
+      "bytes": 17164
+    },
+    {
+      "path": "artifacts/disease/root-verification.json",
+      "sha256": "c2d4ef1426ad2baec4a0ea54f475664f36566c96e4d00ad8cec32223d827a1d5",
+      "bytes": 2024
+    },
+    {
+      "path": "artifacts/disease/source-case-qa.json",
+      "sha256": "f68d263b81bb11c9ef2900fdde2c26ed2e7490b8d47b1c7a23b0ae4062ebc524",
+      "bytes": 9446
+    },
+    {
+      "path": "disease-qa/HANDOFF.md",
+      "sha256": "3cb14917610ff5339d75bdc190f8d84eea9c99988a15d404f7e72c0ba4893736",
+      "bytes": 3787
+    },
+    {
+      "path": "disease-qa/VISCERA Disease Prototype Visual QA 2026-10-07.pdf",
+      "sha256": "4698f30697ecdcc4c2a9027fd8d64be186b442f6a628021daf204a02e5476317",
+      "bytes": 12512621
+    },
+    {
+      "path": "disease-qa/build-review.py",
+      "sha256": "16bd6129cb52045c339ee84dfe9ed6827a7fbd7ce0f88101651923855ec555c2",
+      "bytes": 7914
+    },
+    {
+      "path": "disease-qa/contact-1.jpg",
+      "sha256": "f148d089355b2c8ffc0d1580d0807d8537fb9d29cb066663491f5644b68f859e",
+      "bytes": 165505
+    },
+    {
+      "path": "disease-qa/contact-2.jpg",
+      "sha256": "5fdfb175e92f5f324da9feac1d69534d3b55de1f1627ddfabf9f59e8b278a013",
+      "bytes": 186082
+    },
+    {
+      "path": "disease-qa/displayed-learned-text-mobile-liver.glb",
+      "sha256": "d259e1d86596e0b865ac6cdd9b90cfc771c85c80dfdba3c4024f5231066c53b0",
+      "bytes": 6132980
+    },
+    {
+      "path": "disease-qa/displayed-liver.glb",
+      "sha256": "719b210705680073da6635aea5446b975b30bed6f00935818a80eba714278cc5",
+      "bytes": 6119828
+    },
+    {
+      "path": "disease-qa/full-last.png",
+      "sha256": "b0d7047ce0fd4411e41c8c920125d225e6f91ec14fa8103c671b4929c15021df",
+      "bytes": 515864
+    },
+    {
+      "path": "disease-qa/full-liver.png",
+      "sha256": "9595e3957ca16f67b5f1c6db249e2e020c19ada62b389389671f54301c09a343",
+      "bytes": 482087
+    },
+    {
+      "path": "disease-qa/learned-contract.json",
+      "sha256": "517b7330937942d6d33681111f0a4685063f93cd883505cda8ec9c157d385034",
+      "bytes": 5736
+    },
+    {
+      "path": "disease-qa/live-brain-results.json",
+      "sha256": "35762a0933f5b2e08a988447c41bb9a1dff561ba4702eb4ca4e9d613014d4848",
+      "bytes": 29574
+    },
+    {
+      "path": "disease-qa/live-final-summary.json",
+      "sha256": "ea3e109caa552a376e86ff5268c27025f54402cd1e655216c498ab8c5e0fc172",
+      "bytes": 429325
+    },
+    {
+      "path": "disease-qa/live-heart-results.json",
+      "sha256": "ec576db6c297f74b845b4d975631cb8142d40a7c5a7d3d9b00e17d24bb1b2437",
+      "bytes": 29240
+    },
+    {
+      "path": "disease-qa/live-interactions.json",
+      "sha256": "793bbb17d46005a4a2d2fd5b9550058d384757d60bb6fa07d7bdd751b2deb5f2",
+      "bytes": 1595
+    },
+    {
+      "path": "disease-qa/live-interactions.mjs",
+      "sha256": "30767a56dabc11cc637c6b74cda5ada9ddf45c4fc22c84eccb76cbbef7dac3d9",
+      "bytes": 5367
+    },
+    {
+      "path": "disease-qa/live-learned-text.png",
+      "sha256": "7a4ec6dbe7507d232e407ce2cdd2c8a75409632dc1bbf4e51b48f8c1daf4744c",
+      "bytes": 481541
+    },
+    {
+      "path": "disease-qa/live-liver-results.json",
+      "sha256": "7c484b3c8c6c018bdd5b0fafcbdd2ee6736ccd911aef5798ee56581b84dba084",
+      "bytes": 93629
+    },
+    {
+      "path": "disease-qa/live-mobile-stage.png",
+      "sha256": "1507c9965cfe736292c80325334b4f09640bd4f05f9321307a109406994e6f96",
+      "bytes": 144738
+    },
+    {
+      "path": "disease-qa/live-mobile.png",
+      "sha256": "36678f8d7b01c94ea662cbf0b7ab3f0ba6866ac764386d1dfcf8c8ba01a75442",
+      "bytes": 102960
+    },
+    {
+      "path": "disease-qa/live-results.json",
+      "sha256": "101919b607ed80077eddd62e87817e2f5d4e6ed5a980e20a0ad7ffa39f590242",
+      "bytes": 364030
+    },
+    {
+      "path": "disease-qa/live-review.mjs",
+      "sha256": "c383918acc97a13a61443e902ceaa18485e3a3540ed170140156cd1e1ba4f0aa",
+      "bytes": 5502
+    },
+    {
+      "path": "disease-qa/pdf-page-1.png",
+      "sha256": "e18ac5e496e378bd0fc18a1dfcbbf4fa14ee2a6dd163adde27ebe937da06047c",
+      "bytes": 119137
+    },
+    {
+      "path": "disease-qa/pdf-page-2.png",
+      "sha256": "583bd0fd3208f958e914f587b9eedc5ec6a2acb687461dbe74bf3121c45f4116",
+      "bytes": 186657
+    },
+    {
+      "path": "disease-qa/pdf-page-6.png",
+      "sha256": "2f16bb60674bd6b77825ada34e9c4a6fa4a5f0ec692815e5b1e03a61c9822b94",
+      "bytes": 182323
+    },
+    {
+      "path": "disease-qa/pdf-page-7.png",
+      "sha256": "ebcb97ed10643337a9927767d4b2a1acfcf95b94bb0256a90e683d7fcabe6e95",
+      "bytes": 153233
+    },
+    {
+      "path": "disease-qa/screenshots/brain-baseline.png",
+      "sha256": "b010bf262077a3f21499389ba49a97bab097a19ad734e1e4542500447b0b489e",
+      "bytes": 343213
+    },
+    {
+      "path": "disease-qa/screenshots/brain-high.png",
+      "sha256": "bc6aee5e276102c73bbb86f8a13a7b4cbfca2717f7a381007439d41357ca9f96",
+      "bytes": 346920
+    },
+    {
+      "path": "disease-qa/screenshots/brain-low.png",
+      "sha256": "613105de74738cb673725eb8a8ba7320ca37cbc315259ad646627671fa2e89b9",
+      "bytes": 346737
+    },
+    {
+      "path": "disease-qa/screenshots/gallbladder-baseline.png",
+      "sha256": "0fa9e38c4cf5869cc4cf8700ffd5b85263d3fbacba863165bb76ba5e67d958d8",
+      "bytes": 274697
+    },
+    {
+      "path": "disease-qa/screenshots/gallbladder-high.png",
+      "sha256": "354bcdabaae8fd54aa61c0eebf91e9ac900a542a6a477e6a3b1fd6cab65eb652",
+      "bytes": 292508
+    },
+    {
+      "path": "disease-qa/screenshots/gallbladder-low.png",
+      "sha256": "97e076c144c3b84ca75925dcd339ed720d9bb727a06a6d59b795b1980c6b1f42",
+      "bytes": 282460
+    },
+    {
+      "path": "disease-qa/screenshots/heart-baseline.png",
+      "sha256": "a0fb071e3cd992064ada7c5e7ed586ae4b2e933223bdd8d437717a05aa848dd4",
+      "bytes": 344077
+    },
+    {
+      "path": "disease-qa/screenshots/heart-high.png",
+      "sha256": "59a8dcdfbc6f373ce45ddf2631b3afe354ff8d14772563d8ef3beeeec7ae362e",
+      "bytes": 348702
+    },
+    {
+      "path": "disease-qa/screenshots/heart-low.png",
+      "sha256": "9affa37d19903e094bd88baa8c8bbdeb977e124bf7df152839da4c7ef8cb1583",
+      "bytes": 349125
+    },
+    {
+      "path": "disease-qa/screenshots/kidney-baseline.png",
+      "sha256": "b1b032e9b5094aa1aea1e11bc551fde49d45a85cb6a3d453c368a7032881537f",
+      "bytes": 346806
+    },
+    {
+      "path": "disease-qa/screenshots/kidney-high.png",
+      "sha256": "ef34460946a543d8b3dd86dc01b28a11c1b4efbf8e5b9331ef732199805adc86",
+      "bytes": 349614
+    },
+    {
+      "path": "disease-qa/screenshots/kidney-low.png",
+      "sha256": "387156ecf34fe7b4495450be5e2fd1a849ef9312b0bfc59b2283c64cf8a44dc3",
+      "bytes": 348482
+    },
+    {
+      "path": "disease-qa/screenshots/large-intestine-baseline.png",
+      "sha256": "7b3ce53235a5b229732fa404e890890919a715570cbeccfe99502295785a1dec",
+      "bytes": 310197
+    },
+    {
+      "path": "disease-qa/screenshots/large-intestine-high.png",
+      "sha256": "ae946dc33f9f3b8b25e8047db7da78901783cf9dd96b8816975f21b62bae2f11",
+      "bytes": 314599
+    },
+    {
+      "path": "disease-qa/screenshots/large-intestine-low.png",
+      "sha256": "6b7956823dec84f45ab353fcee4561265475aa054b9dfa2f2420aa1fb3cade5f",
+      "bytes": 314388
+    },
+    {
+      "path": "disease-qa/screenshots/liver-baseline.png",
+      "sha256": "d78a2a6e6eb4c4f642ccb2b7b6abd1b0247b76eaecbff3bbed045c6af5db53ae",
+      "bytes": 322490
+    },
+    {
+      "path": "disease-qa/screenshots/liver-high.png",
+      "sha256": "009eab10d0d9a905f4d991cf037411573b8ebdb6bbf65807a95b6a87623f6f5c",
+      "bytes": 333163
+    },
+    {
+      "path": "disease-qa/screenshots/liver-low.png",
+      "sha256": "4fd28f3de4c81b0d6c8aaf2260b4b0e9961248b11539acb686fbcd2f0d582af9",
+      "bytes": 328117
+    },
+    {
+      "path": "disease-qa/screenshots/lung-baseline.png",
+      "sha256": "e5ba704326f22b7943f2ee6109f34c262fdad3255d622364548cd071510d0398",
+      "bytes": 292892
+    },
+    {
+      "path": "disease-qa/screenshots/lung-high.png",
+      "sha256": "19fb8588e865070f9e72379eb8bcb641940bd3aa737dd6ab41042cb3a374a8ce",
+      "bytes": 298652
+    },
+    {
+      "path": "disease-qa/screenshots/lung-low.png",
+      "sha256": "3347ee18340bd935e6760d84448ee8b27b6dac322c2b6456d4c4b03398e0b388",
+      "bytes": 297998
+    },
+    {
+      "path": "disease-qa/screenshots/pancreas-baseline.png",
+      "sha256": "7aaa8deeecc2d422030ecef847928fa26b1e2f0e03674b1c8acc5384e23405a0",
+      "bytes": 250291
+    },
+    {
+      "path": "disease-qa/screenshots/pancreas-high.png",
+      "sha256": "1652a5de67415f6065fb97f762dc324801ced8ed239b5a8b6f4c588b683ca585",
+      "bytes": 254261
+    },
+    {
+      "path": "disease-qa/screenshots/pancreas-low.png",
+      "sha256": "2980592b2881a77bec9c103b69969720ccfbf1d50379c41f0a8ff5f538170222",
+      "bytes": 254458
+    },
+    {
+      "path": "disease-qa/screenshots/small-intestine-baseline.png",
+      "sha256": "8ac2ac7b5811b12338e47d063f1152be0fdb94cc1c737c4598d79eb1c9d90f95",
+      "bytes": 355951
+    },
+    {
+      "path": "disease-qa/screenshots/small-intestine-high.png",
+      "sha256": "2a08696a84c33f2508006e16c382066e9b49e80300bdc621367ace99fe8817a9",
+      "bytes": 367928
+    },
+    {
+      "path": "disease-qa/screenshots/small-intestine-low.png",
+      "sha256": "836d76142c33ed113bb1f255351147ffac267764e5617be72f189f463aed3e2b",
+      "bytes": 364459
+    },
+    {
+      "path": "disease-qa/screenshots/spleen-baseline.png",
+      "sha256": "f7dec809b75ea74d2400ab4648ac117f3b2cc2e86657dff82e8038cf9be985e1",
+      "bytes": 356169
+    },
+    {
+      "path": "disease-qa/screenshots/spleen-high.png",
+      "sha256": "0c158bf04e9f7f4b751e495e1c9c7507687199d5a4d9494703e0cb803236ce44",
+      "bytes": 361986
+    },
+    {
+      "path": "disease-qa/screenshots/spleen-low.png",
+      "sha256": "f4cb04388867ef9d0e789cfc60630d40ad6cd5e1ebd9314f68a57a00ed760a83",
+      "bytes": 358636
+    },
+    {
+      "path": "disease-qa/screenshots/stomach-baseline.png",
+      "sha256": "db0abe185d81901746de13c4f6e3c65c3498706cfbc6b4298d7752d1434d432c",
+      "bytes": 282078
+    },
+    {
+      "path": "disease-qa/screenshots/stomach-high.png",
+      "sha256": "358a586c481a6d52a19725194df036af534764d4e46ee06f7721ee311a32a834",
+      "bytes": 285197
+    },
+    {
+      "path": "disease-qa/screenshots/stomach-low.png",
+      "sha256": "2e3370c6d65096e707a20e6199e96d12f9b567314be109d91d50c1436db542ed",
+      "bytes": 286453
+    },
+    {
+      "path": "disease-qa/screenshots/urinary-bladder-baseline.png",
+      "sha256": "d0a0bf7408033ac455e825ebb00266a2c19b02791b3cf081ab0a0c7aa1045143",
+      "bytes": 220034
+    },
+    {
+      "path": "disease-qa/screenshots/urinary-bladder-high.png",
+      "sha256": "aa67482a63bef1923e79e873ea6fa435000cda47180a176a2f0aaf3f8e866f1b",
+      "bytes": 227937
+    },
+    {
+      "path": "disease-qa/screenshots/urinary-bladder-low.png",
+      "sha256": "be5f79ea5a12fe8d73867499433e6fdea5bec6e7bbb1a16f152f8140c09f0cba",
+      "bytes": 224535
+    },
+    {
+      "path": "disease-qa/serving-5174/displayed-learned-text-mobile-liver.glb",
+      "sha256": "d259e1d86596e0b865ac6cdd9b90cfc771c85c80dfdba3c4024f5231066c53b0",
+      "bytes": 6132980
+    },
+    {
+      "path": "disease-qa/serving-5174/live-interactions.json",
+      "sha256": "793bbb17d46005a4a2d2fd5b9550058d384757d60bb6fa07d7bdd751b2deb5f2",
+      "bytes": 1595
+    },
+    {
+      "path": "disease-qa/serving-5174/live-learned-text.png",
+      "sha256": "7a4ec6dbe7507d232e407ce2cdd2c8a75409632dc1bbf4e51b48f8c1daf4744c",
+      "bytes": 481541
+    },
+    {
+      "path": "disease-qa/serving-5174/live-mobile-stage.png",
+      "sha256": "1507c9965cfe736292c80325334b4f09640bd4f05f9321307a109406994e6f96",
+      "bytes": 144738
+    },
+    {
+      "path": "disease-qa/serving-5174/live-mobile.png",
+      "sha256": "36678f8d7b01c94ea662cbf0b7ab3f0ba6866ac764386d1dfcf8c8ba01a75442",
+      "bytes": 102960
+    },
+    {
+      "path": "disease-releases/clinical-ccby-v3/audit.npz",
+      "sha256": "6df55e6e5af647bf86fc257fde4d2b5cd9dce15a6118a196a5bb04186ddb717c",
+      "bytes": 105953
+    },
+    {
+      "path": "disease-releases/clinical-ccby-v3/cases/PDA-C3L-00395/geometry.npz",
+      "sha256": "a954b6cbb52d31a6ef70f4204e15eb8debfc6203fcba5132cbb192300181ddc0",
+      "bytes": 805112
+    },
+    {
+      "path": "disease-releases/clinical-ccby-v3/cases/PDA-C3L-00395/lesion.glb",
+      "sha256": "8a16f77aca07994e3d1f24cc6f472ac23425f7fbf04cb66855f176a26ec69769",
+      "bytes": 693696
+    },
+    {
+      "path": "disease-releases/clinical-ccby-v3/cases/PDA-C3L-00395/measurements.json",
+      "sha256": "6f6a797bc0b8a9e759b3f0907e90bb33282baf04ad4ddd58eb690b5a74612746",
+      "bytes": 3887
+    },
+    {
+      "path": "disease-releases/clinical-ccby-v3/cases/PDA-C3L-00395/organ.glb",
+      "sha256": "2848e333e1b4faee7fce3780382663b578dc82c132de2523c037db808b5bb41a",
+      "bytes": 1887760
+    },
+    {
+      "path": "disease-releases/clinical-ccby-v3/cases/PDA-C3L-00395/points.npz",
+      "sha256": "49243bffda2cac5576e83ed7c12f76980495633fc85606dc724b3936789a25f4",
+      "bytes": 98184
+    },
+    {
+      "path": "disease-releases/clinical-ccby-v3/cases/PDA-C3L-00395/source_lesion.nii.gz",
+      "sha256": "b6e21c3a69ccd609dea1256992e6001df5a8e2095c80a28becc0088b4e1bb103",
+      "bytes": 68720
+    },
+    {
+      "path": "disease-releases/clinical-ccby-v3/cases/PDA-C3L-00395/source_organ.nii.gz",
+      "sha256": "34500c74cea77a649e3d4303d1544cb2b6041fd5a45b627b320577238219f006",
+      "bytes": 75695
+    },
+    {
+      "path": "disease-releases/clinical-ccby-v3/cases/PDA-C3L-00401/geometry.npz",
+      "sha256": "4db43f89b419205f1b0b4e7bf9d2a8629615666872650ed0b092b687213cf50e",
+      "bytes": 330295
+    },
+    {
+      "path": "disease-releases/clinical-ccby-v3/cases/PDA-C3L-00401/lesion.glb",
+      "sha256": "5f209ed4187ec29df03779e5684a3167bf5c299536c60f52fac068174657aefa",
+      "bytes": 143040
+    },
+    {
+      "path": "disease-releases/clinical-ccby-v3/cases/PDA-C3L-00401/measurements.json",
+      "sha256": "59feb2ca415a9a9e107a592d1f3846e0db545dded2a666e8eba1f6304085d514",
+      "bytes": 4129
+    },
+    {
+      "path": "disease-releases/clinical-ccby-v3/cases/PDA-C3L-00401/organ.glb",
+      "sha256": "ebe030587375469c833c323e20b629587764a0b5f547050d8ee25eb3e08f3081",
+      "bytes": 947388
+    },
+    {
+      "path": "disease-releases/clinical-ccby-v3/cases/PDA-C3L-00401/points.npz",
+      "sha256": "16f1990d86cbfbf3683c6d29e781659ef9dad950bfb2e38374ed70d89d0deca6",
+      "bytes": 95316
+    },
+    {
+      "path": "disease-releases/clinical-ccby-v3/cases/PDA-C3L-00401/source_lesion.nii.gz",
+      "sha256": "c29d30c5f4754e4789c67d7b015f0b37f3e62992eddf5a66aaedeacd9c80b0d3",
+      "bytes": 56970
+    },
+    {
+      "path": "disease-releases/clinical-ccby-v3/cases/PDA-C3L-00401/source_organ.nii.gz",
+      "sha256": "e43aa8dfba9cff6d6c09458d2c3195cd68b597762baf7204413364d82e026db6",
+      "bytes": 62135
+    },
+    {
+      "path": "disease-releases/clinical-ccby-v3/cases/PDA-C3L-00622/geometry.npz",
+      "sha256": "15e4481909454dd27db21124eb71f006f609908719daa770fb150f30ad8ba72a",
+      "bytes": 311681
+    },
+    {
+      "path": "disease-releases/clinical-ccby-v3/cases/PDA-C3L-00622/lesion.glb",
+      "sha256": "8976105052b250034b6d30f4d60d6c8daa22ee2df147aced53b326d3ea546846",
+      "bytes": 137352
+    },
+    {
+      "path": "disease-releases/clinical-ccby-v3/cases/PDA-C3L-00622/measurements.json",
+      "sha256": "c07dd5e390ff81f1a369b7de0dd46f8159502ef7ce7d19d93c2b91f1b95c4bfa",
+      "bytes": 4373
+    },
+    {
+      "path": "disease-releases/clinical-ccby-v3/cases/PDA-C3L-00622/organ.glb",
+      "sha256": "9b912da7bf11b9f4c850f40c982cbf1cd27206ba1a61667b4c09eb02041b142b",
+      "bytes": 764612
+    },
+    {
+      "path": "disease-releases/clinical-ccby-v3/cases/PDA-C3L-00622/points.npz",
+      "sha256": "20233b1292e8fe4c0fa6332eafb50987d580abe3c368207d5f2500b05149a045",
+      "bytes": 104512
+    },
+    {
+      "path": "disease-releases/clinical-ccby-v3/cases/PDA-C3L-00622/source_lesion.nii.gz",
+      "sha256": "c9c58d01d80617458d8ca499374adb72c091f35dfdc6792dc11b429bc1a43401",
+      "bytes": 55631
+    },
+    {
+      "path": "disease-releases/clinical-ccby-v3/cases/PDA-C3L-00622/source_organ.nii.gz",
+      "sha256": "05cca7dc2e67dda6437dc1eafab0531e6d68ff407dc36f1ad220ee9fc6b27118",
+      "bytes": 58357
+    },
+    {
+      "path": "disease-releases/clinical-ccby-v3/dataset_card.json",
+      "sha256": "688a1af6fb81022f624a8fb9cdb3512486e4db84ca290d1ad73d1c600a67f8cd",
+      "bytes": 1638
+    },
+    {
+      "path": "disease-releases/clinical-ccby-v3/manifest.jsonl",
+      "sha256": "9780deab503432f5020cabc6bdb999fea122c6e5d1566757a8040bf701d8a36d",
+      "bytes": 9500
+    },
+    {
+      "path": "disease-releases/clinical-ccby-v3/provenance/atlas_disease_dataset.py",
+      "sha256": "54b2f9094a68d7fdc083a7a3e177adf564e0bd92b35be9bc5e4d3a66b9232644",
+      "bytes": 34534
+    },
+    {
+      "path": "disease-releases/clinical-ccby-v3/provenance/dataset_helpers.py",
+      "sha256": "e34547c00cd77c1ca6ffe7bc1ebd8a0305754992f4fcef126d92d3614892f602",
+      "bytes": 20451
+    },
+    {
+      "path": "disease-releases/clinical-ccby-v3/provenance/pancreas-zenodo-record.json",
+      "sha256": "cfc1c8379d0e647b34c243b7c2143e8993daf6709c7d9c165790d36a8d59fac5",
+      "bytes": 9444
+    },
+    {
+      "path": "disease-releases/clinical-ccby-v3/reference_registry.json",
+      "sha256": "9123415a01fa95b6b56d136931ad29928ba69f65eb4ef68edd50c9f0884661c1",
+      "bytes": 42844
+    },
+    {
+      "path": "disease-releases/clinical-ccby-v3/release.json",
+      "sha256": "6950b3462ecfba5a504cd59e16ce95763a16867008937a08caf92d5a842a0502",
+      "bytes": 7076
+    },
+    {
+      "path": "disease-releases/clinical-ccby-v3/split_manifest.json",
+      "sha256": "744ae7dc3e1bfed48fe8719c2b01bc351a0a0789b668ecffc4ee1d79538a577c",
+      "bytes": 328
+    },
+    {
+      "path": "disease-releases/clinical-ccby-v3/train.npz",
+      "sha256": "dd6b40d7dea054a4355d4c51a2d02f8ede6fe06cb7325a0e41c1417ab8c7bb5b",
+      "bytes": 99629
+    },
+    {
+      "path": "disease-releases/clinical-ccby-v3/val.npz",
+      "sha256": "668c50ef477a28ee0dba23adc4b69d356a73b822ea1b891b47fd6b9eaf6679f5",
+      "bytes": 96754
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/audit.npz",
+      "sha256": "2343a3ddc484ddd2b49695143f39a3d98e0d3c277d465ab4f8feb0d70590124f",
+      "bytes": 197055
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/cases/PDA-C3L-00395/geometry.npz",
+      "sha256": "a954b6cbb52d31a6ef70f4204e15eb8debfc6203fcba5132cbb192300181ddc0",
+      "bytes": 805112
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/cases/PDA-C3L-00395/lesion.glb",
+      "sha256": "8a16f77aca07994e3d1f24cc6f472ac23425f7fbf04cb66855f176a26ec69769",
+      "bytes": 693696
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/cases/PDA-C3L-00395/measurements.json",
+      "sha256": "6f6a797bc0b8a9e759b3f0907e90bb33282baf04ad4ddd58eb690b5a74612746",
+      "bytes": 3887
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/cases/PDA-C3L-00395/organ.glb",
+      "sha256": "2848e333e1b4faee7fce3780382663b578dc82c132de2523c037db808b5bb41a",
+      "bytes": 1887760
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/cases/PDA-C3L-00395/points.npz",
+      "sha256": "49243bffda2cac5576e83ed7c12f76980495633fc85606dc724b3936789a25f4",
+      "bytes": 98184
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/cases/PDA-C3L-00395/source_lesion.nii.gz",
+      "sha256": "b6e21c3a69ccd609dea1256992e6001df5a8e2095c80a28becc0088b4e1bb103",
+      "bytes": 68720
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/cases/PDA-C3L-00395/source_organ.nii.gz",
+      "sha256": "34500c74cea77a649e3d4303d1544cb2b6041fd5a45b627b320577238219f006",
+      "bytes": 75695
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/cases/PDA-C3L-00401/geometry.npz",
+      "sha256": "4db43f89b419205f1b0b4e7bf9d2a8629615666872650ed0b092b687213cf50e",
+      "bytes": 330295
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/cases/PDA-C3L-00401/lesion.glb",
+      "sha256": "5f209ed4187ec29df03779e5684a3167bf5c299536c60f52fac068174657aefa",
+      "bytes": 143040
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/cases/PDA-C3L-00401/measurements.json",
+      "sha256": "59feb2ca415a9a9e107a592d1f3846e0db545dded2a666e8eba1f6304085d514",
+      "bytes": 4129
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/cases/PDA-C3L-00401/organ.glb",
+      "sha256": "ebe030587375469c833c323e20b629587764a0b5f547050d8ee25eb3e08f3081",
+      "bytes": 947388
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/cases/PDA-C3L-00401/points.npz",
+      "sha256": "16f1990d86cbfbf3683c6d29e781659ef9dad950bfb2e38374ed70d89d0deca6",
+      "bytes": 95316
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/cases/PDA-C3L-00401/source_lesion.nii.gz",
+      "sha256": "c29d30c5f4754e4789c67d7b015f0b37f3e62992eddf5a66aaedeacd9c80b0d3",
+      "bytes": 56970
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/cases/PDA-C3L-00401/source_organ.nii.gz",
+      "sha256": "e43aa8dfba9cff6d6c09458d2c3195cd68b597762baf7204413364d82e026db6",
+      "bytes": 62135
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/cases/PDA-C3L-00622/geometry.npz",
+      "sha256": "15e4481909454dd27db21124eb71f006f609908719daa770fb150f30ad8ba72a",
+      "bytes": 311681
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/cases/PDA-C3L-00622/lesion.glb",
+      "sha256": "8976105052b250034b6d30f4d60d6c8daa22ee2df147aced53b326d3ea546846",
+      "bytes": 137352
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/cases/PDA-C3L-00622/measurements.json",
+      "sha256": "c07dd5e390ff81f1a369b7de0dd46f8159502ef7ce7d19d93c2b91f1b95c4bfa",
+      "bytes": 4373
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/cases/PDA-C3L-00622/organ.glb",
+      "sha256": "9b912da7bf11b9f4c850f40c982cbf1cd27206ba1a61667b4c09eb02041b142b",
+      "bytes": 764612
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/cases/PDA-C3L-00622/points.npz",
+      "sha256": "20233b1292e8fe4c0fa6332eafb50987d580abe3c368207d5f2500b05149a045",
+      "bytes": 104512
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/cases/PDA-C3L-00622/source_lesion.nii.gz",
+      "sha256": "c9c58d01d80617458d8ca499374adb72c091f35dfdc6792dc11b429bc1a43401",
+      "bytes": 55631
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/cases/PDA-C3L-00622/source_organ.nii.gz",
+      "sha256": "05cca7dc2e67dda6437dc1eafab0531e6d68ff407dc36f1ad220ee9fc6b27118",
+      "bytes": 58357
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/cases/kits19_case_00000/geometry.npz",
+      "sha256": "37ca0582b53b312a7834b10b61ab9c5c35f925854b5f698a1988d302940106b0",
+      "bytes": 1532103
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/cases/kits19_case_00000/lesion.glb",
+      "sha256": "03f7e334f10994a8570498dfd603fb34164f90ff77331bdbcac8a2fc5f60dd3d",
+      "bytes": 222136
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/cases/kits19_case_00000/measurements.json",
+      "sha256": "b39ff408dc5950744a3b5457baaf96b09f342efbb48db4613a44262f4eff2b44",
+      "bytes": 4013
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/cases/kits19_case_00000/organ.glb",
+      "sha256": "eb9d8a746791d0f300cbb324e047962572fa27962a30c10883d0bcf9a2208a6d",
+      "bytes": 4480088
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/cases/kits19_case_00000/points.npz",
+      "sha256": "e352e904d602683c5b9fbee1e2b65e7af89a6d88edb9e2485b1bc5f9ca745a6e",
+      "bytes": 92369
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/cases/kits19_case_00000/source_segmentation.nii.gz",
+      "sha256": "d1019d9a690e193e167cadf3518499e9ed54c1c7757ce520152a3ed072159e09",
+      "bytes": 775587
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/cases/kits19_case_00008/geometry.npz",
+      "sha256": "98cf10c53d95cea26da327240deac0e83c60daa83cdd7e41e2c98b38ad19ea4e",
+      "bytes": 1180094
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/cases/kits19_case_00008/lesion.glb",
+      "sha256": "7b09355d7fadf6d54fa189323c756bb4d84c5a6f48575eb1b3427120a940db58",
+      "bytes": 1710856
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/cases/kits19_case_00008/measurements.json",
+      "sha256": "90d94ed408b2681dea9636c16632485563423ec3938bb2d138acb6fe4636ab4e",
+      "bytes": 3986
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/cases/kits19_case_00008/organ.glb",
+      "sha256": "e507c4720e0843d0af5120399166595f39eae15d05c620eea2d203e6b5c35ed7",
+      "bytes": 2067228
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/cases/kits19_case_00008/points.npz",
+      "sha256": "4107cd05ca68348d84f030ad033131d83a543ee8d95b48e6ec485dba88c7c659",
+      "bytes": 92815
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/cases/kits19_case_00008/source_segmentation.nii.gz",
+      "sha256": "2d9075ddf9921e7bd1e5e666a3d557d4104f6b9ee2675f9357dda787b750f41f",
+      "bytes": 371767
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/cases/kits19_case_00017/geometry.npz",
+      "sha256": "c726067cb2035d5dd3b259bea979e1e0ffc5669b74808f3cbfd6a62700644507",
+      "bytes": 594788
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/cases/kits19_case_00017/lesion.glb",
+      "sha256": "3a38879dc5230a9e10abd496589681c3a912ae895e9668d058108d2578165c06",
+      "bytes": 87940
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/cases/kits19_case_00017/measurements.json",
+      "sha256": "a43add9bcd658c2a113f3bd8d2ef30b297d6e30f0fbbca23f50764e325e169ad",
+      "bytes": 3899
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/cases/kits19_case_00017/organ.glb",
+      "sha256": "8dc8176fa16d6e7d92fa3787105b715eee0192f8a8985b0db6f0d6c94dc2a92b",
+      "bytes": 1865416
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/cases/kits19_case_00017/points.npz",
+      "sha256": "2881fb7c38bcf225d666e613c5602000ff32512bbbb151d4b27d1933230de11c",
+      "bytes": 91711
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/cases/kits19_case_00017/source_segmentation.nii.gz",
+      "sha256": "d5e690c2c2b0d8412baa83a766d6805f11f6286a3a9e3850a8586c79440f19f4",
+      "bytes": 155828
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/cases/kits19_case_00019/geometry.npz",
+      "sha256": "55397947fde9fe0ffb24cf7b24e38dfa7513599f1d19a47f3f05c5bd295b9fd1",
+      "bytes": 502848
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/cases/kits19_case_00019/lesion.glb",
+      "sha256": "7fdcdeff7241eb2510a43cdad37d87d8ebaeba9d8f712c12682eef9ccf54ae05",
+      "bytes": 23704
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/cases/kits19_case_00019/measurements.json",
+      "sha256": "ab7b339d88e92f74770c136979609835937657ca94d1dbfb31a7d22f2fde2185",
+      "bytes": 3891
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/cases/kits19_case_00019/organ.glb",
+      "sha256": "3d48ac35fe6f3202ce85659c4f0cae08e9addee9f64474d22521949946e2e4e0",
+      "bytes": 1627944
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/cases/kits19_case_00019/points.npz",
+      "sha256": "39de9a61f1e1b6bcf26285f0ed44d349de05117a7a1e813ba4972bc1122cca9e",
+      "bytes": 89796
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/cases/kits19_case_00019/source_segmentation.nii.gz",
+      "sha256": "c38abb6538923fe2544a277c3731c6f71c366c393e72a8fd36e501227141b9d1",
+      "bytes": 181402
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/dataset_card.json",
+      "sha256": "839b9c9d14c02f879d16bf9dc27841085830337d2395e7a180561e2dfaa08827",
+      "bytes": 1677
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/manifest.jsonl",
+      "sha256": "d8bce63f74e25bb92ebafd958e299d14fe427589c1a10fd2f15ac7a8ef8e2aba",
+      "bytes": 22144
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/provenance/atlas_disease_dataset.py",
+      "sha256": "54b2f9094a68d7fdc083a7a3e177adf564e0bd92b35be9bc5e4d3a66b9232644",
+      "bytes": 34534
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/provenance/dataset_helpers.py",
+      "sha256": "e34547c00cd77c1ca6ffe7bc1ebd8a0305754992f4fcef126d92d3614892f602",
+      "bytes": 20451
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/provenance/kits19-data-LICENSE.txt",
+      "sha256": "b74fbcfc8ced6f7893b729b2685fc23cf221c72bcd716bd04cd884bf8a33bd48",
+      "bytes": 20717
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/provenance/kits19-selected-clinical.json",
+      "sha256": "0e545bba1b570a33f7f0baa9ac3a275beb395568a9a5bc01e2ad9cf3fc3899a5",
+      "bytes": 9390
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/provenance/pancreas-zenodo-record.json",
+      "sha256": "cfc1c8379d0e647b34c243b7c2143e8993daf6709c7d9c165790d36a8d59fac5",
+      "bytes": 9444
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/reference_registry.json",
+      "sha256": "9123415a01fa95b6b56d136931ad29928ba69f65eb4ef68edd50c9f0884661c1",
+      "bytes": 42844
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/release.json",
+      "sha256": "aef19c3b54099cdf4858c58477daaef5b891f593575441e8676b13006ebdb801",
+      "bytes": 12388
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/split_manifest.json",
+      "sha256": "c6dabe3d7ca205bfc906b7c2e869d229b3eaa0c9a6e93579bf7aaadcee3b638f",
+      "bytes": 462
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/train.npz",
+      "sha256": "0999fbc464900d69086650a177c77a21739bc58728b7be734283c6a8c30690e7",
+      "bytes": 279130
+    },
+    {
+      "path": "disease-releases/clinical-nc-v3/val.npz",
+      "sha256": "f7858991bea814475547f8de519374f307128144cae599c382958d499b7ff327",
+      "bytes": 186903
+    },
+    {
+      "path": "disease-releases/geometry-v1/audit.npz",
+      "sha256": "24a088e5de36853290a4bc479c3fb2dbed7dce7d5ff1fa71e4c0ab8589b6e7ae",
+      "bytes": 4604790
+    },
+    {
+      "path": "disease-releases/geometry-v1/dataset_card.json",
+      "sha256": "cdf0e19ba4b07f8a97340c92fcc9d78126f7f7d48fb28a45c0fe47ddf27ca0d5",
+      "bytes": 1633
+    },
+    {
+      "path": "disease-releases/geometry-v1/decoder/atlas.py",
+      "sha256": "23e21cf860a2e75e565e91a6e7ed4c3a115a87847f01882665e39e2bef94f897",
+      "bytes": 43817
+    },
+    {
+      "path": "disease-releases/geometry-v1/decoder/atlas_appearance.py",
+      "sha256": "e988dc8b5004cace6c9e4cd19a30ecced87f53c44d613ea2141efcaa1ebf4989",
+      "bytes": 5851
+    },
+    {
+      "path": "disease-releases/geometry-v1/decoder/atlas_disease.py",
+      "sha256": "6068b50d0a4faa14b52797f1b52451ca6a33164f6a7e176337579cf82a1c2c70",
+      "bytes": 11418
+    },
+    {
+      "path": "disease-releases/geometry-v1/decoder/atlas_disease_geometry_dataset.py",
+      "sha256": "df5290486e6a8cf708bf9e2a986ef308b04bbf67f6a18515a51f1079b63b40dd",
+      "bytes": 34209
+    },
+    {
+      "path": "disease-releases/geometry-v1/decoder/atlas_disease_recipe_dataset.py",
+      "sha256": "01b80ab71574605d25c121183bb51aeef80d2bc237a67a7ee14d6bafc5549b6d",
+      "bytes": 11164
+    },
+    {
+      "path": "disease-releases/geometry-v1/decoder/atlas_disease_scene.py",
+      "sha256": "d4319afee56ec13141d723d9be4ef7c13ac8708058919bc9249db146c9010a0a",
+      "bytes": 10881
+    },
+    {
+      "path": "disease-releases/geometry-v1/decoder/atlas_materials.py",
+      "sha256": "679aa9214cef534b92e1d64b0043213a88a8c6a0fdd9b25b7ae54e4fa289a0a3",
+      "bytes": 25910
+    },
+    {
+      "path": "disease-releases/geometry-v1/decoder/atlas_scene.py",
+      "sha256": "9b886f174235a194e0a8541fa049839d115d693ecca4197bcc33ba0cb1845812",
+      "bytes": 12469
+    },
+    {
+      "path": "disease-releases/geometry-v1/decoder/atlas_surface_normals.py",
+      "sha256": "6ea628a77156d4ee1a591c9b50768129ac82481c9f717fe521bb7c83fa1c1f0a",
+      "bytes": 4461
+    },
+    {
+      "path": "disease-releases/geometry-v1/decoder/atlas_surface_scene.py",
+      "sha256": "f747daabfd9650c59cef638b52bc420e4e88718b9e8ecf43ac27ebf78d7702a1",
+      "bytes": 5284
+    },
+    {
+      "path": "disease-releases/geometry-v1/decoder/dataset.py",
+      "sha256": "e34547c00cd77c1ca6ffe7bc1ebd8a0305754992f4fcef126d92d3614892f602",
+      "bytes": 20451
+    },
+    {
+      "path": "disease-releases/geometry-v1/decoder/disease_profiles.json",
+      "sha256": "794bb6d5b34a51febfdc52998d50080d0d32e1be96877f6735249e25d5ba6706",
+      "bytes": 34795
+    },
+    {
+      "path": "disease-releases/geometry-v1/manifest.jsonl",
+      "sha256": "8056b5819f6e2133edb7355be5b7f7b9b153d8775cbbf587e46293f5641edcdc",
+      "bytes": 1579745
+    },
+    {
+      "path": "disease-releases/geometry-v1/parent_recipes/audit.npz",
+      "sha256": "aa7cdf9e8760c64f4b1a1e6e77a28e986e204db4ad832b16bd0cc03c8d353fad",
+      "bytes": 36232
+    },
+    {
+      "path": "disease-releases/geometry-v1/parent_recipes/catalog.json",
+      "sha256": "4fc23d85ddf751e322d4d713812f3f847ab677f55f1dca7662b50bf0bc2a766c",
+      "bytes": 39154
+    },
+    {
+      "path": "disease-releases/geometry-v1/parent_recipes/provenance/atlas_disease.py",
+      "sha256": "6068b50d0a4faa14b52797f1b52451ca6a33164f6a7e176337579cf82a1c2c70",
+      "bytes": 11418
+    },
+    {
+      "path": "disease-releases/geometry-v1/parent_recipes/provenance/atlas_disease_recipe_dataset.py",
+      "sha256": "01b80ab71574605d25c121183bb51aeef80d2bc237a67a7ee14d6bafc5549b6d",
+      "bytes": 11164
+    },
+    {
+      "path": "disease-releases/geometry-v1/parent_recipes/provenance/disease_profiles.json",
+      "sha256": "794bb6d5b34a51febfdc52998d50080d0d32e1be96877f6735249e25d5ba6706",
+      "bytes": 34795
+    },
+    {
+      "path": "disease-releases/geometry-v1/parent_recipes/release.json",
+      "sha256": "4bf35e3a242ae3fad1fad3e31e625d95e8507575083d7514614f59fd73652cf1",
+      "bytes": 2284
+    },
+    {
+      "path": "disease-releases/geometry-v1/parent_recipes/train.npz",
+      "sha256": "54b60934a6664a32067c9b37f1c45d77893ce6d9dc616e23ef3330ed20fd01d9",
+      "bytes": 132370
+    },
+    {
+      "path": "disease-releases/geometry-v1/parent_recipes/val.npz",
+      "sha256": "36d3348ffcced304fb5e1afc4d7e303cbacd856a24f02b1b540da5f294e8f85f",
+      "bytes": 36239
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-00502cc162ab0cdf72bc.json",
+      "sha256": "22c533354b63e7792aa9aca913210694d907c8a342a4fd06cf7629acc0a02a8b",
+      "bytes": 10195
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-00fd8e0e90b4dd03a15a.json",
+      "sha256": "f61b8aa3d324a527b10bc6a8775b9d2d3db2c554a555a82297d3372d09556f37",
+      "bytes": 10498
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-01062d6fbb75efdc4525.json",
+      "sha256": "debce61d16dbdd830a1cea5f1eaffae609857a27c692ac9745323975dfeb6f81",
+      "bytes": 9099
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-032f6f82ed620b3bd9eb.json",
+      "sha256": "2a8090e7a0c98bcfa3d35df1a1dd5cf7ed12933ebc880a22dafc6df537375bfe",
+      "bytes": 9179
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-057fb71bf36ff8d65082.json",
+      "sha256": "dc7066c32a3b729f400cf4fa45995cec493e0bfbf8ecf57b6c6cc4b8801a33a5",
+      "bytes": 9828
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-0731d6bc876ca9da8773.json",
+      "sha256": "047bb54e12340345d44710efac615b42645f99f4ea07f273e39434d0743fe0f7",
+      "bytes": 8760
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-08f184aacbdc3a309483.json",
+      "sha256": "54aa602417e64a8bedd053403f249bd62aafa8508ed238d50ae7921c6c87b05d",
+      "bytes": 10212
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-0a5bbb85f72792d3d465.json",
+      "sha256": "e9dab892d35e92a24b2a97f7262e9b1945b51f3340755849224a8faaef04416b",
+      "bytes": 9297
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-0acbd2270a5a080d0120.json",
+      "sha256": "d754abbcec9152ca3521159721adab76704edfd173a23e90a8c5c76864f20cdf",
+      "bytes": 9096
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-0b4392a9c844d1b7522f.json",
+      "sha256": "6face0ef8a13b12fd94d04d5bd92d695488869484683a1f0d7530590503c5825",
+      "bytes": 8598
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-0c643b8770fa687fc34b.json",
+      "sha256": "b80dfc6cb85a93cd605ee737d15e9ce6f9002f1014648ca45941dc3be1a7d458",
+      "bytes": 9203
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-0cf9923b23cdef8390f0.json",
+      "sha256": "cf2cb0b5af5c1c3c0547ba2bc02a651b640ed6be43bfd0cd4ed3243332f3de84",
+      "bytes": 9195
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-0d7cf7a1bc9ed9989387.json",
+      "sha256": "14718f0d4fe8deaa01f4b90ed59b26e656864fbee127f820b7fc1747cba0205e",
+      "bytes": 10537
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-0ea81583b2530d6451fa.json",
+      "sha256": "766c50faeea07381d549f5e3ba7ff15305d1513dab79ab36d70f16718de5c92e",
+      "bytes": 10485
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-0ebf180af57e58841492.json",
+      "sha256": "aab331063cd6e88fab725b44bbadf5564c65d2167a30365e3657f2cf466b8dbb",
+      "bytes": 9531
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-112c361aa1352fb51563.json",
+      "sha256": "d850a33d9069f6affff713a07d91aa0b9434abc34b515ff889fc6fe54c44d220",
+      "bytes": 9528
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-12300ba94a9eb8067ff3.json",
+      "sha256": "2ea043e6de943886632b7ce84cdebda8d60458c23c57715931d2fc60e3953812",
+      "bytes": 8758
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-13fece507712dd4de5a0.json",
+      "sha256": "0cc86e6374b9ab05e09dddbe78a15ef8cb736ab9db2a81643ec9496cf2b3949e",
+      "bytes": 9108
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-15231acdc6f2fc703420.json",
+      "sha256": "900f6b41d0c46698898d66c91b679561c30d86ef6c483160ce745e08915ae804",
+      "bytes": 8473
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-1769536ed16137f50f78.json",
+      "sha256": "23fd4ad0a38800eb823efdf8e14488631920057209b7f21b74272514e01faa86",
+      "bytes": 9745
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-182fcfcc2b233ffe4569.json",
+      "sha256": "775e2cc42740e366b2c2398d8d9c4fe9e00c81c531fd7ae0bdcba5292b64bb12",
+      "bytes": 9700
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-18f196f5ac48e6b330ae.json",
+      "sha256": "d0dbbdd3eb9d0e173ea3b4c4360c53fbe6f261bba4a2ed20aed5769cde257bb2",
+      "bytes": 8417
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-1b7b92df7bfa870784a0.json",
+      "sha256": "8f46dac19d5fc796b690796d3fbc2f27224e54d3289ad6894a2503706f3accf5",
+      "bytes": 9037
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-1bf59cda47665c2f57cb.json",
+      "sha256": "7c1125064579677e7cecf710e1c4b8f98d3dd21ae89bdb50221ace2ab330d729",
+      "bytes": 9231
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-1c2389a7ee580380af54.json",
+      "sha256": "5d352f631f75cbe6f7853adf1ae42c02ea49030733d889bfb957b74c5df9909d",
+      "bytes": 8498
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-1c3fa45aa4029fe30bc0.json",
+      "sha256": "45e32ad73b013519e75f2fa19bce494f29e6ee4aebb2e67e7f1cfd6e8d23d4a3",
+      "bytes": 10328
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-1c451b3225f6830aaa14.json",
+      "sha256": "676ec59214c4c4240845ab5ae4cdb3fd38b4661d9da131bd1df676f311c26bf1",
+      "bytes": 10163
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-1c51c0bbbb64208cda89.json",
+      "sha256": "91b4a957721fa54cffdc7a625872a1f475525e5435c584e3a1b11fecd3698f3d",
+      "bytes": 8454
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-1cf4c8426bf38388edf8.json",
+      "sha256": "e2bcc97d68c93be1b6fc7bc56efafed5fcfad79e0dad953a5dbb923f63d257dd",
+      "bytes": 9742
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-1e68a045c20c5afdebfc.json",
+      "sha256": "4804e01a839d5d2c56cc10c27d69d061f7929be5baf4190495a0fb5846853b32",
+      "bytes": 9207
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-1e709d5d7cd26c7bf33e.json",
+      "sha256": "b741f350c3d215116355b6c96943faa1c3011f38d6c8ccfa8508e1791fc1b840",
+      "bytes": 9014
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-20c4c1d0327f0c4d9c05.json",
+      "sha256": "3ab6c9f0b5f15f9df60efbdac224519eb5fa7c79aa505b131c491f1629b790d6",
+      "bytes": 9493
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-2164d90fe929117c8f89.json",
+      "sha256": "1339d0ae54a2d1597f0be76e8038abc9bd1b482ae68e5a0be4e3165e55c0d209",
+      "bytes": 9359
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-22c00c9c892779f1c401.json",
+      "sha256": "820eb25995ada37d28fbc857f65bfa36e94ee0311601c790c1c9de9bef85ab3c",
+      "bytes": 9043
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-246ca88e46bc3a7fc036.json",
+      "sha256": "708d69c4d44dc180f51c5b1c90a638d285bad295e18eeff4896ec96629941308",
+      "bytes": 9502
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-252220e085176440784c.json",
+      "sha256": "10fe6f6505273acce4fc413b24e11b44eccd2802628cdc47c4b8c50ef52393ac",
+      "bytes": 10602
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-25f4cf1809bc53ee4e3d.json",
+      "sha256": "4a9ea406260758f53ea4ee5892c89aef4bf9779c0cfa7ea491b21175ff23c877",
+      "bytes": 24428
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-272289ec53c68f911c36.json",
+      "sha256": "c0fcf03cbb7f6cf754c4c10103f66e739b472827c17a3782f08eee10ccba29b7",
+      "bytes": 9013
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-2cb5e25fea256e844c31.json",
+      "sha256": "cc3ab7494db53b01f4e8bff74d434b429151a857b588cae86d40c9befc36c746",
+      "bytes": 9877
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-2f496cc3df0750f64fbe.json",
+      "sha256": "348a895e948cc9ff8b45b1e4e91d00aae7022dbbe9eeb687628a7e9202182e24",
+      "bytes": 7984
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-2f97e9aaf2680d9cc3b2.json",
+      "sha256": "e9282d1f2575fbdf8dd344c481bbc0371d7a34c30aaea1f0182a787b304821b6",
+      "bytes": 9143
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-2fa7705660dfe7805d4d.json",
+      "sha256": "35eeb745caf800360df7f20138d9e4c8ec376e07ab448694dd10360a7c05b81e",
+      "bytes": 9305
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-323e739eefde755757ed.json",
+      "sha256": "9d11128b947e5cbe565f307bc88554975dcc0fabb085c9d89025111624d4293b",
+      "bytes": 9020
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-359acc154bc99e30df6f.json",
+      "sha256": "2020d21d138e06a5ddf5b66e304c6fd9a6ee24b0700000008acf840be61705c0",
+      "bytes": 9743
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-36109a91445baf3851ef.json",
+      "sha256": "45568f1afb5c964e31aa9feb30f2dd18141c8d766254b9e7479b828f8705834b",
+      "bytes": 8770
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-365ce71697004bd053e6.json",
+      "sha256": "e021bf774f61ac6d7e780d0e4614416faa8cfd73ca14f30f32e13a19ab02e9e1",
+      "bytes": 9032
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-3845940f63a9f5384171.json",
+      "sha256": "e1c2ce6f4e025324f060af4f4139e94b987bae6662458bbf681055d7746c52b0",
+      "bytes": 9127
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-39970e64023165ea8941.json",
+      "sha256": "2bf5d903dd844e979e81f9c2b2833db22bf41225017f295563c35c48ddaf5b34",
+      "bytes": 10617
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-3d357605880eeeaf870d.json",
+      "sha256": "e543f29120271802655e60d341d103c8a705acf1fdb86826d9d53c4d1cca7fdd",
+      "bytes": 9430
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-3d7961bd3a27a573cfce.json",
+      "sha256": "ea2d5c7a1c7286a01401336935237d240b5cb6752bf9036736d5dec89b59237d",
+      "bytes": 8763
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-3f34295b554fd34bc431.json",
+      "sha256": "d474df9908f7490e30acf183cc9ee9296a82e1e870a8846908e5717d19faebcb",
+      "bytes": 9824
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-3f7b7792db4b4058f858.json",
+      "sha256": "c2706f826adb1f5f66a869c97da883eb5ca0f5deca9428cb51e8cee1869ee027",
+      "bytes": 9318
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-4010c719507e2535f0db.json",
+      "sha256": "f0c9b1be36930f1d6b1f07324f9e256d240447ee383b7cc3b91db99ebb65ee7e",
+      "bytes": 24412
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-402a64b7cc6e6e6fbde4.json",
+      "sha256": "679c20787ad1b5820917ed1d44b324a1bf5e0d81d5890e1d92abe85eb351464b",
+      "bytes": 8252
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-4363437ee10deffcb5bb.json",
+      "sha256": "067eac50aed7b4999d8704ca4b0e93dc119649dd6db37983c5388db1b922034b",
+      "bytes": 8781
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-44e088c04b8fde990c75.json",
+      "sha256": "661466f6469ae7ff8a476f7758ed9806c6796fe37e3e1de628055018741ef46c",
+      "bytes": 8660
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-4511128ae30673d0c7bb.json",
+      "sha256": "ef7edf6c514f8c6d28c2f545d56df22668d9b116d5bc62f6aec75f1b1f659cb3",
+      "bytes": 9093
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-48026bff61c62722c680.json",
+      "sha256": "94d881e5490c51aed84137edf07c5bdabd4c2bce1c460ed765a6339c4d14c519",
+      "bytes": 8807
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-489bf1fd2a2e1bbcbc67.json",
+      "sha256": "9f161228bd8da7675bf11f1e5d80f42f6667c56397201db21f3a5684ed02f2c8",
+      "bytes": 9982
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-4950241beeb03e131c91.json",
+      "sha256": "ec1d45118e9e77e8ba2faaf0a9f796212965ddde1a151aa7fefa971714e68a37",
+      "bytes": 9549
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-4a2c25ac2390e72e13b7.json",
+      "sha256": "e846fc39157781d721201cfeaaa7b63b5ea26555dde1fd60ad00dad7c9f3cb8a",
+      "bytes": 9505
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-4b118de4251c92d938d7.json",
+      "sha256": "4e157b12dba8be65e0cc0bd17a4ccf81f65e78998469dff49dda702cea971ba4",
+      "bytes": 9837
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-4ba0a102653b572d01b9.json",
+      "sha256": "e673f0e85fc7065de433d36c303df0c90c7791c3ced68e33fbabc1216df759c3",
+      "bytes": 8378
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-4e20f6127742a5935e07.json",
+      "sha256": "e296cc209a1c311ac116ab8e0e8244451fbc75a9f0f2597c85407434ef519e0e",
+      "bytes": 8057
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-4f4cd0978eaa3f735aba.json",
+      "sha256": "55ff1a2fa1887c4205ec44dc7473b2f52a98148833272e8f04768cc91db90ce6",
+      "bytes": 9519
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-5035e4d1f37f1ee7e0f9.json",
+      "sha256": "43d8a26c5a64f7401f41f3f1e14db4fbe6ab02ae196d5d55e04430a37b58196d",
+      "bytes": 13314
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-50b30c6efc787eb5a3f1.json",
+      "sha256": "f77fc403c11f77e76919a9966465e4971705fcda50cd40085805e2c6e4f9772f",
+      "bytes": 9384
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-51798282e8d455b9de63.json",
+      "sha256": "cd7cf3b62c5dbabd5e38ac2760a331be12ccb1ed679ff307eb756a9e63535eda",
+      "bytes": 8838
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-528fc8ab303a7aff7348.json",
+      "sha256": "105fed3298686829ece6e018bc0a347ea2d308c8fb9778177fd3425e09445299",
+      "bytes": 8321
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-53eeb1d540a70129be65.json",
+      "sha256": "5acb4ec126c4e14fd75def76f996df4a4bdae92e69e8b1335a5e6d907342272e",
+      "bytes": 8595
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-53f23d90ba01d7de78d7.json",
+      "sha256": "87bf1504c945f4332a34820ba4bf62fe1ae2c74461bd9fccd4fbb32e9e9df64d",
+      "bytes": 9708
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-53f97e619af918534ec5.json",
+      "sha256": "e86e74dfba85e4ee200b7b3fb6f8a1f4c665d2900ce9f6c11084f3d12c508fb5",
+      "bytes": 8729
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-541d203f25c0661e9b2e.json",
+      "sha256": "57bf5539b47b5a77472bf9a0b4e4a1f57ea230cd83ef7809be7203eef5fe69e0",
+      "bytes": 8366
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-5438af594728b4beacf4.json",
+      "sha256": "198f6debecd74cb4dd411ee49e5f9f959455a6faf5949f6e34ea2fcc0077f241",
+      "bytes": 10409
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-56c1bf4947ade56f5398.json",
+      "sha256": "84321e4b6cf6e7871eb35baecb01158af990a212018d0dd9551cdaeeaffc1a64",
+      "bytes": 8418
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-57e202f5aab1737b6c8a.json",
+      "sha256": "3d953ecc7c2a75475fb89cc57a21bd2058a83d86b6993c347f467a82ab81cb89",
+      "bytes": 9040
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-5975eb951b3c448aeebc.json",
+      "sha256": "a2a4714e1bbd4c4c59a231b905ea2c477fb90ce90e161c7b55ec4f3e3b2b0233",
+      "bytes": 16031
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-59bb01cdf2a74dc4c057.json",
+      "sha256": "2dc665fb22c42a48b6199e70832072de2e24c90641c85b6c5f753496fd319dc3",
+      "bytes": 10045
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-5a797026f6c9c074bdac.json",
+      "sha256": "da66e9436276324abbbcf0631c5066b0acea322dda3335af52a4e285b35c87d5",
+      "bytes": 16033
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-60547fa901f4320a6e28.json",
+      "sha256": "93827650a3b99d6d576332ffd7be0120f01a465cc7f4c535f69d18f4691f658f",
+      "bytes": 9276
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-60cc91d88904b619bf13.json",
+      "sha256": "ae9e342f751c8295359cd6c5f40a69b2683964ed01e1a989b0c2df14ec3954ed",
+      "bytes": 9980
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-61c4ba7cf58a046a7e46.json",
+      "sha256": "39cad735cf0017127b3ee7c7c53da408c8942a45c0f1f1b82c367a7820ca67cb",
+      "bytes": 8741
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-61db3fbe19bc884f2184.json",
+      "sha256": "fd03aa5555373245b945839f5ec22f393eba20e1bb8eeabb9857612469350417",
+      "bytes": 9727
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-632b855c44f406ce433b.json",
+      "sha256": "946c22c1e75efbd7b6f5041328c2e7f415357fa7bfe77fe91591fb499d6484aa",
+      "bytes": 10549
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-63490cbddfe53575914b.json",
+      "sha256": "e04a6c4f90f465e58da8c2ba7893d43728a40a8d852b95caa9f2b03ed1f49e5e",
+      "bytes": 9529
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-642a0cdcabe7ef9b3544.json",
+      "sha256": "6c57d55a157c606c5dcf7443d8d41e6e9364ec5f5875a074f193b3f8c2131ffe",
+      "bytes": 9832
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-644b7944c6d5dcbad72a.json",
+      "sha256": "0538cd86a70064b7ab335843cc8cc8b57654bac042c2aa112044712456059a95",
+      "bytes": 8842
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-644bea14d31f5cac2377.json",
+      "sha256": "db5433c9e254ab494e1a58aa0782796b7b3539ec3322087ed9814a0cfe33fec1",
+      "bytes": 9123
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-66fcef9d55d15979755b.json",
+      "sha256": "800e3f47378634c158353de8189f610a55b8c1e49b0243cc6c4702981220f262",
+      "bytes": 7982
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-6762976a9f4d64110733.json",
+      "sha256": "f34ab2c8b6694acfad104424b7bf2668e90e0024cb903c7f7bf1fd65fe182496",
+      "bytes": 10152
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-685d454b44d9ae6ad14d.json",
+      "sha256": "2bdb057267ae8f8790160e305f3752670ea11a72b4e35ed8921d556ecd83365b",
+      "bytes": 10517
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-6b4076928353c3e02108.json",
+      "sha256": "53f395f70224f8c4d5315c2de77e765052f70961342399f627dc8f24c95b64de",
+      "bytes": 9436
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-6eaf83be92cef6a4170e.json",
+      "sha256": "6ed27981e83e16da0bebb169962333bd06600c4dbe7bcdd36cd981d5dd76c1e9",
+      "bytes": 9003
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-6ebd86aa8feec5be475d.json",
+      "sha256": "4a7e6dd13f4c6134f72ec1dad4214daf042d234056163a0eb333168780d1bc46",
+      "bytes": 10118
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-706dfbc0c2b00b14dcb0.json",
+      "sha256": "e69d67ae7a83e0d300042d00512996a76fbb5cceee7f8563d55147ab7e2ce5a9",
+      "bytes": 8433
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-7679f1d927411d30d071.json",
+      "sha256": "6c9208807f58ca2d5431600f3b081c94e50bb0052d3de63a1a4c5b40facf1834",
+      "bytes": 8597
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-77408c1003baa4a97df3.json",
+      "sha256": "a1a862490730d0b57097c730fe5ba1b99198f3b43fb4e4bb9045e2c91c09b9f8",
+      "bytes": 9100
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-77f621a1ff2ec10ab98e.json",
+      "sha256": "0664466766c12ce322fcd874a60eac5c1b3a59f36de619b4c7d0fa53cc7d8163",
+      "bytes": 9101
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-7895b9114c315a07370f.json",
+      "sha256": "0f6d2cc3f3527c76f000dac807b5b298a60e651a4609e040fde2a55beb077c25",
+      "bytes": 9839
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-7a82b698ad5de27dbc9d.json",
+      "sha256": "4d907804b037b19ce5257bec0ba6090c2c6e26b3fe6e4225ad57df84c384c5fc",
+      "bytes": 8236
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-7dcfc9bb9b41bb03f8f4.json",
+      "sha256": "7cc22196f2116ec4ec715cc218be8c3510e74336d4755adebd8394a0b454a00c",
+      "bytes": 8966
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-8091665e962252d34555.json",
+      "sha256": "b113e5eb5358007c2dee7a4bbec97d859cc2b256d8acb85e5ddab5be6d52532a",
+      "bytes": 9484
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-82fc83abdad76eb1833b.json",
+      "sha256": "eeb6abd79389b07e1d14c8ca138615b83f63693d52a66323348847718e555a5c",
+      "bytes": 10531
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-86fa8463fe5a1977e1d6.json",
+      "sha256": "16616c9d1d0aee971b65e26b3cbcc7b46408492ade06528d7a164490e244a6ac",
+      "bytes": 10158
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-88443b85a7687322ee02.json",
+      "sha256": "ec80f0e7631f5f5d7bb829d4a3cb4bab9787680b4b10816996f7ae8f38216be0",
+      "bytes": 8038
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-88cf779020f564128646.json",
+      "sha256": "5bfac437bc57b7c3fea37188251b3076c358840367b92a63f15927407468b952",
+      "bytes": 9445
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-899606315ef4ac20f3a6.json",
+      "sha256": "14c870b1d23d89bc4dc73ccc11225bced6267106c1460eec6d17ba9d287a86b5",
+      "bytes": 9543
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-8db127b094c27d2654e3.json",
+      "sha256": "6fef49ce4318fd4d117fc6463d29a86d1a989490c7998af29296f3af6682c5a9",
+      "bytes": 9133
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-8df1490fd78e15da425d.json",
+      "sha256": "232a8e27885b1906f6e1bbf41b6b22c9570a61ca11bca7f677231cf7aa33a1d2",
+      "bytes": 8355
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-8e2739db33f0e0cf0f07.json",
+      "sha256": "261afc7cd47b82b2e21c9b78cbdc5a555703fb308e1b906c0e02b263286257a9",
+      "bytes": 8419
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-8f218f98558e15ca7fc4.json",
+      "sha256": "adf8d58275dfca28704027182bd1bf60730f441ffdd81539e5a9ad7e10f3fe57",
+      "bytes": 10096
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-8f8124b38f645ec58bee.json",
+      "sha256": "bcfba56e1d2a4888094e9eeb0ff88af2336bbbf2131279b50fe305a4374ac1bb",
+      "bytes": 8071
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-91e638b468aad148b5c2.json",
+      "sha256": "785b1c132108db9dc63aa179e4f9a14c3185e716085d2feb204a4f571ed28981",
+      "bytes": 8134
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-9372a2d057a12149acaa.json",
+      "sha256": "6ebee1800d8ac00dc84239fea24116113a518eecbb28599d8298c8b713e18c2c",
+      "bytes": 8694
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-9540a570033e9d9e4e10.json",
+      "sha256": "68acac40e0855133181c7e0a61ae499c5fb4de62d6fd2b67fc5c51b5f3eefb0c",
+      "bytes": 9197
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-954ebe09dcf615ea36fa.json",
+      "sha256": "8f30863ec7fbca55c0dc97903d25993c9359d83e2fe98659a753d4ef4c2866a1",
+      "bytes": 9549
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-965c7c05181524c7613e.json",
+      "sha256": "12bbfcfbb56d4faa2913919314ff64f098e6556bf993710734444b515ef39a67",
+      "bytes": 9723
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-9715e677e48a2aef2e93.json",
+      "sha256": "9db11c40a67c6fc0311b8ce04d04b7d2f3e30161bea4daff80d3641c868745bc",
+      "bytes": 11913
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-99c830ddd67094c969a8.json",
+      "sha256": "91a4f86e15df074342f78be34a5dacbd744179026dd1a364d04039b3a8defab2",
+      "bytes": 9815
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-99d0b4389166d156e353.json",
+      "sha256": "c93e6f9e715962f4efea8ce15828b976ffdd31841d3465b3746079a61a017846",
+      "bytes": 9997
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-9b72ca8852fd013164b2.json",
+      "sha256": "03776d4aa4be52b0bcf36b32b9a2e45ab848bc10477924beeeed5a62b20039d6",
+      "bytes": 8733
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-9d472c35a59cafee324d.json",
+      "sha256": "e92e5fdf767173246043ebfebe59a7ce4ad6bd6b361a9bed95c7b5a222f98294",
+      "bytes": 8442
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-9d4a75e4458a0c745969.json",
+      "sha256": "2737e5f964daa75995717a9943752f1ab0bdaabc49248e1f01b1e3e1a7eff7e2",
+      "bytes": 8838
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-9d6436e105c6c3471ffa.json",
+      "sha256": "4e459342b825eba91bbddf201548408d653e73fcc87804bfd4da449f994f7b5a",
+      "bytes": 10266
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-a0bac4d845a525e3e410.json",
+      "sha256": "7115db943bd7514d7407a8d3796f805600cdd82a13e2bf1aeab6e045c1f3e476",
+      "bytes": 7999
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-a5a635216faa3c6c01b7.json",
+      "sha256": "5b70a5b599075cdfdad1a47d731274978399613d7fee9f2326a6a7f03c81092a",
+      "bytes": 9615
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-a5e8696fdc0e9c630828.json",
+      "sha256": "3ebb58f3fd385fa3803244e86a4d33e20db22144ecae54329dad8006bdbbed29",
+      "bytes": 8532
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-a8fc4549c5aad123b62d.json",
+      "sha256": "bdf24a811f7e3a7e4a120dc3bc914cca991ab40d7e588aaf241720630a3c59a7",
+      "bytes": 9078
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-aaa043a3ec245ae437d9.json",
+      "sha256": "76430b454f2db6a3a8c7a9935996b9513bcea31ca5ab4f54f5c2e222e12e07a9",
+      "bytes": 8519
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-ab17e1965a434aaa7841.json",
+      "sha256": "6b050f273751cf8a74181def4673914850a529010a77cae44ccade8123c530e2",
+      "bytes": 9068
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-ab4a25e24fea722ba275.json",
+      "sha256": "60723905e44c1e50c16352321f328b88a0e04fb4cf6c01433ec86fc5a870a492",
+      "bytes": 9185
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-ad009eeb7efc46e1bdd5.json",
+      "sha256": "61c876b6277c51ee5aa5f3c77074383dc784947dea11a52672603d234ffab69b",
+      "bytes": 9604
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-ad2c523423768b178ad1.json",
+      "sha256": "5f94f4e8b0fa2fd8f61768c0d7b43c4abf7b9be443d43b0c66175765c36215c8",
+      "bytes": 10097
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-ae8d2364c1477b2bee82.json",
+      "sha256": "50f62d107df07f8a06c85f19d9f31b04b84df4fba1b005b8385cceaf426bc262",
+      "bytes": 9022
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-aed0e0bbe876653646c3.json",
+      "sha256": "0974250d5f190392dcabb8076f4ec962a4f1e5d61ee5556840ede24b6e1add10",
+      "bytes": 10686
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-b08cc35cc3376faa4d77.json",
+      "sha256": "065414802b496763295dc1b6321d689b5a69fe9358096a71d2e0ec009e5e4432",
+      "bytes": 9120
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-b37aa6a93fa702c251ee.json",
+      "sha256": "53d30aaf5ae30b4b2271e0c1aa218f8269a75b186d300230afb37c84e8d9ade6",
+      "bytes": 9096
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-b42ea09f0a72082a231d.json",
+      "sha256": "fbb3c620c97f8fff7e0da6e2ecbe6788ef75f770ba6b3270fe327737dfe92ce0",
+      "bytes": 10669
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-b4c40d916beee192e73e.json",
+      "sha256": "3a0f280a13da40002bed49aea80a7465b8f598a959aa3d67e2e02be766ac790e",
+      "bytes": 24428
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-b4eaab54a3b38578052f.json",
+      "sha256": "83f23518882ebc3e11b54f425a2fa80dd9ad78ba0528c57c6509505e9645a12f",
+      "bytes": 9418
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-b626805f2ca6732b6e14.json",
+      "sha256": "198e17d74e917b93c9ec4326b70ad5be0aa8737b2ce18e6376810863d885521a",
+      "bytes": 10067
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-b65c0b4b6ee68d18874a.json",
+      "sha256": "56e08a68a023ce956a24f53e21ddbda358c804f6e40527e5f2186465fc7edbe5",
+      "bytes": 8047
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-b7de37504b595ada694e.json",
+      "sha256": "ea9e34c6d24c054427c7773ac09a8f2c2de9ed240a3152ac174542e29a0e7d5f",
+      "bytes": 9963
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-b947f63a9bd29e90632d.json",
+      "sha256": "09272beecc423fc1c22d13fb86f10a2e793ecb7e35e097ed0267cdfa7127ccb0",
+      "bytes": 10132
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-ba68b16fa3306dd9ed50.json",
+      "sha256": "e30780e871996f7a568501b3f799783137f8f74835050be04dedba7c1f3ec6cc",
+      "bytes": 8753
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-baf16b4a597cb2e5cb92.json",
+      "sha256": "3d77948968245a91f30924bf7a070cce65ad5380fa7fc0b15c4501501c2aa526",
+      "bytes": 8356
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-bb5ab714a7137036980a.json",
+      "sha256": "eed482f4d90e75920df7da129cd149ee28a8591b9963bc55c0bc83e892a732a3",
+      "bytes": 10495
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-bf386647163d94812b95.json",
+      "sha256": "a8463c07e4162d30027b758b1f1d42048bb25e5b035975a3f747f2d0143c2e5e",
+      "bytes": 9363
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-bfcfac15b198a3208a1f.json",
+      "sha256": "203cee25cade54312907d3969de242166e3489107a4a4d2ab9a695581d517b5e",
+      "bytes": 8250
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-c031e0bd780da56c8549.json",
+      "sha256": "369e67244e62aa3458bbc0c8b2016ce2e371262477edda8e15cd6510c3cd78b1",
+      "bytes": 8380
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-c048b576af8b43c9408b.json",
+      "sha256": "fb62cf31f19b2554051f2d308d145b213f217be685e588b5e09218311f4da8ac",
+      "bytes": 9144
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-c0741ce638c2d3302be7.json",
+      "sha256": "20a6ebe9d8fd95be203d378524fb4dce333d61f7573b4f886fb724fc277fa52e",
+      "bytes": 8680
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-c214be0ce258a7cebb7d.json",
+      "sha256": "5ffc967cb0bcbb693ed0a65c2a43165f23a86cc87001c5055386a20f71f73a54",
+      "bytes": 8853
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-c2fbd31d797403bcff4d.json",
+      "sha256": "ef16a4549e861347195d580de710e90a9cec79dca73e65ce526a7d5a697d8d2f",
+      "bytes": 10285
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-c32327638312eadfae6c.json",
+      "sha256": "0cedbda473b4ad2fd6e1a751b31b7c8c5073300da282f57239936388764188c3",
+      "bytes": 8954
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-c431b9627978819fdb7a.json",
+      "sha256": "46899553cac273c45d320c23c7a218abac463bc4f1345dd82011131c445ca7e5",
+      "bytes": 8698
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-c5a91dea47b5e78a5151.json",
+      "sha256": "e774b29856cbd85d91a977447bd35d03d2ec7c841ad6299536a25e4a40b56898",
+      "bytes": 9445
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-c61f9303091e252c5bdb.json",
+      "sha256": "67e437e23e8518c1b64bdce9cbeb918286c5d3f0717669e0b4edfbbafa4ca215",
+      "bytes": 11941
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-c69551afff3f12d15352.json",
+      "sha256": "ca413ee11f4448397d0ff58a0d79283e7b82d20f7e8c3b87516c00f9156330ed",
+      "bytes": 20236
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-c6afe2572145acf88be0.json",
+      "sha256": "733671863de35f98355cdbf1c5b147594befd2c8254a96f0d4585951fc8f86b8",
+      "bytes": 9545
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-c763653b76c60efbaed1.json",
+      "sha256": "113384243c06c30253a37cf66a5176ba875846342f855f3dc45091125572cfbe",
+      "bytes": 9297
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-c76c76eeff47b5f8f0ea.json",
+      "sha256": "38bd9eef9772ad4c70d47cb22d4672ae3fa779d205d9ff3ef7ba6d576a59e3f0",
+      "bytes": 8675
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-c8d473a74d7fc7ee0de7.json",
+      "sha256": "521613ff75e3da225adeea807eecbe2fb6c765a501b021aef3e83079fa9d7c90",
+      "bytes": 7909
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-ca198408cc463984959e.json",
+      "sha256": "77979f3ccea73371cff922d165f9ea2833bae14932b290750f88824578880696",
+      "bytes": 8752
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-ca5c6b05dc470bdf6643.json",
+      "sha256": "d8878053d5dee94a218f6c555429a16c729fae99150b4a1bc1ffae4c0e94fb0d",
+      "bytes": 9041
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-ca60c2e901b3f399e8f0.json",
+      "sha256": "7fa82a880988c3537e8886e84bc759b1bb1a4230c4e171d9deb94150d045dd54",
+      "bytes": 10493
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-ccc886fb244b93da552b.json",
+      "sha256": "441882330807ced9697608bd64b951d2381de3fab60392888a18be77564b8322",
+      "bytes": 10277
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-cdfc8ca6e98289b115b6.json",
+      "sha256": "5d40abc8f48c89f7c766db5255ddde38e030b70b744fdb4d4d6c75be29f94c7b",
+      "bytes": 10420
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-cf2d24042c88323c3c1c.json",
+      "sha256": "b21367a4ed527de6aff8694462b67bf84b381b707c4b7512f13e616d34e802c8",
+      "bytes": 10255
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-cf57e9023ea3c9eca4fc.json",
+      "sha256": "16210a952540100461f0f2aa1877a3269236c5ffba9e2bc3ec9940404726d359",
+      "bytes": 8534
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-d10b536386b880eb4840.json",
+      "sha256": "7f59768a5fd3262ea9035bd498781265d2c48ea2ada64977a9e018d6aa2d3ce0",
+      "bytes": 7939
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-d1f13ae942a0bdb1b0a2.json",
+      "sha256": "3debaaa4864a93d61f35397fd9ccb7d180b89f72dfd39aa34dfb6aa570aa0326",
+      "bytes": 8854
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-d223c516902638422246.json",
+      "sha256": "0aaf551d2e21e89446532962c469710c950a4654a6abe12921626a0f8d0c5e57",
+      "bytes": 10106
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-d24fb82a55bc34e1eedf.json",
+      "sha256": "6a7729a05f97f415498bd84a6820b9aa1f21d9436f40b7e8a951383fbd90a63a",
+      "bytes": 8487
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-d5f5ac7ad034d55b338d.json",
+      "sha256": "c24da330bb2ee8c7f4bdb0f2ecc93f598fc89bf4a5e6b18661526254db1a1233",
+      "bytes": 8350
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-d743e851008b7c87ccec.json",
+      "sha256": "c96752d74e1487ea85eccac4e7bd4e4a615f539db4b071f73730b888b35b1d97",
+      "bytes": 24337
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-d8bf1c05470675a1489b.json",
+      "sha256": "2264805e2360d4b021da90c9c6ee28d9c359c9c820cd77150b9a46507ff0641d",
+      "bytes": 8446
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-da6d937c95a1fad3ba4b.json",
+      "sha256": "01147ae2866946bdacda5d780f4e89b596a2dff9dcf0548669b06e2af2f91f0c",
+      "bytes": 9730
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-db875065d5e92066c555.json",
+      "sha256": "f23fb5e33a83d94af4621c12a9ced2ee4aa1c261494513914e3623ed5a39c628",
+      "bytes": 8232
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-dcd2f33a7bfa19a35b0a.json",
+      "sha256": "d46f04a56e5d375a15bb975c84e96d7575227e90fdd173d8fcf614942d202615",
+      "bytes": 8430
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-de88f6f904d99483de9a.json",
+      "sha256": "f3b096cd59eed333e73daf2fe367127bc2c3564898d65a7f90a937cf978fb42d",
+      "bytes": 10422
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-deda06a9386e78edc37d.json",
+      "sha256": "dbee50c3b455252b435a2b5b166190b6d93dd1f217364b2d10ef11727934fc61",
+      "bytes": 8048
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-e263c7ae23500de4b4b4.json",
+      "sha256": "1b5589cb7eea5eeec23344828f080e82af1cdcfb562d1f7a5cb558e0714f33b3",
+      "bytes": 10154
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-e5aa899d28b1182ca363.json",
+      "sha256": "c2361e8d948a73f52ec25900e0f66d326db3b71e0f4f02b0244422bfb54a749f",
+      "bytes": 10157
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-e5e44dee3bd8f1a35d3d.json",
+      "sha256": "e76c770fdc1a315a9adf132fe090bb4c773af1c64a4e15f3df93353a4a0e25a4",
+      "bytes": 8883
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-e886a90c3e64885e8519.json",
+      "sha256": "88fd9a765dd05dfba85caef631b23abfac2aa958adcc732f74aba8b54e66f93c",
+      "bytes": 8078
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-eb99a0ccf31752323900.json",
+      "sha256": "9c5ee33673011100ee6fd6793b3910df5021c58a1f07f25df04892eab6a2d0c5",
+      "bytes": 8014
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-ec58999d5ed5eeeeb53a.json",
+      "sha256": "48d655d774030ccc90311bc7131c47a492746ce7b8f640012a9f1c6036e68a91",
+      "bytes": 16017
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-efc56cb0824fc453d4a7.json",
+      "sha256": "4c93be85580582200108550a0963f4c821c84ae185c3a1b0fdc8b0b5dbfeb0a5",
+      "bytes": 9154
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-f60be3d531652e206d1d.json",
+      "sha256": "7ba222fca9dc42f1211feacd6f985f4079ff58e7f34db57b418fba8a2aa6759b",
+      "bytes": 10054
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-f6e7330ddc3bbd97aceb.json",
+      "sha256": "37fab9223517e25ab96da5b88a407401625c9d5009577c69fd7bbafb3031b415",
+      "bytes": 10532
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-f6fcef2cb2edc3ee909d.json",
+      "sha256": "495651a02f49fb6489c2612939c32cd8414b211e930a28e4315e2d4d3b36b476",
+      "bytes": 8153
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-f764fb937c5e267703a5.json",
+      "sha256": "af22d9adafc2bd0a70545f193e154f15b04f258e64d0ff6e96f516d3143ba070",
+      "bytes": 10557
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-f7ebb422385e2d6ef4b2.json",
+      "sha256": "c800201a9c4394d523fd0620804e3e54ee4feab7eec923c6a126af291ef67650",
+      "bytes": 10079
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-f83da7b7d9497715c7d2.json",
+      "sha256": "0cc65ac9d673248cbdf37071bb8a0468bd102919700934c6dc38a9cdc7537f0e",
+      "bytes": 8749
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-f88a40de54931782cf22.json",
+      "sha256": "f206f2b7fccb9cba1de3b4713199965b919528bd15de7b28b77d1f15463ccc9c",
+      "bytes": 8041
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-fabdff8058cc41850931.json",
+      "sha256": "afc79d6eaaa57397182ed68afa9dab005fac1907bf9e89573d93685f052340e0",
+      "bytes": 8064
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-fe43cdd9007eac691c13.json",
+      "sha256": "0071548cbb77206b1428819406489c45fe9f28c0b28ea4cdbae0c9ad3422b939",
+      "bytes": 8989
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-fe72ec20d4383fb7e8cb.json",
+      "sha256": "892bbbff182d48bd4e1b2ae5872f75d5bcb45323f63677b5ce58bd9effeffc08",
+      "bytes": 9025
+    },
+    {
+      "path": "disease-releases/geometry-v1/records/dgeo-fe81efeb2645f9afceb1.json",
+      "sha256": "0d156a8180135f9b68930974819ad358ae8b56156f30fb7df771caea7fb3dcbb",
+      "bytes": 8305
+    },
+    {
+      "path": "disease-releases/geometry-v1/rejections.jsonl",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "disease-releases/geometry-v1/release.json",
+      "sha256": "cef5cab774a7e887c35cb8459c2b47aba2e1bea6be6adc0b8ed9a4ff950c7c13",
+      "bytes": 55511
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/ATTRIBUTIONS.md",
+      "sha256": "fd36468df90965f01cb4629b10f22aa527f33f65d3e5bb43bbe51a6f3613b1b5",
+      "bytes": 8950
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/attribution/bodyparts3d-official-license.html",
+      "sha256": "b296a77a1e9479f81575d27fd61e0b0d93501f63c53c1f6014b1f4b315bc8eec",
+      "bytes": 14694
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/attribution/hra-brain-female.jsonld",
+      "sha256": "f66ddd984364cfbe22da8824a13d96e3e17ebe8e19ebb0e4b52005feee452c8f",
+      "bytes": 14863
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/attribution/hra-brain-male.jsonld",
+      "sha256": "32dac8b0d147cd690cd87d5604756c8d1d18a8b23e09759674e856d8490df427",
+      "bytes": 14623
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/attribution/hra-heart-female.jsonld",
+      "sha256": "befa52bca50ea6b21891701b2af7f46761eeb1ebebc10a580032ea80c11a9465",
+      "bytes": 13878
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/attribution/hra-heart-male.jsonld",
+      "sha256": "a1829bcd8de3ff69b84e1a51bf9e384a97b7d5b90ee91b7b1d3d58119d6df430",
+      "bytes": 13413
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/attribution/hra-kidney-female-left.jsonld",
+      "sha256": "5db03d210a22b6dc745d1e8f840a1bf45b6f17af109dd16043c131727dc55dc9",
+      "bytes": 14944
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/attribution/hra-kidney-female-right.jsonld",
+      "sha256": "b8ff824a2f92bbd034149e94650875faac6fff0f9b859cd29e2ce0c6f04cf332",
+      "bytes": 15000
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/attribution/hra-kidney-male-left.jsonld",
+      "sha256": "32979caadeb0c80fdca19397b6f4b96cb836d9a0cf4bb8aa0e9b95f69b02a89e",
+      "bytes": 15025
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/attribution/hra-kidney-male-right.jsonld",
+      "sha256": "5110e462626aab190c69e1877ac6ff6980fc042857a3ab78303799f959d4e194",
+      "bytes": 15081
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/attribution/hra-large-intestine-female.jsonld",
+      "sha256": "cece8c77cf8dbf4bac73e3b1fa50020d825ca5bed7e508e8eb1528d67ea0dbbf",
+      "bytes": 14233
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/attribution/hra-large-intestine-male.jsonld",
+      "sha256": "9558a96affdbc6f8b8095782080c7da0d6601a603a621592a2c047334f64074c",
+      "bytes": 14723
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/attribution/hra-liver-female.jsonld",
+      "sha256": "dfca567f6c990f1c1c03502487eb8b45d2790f7f1c92da09dc9ec9094a731ae5",
+      "bytes": 14899
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/attribution/hra-liver-male.jsonld",
+      "sha256": "2a363af75ee8765146bc7d096308d73ee8851f38a39199dfc50b417d5efabe1d",
+      "bytes": 15002
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/attribution/hra-lung-female.jsonld",
+      "sha256": "14ed2ecfae07fa38a8e4eb038cbd775eef0bfc539a6ea0459a5329dab3875933",
+      "bytes": 13985
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/attribution/hra-lung-male.jsonld",
+      "sha256": "509ee70bc497d47496866aece462f956c49010f8fe4c60125bb6853012764cec",
+      "bytes": 14066
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/attribution/hra-pancreas-female.jsonld",
+      "sha256": "e518ff4cf059fed9cc712d4c8e2797f491afdb81b80be73c65c7ea0afd14c89e",
+      "bytes": 14264
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/attribution/hra-pancreas-male.jsonld",
+      "sha256": "218a3c553b6e85aa7437c62075993e63b19f29d335e8881cb29d65366f5d1910",
+      "bytes": 14345
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/attribution/hra-small-intestine-female.jsonld",
+      "sha256": "902e6bcc74bc2356c9037ae54a5c8c1f3e6d58a1bd306b4c3c1e59172baed0ad",
+      "bytes": 14868
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/attribution/hra-small-intestine-male.jsonld",
+      "sha256": "40fdd39dbb7dca8a8aac3e16de501057f433d22339acd67bc875f1af527561be",
+      "bytes": 14957
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/attribution/hra-spleen-female.jsonld",
+      "sha256": "afa2ce81d23fa926327674218a7f5a61e425e5c4129b56c52b36850bea3792f6",
+      "bytes": 13912
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/attribution/hra-spleen-male.jsonld",
+      "sha256": "da9c4bea14a403e4cbb99306a81b651bdc44d10108bffa87a334c1ba85b3dfa7",
+      "bytes": 13735
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/attribution/hra-urinary-bladder-female.jsonld",
+      "sha256": "357f688d82d0c047ea4dce2236cdc490a3333e2b70fd448eea1bbdb0cb9cb30d",
+      "bytes": 14512
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/attribution/hra-urinary-bladder-male.jsonld",
+      "sha256": "12e7ff34f15c73247e96511aa739b75dcb666b8c8511e97cd2c832597ace9fdb",
+      "bytes": 14626
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/bp3d-gallbladder-male.json",
+      "sha256": "3e057a5ddc537042bc8bc1a66f3b3b56802721a7d6fc266a6f5ce2ab7518d6b0",
+      "bytes": 6617
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/bp3d-gallbladder-male.npz",
+      "sha256": "6e94e0266417eb204fe9056dd9a49fcd288417318162ca27c31000b869441bab",
+      "bytes": 45375
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/bp3d-stomach-male.json",
+      "sha256": "a6e75ef8270a7138d937cc5d2b1f9874bb1de2ed7346b64d3e9ad3e130b116b3",
+      "bytes": 6580
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/bp3d-stomach-male.npz",
+      "sha256": "2c8008326d3c6a2a073bcd3799ad5ebe99518c07793aa0bc6ddb0777e7e254cf",
+      "bytes": 35976
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/catalog.json",
+      "sha256": "cca900ec6e795d910881d309591a25b9250e4655f07d7753f03ff7a104b18a93",
+      "bytes": 41621
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/hra-brain-female.json",
+      "sha256": "680cc615cd7efb1fc1503fc4376540af447f9df4b292624a9a7cc71986b73edc",
+      "bytes": 111941
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/hra-brain-female.npz",
+      "sha256": "57d2f3eed5bdd6cde6b070ba5f963b0456206437546cb6f271d69d7ed05437b8",
+      "bytes": 9511346
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/hra-brain-male.json",
+      "sha256": "9267d244adef34dfb12cb9433b565a505b4468b5d8e6b31a5bea3110bd86b73f",
+      "bytes": 111892
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/hra-brain-male.npz",
+      "sha256": "35e9d313ca187af7eca9394b53cf5015e3a17c05e5e92fd2532f44eb427ce7ac",
+      "bytes": 9451785
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/hra-heart-female.json",
+      "sha256": "ac9fff24f1f369af05309ff8687d7e225d4f068465836b958017155aafe3e8aa",
+      "bytes": 10613
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/hra-heart-female.npz",
+      "sha256": "0d3bea64d3617276953883a948043e42627d8eb5ecaabaa4c33047301d5dde04",
+      "bytes": 842380
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/hra-heart-male.json",
+      "sha256": "816a94939504c6eeeff27a6901e9d4559e14da173efa695bf7331c0de4e367b9",
+      "bytes": 10729
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/hra-heart-male.npz",
+      "sha256": "ac3825959ab0398f61610ccfefbdecf55840b4392a856647a993034baba8d774",
+      "bytes": 2137650
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/hra-kidney-female-left.json",
+      "sha256": "dc39df9073e2e0405412b92939af047a57128576838700b5381e46fc662b9aeb",
+      "bytes": 9468
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/hra-kidney-female-left.npz",
+      "sha256": "1beac6dc86fa65ed7d5e731908e013aacb03dedd2f2d07cb381a8e7e4739f634",
+      "bytes": 309250
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/hra-kidney-female-right.json",
+      "sha256": "47beffc1cba966e1ae9bff99928544e6e8e2e04c8a55041aeee30ec3234beb99",
+      "bytes": 9417
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/hra-kidney-female-right.npz",
+      "sha256": "bb19b672ed692fe8ab8e7b62a3df738d6cd65acafe08645aab52c9c2c24c3cc0",
+      "bytes": 268091
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/hra-kidney-male-left.json",
+      "sha256": "534f68d09ea63e66b4c804599c33e93202b0beb2c36c2b60b15b42b2eb27c119",
+      "bytes": 9480
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/hra-kidney-male-left.npz",
+      "sha256": "595f743de22be092209bf47feb5c4b6ee2e42e889f750b0977438eaaaff01604",
+      "bytes": 286737
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/hra-kidney-male-right.json",
+      "sha256": "1a57c234603f21c92fbddd3f978ff399acef821bce31d55350b53c75f2ff5f16",
+      "bytes": 9527
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/hra-kidney-male-right.npz",
+      "sha256": "ad3efc6d3988871ec8340f73f79cf7bdba5b5149aa3a4d1d7c6b64d6bc5156f5",
+      "bytes": 284117
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/hra-large-intestine-female.json",
+      "sha256": "1d23166d97cc6025f1ca7c611ca54dc62704095d61ede97a6075f9dd14d817ec",
+      "bytes": 14428
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/hra-large-intestine-female.npz",
+      "sha256": "21d1fbb7f2b5578ea648f0d283aad1b9b9a7ba20eda1836f3f4376e5900ade56",
+      "bytes": 380275
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/hra-large-intestine-male.json",
+      "sha256": "f8a84e2b51b7bbb75027219e32bde6336b5384c303a15ad3b07337b90364eb82",
+      "bytes": 14880
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/hra-large-intestine-male.npz",
+      "sha256": "a9c0c7f665daf19380f7fc6f184abc87f3b0ad58880ab1372eacb3a962715e1b",
+      "bytes": 557391
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/hra-liver-female.json",
+      "sha256": "d91679f6ebaee72201ad97d9d43499e146310337a661fd728b0cf226bec6617d",
+      "bytes": 13584
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/hra-liver-female.npz",
+      "sha256": "2dd9b70daf0924cb8f56b80df10065c57e7422e93ce40909406b3c57a195e20d",
+      "bytes": 648512
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/hra-liver-male.json",
+      "sha256": "7c67826e00aaece505fb4a02ef0c317400e0417fd9af5286b98afaf3842dffc0",
+      "bytes": 13723
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/hra-liver-male.npz",
+      "sha256": "c74d7787e13b9b6ada02b10fde915158aea10ea789b5f693f41b1c93d7e8815f",
+      "bytes": 550672
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/hra-lung-female.json",
+      "sha256": "f2eeaf35bc7a8f7c09515f5ce56c7fb5c6cfff9777331dede050dbd4165c7432",
+      "bytes": 30816
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/hra-lung-female.npz",
+      "sha256": "f1658bf4878c81271d5edc9510b1e5166b810f31ce19110e676df2db59de8c1d",
+      "bytes": 587317
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/hra-lung-male.json",
+      "sha256": "e02a7ce9bc0945d04ee6cd4b46bf534668e9dd1c1f1c4105f72f84afb76ee3a9",
+      "bytes": 30982
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/hra-lung-male.npz",
+      "sha256": "06df9d8fe8520dbbb54853392e8adcc078143c5c3ef0e927bd9fa6699f12000b",
+      "bytes": 312940
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/hra-pancreas-female.json",
+      "sha256": "ed0dbaea88ab73d1548928ff32f8aa8db646d58436af7179d702e25983d292a0",
+      "bytes": 11257
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/hra-pancreas-female.npz",
+      "sha256": "bd78c289f6e6a1bb4bf105ff074c432a83b3c47aee94a988d58535952ab6245d",
+      "bytes": 308780
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/hra-pancreas-male.json",
+      "sha256": "f0b5070ca1c94d75f7a47d4d8cbfd6232046728cc51a133b46fde0a0bfb2f41f",
+      "bytes": 11456
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/hra-pancreas-male.npz",
+      "sha256": "c3a1859cc09580d2c5b7f075d3ffad15a14d90afcfd2a577f0f5171d38c967a7",
+      "bytes": 900810
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/hra-small-intestine-female.json",
+      "sha256": "f8545dcc5b89c5ba70f3502db9596bbb1471e51e35cd02650f3b1cb0db5071f9",
+      "bytes": 14112
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/hra-small-intestine-female.npz",
+      "sha256": "7fb66e6101fe83f3092c7037798f4751cb51f3dcb558d6440f912039e5467fed",
+      "bytes": 724662
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/hra-small-intestine-male.json",
+      "sha256": "28aaa51cd26134ea065cfd68efa1e64a8689c35125d78417c1dffb40aa4c3320",
+      "bytes": 14266
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/hra-small-intestine-male.npz",
+      "sha256": "d9ead1dfc12da020a5d3fffac71a76b05023313a1b874b63519ff8cc77b9bfd6",
+      "bytes": 590668
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/hra-spleen-female.json",
+      "sha256": "ad301275d88257466f8f6984312b140c92dae85bd7e387c84798f388da3a76a6",
+      "bytes": 11121
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/hra-spleen-female.npz",
+      "sha256": "ea5514d20c5fd6bd0a44b7b22510a4e4d8623f945c32ae06c946b9bbdfe6b99a",
+      "bytes": 155477
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/hra-spleen-male.json",
+      "sha256": "7cdc68f95410a87be7a2fec6c8c71d77fe5977810a5e3484817d79db031b671c",
+      "bytes": 11308
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/hra-spleen-male.npz",
+      "sha256": "0177454d0735a3158981d0e16c48b929282023a7741d4903a6e78f817ec64701",
+      "bytes": 312171
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/hra-urinary-bladder-female.json",
+      "sha256": "32dd7443f92dc838526b19ad748d3ba1fbfb107f014ddd3e57e16172c59f1211",
+      "bytes": 9738
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/hra-urinary-bladder-female.npz",
+      "sha256": "03b753c162fd2b14e238712b50b9996cdb4a5e5e3f67e5693975fa0a40ce406e",
+      "bytes": 728405
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/hra-urinary-bladder-male.json",
+      "sha256": "9db2c655d3faa2b65e8d2afcb4484984367c3799f49fc55d2d07b7385c1fcbec",
+      "bytes": 9853
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/hra-urinary-bladder-male.npz",
+      "sha256": "4870b9af312358bf033da927c0bce9e30caebb7844f6f6e60283c5cd7e532d24",
+      "bytes": 183325
+    },
+    {
+      "path": "disease-releases/geometry-v1/templates/release-lock.json",
+      "sha256": "c0f520cae40edb61d78ca0ea5003978425773a5b1c30c0aa291f3257f3520c56",
+      "bytes": 7891
+    },
+    {
+      "path": "disease-releases/geometry-v1/train.npz",
+      "sha256": "10f43ead05ecfbdb4815a67a8f931528707c3dac45151f6109bcfc91ca0a7848",
+      "bytes": 27611238
+    },
+    {
+      "path": "disease-releases/geometry-v1/val.npz",
+      "sha256": "cb5ffd90c75035c79fddd20f125402db76c41fd9a927d34aad9ac2b01f5775a6",
+      "bytes": 4619036
+    },
+    {
+      "path": "disease-releases/recipes-v2/audit.npz",
+      "sha256": "aa7cdf9e8760c64f4b1a1e6e77a28e986e204db4ad832b16bd0cc03c8d353fad",
+      "bytes": 36232
+    },
+    {
+      "path": "disease-releases/recipes-v2/catalog.json",
+      "sha256": "4fc23d85ddf751e322d4d713812f3f847ab677f55f1dca7662b50bf0bc2a766c",
+      "bytes": 39154
+    },
+    {
+      "path": "disease-releases/recipes-v2/provenance/atlas_disease.py",
+      "sha256": "6068b50d0a4faa14b52797f1b52451ca6a33164f6a7e176337579cf82a1c2c70",
+      "bytes": 11418
+    },
+    {
+      "path": "disease-releases/recipes-v2/provenance/atlas_disease_recipe_dataset.py",
+      "sha256": "01b80ab71574605d25c121183bb51aeef80d2bc237a67a7ee14d6bafc5549b6d",
+      "bytes": 11164
+    },
+    {
+      "path": "disease-releases/recipes-v2/provenance/disease_profiles.json",
+      "sha256": "794bb6d5b34a51febfdc52998d50080d0d32e1be96877f6735249e25d5ba6706",
+      "bytes": 34795
+    },
+    {
+      "path": "disease-releases/recipes-v2/release.json",
+      "sha256": "4bf35e3a242ae3fad1fad3e31e625d95e8507575083d7514614f59fd73652cf1",
+      "bytes": 2284
+    },
+    {
+      "path": "disease-releases/recipes-v2/train.npz",
+      "sha256": "54b60934a6664a32067c9b37f1c45d77893ce6d9dc616e23ef3330ed20fd01d9",
+      "bytes": 132370
+    },
+    {
+      "path": "disease-releases/recipes-v2/val.npz",
+      "sha256": "36d3348ffcced304fb5e1afc4d7e303cbacd856a24f02b1b540da5f294e8f85f",
+      "bytes": 36239
+    },
+    {
+      "path": "docs/DISEASE_GEOMETRY_DATASET.md",
+      "sha256": "1a2ae953f009b0efd5de7580d707bfe49dd16aca9c53a77e5ed11972c258ad9e",
+      "bytes": 8494
+    },
+    {
+      "path": "docs/DISEASE_RELEASE.md",
+      "sha256": "33d03e8485588e6a1cea0ee1e3f005b713896640ee7667d0b4254d581b3caddc",
+      "bytes": 8236
+    },
+    {
+      "path": "docs/DISEASE_SOURCE_DATASET.md",
+      "sha256": "1e0e2b72eea1917bc74a36710cc9e48dc60c7f129be1b577279a6d86f32811cd",
+      "bytes": 8609
+    },
+    {
+      "path": "docs/DISEASE_TRAINING.md",
+      "sha256": "5684002315a5268a08e9df38b8d4e5b79d9b6cacc336f4345866d3a65d4033a9",
+      "bytes": 7607
+    },
+    {
+      "path": "notebooks/VISCERA_disease_variations_and_training.ipynb",
+      "sha256": "b1bf5e4b3976812b210ed07c7b3df2f0775cdec2eaad881d4476b9cd98c5e195",
+      "bytes": 19203
+    },
+    {
+      "path": "notebooks/requirements-disease-colab.txt",
+      "sha256": "f0f72e9a1594f0f9449b8602919a44cdf3c173ad6c44d1b17b2c18bb22a29bbf",
+      "bytes": 294
+    },
+    {
+      "path": "notebooks/requirements-disease-test.txt",
+      "sha256": "2d64cd886d1d2a0a945ce0dcb0f5c3dc552fa147ca456fe985b14e5628610b72",
+      "bytes": 144
+    },
+    {
+      "path": "pipelines/train/viscera_train/atlas_disease.py",
+      "sha256": "22a18ce6f7124cffe02b036364f1711134aba9e4f63bf3757ac0d8c873a36e45",
+      "bytes": 30519
+    },
+    {
+      "path": "playwright.disease-ui.config.ts",
+      "sha256": "202326c26e6d84e57920ec893abd96fe17d5dc8501fc2896805cc2c705049384",
+      "bytes": 825
+    },
+    {
+      "path": "py/viscera_core/atlas_disease.py",
+      "sha256": "6068b50d0a4faa14b52797f1b52451ca6a33164f6a7e176337579cf82a1c2c70",
+      "bytes": 11418
+    },
+    {
+      "path": "py/viscera_core/atlas_disease_dataset.py",
+      "sha256": "54b2f9094a68d7fdc083a7a3e177adf564e0bd92b35be9bc5e4d3a66b9232644",
+      "bytes": 34534
+    },
+    {
+      "path": "py/viscera_core/atlas_disease_geometry_dataset.py",
+      "sha256": "df5290486e6a8cf708bf9e2a986ef308b04bbf67f6a18515a51f1079b63b40dd",
+      "bytes": 34209
+    },
+    {
+      "path": "py/viscera_core/atlas_disease_recipe_dataset.py",
+      "sha256": "01b80ab71574605d25c121183bb51aeef80d2bc237a67a7ee14d6bafc5549b6d",
+      "bytes": 11164
+    },
+    {
+      "path": "py/viscera_core/atlas_disease_scene.py",
+      "sha256": "d4319afee56ec13141d723d9be4ef7c13ac8708058919bc9249db146c9010a0a",
+      "bytes": 10881
+    },
+    {
+      "path": "py/viscera_core/atlas_disease_text.py",
+      "sha256": "24d99873ccc272aa20c163efcc71e36928bfb132f5ff4ef1c680d249e20fa525",
+      "bytes": 8469
+    },
+    {
+      "path": "py/viscera_core/atlas_material_bake.py",
+      "sha256": "63317552ec1c41e00705aa531d48e5b01392b755cf1e74b207f78094980bb914",
+      "bytes": 23510
+    },
+    {
+      "path": "py/viscera_core/disease_profiles.json",
+      "sha256": "794bb6d5b34a51febfdc52998d50080d0d32e1be96877f6735249e25d5ba6706",
+      "bytes": 34795
+    },
+    {
+      "path": "pyproject.toml",
+      "sha256": "06bf84699a901accd403911b06eeb42a84b5c31a9e57d65f76f66da8e110400c",
+      "bytes": 1178
+    },
+    {
+      "path": "scripts/build_disease_notebook.py",
+      "sha256": "511a3ec321ec27eab90911e162807271d18a5917e5fa095aaaf8228121b6d0be",
+      "bytes": 18050
+    },
+    {
+      "path": "scripts/package_disease_colab.py",
+      "sha256": "29e31a0be63ed1908491172455d01b5546905c281e2eb5f0fdee3a83271627cf",
+      "bytes": 7398
+    },
+    {
+      "path": "scripts/qa_disease_model.py",
+      "sha256": "9b0ed315d2b49edc959409c115d689f613e512c0b36200dbd851399dfe55931f",
+      "bytes": 4376
+    },
+    {
+      "path": "services/api/atlas.py",
+      "sha256": "c9713d6b27e1d28c36d7eb760c3933be230def7e210883897f9c5ddf61a97d01",
+      "bytes": 8164
+    },
+    {
+      "path": "services/api/atlas_disease_model.py",
+      "sha256": "7a96a089aff880524ceeb220a0bf688f772b07260ee09fd73688712cd1d32e51",
+      "bytes": 4510
+    },
+    {
+      "path": "tests/e2e/atlas-disease-ui.spec.ts",
+      "sha256": "47040a9e38f7fa6bbc8643ca607ebef5782baab4c33574bfb2962dbfb9c7f75d",
+      "bytes": 13071
+    },
+    {
+      "path": "tests/python/test_atlas_disease_dataset.py",
+      "sha256": "3a9b55a3753a0c5ccb8884aa5124c5f082dcefdb7dfca8aa8c24d5354b22f2e0",
+      "bytes": 11212
+    },
+    {
+      "path": "tests/python/test_atlas_disease_geometry_dataset.py",
+      "sha256": "f38deba6872b8c3332c665393348ea5090f9655dcf042fa4cddaad297c573d4c",
+      "bytes": 7985
+    },
+    {
+      "path": "tests/python/test_atlas_disease_scene.py",
+      "sha256": "cd871441caed2f2d38d5e771724aec6afd94b09c8826fe774a69143f5610d62e",
+      "bytes": 7640
+    },
+    {
+      "path": "tests/python/test_atlas_disease_training.py",
+      "sha256": "2503a2f059f8db79a75b2be0ac84f7e5c69decd32d9547a71649c3aa0a0da53f",
+      "bytes": 8885
+    },
+    {
+      "path": "tests/python/test_disease_review.py",
+      "sha256": "d9f3d794ed4c1d13c165195e4eadddb146a799f9f1788c217cec2a5ccc352dfa",
+      "bytes": 6979
+    },
+    {
+      "path": "uv.lock",
+      "sha256": "e94e4025900faea7e308347cd2078eab949643682f03555259c8df95d577f7a3",
+      "bytes": 248013
+    }
+  ],
+  "scope": "surface morphology prototype; not clinical validation"
+}

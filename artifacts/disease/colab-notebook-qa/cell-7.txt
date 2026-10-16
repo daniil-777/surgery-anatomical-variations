@@ -1,0 +1,29 @@
+{
+  "disease": {
+    "profile_id": "liver-cirrhosis",
+    "seed": 3796938855,
+    "severity": 0.5347389578819275,
+    "size": 0.37523722648620605,
+    "spread": 0.27448099851608276,
+    "irregularity": 0.3483394980430603,
+    "contrast": 0.6094021201133728,
+    "count": 2,
+    "location": [
+      0.362703800201416,
+      -0.3888593912124634,
+      -0.3412002921104431
+    ]
+  },
+  "model": {
+    "method": "conditional_vae",
+    "model_sha256": "4da4239f48576be0b0a4a1db1f5e4cb0611696afa7cc225375333fc4f530c4ed",
+    "recipe_release_sha256": "4bf35e3a242ae3fad1fad3e31e625d95e8507575083d7514614f59fd73652cf1",
+    "profile_id": "liver-cirrhosis",
+    "request_seed": 28631,
+    "spatial_seed": 3796938855,
+    "scope": "synthetic_visual_recipe_distribution_not_patient_population",
+    "patient_count": 0,
+    "training_recipe_count": 2400,
+    "requires_geometry_validation": true
+  }
+}

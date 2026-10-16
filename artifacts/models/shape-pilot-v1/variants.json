@@ -1,0 +1,295 @@
+{
+  "requested": {},
+  "attempted": 12,
+  "accepted": 12,
+  "samples": [
+    {
+      "accepted": true,
+      "measurements": {
+        "liver_volume_ml": 1937.554152688851,
+        "liver_width_mm": 241.58142509572292,
+        "liver_height_mm": 149.18675295057938,
+        "liver_depth_mm": 123.66683251571801,
+        "gallbladder_enclosed_ml": 44.580878551897555,
+        "gallbladder_lumen_ml": 35.09988493082231,
+        "gallbladder_length_mm": 79.29838768362623,
+        "organ_clearance_mm": 0.8000000000000007
+      },
+      "parameters": {
+        "liver_width_mm": 241.5814250957229,
+        "liver_height_mm": 149.18675295057935,
+        "liver_depth_mm": 123.66683251571801,
+        "left_lobe_ratio": 0.5110761843868976,
+        "inferior_concavity": 0.3972999127728404,
+        "fissure_depth_mm": 8.323353740993902,
+        "gallbladder_length_mm": 79.29838768362623,
+        "gallbladder_radius_mm": 19.57997352691656
+      },
+      "scene_artifact": "artifacts/models/shape-pilot-v1/scenes/sample-0000.json"
+    },
+    {
+      "accepted": true,
+      "measurements": {
+        "liver_volume_ml": 1986.6572848343562,
+        "liver_width_mm": 238.1988781117638,
+        "liver_height_mm": 154.95737827465769,
+        "liver_depth_mm": 127.10939526144506,
+        "gallbladder_enclosed_ml": 23.472499562469388,
+        "gallbladder_lumen_ml": 17.013149099486455,
+        "gallbladder_length_mm": 73.61855438556049,
+        "organ_clearance_mm": 0.8000000000000007
+      },
+      "parameters": {
+        "liver_width_mm": 238.1988781117638,
+        "liver_height_mm": 154.95737827465766,
+        "liver_depth_mm": 127.10939526144506,
+        "left_lobe_ratio": 0.3930862063871941,
+        "inferior_concavity": 0.3545659760976656,
+        "fissure_depth_mm": 7.348863357677232,
+        "gallbladder_length_mm": 73.61855438556049,
+        "gallbladder_radius_mm": 14.74538086821584
+      },
+      "scene_artifact": "artifacts/models/shape-pilot-v1/scenes/sample-0001.json"
+    },
+    {
+      "accepted": true,
+      "measurements": {
+        "liver_volume_ml": 2028.4080137686872,
+        "liver_width_mm": 260.1900619522718,
+        "liver_height_mm": 147.5211097747914,
+        "liver_depth_mm": 121.74315888603691,
+        "gallbladder_enclosed_ml": 28.232615708315326,
+        "gallbladder_lumen_ml": 20.469024946150117,
+        "gallbladder_length_mm": 88.40327892126986,
+        "organ_clearance_mm": 0.7999999999999998
+      },
+      "parameters": {
+        "liver_width_mm": 260.1900619522718,
+        "liver_height_mm": 147.5211097747914,
+        "liver_depth_mm": 121.74315888603691,
+        "left_lobe_ratio": 0.4751937454118449,
+        "inferior_concavity": 0.2554263770407904,
+        "fissure_depth_mm": 5.914839178337484,
+        "gallbladder_length_mm": 88.40327892126987,
+        "gallbladder_radius_mm": 14.757450632816287
+      },
+      "scene_artifact": "artifacts/models/shape-pilot-v1/scenes/sample-0002.json"
+    },
+    {
+      "accepted": true,
+      "measurements": {
+        "liver_volume_ml": 1988.5343562848195,
+        "liver_width_mm": 239.8985834201651,
+        "liver_height_mm": 143.1307384830539,
+        "liver_depth_mm": 136.6339032476793,
+        "gallbladder_enclosed_ml": 31.450561118105473,
+        "gallbladder_lumen_ml": 23.015817255249814,
+        "gallbladder_length_mm": 93.13184158457797,
+        "organ_clearance_mm": 0.8000000000000007
+      },
+      "parameters": {
+        "liver_width_mm": 239.89858342016504,
+        "liver_height_mm": 143.1307384830539,
+        "liver_depth_mm": 136.6339032476793,
+        "left_lobe_ratio": 0.4382122181924372,
+        "inferior_concavity": 0.5198669136246549,
+        "fissure_depth_mm": 9.819218703068618,
+        "gallbladder_length_mm": 93.13184158457796,
+        "gallbladder_radius_mm": 15.17522263116307
+      },
+      "scene_artifact": "artifacts/models/shape-pilot-v1/scenes/sample-0003.json"
+    },
+    {
+      "accepted": true,
+      "measurements": {
+        "liver_volume_ml": 1816.0004790219527,
+        "liver_width_mm": 236.52258582781667,
+        "liver_height_mm": 133.75187886994854,
+        "liver_depth_mm": 131.14310886548594,
+        "gallbladder_enclosed_ml": 28.835367260788985,
+        "gallbladder_lumen_ml": 21.51488199313668,
+        "gallbladder_length_mm": 75.59677768323058,
+        "organ_clearance_mm": 0.8000000000000007
+      },
+      "parameters": {
+        "liver_width_mm": 236.52258582781664,
+        "liver_height_mm": 133.7518788699485,
+        "liver_depth_mm": 131.14310886548594,
+        "left_lobe_ratio": 0.5378859325519894,
+        "inferior_concavity": 0.35239741989267215,
+        "fissure_depth_mm": 9.202742604993041,
+        "gallbladder_length_mm": 75.59677768323058,
+        "gallbladder_radius_mm": 16.12802058265904
+      },
+      "scene_artifact": "artifacts/models/shape-pilot-v1/scenes/sample-0004.json"
+    },
+    {
+      "accepted": true,
+      "measurements": {
+        "liver_volume_ml": 2080.865255276424,
+        "liver_width_mm": 245.40400477690014,
+        "liver_height_mm": 148.5286380529924,
+        "liver_depth_mm": 126.74100139177897,
+        "gallbladder_enclosed_ml": 32.28752984713311,
+        "gallbladder_lumen_ml": 23.634409425623247,
+        "gallbladder_length_mm": 95.46056726866885,
+        "organ_clearance_mm": 0.7999999999999998
+      },
+      "parameters": {
+        "liver_width_mm": 245.40400477690017,
+        "liver_height_mm": 148.52863805299242,
+        "liver_depth_mm": 126.74100139177897,
+        "left_lobe_ratio": 0.6314260874680386,
+        "inferior_concavity": 0.221294510121636,
+        "fissure_depth_mm": 10.9552728866801,
+        "gallbladder_length_mm": 95.46056726866885,
+        "gallbladder_radius_mm": 15.187118177477824
+      },
+      "scene_artifact": "artifacts/models/shape-pilot-v1/scenes/sample-0005.json"
+    },
+    {
+      "accepted": true,
+      "measurements": {
+        "liver_volume_ml": 2088.6388248107514,
+        "liver_width_mm": 241.99207654614582,
+        "liver_height_mm": 144.2619557990239,
+        "liver_depth_mm": 141.8180333231108,
+        "gallbladder_enclosed_ml": 48.91758031413315,
+        "gallbladder_lumen_ml": 38.21880010239081,
+        "gallbladder_length_mm": 92.47376948696729,
+        "organ_clearance_mm": 0.7999999999999998
+      },
+      "parameters": {
+        "liver_width_mm": 241.9920765461458,
+        "liver_height_mm": 144.26195579902392,
+        "liver_depth_mm": 141.8180333231108,
+        "left_lobe_ratio": 0.3341398089947973,
+        "inferior_concavity": 0.13757528810017736,
+        "fissure_depth_mm": 6.296616947288474,
+        "gallbladder_length_mm": 92.47376948696729,
+        "gallbladder_radius_mm": 18.992982597264096
+      },
+      "scene_artifact": "artifacts/models/shape-pilot-v1/scenes/sample-0006.json"
+    },
+    {
+      "accepted": true,
+      "measurements": {
+        "liver_volume_ml": 2211.184543918203,
+        "liver_width_mm": 246.81797481092406,
+        "liver_height_mm": 158.6599541054964,
+        "liver_depth_mm": 127.82444102749105,
+        "gallbladder_enclosed_ml": 27.12324643797055,
+        "gallbladder_lumen_ml": 19.703535787767766,
+        "gallbladder_length_mm": 83.94524789548288,
+        "organ_clearance_mm": 0.7999999999999998
+      },
+      "parameters": {
+        "liver_width_mm": 246.81797481092406,
+        "liver_height_mm": 158.6599541054964,
+        "liver_depth_mm": 127.82444102749105,
+        "left_lobe_ratio": 0.5405020547543442,
+        "inferior_concavity": 0.20510156556415587,
+        "fissure_depth_mm": 8.108711736678728,
+        "gallbladder_length_mm": 83.94524789548288,
+        "gallbladder_radius_mm": 14.84371968841823
+      },
+      "scene_artifact": "artifacts/models/shape-pilot-v1/scenes/sample-0007.json"
+    },
+    {
+      "accepted": true,
+      "measurements": {
+        "liver_volume_ml": 1826.1543792469718,
+        "liver_width_mm": 232.32247482311976,
+        "liver_height_mm": 145.02754047403096,
+        "liver_depth_mm": 129.70390747386796,
+        "gallbladder_enclosed_ml": 23.36352648212394,
+        "gallbladder_lumen_ml": 16.5027661825721,
+        "gallbladder_length_mm": 84.77967431069771,
+        "organ_clearance_mm": 0.8000000000000007
+      },
+      "parameters": {
+        "liver_width_mm": 232.32247482311973,
+        "liver_height_mm": 145.02754047403096,
+        "liver_depth_mm": 129.70390747386796,
+        "left_lobe_ratio": 0.388009069957934,
+        "inferior_concavity": 0.5075585845584517,
+        "fissure_depth_mm": 9.850190422885245,
+        "gallbladder_length_mm": 84.77967431069771,
+        "gallbladder_radius_mm": 13.70860596344442
+      },
+      "scene_artifact": "artifacts/models/shape-pilot-v1/scenes/sample-0008.json"
+    },
+    {
+      "accepted": true,
+      "measurements": {
+        "liver_volume_ml": 1924.932373359723,
+        "liver_width_mm": 234.15101533827408,
+        "liver_height_mm": 149.21301664805094,
+        "liver_depth_mm": 122.08948055333633,
+        "gallbladder_enclosed_ml": 21.450655000182426,
+        "gallbladder_lumen_ml": 14.747447304318134,
+        "gallbladder_length_mm": 89.62139936768203,
+        "organ_clearance_mm": 0.8000000000000007
+      },
+      "parameters": {
+        "liver_width_mm": 234.15101533827405,
+        "liver_height_mm": 149.21301664805094,
+        "liver_depth_mm": 122.08948055333633,
+        "left_lobe_ratio": 0.660540085311478,
+        "inferior_concavity": 0.4401023975975189,
+        "fissure_depth_mm": 10.790474347530346,
+        "gallbladder_length_mm": 89.62139936768203,
+        "gallbladder_radius_mm": 12.775690614624548
+      },
+      "scene_artifact": "artifacts/models/shape-pilot-v1/scenes/sample-0009.json"
+    },
+    {
+      "accepted": true,
+      "measurements": {
+        "liver_volume_ml": 2138.610609056344,
+        "liver_width_mm": 254.37814872944944,
+        "liver_height_mm": 155.2443905616907,
+        "liver_depth_mm": 126.35512451639869,
+        "gallbladder_enclosed_ml": 19.724245486441394,
+        "gallbladder_lumen_ml": 14.32304679398882,
+        "gallbladder_length_mm": 61.18535627376495,
+        "organ_clearance_mm": 0.8000000000000007
+      },
+      "parameters": {
+        "liver_width_mm": 254.37814872944944,
+        "liver_height_mm": 155.24439056169066,
+        "liver_depth_mm": 126.35512451639869,
+        "left_lobe_ratio": 0.4026677386100864,
+        "inferior_concavity": 0.1417403155006381,
+        "fissure_depth_mm": 5.055979325350125,
+        "gallbladder_length_mm": 61.18535627376495,
+        "gallbladder_radius_mm": 14.826765554262623
+      },
+      "scene_artifact": "artifacts/models/shape-pilot-v1/scenes/sample-0010.json"
+    },
+    {
+      "accepted": true,
+      "measurements": {
+        "liver_volume_ml": 2145.230703228133,
+        "liver_width_mm": 257.4112154634241,
+        "liver_height_mm": 149.05113181310185,
+        "liver_depth_mm": 125.51663526271545,
+        "gallbladder_enclosed_ml": 37.09873027563424,
+        "gallbladder_lumen_ml": 27.915147075825214,
+        "gallbladder_length_mm": 91.9868958519303,
+        "organ_clearance_mm": 0.7999999999999998
+      },
+      "parameters": {
+        "liver_width_mm": 257.4112154634241,
+        "liver_height_mm": 149.05113181310185,
+        "liver_depth_mm": 125.51663526271545,
+        "left_lobe_ratio": 0.5853862973435411,
+        "inferior_concavity": 0.3401591853141579,
+        "fissure_depth_mm": 7.915404495781786,
+        "gallbladder_length_mm": 91.9868958519303,
+        "gallbladder_radius_mm": 16.583893825282367
+      },
+      "scene_artifact": "artifacts/models/shape-pilot-v1/scenes/sample-0011.json"
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "coarse_surface_error": "not_a_converged_tissue_mesh",
+  "density_evidence": "design_heuristic",
+  "density_kg_m3": 1050.0,
+  "kernel_margin_mm": 55.78208527743786,
+  "limitations": [
+    "Single central fan has anisotropic coarse elements and no mesh-converged tissue response.",
+    "No capsule, vessels, lesions or heterogeneous tissue layers are represented.",
+    "Support nodes and density are explicit preview assumptions; no physiological validation."
+  ],
+  "minimum_tet_volume_mm3": 182.7004707005001,
+  "organ_id": "liver",
+  "physics_profile": "development_preview",
+  "pinned_nodes": [
+    92,
+    93,
+    116,
+    117,
+    118,
+    119,
+    140,
+    141,
+    142,
+    143,
+    164,
+    165,
+    166,
+    188,
+    189,
+    190,
+    212,
+    213,
+    214,
+    236
+  ],
+  "pinning_evidence": "authored_posterior_support_preview_not_ligament_anatomy",
+  "reference_state": "authored_geometry_assumed_rest_for_preview",
+  "schema_version": "0.1.0",
+  "volume_ml": 1838.345831662178
+}

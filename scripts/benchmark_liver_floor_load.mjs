@@ -1,0 +1,16 @@
+// Gravity-free actual cage: normal probe preload, settled balance and timestep/sweep sensitivity.
+import fs from 'node:fs';import path from 'node:path';import crypto from 'node:crypto';import {createRequire} from 'node:module';
+const require=createRequire(import.meta.url),esbuild=createRequire(require.resolve('vite/package.json'))('esbuild');
+const files=['apps/studio/src/liverPlaygroundSolver.ts','apps/studio/src/liverContinuumMaterial.ts','apps/studio/src/liverFloorFriction.ts','apps/studio/src/liverProbeGeometry.ts'];
+const bundle=await esbuild.build({entryPoints:[files[0]],bundle:true,platform:'node',format:'esm',write:false});const {LiverPlaygroundSolver}=await import('data:text/javascript;base64,'+Buffer.from(bundle.outputFiles[0].text).toString('base64'));
+const output=process.argv[2]??'benchmarks/results/liver-contact-upgrade-2026-10-07/floor-loaded.json';fs.mkdirSync(path.dirname(output),{recursive:true});const result={source_sha256:Object.fromEntries(files.map(p=>[p,crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex')])),scope:'Gravity-free actual liver cage on floor, 6 mm probe, 1 mm ramp over 0.4 s then 3.6 s hold. No anchors. Forces recomputed at accepted final state. Finite-time force balance is diagnostic, not assumed static equilibrium.',cases:[]};
+for(const name of ['male','female']){
+ const {mesh,parameters}=JSON.parse(fs.readFileSync(`apps/studio/src/fixtures/liver-playground-${name}-cage.json`));
+ for(const variant of [{name:'4-sweep',dt:1/120,iterations:4},{name:'8-sweep',dt:1/120,iterations:8},{name:'halfstep',dt:1/240,iterations:4}]){
+  const s=new LiverPlaygroundSolver(mesh,parameters,{floorYmm:0,gravity:false,iterations:variant.iterations});s.drop(0);let top=0;for(let i=1;i<s.masses.length;i++)if(s.positionsMm[3*i+1]>s.positionsMm[3*top+1])top=i;const p=Array.from(s.positionsMm.slice(3*top,3*top+3));s.setProbe([p[0],p[1]+6,p[2]],6);
+  const frames=[];for(let i=0;i<Math.round(4/variant.dt);i++){const t=(i+1)*variant.dt;s.setProbe([p[0],p[1]+6-Math.min(1,t/.4),p[2]],6);s.step(variant.dt);if((i+1)%Math.round(.1/variant.dt)===0)frames.push({t,...s.metrics()});}
+  const m=s.metrics(),balance=Math.abs(m.floor_normal_reaction_n-m.probe_reaction_n[1])/Math.max(1e-12,Math.abs(m.probe_reaction_n[1]));const r={name,variant:variant.name,dt:variant.dt,iterations:variant.iterations,final:m,relative_vertical_balance_error:balance,balance_gate_5pct:m.probe_reaction_n[1]<.005?'NOT_EVALUATED_UNLOADED':balance<.05?'PASS':'NEEDS_REFINEMENT',frames};result.cases.push(r);fs.writeFileSync(output,JSON.stringify(result,null,2));console.log(JSON.stringify({name,variant:variant.name,floor:m.floor_normal_reaction_n,probe:m.probe_reaction_n,balance,speed:m.maximum_speed_m_s,J:m.minimum_jacobian,rejected:m.rejected_steps}));
+ }
+ const c=result.cases.filter(c=>c.name===name),a=c[0].final;result[`${name}_refinement`]=Object.fromEntries(c.slice(1).map(c=>[c.variant,{floor_relative_change:a.floor_normal_reaction_n<.005?null:Math.abs(c.final.floor_normal_reaction_n-a.floor_normal_reaction_n)/a.floor_normal_reaction_n,probe_relative_change:a.probe_reaction_n[1]<.005?null:Math.abs(c.final.probe_reaction_n[1]-a.probe_reaction_n[1])/Math.abs(a.probe_reaction_n[1])}]));
+}
+fs.writeFileSync(output,JSON.stringify(result,null,2));

@@ -1,0 +1,99 @@
+{
+  "rows": 24,
+  "valid_json_schema_fraction": 1.0,
+  "status_accuracy": 1.0,
+  "compiler_semantic_match_fraction": 0.8333333333333334,
+  "false_accept_count": 0,
+  "applied_geometry_count": 0,
+  "per_organ_counts": {
+    "brain": {
+      "rows": 2,
+      "schema_valid": 2,
+      "semantic_match": 2
+    },
+    "gallbladder": {
+      "rows": 2,
+      "schema_valid": 2,
+      "semantic_match": 1
+    },
+    "heart": {
+      "rows": 2,
+      "schema_valid": 2,
+      "semantic_match": 2
+    },
+    "kidney": {
+      "rows": 2,
+      "schema_valid": 2,
+      "semantic_match": 2
+    },
+    "large-intestine": {
+      "rows": 2,
+      "schema_valid": 2,
+      "semantic_match": 1
+    },
+    "liver": {
+      "rows": 2,
+      "schema_valid": 2,
+      "semantic_match": 2
+    },
+    "lung": {
+      "rows": 2,
+      "schema_valid": 2,
+      "semantic_match": 2
+    },
+    "pancreas": {
+      "rows": 2,
+      "schema_valid": 2,
+      "semantic_match": 2
+    },
+    "small-intestine": {
+      "rows": 2,
+      "schema_valid": 2,
+      "semantic_match": 2
+    },
+    "spleen": {
+      "rows": 2,
+      "schema_valid": 2,
+      "semantic_match": 1
+    },
+    "stomach": {
+      "rows": 2,
+      "schema_valid": 2,
+      "semantic_match": 1
+    },
+    "urinary-bladder": {
+      "rows": 2,
+      "schema_valid": 2,
+      "semantic_match": 2
+    }
+  },
+  "scope": "Synthetic paired atlas intents; no human-language or clinical generalization claim",
+  "split": "audit",
+  "selected_example_ids": [
+    "atlas-language-02669bff99b5e260b2f2ec5f",
+    "atlas-language-679b3abefc08248b7178fa19",
+    "atlas-language-f117cb59f2a03ffd120c116f",
+    "atlas-language-8c82bac88a6adb8e37360141",
+    "atlas-language-ad02aa95f5eb9c6ed19fc0a5",
+    "atlas-language-54f9e9e3e8a035d9786f19ed",
+    "atlas-language-3a8cfdf2e10a414ec3505159",
+    "atlas-language-13d86c8c34189022a4cbf6b5",
+    "atlas-language-269a890f18f264b0806d106d",
+    "atlas-language-977d2fb6efd0366b52b19352",
+    "atlas-language-8a6bb8c1f707195fd3ed05bb",
+    "atlas-language-1aaf34db4a3fdfb2c4fbaea1",
+    "atlas-language-68620a0f1968aa6776ea1b06",
+    "atlas-language-a9e9eb3a9d2f4275722bd00f",
+    "atlas-language-2df3b4c7bc96f68921dbbfc1",
+    "atlas-language-fa007e9d6b92b91e630a1aab",
+    "atlas-language-a7b9b8666e78e55b2fba9cb1",
+    "atlas-language-bf72826f4e21bb4ce705a138",
+    "atlas-language-dc13852791cbe17bff0a3008",
+    "atlas-language-37a885a16529b7f008b192e7",
+    "atlas-language-a1ed5c71a5f59f4a5c825286",
+    "atlas-language-01804792f422e717acb27be7",
+    "atlas-language-7c812932a384795ed0bf8385",
+    "atlas-language-959430cdfe27ae4ce71a7b02"
+  ],
+  "full_audit_rows": 1440
+}

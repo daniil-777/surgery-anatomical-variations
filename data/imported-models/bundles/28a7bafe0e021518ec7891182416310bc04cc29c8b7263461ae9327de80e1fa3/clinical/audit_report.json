@@ -1,0 +1,45 @@
+{
+  "split": "audit",
+  "model_sha256": "784b140b55f5cb73e9dd43e5d7ac1683fa17ed2f554d8dcd71608f57b91131a8",
+  "scope": "measured_source_case_retrieval_not_a_population_generator",
+  "metrics": {
+    "patients": 1,
+    "supported_patients": 1,
+    "unsupported_patients": [],
+    "per_patient": [
+      {
+        "case_id": "PDA-C3L-00622",
+        "training_patients": 1,
+        "absolute_error": {
+          "organ_extent_x_mm": 23.244461059570312,
+          "organ_extent_y_mm": 52.048797607421875,
+          "organ_extent_z_mm": 10.400970458984375,
+          "organ_volume_ml": 119.50587463378906,
+          "lesion_extent_x_mm": 38.546104431152344,
+          "lesion_extent_y_mm": 48.64842224121094,
+          "lesion_extent_z_mm": 24.863454818725586,
+          "lesion_volume_ml": 63.467949867248535,
+          "lesion_center_x_relative": 0.6217300891876221,
+          "lesion_center_y_relative": 0.4103260785341263,
+          "lesion_center_z_relative": 0.5404310822486877,
+          "lesion_to_organ_volume_ratio": 0.20160813629627228
+        }
+      }
+    ],
+    "feature_mae": {
+      "organ_extent_x_mm": 23.244461059570312,
+      "organ_extent_y_mm": 52.048797607421875,
+      "organ_extent_z_mm": 10.400970458984375,
+      "organ_volume_ml": 119.50587463378906,
+      "lesion_extent_x_mm": 38.546104431152344,
+      "lesion_extent_y_mm": 48.64842224121094,
+      "lesion_extent_z_mm": 24.863454818725586,
+      "lesion_volume_ml": 63.467949867248535,
+      "lesion_center_x_relative": 0.6217300891876221,
+      "lesion_center_y_relative": 0.4103260785341263,
+      "lesion_center_z_relative": 0.5404310822486877,
+      "lesion_to_organ_volume_ratio": 0.20160813629627228
+    },
+    "interpretation": "patient-held-out feature prediction; too few cases for population claims"
+  }
+}

@@ -1,0 +1,306 @@
+{
+  "schema": "disease-source-case-qa-1.0.0",
+  "tests": {
+    "pytest": 10,
+    "ruff": "pass",
+    "strict_mypy": "pass"
+  },
+  "releases": [
+    {
+      "directory": "clinical-ccby-v3",
+      "release_id": "638b3382d40e8648b1f8",
+      "release_json_sha256": "6950b3462ecfba5a504cd59e16ce95763a16867008937a08caf92d5a842a0502",
+      "case_count": 3,
+      "split_counts": {
+        "audit": 1,
+        "train": 1,
+        "val": 1
+      },
+      "rights": {
+        "commercial_use": "CC-BY attribution conditions apply",
+        "contains_noncommercial": false,
+        "license_lanes": [
+          "attribution"
+        ],
+        "no_blanket_license": true
+      },
+      "artifact_count": 31
+    },
+    {
+      "directory": "clinical-nc-v3",
+      "release_id": "01580a75b01b95aba14a",
+      "release_json_sha256": "aef19c3b54099cdf4858c58477daaef5b891f593575441e8676b13006ebdb801",
+      "case_count": 7,
+      "split_counts": {
+        "audit": 2,
+        "train": 3,
+        "val": 2
+      },
+      "rights": {
+        "commercial_use": "excluded when noncommercial lane present",
+        "contains_noncommercial": true,
+        "license_lanes": [
+          "attribution",
+          "noncommercial_sharealike"
+        ],
+        "no_blanket_license": true
+      },
+      "artifact_count": 57
+    }
+  ],
+  "cases": [
+    {
+      "case_id": "PDA-C3L-00395",
+      "organ": "pancreas",
+      "disease_code": "pancreatic_ductal_adenocarcinoma",
+      "split": "train",
+      "organ_scope": "single_pancreas",
+      "license_lane": "attribution",
+      "roles": {
+        "organ": {
+          "volume_ml": 228.031005859375,
+          "mesh_volume_ml": 227.79606942803343,
+          "extent_mm": [
+            171.09374701976776,
+            116.40625074505806,
+            95.99999990314245
+          ],
+          "half_voxel_alignment_error": 8.087158221314894e-06,
+          "watertight": true,
+          "header_spatial_units": "mm",
+          "units_basis": "NIfTI header"
+        },
+        "lesion": {
+          "volume_ml": 79.35546875,
+          "mesh_volume_ml": 79.25755632207161,
+          "extent_mm": [
+            76.56249776482582,
+            76.56249962747097,
+            49.999999813735485
+          ],
+          "half_voxel_alignment_error": 8.087158221314894e-06,
+          "watertight": true,
+          "header_spatial_units": "mm",
+          "units_basis": "NIfTI header"
+        }
+      }
+    },
+    {
+      "case_id": "PDA-C3L-00401",
+      "organ": "pancreas",
+      "disease_code": "pancreatic_ductal_adenocarcinoma",
+      "split": "val",
+      "organ_scope": "single_pancreas",
+      "license_lane": "attribution",
+      "roles": {
+        "organ": {
+          "volume_ml": 57.10317116665804,
+          "mesh_volume_ml": 56.973999697492246,
+          "extent_mm": [
+            125.50771981477737,
+            55.117147509008646,
+            82.0000022649765
+          ],
+          "half_voxel_alignment_error": 1.1129948290999891e-05,
+          "watertight": true,
+          "header_spatial_units": "mm",
+          "units_basis": "NIfTI header"
+        },
+        "lesion": {
+          "volume_ml": 7.597175368819578,
+          "mesh_volume_ml": 7.566931097869673,
+          "extent_mm": [
+            31.210915418341756,
+            20.585922524333,
+            21.99999988079071
+          ],
+          "half_voxel_alignment_error": 7.152557373046875e-06,
+          "watertight": true,
+          "header_spatial_units": "mm",
+          "units_basis": "NIfTI header"
+        }
+      }
+    },
+    {
+      "case_id": "PDA-C3L-00622",
+      "organ": "pancreas",
+      "disease_code": "pancreatic_ductal_adenocarcinoma",
+      "split": "audit",
+      "organ_scope": "single_pancreas",
+      "license_lane": "attribution",
+      "roles": {
+        "organ": {
+          "volume_ml": 108.52512991543233,
+          "mesh_volume_ml": 108.13984189421878,
+          "extent_mm": [
+            147.84928411245346,
+            64.3574520945549,
+            85.59902757406235
+          ],
+          "half_voxel_alignment_error": 9.58604789502715e-06,
+          "watertight": true,
+          "header_spatial_units": "mm",
+          "units_basis": "NIfTI header"
+        },
+        "lesion": {
+          "volume_ml": 15.887518672697704,
+          "mesh_volume_ml": 15.786436594697385,
+          "extent_mm": [
+            38.01639378070831,
+            27.914077043533325,
+            25.136545300483704
+          ],
+          "half_voxel_alignment_error": 4.750121036067867e-06,
+          "watertight": true,
+          "header_spatial_units": "mm",
+          "units_basis": "NIfTI header"
+        }
+      }
+    },
+    {
+      "case_id": "kits19_case_00000",
+      "organ": "kidney",
+      "disease_code": "clear_cell_renal_cell_carcinoma",
+      "split": "audit",
+      "organ_scope": "bilateral_kidneys",
+      "license_lane": "noncommercial_sharealike",
+      "roles": {
+        "organ": {
+          "volume_ml": 387.44954116630555,
+          "mesh_volume_ml": 392.731643522501,
+          "extent_mm": [
+            210.662109375,
+            93.83203125,
+            131.0
+          ],
+          "half_voxel_alignment_error": 1.1368683772161603e-13,
+          "watertight": true,
+          "header_spatial_units": "unknown",
+          "units_basis": "KiTS19 physical-coordinate convention; header unit field is unknown"
+        },
+        "lesion": {
+          "volume_ml": 7.8240622158050535,
+          "mesh_volume_ml": 7.805003819704056,
+          "extent_mm": [
+            23.91796874999997,
+            25.7578125,
+            28.49999999999997
+          ],
+          "half_voxel_alignment_error": 1.1368683772161603e-13,
+          "watertight": true,
+          "header_spatial_units": "unknown",
+          "units_basis": "KiTS19 physical-coordinate convention; header unit field is unknown"
+        }
+      }
+    },
+    {
+      "case_id": "kits19_case_00008",
+      "organ": "kidney",
+      "disease_code": "clear_cell_renal_cell_carcinoma",
+      "split": "train",
+      "organ_scope": "bilateral_kidneys",
+      "license_lane": "noncommercial_sharealike",
+      "roles": {
+        "organ": {
+          "volume_ml": 486.52833059692387,
+          "mesh_volume_ml": 486.1300020809175,
+          "extent_mm": [
+            233.4921875,
+            142.87109375,
+            156.00000000000006
+          ],
+          "half_voxel_alignment_error": 1.1368683772161603e-13,
+          "watertight": true,
+          "header_spatial_units": "unknown",
+          "units_basis": "KiTS19 physical-coordinate convention; header unit field is unknown"
+        },
+        "lesion": {
+          "volume_ml": 603.154521057129,
+          "mesh_volume_ml": 602.8957449913024,
+          "extent_mm": [
+            102.05078125,
+            124.09375,
+            116.99999999999994
+          ],
+          "half_voxel_alignment_error": 1.1368683772161603e-13,
+          "watertight": true,
+          "header_spatial_units": "unknown",
+          "units_basis": "KiTS19 physical-coordinate convention; header unit field is unknown"
+        }
+      }
+    },
+    {
+      "case_id": "kits19_case_00017",
+      "organ": "kidney",
+      "disease_code": "angiomyolipoma",
+      "split": "val",
+      "organ_scope": "bilateral_kidneys",
+      "license_lane": "noncommercial_sharealike",
+      "roles": {
+        "organ": {
+          "volume_ml": 412.5953903198242,
+          "mesh_volume_ml": 412.66539573669434,
+          "extent_mm": [
+            199.8828125,
+            97.6171875,
+            135.0
+          ],
+          "half_voxel_alignment_error": 1.1368683772161603e-13,
+          "watertight": true,
+          "header_spatial_units": "unknown",
+          "units_basis": "KiTS19 physical-coordinate convention; header unit field is unknown"
+        },
+        "lesion": {
+          "volume_ml": 6.288360595703125,
+          "mesh_volume_ml": 6.226715405782065,
+          "extent_mm": [
+            27.890625,
+            20.5859375,
+            25.0
+          ],
+          "half_voxel_alignment_error": 1.1368683772161603e-13,
+          "watertight": true,
+          "header_spatial_units": "unknown",
+          "units_basis": "KiTS19 physical-coordinate convention; header unit field is unknown"
+        }
+      }
+    },
+    {
+      "case_id": "kits19_case_00019",
+      "organ": "kidney",
+      "disease_code": "oncocytoma",
+      "split": "train",
+      "organ_scope": "bilateral_kidneys",
+      "license_lane": "noncommercial_sharealike",
+      "roles": {
+        "organ": {
+          "volume_ml": 530.6693115234376,
+          "mesh_volume_ml": 534.3127899169922,
+          "extent_mm": [
+            260.62500000000006,
+            82.50000000000006,
+            131.25
+          ],
+          "half_voxel_alignment_error": 1.1368683772161603e-13,
+          "watertight": true,
+          "header_spatial_units": "unknown",
+          "units_basis": "KiTS19 physical-coordinate convention; header unit field is unknown"
+        },
+        "lesion": {
+          "volume_ml": 1.8522949218750004,
+          "mesh_volume_ml": 1.8091735839843757,
+          "extent_mm": [
+            16.875,
+            15.0,
+            15.0
+          ],
+          "half_voxel_alignment_error": 1.1368683772161603e-13,
+          "watertight": true,
+          "header_spatial_units": "unknown",
+          "units_basis": "KiTS19 physical-coordinate convention; header unit field is unknown"
+        }
+      }
+    }
+  ],
+  "reference_registry_count": 36
+}

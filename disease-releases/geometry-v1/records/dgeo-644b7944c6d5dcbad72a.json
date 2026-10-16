@@ -1,0 +1,259 @@
+{
+  "appearance_evidence": "authored_vertex_color_not_measured_tissue_texture",
+  "clinical_review_status": "unreviewed",
+  "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+  "disease_field": {
+    "applied_displacement_fraction": 1.0,
+    "clinical_stage": null,
+    "color_strength": 0.02011995663373678,
+    "fields": [
+      {
+        "amplitude_mm": 0.5917215878284878,
+        "center_mm": [
+          41.936274617910385,
+          -10.100841522216797,
+          40.557797998189926
+        ],
+        "direction": [
+          0.5745123996669629,
+          -0.8184308167678032,
+          -0.010319922174843265
+        ],
+        "radius_mm": 42.48920342111613
+      },
+      {
+        "amplitude_mm": 0.6136593225177974,
+        "center_mm": [
+          -42.350683361291885,
+          -58.557868003845215,
+          -24.470573291182518
+        ],
+        "direction": [
+          0.6126215904364686,
+          0.7751634148975544,
+          -0.15432584726951615
+        ],
+        "radius_mm": 42.48920342111613
+      },
+      {
+        "amplitude_mm": 0.6731386554279303,
+        "center_mm": [
+          40.503185242414474,
+          -15.496432781219482,
+          -49.31819438934326
+        ],
+        "direction": [
+          -0.5606546078502253,
+          -0.5523214905451798,
+          -0.6169338552699644
+        ],
+        "radius_mm": 42.48920342111613
+      }
+    ],
+    "gradient_bound_per_step": 0.05603740036487579,
+    "pattern": "infiltrative",
+    "profile_id": "brain-glioblastoma",
+    "realized_sites": 3,
+    "requested_sites": 3,
+    "steps": 3,
+    "surface_site_frame": "undeformed-atlas-Y-up-mm",
+    "target_srgb": [
+      0.45,
+      0.25,
+      0.2
+    ],
+    "version": "disease-morphology-design-1.0.0"
+  },
+  "display_normal_sha256": "9fda6b1dae4e248c0dc4ec7191533ff8207061fb85811fffdf4287b8ab42381e",
+  "face_count": 424474,
+  "features": [
+    136.3772377371788,
+    145.70128917694092,
+    167.03951358795166,
+    437312.8834599627,
+    2.0168854114170327,
+    1.0
+  ],
+  "geometry_evidence": "authored_disease_surface_from_licensed_reference_template",
+  "geometry_sha256": "959e1e2d8a7012f7e325bfd21429228d044be8d3364fa60cae17f30711641d76",
+  "group_id": "brain-glioblastoma:3376171370",
+  "mechanics_evidence": "none",
+  "normal_fallback_count": 0,
+  "organ": "brain",
+  "parent_recipe_index": 588,
+  "parent_sample_id": "brain-glioblastoma:3376171370",
+  "path": "records/dgeo-644b7944c6d5dcbad72a.json",
+  "patient_id": null,
+  "point_count": 2048,
+  "point_sampling_seed": 626861550,
+  "profile_id": "brain-glioblastoma",
+  "qa": {
+    "anatomical_plausibility": {
+      "status": "NOT_RUN"
+    },
+    "area_ratio_max": 1.6687409760500045,
+    "area_ratio_min": 0.25869525821707984,
+    "continuous_jacobian_lower_bound": 0.59510430048344,
+    "mechanical_validation": {
+      "status": "NOT_RUN"
+    },
+    "min_normal_dot": 0.23158520062250415,
+    "new_degenerate_faces": 0,
+    "normal_turns_over_90_degrees": 0,
+    "passed": true,
+    "scope": "finite nondegenerate same-topology outer-surface design",
+    "self_intersection": {
+      "reason": "Discrete/source triangle intersections not certified",
+      "status": "NOT_RUN"
+    },
+    "source_topology": {
+      "boundary_edges_after_audit_weld": 14,
+      "connected_vertex_components": 104,
+      "degenerate_faces": 0,
+      "method": "trimesh-geometric-weld-audit-copy-1.0",
+      "nonmanifold_edges_after_audit_weld": 198,
+      "self_intersection": {
+        "reason": "No robust intersection backend",
+        "status": "NOT_RUN"
+      },
+      "simulation_readiness": {
+        "reason": "No volumetric domain/materials",
+        "status": "NOT_RUN"
+      },
+      "watertight_after_audit_weld": false,
+      "weld_precision_mm": 1e-08,
+      "winding_consistent_after_audit_weld": true,
+      "zero_length_edges": 0
+    },
+    "status": "PASS",
+    "topology_preserved": true
+  },
+  "realized_id": "8109eb3c194890f74fa391661630b7381dc1e7e85e8243ce9907e83ac43dd418",
+  "recipe_features": [
+    0.1628994196653366,
+    0.7174102067947388,
+    0.6533457040786743,
+    0.5424761772155762,
+    0.12351153045892715,
+    0.2857142984867096,
+    0.8000408411026001,
+    0.4444979429244995,
+    0.7431915402412415
+  ],
+  "sample_id": "dgeo-644b7944c6d5dcbad72a",
+  "source_attribution": "Browne, Kristen,\tand Heidi Schlehlein.\t 2024.\t\"3D Reference Organ for Brain, Male v1.4.\"\t https://doi.org/10.48539/HBM538.NKCT.649.\tAccessed June 15, 2024.",
+  "source_group_id": "hra-allen-brain-shared-atlas",
+  "source_license": "CC-BY-4.0",
+  "source_template_artifact_sha256": "35e9d313ca187af7eca9394b53cf5015e3a17c05e5e92fd2532f44eb427ce7ac",
+  "source_template_geometry_sha256": "dc6c7ac57efd2a43acfade82ef811c4f3cf7facb5762f622bd5efa5624a2fd59",
+  "source_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/brain-male/v1.4/assets/3d-allen-m-brain.glb",
+  "spec": {
+    "appearance": "tissue",
+    "controls": {
+      "asymmetry": 0.0,
+      "bend": 0.0,
+      "scale_x": 0.0,
+      "scale_y": 0.0,
+      "scale_z": 0.0,
+      "taper": 0.0,
+      "twist": 0.0
+    },
+    "disease": {
+      "contrast": 0.12351153045892715,
+      "count": 3,
+      "irregularity": 0.5424761772155762,
+      "location": [
+        0.6000816822052002,
+        -0.11100411415100098,
+        0.4863830804824829
+      ],
+      "profile_id": "brain-glioblastoma",
+      "seed": 3376171370,
+      "severity": 0.1628994196653366,
+      "size": 0.7174102067947388,
+      "spread": 0.6533457040786743
+    },
+    "realized_id": "8109eb3c194890f74fa391661630b7381dc1e7e85e8243ce9907e83ac43dd418",
+    "seed": 3376171370,
+    "template_id": "hra-brain-male",
+    "template_sha256": "35e9d313ca187af7eca9394b53cf5015e3a17c05e5e92fd2532f44eb427ce7ac"
+  },
+  "split": "audit",
+  "split_track": "within_generator",
+  "summary": {
+    "disease": {
+      "applied_displacement_fraction": 1.0,
+      "displacement_limited_by_source_mesh": false,
+      "evidence": "synthetic_surface_morphology_not_patient_or_population_geometry",
+      "internal_anatomy_generated": false,
+      "max_displacement_mm": 2.0168854114170327,
+      "physical_parameters_inferred": false,
+      "profile": {
+        "clinical_source_url": "https://www.cancer.gov/news-events/cancer-currents-blog/2017/glioblastoma-research-making-progress",
+        "evidence": "image_reference_not_paired_3d_supervision",
+        "id": "brain-glioblastoma",
+        "label": "Glioblastoma",
+        "limits": "Historical source label; current molecular classification is not supplied. A visible border does not equal the microscopic tumor boundary. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+        "morphology_targets": [
+          "infiltrative lesion extent",
+          "necrotic and hemorrhagic heterogeneity",
+          "mass effect and ventricular displacement"
+        ],
+        "organ": "brain",
+        "pattern": "infiltrative",
+        "source_ref": "I35",
+        "source_url": "https://commons.wikimedia.org/wiki/File:Glioblastoma_macro.jpg",
+        "supported": true,
+        "unavailable_reason": ""
+      },
+      "realized_sites": 3,
+      "recipe": {
+        "contrast": 0.12351153045892715,
+        "count": 3,
+        "irregularity": 0.5424761772155762,
+        "location": [
+          0.6000816822052002,
+          -0.11100411415100098,
+          0.4863830804824829
+        ],
+        "profile_id": "brain-glioblastoma",
+        "seed": 3376171370,
+        "severity": 0.1628994196653366,
+        "size": 0.7174102067947388,
+        "spread": 0.6533457040786743
+      },
+      "requested_sites": 3,
+      "version": "disease-morphology-design-1.0.0"
+    },
+    "extent_mm": [
+      136.3772377371788,
+      145.70128917694092,
+      167.03951358795166
+    ],
+    "measurements": {
+      "compactness": null,
+      "extent_x_mm": 136.3772377371788,
+      "extent_y_mm": 145.70128917694092,
+      "extent_z_mm": 167.03951358795166,
+      "method": "disease-display-triangle-measurements-1.0.0",
+      "surface_area_definition": "Sum of selected triangles including capsule/internal faces",
+      "surface_area_mm2": 437312.8834599627,
+      "volume_ml": null,
+      "volume_reason": "Display surface assembly is not a certified closed outer envelope",
+      "volume_status": "NOT_APPLICABLE"
+    },
+    "min_jacobian": 0.59510430048344,
+    "min_jacobian_kind": "conservative_bound",
+    "organ": "brain",
+    "profile": "development_preview",
+    "qa_scope": "finite nondegenerate same-topology outer-surface design",
+    "qa_status": "PASS",
+    "reference": "hra-brain-male",
+    "review_status": "unreviewed",
+    "triangles": 424474,
+    "vertices": 212296
+  },
+  "template_id": "hra-brain-male",
+  "units": "mm",
+  "vertex_count": 212296
+}

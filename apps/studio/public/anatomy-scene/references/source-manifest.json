@@ -1,0 +1,151 @@
+{
+  "schema_version": "1.0",
+  "verified_on": "2026-10-06",
+  "verification": "Creator, original download and reuse license verified on each Commons file page. Exact revision URLs recorded.",
+  "files": [
+    {
+      "filename": "Gray1085.png",
+      "title": "Liver: superior surface",
+      "creator": "Henry Vandyke Carter; Gray's Anatomy, 20th edition (1918), plate 1085",
+      "source_url": "https://upload.wikimedia.org/wikipedia/commons/b/ba/Gray1085.png",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Gray1085.png",
+      "verified_revision_url": "https://commons.wikimedia.org/w/index.php?title=File:Gray1085.png&oldid=1278138849",
+      "license": "Public domain",
+      "license_url": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "sha256": "c1c8e5e4c3a9699a4700e9de0c2f7ba2db35e4cea2f16b88a002efba7ad87145",
+      "bytes": 82409,
+      "width": 600,
+      "height": 419,
+      "downloaded_on": "2026-10-06",
+      "modifications": "None: original downloaded bytes retained",
+      "reference_type": "Anatomical illustration, not a tissue photograph or 3D scan"
+    },
+    {
+      "filename": "Gray1086-liver.PNG",
+      "title": "Liver: inferior surface",
+      "creator": "Henry Vandyke Carter; Gray's Anatomy, 20th edition (1918), plate 1086",
+      "source_url": "https://upload.wikimedia.org/wikipedia/commons/1/1a/Gray1086-liver.PNG",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Gray1086-liver.PNG",
+      "verified_revision_url": "https://commons.wikimedia.org/w/index.php?title=File:Gray1086-liver.PNG&oldid=1278138868",
+      "license": "Public domain",
+      "license_url": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "sha256": "83ca382377613c16aed29df89dff79699b8cd6cbecc6231a20d5af1dd0f4dbf9",
+      "bytes": 83086,
+      "width": 675,
+      "height": 465,
+      "downloaded_on": "2026-10-06",
+      "modifications": "None: original downloaded bytes retained",
+      "reference_type": "Anatomical illustration, not a tissue photograph or 3D scan"
+    },
+    {
+      "filename": "2422_Accessory_Organs.jpg",
+      "title": "Liver, gallbladder, pancreas, duodenum, spleen and ducts",
+      "creator": "OpenStax College, Anatomy & Physiology (2013)",
+      "source_url": "https://upload.wikimedia.org/wikipedia/commons/2/2d/2422_Accessory_Organs.jpg",
+      "source_page": "https://commons.wikimedia.org/wiki/File:2422_Accessory_Organs.jpg",
+      "verified_revision_url": "https://commons.wikimedia.org/w/index.php?title=File:2422_Accessory_Organs.jpg&oldid=766301963",
+      "license": "CC BY 3.0",
+      "license_url": "https://creativecommons.org/licenses/by/3.0/",
+      "sha256": "0880ee529f2a132ea69c6e993705343829c388d211522fdb219711fac640138f",
+      "bytes": 228974,
+      "width": 805,
+      "height": 1002,
+      "downloaded_on": "2026-10-06",
+      "modifications": "None: original downloaded bytes retained",
+      "reference_type": "Anatomical illustration, not a tissue photograph or 3D scan"
+    },
+    {
+      "filename": "2414_Stomach.jpg",
+      "title": "Stomach: regions, curvatures and wall",
+      "creator": "OpenStax College, Anatomy & Physiology (2013)",
+      "source_url": "https://upload.wikimedia.org/wikipedia/commons/6/6a/2414_Stomach.jpg",
+      "source_page": "https://commons.wikimedia.org/wiki/File:2414_Stomach.jpg",
+      "verified_revision_url": "https://commons.wikimedia.org/w/index.php?title=File:2414_Stomach.jpg&oldid=766293308",
+      "license": "CC BY 3.0",
+      "license_url": "https://creativecommons.org/licenses/by/3.0/",
+      "sha256": "32c814b50a8d86b9d416e8eeadab5270ae1c57405b141db4dd8eecf23de55fdf",
+      "bytes": 476700,
+      "width": 1122,
+      "height": 741,
+      "downloaded_on": "2026-10-06",
+      "modifications": "None: original downloaded bytes retained",
+      "reference_type": "Anatomical illustration, not a tissue photograph or 3D scan"
+    },
+    {
+      "filename": "2425_Gallbladder.jpg",
+      "title": "Gallbladder and biliary ducts",
+      "creator": "OpenStax College, Anatomy & Physiology (2013)",
+      "source_url": "https://upload.wikimedia.org/wikipedia/commons/d/de/2425_Gallbladder.jpg",
+      "source_page": "https://commons.wikimedia.org/wiki/File:2425_Gallbladder.jpg",
+      "verified_revision_url": "https://commons.wikimedia.org/w/index.php?title=File:2425_Gallbladder.jpg&oldid=1278590480",
+      "license": "CC BY 3.0",
+      "license_url": "https://creativecommons.org/licenses/by/3.0/",
+      "sha256": "548f49e4ffbb6dc7061a08b57b13c9f9c13f777bcb21f7affa10ec99ec4e3d7e",
+      "bytes": 216591,
+      "width": 787,
+      "height": 641,
+      "downloaded_on": "2026-10-06",
+      "modifications": "None: original downloaded bytes retained",
+      "reference_type": "Anatomical illustration, not a tissue photograph or 3D scan"
+    },
+    {
+      "filename": "2610_The_Kidney.jpg",
+      "title": "Kidney: external form and internal organization",
+      "creator": "OpenStax College, Anatomy & Physiology (2013)",
+      "source_url": "https://upload.wikimedia.org/wikipedia/commons/8/87/2610_The_Kidney.jpg",
+      "source_page": "https://commons.wikimedia.org/wiki/File:2610_The_Kidney.jpg",
+      "verified_revision_url": "https://commons.wikimedia.org/w/index.php?title=File:2610_The_Kidney.jpg&oldid=771674949",
+      "license": "CC BY 3.0",
+      "license_url": "https://creativecommons.org/licenses/by/3.0/",
+      "sha256": "30d15988386d61f74039dee64bb63f7d13556173058bb4d1d42ac97c12546654",
+      "bytes": 864663,
+      "width": 1975,
+      "height": 1129,
+      "downloaded_on": "2026-10-06",
+      "modifications": "None: original downloaded bytes retained",
+      "reference_type": "Anatomical illustration, not a tissue photograph or 3D scan"
+    },
+    {
+      "filename": "Gray1188.png",
+      "title": "Spleen: visceral surface",
+      "creator": "Henry Vandyke Carter; Gray's Anatomy, 20th edition (1918), plate 1188",
+      "source_url": "https://upload.wikimedia.org/wikipedia/commons/a/a2/Gray1188.png",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Gray1188.png",
+      "verified_revision_url": "https://commons.wikimedia.org/w/index.php?title=File:Gray1188.png&oldid=981644568",
+      "license": "Public domain",
+      "license_url": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "sha256": "6ae2c7878e96d0831afca4f234b2383fc99ef29ef27c0e524282dda182958319",
+      "bytes": 60595,
+      "width": 428,
+      "height": 500,
+      "downloaded_on": "2026-10-06",
+      "modifications": "None: original downloaded bytes retained",
+      "reference_type": "Anatomical illustration, not a tissue photograph or 3D scan"
+    }
+  ],
+  "display_plates": [
+    {
+      "filename": "liver-reference-plate.png",
+      "sources": [
+        "Gray1085.png",
+        "Gray1086-liver.PNG",
+        "2422_Accessory_Organs.jpg"
+      ],
+      "modifications": "Uniform resizing and placement with new headings; no anatomy changes",
+      "sha256": "6a34f7065f65388517aaf0d1ea895f751ddca177dccbd79323d933a2667633d3",
+      "bytes": 1244428
+    },
+    {
+      "filename": "abdominal-organ-reference-plate.png",
+      "sources": [
+        "2414_Stomach.jpg",
+        "2425_Gallbladder.jpg",
+        "2610_The_Kidney.jpg",
+        "Gray1188.png"
+      ],
+      "modifications": "Uniform resizing and placement with new headings; no anatomy changes",
+      "sha256": "be0dcd18b26c777d8851c0d4ab3f5476340578a387366e49ea89e19f6234c37e",
+      "bytes": 1419569
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "all_four_partition_disjointness": "passed",
+  "explicit_heldout_gold_with_source_guard": "passed",
+  "train_validation_vs_heldout_recipe_seed_disjointness": "passed",
+  "audit": 576,
+  "challenge": 96,
+  "no_v3_model_predictions_used": true,
+  "generator_sha256": "c12a28cc6f84193adea85716d4b21faf109ab164b8e9518e48419bde021b01bb",
+  "declaration_sha256": "4a5b9aa726c2fcb92fc7d8e986c6b018a61f1426bcbb86aa0b91425bb6d21ee3"
+}

@@ -1,0 +1,301 @@
+{
+  "appearance_evidence": "authored_vertex_color_not_measured_tissue_texture",
+  "clinical_review_status": "unreviewed",
+  "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+  "disease_field": {
+    "applied_displacement_fraction": 1.0,
+    "clinical_stage": null,
+    "color_strength": 0.2773245483817455,
+    "fields": [
+      {
+        "amplitude_mm": 1.0404121137460733,
+        "center_mm": [
+          -18.196338787674904,
+          -18.812283873558044,
+          17.285285517573357
+        ],
+        "direction": [
+          0.9043944598115147,
+          -0.36207007688067433,
+          0.22577847658681127
+        ],
+        "radius_mm": 13.878808018216027
+      },
+      {
+        "amplitude_mm": 1.0584262317254738,
+        "center_mm": [
+          9.976765140891075,
+          2.060815691947937,
+          7.324298843741417
+        ],
+        "direction": [
+          0.38204403577523277,
+          -0.8553520980357687,
+          0.34987875487714526
+        ],
+        "radius_mm": 13.878808018216027
+      },
+      {
+        "amplitude_mm": 1.0321428754418256,
+        "center_mm": [
+          -48.497339710593224,
+          -28.785601258277893,
+          27.280349284410477
+        ],
+        "direction": [
+          -0.421631136111607,
+          -0.6113919441669967,
+          0.669646978391552
+        ],
+        "radius_mm": 13.878808018216027
+      },
+      {
+        "amplitude_mm": 1.0414199363765164,
+        "center_mm": [
+          -1.864071935415268,
+          21.016493439674377,
+          28.436418622732162
+        ],
+        "direction": [
+          0.516802957794434,
+          0.5612453926357563,
+          0.6464660177148219
+        ],
+        "radius_mm": 13.878808018216027
+      },
+      {
+        "amplitude_mm": 1.0641499210138565,
+        "center_mm": [
+          -49.3590384721756,
+          -12.364760041236877,
+          0.49333274364471436
+        ],
+        "direction": [
+          -0.39002019906018975,
+          0.3690346160790944,
+          -0.8436217733441957
+        ],
+        "radius_mm": 13.878808018216027
+      },
+      {
+        "amplitude_mm": 1.0327540054043396,
+        "center_mm": [
+          11.678913608193398,
+          30.261948704719543,
+          -3.4966953098773956
+        ],
+        "direction": [
+          -0.26168045591876454,
+          0.9641395146887288,
+          0.04425308131565407
+        ],
+        "radius_mm": 13.878808018216027
+      }
+    ],
+    "gradient_bound_per_step": 0.1329413809776306,
+    "pattern": "cyst",
+    "profile_id": "pancreas-pseudocyst",
+    "realized_sites": 6,
+    "requested_sites": 6,
+    "steps": 3,
+    "surface_site_frame": "undeformed-atlas-Y-up-mm",
+    "target_srgb": [
+      0.49,
+      0.38,
+      0.26
+    ],
+    "version": "disease-morphology-design-1.0.0"
+  },
+  "display_normal_sha256": "f9e88a764e8ad19aa18c07a72f20f738f2eabc109f9d5716c1ffdfcfac775633",
+  "face_count": 38930,
+  "features": [
+    111.43396697269604,
+    72.01209664344788,
+    83.61521363258362,
+    14869.244583273376,
+    3.101720003690881,
+    1.0
+  ],
+  "geometry_evidence": "authored_disease_surface_from_licensed_reference_template",
+  "geometry_sha256": "cbe8e1edd35536e5cb2760bd42a46073fc8457a42f03cd08ee09ced90dc6746e",
+  "group_id": "pancreas-pseudocyst:2190184390",
+  "mechanics_evidence": "none",
+  "normal_fallback_count": 0,
+  "organ": "pancreas",
+  "parent_recipe_index": 880,
+  "parent_sample_id": "pancreas-pseudocyst:2190184390",
+  "path": "records/dgeo-4b118de4251c92d938d7.json",
+  "patient_id": null,
+  "point_count": 2048,
+  "point_sampling_seed": 3528855774,
+  "profile_id": "pancreas-pseudocyst",
+  "qa": {
+    "anatomical_plausibility": {
+      "status": "NOT_RUN"
+    },
+    "area_ratio_max": 1.4491610829700297,
+    "area_ratio_min": 0.9271142425276154,
+    "continuous_jacobian_lower_bound": 0.27697217241916533,
+    "mechanical_validation": {
+      "status": "NOT_RUN"
+    },
+    "min_normal_dot": 0.9314310119506212,
+    "new_degenerate_faces": 0,
+    "normal_turns_over_90_degrees": 0,
+    "passed": true,
+    "scope": "finite nondegenerate same-topology outer-surface design",
+    "self_intersection": {
+      "reason": "Discrete/source triangle intersections not certified",
+      "status": "NOT_RUN"
+    },
+    "source_topology": {
+      "boundary_edges_after_audit_weld": 162,
+      "connected_vertex_components": 1,
+      "degenerate_faces": 0,
+      "method": "trimesh-geometric-weld-audit-copy-1.0",
+      "nonmanifold_edges_after_audit_weld": 12,
+      "self_intersection": {
+        "reason": "No robust intersection backend",
+        "status": "NOT_RUN"
+      },
+      "simulation_readiness": {
+        "reason": "No volumetric domain/materials",
+        "status": "NOT_RUN"
+      },
+      "watertight_after_audit_weld": false,
+      "weld_precision_mm": 1e-08,
+      "winding_consistent_after_audit_weld": true,
+      "zero_length_edges": 0
+    },
+    "status": "PASS",
+    "topology_preserved": true
+  },
+  "realized_id": "5dd362547a264575ca07d0a7ffb4ff8915715e4c3c8d7f120191947c7c8d65d3",
+  "recipe_features": [
+    0.38645750284194946,
+    0.8230379819869995,
+    0.33502447605133057,
+    0.13288818299770355,
+    0.7176068425178528,
+    0.7142857313156128,
+    0.46166741847991943,
+    0.15563145279884338,
+    0.7927771806716919
+  ],
+  "sample_id": "dgeo-4b118de4251c92d938d7",
+  "source_attribution": "Browne, Kristen, and Heidi Schlehlein. 2024. \"3D Reference Organ for Pancreas, Male v1.3.\" https://doi.org/10.48539/HBM396.QWWJ.639. Accessed on June 15, 2024.",
+  "source_group_id": "hra-visible-human-male",
+  "source_license": "CC-BY-4.0",
+  "source_template_artifact_sha256": "c3a1859cc09580d2c5b7f075d3ffad15a14d90afcfd2a577f0f5171d38c967a7",
+  "source_template_geometry_sha256": "d3d666ab87f5261603ba7b658c6085bb941d8a3d1b42f0ca59f54e9a6b06eca7",
+  "source_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/pancreas-male/v1.3/assets/3d-vh-m-pancreas.glb",
+  "spec": {
+    "appearance": "tissue",
+    "controls": {
+      "asymmetry": 0.0,
+      "bend": 0.0,
+      "scale_x": 0.0,
+      "scale_y": 0.0,
+      "scale_z": 0.0,
+      "taper": 0.0,
+      "twist": 0.0
+    },
+    "disease": {
+      "contrast": 0.7176068425178528,
+      "count": 6,
+      "irregularity": 0.13288818299770355,
+      "location": [
+        -0.07666516304016113,
+        -0.6887370944023132,
+        0.5855543613433838
+      ],
+      "profile_id": "pancreas-pseudocyst",
+      "seed": 2190184390,
+      "severity": 0.38645750284194946,
+      "size": 0.8230379819869995,
+      "spread": 0.33502447605133057
+    },
+    "realized_id": "5dd362547a264575ca07d0a7ffb4ff8915715e4c3c8d7f120191947c7c8d65d3",
+    "seed": 2190184390,
+    "template_id": "hra-pancreas-male",
+    "template_sha256": "c3a1859cc09580d2c5b7f075d3ffad15a14d90afcfd2a577f0f5171d38c967a7"
+  },
+  "split": "train",
+  "split_track": "within_generator",
+  "summary": {
+    "disease": {
+      "applied_displacement_fraction": 1.0,
+      "displacement_limited_by_source_mesh": false,
+      "evidence": "synthetic_surface_morphology_not_patient_or_population_geometry",
+      "internal_anatomy_generated": false,
+      "max_displacement_mm": 3.101720003690881,
+      "physical_parameters_inferred": false,
+      "profile": {
+        "clinical_source_url": "https://www.niddk.nih.gov/health-information/digestive-diseases/pancreatitis/treatment",
+        "evidence": "image_reference_not_paired_3d_supervision",
+        "id": "pancreas-pseudocyst",
+        "label": "Pancreatic pseudocyst",
+        "limits": "CT is a spatial reference only: no true surface color, histology, texture, or complete volumetric series. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+        "morphology_targets": [
+          "collection volume and shape",
+          "wall thickness",
+          "displacement of adjacent organs"
+        ],
+        "organ": "pancreas",
+        "pattern": "cyst",
+        "source_ref": "I12",
+        "source_url": "https://commons.wikimedia.org/wiki/File:Large_Pancreatic_Pseudocyst.PNG",
+        "supported": true,
+        "unavailable_reason": ""
+      },
+      "realized_sites": 6,
+      "recipe": {
+        "contrast": 0.7176068425178528,
+        "count": 6,
+        "irregularity": 0.13288818299770355,
+        "location": [
+          -0.07666516304016113,
+          -0.6887370944023132,
+          0.5855543613433838
+        ],
+        "profile_id": "pancreas-pseudocyst",
+        "seed": 2190184390,
+        "severity": 0.38645750284194946,
+        "size": 0.8230379819869995,
+        "spread": 0.33502447605133057
+      },
+      "requested_sites": 6,
+      "version": "disease-morphology-design-1.0.0"
+    },
+    "extent_mm": [
+      111.43396697269604,
+      72.01209664344788,
+      83.61521363258362
+    ],
+    "measurements": {
+      "compactness": null,
+      "extent_x_mm": 111.43396697269604,
+      "extent_y_mm": 72.01209664344788,
+      "extent_z_mm": 83.61521363258362,
+      "method": "disease-display-triangle-measurements-1.0.0",
+      "surface_area_definition": "Sum of selected triangles including capsule/internal faces",
+      "surface_area_mm2": 14869.244583273376,
+      "volume_ml": null,
+      "volume_reason": "Display surface assembly is not a certified closed outer envelope",
+      "volume_status": "NOT_APPLICABLE"
+    },
+    "min_jacobian": 0.27697217241916533,
+    "min_jacobian_kind": "conservative_bound",
+    "organ": "pancreas",
+    "profile": "development_preview",
+    "qa_scope": "finite nondegenerate same-topology outer-surface design",
+    "qa_status": "PASS",
+    "reference": "hra-pancreas-male",
+    "review_status": "unreviewed",
+    "triangles": 38930,
+    "vertices": 77986
+  },
+  "template_id": "hra-pancreas-male",
+  "units": "mm",
+  "vertex_count": 77986
+}

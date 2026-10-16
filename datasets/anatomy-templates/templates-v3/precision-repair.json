@@ -1,0 +1,115 @@
+{
+  "changed_templates": 2,
+  "changed_vertices": 2,
+  "release": "atlas-display-precision-1.2.0",
+  "repairs": [
+    {
+      "after_mm": [
+        -42.79235672348786,
+        -20.970597863197327,
+        22.579397411472943
+      ],
+      "before_mm": [
+        -42.79232583940029,
+        -20.970597863197327,
+        22.57942082360387
+      ],
+      "checks": {
+        "float64_mm": {
+          "degenerate_faces": 0,
+          "minimum_original_normal_alignment": 0.9999999999999994,
+          "opposed_faces": 0
+        },
+        "gltf_float32_m": {
+          "degenerate_faces": 0,
+          "minimum_original_normal_alignment": 0.9973660280395981,
+          "opposed_faces": 0
+        },
+        "studio_float32_mm": {
+          "degenerate_faces": 0,
+          "minimum_original_normal_alignment": 0.9874150123409202,
+          "opposed_faces": 0
+        }
+      },
+      "delta_mm": [
+        -3.088408757179195e-05,
+        0.0,
+        -2.3412130925493102e-05
+      ],
+      "delta_norm_mm": 3.8755060825839825e-05,
+      "face_id": 117638,
+      "incident_face_ids": [
+        117628,
+        117638,
+        117639,
+        117789,
+        117790,
+        117866,
+        117867
+      ],
+      "limitations": "Numerical float32 conditioning only; not an anatomical correction, collision repair or mechanical validation.",
+      "parent_archive_sha256": "ac3825959ab0398f61610ccfefbdecf55840b4392a856647a993034baba8d774",
+      "parent_metadata_sha256": "816a94939504c6eeeff27a6901e9d4559e14da173efa695bf7331c0de4e367b9",
+      "parent_release_lock_sha256": "c0f520cae40edb61d78ca0ea5003978425773a5b1c30c0aa291f3257f3520c56",
+      "policy": "single-source-vertex in-plane sliver altitude increased to40nm; same faces/components, no smoothing or recovered anatomy",
+      "release": "atlas-display-precision-1.2.0",
+      "template_id": "hra-heart-male",
+      "vertex_id": 58832
+    },
+    {
+      "after_mm": [
+        25.0653917571987,
+        8.418042836245345,
+        -33.79819972082159
+      ],
+      "before_mm": [
+        25.065377354621887,
+        8.418029639869928,
+        -33.798317424952984
+      ],
+      "checks": {
+        "float64_mm": {
+          "degenerate_faces": 0,
+          "minimum_original_normal_alignment": 0.9999124848624539,
+          "opposed_faces": 0
+        },
+        "gltf_float32_m": {
+          "degenerate_faces": 0,
+          "minimum_original_normal_alignment": 0.9999318326602766,
+          "opposed_faces": 0
+        },
+        "studio_float32_mm": {
+          "degenerate_faces": 0,
+          "minimum_original_normal_alignment": 0.9999777232929491,
+          "opposed_faces": 0
+        }
+      },
+      "delta_mm": [
+        1.4402576812955203e-05,
+        1.3196375416413275e-05,
+        0.00011770413139089442
+      ],
+      "delta_norm_mm": 0.0001193140439741648,
+      "face_ids": [
+        4881,
+        4882
+      ],
+      "incident_face_ids": [
+        4878,
+        4879,
+        4880,
+        4881,
+        4882
+      ],
+      "limitations": "Numerical float32 conditioning only; not an anatomical correction, collision repair or mechanical validation.",
+      "parent_archive_sha256": "4870b9af312358bf033da927c0bce9e30caebb7844f6f6e60283c5cd7e532d24",
+      "parent_metadata_sha256": "9db2c655d3faa2b65e8d2afcb4484984367c3799f49fc55d2d07b7385c1fcbec",
+      "parent_release_lock_sha256": "c0f520cae40edb61d78ca0ea5003978425773a5b1c30c0aa291f3257f3520c56",
+      "policy": "single-source-vertex in-plane altitude increased to32 float32 coordinate ULPs; same faces/components",
+      "release": "atlas-display-precision-1.2.0",
+      "template_id": "hra-urinary-bladder-male",
+      "vertex_id": 2634
+    }
+  ],
+  "unchanged_connectivity": true
+}

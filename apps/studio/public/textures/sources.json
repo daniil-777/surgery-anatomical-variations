@@ -1,0 +1,150 @@
+[
+ {
+  "id": "colon-1",
+  "organ": "large-intestine",
+  "file": "reference-material/colon-view-1.png",
+  "box": [
+   0.11,
+   0.04,
+   0.5,
+   0.87
+  ],
+  "foreground_points": [
+   [
+    0.29,
+    0.43
+   ],
+   [
+    0.26,
+    0.58
+   ],
+   [
+    0.3,
+    0.23
+   ],
+   [
+    0.2,
+    0.38
+   ]
+  ],
+  "background_points": [
+   [
+    0.53,
+    0.49
+   ],
+   [
+    0.08,
+    0.2
+   ],
+   [
+    0.37,
+    0.75
+   ]
+  ],
+  "collection": "DRENDS",
+  "credit": "Loza, Magro, Calm\u00e9, Hu, Jones, de Momi, Ali, Valdastri \u00b7 DRENDS (2025) \u00b7 ex-vivo porcine colon, Seq01_Colon_Med",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "source_url": "https://zenodo.org/records/17598453"
+ },
+ {
+  "id": "colon-2",
+  "organ": "large-intestine",
+  "file": "reference-material/colon-view-2.png",
+  "box": [
+   0.19,
+   0.22,
+   0.52,
+   0.59
+  ],
+  "foreground_points": [
+   [
+    0.29,
+    0.4
+   ],
+   [
+    0.24,
+    0.52
+   ],
+   [
+    0.39,
+    0.31
+   ],
+   [
+    0.44,
+    0.41
+   ]
+  ],
+  "background_points": [
+   [
+    0.64,
+    0.5
+   ],
+   [
+    0.1,
+    0.2
+   ],
+   [
+    0.38,
+    0.8
+   ]
+  ],
+  "collection": "DRENDS",
+  "credit": "Loza, Magro, Calm\u00e9, Hu, Jones, de Momi, Ali, Valdastri \u00b7 DRENDS (2025) \u00b7 ex-vivo porcine colon, Seq01_Colon_Med",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "source_url": "https://zenodo.org/records/17598453"
+ },
+ {
+  "id": "colon-3",
+  "organ": "large-intestine",
+  "file": "reference-material/colon-view-3.png",
+  "box": [
+   0.49,
+   0.37,
+   0.8,
+   0.88
+  ],
+  "foreground_points": [
+   [
+    0.62,
+    0.63
+   ],
+   [
+    0.65,
+    0.7
+   ],
+   [
+    0.56,
+    0.57
+   ],
+   [
+    0.72,
+    0.7
+   ]
+  ],
+  "background_points": [
+   [
+    0.45,
+    0.7
+   ],
+   [
+    0.84,
+    0.59
+   ],
+   [
+    0.69,
+    0.94
+   ],
+   [
+    0.7,
+    0.3
+   ]
+  ],
+  "collection": "DRENDS",
+  "credit": "Loza, Magro, Calm\u00e9, Hu, Jones, de Momi, Ali, Valdastri \u00b7 DRENDS (2025) \u00b7 ex-vivo porcine colon, Seq01_Colon_Med",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "source_url": "https://zenodo.org/records/17598453"
+ }
+]

@@ -1,0 +1,4158 @@
+{
+  "format": "viscera-joint-vae-v1",
+  "selected_method": "joint_conditional_vae",
+  "training_profile": "full",
+  "completed_steps": 4000,
+  "selected_step": 3750,
+  "training_samples": 5032,
+  "config": {
+    "steps": 4000,
+    "surrogate_steps": 1400,
+    "batch_size": 128,
+    "hidden": 256,
+    "latent": 24,
+    "embedding": 32,
+    "learning_rate": 0.0007,
+    "beta": 0.01,
+    "free_bits": 0.03,
+    "prior_weight": 3.0,
+    "seed": 7102026,
+    "threads": 2,
+    "device": "cpu",
+    "profile": "full"
+  },
+  "feature_names": [
+    "shape.scale_x",
+    "shape.scale_y",
+    "shape.scale_z",
+    "shape.bend",
+    "shape.twist",
+    "shape.taper",
+    "shape.asymmetry",
+    "material.tint",
+    "material.pigment_contrast",
+    "material.mottle_scale_mm",
+    "material.wetness",
+    "material.fine_detail",
+    "material.structure_strength",
+    "disease.severity",
+    "disease.size",
+    "disease.spread",
+    "disease.irregularity",
+    "disease.contrast",
+    "disease.count_normalized",
+    "disease.location_x_normalized",
+    "disease.location_y_normalized",
+    "disease.location_z_normalized"
+  ],
+  "observation_names": [
+    "x_normalized",
+    "y_normalized",
+    "z_normalized",
+    "red_linear",
+    "green_linear",
+    "blue_linear",
+    "roughness"
+  ],
+  "dataset_hashes": {
+    "baseline/release.json": "0bf1fefeb406af2f511ac591807e693353bff3597e9084a7e41272236a0b642a",
+    "disease/release.json": "a63bac5f2d4d9efc29dde67f18a6efead5e4bba4e38540d3768e72be0c85c4e6"
+  },
+  "renderer_hashes": {
+    "py/viscera_core/atlas.py": "23e21cf860a2e75e565e91a6e7ed4c3a115a87847f01882665e39e2bef94f897",
+    "py/viscera_core/atlas_appearance.py": "e988dc8b5004cace6c9e4cd19a30ecced87f53c44d613ea2141efcaa1ebf4989",
+    "py/viscera_core/atlas_disease.py": "6068b50d0a4faa14b52797f1b52451ca6a33164f6a7e176337579cf82a1c2c70",
+    "py/viscera_core/atlas_disease_recipe_dataset.py": "01b80ab71574605d25c121183bb51aeef80d2bc237a67a7ee14d6bafc5549b6d",
+    "py/viscera_core/atlas_disease_scene.py": "d4319afee56ec13141d723d9be4ef7c13ac8708058919bc9249db146c9010a0a",
+    "py/viscera_core/atlas_material_dataset.py": "8827c90c4cbbeb7bd085cd4f0f9298f78b7f10b199bdc204ae54e03ca3081813",
+    "py/viscera_core/atlas_materials.py": "679aa9214cef534b92e1d64b0043213a88a8c6a0fdd9b25b7ae54e4fa289a0a3",
+    "py/viscera_core/atlas_scene.py": "9b886f174235a194e0a8541fa049839d115d693ecca4197bcc33ba0cb1845812",
+    "py/viscera_core/atlas_surface_normals.py": "6ea628a77156d4ee1a591c9b50768129ac82481c9f717fe521bb7c83fa1c1f0a",
+    "py/viscera_core/atlas_surface_scene.py": "f747daabfd9650c59cef638b52bc420e4e88718b9e8ecf43ac27ebf78d7702a1",
+    "py/viscera_core/disease_profiles.json": "794bb6d5b34a51febfdc52998d50080d0d32e1be96877f6735249e25d5ba6706"
+  },
+  "template_hashes": {
+    "bp3d-gallbladder-male": "6e94e0266417eb204fe9056dd9a49fcd288417318162ca27c31000b869441bab",
+    "bp3d-stomach-male": "2c8008326d3c6a2a073bcd3799ad5ebe99518c07793aa0bc6ddb0777e7e254cf",
+    "hra-brain-female": "57d2f3eed5bdd6cde6b070ba5f963b0456206437546cb6f271d69d7ed05437b8",
+    "hra-brain-male": "35e9d313ca187af7eca9394b53cf5015e3a17c05e5e92fd2532f44eb427ce7ac",
+    "hra-heart-female": "0d3bea64d3617276953883a948043e42627d8eb5ecaabaa4c33047301d5dde04",
+    "hra-heart-male": "ac3825959ab0398f61610ccfefbdecf55840b4392a856647a993034baba8d774",
+    "hra-kidney-female-left": "1beac6dc86fa65ed7d5e731908e013aacb03dedd2f2d07cb381a8e7e4739f634",
+    "hra-kidney-female-right": "bb19b672ed692fe8ab8e7b62a3df738d6cd65acafe08645aab52c9c2c24c3cc0",
+    "hra-kidney-male-left": "595f743de22be092209bf47feb5c4b6ee2e42e889f750b0977438eaaaff01604",
+    "hra-kidney-male-right": "ad3efc6d3988871ec8340f73f79cf7bdba5b5149aa3a4d1d7c6b64d6bc5156f5",
+    "hra-large-intestine-female": "21d1fbb7f2b5578ea648f0d283aad1b9b9a7ba20eda1836f3f4376e5900ade56",
+    "hra-large-intestine-male": "a9c0c7f665daf19380f7fc6f184abc87f3b0ad58880ab1372eacb3a962715e1b",
+    "hra-liver-female": "2dd9b70daf0924cb8f56b80df10065c57e7422e93ce40909406b3c57a195e20d",
+    "hra-liver-male": "c74d7787e13b9b6ada02b10fde915158aea10ea789b5f693f41b1c93d7e8815f",
+    "hra-lung-female": "f1658bf4878c81271d5edc9510b1e5166b810f31ce19110e676df2db59de8c1d",
+    "hra-lung-male": "06df9d8fe8520dbbb54853392e8adcc078143c5c3ef0e927bd9fa6699f12000b",
+    "hra-pancreas-female": "bd78c289f6e6a1bb4bf105ff074c432a83b3c47aee94a988d58535952ab6245d",
+    "hra-pancreas-male": "c3a1859cc09580d2c5b7f075d3ffad15a14d90afcfd2a577f0f5171d38c967a7",
+    "hra-small-intestine-female": "7fb66e6101fe83f3092c7037798f4751cb51f3dcb558d6440f912039e5467fed",
+    "hra-small-intestine-male": "d9ead1dfc12da020a5d3fffac71a76b05023313a1b874b63519ff8cc77b9bfd6",
+    "hra-spleen-female": "ea5514d20c5fd6bd0a44b7b22510a4e4d8623f945c32ae06c946b9bbdfe6b99a",
+    "hra-spleen-male": "0177454d0735a3158981d0e16c48b929282023a7741d4903a6e78f817ec64701",
+    "hra-urinary-bladder-female": "03b753c162fd2b14e238712b50b9996cdb4a5e5e3f67e5693975fa0a40ce406e",
+    "hra-urinary-bladder-male": "4870b9af312358bf033da927c0bce9e30caebb7844f6f6e60283c5cd7e532d24"
+  },
+  "template_metadata_hashes": {
+    "bp3d-gallbladder-male": "3e057a5ddc537042bc8bc1a66f3b3b56802721a7d6fc266a6f5ce2ab7518d6b0",
+    "bp3d-stomach-male": "a6e75ef8270a7138d937cc5d2b1f9874bb1de2ed7346b64d3e9ad3e130b116b3",
+    "hra-brain-female": "680cc615cd7efb1fc1503fc4376540af447f9df4b292624a9a7cc71986b73edc",
+    "hra-brain-male": "9267d244adef34dfb12cb9433b565a505b4468b5d8e6b31a5bea3110bd86b73f",
+    "hra-heart-female": "ac9fff24f1f369af05309ff8687d7e225d4f068465836b958017155aafe3e8aa",
+    "hra-heart-male": "816a94939504c6eeeff27a6901e9d4559e14da173efa695bf7331c0de4e367b9",
+    "hra-kidney-female-left": "dc39df9073e2e0405412b92939af047a57128576838700b5381e46fc662b9aeb",
+    "hra-kidney-female-right": "47beffc1cba966e1ae9bff99928544e6e8e2e04c8a55041aeee30ec3234beb99",
+    "hra-kidney-male-left": "534f68d09ea63e66b4c804599c33e93202b0beb2c36c2b60b15b42b2eb27c119",
+    "hra-kidney-male-right": "1a57c234603f21c92fbddd3f978ff399acef821bce31d55350b53c75f2ff5f16",
+    "hra-large-intestine-female": "1d23166d97cc6025f1ca7c611ca54dc62704095d61ede97a6075f9dd14d817ec",
+    "hra-large-intestine-male": "f8a84e2b51b7bbb75027219e32bde6336b5384c303a15ad3b07337b90364eb82",
+    "hra-liver-female": "d91679f6ebaee72201ad97d9d43499e146310337a661fd728b0cf226bec6617d",
+    "hra-liver-male": "7c67826e00aaece505fb4a02ef0c317400e0417fd9af5286b98afaf3842dffc0",
+    "hra-lung-female": "f2eeaf35bc7a8f7c09515f5ce56c7fb5c6cfff9777331dede050dbd4165c7432",
+    "hra-lung-male": "e02a7ce9bc0945d04ee6cd4b46bf534668e9dd1c1f1c4105f72f84afb76ee3a9",
+    "hra-pancreas-female": "ed0dbaea88ab73d1548928ff32f8aa8db646d58436af7179d702e25983d292a0",
+    "hra-pancreas-male": "f0b5070ca1c94d75f7a47d4d8cbfd6232046728cc51a133b46fde0a0bfb2f41f",
+    "hra-small-intestine-female": "f8545dcc5b89c5ba70f3502db9596bbb1471e51e35cd02650f3b1cb0db5071f9",
+    "hra-small-intestine-male": "28aaa51cd26134ea065cfd68efa1e64a8689c35125d78417c1dffb40aa4c3320",
+    "hra-spleen-female": "ad301275d88257466f8f6984312b140c92dae85bd7e387c84798f388da3a76a6",
+    "hra-spleen-male": "7cdc68f95410a87be7a2fec6c8c71d77fe5977810a5e3484817d79db031b671c",
+    "hra-urinary-bladder-female": "32dd7443f92dc838526b19ad748d3ba1fbfb107f014ddd3e57e16172c59f1211",
+    "hra-urinary-bladder-male": "9db2c655d3faa2b65e8d2afcb4484984367c3799f49fc55d2d07b7385c1fcbec"
+  },
+  "conditions": [
+    {
+      "material_preset": "balanced",
+      "organ": "gallbladder",
+      "profile_id": "baseline",
+      "renderer_seed": 2778578890,
+      "template_id": "bp3d-gallbladder-male"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "stomach",
+      "profile_id": "baseline",
+      "renderer_seed": 3790174411,
+      "template_id": "bp3d-stomach-male"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "brain",
+      "profile_id": "baseline",
+      "renderer_seed": 3242853532,
+      "template_id": "hra-brain-female"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "brain",
+      "profile_id": "baseline",
+      "renderer_seed": 1997758041,
+      "template_id": "hra-brain-male"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "heart",
+      "profile_id": "baseline",
+      "renderer_seed": 1295341497,
+      "template_id": "hra-heart-female"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "heart",
+      "profile_id": "baseline",
+      "renderer_seed": 818523212,
+      "template_id": "hra-heart-male"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "kidney",
+      "profile_id": "baseline",
+      "renderer_seed": 1470397105,
+      "template_id": "hra-kidney-female-left"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "kidney",
+      "profile_id": "baseline",
+      "renderer_seed": 3667377811,
+      "template_id": "hra-kidney-female-right"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "kidney",
+      "profile_id": "baseline",
+      "renderer_seed": 711516,
+      "template_id": "hra-kidney-male-left"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "kidney",
+      "profile_id": "baseline",
+      "renderer_seed": 3348218910,
+      "template_id": "hra-kidney-male-right"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "large-intestine",
+      "profile_id": "baseline",
+      "renderer_seed": 1741722285,
+      "template_id": "hra-large-intestine-female"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "large-intestine",
+      "profile_id": "baseline",
+      "renderer_seed": 1156272094,
+      "template_id": "hra-large-intestine-male"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "liver",
+      "profile_id": "baseline",
+      "renderer_seed": 4246709031,
+      "template_id": "hra-liver-female"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "liver",
+      "profile_id": "baseline",
+      "renderer_seed": 445653040,
+      "template_id": "hra-liver-male"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "lung",
+      "profile_id": "baseline",
+      "renderer_seed": 1872227695,
+      "template_id": "hra-lung-female"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "lung",
+      "profile_id": "baseline",
+      "renderer_seed": 2395173314,
+      "template_id": "hra-lung-male"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "pancreas",
+      "profile_id": "baseline",
+      "renderer_seed": 2375859438,
+      "template_id": "hra-pancreas-female"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "pancreas",
+      "profile_id": "baseline",
+      "renderer_seed": 1335517756,
+      "template_id": "hra-pancreas-male"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "small-intestine",
+      "profile_id": "baseline",
+      "renderer_seed": 795241014,
+      "template_id": "hra-small-intestine-female"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "small-intestine",
+      "profile_id": "baseline",
+      "renderer_seed": 1031212590,
+      "template_id": "hra-small-intestine-male"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "spleen",
+      "profile_id": "baseline",
+      "renderer_seed": 1117131104,
+      "template_id": "hra-spleen-female"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "spleen",
+      "profile_id": "baseline",
+      "renderer_seed": 2961966361,
+      "template_id": "hra-spleen-male"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "urinary-bladder",
+      "profile_id": "baseline",
+      "renderer_seed": 3648450988,
+      "template_id": "hra-urinary-bladder-female"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "urinary-bladder",
+      "profile_id": "baseline",
+      "renderer_seed": 2271511282,
+      "template_id": "hra-urinary-bladder-male"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "gallbladder",
+      "profile_id": "gallbladder-cholecystitis",
+      "renderer_seed": 3152636951,
+      "template_id": "bp3d-gallbladder-male"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "gallbladder",
+      "profile_id": "gallbladder-carcinoma",
+      "renderer_seed": 4020221586,
+      "template_id": "bp3d-gallbladder-male"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "stomach",
+      "profile_id": "stomach-adenocarcinoma",
+      "renderer_seed": 3608261296,
+      "template_id": "bp3d-stomach-male"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "stomach",
+      "profile_id": "stomach-gist",
+      "renderer_seed": 2228953490,
+      "template_id": "bp3d-stomach-male"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "brain",
+      "profile_id": "brain-meningioma",
+      "renderer_seed": 1825358010,
+      "template_id": "hra-brain-female"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "brain",
+      "profile_id": "brain-glioblastoma",
+      "renderer_seed": 2363473534,
+      "template_id": "hra-brain-female"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "brain",
+      "profile_id": "brain-meningioma",
+      "renderer_seed": 754760120,
+      "template_id": "hra-brain-male"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "brain",
+      "profile_id": "brain-glioblastoma",
+      "renderer_seed": 495765837,
+      "template_id": "hra-brain-male"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "heart",
+      "profile_id": "heart-infarction",
+      "renderer_seed": 3624007853,
+      "template_id": "hra-heart-female"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "heart",
+      "profile_id": "heart-infarction",
+      "renderer_seed": 2730375406,
+      "template_id": "hra-heart-male"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "kidney",
+      "profile_id": "kidney-cancer",
+      "renderer_seed": 1794762160,
+      "template_id": "hra-kidney-female-left"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "kidney",
+      "profile_id": "kidney-polycystic",
+      "renderer_seed": 3114505721,
+      "template_id": "hra-kidney-female-left"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "kidney",
+      "profile_id": "kidney-cancer",
+      "renderer_seed": 1195176374,
+      "template_id": "hra-kidney-female-right"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "kidney",
+      "profile_id": "kidney-polycystic",
+      "renderer_seed": 1147401100,
+      "template_id": "hra-kidney-female-right"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "kidney",
+      "profile_id": "kidney-cancer",
+      "renderer_seed": 2942362805,
+      "template_id": "hra-kidney-male-left"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "kidney",
+      "profile_id": "kidney-polycystic",
+      "renderer_seed": 1309601922,
+      "template_id": "hra-kidney-male-left"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "kidney",
+      "profile_id": "kidney-cancer",
+      "renderer_seed": 4199205971,
+      "template_id": "hra-kidney-male-right"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "kidney",
+      "profile_id": "kidney-polycystic",
+      "renderer_seed": 2859512471,
+      "template_id": "hra-kidney-male-right"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "large-intestine",
+      "profile_id": "colon-cancer",
+      "renderer_seed": 2446481234,
+      "template_id": "hra-large-intestine-female"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "large-intestine",
+      "profile_id": "colon-diverticulosis",
+      "renderer_seed": 2508553211,
+      "template_id": "hra-large-intestine-female"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "large-intestine",
+      "profile_id": "colon-cancer",
+      "renderer_seed": 2982424518,
+      "template_id": "hra-large-intestine-male"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "large-intestine",
+      "profile_id": "colon-diverticulosis",
+      "renderer_seed": 1169300096,
+      "template_id": "hra-large-intestine-male"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "liver",
+      "profile_id": "liver-cirrhosis",
+      "renderer_seed": 1052539396,
+      "template_id": "hra-liver-female"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "liver",
+      "profile_id": "liver-hcc",
+      "renderer_seed": 4231300516,
+      "template_id": "hra-liver-female"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "liver",
+      "profile_id": "liver-metastases",
+      "renderer_seed": 1591746080,
+      "template_id": "hra-liver-female"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "liver",
+      "profile_id": "liver-cirrhosis",
+      "renderer_seed": 2996991493,
+      "template_id": "hra-liver-male"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "liver",
+      "profile_id": "liver-hcc",
+      "renderer_seed": 3294358240,
+      "template_id": "hra-liver-male"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "liver",
+      "profile_id": "liver-metastases",
+      "renderer_seed": 3650018753,
+      "template_id": "hra-liver-male"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "lung",
+      "profile_id": "lung-cancer",
+      "renderer_seed": 2157845365,
+      "template_id": "hra-lung-female"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "lung",
+      "profile_id": "lung-emphysema",
+      "renderer_seed": 3272259747,
+      "template_id": "hra-lung-female"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "lung",
+      "profile_id": "lung-cancer",
+      "renderer_seed": 2390871534,
+      "template_id": "hra-lung-male"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "lung",
+      "profile_id": "lung-emphysema",
+      "renderer_seed": 463003516,
+      "template_id": "hra-lung-male"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "pancreas",
+      "profile_id": "pancreas-cancer",
+      "renderer_seed": 2583843698,
+      "template_id": "hra-pancreas-female"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "pancreas",
+      "profile_id": "pancreas-pancreatitis",
+      "renderer_seed": 939938979,
+      "template_id": "hra-pancreas-female"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "pancreas",
+      "profile_id": "pancreas-pseudocyst",
+      "renderer_seed": 1783735370,
+      "template_id": "hra-pancreas-female"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "pancreas",
+      "profile_id": "pancreas-cancer",
+      "renderer_seed": 2775856308,
+      "template_id": "hra-pancreas-male"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "pancreas",
+      "profile_id": "pancreas-pancreatitis",
+      "renderer_seed": 3234098651,
+      "template_id": "hra-pancreas-male"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "pancreas",
+      "profile_id": "pancreas-pseudocyst",
+      "renderer_seed": 1976807979,
+      "template_id": "hra-pancreas-male"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "small-intestine",
+      "profile_id": "small-intestine-crohn",
+      "renderer_seed": 2968865555,
+      "template_id": "hra-small-intestine-female"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "small-intestine",
+      "profile_id": "small-intestine-net",
+      "renderer_seed": 662047196,
+      "template_id": "hra-small-intestine-female"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "small-intestine",
+      "profile_id": "small-intestine-crohn",
+      "renderer_seed": 416610707,
+      "template_id": "hra-small-intestine-male"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "small-intestine",
+      "profile_id": "small-intestine-net",
+      "renderer_seed": 793484035,
+      "template_id": "hra-small-intestine-male"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "spleen",
+      "profile_id": "spleen-infarct",
+      "renderer_seed": 3955098053,
+      "template_id": "hra-spleen-female"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "spleen",
+      "profile_id": "spleen-cyst",
+      "renderer_seed": 1647128821,
+      "template_id": "hra-spleen-female"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "spleen",
+      "profile_id": "spleen-infarct",
+      "renderer_seed": 318201235,
+      "template_id": "hra-spleen-male"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "spleen",
+      "profile_id": "spleen-cyst",
+      "renderer_seed": 1327642631,
+      "template_id": "hra-spleen-male"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "urinary-bladder",
+      "profile_id": "bladder-cancer",
+      "renderer_seed": 2550990807,
+      "template_id": "hra-urinary-bladder-female"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "urinary-bladder",
+      "profile_id": "bladder-diverticulum",
+      "renderer_seed": 608467765,
+      "template_id": "hra-urinary-bladder-female"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "urinary-bladder",
+      "profile_id": "bladder-cancer",
+      "renderer_seed": 921376415,
+      "template_id": "hra-urinary-bladder-male"
+    },
+    {
+      "material_preset": "balanced",
+      "organ": "urinary-bladder",
+      "profile_id": "bladder-diverticulum",
+      "renderer_seed": 3763424832,
+      "template_id": "hra-urinary-bladder-male"
+    }
+  ],
+  "observation_shape": [
+    128,
+    7
+  ],
+  "model_decoder_sha256": "f19603b1145bf2adf87803f55ce2156221c57ae14701093acc08bceeaee7b72d",
+  "scope": "joint synthetic geometry, authored tissue colour and disease design recipes; not a patient distribution or measured tissue physics",
+  "validation": {
+    "reconstruction": {
+      "shape_control_mae": 0.09548084944963324,
+      "material_control_mae": 0.09180578930804474,
+      "disease_control_mae": 0.13572841053917295,
+      "control_loss": 0.05136437472459432,
+      "observation_head_loss": 1.4894515828276234,
+      "render_surrogate_consistency_loss": 1.0961529131561634,
+      "kl_per_latent": 0.8826895073113754,
+      "active_latents_within_condition": 24,
+      "geometry_normalized_rmse": 0.013910859823226929,
+      "colour_linear_rgb_rmse": 0.011874094605445862,
+      "roughness_rmse": 0.014088372699916363,
+      "surrogate_geometry_normalized_rmse": 0.014213570393621922,
+      "surrogate_colour_linear_rgb_rmse": 0.011777576990425587
+    },
+    "prior": {
+      "per_condition": {
+        "bp3d-gallbladder-male|baseline": {
+          "joint_vae": {
+            "mean_mae": 0.19220522046089172,
+            "relative_std_error": 0.1387268304824829,
+            "covariance_mae": 0.05041270683917797,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.42813605070114136,
+            "material_std_mean": 0.4680086672306061,
+            "disease_std_mean": 0.0
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.1696013203585086,
+            "relative_std_error": 0.1684517704348301,
+            "covariance_mae": 0.04985949426600676,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.1839548796415329,
+            "relative_std_error": 0.9997819662094116,
+            "covariance_mae": 0.06163396677303982,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "bp3d-stomach-male|baseline": {
+          "joint_vae": {
+            "mean_mae": 0.11793354898691177,
+            "relative_std_error": 0.1977214217185974,
+            "covariance_mae": 0.06054885176248808,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.42554253339767456,
+            "material_std_mean": 0.498561829328537,
+            "disease_std_mean": 0.0
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.13488968320198072,
+            "relative_std_error": 0.17121681308860856,
+            "covariance_mae": 0.058625148206946434,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.11285017430782318,
+            "relative_std_error": 0.9997892379760742,
+            "covariance_mae": 0.07193073917162886,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-brain-female|baseline": {
+          "joint_vae": {
+            "mean_mae": 0.08764846622943878,
+            "relative_std_error": 0.09226281940937042,
+            "covariance_mae": 0.06194394473320784,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4246789515018463,
+            "material_std_mean": 0.47699999809265137,
+            "disease_std_mean": 0.0
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.12001809447035437,
+            "relative_std_error": 0.09467203756869944,
+            "covariance_mae": 0.05896772556009151,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.09660591185092926,
+            "relative_std_error": 0.999789297580719,
+            "covariance_mae": 0.07155341236020528,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-brain-male|baseline": {
+          "joint_vae": {
+            "mean_mae": 0.13136284053325653,
+            "relative_std_error": 0.11682923883199692,
+            "covariance_mae": 0.059245215556428255,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4254816174507141,
+            "material_std_mean": 0.4761158525943756,
+            "disease_std_mean": 0.0
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.1369080201635445,
+            "relative_std_error": 0.08895208057436801,
+            "covariance_mae": 0.05929289882572085,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.13317643105983734,
+            "relative_std_error": 0.9997978210449219,
+            "covariance_mae": 0.0741157751926594,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-heart-female|baseline": {
+          "joint_vae": {
+            "mean_mae": 0.16594018042087555,
+            "relative_std_error": 0.12416863441467285,
+            "covariance_mae": 0.052901840262944796,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4322022497653961,
+            "material_std_mean": 0.4685537815093994,
+            "disease_std_mean": 0.0
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.15383884533071243,
+            "relative_std_error": 0.15337616834204554,
+            "covariance_mae": 0.05741349797636332,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.16155587136745453,
+            "relative_std_error": 0.999782919883728,
+            "covariance_mae": 0.06955038777928152,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-heart-male|baseline": {
+          "joint_vae": {
+            "mean_mae": 0.14854319393634796,
+            "relative_std_error": 0.11623028665781021,
+            "covariance_mae": 0.06190116836782393,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4282524585723877,
+            "material_std_mean": 0.46105825901031494,
+            "disease_std_mean": 0.0
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.1328653603592594,
+            "relative_std_error": 0.09807062455434569,
+            "covariance_mae": 0.06024743793752647,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.12799164652824402,
+            "relative_std_error": 0.9997935891151428,
+            "covariance_mae": 0.07346122765000622,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-kidney-female-left|baseline": {
+          "joint_vae": {
+            "mean_mae": 0.1102757453918457,
+            "relative_std_error": 0.12867146730422974,
+            "covariance_mae": 0.07340230453169848,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4211558699607849,
+            "material_std_mean": 0.48005175590515137,
+            "disease_std_mean": 0.0
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.1040891061528678,
+            "relative_std_error": 0.1163511920075581,
+            "covariance_mae": 0.06908179831147544,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.10499256104230881,
+            "relative_std_error": 0.9997985363006592,
+            "covariance_mae": 0.083984887852338,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-kidney-female-right|baseline": {
+          "joint_vae": {
+            "mean_mae": 0.16916266083717346,
+            "relative_std_error": 0.1491495966911316,
+            "covariance_mae": 0.07266878678008208,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4243237376213074,
+            "material_std_mean": 0.46954694390296936,
+            "disease_std_mean": 0.0
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.1491000056885922,
+            "relative_std_error": 0.1310020969168022,
+            "covariance_mae": 0.07624449847051126,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.13737107813358307,
+            "relative_std_error": 0.9998036623001099,
+            "covariance_mae": 0.08766861790618381,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-kidney-male-left|baseline": {
+          "joint_vae": {
+            "mean_mae": 0.07702931761741638,
+            "relative_std_error": 0.10278835892677307,
+            "covariance_mae": 0.06577632084654632,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.44634634256362915,
+            "material_std_mean": 0.4748965799808502,
+            "disease_std_mean": 0.0
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.11618458872434577,
+            "relative_std_error": 0.12816317073558298,
+            "covariance_mae": 0.06320109792304257,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.08320849388837814,
+            "relative_std_error": 0.9997999668121338,
+            "covariance_mae": 0.079548723613363,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-kidney-male-right|baseline": {
+          "joint_vae": {
+            "mean_mae": 0.14751222729682922,
+            "relative_std_error": 0.1160917729139328,
+            "covariance_mae": 0.059792500826537504,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.45526203513145447,
+            "material_std_mean": 0.4693419933319092,
+            "disease_std_mean": 0.0
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.12638555137164167,
+            "relative_std_error": 0.1621156348345323,
+            "covariance_mae": 0.06362709749771972,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.13793392479419708,
+            "relative_std_error": 0.999785840511322,
+            "covariance_mae": 0.07346170196474942,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-large-intestine-female|baseline": {
+          "joint_vae": {
+            "mean_mae": 0.11133252829313278,
+            "relative_std_error": 0.09861180186271667,
+            "covariance_mae": 0.05223579265293385,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4331848621368408,
+            "material_std_mean": 0.4871300756931305,
+            "disease_std_mean": 0.0
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.11862688044320614,
+            "relative_std_error": 0.10390990007215617,
+            "covariance_mae": 0.05192313183887875,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.10901003330945969,
+            "relative_std_error": 0.9997771978378296,
+            "covariance_mae": 0.06147521462851112,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-large-intestine-male|baseline": {
+          "joint_vae": {
+            "mean_mae": 0.10479736328125,
+            "relative_std_error": 0.14097364246845245,
+            "covariance_mae": 0.06872512463619905,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.42834416031837463,
+            "material_std_mean": 0.4712395668029785,
+            "disease_std_mean": 0.0
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.11852047420450532,
+            "relative_std_error": 0.13994885037042826,
+            "covariance_mae": 0.06623910908920033,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.10258768498897552,
+            "relative_std_error": 0.9997899532318115,
+            "covariance_mae": 0.07735965005253476,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-liver-female|baseline": {
+          "joint_vae": {
+            "mean_mae": 0.11829504370689392,
+            "relative_std_error": 0.1326543688774109,
+            "covariance_mae": 0.06220895225871745,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4406304359436035,
+            "material_std_mean": 0.4658559560775757,
+            "disease_std_mean": 0.0
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.14349955012423551,
+            "relative_std_error": 0.12394924341780511,
+            "covariance_mae": 0.05793821666904198,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.12647832930088043,
+            "relative_std_error": 0.9997923970222473,
+            "covariance_mae": 0.07323038709996388,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-liver-male|baseline": {
+          "joint_vae": {
+            "mean_mae": 0.15271633863449097,
+            "relative_std_error": 0.08882474154233932,
+            "covariance_mae": 0.050079223440615814,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4282204806804657,
+            "material_std_mean": 0.4821377694606781,
+            "disease_std_mean": 0.0
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.15071579803496646,
+            "relative_std_error": 0.10496570174470181,
+            "covariance_mae": 0.05223608133386031,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.14145879447460175,
+            "relative_std_error": 0.9997825026512146,
+            "covariance_mae": 0.06443160492966883,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-lung-female|baseline": {
+          "joint_vae": {
+            "mean_mae": 0.04877821356058121,
+            "relative_std_error": 0.13663043081760406,
+            "covariance_mae": 0.0772279673103347,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.43599656224250793,
+            "material_std_mean": 0.4873817265033722,
+            "disease_std_mean": 0.0
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.075304909036955,
+            "relative_std_error": 0.13103387413098186,
+            "covariance_mae": 0.07570642668034666,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.05207667127251625,
+            "relative_std_error": 0.9998010993003845,
+            "covariance_mae": 0.09398846198207282,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-lung-male|baseline": {
+          "joint_vae": {
+            "mean_mae": 0.1742146611213684,
+            "relative_std_error": 0.0884387418627739,
+            "covariance_mae": 0.0543066511561833,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4341159164905548,
+            "material_std_mean": 0.47648119926452637,
+            "disease_std_mean": 0.0
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.17316728994049002,
+            "relative_std_error": 0.06327499558202482,
+            "covariance_mae": 0.050623780442271143,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.18253599107265472,
+            "relative_std_error": 0.9997948408126831,
+            "covariance_mae": 0.06622501465998996,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-pancreas-female|baseline": {
+          "joint_vae": {
+            "mean_mae": 0.07606705278158188,
+            "relative_std_error": 0.09691949933767319,
+            "covariance_mae": 0.06174275218581359,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4380778670310974,
+            "material_std_mean": 0.47043368220329285,
+            "disease_std_mean": 0.0
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.07894753708499051,
+            "relative_std_error": 0.10235637289935409,
+            "covariance_mae": 0.06300721973814276,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.06807531416416168,
+            "relative_std_error": 0.9997925162315369,
+            "covariance_mae": 0.07502888201507027,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-pancreas-male|baseline": {
+          "joint_vae": {
+            "mean_mae": 0.09782231599092484,
+            "relative_std_error": 0.16877225041389465,
+            "covariance_mae": 0.06844155206082114,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.43959641456604004,
+            "material_std_mean": 0.460033655166626,
+            "disease_std_mean": 0.0
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.10715765774363907,
+            "relative_std_error": 0.14465823537474803,
+            "covariance_mae": 0.06348828990312634,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.08957750350236893,
+            "relative_std_error": 0.9998064041137695,
+            "covariance_mae": 0.08330515814750451,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-small-intestine-female|baseline": {
+          "joint_vae": {
+            "mean_mae": 0.11254816502332687,
+            "relative_std_error": 0.17169345915317535,
+            "covariance_mae": 0.07012197091141323,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4425181746482849,
+            "material_std_mean": 0.48188841342926025,
+            "disease_std_mean": 0.0
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.10971652140971054,
+            "relative_std_error": 0.18644186505259805,
+            "covariance_mae": 0.07005733653342956,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.10873986035585403,
+            "relative_std_error": 0.9997926354408264,
+            "covariance_mae": 0.08107246142712873,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-small-intestine-male|baseline": {
+          "joint_vae": {
+            "mean_mae": 0.14395631849765778,
+            "relative_std_error": 0.1487436443567276,
+            "covariance_mae": 0.06688871271137177,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4173727035522461,
+            "material_std_mean": 0.4708891212940216,
+            "disease_std_mean": 0.0
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.16675112346628534,
+            "relative_std_error": 0.143263499118135,
+            "covariance_mae": 0.06278585680297866,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.16289058327674866,
+            "relative_std_error": 0.9997951984405518,
+            "covariance_mae": 0.07859066226336049,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-spleen-female|baseline": {
+          "joint_vae": {
+            "mean_mae": 0.1133953183889389,
+            "relative_std_error": 0.1535220593214035,
+            "covariance_mae": 0.061107122125911385,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4285169541835785,
+            "material_std_mean": 0.4742068350315094,
+            "disease_std_mean": 0.0
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.1150998869957398,
+            "relative_std_error": 0.13292924163627964,
+            "covariance_mae": 0.05904086875250075,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.11163418740034103,
+            "relative_std_error": 0.9997923970222473,
+            "covariance_mae": 0.07231574644855532,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-spleen-male|baseline": {
+          "joint_vae": {
+            "mean_mae": 0.09434553980827332,
+            "relative_std_error": 0.14288146793842316,
+            "covariance_mae": 0.050039387516608934,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4588591158390045,
+            "material_std_mean": 0.47559046745300293,
+            "disease_std_mean": 0.0
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.09255334177963626,
+            "relative_std_error": 0.13888873813862518,
+            "covariance_mae": 0.056119804424238036,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.08995930850505829,
+            "relative_std_error": 0.9997866749763489,
+            "covariance_mae": 0.06786450385307144,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-urinary-bladder-female|baseline": {
+          "joint_vae": {
+            "mean_mae": 0.1691097915172577,
+            "relative_std_error": 0.1463877409696579,
+            "covariance_mae": 0.058946836551414986,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.43272486329078674,
+            "material_std_mean": 0.47890424728393555,
+            "disease_std_mean": 0.0
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.164546327036281,
+            "relative_std_error": 0.14547084497740675,
+            "covariance_mae": 0.05842116035822085,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.1737450808286667,
+            "relative_std_error": 0.9997836351394653,
+            "covariance_mae": 0.0693408870167562,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-urinary-bladder-male|baseline": {
+          "joint_vae": {
+            "mean_mae": 0.14238832890987396,
+            "relative_std_error": 0.17108996212482452,
+            "covariance_mae": 0.07124159800637228,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4242878258228302,
+            "material_std_mean": 0.49168407917022705,
+            "disease_std_mean": 0.0
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.14097433933221235,
+            "relative_std_error": 0.15247733521802503,
+            "covariance_mae": 0.0698747263337421,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.14842794835567474,
+            "relative_std_error": 0.9997988939285278,
+            "covariance_mae": 0.08464912031849971,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "bp3d-gallbladder-male|gallbladder-cholecystitis": {
+          "joint_vae": {
+            "mean_mae": 0.14289380609989166,
+            "relative_std_error": 0.13901855051517487,
+            "covariance_mae": 0.05750951564200699,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4324965476989746,
+            "material_std_mean": 0.44794610142707825,
+            "disease_std_mean": 0.47345107793807983
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.1482377551383009,
+            "relative_std_error": 0.11693702346319092,
+            "covariance_mae": 0.055189216496995104,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.140523761510849,
+            "relative_std_error": 0.9997844696044922,
+            "covariance_mae": 0.06263822349671806,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "bp3d-gallbladder-male|gallbladder-carcinoma": {
+          "joint_vae": {
+            "mean_mae": 0.143784299492836,
+            "relative_std_error": 0.12548524141311646,
+            "covariance_mae": 0.054898667481777096,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.42661958932876587,
+            "material_std_mean": 0.46693480014801025,
+            "disease_std_mean": 0.4766624867916107
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.1494795137483154,
+            "relative_std_error": 0.12621516920253037,
+            "covariance_mae": 0.05707401499003821,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.140523761510849,
+            "relative_std_error": 0.9997844696044922,
+            "covariance_mae": 0.06263822349671806,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "bp3d-stomach-male|stomach-adenocarcinoma": {
+          "joint_vae": {
+            "mean_mae": 0.10940957069396973,
+            "relative_std_error": 0.1657010018825531,
+            "covariance_mae": 0.059176452443319795,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4330165684223175,
+            "material_std_mean": 0.47489750385284424,
+            "disease_std_mean": 0.47932326793670654
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.11539130361315769,
+            "relative_std_error": 0.17019476202713946,
+            "covariance_mae": 0.06323483111579556,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.10508152842521667,
+            "relative_std_error": 0.9997875094413757,
+            "covariance_mae": 0.0667147164660754,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "bp3d-stomach-male|stomach-gist": {
+          "joint_vae": {
+            "mean_mae": 0.12350266426801682,
+            "relative_std_error": 0.16845667362213135,
+            "covariance_mae": 0.060030473381894114,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4387761652469635,
+            "material_std_mean": 0.48535311222076416,
+            "disease_std_mean": 0.49598726630210876
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.10685286467161194,
+            "relative_std_error": 0.17977626977604108,
+            "covariance_mae": 0.061142133963187496,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.10508152842521667,
+            "relative_std_error": 0.9997875094413757,
+            "covariance_mae": 0.0667147164660754,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-brain-female|brain-meningioma": {
+          "joint_vae": {
+            "mean_mae": 0.11911041289567947,
+            "relative_std_error": 0.12751242518424988,
+            "covariance_mae": 0.06350634332955529,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.41847893595695496,
+            "material_std_mean": 0.475566029548645,
+            "disease_std_mean": 0.4538671672344208
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.12800215542481969,
+            "relative_std_error": 0.10728698357585899,
+            "covariance_mae": 0.06218343561812715,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.12078649550676346,
+            "relative_std_error": 0.9997953772544861,
+            "covariance_mae": 0.06965938553810647,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-brain-female|brain-glioblastoma": {
+          "joint_vae": {
+            "mean_mae": 0.13013802468776703,
+            "relative_std_error": 0.10285818576812744,
+            "covariance_mae": 0.06012494655851466,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.43195557594299316,
+            "material_std_mean": 0.4656006991863251,
+            "disease_std_mean": 0.47239017486572266
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.12685337922648243,
+            "relative_std_error": 0.08834443344478794,
+            "covariance_mae": 0.06242312953670498,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.12078649550676346,
+            "relative_std_error": 0.9997953772544861,
+            "covariance_mae": 0.06965938553810647,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-brain-male|brain-meningioma": {
+          "joint_vae": {
+            "mean_mae": 0.14026451110839844,
+            "relative_std_error": 0.12147477269172668,
+            "covariance_mae": 0.06308125332222651,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.42467328906059265,
+            "material_std_mean": 0.46505746245384216,
+            "disease_std_mean": 0.46772342920303345
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.14442507013344053,
+            "relative_std_error": 0.12342387590446258,
+            "covariance_mae": 0.06324159919674044,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.14643007516860962,
+            "relative_std_error": 0.999799370765686,
+            "covariance_mae": 0.07095863848110123,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-brain-male|brain-glioblastoma": {
+          "joint_vae": {
+            "mean_mae": 0.14495009183883667,
+            "relative_std_error": 0.13018672168254852,
+            "covariance_mae": 0.061639287950878585,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.41081199049949646,
+            "material_std_mean": 0.4600392282009125,
+            "disease_std_mean": 0.47449275851249695
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.14639564756020737,
+            "relative_std_error": 0.11956100184104428,
+            "covariance_mae": 0.06339401125459045,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.14643007516860962,
+            "relative_std_error": 0.999799370765686,
+            "covariance_mae": 0.07095863848110123,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-heart-female|heart-infarction": {
+          "joint_vae": {
+            "mean_mae": 0.13483330607414246,
+            "relative_std_error": 0.11982293426990509,
+            "covariance_mae": 0.06112243339363561,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4303765594959259,
+            "material_std_mean": 0.4782008230686188,
+            "disease_std_mean": 0.4783920645713806
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.13254562502778228,
+            "relative_std_error": 0.09999580028693322,
+            "covariance_mae": 0.06125243720421316,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.13216136395931244,
+            "relative_std_error": 0.9997894167900085,
+            "covariance_mae": 0.06829485287355912,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-heart-male|heart-infarction": {
+          "joint_vae": {
+            "mean_mae": 0.12922437489032745,
+            "relative_std_error": 0.09878654778003693,
+            "covariance_mae": 0.05919106332584629,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.43910881876945496,
+            "material_std_mean": 0.4574991762638092,
+            "disease_std_mean": 0.46971023082733154
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.12281422367972668,
+            "relative_std_error": 0.12405754210974047,
+            "covariance_mae": 0.05974362840661814,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.12439987808465958,
+            "relative_std_error": 0.9997884631156921,
+            "covariance_mae": 0.06704101288127286,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-kidney-female-left|kidney-cancer": {
+          "joint_vae": {
+            "mean_mae": 0.10890128463506699,
+            "relative_std_error": 0.08291826397180557,
+            "covariance_mae": 0.061947208970887686,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.44867756962776184,
+            "material_std_mean": 0.4733147621154785,
+            "disease_std_mean": 0.46986129879951477
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.09887771515907931,
+            "relative_std_error": 0.08577370161220761,
+            "covariance_mae": 0.06428007305104662,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.1046595647931099,
+            "relative_std_error": 0.9997951984405518,
+            "covariance_mae": 0.07150452886244965,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-kidney-female-left|kidney-polycystic": {
+          "joint_vae": {
+            "mean_mae": 0.1115262433886528,
+            "relative_std_error": 0.07581204175949097,
+            "covariance_mae": 0.060168204929973705,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.44642096757888794,
+            "material_std_mean": 0.4709106683731079,
+            "disease_std_mean": 0.4829671084880829
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.11277601309759007,
+            "relative_std_error": 0.08913763149433519,
+            "covariance_mae": 0.06532796717779901,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.1046595647931099,
+            "relative_std_error": 0.9997951984405518,
+            "covariance_mae": 0.07150452886244965,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-kidney-female-right|kidney-cancer": {
+          "joint_vae": {
+            "mean_mae": 0.1075797826051712,
+            "relative_std_error": 0.15070495009422302,
+            "covariance_mae": 0.07013942805072607,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4332517981529236,
+            "material_std_mean": 0.46551942825317383,
+            "disease_std_mean": 0.45793187618255615
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.11674681342826965,
+            "relative_std_error": 0.12896267888219615,
+            "covariance_mae": 0.0708631831224459,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.10792389512062073,
+            "relative_std_error": 0.9998045563697815,
+            "covariance_mae": 0.0797530571282132,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-kidney-female-right|kidney-polycystic": {
+          "joint_vae": {
+            "mean_mae": 0.13091899454593658,
+            "relative_std_error": 0.15100398659706116,
+            "covariance_mae": 0.07114665054357414,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.44825366139411926,
+            "material_std_mean": 0.45621824264526367,
+            "disease_std_mean": 0.4698221981525421
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.11171717615595235,
+            "relative_std_error": 0.1423178068755406,
+            "covariance_mae": 0.07003745522292505,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.10792389512062073,
+            "relative_std_error": 0.9998045563697815,
+            "covariance_mae": 0.0797530571282132,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-kidney-male-left|kidney-cancer": {
+          "joint_vae": {
+            "mean_mae": 0.1242748573422432,
+            "relative_std_error": 0.11630875617265701,
+            "covariance_mae": 0.06584922010519399,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4460681080818176,
+            "material_std_mean": 0.46442118287086487,
+            "disease_std_mean": 0.46725162863731384
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.11923293261189208,
+            "relative_std_error": 0.10056609521226995,
+            "covariance_mae": 0.06402907494766828,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.11506550759077072,
+            "relative_std_error": 0.9998012185096741,
+            "covariance_mae": 0.07252491501870935,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-kidney-male-left|kidney-polycystic": {
+          "joint_vae": {
+            "mean_mae": 0.10603230446577072,
+            "relative_std_error": 0.12907199561595917,
+            "covariance_mae": 0.06218442149952558,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.43233203887939453,
+            "material_std_mean": 0.4720880687236786,
+            "disease_std_mean": 0.4611911177635193
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.13161357962932047,
+            "relative_std_error": 0.09884637884255372,
+            "covariance_mae": 0.0665785135238158,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.11506550759077072,
+            "relative_std_error": 0.9998012185096741,
+            "covariance_mae": 0.07252491501870935,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-kidney-male-right|kidney-cancer": {
+          "joint_vae": {
+            "mean_mae": 0.12071988731622696,
+            "relative_std_error": 0.10068900138139725,
+            "covariance_mae": 0.05833180446470542,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4472707211971283,
+            "material_std_mean": 0.4579639434814453,
+            "disease_std_mean": 0.4898427724838257
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.12914360590287677,
+            "relative_std_error": 0.12098282961179097,
+            "covariance_mae": 0.06034546788336858,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.11689910292625427,
+            "relative_std_error": 0.9997915625572205,
+            "covariance_mae": 0.06724116798969872,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-kidney-male-right|kidney-polycystic": {
+          "joint_vae": {
+            "mean_mae": 0.13102604448795319,
+            "relative_std_error": 0.12237488478422165,
+            "covariance_mae": 0.059012256955735205,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.45913174748420715,
+            "material_std_mean": 0.4628361761569977,
+            "disease_std_mean": 0.4729652404785156
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.10726470450641373,
+            "relative_std_error": 0.11948722669967382,
+            "covariance_mae": 0.05805519600546619,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.11689910292625427,
+            "relative_std_error": 0.9997915625572205,
+            "covariance_mae": 0.06724116798969872,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-large-intestine-female|colon-cancer": {
+          "joint_vae": {
+            "mean_mae": 0.1185908317565918,
+            "relative_std_error": 0.10793489962816238,
+            "covariance_mae": 0.058181101593396484,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4494125247001648,
+            "material_std_mean": 0.4700123965740204,
+            "disease_std_mean": 0.45454058051109314
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.14033407158873332,
+            "relative_std_error": 0.12692205021248984,
+            "covariance_mae": 0.05734498779235313,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.12982742488384247,
+            "relative_std_error": 0.9997800588607788,
+            "covariance_mae": 0.06425417167604763,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-large-intestine-female|colon-diverticulosis": {
+          "joint_vae": {
+            "mean_mae": 0.13693344593048096,
+            "relative_std_error": 0.11336805671453476,
+            "covariance_mae": 0.05720049061271215,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.42334192991256714,
+            "material_std_mean": 0.46301552653312683,
+            "disease_std_mean": 0.47000089287757874
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.13055603647034722,
+            "relative_std_error": 0.11760503947340122,
+            "covariance_mae": 0.05589836048756793,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.12982742488384247,
+            "relative_std_error": 0.9997800588607788,
+            "covariance_mae": 0.06425417167604763,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-large-intestine-male|colon-cancer": {
+          "joint_vae": {
+            "mean_mae": 0.1256180703639984,
+            "relative_std_error": 0.1339973360300064,
+            "covariance_mae": 0.06367702865515239,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.42886286973953247,
+            "material_std_mean": 0.4711902141571045,
+            "disease_std_mean": 0.4678027331829071
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.14689929824555142,
+            "relative_std_error": 0.1438122208467352,
+            "covariance_mae": 0.06297654825288299,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.13303403556346893,
+            "relative_std_error": 0.9997857809066772,
+            "covariance_mae": 0.06904460530338966,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-large-intestine-male|colon-diverticulosis": {
+          "joint_vae": {
+            "mean_mae": 0.1281963735818863,
+            "relative_std_error": 0.12585335969924927,
+            "covariance_mae": 0.06191155973182037,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4416925609111786,
+            "material_std_mean": 0.4612370431423187,
+            "disease_std_mean": 0.4777466356754303
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.14547130382164475,
+            "relative_std_error": 0.1524655179322806,
+            "covariance_mae": 0.06225065302836055,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.13303403556346893,
+            "relative_std_error": 0.9997857809066772,
+            "covariance_mae": 0.06904460530338966,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-liver-female|liver-cirrhosis": {
+          "joint_vae": {
+            "mean_mae": 0.12331792712211609,
+            "relative_std_error": 0.1242918074131012,
+            "covariance_mae": 0.06504875247597092,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4335991442203522,
+            "material_std_mean": 0.4665270745754242,
+            "disease_std_mean": 0.4776040315628052
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.11155853817376643,
+            "relative_std_error": 0.11435734960518666,
+            "covariance_mae": 0.06420194952929062,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.12218648940324783,
+            "relative_std_error": 0.999798059463501,
+            "covariance_mae": 0.07160583310389854,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-liver-female|liver-hcc": {
+          "joint_vae": {
+            "mean_mae": 0.13099268078804016,
+            "relative_std_error": 0.11503637582063675,
+            "covariance_mae": 0.0663081685299535,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.44599875807762146,
+            "material_std_mean": 0.46395793557167053,
+            "disease_std_mean": 0.4749924838542938
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.13138773851277585,
+            "relative_std_error": 0.11537955630618292,
+            "covariance_mae": 0.06500234313129506,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.12218648940324783,
+            "relative_std_error": 0.999798059463501,
+            "covariance_mae": 0.07160583310389854,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-liver-female|liver-metastases": {
+          "joint_vae": {
+            "mean_mae": 0.12139151245355606,
+            "relative_std_error": 0.13180172443389893,
+            "covariance_mae": 0.06285164642133084,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4431452751159668,
+            "material_std_mean": 0.4731036126613617,
+            "disease_std_mean": 0.46609199047088623
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.13493638208792227,
+            "relative_std_error": 0.10482509187381818,
+            "covariance_mae": 0.06384547371167629,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.12218648940324783,
+            "relative_std_error": 0.999798059463501,
+            "covariance_mae": 0.07160583310389854,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-liver-male|liver-cirrhosis": {
+          "joint_vae": {
+            "mean_mae": 0.14813856780529022,
+            "relative_std_error": 0.12189936637878418,
+            "covariance_mae": 0.053947233431568396,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4250660538673401,
+            "material_std_mean": 0.46853384375572205,
+            "disease_std_mean": 0.46655014157295227
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.11871114217613984,
+            "relative_std_error": 0.14883844779555966,
+            "covariance_mae": 0.05634283424028828,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.13231895864009857,
+            "relative_std_error": 0.9997782111167908,
+            "covariance_mae": 0.06207536430830984,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-liver-male|liver-hcc": {
+          "joint_vae": {
+            "mean_mae": 0.15026932954788208,
+            "relative_std_error": 0.13660800457000732,
+            "covariance_mae": 0.05692435861175424,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.42988401651382446,
+            "material_std_mean": 0.49331188201904297,
+            "disease_std_mean": 0.4759601950645447
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.11992222271934497,
+            "relative_std_error": 0.1666731330260269,
+            "covariance_mae": 0.05632325431232973,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.13231895864009857,
+            "relative_std_error": 0.9997782111167908,
+            "covariance_mae": 0.06207536430830984,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-liver-male|liver-metastases": {
+          "joint_vae": {
+            "mean_mae": 0.13786768913269043,
+            "relative_std_error": 0.12708841264247894,
+            "covariance_mae": 0.05763712791022121,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4310706555843353,
+            "material_std_mean": 0.47736939787864685,
+            "disease_std_mean": 0.47976160049438477
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.1405202213312373,
+            "relative_std_error": 0.16331718645398133,
+            "covariance_mae": 0.05654944813363384,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.13231895864009857,
+            "relative_std_error": 0.9997782111167908,
+            "covariance_mae": 0.06207536430830984,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-lung-female|lung-cancer": {
+          "joint_vae": {
+            "mean_mae": 0.12182130664587021,
+            "relative_std_error": 0.12143570929765701,
+            "covariance_mae": 0.06963075773978016,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.44559246301651,
+            "material_std_mean": 0.4716356098651886,
+            "disease_std_mean": 0.4635958671569824
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.10962107910596108,
+            "relative_std_error": 0.12867226790994288,
+            "covariance_mae": 0.07023468329934886,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.10622356086969376,
+            "relative_std_error": 0.9997972846031189,
+            "covariance_mae": 0.07760900722804509,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-lung-female|lung-emphysema": {
+          "joint_vae": {
+            "mean_mae": 0.10000989586114883,
+            "relative_std_error": 0.14101070165634155,
+            "covariance_mae": 0.06978532441146942,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.44724759459495544,
+            "material_std_mean": 0.47454556822776794,
+            "disease_std_mean": 0.4752548933029175
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.11992007345088637,
+            "relative_std_error": 0.143963464829562,
+            "covariance_mae": 0.07081407677120262,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.10622356086969376,
+            "relative_std_error": 0.9997972846031189,
+            "covariance_mae": 0.07760900722804509,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-lung-male|lung-cancer": {
+          "joint_vae": {
+            "mean_mae": 0.16691528260707855,
+            "relative_std_error": 0.0958082377910614,
+            "covariance_mae": 0.06076629057054994,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.42441311478614807,
+            "material_std_mean": 0.4673680365085602,
+            "disease_std_mean": 0.47174447774887085
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.15542094415480848,
+            "relative_std_error": 0.0759791865501921,
+            "covariance_mae": 0.056545652672964686,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.1555899679660797,
+            "relative_std_error": 0.999791145324707,
+            "covariance_mae": 0.06679594750213684,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-lung-male|lung-emphysema": {
+          "joint_vae": {
+            "mean_mae": 0.15768806636333466,
+            "relative_std_error": 0.08062684535980225,
+            "covariance_mae": 0.058888225176553816,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4424090087413788,
+            "material_std_mean": 0.4658537209033966,
+            "disease_std_mean": 0.4817998707294464
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.1621153179952771,
+            "relative_std_error": 0.07974561901425331,
+            "covariance_mae": 0.05810973627776169,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.1555899679660797,
+            "relative_std_error": 0.999791145324707,
+            "covariance_mae": 0.06679594750213684,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-pancreas-female|pancreas-cancer": {
+          "joint_vae": {
+            "mean_mae": 0.08077912777662277,
+            "relative_std_error": 0.12505574524402618,
+            "covariance_mae": 0.06816667261693053,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.45879024267196655,
+            "material_std_mean": 0.46957919001579285,
+            "disease_std_mean": 0.46626874804496765
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.06565902048400261,
+            "relative_std_error": 0.1051526006664185,
+            "covariance_mae": 0.06789369983513967,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.07392139732837677,
+            "relative_std_error": 0.999799370765686,
+            "covariance_mae": 0.075170636848395,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-pancreas-female|pancreas-pancreatitis": {
+          "joint_vae": {
+            "mean_mae": 0.07462174445390701,
+            "relative_std_error": 0.12227284163236618,
+            "covariance_mae": 0.06502697415890661,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.43253660202026367,
+            "material_std_mean": 0.46687424182891846,
+            "disease_std_mean": 0.4605632424354553
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.09179991512609832,
+            "relative_std_error": 0.09660988808688514,
+            "covariance_mae": 0.06605609882576148,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.07392139732837677,
+            "relative_std_error": 0.999799370765686,
+            "covariance_mae": 0.075170636848395,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-pancreas-female|pancreas-pseudocyst": {
+          "joint_vae": {
+            "mean_mae": 0.07318336516618729,
+            "relative_std_error": 0.11190919578075409,
+            "covariance_mae": 0.06649208264166688,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4302692711353302,
+            "material_std_mean": 0.47277987003326416,
+            "disease_std_mean": 0.477022647857666
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.07379015795582071,
+            "relative_std_error": 0.0933864936084316,
+            "covariance_mae": 0.06745138562781068,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.07392139732837677,
+            "relative_std_error": 0.999799370765686,
+            "covariance_mae": 0.075170636848395,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-pancreas-male|pancreas-cancer": {
+          "joint_vae": {
+            "mean_mae": 0.11489398032426834,
+            "relative_std_error": 0.12726286053657532,
+            "covariance_mae": 0.06494728463728545,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4237646758556366,
+            "material_std_mean": 0.4573286473751068,
+            "disease_std_mean": 0.4703183174133301
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.11443137658057241,
+            "relative_std_error": 0.12340445078925705,
+            "covariance_mae": 0.06645906763302685,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.10050583630800247,
+            "relative_std_error": 0.9997968673706055,
+            "covariance_mae": 0.07291288039582557,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-pancreas-male|pancreas-pancreatitis": {
+          "joint_vae": {
+            "mean_mae": 0.10881665349006653,
+            "relative_std_error": 0.12329244613647461,
+            "covariance_mae": 0.06315034567394658,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4346769452095032,
+            "material_std_mean": 0.4582676887512207,
+            "disease_std_mean": 0.4768226444721222
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.10310814939462629,
+            "relative_std_error": 0.13317292860227706,
+            "covariance_mae": 0.06497715369064906,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.10050583630800247,
+            "relative_std_error": 0.9997968673706055,
+            "covariance_mae": 0.07291288039582557,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-pancreas-male|pancreas-pseudocyst": {
+          "joint_vae": {
+            "mean_mae": 0.11083853989839554,
+            "relative_std_error": 0.10904812067747116,
+            "covariance_mae": 0.06495728417833903,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4345080554485321,
+            "material_std_mean": 0.46540606021881104,
+            "disease_std_mean": 0.4734441936016083
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.11014559122321556,
+            "relative_std_error": 0.1276240113858715,
+            "covariance_mae": 0.06536140102671738,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.10050583630800247,
+            "relative_std_error": 0.9997968673706055,
+            "covariance_mae": 0.07291288039582557,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-small-intestine-female|small-intestine-crohn": {
+          "joint_vae": {
+            "mean_mae": 0.1069180890917778,
+            "relative_std_error": 0.15633797645568848,
+            "covariance_mae": 0.06522377702844531,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.44355088472366333,
+            "material_std_mean": 0.48267221450805664,
+            "disease_std_mean": 0.47003206610679626
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.1306734826052012,
+            "relative_std_error": 0.16300394817209815,
+            "covariance_mae": 0.06646724897525229,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.11225089430809021,
+            "relative_std_error": 0.9997901916503906,
+            "covariance_mae": 0.07186138854350967,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-small-intestine-female|small-intestine-net": {
+          "joint_vae": {
+            "mean_mae": 0.09856393933296204,
+            "relative_std_error": 0.13511021435260773,
+            "covariance_mae": 0.06444937254844335,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4407755434513092,
+            "material_std_mean": 0.4664713442325592,
+            "disease_std_mean": 0.48943376541137695
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.13912708958911557,
+            "relative_std_error": 0.15649998809964002,
+            "covariance_mae": 0.06395861144927682,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.11225089430809021,
+            "relative_std_error": 0.9997901916503906,
+            "covariance_mae": 0.07186138854350967,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-small-intestine-male|small-intestine-crohn": {
+          "joint_vae": {
+            "mean_mae": 0.12421881407499313,
+            "relative_std_error": 0.143864706158638,
+            "covariance_mae": 0.06240498980211263,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4357389807701111,
+            "material_std_mean": 0.46220460534095764,
+            "disease_std_mean": 0.45546701550483704
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.1389500399109488,
+            "relative_std_error": 0.11898739833083181,
+            "covariance_mae": 0.06225058406501419,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.12953080236911774,
+            "relative_std_error": 0.9997959733009338,
+            "covariance_mae": 0.06949201392527271,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-small-intestine-male|small-intestine-net": {
+          "joint_vae": {
+            "mean_mae": 0.1059795394539833,
+            "relative_std_error": 0.12381210923194885,
+            "covariance_mae": 0.06444714273101458,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4284268021583557,
+            "material_std_mean": 0.47268739342689514,
+            "disease_std_mean": 0.4719005227088928
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.14433273231430568,
+            "relative_std_error": 0.11113393669271213,
+            "covariance_mae": 0.06149667545613291,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.12953080236911774,
+            "relative_std_error": 0.9997959733009338,
+            "covariance_mae": 0.06949201392527271,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-spleen-female|spleen-infarct": {
+          "joint_vae": {
+            "mean_mae": 0.112680584192276,
+            "relative_std_error": 0.13350142538547516,
+            "covariance_mae": 0.061013717191987976,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4393060505390167,
+            "material_std_mean": 0.46721193194389343,
+            "disease_std_mean": 0.4806501567363739
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.10047618218113857,
+            "relative_std_error": 0.1256230995015191,
+            "covariance_mae": 0.06124038018097801,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.09607115387916565,
+            "relative_std_error": 0.9997919201850891,
+            "covariance_mae": 0.0685507422523844,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-spleen-female|spleen-cyst": {
+          "joint_vae": {
+            "mean_mae": 0.10016205161809921,
+            "relative_std_error": 0.12425590306520462,
+            "covariance_mae": 0.06161230848289495,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4438350796699524,
+            "material_std_mean": 0.46724605560302734,
+            "disease_std_mean": 0.47613245248794556
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.10547011097831867,
+            "relative_std_error": 0.12969512949903936,
+            "covariance_mae": 0.060533615740318444,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.09607115387916565,
+            "relative_std_error": 0.9997919201850891,
+            "covariance_mae": 0.0685507422523844,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-spleen-male|spleen-infarct": {
+          "joint_vae": {
+            "mean_mae": 0.11676228791475296,
+            "relative_std_error": 0.12412416189908981,
+            "covariance_mae": 0.06302038035778604,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.43485966324806213,
+            "material_std_mean": 0.4685344696044922,
+            "disease_std_mean": 0.47929102182388306
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.1072719436765294,
+            "relative_std_error": 0.12601306268440668,
+            "covariance_mae": 0.0645945547866531,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.10717052966356277,
+            "relative_std_error": 0.9997932314872742,
+            "covariance_mae": 0.07166362186480711,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-spleen-male|spleen-cyst": {
+          "joint_vae": {
+            "mean_mae": 0.11252295225858688,
+            "relative_std_error": 0.12536734342575073,
+            "covariance_mae": 0.06317363591436372,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.44390687346458435,
+            "material_std_mean": 0.464741587638855,
+            "disease_std_mean": 0.4713163375854492
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.12245865906117782,
+            "relative_std_error": 0.11751960396768252,
+            "covariance_mae": 0.06457273412471198,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.10717052966356277,
+            "relative_std_error": 0.9997932314872742,
+            "covariance_mae": 0.07166362186480711,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-urinary-bladder-female|bladder-cancer": {
+          "joint_vae": {
+            "mean_mae": 0.12907324731349945,
+            "relative_std_error": 0.11624655872583389,
+            "covariance_mae": 0.0639908822565611,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.44568559527397156,
+            "material_std_mean": 0.4538048207759857,
+            "disease_std_mean": 0.47217151522636414
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.1553788109277507,
+            "relative_std_error": 0.1363867244090208,
+            "covariance_mae": 0.06042690877885034,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.1488298922777176,
+            "relative_std_error": 0.9997813701629639,
+            "covariance_mae": 0.06980042180117363,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-urinary-bladder-female|bladder-diverticulum": {
+          "joint_vae": {
+            "mean_mae": 0.13956965506076813,
+            "relative_std_error": 0.10609471797943115,
+            "covariance_mae": 0.06155613772804121,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4503048062324524,
+            "material_std_mean": 0.48247113823890686,
+            "disease_std_mean": 0.486821711063385
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.15628715019666578,
+            "relative_std_error": 0.10870899907849287,
+            "covariance_mae": 0.06522615731835453,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.1488298922777176,
+            "relative_std_error": 0.9997813701629639,
+            "covariance_mae": 0.06980042180117363,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-urinary-bladder-male|bladder-cancer": {
+          "joint_vae": {
+            "mean_mae": 0.12245462089776993,
+            "relative_std_error": 0.14198945462703705,
+            "covariance_mae": 0.0605816149927293,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4415914714336395,
+            "material_std_mean": 0.46416762471199036,
+            "disease_std_mean": 0.47802814841270447
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.12384829273905497,
+            "relative_std_error": 0.16348681663533413,
+            "covariance_mae": 0.06100565952286929,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.12046022713184357,
+            "relative_std_error": 0.9997880458831787,
+            "covariance_mae": 0.06783333096207571,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-urinary-bladder-male|bladder-diverticulum": {
+          "joint_vae": {
+            "mean_mae": 0.11513953655958176,
+            "relative_std_error": 0.1545693725347519,
+            "covariance_mae": 0.05962713614340867,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4538794159889221,
+            "material_std_mean": 0.47427451610565186,
+            "disease_std_mean": 0.48769181966781616
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.12833222713797168,
+            "relative_std_error": 0.1812131395870815,
+            "covariance_mae": 0.06119344114013806,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.12046022713184357,
+            "relative_std_error": 0.9997880458831787,
+            "covariance_mae": 0.06783333096207571,
+            "unique_fraction": 0.0078125
+          }
+        }
+      },
+      "macro": {
+        "joint_vae": {
+          "mean_mae": 0.12272162906624176,
+          "relative_std_error": 0.12672766439012578,
+          "covariance_mae": 0.062264415153225956,
+          "unique_fraction": 1.0
+        },
+        "factorized_control_gaussian": {
+          "mean_mae": 0.12603712963630825,
+          "relative_std_error": 0.12659440336864264,
+          "covariance_mae": 0.062297614221777556,
+          "unique_fraction": 1.0
+        },
+        "condition_mean": {
+          "mean_mae": 0.12003938365425612,
+          "relative_std_error": 0.999792069196701,
+          "covariance_mae": 0.0715164455798661,
+          "unique_fraction": 0.0078125
+        }
+      }
+    }
+  },
+  "audit": {
+    "reconstruction": {
+      "shape_control_mae": 0.09583936274150295,
+      "material_control_mae": 0.08943055963270759,
+      "disease_control_mae": 0.13785741306486585,
+      "control_loss": 0.051475001952132664,
+      "observation_head_loss": 1.3792349196769096,
+      "render_surrogate_consistency_loss": 0.9928253543883216,
+      "kl_per_latent": 0.8831267016274589,
+      "active_latents_within_condition": 24,
+      "geometry_normalized_rmse": 0.013690784573554993,
+      "colour_linear_rgb_rmse": 0.011025559157133102,
+      "roughness_rmse": 0.013530438765883446,
+      "surrogate_geometry_normalized_rmse": 0.013961070217192173,
+      "surrogate_colour_linear_rgb_rmse": 0.010959078557789326
+    },
+    "prior": {
+      "per_condition": {
+        "bp3d-gallbladder-male|baseline": {
+          "joint_vae": {
+            "mean_mae": 0.15006349980831146,
+            "relative_std_error": 0.14195658266544342,
+            "covariance_mae": 0.07100148556968164,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.42813605070114136,
+            "material_std_mean": 0.4680086672306061,
+            "disease_std_mean": 0.0
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.15116367469126596,
+            "relative_std_error": 0.1121016200526271,
+            "covariance_mae": 0.07328213435341861,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.14328348636627197,
+            "relative_std_error": 0.9998006224632263,
+            "covariance_mae": 0.08697956517284344,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "bp3d-stomach-male|baseline": {
+          "joint_vae": {
+            "mean_mae": 0.13492321968078613,
+            "relative_std_error": 0.08576644957065582,
+            "covariance_mae": 0.05226091975079689,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.42554253339767456,
+            "material_std_mean": 0.498561829328537,
+            "disease_std_mean": 0.0
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.12754793815309104,
+            "relative_std_error": 0.10827125537261911,
+            "covariance_mae": 0.048245174301698016,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.11901696771383286,
+            "relative_std_error": 0.9997845888137817,
+            "covariance_mae": 0.061387719867013586,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-brain-female|baseline": {
+          "joint_vae": {
+            "mean_mae": 0.09543775767087936,
+            "relative_std_error": 0.14483019709587097,
+            "covariance_mae": 0.062444898889424144,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4246789515018463,
+            "material_std_mean": 0.47699999809265137,
+            "disease_std_mean": 0.0
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.10982418244861589,
+            "relative_std_error": 0.11240699406177557,
+            "covariance_mae": 0.06111700634385364,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.10857315361499786,
+            "relative_std_error": 0.9998055696487427,
+            "covariance_mae": 0.07965466829463111,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-brain-male|baseline": {
+          "joint_vae": {
+            "mean_mae": 0.1137709766626358,
+            "relative_std_error": 0.13740606606006622,
+            "covariance_mae": 0.06242613085959648,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4254816174507141,
+            "material_std_mean": 0.4761158525943756,
+            "disease_std_mean": 0.0
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.11459715423165309,
+            "relative_std_error": 0.13567474662050802,
+            "covariance_mae": 0.06189953884647824,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.1136680394411087,
+            "relative_std_error": 0.9997888207435608,
+            "covariance_mae": 0.07512796364781335,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-heart-female|baseline": {
+          "joint_vae": {
+            "mean_mae": 0.1513472944498062,
+            "relative_std_error": 0.15351665019989014,
+            "covariance_mae": 0.06979511198703278,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4322022497653961,
+            "material_std_mean": 0.4685537815093994,
+            "disease_std_mean": 0.0
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.13724460279032616,
+            "relative_std_error": 0.1421572042598228,
+            "covariance_mae": 0.07368946289039152,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.1450398862361908,
+            "relative_std_error": 0.9998063445091248,
+            "covariance_mae": 0.08454473273526542,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-heart-male|baseline": {
+          "joint_vae": {
+            "mean_mae": 0.09821541607379913,
+            "relative_std_error": 0.12958715856075287,
+            "covariance_mae": 0.06030547743175755,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4282524585723877,
+            "material_std_mean": 0.46105825901031494,
+            "disease_std_mean": 0.0
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.08777425308768264,
+            "relative_std_error": 0.1489260755841964,
+            "covariance_mae": 0.05739500211800688,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.10298245400190353,
+            "relative_std_error": 0.9997867941856384,
+            "covariance_mae": 0.06902224255195802,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-kidney-female-left|baseline": {
+          "joint_vae": {
+            "mean_mae": 0.13174350559711456,
+            "relative_std_error": 0.12343112379312515,
+            "covariance_mae": 0.05926495337312269,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4211558699607849,
+            "material_std_mean": 0.48005175590515137,
+            "disease_std_mean": 0.0
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.1463246047593401,
+            "relative_std_error": 0.094203502118006,
+            "covariance_mae": 0.05835493561505747,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.13576200604438782,
+            "relative_std_error": 0.9997962713241577,
+            "covariance_mae": 0.07502297727496404,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-kidney-female-right|baseline": {
+          "joint_vae": {
+            "mean_mae": 0.1027742326259613,
+            "relative_std_error": 0.12821072340011597,
+            "covariance_mae": 0.061681513119172526,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4243237376213074,
+            "material_std_mean": 0.46954694390296936,
+            "disease_std_mean": 0.0
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.11055393867055405,
+            "relative_std_error": 0.10364224708680284,
+            "covariance_mae": 0.0642107686084657,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.09088675677776337,
+            "relative_std_error": 0.999789297580719,
+            "covariance_mae": 0.0771956546008752,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-kidney-male-left|baseline": {
+          "joint_vae": {
+            "mean_mae": 0.11212588101625443,
+            "relative_std_error": 0.14574401080608368,
+            "covariance_mae": 0.06342131705506296,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.44634634256362915,
+            "material_std_mean": 0.4748965799808502,
+            "disease_std_mean": 0.0
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.11233859097716906,
+            "relative_std_error": 0.12650916060617712,
+            "covariance_mae": 0.06276096578811266,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.1011086255311966,
+            "relative_std_error": 0.9997900724411011,
+            "covariance_mae": 0.07810471273789626,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-kidney-male-right|baseline": {
+          "joint_vae": {
+            "mean_mae": 0.14621275663375854,
+            "relative_std_error": 0.16354256868362427,
+            "covariance_mae": 0.06489019145020182,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.45526203513145447,
+            "material_std_mean": 0.4693419933319092,
+            "disease_std_mean": 0.0
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.14507730053788706,
+            "relative_std_error": 0.12342206319414603,
+            "covariance_mae": 0.06606974754440442,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.14247339963912964,
+            "relative_std_error": 0.9997923374176025,
+            "covariance_mae": 0.07838750050776383,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-large-intestine-female|baseline": {
+          "joint_vae": {
+            "mean_mae": 0.1242048591375351,
+            "relative_std_error": 0.13298653066158295,
+            "covariance_mae": 0.07115510198832323,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4331848621368408,
+            "material_std_mean": 0.4871300756931305,
+            "disease_std_mean": 0.0
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.10948530168172114,
+            "relative_std_error": 0.11197540855560179,
+            "covariance_mae": 0.0713842808060248,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.12039653956890106,
+            "relative_std_error": 0.9998089671134949,
+            "covariance_mae": 0.08763204199936628,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-large-intestine-male|baseline": {
+          "joint_vae": {
+            "mean_mae": 0.11587072908878326,
+            "relative_std_error": 0.1270105242729187,
+            "covariance_mae": 0.05989924799882539,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.42834416031837463,
+            "material_std_mean": 0.4712395668029785,
+            "disease_std_mean": 0.0
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.13442777249445775,
+            "relative_std_error": 0.10828999177355943,
+            "covariance_mae": 0.05681996663183424,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.11839665472507477,
+            "relative_std_error": 0.9997918605804443,
+            "covariance_mae": 0.07194560744070977,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-liver-female|baseline": {
+          "joint_vae": {
+            "mean_mae": 0.0833444595336914,
+            "relative_std_error": 0.14100822806358337,
+            "covariance_mae": 0.07450902915638036,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4406304359436035,
+            "material_std_mean": 0.4658559560775757,
+            "disease_std_mean": 0.0
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.08536893325343627,
+            "relative_std_error": 0.13983729118016194,
+            "covariance_mae": 0.07185283204956631,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.08751886337995529,
+            "relative_std_error": 0.9997982382774353,
+            "covariance_mae": 0.08654977005208275,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-liver-male|baseline": {
+          "joint_vae": {
+            "mean_mae": 0.09818409383296967,
+            "relative_std_error": 0.15215648710727692,
+            "covariance_mae": 0.06304987849362062,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4282204806804657,
+            "material_std_mean": 0.4821377694606781,
+            "disease_std_mean": 0.0
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.07848971407199125,
+            "relative_std_error": 0.10920147997613573,
+            "covariance_mae": 0.061908279007080215,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.07910026609897614,
+            "relative_std_error": 0.9997983574867249,
+            "covariance_mae": 0.07735928217013625,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-lung-female|baseline": {
+          "joint_vae": {
+            "mean_mae": 0.11334417760372162,
+            "relative_std_error": 0.0885913074016571,
+            "covariance_mae": 0.05690426854618141,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.43599656224250793,
+            "material_std_mean": 0.4873817265033722,
+            "disease_std_mean": 0.0
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.07895535764744527,
+            "relative_std_error": 0.14002919499867364,
+            "covariance_mae": 0.05887798901550902,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.09769947081804276,
+            "relative_std_error": 0.9997807145118713,
+            "covariance_mae": 0.06813183682635124,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-lung-male|baseline": {
+          "joint_vae": {
+            "mean_mae": 0.13424798846244812,
+            "relative_std_error": 0.11738932132720947,
+            "covariance_mae": 0.06100334158722451,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4341159164905548,
+            "material_std_mean": 0.47648119926452637,
+            "disease_std_mean": 0.0
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.15409911282052452,
+            "relative_std_error": 0.07204507526339805,
+            "covariance_mae": 0.06106956474057183,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.13907277584075928,
+            "relative_std_error": 0.9997963309288025,
+            "covariance_mae": 0.07543719205862824,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-pancreas-female|baseline": {
+          "joint_vae": {
+            "mean_mae": 0.12619319558143616,
+            "relative_std_error": 0.11247691512107849,
+            "covariance_mae": 0.058517120983218734,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4380778670310974,
+            "material_std_mean": 0.47043368220329285,
+            "disease_std_mean": 0.0
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.12293021711121785,
+            "relative_std_error": 0.13614876608174725,
+            "covariance_mae": 0.05373679475468971,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.11549185961484909,
+            "relative_std_error": 0.999788224697113,
+            "covariance_mae": 0.06557191927811894,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-pancreas-male|baseline": {
+          "joint_vae": {
+            "mean_mae": 0.15432333946228027,
+            "relative_std_error": 0.07362128794193268,
+            "covariance_mae": 0.060912450593115994,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.43959641456604004,
+            "material_std_mean": 0.460033655166626,
+            "disease_std_mean": 0.0
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.1497454183926976,
+            "relative_std_error": 0.11332249978544859,
+            "covariance_mae": 0.05721581851905762,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.14056606590747833,
+            "relative_std_error": 0.9997901916503906,
+            "covariance_mae": 0.07165093832582953,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-small-intestine-female|baseline": {
+          "joint_vae": {
+            "mean_mae": 0.0976657047867775,
+            "relative_std_error": 0.1336742490530014,
+            "covariance_mae": 0.056101813963664815,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4425181746482849,
+            "material_std_mean": 0.48188841342926025,
+            "disease_std_mean": 0.0
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.11735712203912387,
+            "relative_std_error": 0.188276672953779,
+            "covariance_mae": 0.05790653503677612,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.10927259176969528,
+            "relative_std_error": 0.9997798204421997,
+            "covariance_mae": 0.06573576369169891,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-small-intestine-male|baseline": {
+          "joint_vae": {
+            "mean_mae": 0.12617146968841553,
+            "relative_std_error": 0.13017144799232483,
+            "covariance_mae": 0.06722229935846957,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4173727035522461,
+            "material_std_mean": 0.4708891212940216,
+            "disease_std_mean": 0.0
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.10357502655311655,
+            "relative_std_error": 0.12429395858349554,
+            "covariance_mae": 0.06462745601300426,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.0879092589020729,
+            "relative_std_error": 0.9997931122779846,
+            "covariance_mae": 0.07903432398626371,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-spleen-female|baseline": {
+          "joint_vae": {
+            "mean_mae": 0.18209673464298248,
+            "relative_std_error": 0.13726231455802917,
+            "covariance_mae": 0.05686553975726068,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4285169541835785,
+            "material_std_mean": 0.4742068350315094,
+            "disease_std_mean": 0.0
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.15611346594142556,
+            "relative_std_error": 0.15409946494317478,
+            "covariance_mae": 0.05650192552768397,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.16808678209781647,
+            "relative_std_error": 0.9997855424880981,
+            "covariance_mae": 0.07013456519434857,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-spleen-male|baseline": {
+          "joint_vae": {
+            "mean_mae": 0.12591508030891418,
+            "relative_std_error": 0.1168273538351059,
+            "covariance_mae": 0.06673321577507467,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4588591158390045,
+            "material_std_mean": 0.47559046745300293,
+            "disease_std_mean": 0.0
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.08812885371633168,
+            "relative_std_error": 0.08970523494791949,
+            "covariance_mae": 0.06291733954605125,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.11300498992204666,
+            "relative_std_error": 0.9998045563697815,
+            "covariance_mae": 0.08070396761995573,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-urinary-bladder-female|baseline": {
+          "joint_vae": {
+            "mean_mae": 0.16097551584243774,
+            "relative_std_error": 0.13540424406528473,
+            "covariance_mae": 0.060660211710552615,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.43272486329078674,
+            "material_std_mean": 0.47890424728393555,
+            "disease_std_mean": 0.0
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.12365659800451335,
+            "relative_std_error": 0.10910003684017536,
+            "covariance_mae": 0.05542018838278843,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.13935747742652893,
+            "relative_std_error": 0.9997928142547607,
+            "covariance_mae": 0.07210172239674931,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-urinary-bladder-male|baseline": {
+          "joint_vae": {
+            "mean_mae": 0.124460369348526,
+            "relative_std_error": 0.12006194144487381,
+            "covariance_mae": 0.05844818529245841,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4242878258228302,
+            "material_std_mean": 0.49168407917022705,
+            "disease_std_mean": 0.0
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.10133854929027104,
+            "relative_std_error": 0.1475295945991004,
+            "covariance_mae": 0.05712496370355771,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.13133016228675842,
+            "relative_std_error": 0.9997844696044922,
+            "covariance_mae": 0.07050324936187922,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "bp3d-gallbladder-male|gallbladder-cholecystitis": {
+          "joint_vae": {
+            "mean_mae": 0.15016290545463562,
+            "relative_std_error": 0.13767972588539124,
+            "covariance_mae": 0.06289168680772776,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4324965476989746,
+            "material_std_mean": 0.44794610142707825,
+            "disease_std_mean": 0.47345107793807983
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.14780003894689783,
+            "relative_std_error": 0.1366084747836731,
+            "covariance_mae": 0.06257863570418633,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.14888888597488403,
+            "relative_std_error": 0.9997919201850891,
+            "covariance_mae": 0.07021349749920806,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "bp3d-gallbladder-male|gallbladder-carcinoma": {
+          "joint_vae": {
+            "mean_mae": 0.16352614760398865,
+            "relative_std_error": 0.14808832108974457,
+            "covariance_mae": 0.06450444094229246,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.42661958932876587,
+            "material_std_mean": 0.46693480014801025,
+            "disease_std_mean": 0.4766624867916107
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.1619403098743844,
+            "relative_std_error": 0.12635157953666787,
+            "covariance_mae": 0.06333605775226697,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.14888888597488403,
+            "relative_std_error": 0.9997919201850891,
+            "covariance_mae": 0.07021349749920806,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "bp3d-stomach-male|stomach-adenocarcinoma": {
+          "joint_vae": {
+            "mean_mae": 0.1330137699842453,
+            "relative_std_error": 0.1086544319987297,
+            "covariance_mae": 0.05680008083079772,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4330165684223175,
+            "material_std_mean": 0.47489750385284424,
+            "disease_std_mean": 0.47932326793670654
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.13955585686425162,
+            "relative_std_error": 0.11239020815730281,
+            "covariance_mae": 0.05569258788619621,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.13265776634216309,
+            "relative_std_error": 0.9997924566268921,
+            "covariance_mae": 0.06407875014129413,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "bp3d-stomach-male|stomach-gist": {
+          "joint_vae": {
+            "mean_mae": 0.14502471685409546,
+            "relative_std_error": 0.1145421490073204,
+            "covariance_mae": 0.055842476804573736,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4387761652469635,
+            "material_std_mean": 0.48535311222076416,
+            "disease_std_mean": 0.49598726630210876
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.12605137825705473,
+            "relative_std_error": 0.13315803013298574,
+            "covariance_mae": 0.058161102468771896,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.13265776634216309,
+            "relative_std_error": 0.9997924566268921,
+            "covariance_mae": 0.06407875014129413,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-brain-female|brain-meningioma": {
+          "joint_vae": {
+            "mean_mae": 0.09884843975305557,
+            "relative_std_error": 0.1475197672843933,
+            "covariance_mae": 0.0708013875356839,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.41847893595695496,
+            "material_std_mean": 0.475566029548645,
+            "disease_std_mean": 0.4538671672344208
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.12405949038818785,
+            "relative_std_error": 0.1184229090360435,
+            "covariance_mae": 0.07193190301135433,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.11116287857294083,
+            "relative_std_error": 0.999803364276886,
+            "covariance_mae": 0.07806706138020482,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-brain-female|brain-glioblastoma": {
+          "joint_vae": {
+            "mean_mae": 0.1221369057893753,
+            "relative_std_error": 0.12777484953403473,
+            "covariance_mae": 0.06947484057880594,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.43195557594299316,
+            "material_std_mean": 0.4656006991863251,
+            "disease_std_mean": 0.47239017486572266
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.10535516956630012,
+            "relative_std_error": 0.12301486201317692,
+            "covariance_mae": 0.07000973876250409,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.11116287857294083,
+            "relative_std_error": 0.999803364276886,
+            "covariance_mae": 0.07806706138020482,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-brain-male|brain-meningioma": {
+          "joint_vae": {
+            "mean_mae": 0.12516067922115326,
+            "relative_std_error": 0.1404150128364563,
+            "covariance_mae": 0.056506881954191575,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.42467328906059265,
+            "material_std_mean": 0.46505746245384216,
+            "disease_std_mean": 0.46772342920303345
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.12646295392158086,
+            "relative_std_error": 0.1443150632196933,
+            "covariance_mae": 0.05795423661124186,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.1339847892522812,
+            "relative_std_error": 0.9997848272323608,
+            "covariance_mae": 0.06403515596131634,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-brain-male|brain-glioblastoma": {
+          "joint_vae": {
+            "mean_mae": 0.14727865159511566,
+            "relative_std_error": 0.16910859942436218,
+            "covariance_mae": 0.0591131035010179,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.41081199049949646,
+            "material_std_mean": 0.4600392282009125,
+            "disease_std_mean": 0.47449275851249695
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.13597872396923832,
+            "relative_std_error": 0.14119572480983902,
+            "covariance_mae": 0.05625702422312396,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.1339847892522812,
+            "relative_std_error": 0.9997848272323608,
+            "covariance_mae": 0.06403515596131634,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-heart-female|heart-infarction": {
+          "joint_vae": {
+            "mean_mae": 0.12705223262310028,
+            "relative_std_error": 0.12668250501155853,
+            "covariance_mae": 0.06155529241922927,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4303765594959259,
+            "material_std_mean": 0.4782008230686188,
+            "disease_std_mean": 0.4783920645713806
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.11838807849449143,
+            "relative_std_error": 0.14021975784356208,
+            "covariance_mae": 0.06264129001320679,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.12582892179489136,
+            "relative_std_error": 0.9997954964637756,
+            "covariance_mae": 0.0691326422337913,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-heart-male|heart-infarction": {
+          "joint_vae": {
+            "mean_mae": 0.12190156430006027,
+            "relative_std_error": 0.13287286460399628,
+            "covariance_mae": 0.06035919791605345,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.43910881876945496,
+            "material_std_mean": 0.4574991762638092,
+            "disease_std_mean": 0.46971023082733154
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.12306310953484591,
+            "relative_std_error": 0.16580016057849425,
+            "covariance_mae": 0.058494828263298444,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.12268421798944473,
+            "relative_std_error": 0.9997882843017578,
+            "covariance_mae": 0.06577511236280317,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-kidney-female-left|kidney-cancer": {
+          "joint_vae": {
+            "mean_mae": 0.140428826212883,
+            "relative_std_error": 0.09973848611116409,
+            "covariance_mae": 0.060807623456230225,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.44867756962776184,
+            "material_std_mean": 0.4733147621154785,
+            "disease_std_mean": 0.46986129879951477
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.1386543689102335,
+            "relative_std_error": 0.07411812186628398,
+            "covariance_mae": 0.06076739912992152,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.13362394273281097,
+            "relative_std_error": 0.99979567527771,
+            "covariance_mae": 0.06758747433043578,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-kidney-female-left|kidney-polycystic": {
+          "joint_vae": {
+            "mean_mae": 0.13246490061283112,
+            "relative_std_error": 0.0848323330283165,
+            "covariance_mae": 0.05833618754674056,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.44642096757888794,
+            "material_std_mean": 0.4709106683731079,
+            "disease_std_mean": 0.4829671084880829
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.1441912821195119,
+            "relative_std_error": 0.08207955847338247,
+            "covariance_mae": 0.060015788462687375,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.13362394273281097,
+            "relative_std_error": 0.99979567527771,
+            "covariance_mae": 0.06758747433043578,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-kidney-female-right|kidney-cancer": {
+          "joint_vae": {
+            "mean_mae": 0.1256737858057022,
+            "relative_std_error": 0.13832367956638336,
+            "covariance_mae": 0.0578653447232751,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4332517981529236,
+            "material_std_mean": 0.46551942825317383,
+            "disease_std_mean": 0.45793187618255615
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.12735162851661253,
+            "relative_std_error": 0.12425671134395984,
+            "covariance_mae": 0.05964022850986085,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.11546392738819122,
+            "relative_std_error": 0.9997913241386414,
+            "covariance_mae": 0.06469938346709342,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-kidney-female-right|kidney-polycystic": {
+          "joint_vae": {
+            "mean_mae": 0.125947967171669,
+            "relative_std_error": 0.1253432184457779,
+            "covariance_mae": 0.05795257961426018,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.44825366139411926,
+            "material_std_mean": 0.45621824264526367,
+            "disease_std_mean": 0.4698221981525421
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.11397746209782528,
+            "relative_std_error": 0.1140462011566259,
+            "covariance_mae": 0.05674673897885092,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.11546392738819122,
+            "relative_std_error": 0.9997913241386414,
+            "covariance_mae": 0.06469938346709342,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-kidney-male-left|kidney-cancer": {
+          "joint_vae": {
+            "mean_mae": 0.09963098168373108,
+            "relative_std_error": 0.12258612364530563,
+            "covariance_mae": 0.061234283911618025,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4460681080818176,
+            "material_std_mean": 0.46442118287086487,
+            "disease_std_mean": 0.46725162863731384
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.10737357581272629,
+            "relative_std_error": 0.1310092592251242,
+            "covariance_mae": 0.05994626335823834,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.09784731268882751,
+            "relative_std_error": 0.9997915029525757,
+            "covariance_mae": 0.06765449340779511,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-kidney-male-left|kidney-polycystic": {
+          "joint_vae": {
+            "mean_mae": 0.09715237468481064,
+            "relative_std_error": 0.12824901938438416,
+            "covariance_mae": 0.05873647311934452,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.43233203887939453,
+            "material_std_mean": 0.4720880687236786,
+            "disease_std_mean": 0.4611911177635193
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.10434585248354654,
+            "relative_std_error": 0.11992213374260792,
+            "covariance_mae": 0.059838615587326976,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.09784731268882751,
+            "relative_std_error": 0.9997915029525757,
+            "covariance_mae": 0.06765449340779511,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-kidney-male-right|kidney-cancer": {
+          "joint_vae": {
+            "mean_mae": 0.13270960748195648,
+            "relative_std_error": 0.1421896070241928,
+            "covariance_mae": 0.06012838916152521,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4472707211971283,
+            "material_std_mean": 0.4579639434814453,
+            "disease_std_mean": 0.4898427724838257
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.13633432576151042,
+            "relative_std_error": 0.13047431311818167,
+            "covariance_mae": 0.06265044811765015,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.12998177111148834,
+            "relative_std_error": 0.999783456325531,
+            "covariance_mae": 0.06755764155606196,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-kidney-male-right|kidney-polycystic": {
+          "joint_vae": {
+            "mean_mae": 0.1292802393436432,
+            "relative_std_error": 0.12756787240505219,
+            "covariance_mae": 0.06101134880137788,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.45913174748420715,
+            "material_std_mean": 0.4628361761569977,
+            "disease_std_mean": 0.4729652404785156
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.13798196527252257,
+            "relative_std_error": 0.15141434174887072,
+            "covariance_mae": 0.062285170797701454,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.12998177111148834,
+            "relative_std_error": 0.999783456325531,
+            "covariance_mae": 0.06755764155606196,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-large-intestine-female|colon-cancer": {
+          "joint_vae": {
+            "mean_mae": 0.10920703411102295,
+            "relative_std_error": 0.11950499564409256,
+            "covariance_mae": 0.06829912466726391,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4494125247001648,
+            "material_std_mean": 0.4700123965740204,
+            "disease_std_mean": 0.45454058051109314
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.12414474470509579,
+            "relative_std_error": 0.09900530340896395,
+            "covariance_mae": 0.06445411079085783,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.117845818400383,
+            "relative_std_error": 0.9997985363006592,
+            "covariance_mae": 0.07230088212601882,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-large-intestine-female|colon-diverticulosis": {
+          "joint_vae": {
+            "mean_mae": 0.11072557419538498,
+            "relative_std_error": 0.1268652081489563,
+            "covariance_mae": 0.06259660065188226,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.42334192991256714,
+            "material_std_mean": 0.46301552653312683,
+            "disease_std_mean": 0.47000089287757874
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.13000713708890796,
+            "relative_std_error": 0.10470584117116655,
+            "covariance_mae": 0.06625714198849061,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.117845818400383,
+            "relative_std_error": 0.9997985363006592,
+            "covariance_mae": 0.07230088212601882,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-large-intestine-male|colon-cancer": {
+          "joint_vae": {
+            "mean_mae": 0.1104423925280571,
+            "relative_std_error": 0.09763526171445847,
+            "covariance_mae": 0.060274378346045994,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.42886286973953247,
+            "material_std_mean": 0.4711902141571045,
+            "disease_std_mean": 0.4678027331829071
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.12243097294705028,
+            "relative_std_error": 0.10027840413118304,
+            "covariance_mae": 0.06025047953356022,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.12396490573883057,
+            "relative_std_error": 0.9997913837432861,
+            "covariance_mae": 0.06814199011514153,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-large-intestine-male|colon-diverticulosis": {
+          "joint_vae": {
+            "mean_mae": 0.10802514851093292,
+            "relative_std_error": 0.10288004577159882,
+            "covariance_mae": 0.059344013800202926,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4416925609111786,
+            "material_std_mean": 0.4612370431423187,
+            "disease_std_mean": 0.4777466356754303
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.11184271830670482,
+            "relative_std_error": 0.10491854626716149,
+            "covariance_mae": 0.06260017848084458,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.12396490573883057,
+            "relative_std_error": 0.9997913837432861,
+            "covariance_mae": 0.06814199011514153,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-liver-female|liver-cirrhosis": {
+          "joint_vae": {
+            "mean_mae": 0.12626531720161438,
+            "relative_std_error": 0.1220562532544136,
+            "covariance_mae": 0.06495076294157409,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4335991442203522,
+            "material_std_mean": 0.4665270745754242,
+            "disease_std_mean": 0.4776040315628052
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.12856237811922067,
+            "relative_std_error": 0.12826408172687703,
+            "covariance_mae": 0.0649536941131774,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.12383896857500076,
+            "relative_std_error": 0.9997931122779846,
+            "covariance_mae": 0.07233692847615719,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-liver-female|liver-hcc": {
+          "joint_vae": {
+            "mean_mae": 0.13224384188652039,
+            "relative_std_error": 0.1302945911884308,
+            "covariance_mae": 0.06374679989594384,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.44599875807762146,
+            "material_std_mean": 0.46395793557167053,
+            "disease_std_mean": 0.4749924838542938
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.12872457787627278,
+            "relative_std_error": 0.12556525977468944,
+            "covariance_mae": 0.06517853830134795,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.12383896857500076,
+            "relative_std_error": 0.9997931122779846,
+            "covariance_mae": 0.07233692847615719,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-liver-female|liver-metastases": {
+          "joint_vae": {
+            "mean_mae": 0.1201421320438385,
+            "relative_std_error": 0.1330636590719223,
+            "covariance_mae": 0.06265639634282849,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4431452751159668,
+            "material_std_mean": 0.4731036126613617,
+            "disease_std_mean": 0.46609199047088623
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.14290212819547338,
+            "relative_std_error": 0.13139583311326936,
+            "covariance_mae": 0.06444161158369471,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.12383896857500076,
+            "relative_std_error": 0.9997931122779846,
+            "covariance_mae": 0.07233692847615719,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-liver-male|liver-cirrhosis": {
+          "joint_vae": {
+            "mean_mae": 0.09688713401556015,
+            "relative_std_error": 0.12646976113319397,
+            "covariance_mae": 0.061871717995242596,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4250660538673401,
+            "material_std_mean": 0.46853384375572205,
+            "disease_std_mean": 0.46655014157295227
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.08790192380112591,
+            "relative_std_error": 0.09596774906608395,
+            "covariance_mae": 0.06513850180254054,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.09158351272344589,
+            "relative_std_error": 0.9997959733009338,
+            "covariance_mae": 0.07104268047804228,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-liver-male|liver-hcc": {
+          "joint_vae": {
+            "mean_mae": 0.10693954676389694,
+            "relative_std_error": 0.11867277324199677,
+            "covariance_mae": 0.060369764249951885,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.42988401651382446,
+            "material_std_mean": 0.49331188201904297,
+            "disease_std_mean": 0.4759601950645447
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.11086844283628619,
+            "relative_std_error": 0.11110698954430238,
+            "covariance_mae": 0.06324140884840082,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.09158351272344589,
+            "relative_std_error": 0.9997959733009338,
+            "covariance_mae": 0.07104268047804228,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-liver-male|liver-metastases": {
+          "joint_vae": {
+            "mean_mae": 0.09535055607557297,
+            "relative_std_error": 0.10807526111602783,
+            "covariance_mae": 0.0644363251162718,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4310706555843353,
+            "material_std_mean": 0.47736939787864685,
+            "disease_std_mean": 0.47976160049438477
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.10059141516918903,
+            "relative_std_error": 0.1404186551779013,
+            "covariance_mae": 0.06275650063045092,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.09158351272344589,
+            "relative_std_error": 0.9997959733009338,
+            "covariance_mae": 0.07104268047804228,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-lung-female|lung-cancer": {
+          "joint_vae": {
+            "mean_mae": 0.1309976428747177,
+            "relative_std_error": 0.14783211052417755,
+            "covariance_mae": 0.06407033889703431,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.44559246301651,
+            "material_std_mean": 0.4716356098651886,
+            "disease_std_mean": 0.4635958671569824
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.1158081328953275,
+            "relative_std_error": 0.15157737830599397,
+            "covariance_mae": 0.06616438498813335,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.10853565484285355,
+            "relative_std_error": 0.9997861981391907,
+            "covariance_mae": 0.07131055627193975,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-lung-female|lung-emphysema": {
+          "joint_vae": {
+            "mean_mae": 0.11280571669340134,
+            "relative_std_error": 0.15038079023361206,
+            "covariance_mae": 0.06326435350940791,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.44724759459495544,
+            "material_std_mean": 0.47454556822776794,
+            "disease_std_mean": 0.4752548933029175
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.10968232828776535,
+            "relative_std_error": 0.1729952995289686,
+            "covariance_mae": 0.0650145397264439,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.10853565484285355,
+            "relative_std_error": 0.9997861981391907,
+            "covariance_mae": 0.07131055627193975,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-lung-male|lung-cancer": {
+          "joint_vae": {
+            "mean_mae": 0.1309986412525177,
+            "relative_std_error": 0.10914237797260284,
+            "covariance_mae": 0.06323691273828413,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.42441311478614807,
+            "material_std_mean": 0.4673680365085602,
+            "disease_std_mean": 0.47174447774887085
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.13387463429454524,
+            "relative_std_error": 0.10075775785212313,
+            "covariance_mae": 0.06135973671572148,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.1354915201663971,
+            "relative_std_error": 0.9997990131378174,
+            "covariance_mae": 0.07097085740969997,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-lung-male|lung-emphysema": {
+          "joint_vae": {
+            "mean_mae": 0.14290685951709747,
+            "relative_std_error": 0.10290892422199249,
+            "covariance_mae": 0.06243473438292376,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4424090087413788,
+            "material_std_mean": 0.4658537209033966,
+            "disease_std_mean": 0.4817998707294464
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.13947477619304172,
+            "relative_std_error": 0.10887231397712997,
+            "covariance_mae": 0.060312597409798004,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.1354915201663971,
+            "relative_std_error": 0.9997990131378174,
+            "covariance_mae": 0.07097085740969997,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-pancreas-female|pancreas-cancer": {
+          "joint_vae": {
+            "mean_mae": 0.11981905251741409,
+            "relative_std_error": 0.10769908130168915,
+            "covariance_mae": 0.05502888536860515,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.45879024267196655,
+            "material_std_mean": 0.46957919001579285,
+            "disease_std_mean": 0.46626874804496765
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.11701354633247046,
+            "relative_std_error": 0.14000351967553593,
+            "covariance_mae": 0.055506491569938074,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.11580740660429001,
+            "relative_std_error": 0.9997777342796326,
+            "covariance_mae": 0.05954391184203419,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-pancreas-female|pancreas-pancreatitis": {
+          "joint_vae": {
+            "mean_mae": 0.11081671714782715,
+            "relative_std_error": 0.12918096780776978,
+            "covariance_mae": 0.05450652054187431,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.43253660202026367,
+            "material_std_mean": 0.46687424182891846,
+            "disease_std_mean": 0.4605632424354553
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.12312062757531561,
+            "relative_std_error": 0.1552110961190569,
+            "covariance_mae": 0.056414041801011186,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.11580740660429001,
+            "relative_std_error": 0.9997777342796326,
+            "covariance_mae": 0.05954391184203419,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-pancreas-female|pancreas-pseudocyst": {
+          "joint_vae": {
+            "mean_mae": 0.11660677939653397,
+            "relative_std_error": 0.14193445444107056,
+            "covariance_mae": 0.055408538811745615,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4302692711353302,
+            "material_std_mean": 0.47277987003326416,
+            "disease_std_mean": 0.477022647857666
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.12092623040913225,
+            "relative_std_error": 0.13906039007960513,
+            "covariance_mae": 0.05454228860539115,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.11580740660429001,
+            "relative_std_error": 0.9997777342796326,
+            "covariance_mae": 0.05954391184203419,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-pancreas-male|pancreas-cancer": {
+          "joint_vae": {
+            "mean_mae": 0.11819417029619217,
+            "relative_std_error": 0.12189435213804245,
+            "covariance_mae": 0.058960044808567896,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4237646758556366,
+            "material_std_mean": 0.4573286473751068,
+            "disease_std_mean": 0.4703183174133301
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.14947674841207145,
+            "relative_std_error": 0.1294815464790465,
+            "covariance_mae": 0.05895300613744079,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.13059045374393463,
+            "relative_std_error": 0.9997815489768982,
+            "covariance_mae": 0.06466210021176275,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-pancreas-male|pancreas-pancreatitis": {
+          "joint_vae": {
+            "mean_mae": 0.1333814263343811,
+            "relative_std_error": 0.10924239456653595,
+            "covariance_mae": 0.05898368936945339,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4346769452095032,
+            "material_std_mean": 0.4582676887512207,
+            "disease_std_mean": 0.4768226444721222
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.1303535422876242,
+            "relative_std_error": 0.12289693310692583,
+            "covariance_mae": 0.056948557241258545,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.13059045374393463,
+            "relative_std_error": 0.9997815489768982,
+            "covariance_mae": 0.06466210021176275,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-pancreas-male|pancreas-pseudocyst": {
+          "joint_vae": {
+            "mean_mae": 0.1362612396478653,
+            "relative_std_error": 0.11636321991682053,
+            "covariance_mae": 0.059323591386365206,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4345080554485321,
+            "material_std_mean": 0.46540606021881104,
+            "disease_std_mean": 0.4734441936016083
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.14290336635294174,
+            "relative_std_error": 0.12726257418413467,
+            "covariance_mae": 0.05743051459752626,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.13059045374393463,
+            "relative_std_error": 0.9997815489768982,
+            "covariance_mae": 0.06466210021176275,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-small-intestine-female|small-intestine-crohn": {
+          "joint_vae": {
+            "mean_mae": 0.11923115700483322,
+            "relative_std_error": 0.16913777589797974,
+            "covariance_mae": 0.05732584188679084,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.44355088472366333,
+            "material_std_mean": 0.48267221450805664,
+            "disease_std_mean": 0.47003206610679626
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.11589779452304118,
+            "relative_std_error": 0.17176691614390732,
+            "covariance_mae": 0.05931196924059309,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.10715954750776291,
+            "relative_std_error": 0.9997804164886475,
+            "covariance_mae": 0.06472009244392675,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-small-intestine-female|small-intestine-net": {
+          "joint_vae": {
+            "mean_mae": 0.11593864113092422,
+            "relative_std_error": 0.1573609858751297,
+            "covariance_mae": 0.059079930275594085,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4407755434513092,
+            "material_std_mean": 0.4664713442325592,
+            "disease_std_mean": 0.48943376541137695
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.11931311186712756,
+            "relative_std_error": 0.17516313362655486,
+            "covariance_mae": 0.058495268191959084,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.10715954750776291,
+            "relative_std_error": 0.9997804164886475,
+            "covariance_mae": 0.06472009244392675,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-small-intestine-male|small-intestine-crohn": {
+          "joint_vae": {
+            "mean_mae": 0.11212729662656784,
+            "relative_std_error": 0.10691923648118973,
+            "covariance_mae": 0.06045536017344785,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4357389807701111,
+            "material_std_mean": 0.46220460534095764,
+            "disease_std_mean": 0.45546701550483704
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.11765491285091519,
+            "relative_std_error": 0.10554988217499749,
+            "covariance_mae": 0.061661593349394556,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.10911253094673157,
+            "relative_std_error": 0.9997901320457458,
+            "covariance_mae": 0.0673089406564313,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-small-intestine-male|small-intestine-net": {
+          "joint_vae": {
+            "mean_mae": 0.1073332279920578,
+            "relative_std_error": 0.11039641499519348,
+            "covariance_mae": 0.05779703824352354,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4284268021583557,
+            "material_std_mean": 0.47268739342689514,
+            "disease_std_mean": 0.4719005227088928
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.12482003641316645,
+            "relative_std_error": 0.1240731841599997,
+            "covariance_mae": 0.06107071505872728,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.10911253094673157,
+            "relative_std_error": 0.9997901320457458,
+            "covariance_mae": 0.0673089406564313,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-spleen-female|spleen-infarct": {
+          "joint_vae": {
+            "mean_mae": 0.1675184965133667,
+            "relative_std_error": 0.13839703798294067,
+            "covariance_mae": 0.057455010483828756,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4393060505390167,
+            "material_std_mean": 0.46721193194389343,
+            "disease_std_mean": 0.4806501567363739
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.14615174209293855,
+            "relative_std_error": 0.1566724906241003,
+            "covariance_mae": 0.05763723623089548,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.15549667179584503,
+            "relative_std_error": 0.9997864365577698,
+            "covariance_mae": 0.06525159043425158,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-spleen-female|spleen-cyst": {
+          "joint_vae": {
+            "mean_mae": 0.16149531304836273,
+            "relative_std_error": 0.1645730435848236,
+            "covariance_mae": 0.05966055135430901,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4438350796699524,
+            "material_std_mean": 0.46724605560302734,
+            "disease_std_mean": 0.47613245248794556
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.1558426179902453,
+            "relative_std_error": 0.15391217644097865,
+            "covariance_mae": 0.057735060253498525,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.15549667179584503,
+            "relative_std_error": 0.9997864365577698,
+            "covariance_mae": 0.06525159043425158,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-spleen-male|spleen-infarct": {
+          "joint_vae": {
+            "mean_mae": 0.1221306249499321,
+            "relative_std_error": 0.14391551911830902,
+            "covariance_mae": 0.061655638860804114,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.43485966324806213,
+            "material_std_mean": 0.4685344696044922,
+            "disease_std_mean": 0.47929102182388306
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.13157988875256987,
+            "relative_std_error": 0.13962929313982955,
+            "covariance_mae": 0.061597649073908974,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.12813183665275574,
+            "relative_std_error": 0.9997871518135071,
+            "covariance_mae": 0.06777880904695568,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-spleen-male|spleen-cyst": {
+          "joint_vae": {
+            "mean_mae": 0.12270579487085342,
+            "relative_std_error": 0.13697689771652222,
+            "covariance_mae": 0.06244643309699298,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.44390687346458435,
+            "material_std_mean": 0.464741587638855,
+            "disease_std_mean": 0.4713163375854492
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.14351169229644592,
+            "relative_std_error": 0.14724781697029643,
+            "covariance_mae": 0.06069856543352626,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.12813183665275574,
+            "relative_std_error": 0.9997871518135071,
+            "covariance_mae": 0.06777880904695568,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-urinary-bladder-female|bladder-cancer": {
+          "joint_vae": {
+            "mean_mae": 0.1373578906059265,
+            "relative_std_error": 0.1115771010518074,
+            "covariance_mae": 0.06264844677112037,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.44568559527397156,
+            "material_std_mean": 0.4538048207759857,
+            "disease_std_mean": 0.47217151522636414
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.13719453291223055,
+            "relative_std_error": 0.1118563435782233,
+            "covariance_mae": 0.06312553592745997,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.1409163475036621,
+            "relative_std_error": 0.9997940063476562,
+            "covariance_mae": 0.06906577307090431,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-urinary-bladder-female|bladder-diverticulum": {
+          "joint_vae": {
+            "mean_mae": 0.12683944404125214,
+            "relative_std_error": 0.1010802760720253,
+            "covariance_mae": 0.06240671864559874,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4503048062324524,
+            "material_std_mean": 0.48247113823890686,
+            "disease_std_mean": 0.486821711063385
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.14861574460516488,
+            "relative_std_error": 0.1059433323710139,
+            "covariance_mae": 0.06182897182916416,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.1409163475036621,
+            "relative_std_error": 0.9997940063476562,
+            "covariance_mae": 0.06906577307090431,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-urinary-bladder-male|bladder-cancer": {
+          "joint_vae": {
+            "mean_mae": 0.1335798054933548,
+            "relative_std_error": 0.13546213507652283,
+            "covariance_mae": 0.06521404846571822,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4415914714336395,
+            "material_std_mean": 0.46416762471199036,
+            "disease_std_mean": 0.47802814841270447
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.13586047367403054,
+            "relative_std_error": 0.16099867560494033,
+            "covariance_mae": 0.059406099374241045,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.14519532024860382,
+            "relative_std_error": 0.9997823238372803,
+            "covariance_mae": 0.06772274137672998,
+            "unique_fraction": 0.0078125
+          }
+        },
+        "hra-urinary-bladder-male|bladder-diverticulum": {
+          "joint_vae": {
+            "mean_mae": 0.14894121885299683,
+            "relative_std_error": 0.13157552480697632,
+            "covariance_mae": 0.06337265884999213,
+            "unique_fraction": 1.0,
+            "shape_std_mean": 0.4538794159889221,
+            "material_std_mean": 0.47427451610565186,
+            "disease_std_mean": 0.48769181966781616
+          },
+          "factorized_control_gaussian": {
+            "mean_mae": 0.146309333500238,
+            "relative_std_error": 0.13930587141769468,
+            "covariance_mae": 0.06031414437456031,
+            "unique_fraction": 1.0
+          },
+          "condition_mean": {
+            "mean_mae": 0.14519532024860382,
+            "relative_std_error": 0.9997823238372803,
+            "covariance_mae": 0.06772274137672998,
+            "unique_fraction": 0.0078125
+          }
+        }
+      },
+      "macro": {
+        "joint_vae": {
+          "mean_mae": 0.12520571334941968,
+          "relative_std_error": 0.12735500921671455,
+          "covariance_mae": 0.06144157426005617,
+          "unique_fraction": 1.0
+        },
+        "factorized_control_gaussian": {
+          "mean_mae": 0.12511277713136834,
+          "relative_std_error": 0.12705177755632677,
+          "covariance_mae": 0.06119105217549228,
+          "unique_fraction": 1.0
+        },
+        "condition_mean": {
+          "mean_mae": 0.122093183164661,
+          "relative_std_error": 0.9997908521342922,
+          "covariance_mae": 0.07030426914600736,
+          "unique_fraction": 0.0078125
+        }
+      }
+    }
+  },
+  "runtime": {
+    "python": "3.11.16",
+    "torch": "2.14.1",
+    "device": "cpu",
+    "gpu": null
+  },
+  "supervision": {
+    "geometry": "corresponding source surface anchors after current bounded renderer",
+    "appearance": "authored linear RGB and roughness evaluated at those same anchors",
+    "observations_are_measured_tissue": false,
+    "field_phase": "deterministic percondition renderer_seed",
+    "surrogate_validation_loss": 1.1138022926323201,
+    "observation_metrics": "surrogate render-space approximations, not independent renderer reconstruction"
+  },
+  "quality": {
+    "clinical_validation": "NOT_RUN",
+    "physics_learning": false,
+    "baseline_comparison": "reported honestly; VAE is never replaced by ridge, mean or bootstrap"
+  },
+  "artifact_sha256": "bf021ff58be437947c2532b212e13231051b0832662d63a22e08818f3219ebb2"
+}

@@ -1,0 +1,274 @@
+{
+  "artifact_sha256": "1beac6dc86fa65ed7d5e731908e013aacb03dedd2f2d07cb381a8e7e4739f634",
+  "attribution": "Browne, Kristen, and Heidi Schlehlein. 2024. \"3D Reference Organ for Kidney, Female, Left v1.3.\" https://doi.org/10.48539/HBM449.JPXL.964. Accessed on June 15, 2024.",
+  "attribution_verified": true,
+  "clean_faces_sha256": "8e435648a7d9601bc7033e6c079d1c72923f9a4e1d6e07459b2e71b0f659697b",
+  "cleaning_components": [
+    {
+      "clean_face_count": 5927,
+      "component": "VH_F_hilum_of_kidney_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 5927,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 10850,
+      "component": "VH_F_kidney_capsule_L",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 10850,
+      "winding_after": true,
+      "winding_before": true
+    }
+  ],
+  "cleaning_policy": "Drop triangles with area <=1e-12 mm2; repair winding per connected component on welded audit copy with minimum face reversals and transfer only face reversal. No vertex movement or connectivity additions.",
+  "cohort_eligible": true,
+  "colors_provenance": "Source schematic material colors; glTF linear factors converted to sRGB after trimesh 8-bit quantization",
+  "colors_space": "sRGB",
+  "components": [
+    {
+      "face_count": 5927,
+      "face_start": 0,
+      "name": "VH_F_hilum_of_kidney_L",
+      "source_geometry": "VH_F_hilum_of_kidney_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 3081,
+      "vertex_start": 0
+    },
+    {
+      "face_count": 10850,
+      "face_start": 5927,
+      "name": "VH_F_kidney_capsule_L",
+      "source_geometry": "VH_F_kidney_capsule_L",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 5427,
+      "vertex_start": 3081
+    }
+  ],
+  "control_limit_provenance": "design_heuristic; not measured population intervals",
+  "control_limits": [
+    0.08,
+    0.1,
+    0.08,
+    0.05,
+    0.08,
+    0.06,
+    0.04
+  ],
+  "control_names": [
+    "scale_x",
+    "scale_y",
+    "scale_z",
+    "bend",
+    "twist",
+    "taper",
+    "asymmetry"
+  ],
+  "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+  "deformer_version": "invertible-atlas-controls-1.0.0",
+  "evidence_kind": "expert_authored",
+  "excluded_source_nodes": [
+    "VH_F_outer_cortex_of_kidney_L",
+    "VH_F_renal_column_L",
+    "VH_F_renal_papilla_L_a",
+    "VH_F_renal_papilla_L_b",
+    "VH_F_renal_papilla_L_c",
+    "VH_F_renal_papilla_L_d",
+    "VH_F_renal_papilla_L_e",
+    "VH_F_renal_papilla_L_f",
+    "VH_F_renal_papilla_L_g",
+    "VH_F_renal_papilla_L_h",
+    "VH_F_renal_papilla_L_i",
+    "VH_F_renal_papilla_L_j",
+    "VH_F_renal_papilla_L_k",
+    "VH_F_renal_pyramid_L_a",
+    "VH_F_renal_pyramid_L_b",
+    "VH_F_renal_pyramid_L_c",
+    "VH_F_renal_pyramid_L_d",
+    "VH_F_renal_pyramid_L_e",
+    "VH_F_renal_pyramid_L_f",
+    "VH_F_renal_pyramid_L_g",
+    "VH_F_renal_pyramid_L_h",
+    "VH_F_renal_pyramid_L_i",
+    "VH_F_renal_pyramid_L_j",
+    "VH_F_renal_pyramid_L_k"
+  ],
+  "extent_mm": [
+    73.11071828007698,
+    124.8563677072525,
+    77.5795467197895
+  ],
+  "face_count": 16777,
+  "face_map_keys": [
+    "source_to_clean_face_indices",
+    "clean_to_source_face_indices",
+    "clean_face_orientation_reversed",
+    "source_faces"
+  ],
+  "generator_version": "invertible-atlas-controls-1.0.0",
+  "geometry_sha256": "5fba8ee3ffba56abad1f4208e353b4ae82aa67fb9991f4f139d3bf1c3de482c3",
+  "inverse_coordinate_transform": "source_world = source_to_authoring_rotation.T @ (vertices_mm + source_center_mm) / source_to_mm_scale",
+  "laterality": "left",
+  "license": "CC-BY-4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "mesh_role": "annotated_display_surface_assembly_not_organ_envelope",
+  "modifications": "Selected named display components, applied scene transforms, explicit units, bounding-box centering. Removed degenerate triangles and repaired winding with reversible face maps. No smoothing, decimation or remeshing.",
+  "normalization_mm": 62.42818385362625,
+  "organ": "kidney",
+  "organ_id": "kidney",
+  "population_prevalence": null,
+  "profile": "development_preview",
+  "removed_degenerate_faces": 0,
+  "reversed_faces": 0,
+  "review_status": "unreviewed",
+  "selection_policy_version": "external-display-components-1.1.0",
+  "sex_label": "female",
+  "source_center_mm": [
+    76.60692743957043,
+    238.20432275533676,
+    -100.59661231935024
+  ],
+  "source_citation": "Browne, Kristen, and Heidi Schlehlein. 2024. \"3D Reference Organ for Kidney, Female, Left v1.3.\" https://doi.org/10.48539/HBM449.JPXL.964. Accessed on June 15, 2024.",
+  "source_collection": "HRA",
+  "source_creators": [
+    {
+      "id": "https://orcid.org/0000-0003-4066-7531",
+      "name": "Kristen Browne"
+    },
+    {
+      "id": "https://orcid.org/0000-0002-3333-5646",
+      "name": "Heidi Schlehlein"
+    }
+  ],
+  "source_derivation_description": "This reference organ, Left-kidney-female (https://humanatlas.io/3d-reference-library) was created using data from the\nVisible Human Dataset, provided by the National Library of Medicine (Spitzer and Whitlock 2002). In version v1.3,\nchanges include removing the renal calyces and renal papillae and adding them to the ureter model per subject matter\nexpert input.\n\n**Bibliography:**\n\n* Spitzer, Victor M., and David G. Whitlock. 2002. \u201cThe Visible Human Dataset: The Anatomical Platform for Human Simulation.\u201d *The Anatomical Record* 253 (2): 49\u201357. https://doi.org/10.1002/(SICI)1097-0185(199804)253:2<49::AID-AR8>3.0.CO;2-9.",
+  "source_doi": "https://doi.org/10.48539/HBM449.JPXL.964",
+  "source_faces_sha256": "8e435648a7d9601bc7033e6c079d1c72923f9a4e1d6e07459b2e71b0f659697b",
+  "source_geometry_sha256": "5fba8ee3ffba56abad1f4208e353b4ae82aa67fb9991f4f139d3bf1c3de482c3",
+  "source_group_id": "hra-visible-human-female",
+  "source_group_reason": "Conservative atlas ancestry grouping; organ files are not independent donors",
+  "source_license_statement": "Creative Commons Attribution 4.0 International ([CC BY 4.0](https://creativecommons.org/licenses/by/4.0/))",
+  "source_metadata_file": "attribution/hra-kidney-female-left.jsonld",
+  "source_metadata_sha256": "5db03d210a22b6dc745d1e8f840a1bf45b6f17af109dd16043c131727dc55dc9",
+  "source_metadata_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/kidney-female-left/v1.3/metadata.jsonld",
+  "source_overall_citation": "Browne, Kristen, Heidi Schlehlein, Bruce W. Herr II, Ellen Quardokus, Andreas Bueckle, and Katy B\u00f6rner. 2024. \"HuBMAP CCF 3D Reference Object Library.\" https://humanatlas.io/3d-reference-library. Accessed on June 15, 2024.",
+  "source_release": "11th Release (v2.5)",
+  "source_sha256": "58f0227d45b14d7bcfd2ed05a7bcd76000051ea08d52f844feebd70d612f8084",
+  "source_title": "3D Reference Organ for Kidney, Female, Left",
+  "source_to_authoring_rotation": [
+    [
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      1,
+      0
+    ],
+    [
+      0,
+      0,
+      1
+    ]
+  ],
+  "source_to_mm_scale": 1000.0,
+  "source_topology_audit": {
+    "boundary_edges_after_audit_weld": 197,
+    "connected_vertex_components": 2,
+    "degenerate_faces": 0,
+    "method": "trimesh-geometric-weld-audit-copy-1.0",
+    "nonmanifold_edges_after_audit_weld": 0,
+    "self_intersection": {
+      "reason": "No robust intersection backend",
+      "status": "NOT_RUN"
+    },
+    "simulation_readiness": {
+      "reason": "No volumetric domain/materials",
+      "status": "NOT_RUN"
+    },
+    "watertight_after_audit_weld": false,
+    "weld_precision_mm": 1e-08,
+    "winding_consistent_after_audit_weld": true,
+    "zero_length_edges": 0
+  },
+  "source_up_axis": "Y (glTF convention); patient-axis interpretation not asserted",
+  "source_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/kidney-female-left/v1.3/assets/3d-vh-f-kidney-l.glb",
+  "template_id": "hra-kidney-female-left",
+  "template_version": "atlas-display-1.1.0",
+  "topology_audit": {
+    "boundary_edges_after_audit_weld": 197,
+    "connected_vertex_components": 2,
+    "degenerate_faces": 0,
+    "method": "trimesh-geometric-weld-audit-copy-1.0",
+    "nonmanifold_edges_after_audit_weld": 0,
+    "self_intersection": {
+      "reason": "No robust intersection backend",
+      "status": "NOT_RUN"
+    },
+    "simulation_readiness": {
+      "reason": "No volumetric domain/materials",
+      "status": "NOT_RUN"
+    },
+    "watertight_after_audit_weld": false,
+    "weld_precision_mm": 1e-08,
+    "winding_consistent_after_audit_weld": true,
+    "zero_length_edges": 0
+  },
+  "unit": "mm",
+  "units_evidence": "glTF 2.0 linear distances use metres; explicit multiplication by 1000",
+  "vertex_count": 8508
+}

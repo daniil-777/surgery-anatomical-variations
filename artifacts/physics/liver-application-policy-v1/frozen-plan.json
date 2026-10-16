@@ -1,0 +1,56 @@
+{
+  "schema": "physics-robustness-frozen-plan-1.0",
+  "stage": "final",
+  "seeds": {
+    "calibration": 1071101,
+    "iid": 1071102,
+    "region": 1071103,
+    "high_excitation": 1071104,
+    "two_branch": 1071201,
+    "nonlinear": 1071202,
+    "two_branch_high": 1071203,
+    "nonlinear_high": 1071204,
+    "noise_low": 1071301,
+    "noise_high": 1071302,
+    "noise_correlated": 1071303
+  },
+  "counts": {
+    "calibration": 2400,
+    "iid": 1000,
+    "secondary": 320,
+    "noise": 160
+  },
+  "policy_version": "liver-sls-application-policy-1.2.0",
+  "score_version": "orthogonal-physical-residual-dictionary-drift-nuisance-1.1.0",
+  "model_sha256": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+  "gates": {
+    "accepted_iid_p95_relative_error": {
+      "young_pa": 0.1,
+      "relaxation_fraction": 0.2,
+      "relaxation_time_s": 0.35
+    },
+    "minimum_iid_acceptance": 0.65,
+    "maximum_iid_structured_check_false_rejection": 0.075,
+    "minimum_iid_marginal_interval_coverage": 0.85,
+    "minimum_pooled_mismatch_rejection_improvement": 0.1,
+    "maximum_low_noise_structured_false_rejection": 0.1,
+    "minimum_iid_accepted_specimens": 500
+  },
+  "precision_limits": {
+    "young_pa": 0.25,
+    "relaxation_fraction": 0.5,
+    "relaxation_time_s": 1.0
+  },
+  "residual_alpha": 0.05,
+  "noise_stratum_boundaries": [
+    0.005,
+    0.015
+  ],
+  "split_unit": "One independent parameter specimen and experiment per row; specimen seeds disjoint from all historical v2 cohorts",
+  "no_human_data": true,
+  "no_weight_retraining": true,
+  "source_sha256": {
+    "evaluate_liver_physics_robustness.py": "87fa53399c60f69733f56bc34ee0cf60834c0c758d211e6ef7edeb88e591f801",
+    "physics_learning_robust.py": "61bffefcf06eb02e23f8d1c6c7900068bfdeb4c16d0b33e4442124c7f861e868"
+  }
+}

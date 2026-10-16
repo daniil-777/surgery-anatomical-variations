@@ -1,0 +1,329 @@
+{
+  "appearance_evidence": "authored_vertex_color_not_measured_tissue_texture",
+  "clinical_review_status": "unreviewed",
+  "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+  "disease_field": {
+    "applied_displacement_fraction": 1.0,
+    "clinical_stage": null,
+    "color_strength": 0.4350664198099068,
+    "fields": [
+      {
+        "amplitude_mm": 2.7751199889572016,
+        "center_mm": [
+          77.74600386619568,
+          -37.57590055465698,
+          41.924997232854366
+        ],
+        "direction": [
+          0.1583585341474528,
+          -0.5992422889283255,
+          -0.7847491661815331
+        ],
+        "radius_mm": 27.125383818953726
+      },
+      {
+        "amplitude_mm": 3.2517118997872343,
+        "center_mm": [
+          -98.79836440086365,
+          -66.60953164100647,
+          -53.385489620268345
+        ],
+        "direction": [
+          -0.58177731103979,
+          -0.5426653674099118,
+          -0.6058460690416146
+        ],
+        "radius_mm": 27.125383818953726
+      },
+      {
+        "amplitude_mm": 3.325107472726817,
+        "center_mm": [
+          -122.51763790845871,
+          -3.135800361633301,
+          -17.97123346477747
+        ],
+        "direction": [
+          -0.993911923124531,
+          0.09227042499171086,
+          0.06021011329291368
+        ],
+        "radius_mm": 27.125383818953726
+      },
+      {
+        "amplitude_mm": 2.7296834411049966,
+        "center_mm": [
+          -29.143478721380234,
+          -35.60072183609009,
+          67.38251692149788
+        ],
+        "direction": [
+          -0.11702341880880077,
+          0.17107678864652176,
+          0.9782833187971127
+        ],
+        "radius_mm": 27.125383818953726
+      },
+      {
+        "amplitude_mm": 2.815622511740233,
+        "center_mm": [
+          -101.67347639799118,
+          -77.2249698638916,
+          16.32555853575468
+        ],
+        "direction": [
+          -0.7216084855701174,
+          -0.5798459494769835,
+          0.3782325586571539
+        ],
+        "radius_mm": 27.125383818953726
+      },
+      {
+        "amplitude_mm": 2.9619774751646415,
+        "center_mm": [
+          -28.888307511806488,
+          -30.378133058547974,
+          -3.020630218088627
+        ],
+        "direction": [
+          0.2573055894095827,
+          -0.4672650929749684,
+          0.8458470113121412
+        ],
+        "radius_mm": 27.125383818953726
+      },
+      {
+        "amplitude_mm": 3.4607564689538055,
+        "center_mm": [
+          -85.97177267074585,
+          63.66431713104248,
+          -43.30428037792444
+        ],
+        "direction": [
+          -0.43271057054140777,
+          0.7839957290031325,
+          -0.44509803307426143
+        ],
+        "radius_mm": 27.125383818953726
+      },
+      {
+        "amplitude_mm": 2.9115874058610705,
+        "center_mm": [
+          -34.665241837501526,
+          43.31633448600769,
+          43.29988081008196
+        ],
+        "direction": [
+          0.021136924075230087,
+          0.3693446252011618,
+          0.9290520858787474
+        ],
+        "radius_mm": 27.125383818953726
+      }
+    ],
+    "gradient_bound_per_step": 0.23094610261917112,
+    "pattern": "multifocal",
+    "profile_id": "liver-metastases",
+    "realized_sites": 8,
+    "requested_sites": 8,
+    "steps": 3,
+    "surface_site_frame": "undeformed-atlas-Y-up-mm",
+    "target_srgb": [
+      0.68,
+      0.46,
+      0.34
+    ],
+    "version": "disease-morphology-design-1.0.0"
+  },
+  "display_normal_sha256": "fa763c2ab5d331425d6758c09c41759c12566a51cafb56726ef3d4b243187c91",
+  "face_count": 35606,
+  "features": [
+    255.30157558859148,
+    171.02136782294457,
+    155.83770163357258,
+    104126.21769084761,
+    9.611209044883303,
+    1.0
+  ],
+  "geometry_evidence": "authored_disease_surface_from_licensed_reference_template",
+  "geometry_sha256": "758cc8cc6f9f35f9b75b75fa1bc6d5f6e62736860f0b80649c0e00e086ea46a3",
+  "group_id": "liver-metastases:3437480767",
+  "mechanics_evidence": "none",
+  "normal_fallback_count": 0,
+  "organ": "liver",
+  "parent_recipe_index": 287,
+  "parent_sample_id": "liver-metastases:3437480767",
+  "path": "records/dgeo-00fd8e0e90b4dd03a15a.json",
+  "patient_id": null,
+  "point_count": 2048,
+  "point_sampling_seed": 539836270,
+  "profile_id": "liver-metastases",
+  "qa": {
+    "anatomical_plausibility": {
+      "status": "NOT_RUN"
+    },
+    "area_ratio_max": 1.4667406445754996,
+    "area_ratio_min": 0.6463764267853529,
+    "continuous_jacobian_lower_bound": 0.09410463111281608,
+    "mechanical_validation": {
+      "status": "NOT_RUN"
+    },
+    "min_normal_dot": 0.8368756903592857,
+    "new_degenerate_faces": 0,
+    "normal_turns_over_90_degrees": 0,
+    "passed": true,
+    "scope": "finite nondegenerate same-topology outer-surface design",
+    "self_intersection": {
+      "reason": "Discrete/source triangle intersections not certified",
+      "status": "NOT_RUN"
+    },
+    "source_topology": {
+      "boundary_edges_after_audit_weld": 240,
+      "connected_vertex_components": 2,
+      "degenerate_faces": 0,
+      "method": "trimesh-geometric-weld-audit-copy-1.0",
+      "nonmanifold_edges_after_audit_weld": 0,
+      "self_intersection": {
+        "reason": "No robust intersection backend",
+        "status": "NOT_RUN"
+      },
+      "simulation_readiness": {
+        "reason": "No volumetric domain/materials",
+        "status": "NOT_RUN"
+      },
+      "watertight_after_audit_weld": false,
+      "weld_precision_mm": 1e-08,
+      "winding_consistent_after_audit_weld": true,
+      "zero_length_edges": 0
+    },
+    "status": "PASS",
+    "topology_preserved": true
+  },
+  "realized_id": "e38dd7be476ccbca8c1ecad73546c21f3ece5006bd821e69e184d98693f9a877",
+  "recipe_features": [
+    0.6713549494743347,
+    0.7018860578536987,
+    0.8202141523361206,
+    0.8687717318534851,
+    0.6480423212051392,
+    1.0,
+    0.8291321396827698,
+    0.20086011290550232,
+    0.6366986036300659
+  ],
+  "sample_id": "dgeo-00fd8e0e90b4dd03a15a",
+  "source_attribution": "Browne, Kristen. 2024. \"3D Reference Organ for Liver, Female v1.2.\" https://doi.org/10.48539/HBM599.GZLD.639. Accessed on June 15, 2024.",
+  "source_group_id": "hra-visible-human-female",
+  "source_license": "CC-BY-4.0",
+  "source_template_artifact_sha256": "2dd9b70daf0924cb8f56b80df10065c57e7422e93ce40909406b3c57a195e20d",
+  "source_template_geometry_sha256": "5c24c76d1a590d49b973ad2178025628302e7e4558247441cfa242e934210dcd",
+  "source_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/liver-female/v1.2/assets/3d-vh-f-liver.glb",
+  "spec": {
+    "appearance": "tissue",
+    "controls": {
+      "asymmetry": 0.0,
+      "bend": 0.0,
+      "scale_x": 0.0,
+      "scale_y": 0.0,
+      "scale_z": 0.0,
+      "taper": 0.0,
+      "twist": 0.0
+    },
+    "disease": {
+      "contrast": 0.6480423212051392,
+      "count": 8,
+      "irregularity": 0.8687717318534851,
+      "location": [
+        0.6582642793655396,
+        -0.5982797741889954,
+        0.27339720726013184
+      ],
+      "profile_id": "liver-metastases",
+      "seed": 3437480767,
+      "severity": 0.6713549494743347,
+      "size": 0.7018860578536987,
+      "spread": 0.8202141523361206
+    },
+    "realized_id": "e38dd7be476ccbca8c1ecad73546c21f3ece5006bd821e69e184d98693f9a877",
+    "seed": 3437480767,
+    "template_id": "hra-liver-female",
+    "template_sha256": "2dd9b70daf0924cb8f56b80df10065c57e7422e93ce40909406b3c57a195e20d"
+  },
+  "split": "train",
+  "split_track": "within_generator",
+  "summary": {
+    "disease": {
+      "applied_displacement_fraction": 1.0,
+      "displacement_limited_by_source_mesh": false,
+      "evidence": "synthetic_surface_morphology_not_patient_or_population_geometry",
+      "internal_anatomy_generated": false,
+      "max_displacement_mm": 9.611209044883303,
+      "physical_parameters_inferred": false,
+      "profile": {
+        "clinical_source_url": "https://www.cancer.gov/types/pancreatic/treatment",
+        "evidence": "image_reference_not_paired_3d_supervision",
+        "id": "liver-metastases",
+        "label": "Hepatic metastases",
+        "limits": "Autopsy section; pancreatic metastases must not be treated as interchangeable with colorectal metastases or a resection recommendation. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+        "morphology_targets": [
+          "lesion number",
+          "lesion diameter and distribution",
+          "parenchymal replacement"
+        ],
+        "organ": "liver",
+        "pattern": "multifocal",
+        "source_ref": "I03",
+        "source_url": "https://commons.wikimedia.org/wiki/File:Secondary_tumor_deposits_in_the_liver_from_a_primary_cancer_of_the_pancreas.jpg",
+        "supported": true,
+        "unavailable_reason": ""
+      },
+      "realized_sites": 8,
+      "recipe": {
+        "contrast": 0.6480423212051392,
+        "count": 8,
+        "irregularity": 0.8687717318534851,
+        "location": [
+          0.6582642793655396,
+          -0.5982797741889954,
+          0.27339720726013184
+        ],
+        "profile_id": "liver-metastases",
+        "seed": 3437480767,
+        "severity": 0.6713549494743347,
+        "size": 0.7018860578536987,
+        "spread": 0.8202141523361206
+      },
+      "requested_sites": 8,
+      "version": "disease-morphology-design-1.0.0"
+    },
+    "extent_mm": [
+      255.30157558859148,
+      171.02136782294457,
+      155.83770163357258
+    ],
+    "measurements": {
+      "compactness": null,
+      "extent_x_mm": 255.30157558859148,
+      "extent_y_mm": 171.02136782294457,
+      "extent_z_mm": 155.83770163357258,
+      "method": "disease-display-triangle-measurements-1.0.0",
+      "surface_area_definition": "Sum of selected triangles including capsule/internal faces",
+      "surface_area_mm2": 104126.21769084761,
+      "volume_ml": null,
+      "volume_reason": "Display surface assembly is not a certified closed outer envelope",
+      "volume_status": "NOT_APPLICABLE"
+    },
+    "min_jacobian": 0.09410463111281608,
+    "min_jacobian_kind": "conservative_bound",
+    "organ": "liver",
+    "profile": "development_preview",
+    "qa_scope": "finite nondegenerate same-topology outer-surface design",
+    "qa_status": "PASS",
+    "reference": "hra-liver-female",
+    "review_status": "unreviewed",
+    "triangles": 35606,
+    "vertices": 18011
+  },
+  "template_id": "hra-liver-female",
+  "units": "mm",
+  "vertex_count": 18011
+}

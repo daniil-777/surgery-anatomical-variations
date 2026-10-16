@@ -1,0 +1,18 @@
+{
+  "sha256": "e883ad0358b488b3133756d1c86076ee00fb8738a2d7b8fbb620964e52774ab8",
+  "hashed_files": 395,
+  "bytes": 67248267,
+  "all_member_hashes_verified": true,
+  "no_unexpected_members": true,
+  "clinical_cases": 3,
+  "clinical_organs": [
+    "pancreas"
+  ],
+  "noncommercial_source_assets_excluded": true,
+  "all_release_artifacts_match_manifest": true,
+  "all_frozen_decoder_sources_match_current_packaged_code": true,
+  "model_dataset_bindings_match": true,
+  "recipe_trainer_source_hash_matches": true,
+  "shared_template_copy_count": 1,
+  "stale_doc_path_count": 0
+}

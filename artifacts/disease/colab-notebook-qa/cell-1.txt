@@ -1,0 +1,2 @@
+Verified files: 395
+Source rights: {'commercial_use': 'CC-BY attribution conditions apply', 'contains_noncommercial': False, 'license_lanes': ['attribution'], 'no_blanket_license': True}

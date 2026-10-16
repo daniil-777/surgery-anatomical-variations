@@ -1,0 +1,530 @@
+{
+  "format": "viscera-disease-recipe-training-report-v1",
+  "status": "trained",
+  "selected_method": "conditional_vae",
+  "config": {
+    "steps": 1600,
+    "batch_size": 128,
+    "hidden": 96,
+    "latent": 8,
+    "embedding": 16,
+    "learning_rate": 0.001,
+    "beta": 0.015,
+    "seed": 71026,
+    "threads": 1
+  },
+  "scope": "synthetic_visual_recipe_distribution_not_patient_population",
+  "patient_count": 0,
+  "profiles": 25,
+  "validation": {
+    "mean_baseline_reconstruction_mae": 0.21441321074962616,
+    "cvae_reconstruction_mae": 0.08852469176054001,
+    "empirical_bootstrap": {
+      "macro_mean_feature_mae": 0.049479705318808555,
+      "macro_relative_std_error": 0.1021583454310894,
+      "min_unique_control_vectors": 72,
+      "per_profile": {
+        "bladder-cancer": {
+          "mean_feature_mae": 0.031924426555633545,
+          "relative_std_error": 0.06319861859083176,
+          "unique_control_vectors": 72,
+          "samples": 128,
+          "validation_recipes": 24
+        },
+        "bladder-diverticulum": {
+          "mean_feature_mae": 0.057190537452697754,
+          "relative_std_error": 0.1299346387386322,
+          "unique_control_vectors": 72,
+          "samples": 128,
+          "validation_recipes": 24
+        },
+        "brain-glioblastoma": {
+          "mean_feature_mae": 0.02536487579345703,
+          "relative_std_error": 0.08950582146644592,
+          "unique_control_vectors": 72,
+          "samples": 128,
+          "validation_recipes": 24
+        },
+        "brain-meningioma": {
+          "mean_feature_mae": 0.051806963980197906,
+          "relative_std_error": 0.13292719423770905,
+          "unique_control_vectors": 72,
+          "samples": 128,
+          "validation_recipes": 24
+        },
+        "colon-cancer": {
+          "mean_feature_mae": 0.04943447932600975,
+          "relative_std_error": 0.13403481245040894,
+          "unique_control_vectors": 72,
+          "samples": 128,
+          "validation_recipes": 24
+        },
+        "colon-diverticulosis": {
+          "mean_feature_mae": 0.048507172614336014,
+          "relative_std_error": 0.1257162243127823,
+          "unique_control_vectors": 72,
+          "samples": 128,
+          "validation_recipes": 24
+        },
+        "gallbladder-carcinoma": {
+          "mean_feature_mae": 0.052431751042604446,
+          "relative_std_error": 0.05589987337589264,
+          "unique_control_vectors": 72,
+          "samples": 128,
+          "validation_recipes": 24
+        },
+        "gallbladder-cholecystitis": {
+          "mean_feature_mae": 0.04965586960315704,
+          "relative_std_error": 0.1482286900281906,
+          "unique_control_vectors": 72,
+          "samples": 128,
+          "validation_recipes": 24
+        },
+        "heart-infarction": {
+          "mean_feature_mae": 0.05060369521379471,
+          "relative_std_error": 0.11128789931535721,
+          "unique_control_vectors": 72,
+          "samples": 128,
+          "validation_recipes": 24
+        },
+        "kidney-cancer": {
+          "mean_feature_mae": 0.05468588322401047,
+          "relative_std_error": 0.11809901148080826,
+          "unique_control_vectors": 72,
+          "samples": 128,
+          "validation_recipes": 24
+        },
+        "kidney-polycystic": {
+          "mean_feature_mae": 0.04455794394016266,
+          "relative_std_error": 0.12469449639320374,
+          "unique_control_vectors": 72,
+          "samples": 128,
+          "validation_recipes": 24
+        },
+        "liver-cirrhosis": {
+          "mean_feature_mae": 0.06052107363939285,
+          "relative_std_error": 0.07648525387048721,
+          "unique_control_vectors": 72,
+          "samples": 128,
+          "validation_recipes": 24
+        },
+        "liver-hcc": {
+          "mean_feature_mae": 0.0593845434486866,
+          "relative_std_error": 0.08191969990730286,
+          "unique_control_vectors": 72,
+          "samples": 128,
+          "validation_recipes": 24
+        },
+        "liver-metastases": {
+          "mean_feature_mae": 0.05499504506587982,
+          "relative_std_error": 0.11464986205101013,
+          "unique_control_vectors": 72,
+          "samples": 128,
+          "validation_recipes": 24
+        },
+        "lung-cancer": {
+          "mean_feature_mae": 0.042129453271627426,
+          "relative_std_error": 0.0469321571290493,
+          "unique_control_vectors": 72,
+          "samples": 128,
+          "validation_recipes": 24
+        },
+        "lung-emphysema": {
+          "mean_feature_mae": 0.07520561665296555,
+          "relative_std_error": 0.07383856922388077,
+          "unique_control_vectors": 72,
+          "samples": 128,
+          "validation_recipes": 24
+        },
+        "pancreas-cancer": {
+          "mean_feature_mae": 0.028943827375769615,
+          "relative_std_error": 0.1383211612701416,
+          "unique_control_vectors": 72,
+          "samples": 128,
+          "validation_recipes": 24
+        },
+        "pancreas-pancreatitis": {
+          "mean_feature_mae": 0.053790245205163956,
+          "relative_std_error": 0.08366414159536362,
+          "unique_control_vectors": 72,
+          "samples": 128,
+          "validation_recipes": 24
+        },
+        "pancreas-pseudocyst": {
+          "mean_feature_mae": 0.04573408514261246,
+          "relative_std_error": 0.11453093588352203,
+          "unique_control_vectors": 72,
+          "samples": 128,
+          "validation_recipes": 24
+        },
+        "small-intestine-crohn": {
+          "mean_feature_mae": 0.05216597020626068,
+          "relative_std_error": 0.08033265918493271,
+          "unique_control_vectors": 72,
+          "samples": 128,
+          "validation_recipes": 24
+        },
+        "small-intestine-net": {
+          "mean_feature_mae": 0.036982595920562744,
+          "relative_std_error": 0.07489670813083649,
+          "unique_control_vectors": 72,
+          "samples": 128,
+          "validation_recipes": 24
+        },
+        "spleen-cyst": {
+          "mean_feature_mae": 0.05077584832906723,
+          "relative_std_error": 0.15182749927043915,
+          "unique_control_vectors": 72,
+          "samples": 128,
+          "validation_recipes": 24
+        },
+        "spleen-infarct": {
+          "mean_feature_mae": 0.069588303565979,
+          "relative_std_error": 0.06333848834037781,
+          "unique_control_vectors": 72,
+          "samples": 128,
+          "validation_recipes": 24
+        },
+        "stomach-adenocarcinoma": {
+          "mean_feature_mae": 0.04266912490129471,
+          "relative_std_error": 0.08596879988908768,
+          "unique_control_vectors": 72,
+          "samples": 128,
+          "validation_recipes": 24
+        },
+        "stomach-gist": {
+          "mean_feature_mae": 0.04794330149888992,
+          "relative_std_error": 0.13372541964054108,
+          "unique_control_vectors": 72,
+          "samples": 128,
+          "validation_recipes": 24
+        }
+      }
+    },
+    "conditional_vae": {
+      "macro_mean_feature_mae": 0.04859859339892864,
+      "macro_relative_std_error": 0.19040242254734038,
+      "min_unique_control_vectors": 128,
+      "per_profile": {
+        "bladder-cancer": {
+          "mean_feature_mae": 0.026489168405532837,
+          "relative_std_error": 0.1861770749092102,
+          "unique_control_vectors": 128,
+          "samples": 128,
+          "validation_recipes": 24
+        },
+        "bladder-diverticulum": {
+          "mean_feature_mae": 0.03761889412999153,
+          "relative_std_error": 0.1552901268005371,
+          "unique_control_vectors": 128,
+          "samples": 128,
+          "validation_recipes": 24
+        },
+        "brain-glioblastoma": {
+          "mean_feature_mae": 0.0349055640399456,
+          "relative_std_error": 0.21802814304828644,
+          "unique_control_vectors": 128,
+          "samples": 128,
+          "validation_recipes": 24
+        },
+        "brain-meningioma": {
+          "mean_feature_mae": 0.04680745303630829,
+          "relative_std_error": 0.18777664005756378,
+          "unique_control_vectors": 128,
+          "samples": 128,
+          "validation_recipes": 24
+        },
+        "colon-cancer": {
+          "mean_feature_mae": 0.05951319634914398,
+          "relative_std_error": 0.18019288778305054,
+          "unique_control_vectors": 128,
+          "samples": 128,
+          "validation_recipes": 24
+        },
+        "colon-diverticulosis": {
+          "mean_feature_mae": 0.051022399216890335,
+          "relative_std_error": 0.1800854206085205,
+          "unique_control_vectors": 128,
+          "samples": 128,
+          "validation_recipes": 24
+        },
+        "gallbladder-carcinoma": {
+          "mean_feature_mae": 0.05505006015300751,
+          "relative_std_error": 0.24119932949543,
+          "unique_control_vectors": 128,
+          "samples": 128,
+          "validation_recipes": 24
+        },
+        "gallbladder-cholecystitis": {
+          "mean_feature_mae": 0.04418254643678665,
+          "relative_std_error": 0.18177270889282227,
+          "unique_control_vectors": 128,
+          "samples": 128,
+          "validation_recipes": 24
+        },
+        "heart-infarction": {
+          "mean_feature_mae": 0.05200030654668808,
+          "relative_std_error": 0.1325746774673462,
+          "unique_control_vectors": 128,
+          "samples": 128,
+          "validation_recipes": 24
+        },
+        "kidney-cancer": {
+          "mean_feature_mae": 0.053641270846128464,
+          "relative_std_error": 0.21613438427448273,
+          "unique_control_vectors": 128,
+          "samples": 128,
+          "validation_recipes": 24
+        },
+        "kidney-polycystic": {
+          "mean_feature_mae": 0.053247176110744476,
+          "relative_std_error": 0.12622691690921783,
+          "unique_control_vectors": 128,
+          "samples": 128,
+          "validation_recipes": 24
+        },
+        "liver-cirrhosis": {
+          "mean_feature_mae": 0.05749772489070892,
+          "relative_std_error": 0.22905418276786804,
+          "unique_control_vectors": 128,
+          "samples": 128,
+          "validation_recipes": 24
+        },
+        "liver-hcc": {
+          "mean_feature_mae": 0.06003437936306,
+          "relative_std_error": 0.161494180560112,
+          "unique_control_vectors": 128,
+          "samples": 128,
+          "validation_recipes": 24
+        },
+        "liver-metastases": {
+          "mean_feature_mae": 0.053466808050870895,
+          "relative_std_error": 0.21663284301757812,
+          "unique_control_vectors": 128,
+          "samples": 128,
+          "validation_recipes": 24
+        },
+        "lung-cancer": {
+          "mean_feature_mae": 0.032410986721515656,
+          "relative_std_error": 0.24084506928920746,
+          "unique_control_vectors": 128,
+          "samples": 128,
+          "validation_recipes": 24
+        },
+        "lung-emphysema": {
+          "mean_feature_mae": 0.08269110321998596,
+          "relative_std_error": 0.1759190708398819,
+          "unique_control_vectors": 128,
+          "samples": 128,
+          "validation_recipes": 24
+        },
+        "pancreas-cancer": {
+          "mean_feature_mae": 0.028377672657370567,
+          "relative_std_error": 0.2036249041557312,
+          "unique_control_vectors": 128,
+          "samples": 128,
+          "validation_recipes": 24
+        },
+        "pancreas-pancreatitis": {
+          "mean_feature_mae": 0.035826776176691055,
+          "relative_std_error": 0.16892927885055542,
+          "unique_control_vectors": 128,
+          "samples": 128,
+          "validation_recipes": 24
+        },
+        "pancreas-pseudocyst": {
+          "mean_feature_mae": 0.05138333886861801,
+          "relative_std_error": 0.1882658451795578,
+          "unique_control_vectors": 128,
+          "samples": 128,
+          "validation_recipes": 24
+        },
+        "small-intestine-crohn": {
+          "mean_feature_mae": 0.051609694957733154,
+          "relative_std_error": 0.18783822655677795,
+          "unique_control_vectors": 128,
+          "samples": 128,
+          "validation_recipes": 24
+        },
+        "small-intestine-net": {
+          "mean_feature_mae": 0.04323625937104225,
+          "relative_std_error": 0.192954882979393,
+          "unique_control_vectors": 128,
+          "samples": 128,
+          "validation_recipes": 24
+        },
+        "spleen-cyst": {
+          "mean_feature_mae": 0.049776870757341385,
+          "relative_std_error": 0.19741679728031158,
+          "unique_control_vectors": 128,
+          "samples": 128,
+          "validation_recipes": 24
+        },
+        "spleen-infarct": {
+          "mean_feature_mae": 0.06538106501102448,
+          "relative_std_error": 0.23141217231750488,
+          "unique_control_vectors": 128,
+          "samples": 128,
+          "validation_recipes": 24
+        },
+        "stomach-adenocarcinoma": {
+          "mean_feature_mae": 0.04149578511714935,
+          "relative_std_error": 0.1980927288532257,
+          "unique_control_vectors": 128,
+          "samples": 128,
+          "validation_recipes": 24
+        },
+        "stomach-gist": {
+          "mean_feature_mae": 0.047298334538936615,
+          "relative_std_error": 0.16212207078933716,
+          "unique_control_vectors": 128,
+          "samples": 128,
+          "validation_recipes": 24
+        }
+      }
+    }
+  },
+  "selection_gates": {
+    "reconstruction_improves_mean_5pct": true,
+    "mean_distribution_error_no_worse_than_baseline": true,
+    "std_distribution_error_under_60pct": true,
+    "every_profile_diverse": true,
+    "deployment_decoder_parity": true
+  },
+  "deployment_max_absolute_error": 1.1920928955078125e-07,
+  "training_history": [
+    {
+      "step": 1,
+      "loss": 0.06267968565225601,
+      "reconstruction_mse": 0.0626416727900505,
+      "kl": 0.002534430706873536
+    },
+    {
+      "step": 80,
+      "loss": 0.05779273062944412,
+      "reconstruction_mse": 0.055544763803482056,
+      "kl": 0.14986452460289001
+    },
+    {
+      "step": 160,
+      "loss": 0.05021510273218155,
+      "reconstruction_mse": 0.04691658169031143,
+      "kl": 0.21990136802196503
+    },
+    {
+      "step": 240,
+      "loss": 0.046926215291023254,
+      "reconstruction_mse": 0.04088802635669708,
+      "kl": 0.40254586935043335
+    },
+    {
+      "step": 320,
+      "loss": 0.04398615285754204,
+      "reconstruction_mse": 0.035719677805900574,
+      "kl": 0.5510983467102051
+    },
+    {
+      "step": 400,
+      "loss": 0.04242356866598129,
+      "reconstruction_mse": 0.03471367433667183,
+      "kl": 0.5139930248260498
+    },
+    {
+      "step": 480,
+      "loss": 0.03928641974925995,
+      "reconstruction_mse": 0.030958788469433784,
+      "kl": 0.5551755428314209
+    },
+    {
+      "step": 560,
+      "loss": 0.039473097771406174,
+      "reconstruction_mse": 0.030504630878567696,
+      "kl": 0.5978977680206299
+    },
+    {
+      "step": 640,
+      "loss": 0.0371171310544014,
+      "reconstruction_mse": 0.027721352875232697,
+      "kl": 0.6263850927352905
+    },
+    {
+      "step": 720,
+      "loss": 0.03551623597741127,
+      "reconstruction_mse": 0.024847127497196198,
+      "kl": 0.7112739682197571
+    },
+    {
+      "step": 800,
+      "loss": 0.03581693023443222,
+      "reconstruction_mse": 0.024940790608525276,
+      "kl": 0.7250761389732361
+    },
+    {
+      "step": 880,
+      "loss": 0.03358830511569977,
+      "reconstruction_mse": 0.022203100845217705,
+      "kl": 0.7590136528015137
+    },
+    {
+      "step": 960,
+      "loss": 0.03422602266073227,
+      "reconstruction_mse": 0.022296780720353127,
+      "kl": 0.7952828407287598
+    },
+    {
+      "step": 1040,
+      "loss": 0.03590046986937523,
+      "reconstruction_mse": 0.025103911757469177,
+      "kl": 0.7197704911231995
+    },
+    {
+      "step": 1120,
+      "loss": 0.034757256507873535,
+      "reconstruction_mse": 0.02370523102581501,
+      "kl": 0.7368016242980957
+    },
+    {
+      "step": 1200,
+      "loss": 0.03346191346645355,
+      "reconstruction_mse": 0.02219240553677082,
+      "kl": 0.7513003945350647
+    },
+    {
+      "step": 1280,
+      "loss": 0.03316768258810043,
+      "reconstruction_mse": 0.02172090858221054,
+      "kl": 0.7631181478500366
+    },
+    {
+      "step": 1360,
+      "loss": 0.03292500600218773,
+      "reconstruction_mse": 0.021338246762752533,
+      "kl": 0.7724505662918091
+    },
+    {
+      "step": 1440,
+      "loss": 0.03312184661626816,
+      "reconstruction_mse": 0.021740945056080818,
+      "kl": 0.7587268948554993
+    },
+    {
+      "step": 1520,
+      "loss": 0.03224079683423042,
+      "reconstruction_mse": 0.020352249965071678,
+      "kl": 0.7925698161125183
+    },
+    {
+      "step": 1600,
+      "loss": 0.032283999025821686,
+      "reconstruction_mse": 0.01902017369866371,
+      "kl": 0.8842551708221436
+    }
+  ],
+  "audit_opened": false,
+  "limitations": [
+    "Visual references are not paired volumetric disease labels.",
+    "Recipe holdouts test authored-generator coverage, not unseen patient generalization.",
+    "Control strength is not a measured clinical severity grade.",
+    "Materials, mechanics, invasion and microscopic pathology are not validated by this release."
+  ]
+}

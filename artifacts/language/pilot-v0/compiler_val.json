@@ -1,0 +1,154 @@
+{
+  "attempted": 48,
+  "valid_json_schema": 48,
+  "correct_status": 40,
+  "exact_target": 40,
+  "unsafe_false_ready": 0,
+  "exact_target_rate": 0.8333333333333334,
+  "failures": [
+    {
+      "id": "val-000001",
+      "request": "change liver height to 129.37 mm",
+      "target": {
+        "patches": [
+          {
+            "op": "replace",
+            "path": "/parameters/liver_height_mm",
+            "value": 129.37
+          }
+        ],
+        "status": "ready"
+      },
+      "prediction": {
+        "patches": [],
+        "status": "unsupported"
+      }
+    },
+    {
+      "id": "val-000010",
+      "request": "change gallbladder length to 67.84 mm",
+      "target": {
+        "patches": [
+          {
+            "op": "replace",
+            "path": "/parameters/gallbladder_length_mm",
+            "value": 67.84
+          }
+        ],
+        "status": "ready"
+      },
+      "prediction": {
+        "patches": [],
+        "status": "unsupported"
+      }
+    },
+    {
+      "id": "val-000016",
+      "request": "change gallbladder length to 70.85 mm",
+      "target": {
+        "patches": [
+          {
+            "op": "replace",
+            "path": "/parameters/gallbladder_length_mm",
+            "value": 70.85
+          }
+        ],
+        "status": "ready"
+      },
+      "prediction": {
+        "patches": [],
+        "status": "unsupported"
+      }
+    },
+    {
+      "id": "val-000019",
+      "request": "change liver height to 131.21 mm",
+      "target": {
+        "patches": [
+          {
+            "op": "replace",
+            "path": "/parameters/liver_height_mm",
+            "value": 131.21
+          }
+        ],
+        "status": "ready"
+      },
+      "prediction": {
+        "patches": [],
+        "status": "unsupported"
+      }
+    },
+    {
+      "id": "val-000025",
+      "request": "change liver height to 177.05 mm",
+      "target": {
+        "patches": [
+          {
+            "op": "replace",
+            "path": "/parameters/liver_height_mm",
+            "value": 177.05
+          }
+        ],
+        "status": "ready"
+      },
+      "prediction": {
+        "patches": [],
+        "status": "unsupported"
+      }
+    },
+    {
+      "id": "val-000034",
+      "request": "change gallbladder length to 77.14 mm",
+      "target": {
+        "patches": [
+          {
+            "op": "replace",
+            "path": "/parameters/gallbladder_length_mm",
+            "value": 77.14
+          }
+        ],
+        "status": "ready"
+      },
+      "prediction": {
+        "patches": [],
+        "status": "unsupported"
+      }
+    },
+    {
+      "id": "val-000040",
+      "request": "change gallbladder length to 62.4 mm",
+      "target": {
+        "patches": [
+          {
+            "op": "replace",
+            "path": "/parameters/gallbladder_length_mm",
+            "value": 62.4
+          }
+        ],
+        "status": "ready"
+      },
+      "prediction": {
+        "patches": [],
+        "status": "unsupported"
+      }
+    },
+    {
+      "id": "val-000043",
+      "request": "change liver height to 141.27 mm",
+      "target": {
+        "patches": [
+          {
+            "op": "replace",
+            "path": "/parameters/liver_height_mm",
+            "value": 141.27
+          }
+        ],
+        "status": "ready"
+      },
+      "prediction": {
+        "patches": [],
+        "status": "unsupported"
+      }
+    }
+  ]
+}

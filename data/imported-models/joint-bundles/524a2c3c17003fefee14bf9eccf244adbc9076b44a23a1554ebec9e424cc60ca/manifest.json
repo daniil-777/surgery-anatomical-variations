@@ -1,0 +1,22 @@
+{
+  "format": "viscera-joint-vae-v1",
+  "profile": "full",
+  "smoke_only": false,
+  "dataset_dependencies": {
+    "baseline": "0bf1fefeb406af2f511ac591807e693353bff3597e9084a7e41272236a0b642a",
+    "disease": "a63bac5f2d4d9efc29dde67f18a6efead5e4bba4e38540d3768e72be0c85c4e6"
+  },
+  "artifact_hashes": {
+    "model.npz": "586b51bd53720d251f63dc3fdc9f4271f4f3e64d0fe948c5f430592f32cdd1dc",
+    "model.json": "10336709528c21890f2b6b8360b131b708e04509bb98350f4d49022aa1ac4069",
+    "training_report.json": "f3950b2c1bc1bfa4b28b86b76850fa36366e946b0843eaed94733ba2d5144290",
+    "exact-renderer-audit.json": "9b471ea9603597347b9264c8a11ef5258e40e7da603bba10e665bfeb6e27767e",
+    "data/baseline-release.json": "0bf1fefeb406af2f511ac591807e693353bff3597e9084a7e41272236a0b642a",
+    "data/baseline-dataset_card.json": "d76effb3f2acc0640560b13691ed4ebad267c3b0d8399a3451d0d899ec3c72c0",
+    "data/baseline-reference_catalog.json": "21959c5fff698f1de214b34d87ea0ad3925a9a6256511059bcab5967856ab0ab",
+    "data/disease-release.json": "a63bac5f2d4d9efc29dde67f18a6efead5e4bba4e38540d3768e72be0c85c4e6",
+    "data/disease-dataset_card.json": "03ebf856bf3fbe3bd84a20eba2b3cad312d59f71a7972c2c660331f05a976f73",
+    "data/disease-reference_catalog.json": "21959c5fff698f1de214b34d87ea0ad3925a9a6256511059bcab5967856ab0ab"
+  },
+  "scope": "joint bounded synthetic shape, authored colour/material and disease; no physics model"
+}

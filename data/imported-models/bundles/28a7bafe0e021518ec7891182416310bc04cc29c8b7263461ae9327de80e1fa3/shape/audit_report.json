@@ -1,0 +1,333 @@
+{
+  "rows": 240,
+  "method": "ridge",
+  "macro_template_control_nrmse": 0.2052910870510002,
+  "per_template_control_nrmse": {
+    "bp3d-gallbladder-male": 0.20212463955770085,
+    "bp3d-stomach-male": 0.2137855841703995,
+    "hra-brain-female": 0.19814988038146839,
+    "hra-brain-male": 0.21012229688987444,
+    "hra-heart-female": 0.1871937160634382,
+    "hra-heart-male": 0.22639343023438693,
+    "hra-kidney-female-left": 0.22630687362559898,
+    "hra-kidney-female-right": 0.21890344506499174,
+    "hra-kidney-male-left": 0.23926457732123815,
+    "hra-kidney-male-right": 0.2029055918050262,
+    "hra-large-intestine-female": 0.20863277248678616,
+    "hra-large-intestine-male": 0.18038104675697084,
+    "hra-liver-female": 0.18705483815287102,
+    "hra-liver-male": 0.19076422596063303,
+    "hra-lung-female": 0.21185164834771106,
+    "hra-lung-male": 0.2090016497018697,
+    "hra-pancreas-female": 0.18927693286401387,
+    "hra-pancreas-male": 0.18878075301425856,
+    "hra-small-intestine-female": 0.16896765997532448,
+    "hra-small-intestine-male": 0.22837898417340263,
+    "hra-spleen-female": 0.19809146360216243,
+    "hra-spleen-male": 0.2516531238104067,
+    "hra-urinary-bladder-female": 0.19892335302533554,
+    "hra-urinary-bladder-male": 0.19007760223813522
+  },
+  "per_organ_control_nrmse": {
+    "brain": 0.20422384134261448,
+    "gallbladder": 0.20212463955770085,
+    "heart": 0.2077203319212293,
+    "kidney": 0.22223396255859126,
+    "large-intestine": 0.19501917314031406,
+    "liver": 0.1889186364321374,
+    "lung": 0.21043147398350998,
+    "pancreas": 0.18902900574123394,
+    "small-intestine": 0.20088184403973913,
+    "spleen": 0.22646139039092597,
+    "stomach": 0.2137855841703995,
+    "urinary-bladder": 0.19455075848148345
+  },
+  "per_control_nrmse": {
+    "scale_x": 0.020430157753439766,
+    "scale_y": 0.02277011350431951,
+    "scale_z": 0.03328870512792169,
+    "bend": 0.28500434013635223,
+    "twist": 0.28223104076098066,
+    "taper": 0.23152515865790882,
+    "asymmetry": 0.28469074756687623
+  },
+  "unconditional_empirical_diversity": {
+    "bp3d-gallbladder-male": {
+      "mean_control_std": 0.5684458086271776,
+      "unique_fraction": 0.328125
+    },
+    "bp3d-stomach-male": {
+      "mean_control_std": 0.59431789989698,
+      "unique_fraction": 0.328125
+    },
+    "hra-brain-female": {
+      "mean_control_std": 0.577061554898832,
+      "unique_fraction": 0.328125
+    },
+    "hra-brain-male": {
+      "mean_control_std": 0.5663595965788494,
+      "unique_fraction": 0.328125
+    },
+    "hra-heart-female": {
+      "mean_control_std": 0.5669223359838792,
+      "unique_fraction": 0.328125
+    },
+    "hra-heart-male": {
+      "mean_control_std": 0.5632396627963375,
+      "unique_fraction": 0.328125
+    },
+    "hra-kidney-female-left": {
+      "mean_control_std": 0.5570084989659726,
+      "unique_fraction": 0.328125
+    },
+    "hra-kidney-female-right": {
+      "mean_control_std": 0.5658951273412184,
+      "unique_fraction": 0.328125
+    },
+    "hra-kidney-male-left": {
+      "mean_control_std": 0.5453906948863352,
+      "unique_fraction": 0.328125
+    },
+    "hra-kidney-male-right": {
+      "mean_control_std": 0.5853545177005134,
+      "unique_fraction": 0.328125
+    },
+    "hra-large-intestine-female": {
+      "mean_control_std": 0.5539145074988724,
+      "unique_fraction": 0.328125
+    },
+    "hra-large-intestine-male": {
+      "mean_control_std": 0.5658880109771786,
+      "unique_fraction": 0.328125
+    },
+    "hra-liver-female": {
+      "mean_control_std": 0.5613621086090588,
+      "unique_fraction": 0.328125
+    },
+    "hra-liver-male": {
+      "mean_control_std": 0.5698124566483888,
+      "unique_fraction": 0.328125
+    },
+    "hra-lung-female": {
+      "mean_control_std": 0.5725611644661063,
+      "unique_fraction": 0.328125
+    },
+    "hra-lung-male": {
+      "mean_control_std": 0.5562988028473828,
+      "unique_fraction": 0.328125
+    },
+    "hra-pancreas-female": {
+      "mean_control_std": 0.5816561052650331,
+      "unique_fraction": 0.328125
+    },
+    "hra-pancreas-male": {
+      "mean_control_std": 0.5665024595101282,
+      "unique_fraction": 0.328125
+    },
+    "hra-small-intestine-female": {
+      "mean_control_std": 0.5665916950398934,
+      "unique_fraction": 0.328125
+    },
+    "hra-small-intestine-male": {
+      "mean_control_std": 0.5657412313581431,
+      "unique_fraction": 0.328125
+    },
+    "hra-spleen-female": {
+      "mean_control_std": 0.5868464134250638,
+      "unique_fraction": 0.328125
+    },
+    "hra-spleen-male": {
+      "mean_control_std": 0.5572384088919903,
+      "unique_fraction": 0.328125
+    },
+    "hra-urinary-bladder-female": {
+      "mean_control_std": 0.5896306298596851,
+      "unique_fraction": 0.328125
+    },
+    "hra-urinary-bladder-male": {
+      "mean_control_std": 0.582293116247892,
+      "unique_fraction": 0.328125
+    }
+  },
+  "conditional_proposal_diversity": {
+    "bp3d-gallbladder-male": {
+      "status": "MEASURED",
+      "mean_control_std": 0.29165711050210036,
+      "secondary_controls_mean_std": 0.4665934176449851,
+      "unique_fraction": 0.53125
+    },
+    "bp3d-stomach-male": {
+      "status": "MEASURED",
+      "mean_control_std": 0.310075549745079,
+      "secondary_controls_mean_std": 0.5157084732535753,
+      "unique_fraction": 0.59375
+    },
+    "hra-brain-female": {
+      "status": "UNSUPPORTED",
+      "reason": "Requested surface_area_mm2 exceeds training support for hra-brain-female"
+    },
+    "hra-brain-male": {
+      "status": "MEASURED",
+      "mean_control_std": 0.2919060975472147,
+      "secondary_controls_mean_std": 0.4916312592432349,
+      "unique_fraction": 0.625
+    },
+    "hra-heart-female": {
+      "status": "MEASURED",
+      "mean_control_std": 0.24592263499978367,
+      "secondary_controls_mean_std": 0.4140196636801018,
+      "unique_fraction": 0.625
+    },
+    "hra-heart-male": {
+      "status": "MEASURED",
+      "mean_control_std": 0.2587589610921452,
+      "secondary_controls_mean_std": 0.4228162277229943,
+      "unique_fraction": 0.65625
+    },
+    "hra-kidney-female-left": {
+      "status": "MEASURED",
+      "mean_control_std": 0.2896051187662175,
+      "secondary_controls_mean_std": 0.49237149846288386,
+      "unique_fraction": 0.625
+    },
+    "hra-kidney-female-right": {
+      "status": "MEASURED",
+      "mean_control_std": 0.3076753592337133,
+      "secondary_controls_mean_std": 0.5190791058687245,
+      "unique_fraction": 0.625
+    },
+    "hra-kidney-male-left": {
+      "status": "MEASURED",
+      "mean_control_std": 0.2904744480505848,
+      "secondary_controls_mean_std": 0.4952677654715938,
+      "unique_fraction": 0.625
+    },
+    "hra-kidney-male-right": {
+      "status": "MEASURED",
+      "mean_control_std": 0.28284524962735424,
+      "secondary_controls_mean_std": 0.483883500578201,
+      "unique_fraction": 0.40625
+    },
+    "hra-large-intestine-female": {
+      "status": "UNSUPPORTED",
+      "reason": "Requested extent_x_mm exceeds training support for hra-large-intestine-female"
+    },
+    "hra-large-intestine-male": {
+      "status": "MEASURED",
+      "mean_control_std": 0.28808540903116336,
+      "secondary_controls_mean_std": 0.4876492612684543,
+      "unique_fraction": 0.5625
+    },
+    "hra-liver-female": {
+      "status": "MEASURED",
+      "mean_control_std": 0.20724896084709826,
+      "secondary_controls_mean_std": 0.32684442398451286,
+      "unique_fraction": 0.59375
+    },
+    "hra-liver-male": {
+      "status": "MEASURED",
+      "mean_control_std": 0.2839018287944814,
+      "secondary_controls_mean_std": 0.47024520450687457,
+      "unique_fraction": 0.59375
+    },
+    "hra-lung-female": {
+      "status": "MEASURED",
+      "mean_control_std": 0.27727953195399124,
+      "secondary_controls_mean_std": 0.4550829038571364,
+      "unique_fraction": 0.59375
+    },
+    "hra-lung-male": {
+      "status": "MEASURED",
+      "mean_control_std": 0.3114423746723249,
+      "secondary_controls_mean_std": 0.494504269534816,
+      "unique_fraction": 0.65625
+    },
+    "hra-pancreas-female": {
+      "status": "MEASURED",
+      "mean_control_std": 0.27618195790735356,
+      "secondary_controls_mean_std": 0.42995056695761724,
+      "unique_fraction": 0.65625
+    },
+    "hra-pancreas-male": {
+      "status": "MEASURED",
+      "mean_control_std": 0.21391176494875447,
+      "secondary_controls_mean_std": 0.34774059296481724,
+      "unique_fraction": 0.53125
+    },
+    "hra-small-intestine-female": {
+      "status": "MEASURED",
+      "mean_control_std": 0.2364387857414456,
+      "secondary_controls_mean_std": 0.39991961932433445,
+      "unique_fraction": 0.5
+    },
+    "hra-small-intestine-male": {
+      "status": "MEASURED",
+      "mean_control_std": 0.23731655707637703,
+      "secondary_controls_mean_std": 0.39595291157620155,
+      "unique_fraction": 0.4375
+    },
+    "hra-spleen-female": {
+      "status": "UNSUPPORTED",
+      "reason": "Requested extent_x_mm exceeds training support for hra-spleen-female"
+    },
+    "hra-spleen-male": {
+      "status": "MEASURED",
+      "mean_control_std": 0.28671583571674514,
+      "secondary_controls_mean_std": 0.4548600037083639,
+      "unique_fraction": 0.65625
+    },
+    "hra-urinary-bladder-female": {
+      "status": "MEASURED",
+      "mean_control_std": 0.27457203224850923,
+      "secondary_controls_mean_std": 0.45802746155775087,
+      "unique_fraction": 0.6875
+    },
+    "hra-urinary-bladder-male": {
+      "status": "MEASURED",
+      "mean_control_std": 0.24045398460990006,
+      "secondary_controls_mean_std": 0.3830615730227018,
+      "unique_fraction": 0.625
+    }
+  },
+  "control_bound_violation_count": 0,
+  "decoded_geometry": {
+    "status": "MEASURED",
+    "conditions": {
+      "extent_x_mm": {
+        "observed_rows": 240,
+        "mae_original_units": 0.1354829133209783,
+        "nrmse_training_std": 0.027699743505084192
+      },
+      "extent_y_mm": {
+        "observed_rows": 240,
+        "mae_original_units": 0.14345475913290295,
+        "nrmse_training_std": 0.028532144421727818
+      },
+      "extent_z_mm": {
+        "observed_rows": 240,
+        "mae_original_units": 0.1428327580974324,
+        "nrmse_training_std": 0.03827650341966081
+      },
+      "surface_area_mm2": {
+        "observed_rows": 240,
+        "mae_original_units": 147.69673682532985,
+        "nrmse_training_std": 0.0361340443873011
+      },
+      "volume_ml": {
+        "observed_rows": 0,
+        "mae_original_units": null,
+        "nrmse_training_std": null
+      },
+      "compactness": {
+        "observed_rows": 0,
+        "mae_original_units": null,
+        "nrmse_training_std": null
+      }
+    }
+  },
+  "scope": "Within-generator held-out seeds; not unseen-person anatomical validation",
+  "split": "audit",
+  "model_sha256": "a1e8c305a037e2c05a5af2ce0bf810acda0373fc8a835d8d8376b60cc1f3c8d4",
+  "split_sha256": "9f2eeb2149695370dc81d0626369c5456b70dbd6e3e866b846026c005a27433d",
+  "model_frozen": true
+}

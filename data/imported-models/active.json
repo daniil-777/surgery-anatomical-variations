@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "active_bundle": "46b14640625e293b637fdd113de28e820c741d6d4829ec11b7f62f3cd912378a",
+  "manifest_sha256": "c07f6e86c631ce317440222846a7c875279b0cf29f9579a97b9ad2b20634eb5a",
+  "lanes": {
+    "shape": {
+      "status": "active",
+      "method": "ridge",
+      "scope": "synthetic geometry controls"
+    },
+    "material": {
+      "status": "active",
+      "method": "ridge",
+      "scope": "procedural appearance controls"
+    },
+    "disease": {
+      "status": "active",
+      "method": "conditional_vae",
+      "scope": "synthetic disease surface recipes"
+    },
+    "clinical": {
+      "status": "stored_retrieval_prior",
+      "scope": "observed training cases only; not an editor generator",
+      "groups": [
+        {
+          "organ": "pancreas",
+          "disease_code": "pancreatic_ductal_adenocarcinoma"
+        }
+      ]
+    },
+    "language": {
+      "status": "enabled_guarded_adapter",
+      "scope": "shape text proposals must agree with the deterministic compiler"
+    },
+    "physics": {
+      "status": "not_trained",
+      "scope": "no constitutive mechanics learned"
+    }
+  },
+  "language_enabled": true
+}

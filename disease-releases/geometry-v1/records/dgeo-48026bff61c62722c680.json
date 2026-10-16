@@ -1,0 +1,259 @@
+{
+  "appearance_evidence": "authored_vertex_color_not_measured_tissue_texture",
+  "clinical_review_status": "unreviewed",
+  "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+  "disease_field": {
+    "applied_displacement_fraction": 1.0,
+    "clinical_stage": null,
+    "color_strength": 0.695004545004263,
+    "fields": [
+      {
+        "amplitude_mm": 0.4827558381747231,
+        "center_mm": [
+          4.497250000000001,
+          0.8449999999997999,
+          -16.31050000000002
+        ],
+        "direction": [
+          0.6506282827765362,
+          -0.6761818103992038,
+          -0.3456313020206809
+        ],
+        "radius_mm": 13.246632602567667
+      },
+      {
+        "amplitude_mm": 0.49050559068405264,
+        "center_mm": [
+          5.255650000000003,
+          -3.2350000000001273,
+          11.021500000000003
+        ],
+        "direction": [
+          0.9421503625527856,
+          0.33304157809797014,
+          0.03789461174980244
+        ],
+        "radius_mm": 13.246632602567667
+      },
+      {
+        "amplitude_mm": 0.47803401633617804,
+        "center_mm": [
+          -17.493449999999996,
+          -9.845000000000027,
+          -3.539500000000004
+        ],
+        "direction": [
+          -0.9702256509921149,
+          -0.13852125577289834,
+          -0.19868076871208787
+        ],
+        "radius_mm": 13.246632602567667
+      }
+    ],
+    "gradient_bound_per_step": 0.26647764444351196,
+    "pattern": "inflammation",
+    "profile_id": "gallbladder-cholecystitis",
+    "realized_sites": 3,
+    "requested_sites": 6,
+    "steps": 3,
+    "surface_site_frame": "undeformed-atlas-Y-up-mm",
+    "target_srgb": [
+      0.46,
+      0.055,
+      0.045
+    ],
+    "version": "disease-morphology-design-1.0.0"
+  },
+  "display_normal_sha256": "409d4cb46c2d184aaff291b750950bca0f5d73ef41f173273a5bada1b6d88576",
+  "face_count": 2396,
+  "features": [
+    37.416647194395026,
+    40.41000000000008,
+    48.415041743456975,
+    3939.507134560971,
+    1.4615083105094224,
+    1.0
+  ],
+  "geometry_evidence": "authored_disease_surface_from_licensed_reference_template",
+  "geometry_sha256": "67a59b4ad5ca8ef04900e156f842e955f4b38a42026fefd4dbcfe128d7c644e5",
+  "group_id": "gallbladder-cholecystitis:3067427057",
+  "mechanics_evidence": "none",
+  "normal_fallback_count": 0,
+  "organ": "gallbladder",
+  "parent_recipe_index": 88,
+  "parent_sample_id": "gallbladder-cholecystitis:3067427057",
+  "path": "records/dgeo-48026bff61c62722c680.json",
+  "patient_id": null,
+  "point_count": 2048,
+  "point_sampling_seed": 944504933,
+  "profile_id": "gallbladder-cholecystitis",
+  "qa": {
+    "anatomical_plausibility": {
+      "status": "NOT_RUN"
+    },
+    "area_ratio_max": 1.1957579260122029,
+    "area_ratio_min": 0.9235322591632316,
+    "continuous_jacobian_lower_bound": 0.061478064938013444,
+    "mechanical_validation": {
+      "status": "NOT_RUN"
+    },
+    "min_normal_dot": 0.9390658827160882,
+    "new_degenerate_faces": 0,
+    "normal_turns_over_90_degrees": 0,
+    "passed": true,
+    "scope": "finite nondegenerate same-topology outer-surface design",
+    "self_intersection": {
+      "reason": "Discrete/source triangle intersections not certified",
+      "status": "NOT_RUN"
+    },
+    "source_topology": {
+      "boundary_edges_after_audit_weld": 0,
+      "connected_vertex_components": 1,
+      "degenerate_faces": 0,
+      "method": "trimesh-geometric-weld-audit-copy-1.0",
+      "nonmanifold_edges_after_audit_weld": 0,
+      "self_intersection": {
+        "reason": "No robust intersection backend",
+        "status": "NOT_RUN"
+      },
+      "simulation_readiness": {
+        "reason": "No volumetric domain/materials",
+        "status": "NOT_RUN"
+      },
+      "watertight_after_audit_weld": true,
+      "weld_precision_mm": 1e-08,
+      "winding_consistent_after_audit_weld": true,
+      "zero_length_edges": 0
+    },
+    "status": "PASS",
+    "topology_preserved": true
+  },
+  "realized_id": "975eaeac248ea7ae814657a196858203ecf3033ca941f1d5cf4ebfacbb81a1e6",
+  "recipe_features": [
+    0.7746443152427673,
+    0.8606274127960205,
+    0.27640992403030396,
+    0.47180482745170593,
+    0.8971918225288391,
+    0.7142857313156128,
+    0.9150129556655884,
+    0.2229999154806137,
+    0.08359107375144958
+  ],
+  "sample_id": "dgeo-48026bff61c62722c680",
+  "source_attribution": "BodyParts3D, \u00a9 The Database Center for Life Science licensed under CC Attribution 4.0 International",
+  "source_group_id": "bodyparts3d-adult-male-atlas",
+  "source_license": "CC-BY-4.0",
+  "source_template_artifact_sha256": "6e94e0266417eb204fe9056dd9a49fcd288417318162ca27c31000b869441bab",
+  "source_template_geometry_sha256": "6331d533a0051ab3b65e8d27e21cd048fde89543103ab85d9947f7198263ef8e",
+  "source_url": "https://dbarchive.biosciencedbc.jp/data/bodyparts3d/LATEST/partof_BP3D_4.0_obj_99.zip",
+  "spec": {
+    "appearance": "tissue",
+    "controls": {
+      "asymmetry": 0.0,
+      "bend": 0.0,
+      "scale_x": 0.0,
+      "scale_y": 0.0,
+      "scale_z": 0.0,
+      "taper": 0.0,
+      "twist": 0.0
+    },
+    "disease": {
+      "contrast": 0.8971918225288391,
+      "count": 6,
+      "irregularity": 0.47180482745170593,
+      "location": [
+        0.8300259113311768,
+        -0.5540001690387726,
+        -0.8328178524971008
+      ],
+      "profile_id": "gallbladder-cholecystitis",
+      "seed": 3067427057,
+      "severity": 0.7746443152427673,
+      "size": 0.8606274127960205,
+      "spread": 0.27640992403030396
+    },
+    "realized_id": "975eaeac248ea7ae814657a196858203ecf3033ca941f1d5cf4ebfacbb81a1e6",
+    "seed": 3067427057,
+    "template_id": "bp3d-gallbladder-male",
+    "template_sha256": "6e94e0266417eb204fe9056dd9a49fcd288417318162ca27c31000b869441bab"
+  },
+  "split": "val",
+  "split_track": "within_generator",
+  "summary": {
+    "disease": {
+      "applied_displacement_fraction": 1.0,
+      "displacement_limited_by_source_mesh": false,
+      "evidence": "synthetic_surface_morphology_not_patient_or_population_geometry",
+      "internal_anatomy_generated": false,
+      "max_displacement_mm": 1.4615083105094224,
+      "physical_parameters_inferred": false,
+      "profile": {
+        "clinical_source_url": "https://www.niddk.nih.gov/health-information/digestive-diseases/gallstones/treatment",
+        "evidence": "image_reference_not_paired_3d_supervision",
+        "id": "gallbladder-cholecystitis",
+        "label": "Chronic calculous cholecystitis",
+        "limits": "Museum preservation changes color and surface appearance; fibrosis or wall stiffness cannot be estimated from this photo. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+        "morphology_targets": [
+          "wall profile",
+          "stone burden",
+          "contracted or distorted cavity"
+        ],
+        "organ": "gallbladder",
+        "pattern": "inflammation",
+        "source_ref": "I05",
+        "source_url": "https://commons.wikimedia.org/wiki/File:Chronic_calculous_cholecystitis.jpg",
+        "supported": true,
+        "unavailable_reason": ""
+      },
+      "realized_sites": 3,
+      "recipe": {
+        "contrast": 0.8971918225288391,
+        "count": 6,
+        "irregularity": 0.47180482745170593,
+        "location": [
+          0.8300259113311768,
+          -0.5540001690387726,
+          -0.8328178524971008
+        ],
+        "profile_id": "gallbladder-cholecystitis",
+        "seed": 3067427057,
+        "severity": 0.7746443152427673,
+        "size": 0.8606274127960205,
+        "spread": 0.27640992403030396
+      },
+      "requested_sites": 6,
+      "version": "disease-morphology-design-1.0.0"
+    },
+    "extent_mm": [
+      37.416647194395026,
+      40.41000000000008,
+      48.415041743456975
+    ],
+    "measurements": {
+      "compactness": null,
+      "extent_x_mm": 37.416647194395026,
+      "extent_y_mm": 40.41000000000008,
+      "extent_z_mm": 48.415041743456975,
+      "method": "disease-display-triangle-measurements-1.0.0",
+      "surface_area_definition": "Sum of selected triangles including capsule/internal faces",
+      "surface_area_mm2": 3939.507134560971,
+      "volume_ml": null,
+      "volume_reason": "Display surface assembly is not a certified closed outer envelope",
+      "volume_status": "NOT_APPLICABLE"
+    },
+    "min_jacobian": 0.061478064938013444,
+    "min_jacobian_kind": "conservative_bound",
+    "organ": "gallbladder",
+    "profile": "development_preview",
+    "qa_scope": "finite nondegenerate same-topology outer-surface design",
+    "qa_status": "PASS",
+    "reference": "bp3d-gallbladder-male",
+    "review_status": "unreviewed",
+    "triangles": 2396,
+    "vertices": 1202
+  },
+  "template_id": "bp3d-gallbladder-male",
+  "units": "mm",
+  "vertex_count": 1202
+}

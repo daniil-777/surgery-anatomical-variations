@@ -1,0 +1,100 @@
+# What the repository leaves out. Everything the studio, the API, the tests and the deploy package read is committed;
+# see RESTORE.md for what stays on the development Mac and why. Patterns are anchored (leading /) so that a folder
+# name such as references/ or models/ is only excluded where meant.
+
+# ---- environments, dependencies, build outputs, caches (recreated by uv sync / pnpm install / vite build)
+.venv/
+node_modules/
+dist/
+*.pyc
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+test-results/
+playwright-report/
+.swarm/
+.claude-flow/
+/agentdb.rvf
+/agentdb.rvf.lock
+/ruvector.db
+.DS_Store
+._*
+# iCloud conflict copies ("name 2.json", "dist 3")
+* [0-9].*
+* [0-9]/
+
+# ---- user state, databases and machine-specific locks (the API recreates them)
+/data/*.sqlite*
+/data/generated/
+/data/imported-models/.canonical-v2-deploy.lock
+
+# ---- licences and private links that must not travel
+/disease-releases/clinical-nc-v3/
+/artifacts/disease/clinical-nc-run-v1/
+/docs/FINAL_DELIVERY_LINKS.md
+
+# ---- training outputs, deliveries, evidence and benchmarks: on the Mac, not here (RESTORE.md lists them)
+/artifacts/*
+!/artifacts/physics/
+!/artifacts/language/
+!/artifacts/joint-vae/
+/artifacts/joint-vae/*
+!/artifacts/joint-vae/default/
+!/artifacts/joint-vae/dataset-builder-at-release.py
+!/artifacts/joint-v2/
+/artifacts/joint-v2/*
+!/artifacts/joint-v2/dataset-builder-at-release.py
+!/artifacts/models/
+/artifacts/models/*
+!/artifacts/models/shape-pilot-v1/
+/artifacts/models/shape-pilot-v1/scenes/
+!/artifacts/atlas/
+/artifacts/atlas/*
+!/artifacts/atlas/run-v2/
+!/artifacts/atlas/material-run-v1/
+!/artifacts/disease/
+/artifacts/disease/root-verification.json
+!/artifacts/wording-integration-2026-10-08/
+/artifacts/wording-integration-2026-10-08/*
+!/artifacts/wording-integration-2026-10-08/v3-independent-heldout/
+!/artifacts/ground-truth/
+/artifacts/ground-truth/*
+!/artifacts/ground-truth/drends-pilot/
+/artifacts/ground-truth/drends-pilot/*
+!/artifacts/ground-truth/drends-pilot/provenance.json
+!/artifacts/ground-truth/drends-pilot/review/
+/artifacts/ground-truth/drends-pilot/review/*
+!/artifacts/ground-truth/drends-pilot/review/frame-00000-left.png
+!/artifacts/reference-material/
+/artifacts/reference-material/*
+!/artifacts/reference-material/models/
+/artifacts/reference-material/models/*
+!/artifacts/reference-material/models/sam2.1-hiera-tiny/
+/artifacts/reference-material/models/sam2.1-hiera-tiny/model.safetensors
+/benchmarks/*
+!/benchmarks/record-editor.mjs
+!/benchmarks/results/
+/benchmarks/results/*
+!/benchmarks/results/whole-scene-quality-2026-10-08/
+/benchmarks/results/whole-scene-quality-2026-10-08/*
+!/benchmarks/results/whole-scene-quality-2026-10-08/baseline/
+/benchmarks/results/whole-scene-quality-2026-10-08/baseline/browser-results.json
+/physics-releases/
+/references/
+/disease-qa/
+/physics-review/
+/research-report/
+/datasets/*
+!/datasets/atlas/
+/datasets/atlas/*
+!/datasets/atlas/cohort-v2/
+!/datasets/atlas/material-v1/
+!/datasets/atlas/language-v1/
+!/datasets/anatomy-templates/
+/datasets/anatomy-templates/*
+!/datasets/anatomy-templates/templates-v3/
+*.zip
+!/artifacts/joint-vae/default/viscera-joint-weights.zip
+*.mp4
+*.bag

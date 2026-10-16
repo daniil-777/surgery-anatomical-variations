@@ -1,0 +1,266 @@
+{
+  "rows": 144,
+  "macro_control_nrmse": 0.08637396104625907,
+  "macro_field_summary_nrmse": 0.08340065630087173,
+  "condition_rmse_original_units": {
+    "mean_red_linear": 0.003520403125541513,
+    "mean_green_linear": 0.0010789788159864917,
+    "mean_blue_linear": 0.0016200071626281231,
+    "luminance_std": 0.000674986273861472,
+    "roughness_mean": 0.00047427502617055164,
+    "roughness_std": 0.00029379516022963936,
+    "height_rms_mm": 0.00010956658767281947,
+    "gradient_rms": 0.001019271941012514
+  },
+  "field_mae_rmse": {
+    "rgb_linear_mae": 0.006656189785684684,
+    "roughness_mae": 0.005728396447588024,
+    "height_mm_rmse": 0.00010740120305803395,
+    "gradient_rmse": 0.00046549282481030043
+  },
+  "per_group": {
+    "brain|balanced": {
+      "control_nrmse": 0.058511571967712714,
+      "field_summary_nrmse": 0.07084461108723583
+    },
+    "brain|moist": {
+      "control_nrmse": 0.12758776738725744,
+      "field_summary_nrmse": 0.06472088303351972
+    },
+    "brain|rich": {
+      "control_nrmse": 0.12740736883703946,
+      "field_summary_nrmse": 0.10917976027288114
+    },
+    "brain|soft": {
+      "control_nrmse": 0.04927860271817112,
+      "field_summary_nrmse": 0.046651348545888253
+    },
+    "gallbladder|balanced": {
+      "control_nrmse": 0.08046126714756474,
+      "field_summary_nrmse": 0.05308061901968612
+    },
+    "gallbladder|moist": {
+      "control_nrmse": 0.10097603080401582,
+      "field_summary_nrmse": 0.10098077380264668
+    },
+    "gallbladder|rich": {
+      "control_nrmse": 0.08824069055600842,
+      "field_summary_nrmse": 0.08440805648990868
+    },
+    "gallbladder|soft": {
+      "control_nrmse": 0.10328227996015164,
+      "field_summary_nrmse": 0.04976655739436407
+    },
+    "heart|balanced": {
+      "control_nrmse": 0.09951885040862164,
+      "field_summary_nrmse": 0.08868454500594906
+    },
+    "heart|moist": {
+      "control_nrmse": 0.0611485115073604,
+      "field_summary_nrmse": 0.047941342792804195
+    },
+    "heart|rich": {
+      "control_nrmse": 0.08968947485272372,
+      "field_summary_nrmse": 0.0857570548328405
+    },
+    "heart|soft": {
+      "control_nrmse": 0.04025297450857171,
+      "field_summary_nrmse": 0.06881571643089013
+    },
+    "kidney|balanced": {
+      "control_nrmse": 0.10840360345174088,
+      "field_summary_nrmse": 0.08866264402782133
+    },
+    "kidney|moist": {
+      "control_nrmse": 0.08672361729167799,
+      "field_summary_nrmse": 0.057666698743012904
+    },
+    "kidney|rich": {
+      "control_nrmse": 0.12266671336450759,
+      "field_summary_nrmse": 0.07126820873061147
+    },
+    "kidney|soft": {
+      "control_nrmse": 0.06417995422507901,
+      "field_summary_nrmse": 0.06808300157932438
+    },
+    "large-intestine|balanced": {
+      "control_nrmse": 0.11865368305467586,
+      "field_summary_nrmse": 0.06950798819750063
+    },
+    "large-intestine|moist": {
+      "control_nrmse": 0.06439388169498958,
+      "field_summary_nrmse": 0.08012062752542871
+    },
+    "large-intestine|rich": {
+      "control_nrmse": 0.11457567835161109,
+      "field_summary_nrmse": 0.07340276914037541
+    },
+    "large-intestine|soft": {
+      "control_nrmse": 0.080294550957847,
+      "field_summary_nrmse": 0.11751021946101249
+    },
+    "liver|balanced": {
+      "control_nrmse": 0.1000042458918814,
+      "field_summary_nrmse": 0.09528176329004012
+    },
+    "liver|moist": {
+      "control_nrmse": 0.0763236094943047,
+      "field_summary_nrmse": 0.05587903661366189
+    },
+    "liver|rich": {
+      "control_nrmse": 0.07582083169458341,
+      "field_summary_nrmse": 0.06380436902405358
+    },
+    "liver|soft": {
+      "control_nrmse": 0.08549036385499191,
+      "field_summary_nrmse": 0.0649846785315345
+    },
+    "lung|balanced": {
+      "control_nrmse": 0.07808648869224606,
+      "field_summary_nrmse": 0.06494608635663693
+    },
+    "lung|moist": {
+      "control_nrmse": 0.06622166676737937,
+      "field_summary_nrmse": 0.05746716486113493
+    },
+    "lung|rich": {
+      "control_nrmse": 0.07283206157775543,
+      "field_summary_nrmse": 0.08344150568954406
+    },
+    "lung|soft": {
+      "control_nrmse": 0.10273793533557854,
+      "field_summary_nrmse": 0.12667473040511895
+    },
+    "pancreas|balanced": {
+      "control_nrmse": 0.057531709973154356,
+      "field_summary_nrmse": 0.2010080354826603
+    },
+    "pancreas|moist": {
+      "control_nrmse": 0.06787545746790755,
+      "field_summary_nrmse": 0.175118395754228
+    },
+    "pancreas|rich": {
+      "control_nrmse": 0.08009372003436493,
+      "field_summary_nrmse": 0.11555093085022715
+    },
+    "pancreas|soft": {
+      "control_nrmse": 0.09202778915285713,
+      "field_summary_nrmse": 0.17586341143589093
+    },
+    "small-intestine|balanced": {
+      "control_nrmse": 0.073353295846558,
+      "field_summary_nrmse": 0.07759928380215486
+    },
+    "small-intestine|moist": {
+      "control_nrmse": 0.09457816976781307,
+      "field_summary_nrmse": 0.07977380384257618
+    },
+    "small-intestine|rich": {
+      "control_nrmse": 0.09618426751904216,
+      "field_summary_nrmse": 0.05464034468800874
+    },
+    "small-intestine|soft": {
+      "control_nrmse": 0.041998595901353096,
+      "field_summary_nrmse": 0.05654626517853651
+    },
+    "spleen|balanced": {
+      "control_nrmse": 0.07676696900548764,
+      "field_summary_nrmse": 0.09154615461232392
+    },
+    "spleen|moist": {
+      "control_nrmse": 0.08626362933423798,
+      "field_summary_nrmse": 0.06393961843426425
+    },
+    "spleen|rich": {
+      "control_nrmse": 0.13372983870406172,
+      "field_summary_nrmse": 0.07220349446987735
+    },
+    "spleen|soft": {
+      "control_nrmse": 0.08814239271731117,
+      "field_summary_nrmse": 0.0606337385957364
+    },
+    "stomach|balanced": {
+      "control_nrmse": 0.13081100540202828,
+      "field_summary_nrmse": 0.10245259092541727
+    },
+    "stomach|moist": {
+      "control_nrmse": 0.0785348437308154,
+      "field_summary_nrmse": 0.1295512741496102
+    },
+    "stomach|rich": {
+      "control_nrmse": 0.12831383079748637,
+      "field_summary_nrmse": 0.05270959813538629
+    },
+    "stomach|soft": {
+      "control_nrmse": 0.0611567612386357,
+      "field_summary_nrmse": 0.05176616750118037
+    },
+    "urinary-bladder|balanced": {
+      "control_nrmse": 0.0634121090373575,
+      "field_summary_nrmse": 0.06395749023572071
+    },
+    "urinary-bladder|moist": {
+      "control_nrmse": 0.05093258675849701,
+      "field_summary_nrmse": 0.07173964781951887
+    },
+    "urinary-bladder|rich": {
+      "control_nrmse": 0.06908465396715424,
+      "field_summary_nrmse": 0.07005649788249207
+    },
+    "urinary-bladder|soft": {
+      "control_nrmse": 0.13139422750826377,
+      "field_summary_nrmse": 0.12704199776060562
+    }
+  },
+  "per_organ": {
+    "brain": {
+      "control_nrmse": 0.09793270745878327,
+      "field_summary_nrmse": 0.07632876259172224
+    },
+    "gallbladder": {
+      "control_nrmse": 0.09370675420092955,
+      "field_summary_nrmse": 0.07519324941207241
+    },
+    "heart": {
+      "control_nrmse": 0.07633420907817884,
+      "field_summary_nrmse": 0.07458752602343917
+    },
+    "kidney": {
+      "control_nrmse": 0.09802871534588631,
+      "field_summary_nrmse": 0.07228583068216388
+    },
+    "large-intestine": {
+      "control_nrmse": 0.09721119982471403,
+      "field_summary_nrmse": 0.08724576432925404
+    },
+    "liver": {
+      "control_nrmse": 0.08497579566200049,
+      "field_summary_nrmse": 0.07158052650500465
+    },
+    "lung": {
+      "control_nrmse": 0.08115171196040412,
+      "field_summary_nrmse": 0.08736338100881912
+    },
+    "pancreas": {
+      "control_nrmse": 0.07550015454325049,
+      "field_summary_nrmse": 0.16981654804697055
+    },
+    "small-intestine": {
+      "control_nrmse": 0.0795943333159493,
+      "field_summary_nrmse": 0.06813324445413371
+    },
+    "spleen": {
+      "control_nrmse": 0.0987260508046779,
+      "field_summary_nrmse": 0.07307319635061225
+    },
+    "stomach": {
+      "control_nrmse": 0.10426388328807647,
+      "field_summary_nrmse": 0.09046836996220355
+    },
+    "urinary-bladder": {
+      "control_nrmse": 0.08463503471189157,
+      "field_summary_nrmse": 0.0870125274272134
+    }
+  },
+  "scope": "Reconstruction of procedural material fields, not comparison with tissue photographs"
+}

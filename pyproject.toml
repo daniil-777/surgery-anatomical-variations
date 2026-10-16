@@ -1,0 +1,52 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "viscera"
+version = "0.1.0"
+description = "Original procedural anatomy, controllable 3D editing and reproducible model training"
+requires-python = ">=3.11,<3.13"
+dependencies = [
+  "numpy>=2.2,<3",
+  "scipy>=1.15,<2",
+  "scikit-image>=0.25,<0.27",
+  "trimesh>=4.6,<5",
+  "pydantic>=2.11,<3",
+  "fastapi>=0.115,<1",
+  "uvicorn>=0.34,<1",
+  "pillow>=11,<13",
+  "python-multipart>=0.0.20,<1",
+  "xatlas==0.0.11",
+]
+
+[project.optional-dependencies]
+train = ["torch>=2.6,<3", "safetensors>=0.5,<1", "matplotlib>=3.10,<4"]
+language = ["transformers==4.57.1", "peft==0.17.1", "accelerate==1.10.1"]
+reference-segmentation = [
+  "torch>=2.8,<3", "torchvision>=0.23,<1", "transformers==4.57.1", "safetensors>=0.5,<1",
+]
+disease-data = ["nibabel>=5.4,<6"]
+
+[dependency-groups]
+dev = ["pytest>=8.3,<10", "httpx>=0.28,<1", "ruff>=0.11,<1", "mypy>=1.15,<2"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["py/viscera_core"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests/python"]
+pythonpath = ["py", "."]
+addopts = "-ra"
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+ignore_missing_imports = true

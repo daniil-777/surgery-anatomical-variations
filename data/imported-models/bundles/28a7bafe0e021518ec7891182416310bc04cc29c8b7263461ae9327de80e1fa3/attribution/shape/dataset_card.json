@@ -1,0 +1,227 @@
+{
+  "appearance": "physically scaled rest-coordinate noise with explicitly heuristic per-organ material profiles",
+  "condition_gaps": "Volume and compactness masked when display surfaces do not define an organ envelope",
+  "organ_groups": [
+    "brain",
+    "gallbladder",
+    "heart",
+    "kidney",
+    "large-intestine",
+    "liver",
+    "lung",
+    "pancreas",
+    "small-intestine",
+    "spleen",
+    "stomach",
+    "urinary-bladder"
+  ],
+  "per_template": [
+    {
+      "accepted": 64,
+      "attempted": 64,
+      "max_edge_ratio": 1.161903819089142,
+      "min_jacobian": 0.7295336054576576,
+      "organ": "gallbladder",
+      "template_id": "bp3d-gallbladder-male"
+    },
+    {
+      "accepted": 64,
+      "attempted": 64,
+      "max_edge_ratio": 1.1695410070395296,
+      "min_jacobian": 0.7824414617724531,
+      "organ": "stomach",
+      "template_id": "bp3d-stomach-male"
+    },
+    {
+      "accepted": 64,
+      "attempted": 64,
+      "max_edge_ratio": 1.0442993981021464,
+      "min_jacobian": 0.904640420647676,
+      "organ": "brain",
+      "template_id": "hra-brain-female"
+    },
+    {
+      "accepted": 64,
+      "attempted": 64,
+      "max_edge_ratio": 1.0494520916778587,
+      "min_jacobian": 0.9067725953249643,
+      "organ": "brain",
+      "template_id": "hra-brain-male"
+    },
+    {
+      "accepted": 64,
+      "attempted": 64,
+      "max_edge_ratio": 1.086982837652141,
+      "min_jacobian": 0.857098725390383,
+      "organ": "heart",
+      "template_id": "hra-heart-female"
+    },
+    {
+      "accepted": 64,
+      "attempted": 64,
+      "max_edge_ratio": 1.087265508582761,
+      "min_jacobian": 0.8556103938248016,
+      "organ": "heart",
+      "template_id": "hra-heart-male"
+    },
+    {
+      "accepted": 64,
+      "attempted": 64,
+      "max_edge_ratio": 1.1386814412097068,
+      "min_jacobian": 0.7857861789587887,
+      "organ": "kidney",
+      "template_id": "hra-kidney-female-left"
+    },
+    {
+      "accepted": 64,
+      "attempted": 64,
+      "max_edge_ratio": 1.1275645556510578,
+      "min_jacobian": 0.7692271731416854,
+      "organ": "kidney",
+      "template_id": "hra-kidney-female-right"
+    },
+    {
+      "accepted": 64,
+      "attempted": 64,
+      "max_edge_ratio": 1.1414918476299376,
+      "min_jacobian": 0.7602502076264108,
+      "organ": "kidney",
+      "template_id": "hra-kidney-male-left"
+    },
+    {
+      "accepted": 64,
+      "attempted": 64,
+      "max_edge_ratio": 1.136963056672778,
+      "min_jacobian": 0.7336412819364854,
+      "organ": "kidney",
+      "template_id": "hra-kidney-male-right"
+    },
+    {
+      "accepted": 64,
+      "attempted": 64,
+      "max_edge_ratio": 1.1039043647332407,
+      "min_jacobian": 0.8494344275787802,
+      "organ": "large-intestine",
+      "template_id": "hra-large-intestine-female"
+    },
+    {
+      "accepted": 64,
+      "attempted": 64,
+      "max_edge_ratio": 1.0980744054383078,
+      "min_jacobian": 0.8414139302248709,
+      "organ": "large-intestine",
+      "template_id": "hra-large-intestine-male"
+    },
+    {
+      "accepted": 64,
+      "attempted": 64,
+      "max_edge_ratio": 1.1416038366295715,
+      "min_jacobian": 0.7589983755650405,
+      "organ": "liver",
+      "template_id": "hra-liver-female"
+    },
+    {
+      "accepted": 64,
+      "attempted": 64,
+      "max_edge_ratio": 1.1525289975028035,
+      "min_jacobian": 0.7398348247689032,
+      "organ": "liver",
+      "template_id": "hra-liver-male"
+    },
+    {
+      "accepted": 64,
+      "attempted": 64,
+      "max_edge_ratio": 1.0936566831962855,
+      "min_jacobian": 0.8485396851335428,
+      "organ": "lung",
+      "template_id": "hra-lung-female"
+    },
+    {
+      "accepted": 64,
+      "attempted": 64,
+      "max_edge_ratio": 1.091115629089829,
+      "min_jacobian": 0.8578617027509128,
+      "organ": "lung",
+      "template_id": "hra-lung-male"
+    },
+    {
+      "accepted": 64,
+      "attempted": 64,
+      "max_edge_ratio": 1.1122811946011184,
+      "min_jacobian": 0.7772628344038723,
+      "organ": "pancreas",
+      "template_id": "hra-pancreas-female"
+    },
+    {
+      "accepted": 64,
+      "attempted": 64,
+      "max_edge_ratio": 1.1061206306292748,
+      "min_jacobian": 0.7855728335358129,
+      "organ": "pancreas",
+      "template_id": "hra-pancreas-male"
+    },
+    {
+      "accepted": 64,
+      "attempted": 64,
+      "max_edge_ratio": 1.0801380964127083,
+      "min_jacobian": 0.8746177599342154,
+      "organ": "small-intestine",
+      "template_id": "hra-small-intestine-female"
+    },
+    {
+      "accepted": 64,
+      "attempted": 64,
+      "max_edge_ratio": 1.085565812656002,
+      "min_jacobian": 0.8720991296967658,
+      "organ": "small-intestine",
+      "template_id": "hra-small-intestine-male"
+    },
+    {
+      "accepted": 64,
+      "attempted": 64,
+      "max_edge_ratio": 1.15002758198202,
+      "min_jacobian": 0.7935568159185827,
+      "organ": "spleen",
+      "template_id": "hra-spleen-female"
+    },
+    {
+      "accepted": 64,
+      "attempted": 64,
+      "max_edge_ratio": 1.1494287404688386,
+      "min_jacobian": 0.8062319111472358,
+      "organ": "spleen",
+      "template_id": "hra-spleen-male"
+    },
+    {
+      "accepted": 64,
+      "attempted": 64,
+      "max_edge_ratio": 1.126733511958795,
+      "min_jacobian": 0.7417323884971212,
+      "organ": "urinary-bladder",
+      "template_id": "hra-urinary-bladder-female"
+    },
+    {
+      "accepted": 64,
+      "attempted": 64,
+      "max_edge_ratio": 1.132947696458222,
+      "min_jacobian": 0.8181812877583643,
+      "organ": "urinary-bladder",
+      "template_id": "hra-urinary-bladder-male"
+    }
+  ],
+  "physical_validation": "not performed; positive design-map Jacobian is not tissue mechanics validation",
+  "profile": "development_preview",
+  "release_id": "f1142554e6c82e9a4f80",
+  "representation": "full-resolution templates + explicit recipe per realized object; sampled points are auxiliary",
+  "review_status": "unreviewed",
+  "source_ancestries": [
+    "bodyparts3d-adult-male-atlas",
+    "hra-allen-brain-shared-atlas",
+    "hra-visible-human-female",
+    "hra-visible-human-male"
+  ],
+  "source_attribution": "See bundled templates/*.json. Source geometry remains CC BY 4.0 with modifications recorded.",
+  "source_template_count": 24,
+  "title": "VISCERA atlas-derived organ design cohort",
+  "variation": "bounded, invertible authored morphological design; not measured normal population variation"
+}

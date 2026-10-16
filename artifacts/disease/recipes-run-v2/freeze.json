@@ -1,0 +1,5 @@
+{
+  "model_sha256": "4da4239f48576be0b0a4a1db1f5e4cb0611696afa7cc225375333fc4f530c4ed",
+  "tuning_closed": true,
+  "selected_method": "conditional_vae"
+}

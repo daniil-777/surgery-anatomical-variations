@@ -1,0 +1,367 @@
+{
+  "schema": "viscera.physics.observability_witness.v2",
+  "evidence_kind": "synthetic_numerical_fixture",
+  "geometry": "30x30x20 mm block, fixed bottom, prescribed top patch z; patch x/y free",
+  "model": "existing SNH quadratic-J Eq.13 pilot, fixed nu=0.35, no contact or gravity",
+  "not_a_human_tissue_parameter_range": true,
+  "moduli_pa": [
+    2500.0,
+    5000.0,
+    10000.0
+  ],
+  "depths_mm": [
+    0.0,
+    0.5,
+    1.0,
+    1.5,
+    2.0
+  ],
+  "force_curves_n": [
+    [
+      2.0447840951318457e-17,
+      0.04357546699155128,
+      0.08805955473577798,
+      0.13343669873475414,
+      0.17967424882211397
+    ],
+    [
+      4.0895681902636913e-17,
+      0.08715093398310256,
+      0.17611910947155596,
+      0.2668733974695083,
+      0.35934849764422794
+    ],
+    [
+      8.179136380527383e-17,
+      0.17430186796620512,
+      0.3522382189431119,
+      0.5337467949390166,
+      0.7186969952884559
+    ]
+  ],
+  "normalized_energy_max_abs_error": 0.0,
+  "normalized_stress_max_abs_error": 0.0,
+  "reaction_force_proportionality_relative_error": 0.0,
+  "fixture_displacement_only_scale_identifiable": false,
+  "video_only_scale_identifiable": false,
+  "identifiability_scope": "This quasistatic, fixed-nu, homogeneous-E fixture only; no inference about calibrated dynamic, body-force or reference-material experiments.",
+  "argument": "W_E(x)=E*W_1(x); with E-independent displacement constraints and no body forces or prescribed tractions, the argmin set is invariant to E>0. Reaction forces scale with E. This does not prove unique equilibrium.",
+  "coordinate_comparison": {
+    "method": "Independent boundary-value solve using existing TetEnergy; no mechanics code or optimizer monkeypatching",
+    "reference_modulus_pa": 5000.0,
+    "compared": "All full 3D positions at all five depths, including unconstrained DOFs",
+    "coordinate_array_shape": [
+      3,
+      5,
+      48,
+      3
+    ],
+    "array_axes": [
+      "modulus",
+      "depth",
+      "node",
+      "xyz"
+    ],
+    "max_nodal_distance_m": 0.0,
+    "max_free_dof_difference_m": 0.0,
+    "max_unconstrained_displacement_m": 0.0009182434564250063,
+    "rms_free_dof_difference_m": 0.0,
+    "max_surface_nodal_distance_m": 0.0,
+    "independent_fixture_force_parity_max_abs_error_n": 0.0,
+    "coordinate_tolerance_m": 1e-07,
+    "artifact": "observability-coordinates.npz",
+    "artifact_sha256": "ba65231fd8c2c931c6910135ce2e4d51975a566a2d05db1a87fd0e580f372e53"
+  },
+  "known_load_calibration": {
+    "protocol": "prescribed displacement with synthetic observed reaction force",
+    "validation_scope": "Same model, mesh, boundary conditions and noiseless solver; held-out depths only, not independent physics or tissue validation.",
+    "truth_pa": 7500.0,
+    "estimate_pa": 7499.981387961427,
+    "fit_depth_ids": [
+      1,
+      2
+    ],
+    "heldout_depth_ids": [
+      3,
+      4
+    ],
+    "observed_reactions_n": [
+      9.166001291305299e-17,
+      0.13072507296899866,
+      0.2641785052397051,
+      0.40031144374228544,
+      0.5390201307829888
+    ],
+    "predicted_reactions_n": [
+      6.134337062355356e-17,
+      0.13072607656334484,
+      0.26417800862020213,
+      0.40030910279266885,
+      0.539021408824722
+    ],
+    "heldout_force_rmse_n": 1.8859262683495826e-06,
+    "parameter_relative_error": 2.481605143111665e-06
+  },
+  "does_not_validate": [
+    "contact",
+    "near-incompressibility",
+    "viscoelasticity",
+    "real organ mechanics",
+    "video reconstruction",
+    "noisy calibration",
+    "independent-model generalization"
+  ],
+  "source_sha256": "b635a4706e676890ce90b423c20f301edd101fcc6291d1da3e82beeb7b3b9139",
+  "diagnostic_source_sha256": "d41a0276b31d77814c7d1a85976a1e124e758b8b06aa0b0ee175b4787d16042a",
+  "runs": [
+    {
+      "protocol": "T1d_block_patch_v1",
+      "energy_id": "snh_quadratic_j",
+      "evidence_kind": "simulated",
+      "review_status": "unreviewed",
+      "scope": "numerical synthetic block fixture; not canonical organ T1 or tissue validation",
+      "material": {
+        "young_pa": 2500.0,
+        "poisson": 0.35
+      },
+      "units": "m-kg-s; outputs explicitly tagged",
+      "reference_state": "authored block assumed stress-free; no gravity",
+      "resolution": 3,
+      "nodes": 48,
+      "tets": 108,
+      "patch_node_ids": [
+        17,
+        20,
+        29,
+        32
+      ],
+      "requested_depth_count": 5,
+      "attempted_depth_count": 5,
+      "converged": true,
+      "curves": [
+        {
+          "depth_mm": 0.0,
+          "compressive_force_n": 2.0447840951318457e-17,
+          "free_residual_n": 1.5158245029548814e-17,
+          "min_j": 1.0,
+          "energy_j": 2.141633920959024e-20,
+          "converged": true,
+          "optimizer_success": true,
+          "iterations": 0,
+          "optimizer_message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"
+        },
+        {
+          "depth_mm": 0.5,
+          "compressive_force_n": 0.04357546699155128,
+          "free_residual_n": 3.363762072288129e-07,
+          "min_j": 0.9776602841944484,
+          "energy_j": 1.0855661452226362e-05,
+          "converged": true,
+          "optimizer_success": true,
+          "iterations": 42,
+          "optimizer_message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"
+        },
+        {
+          "depth_mm": 1.0,
+          "compressive_force_n": 0.08805955473577798,
+          "free_residual_n": 3.619329016004173e-07,
+          "min_j": 0.9549124586744137,
+          "energy_j": 4.372657323686193e-05,
+          "converged": true,
+          "optimizer_success": true,
+          "iterations": 41,
+          "optimizer_message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"
+        },
+        {
+          "depth_mm": 1.5,
+          "compressive_force_n": 0.13343669873475414,
+          "free_residual_n": 5.875211361348691e-07,
+          "min_j": 0.9317512978883472,
+          "energy_j": 9.906390904418827e-05,
+          "converged": true,
+          "optimizer_success": true,
+          "iterations": 41,
+          "optimizer_message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"
+        },
+        {
+          "depth_mm": 2.0,
+          "compressive_force_n": 0.17967424882211397,
+          "free_residual_n": 6.649009807167519e-07,
+          "min_j": 0.9081756543574994,
+          "energy_j": 0.00017730657630547406,
+          "converged": true,
+          "optimizer_success": true,
+          "iterations": 40,
+          "optimizer_message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"
+        }
+      ],
+      "wall_time_s": 0.03891520801698789
+    },
+    {
+      "protocol": "T1d_block_patch_v1",
+      "energy_id": "snh_quadratic_j",
+      "evidence_kind": "simulated",
+      "review_status": "unreviewed",
+      "scope": "numerical synthetic block fixture; not canonical organ T1 or tissue validation",
+      "material": {
+        "young_pa": 5000.0,
+        "poisson": 0.35
+      },
+      "units": "m-kg-s; outputs explicitly tagged",
+      "reference_state": "authored block assumed stress-free; no gravity",
+      "resolution": 3,
+      "nodes": 48,
+      "tets": 108,
+      "patch_node_ids": [
+        17,
+        20,
+        29,
+        32
+      ],
+      "requested_depth_count": 5,
+      "attempted_depth_count": 5,
+      "converged": true,
+      "curves": [
+        {
+          "depth_mm": 0.0,
+          "compressive_force_n": 4.0895681902636913e-17,
+          "free_residual_n": 3.031649005909763e-17,
+          "min_j": 1.0,
+          "energy_j": 4.283267841918048e-20,
+          "converged": true,
+          "optimizer_success": true,
+          "iterations": 0,
+          "optimizer_message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"
+        },
+        {
+          "depth_mm": 0.5,
+          "compressive_force_n": 0.08715093398310256,
+          "free_residual_n": 6.727524144576258e-07,
+          "min_j": 0.9776602841944484,
+          "energy_j": 2.1711322904452725e-05,
+          "converged": true,
+          "optimizer_success": true,
+          "iterations": 42,
+          "optimizer_message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"
+        },
+        {
+          "depth_mm": 1.0,
+          "compressive_force_n": 0.17611910947155596,
+          "free_residual_n": 7.238658032008346e-07,
+          "min_j": 0.9549124586744137,
+          "energy_j": 8.745314647372386e-05,
+          "converged": true,
+          "optimizer_success": true,
+          "iterations": 41,
+          "optimizer_message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"
+        },
+        {
+          "depth_mm": 1.5,
+          "compressive_force_n": 0.2668733974695083,
+          "free_residual_n": 1.1750422722697383e-06,
+          "min_j": 0.9317512978883472,
+          "energy_j": 0.00019812781808837654,
+          "converged": true,
+          "optimizer_success": true,
+          "iterations": 41,
+          "optimizer_message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"
+        },
+        {
+          "depth_mm": 2.0,
+          "compressive_force_n": 0.35934849764422794,
+          "free_residual_n": 1.3298019614335038e-06,
+          "min_j": 0.9081756543574994,
+          "energy_j": 0.0003546131526109481,
+          "converged": true,
+          "optimizer_success": true,
+          "iterations": 40,
+          "optimizer_message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"
+        }
+      ],
+      "wall_time_s": 0.039496708021033555
+    },
+    {
+      "protocol": "T1d_block_patch_v1",
+      "energy_id": "snh_quadratic_j",
+      "evidence_kind": "simulated",
+      "review_status": "unreviewed",
+      "scope": "numerical synthetic block fixture; not canonical organ T1 or tissue validation",
+      "material": {
+        "young_pa": 10000.0,
+        "poisson": 0.35
+      },
+      "units": "m-kg-s; outputs explicitly tagged",
+      "reference_state": "authored block assumed stress-free; no gravity",
+      "resolution": 3,
+      "nodes": 48,
+      "tets": 108,
+      "patch_node_ids": [
+        17,
+        20,
+        29,
+        32
+      ],
+      "requested_depth_count": 5,
+      "attempted_depth_count": 5,
+      "converged": true,
+      "curves": [
+        {
+          "depth_mm": 0.0,
+          "compressive_force_n": 8.179136380527383e-17,
+          "free_residual_n": 6.063298011819526e-17,
+          "min_j": 1.0,
+          "energy_j": 8.566535683836096e-20,
+          "converged": true,
+          "optimizer_success": true,
+          "iterations": 0,
+          "optimizer_message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"
+        },
+        {
+          "depth_mm": 0.5,
+          "compressive_force_n": 0.17430186796620512,
+          "free_residual_n": 1.3455048289152515e-06,
+          "min_j": 0.9776602841944484,
+          "energy_j": 4.342264580890545e-05,
+          "converged": true,
+          "optimizer_success": true,
+          "iterations": 42,
+          "optimizer_message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"
+        },
+        {
+          "depth_mm": 1.0,
+          "compressive_force_n": 0.3522382189431119,
+          "free_residual_n": 1.4477316064016692e-06,
+          "min_j": 0.9549124586744137,
+          "energy_j": 0.00017490629294744772,
+          "converged": true,
+          "optimizer_success": true,
+          "iterations": 41,
+          "optimizer_message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"
+        },
+        {
+          "depth_mm": 1.5,
+          "compressive_force_n": 0.5337467949390166,
+          "free_residual_n": 2.3500845445394766e-06,
+          "min_j": 0.9317512978883472,
+          "energy_j": 0.0003962556361767531,
+          "converged": true,
+          "optimizer_success": true,
+          "iterations": 41,
+          "optimizer_message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"
+        },
+        {
+          "depth_mm": 2.0,
+          "compressive_force_n": 0.7186969952884559,
+          "free_residual_n": 2.6596039228670076e-06,
+          "min_j": 0.9081756543574994,
+          "energy_j": 0.0007092263052218962,
+          "converged": true,
+          "optimizer_success": true,
+          "iterations": 40,
+          "optimizer_message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"
+        }
+      ],
+      "wall_time_s": 0.044095917022787035
+    }
+  ]
+}

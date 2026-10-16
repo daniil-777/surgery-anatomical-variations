@@ -1,0 +1,315 @@
+{
+  "appearance_evidence": "authored_vertex_color_not_measured_tissue_texture",
+  "clinical_review_status": "unreviewed",
+  "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+  "disease_field": {
+    "applied_displacement_fraction": 0.125,
+    "clinical_stage": null,
+    "color_strength": 0.19127682822343672,
+    "fields": [
+      {
+        "amplitude_mm": 0.21073480345156978,
+        "center_mm": [
+          38.416000083088875,
+          6.27058744430542,
+          1.1948058381676674
+        ],
+        "direction": [
+          -0.657126358410958,
+          -0.6095510280294192,
+          -0.44343262544588624
+        ],
+        "radius_mm": 11.22688006978131
+      },
+      {
+        "amplitude_mm": 0.2114835031240096,
+        "center_mm": [
+          37.63943538069725,
+          -29.831290245056152,
+          26.487828232347965
+        ],
+        "direction": [
+          0.5558347840749236,
+          0.44160507599110016,
+          -0.7042958537938995
+        ],
+        "radius_mm": 11.22688006978131
+      },
+      {
+        "amplitude_mm": 0.2143139947761663,
+        "center_mm": [
+          43.62391494214535,
+          -30.275344848632812,
+          -29.65711709111929
+        ],
+        "direction": [
+          0.7702416725560117,
+          0.5392016938705353,
+          -0.34057201761927386
+        ],
+        "radius_mm": 11.22688006978131
+      },
+      {
+        "amplitude_mm": 0.21672334265394147,
+        "center_mm": [
+          57.148391380906105,
+          32.728731632232666,
+          2.268039621412754
+        ],
+        "direction": [
+          -0.8313462306950177,
+          0.39247937263239013,
+          0.3934760307404658
+        ],
+        "radius_mm": 11.22688006978131
+      },
+      {
+        "amplitude_mm": 0.2148268439084643,
+        "center_mm": [
+          9.261234197765589,
+          67.07382202148438,
+          2.838113345205784
+        ],
+        "direction": [
+          0.5086287166638652,
+          -0.860552210128473,
+          -0.027326218689567087
+        ],
+        "radius_mm": 11.22688006978131
+      },
+      {
+        "amplitude_mm": 0.2165137236267127,
+        "center_mm": [
+          -1.6076955944299698,
+          1.7191767692565918,
+          -56.630066595971584
+        ],
+        "direction": [
+          0.9513934725505536,
+          0.21227978587454746,
+          -0.22313169406710295
+        ],
+        "radius_mm": 11.22688006978131
+      },
+      {
+        "amplitude_mm": 0.212820294772436,
+        "center_mm": [
+          -3.0949944630265236,
+          -12.341499328613281,
+          41.377284564077854
+        ],
+        "direction": [
+          0.7358142044682477,
+          0.6771687124410459,
+          -0.0044711736374073606
+        ],
+        "radius_mm": 11.22688006978131
+      }
+    ],
+    "gradient_bound_per_step": 0.03371970605850219,
+    "pattern": "mass",
+    "profile_id": "brain-meningioma",
+    "realized_sites": 7,
+    "requested_sites": 7,
+    "steps": 3,
+    "surface_site_frame": "undeformed-atlas-Y-up-mm",
+    "target_srgb": [
+      0.67,
+      0.45,
+      0.32
+    ],
+    "version": "disease-morphology-design-1.0.0"
+  },
+  "display_normal_sha256": "3ab474b68adef3255a7eaec46de3b6f8dc479a3e6164e3fc94b5d81e90f29695",
+  "face_count": 424474,
+  "features": [
+    136.3772340118885,
+    145.70128917694092,
+    167.0395266264677,
+    437333.1006825441,
+    0.6489612343179723,
+    0.125
+  ],
+  "geometry_evidence": "authored_disease_surface_from_licensed_reference_template",
+  "geometry_sha256": "cdbbcda3a8fe8c426ff12182a7ac5c24dcbc80926845dfdfaddb649e0a2d6ce1",
+  "group_id": "brain-meningioma:2078012600",
+  "mechanics_evidence": "none",
+  "normal_fallback_count": 0,
+  "organ": "brain",
+  "parent_recipe_index": 2293,
+  "parent_sample_id": "brain-meningioma:2078012600",
+  "path": "records/dgeo-6762976a9f4d64110733.json",
+  "patient_id": null,
+  "point_count": 2048,
+  "point_sampling_seed": 3829737546,
+  "profile_id": "brain-meningioma",
+  "qa": {
+    "anatomical_plausibility": {
+      "status": "NOT_RUN"
+    },
+    "area_ratio_max": 1.9221021552067596,
+    "area_ratio_min": 0.07573625878474947,
+    "continuous_jacobian_lower_bound": 0.7343922831078695,
+    "mechanical_validation": {
+      "status": "NOT_RUN"
+    },
+    "min_normal_dot": 0.23816573140522562,
+    "new_degenerate_faces": 0,
+    "normal_turns_over_90_degrees": 0,
+    "passed": true,
+    "scope": "finite nondegenerate same-topology outer-surface design",
+    "self_intersection": {
+      "reason": "Discrete/source triangle intersections not certified",
+      "status": "NOT_RUN"
+    },
+    "source_topology": {
+      "boundary_edges_after_audit_weld": 14,
+      "connected_vertex_components": 104,
+      "degenerate_faces": 0,
+      "method": "trimesh-geometric-weld-audit-copy-1.0",
+      "nonmanifold_edges_after_audit_weld": 198,
+      "self_intersection": {
+        "reason": "No robust intersection backend",
+        "status": "NOT_RUN"
+      },
+      "simulation_readiness": {
+        "reason": "No volumetric domain/materials",
+        "status": "NOT_RUN"
+      },
+      "watertight_after_audit_weld": false,
+      "weld_precision_mm": 1e-08,
+      "winding_consistent_after_audit_weld": true,
+      "zero_length_edges": 0
+    },
+    "status": "PASS",
+    "topology_preserved": true
+  },
+  "realized_id": "a765dbb81fae56b23758845c0c79221527e02b95f06c704d7bea733fe39ae6d6",
+  "recipe_features": [
+    0.7841792106628418,
+    0.12521393597126007,
+    0.3139679729938507,
+    0.1419820338487625,
+    0.24391978979110718,
+    0.8571428656578064,
+    0.7807236313819885,
+    0.5473555326461792,
+    0.5052739977836609
+  ],
+  "sample_id": "dgeo-6762976a9f4d64110733",
+  "source_attribution": "Browne, Kristen,\tand Heidi Schlehlein.\t 2024.\t\"3D Reference Organ for Brain, Female v1.4.\"\t https://doi.org/10.48539/HBM674.NTLM.353.\tAccessed June 15, 2024.",
+  "source_group_id": "hra-allen-brain-shared-atlas",
+  "source_license": "CC-BY-4.0",
+  "source_template_artifact_sha256": "57d2f3eed5bdd6cde6b070ba5f963b0456206437546cb6f271d69d7ed05437b8",
+  "source_template_geometry_sha256": "fafc6579c2204fde5397347754854bf006eff079e043006c92fcbe6e0314abb0",
+  "source_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/brain-female/v1.4/assets/3d-allen-f-brain.glb",
+  "spec": {
+    "appearance": "tissue",
+    "controls": {
+      "asymmetry": 0.0,
+      "bend": 0.0,
+      "scale_x": 0.0,
+      "scale_y": 0.0,
+      "scale_z": 0.0,
+      "taper": 0.0,
+      "twist": 0.0
+    },
+    "disease": {
+      "contrast": 0.24391978979110718,
+      "count": 7,
+      "irregularity": 0.1419820338487625,
+      "location": [
+        0.561447262763977,
+        0.0947110652923584,
+        0.010547995567321777
+      ],
+      "profile_id": "brain-meningioma",
+      "seed": 2078012600,
+      "severity": 0.7841792106628418,
+      "size": 0.12521393597126007,
+      "spread": 0.3139679729938507
+    },
+    "realized_id": "a765dbb81fae56b23758845c0c79221527e02b95f06c704d7bea733fe39ae6d6",
+    "seed": 2078012600,
+    "template_id": "hra-brain-female",
+    "template_sha256": "57d2f3eed5bdd6cde6b070ba5f963b0456206437546cb6f271d69d7ed05437b8"
+  },
+  "split": "train",
+  "split_track": "within_generator",
+  "summary": {
+    "disease": {
+      "applied_displacement_fraction": 0.125,
+      "displacement_limited_by_source_mesh": true,
+      "evidence": "synthetic_surface_morphology_not_patient_or_population_geometry",
+      "internal_anatomy_generated": false,
+      "max_displacement_mm": 0.6489612343179723,
+      "physical_parameters_inferred": false,
+      "profile": {
+        "clinical_source_url": "https://www.cancer.gov/types/brain/patient/adult-brain-treatment-pdq",
+        "evidence": "image_reference_not_paired_3d_supervision",
+        "id": "brain-meningioma",
+        "label": "Meningioma",
+        "limits": "Autopsy view of dura and skull, not an intact brain; grade and operative plane cannot be determined from this photograph. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+        "morphology_targets": [
+          "dural attachment footprint",
+          "extra-axial tumor size",
+          "mass effect on adjacent brain"
+        ],
+        "organ": "brain",
+        "pattern": "mass",
+        "source_ref": "I34",
+        "source_url": "https://commons.wikimedia.org/wiki/File:Meningioma_seen_at_autopsy.jpg",
+        "supported": true,
+        "unavailable_reason": ""
+      },
+      "realized_sites": 7,
+      "recipe": {
+        "contrast": 0.24391978979110718,
+        "count": 7,
+        "irregularity": 0.1419820338487625,
+        "location": [
+          0.561447262763977,
+          0.0947110652923584,
+          0.010547995567321777
+        ],
+        "profile_id": "brain-meningioma",
+        "seed": 2078012600,
+        "severity": 0.7841792106628418,
+        "size": 0.12521393597126007,
+        "spread": 0.3139679729938507
+      },
+      "requested_sites": 7,
+      "version": "disease-morphology-design-1.0.0"
+    },
+    "extent_mm": [
+      136.3772340118885,
+      145.70128917694092,
+      167.0395266264677
+    ],
+    "measurements": {
+      "compactness": null,
+      "extent_x_mm": 136.3772340118885,
+      "extent_y_mm": 145.70128917694092,
+      "extent_z_mm": 167.0395266264677,
+      "method": "disease-display-triangle-measurements-1.0.0",
+      "surface_area_definition": "Sum of selected triangles including capsule/internal faces",
+      "surface_area_mm2": 437333.1006825441,
+      "volume_ml": null,
+      "volume_reason": "Display surface assembly is not a certified closed outer envelope",
+      "volume_status": "NOT_APPLICABLE"
+    },
+    "min_jacobian": 0.7343922831078695,
+    "min_jacobian_kind": "conservative_bound",
+    "organ": "brain",
+    "profile": "development_preview",
+    "qa_scope": "finite nondegenerate same-topology outer-surface design",
+    "qa_status": "PASS",
+    "reference": "hra-brain-female",
+    "review_status": "unreviewed",
+    "triangles": 424474,
+    "vertices": 212296
+  },
+  "template_id": "hra-brain-female",
+  "units": "mm",
+  "vertex_count": 212296
+}

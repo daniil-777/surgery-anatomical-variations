@@ -1,0 +1,273 @@
+{
+  "appearance_evidence": "authored_vertex_color_not_measured_tissue_texture",
+  "clinical_review_status": "unreviewed",
+  "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+  "disease_field": {
+    "applied_displacement_fraction": 1.0,
+    "clinical_stage": null,
+    "color_strength": 0.21544302745415145,
+    "fields": [
+      {
+        "amplitude_mm": 2.8109806844594143,
+        "center_mm": [
+          25.268983095884323,
+          -11.196359992027283,
+          -14.974115882068872
+        ],
+        "direction": [
+          0.5027560345743487,
+          -0.6887984071643178,
+          -0.5222960118428772
+        ],
+        "radius_mm": 22.71249501885606
+      },
+      {
+        "amplitude_mm": 2.5847135785868254,
+        "center_mm": [
+          -64.10916149616241,
+          59.81235206127167,
+          -53.15523222088814
+        ],
+        "direction": [
+          0.5067112612009192,
+          -0.6752950382968752,
+          0.5359293880949205
+        ],
+        "radius_mm": 22.71249501885606
+      },
+      {
+        "amplitude_mm": 2.414330558829035,
+        "center_mm": [
+          -92.93277561664581,
+          -0.6683319807052612,
+          9.092012420296669
+        ],
+        "direction": [
+          0.9860086074321421,
+          -0.05241070350285462,
+          -0.1582407792829132
+        ],
+        "radius_mm": 22.71249501885606
+      },
+      {
+        "amplitude_mm": 3.033911792737382,
+        "center_mm": [
+          67.14959256350994,
+          52.14764177799225,
+          43.96621137857437
+        ],
+        "direction": [
+          -0.00027098883401753597,
+          0.9643293289775872,
+          0.26470525464880446
+        ],
+        "radius_mm": 22.71249501885606
+      }
+    ],
+    "gradient_bound_per_step": 0.23095758485794066,
+    "pattern": "mass",
+    "profile_id": "liver-hcc",
+    "realized_sites": 4,
+    "requested_sites": 4,
+    "steps": 3,
+    "surface_site_frame": "undeformed-atlas-Y-up-mm",
+    "target_srgb": [
+      0.67,
+      0.45,
+      0.32
+    ],
+    "version": "disease-morphology-design-1.0.0"
+  },
+  "display_normal_sha256": "2f8185c88f58cb58d7e8faee10ca87dc0c5e761d817cdb716492dbcd80f34578",
+  "face_count": 30132,
+  "features": [
+    191.36759638786316,
+    174.55455660820007,
+    201.7567679286003,
+    182731.38845489,
+    8.583492455204253,
+    1.0
+  ],
+  "geometry_evidence": "authored_disease_surface_from_licensed_reference_template",
+  "geometry_sha256": "a862ea04c551154cdc941e8c3bad6b7d5e63bc6771e4c62cf3b5aade0cba8b73",
+  "group_id": "liver-hcc:4219967251",
+  "mechanics_evidence": "none",
+  "normal_fallback_count": 0,
+  "organ": "liver",
+  "parent_recipe_index": 127,
+  "parent_sample_id": "liver-hcc:4219967251",
+  "path": "records/dgeo-6eaf83be92cef6a4170e.json",
+  "patient_id": null,
+  "point_count": 2048,
+  "point_sampling_seed": 1688527342,
+  "profile_id": "liver-hcc",
+  "qa": {
+    "anatomical_plausibility": {
+      "status": "NOT_RUN"
+    },
+    "area_ratio_max": 1.613471518912627,
+    "area_ratio_min": 0.5626491409052523,
+    "continuous_jacobian_lower_bound": 0.09409198673786462,
+    "mechanical_validation": {
+      "status": "NOT_RUN"
+    },
+    "min_normal_dot": 0.814297528224117,
+    "new_degenerate_faces": 0,
+    "normal_turns_over_90_degrees": 0,
+    "passed": true,
+    "scope": "finite nondegenerate same-topology outer-surface design",
+    "self_intersection": {
+      "reason": "Discrete/source triangle intersections not certified",
+      "status": "NOT_RUN"
+    },
+    "source_topology": {
+      "boundary_edges_after_audit_weld": 0,
+      "connected_vertex_components": 2,
+      "degenerate_faces": 0,
+      "method": "trimesh-geometric-weld-audit-copy-1.0",
+      "nonmanifold_edges_after_audit_weld": 0,
+      "self_intersection": {
+        "reason": "No robust intersection backend",
+        "status": "NOT_RUN"
+      },
+      "simulation_readiness": {
+        "reason": "No volumetric domain/materials",
+        "status": "NOT_RUN"
+      },
+      "watertight_after_audit_weld": true,
+      "weld_precision_mm": 1e-08,
+      "winding_consistent_after_audit_weld": true,
+      "zero_length_edges": 0
+    },
+    "status": "PASS",
+    "topology_preserved": true
+  },
+  "realized_id": "1b471f814ed5eb709b2e8941d02a1bd60792195c90341056230030a6bccb15cb",
+  "recipe_features": [
+    0.6713883280754089,
+    0.5414808392524719,
+    0.46144774556159973,
+    0.7984974980354309,
+    0.3208918273448944,
+    0.4285714328289032,
+    0.8889912962913513,
+    0.12293974310159683,
+    0.21733561158180237
+  ],
+  "sample_id": "dgeo-6eaf83be92cef6a4170e",
+  "source_attribution": "Browne, Kristen, and Heidi Schlehlein. 2024. \"3D Reference Organ for Liver, Male v1.2.\" https://doi.org/10.48539/HBM896.WMSL.867. Accessed on June 15, 2024.",
+  "source_group_id": "hra-visible-human-male",
+  "source_license": "CC-BY-4.0",
+  "source_template_artifact_sha256": "c74d7787e13b9b6ada02b10fde915158aea10ea789b5f693f41b1c93d7e8815f",
+  "source_template_geometry_sha256": "e245d564c783caa97b78616678332509a2f33fd55311c3ae811a008648d58b7d",
+  "source_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/liver-male/v1.2/assets/3d-vh-m-liver.glb",
+  "spec": {
+    "appearance": "tissue",
+    "controls": {
+      "asymmetry": 0.0,
+      "bend": 0.0,
+      "scale_x": 0.0,
+      "scale_y": 0.0,
+      "scale_z": 0.0,
+      "taper": 0.0,
+      "twist": 0.0
+    },
+    "disease": {
+      "contrast": 0.3208918273448944,
+      "count": 4,
+      "irregularity": 0.7984974980354309,
+      "location": [
+        0.7779825925827026,
+        -0.7541205137968063,
+        -0.5653287768363953
+      ],
+      "profile_id": "liver-hcc",
+      "seed": 4219967251,
+      "severity": 0.6713883280754089,
+      "size": 0.5414808392524719,
+      "spread": 0.46144774556159973
+    },
+    "realized_id": "1b471f814ed5eb709b2e8941d02a1bd60792195c90341056230030a6bccb15cb",
+    "seed": 4219967251,
+    "template_id": "hra-liver-male",
+    "template_sha256": "c74d7787e13b9b6ada02b10fde915158aea10ea789b5f693f41b1c93d7e8815f"
+  },
+  "split": "train",
+  "split_track": "within_generator",
+  "summary": {
+    "disease": {
+      "applied_displacement_fraction": 1.0,
+      "displacement_limited_by_source_mesh": false,
+      "evidence": "synthetic_surface_morphology_not_patient_or_population_geometry",
+      "internal_anatomy_generated": false,
+      "max_displacement_mm": 8.583492455204253,
+      "physical_parameters_inferred": false,
+      "profile": {
+        "clinical_source_url": "https://www.cancer.gov/types/liver/what-is-liver-cancer/treatment",
+        "evidence": "image_reference_not_paired_3d_supervision",
+        "id": "liver-hcc",
+        "label": "Hepatocellular carcinoma",
+        "limits": "Historical formalin-fixed autopsy specimen; alcohol immersion altered color and reflections. One severe case, not all HCC. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+        "morphology_targets": [
+          "tumor extent and position",
+          "mass effect",
+          "cirrhotic background"
+        ],
+        "organ": "liver",
+        "pattern": "mass",
+        "source_ref": "I02",
+        "source_url": "https://commons.wikimedia.org/wiki/File:Hepatocellular_carcinoma_1.jpg",
+        "supported": true,
+        "unavailable_reason": ""
+      },
+      "realized_sites": 4,
+      "recipe": {
+        "contrast": 0.3208918273448944,
+        "count": 4,
+        "irregularity": 0.7984974980354309,
+        "location": [
+          0.7779825925827026,
+          -0.7541205137968063,
+          -0.5653287768363953
+        ],
+        "profile_id": "liver-hcc",
+        "seed": 4219967251,
+        "severity": 0.6713883280754089,
+        "size": 0.5414808392524719,
+        "spread": 0.46144774556159973
+      },
+      "requested_sites": 4,
+      "version": "disease-morphology-design-1.0.0"
+    },
+    "extent_mm": [
+      191.36759638786316,
+      174.55455660820007,
+      201.7567679286003
+    ],
+    "measurements": {
+      "compactness": null,
+      "extent_x_mm": 191.36759638786316,
+      "extent_y_mm": 174.55455660820007,
+      "extent_z_mm": 201.7567679286003,
+      "method": "disease-display-triangle-measurements-1.0.0",
+      "surface_area_definition": "Sum of selected triangles including capsule/internal faces",
+      "surface_area_mm2": 182731.38845489,
+      "volume_ml": null,
+      "volume_reason": "Display surface assembly is not a certified closed outer envelope",
+      "volume_status": "NOT_APPLICABLE"
+    },
+    "min_jacobian": 0.09409198673786462,
+    "min_jacobian_kind": "conservative_bound",
+    "organ": "liver",
+    "profile": "development_preview",
+    "qa_scope": "finite nondegenerate same-topology outer-surface design",
+    "qa_status": "PASS",
+    "reference": "hra-liver-male",
+    "review_status": "unreviewed",
+    "triangles": 30132,
+    "vertices": 15136
+  },
+  "template_id": "hra-liver-male",
+  "units": "mm",
+  "vertex_count": 15136
+}

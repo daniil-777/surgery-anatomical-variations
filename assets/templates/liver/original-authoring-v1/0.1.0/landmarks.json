@@ -1,0 +1,67 @@
+{
+  "origin": "procedurally_authored",
+  "positions": {
+    "caudate_surface": [
+      27.315132,
+      -58.685466,
+      40.605144
+    ],
+    "dome_apex": [
+      35.0,
+      1.411294,
+      162.5
+    ],
+    "falciform_zone": [
+      4.588762,
+      1.362094,
+      154.826832
+    ],
+    "gallbladder_fossa": [
+      61.681461,
+      21.034691,
+      32.273215
+    ],
+    "gastric_impression": [
+      -20.389117,
+      -26.820049,
+      52.12978
+    ],
+    "inferior_margin": [
+      90.389117,
+      -2.846008,
+      17.5
+    ],
+    "ivc_groove": [
+      50.336828,
+      -38.464503,
+      31.576402
+    ],
+    "left_lobe_lateral_tip": [
+      -82.5,
+      1.222151,
+      68.631902
+    ],
+    "porta_hepatis": [
+      31.155508,
+      -12.545138,
+      25.036831
+    ],
+    "renal_impression": [
+      90.389117,
+      -38.135638,
+      35.589777
+    ],
+    "right_lobe_lateral_tip": [
+      152.5,
+      1.222151,
+      68.631902
+    ],
+    "teres_notch": [
+      0.89155,
+      45.251763,
+      50.724823
+    ]
+  },
+  "review_status": "unreviewed",
+  "units": "mm"
+}

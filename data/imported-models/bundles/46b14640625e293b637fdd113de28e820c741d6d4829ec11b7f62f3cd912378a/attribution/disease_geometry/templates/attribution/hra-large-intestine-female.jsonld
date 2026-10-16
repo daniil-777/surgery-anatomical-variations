@@ -1,0 +1,300 @@
+{
+    "@graph": [
+        {
+            "@id": "_:b0",
+            "schema1:funder": "National Institutes of Health",
+            "schema1:award": "OT2OD033756",
+            "@type": "schema1:Grant"
+        },
+        {
+            "@id": "https://github.com/hubmapconsortium/hra-do-processor",
+            "dcat:conforms_to": "SoftwareApplication",
+            "schema1:version": "0.10.0",
+            "schema1:targetProduct": {
+                "@id": "_:b1"
+            },
+            "schema1:name": "HRA Digital Object Processor",
+            "rdfs:label": "HRA Digital Object Processor",
+            "@type": "schema1:SoftwareApplication"
+        },
+        {
+            "@id": "_:b1",
+            "rdfs:seeAlso": {
+                "@id": "https://github.com/hubmapconsortium/hra-do-processor/commit/cd8d578a4c9da7c0539008bc2742971b4a545121"
+            },
+            "schema1:codeRepository": {
+                "@id": "https://github.com/hubmapconsortium/hra-do-processor"
+            },
+            "@type": "schema1:SoftwareSourceCode"
+        },
+        {
+            "@id": "https://lod.humanatlas.io/ref-organ/large-intestine-female/v1.3#jsonld",
+            "dcat:mediaType": "application/ld+json",
+            "dcat:downloadURL": {
+                "@value": "https://cdn.humanatlas.io/digital-objects/ref-organ/large-intestine-female/v1.3/graph.jsonld",
+                "@type": "xsd:anyURI"
+            },
+            "dcat:accessURL": {
+                "@value": "https://lod.humanatlas.io/ref-organ/large-intestine-female/v1.3#jsonld",
+                "@type": "xsd:anyURI"
+            },
+            "dct:title": "Graph data distribution large-intestine-female (v1.3) in JSON-LD format",
+            "rdfs:label": "Graph data distribution large-intestine-female (v1.3) in JSON-LD format",
+            "@type": "dcat:Distribution"
+        },
+        {
+            "@id": "_:b2",
+            "schema1:funder": "National Institutes of Health",
+            "schema1:award": "OT2OD026671",
+            "@type": "schema1:Grant"
+        },
+        {
+            "@id": "https://lod.humanatlas.io/ref-organ/large-intestine-female/v1.3#raw-data",
+            "schema1:funding": [
+                {
+                    "@id": "_:b2"
+                },
+                {
+                    "@id": "_:b0"
+                }
+            ],
+            "dcat:distribution": [
+                {
+                    "@id": "https://lod.humanatlas.io/ref-organ/large-intestine-female/v1.3#3d-sbu-f-large-intestine.glb"
+                },
+                {
+                    "@id": "https://lod.humanatlas.io/ref-organ/large-intestine-female/v1.3#crosswalk.csv"
+                }
+            ],
+            "dct:license": "Creative Commons Attribution 4.0 International ([CC BY 4.0](https://creativecommons.org/licenses/by/4.0/))",
+            "@type": "dcat:Dataset",
+            "schema1:citation": "Browne, Kristen, and Heidi Schlehlein. 2024. \"3D Reference Organ for Large Intestine, Female v1.3.\" https://doi.org/10.48539/HBM682.RSXX.965. Accessed on June 15, 2024.",
+            "ccf:hubmap_id": "HBM682.RSXX.965",
+            "rdfs:label": "3D Reference Organ for Large Intestine, Female",
+            "rdfs:comment": "This reference organ, Large-intestine-female  (https://humanatlas.io/3d-reference-library) was not based on direct\nimaging data, as no suitable source was available at the time. Instead, the female colon model was created by roughly\nfollowing the general path of the Visible Human Female and fitted around surrounding organs.",
+            "schema1:reviewedBy": {
+                "@id": "https://orcid.org/0000-0002-0317-7608"
+            },
+            "ccf:doi": {
+                "@id": "https://doi.org/10.48539/HBM682.RSXX.965"
+            },
+            "ccf:project_lead": {
+                "@id": "https://orcid.org/0000-0002-3321-6137"
+            },
+            "schema1:dateCreated": {
+                "@value": "2024-06-15",
+                "@type": "xsd:date"
+            },
+            "ccf:citation_overall": "Browne, Kristen, Heidi Schlehlein, Bruce W. Herr II, Ellen Quardokus, Andreas Bueckle, and Katy Börner. 2024. \"HuBMAP CCF 3D Reference Object Library.\" https://humanatlas.io/3d-reference-library. Accessed on June 15, 2024.",
+            "dct:title": "3D Reference Organ for Large Intestine, Female",
+            "dct:creator": [
+                {
+                    "@id": "https://orcid.org/0000-0003-4066-7531"
+                },
+                {
+                    "@id": "https://orcid.org/0000-0002-3333-5646"
+                }
+            ],
+            "dct:publisher": "HuBMAP"
+        },
+        {
+            "@id": "https://lod.humanatlas.io/ref-organ/large-intestine-female/v1.3#3d-sbu-f-large-intestine.glb",
+            "dcat:mediaType": "model/gltf-binary",
+            "dcat:downloadURL": {
+                "@value": "https://cdn.humanatlas.io/digital-objects/ref-organ/large-intestine-female/v1.3/assets/3d-sbu-f-large-intestine.glb",
+                "@type": "xsd:anyURI"
+            },
+            "dcat:accessURL": {
+                "@value": "https://lod.humanatlas.io/ref-organ/large-intestine-female/v1.3#3d-sbu-f-large-intestine.glb",
+                "@type": "xsd:anyURI"
+            },
+            "dct:title": "Raw data distribution '3d-sbu-f-large-intestine.glb' file",
+            "rdfs:label": "Raw data distribution '3d-sbu-f-large-intestine.glb' file",
+            "@type": "dcat:Distribution"
+        },
+        {
+            "@id": "https://orcid.org/0000-0002-0317-7608",
+            "dcat:conforms_to": "Person",
+            "schema1:name": "Yiing Lin",
+            "schema1:identifier": "0000-0002-0317-7608",
+            "schema1:givenName": "Yiing",
+            "schema1:familyName": "Lin",
+            "rdfs:label": "Yiing Lin",
+            "@type": "schema1:Person"
+        },
+        {
+            "@id": "https://orcid.org/0000-0002-3321-6137",
+            "dcat:conforms_to": "Person",
+            "schema1:name": "Katy Börner",
+            "schema1:identifier": "0000-0002-3321-6137",
+            "schema1:givenName": "Katy",
+            "schema1:familyName": "Börner",
+            "rdfs:label": "Katy Börner",
+            "@type": "schema1:Person"
+        },
+        {
+            "@id": "https://lod.humanatlas.io/ref-organ/large-intestine-female/v1.3#crosswalk.csv",
+            "dcat:mediaType": "text/csv",
+            "dcat:downloadURL": {
+                "@value": "https://cdn.humanatlas.io/digital-objects/ref-organ/large-intestine-female/v1.3/assets/crosswalk.csv",
+                "@type": "xsd:anyURI"
+            },
+            "dcat:accessURL": {
+                "@value": "https://lod.humanatlas.io/ref-organ/large-intestine-female/v1.3#crosswalk.csv",
+                "@type": "xsd:anyURI"
+            },
+            "dct:title": "Raw data distribution 'crosswalk.csv' file",
+            "rdfs:label": "Raw data distribution 'crosswalk.csv' file",
+            "@type": "dcat:Distribution"
+        },
+        {
+            "@id": "https://orcid.org/0000-0003-4066-7531",
+            "dcat:conforms_to": "Person",
+            "schema1:name": "Kristen Browne",
+            "schema1:identifier": "0000-0003-4066-7531",
+            "schema1:givenName": "Kristen",
+            "schema1:familyName": "Browne",
+            "rdfs:label": "Kristen Browne",
+            "@type": "schema1:Person"
+        },
+        {
+            "@id": "https://orcid.org/0000-0002-3333-5646",
+            "dcat:conforms_to": "Person",
+            "schema1:name": "Heidi Schlehlein",
+            "schema1:identifier": "0000-0002-3333-5646",
+            "schema1:givenName": "Heidi",
+            "schema1:familyName": "Schlehlein",
+            "rdfs:label": "Heidi Schlehlein",
+            "@type": "schema1:Person"
+        },
+        {
+            "@id": "https://lod.humanatlas.io/ref-organ/large-intestine-female/v1.3#nquads",
+            "dcat:mediaType": "application/n-quads",
+            "dcat:downloadURL": {
+                "@value": "https://cdn.humanatlas.io/digital-objects/ref-organ/large-intestine-female/v1.3/graph.nq",
+                "@type": "xsd:anyURI"
+            },
+            "dcat:accessURL": {
+                "@value": "https://lod.humanatlas.io/ref-organ/large-intestine-female/v1.3#nquads",
+                "@type": "xsd:anyURI"
+            },
+            "dct:title": "Graph data distribution large-intestine-female (v1.3) in N-Quads format",
+            "rdfs:label": "Graph data distribution large-intestine-female (v1.3) in N-Quads format",
+            "@type": "dcat:Distribution"
+        },
+        {
+            "@id": "https://lod.humanatlas.io/ref-organ/large-intestine-female/v1.3#turtle",
+            "dcat:mediaType": "text/turtle",
+            "dcat:downloadURL": {
+                "@value": "https://cdn.humanatlas.io/digital-objects/ref-organ/large-intestine-female/v1.3/graph.ttl",
+                "@type": "xsd:anyURI"
+            },
+            "dcat:accessURL": {
+                "@value": "https://lod.humanatlas.io/ref-organ/large-intestine-female/v1.3#turtle",
+                "@type": "xsd:anyURI"
+            },
+            "dct:title": "Graph data distribution large-intestine-female (v1.3) in Turtle format",
+            "rdfs:label": "Graph data distribution large-intestine-female (v1.3) in Turtle format",
+            "@type": "dcat:Distribution"
+        },
+        {
+            "@id": "https://lod.humanatlas.io/ref-organ/large-intestine-female/v1.3",
+            "dcat:distribution": [
+                {
+                    "@id": "https://lod.humanatlas.io/ref-organ/large-intestine-female/v1.3#ntriples"
+                },
+                {
+                    "@id": "https://lod.humanatlas.io/ref-organ/large-intestine-female/v1.3#json"
+                },
+                {
+                    "@id": "https://lod.humanatlas.io/ref-organ/large-intestine-female/v1.3#jsonld"
+                },
+                {
+                    "@id": "https://lod.humanatlas.io/ref-organ/large-intestine-female/v1.3#nquads"
+                },
+                {
+                    "@id": "https://lod.humanatlas.io/ref-organ/large-intestine-female/v1.3#rdfxml"
+                },
+                {
+                    "@id": "https://lod.humanatlas.io/ref-organ/large-intestine-female/v1.3#turtle"
+                }
+            ],
+            "schema1:version": "v1.3",
+            "@type": "dcat:Dataset",
+            "dct:publisher": "HuBMAP",
+            "schema1:additionalType": "ref-organ",
+            "rdfs:label": "large-intestine-female (v1.3) graph data",
+            "schema1:dateCreated": {
+                "@value": "2026-06-08",
+                "@type": "xsd:date"
+            },
+            "rdfs:comment": "The graph representation of the 3D Reference Organ for Large Intestine, Female dataset.",
+            "rdfs:seeAlso": {
+                "@id": "https://purl.humanatlas.io/ref-organ/large-intestine-female/v1.3"
+            },
+            "schema1:name": "large-intestine-female",
+            "dct:creator": {
+                "@id": "https://github.com/hubmapconsortium/hra-do-processor"
+            },
+            "prov:wasDerivedFrom": {
+                "@id": "https://lod.humanatlas.io/ref-organ/large-intestine-female/v1.3#raw-data"
+            },
+            "dct:license": "https://creativecommons.org/licenses/by/4.0/",
+            "dct:title": "large-intestine-female (v1.3) graph data"
+        },
+        {
+            "@id": "https://lod.humanatlas.io/ref-organ/large-intestine-female/v1.3#ntriples",
+            "dcat:mediaType": "application/n-triples",
+            "dcat:downloadURL": {
+                "@value": "https://cdn.humanatlas.io/digital-objects/ref-organ/large-intestine-female/v1.3/graph.nt",
+                "@type": "xsd:anyURI"
+            },
+            "dcat:accessURL": {
+                "@value": "https://lod.humanatlas.io/ref-organ/large-intestine-female/v1.3#ntriples",
+                "@type": "xsd:anyURI"
+            },
+            "dct:title": "Graph data distribution large-intestine-female (v1.3) in N-Triples format",
+            "rdfs:label": "Graph data distribution large-intestine-female (v1.3) in N-Triples format",
+            "@type": "dcat:Distribution"
+        },
+        {
+            "@id": "https://lod.humanatlas.io/ref-organ/large-intestine-female/v1.3#json",
+            "dcat:mediaType": "application/json",
+            "dcat:downloadURL": {
+                "@value": "https://cdn.humanatlas.io/digital-objects/ref-organ/large-intestine-female/v1.3/graph.json",
+                "@type": "xsd:anyURI"
+            },
+            "dcat:accessURL": {
+                "@value": "https://lod.humanatlas.io/ref-organ/large-intestine-female/v1.3#json",
+                "@type": "xsd:anyURI"
+            },
+            "dct:title": "Graph data distribution large-intestine-female (v1.3) in JSON format",
+            "rdfs:label": "Graph data distribution large-intestine-female (v1.3) in JSON format",
+            "@type": "dcat:Distribution"
+        },
+        {
+            "@id": "https://lod.humanatlas.io/ref-organ/large-intestine-female/v1.3#rdfxml",
+            "dcat:mediaType": "application/rdf+xml",
+            "dcat:downloadURL": {
+                "@value": "https://cdn.humanatlas.io/digital-objects/ref-organ/large-intestine-female/v1.3/graph.xml",
+                "@type": "xsd:anyURI"
+            },
+            "dcat:accessURL": {
+                "@value": "https://lod.humanatlas.io/ref-organ/large-intestine-female/v1.3#rdfxml",
+                "@type": "xsd:anyURI"
+            },
+            "dct:title": "Graph data distribution large-intestine-female (v1.3) in RDF/XML format",
+            "rdfs:label": "Graph data distribution large-intestine-female (v1.3) in RDF/XML format",
+            "@type": "dcat:Distribution"
+        }
+    ],
+    "@context": {
+        "dct": "http://purl.org/dc/terms/",
+        "schema1": "http://schema.org/",
+        "ccf": "http://purl.org/ccf/",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "dcat": "http://www.w3.org/ns/dcat#",
+        "prov": "http://www.w3.org/ns/prov#"
+    }
+}

@@ -1,0 +1,45 @@
+# The whole studio (API + front end, services.web.app) behind Caddy with automatic HTTPS, on one Ubuntu 24.04 x86 box.
+#   SITE_HOST   the name Caddy serves: your domain, or <public-ip>.sslip.io when you have none (Let's Encrypt works with it)
+#   PAGES_ORIGIN the public static copy allowed to call this API cross-origin (https://daniil-777.github.io)
+#   OMP_THREADS  physical cores for NumPy/torch (4 on an E6 2-OCPU VM, 8 on an AX42)
+services:
+  app:
+    build:
+      context: ../..         # the repository checkout (or a staged tree from scripts/stage_deploy.py copied here)
+      dockerfile: deploy/Dockerfile
+    image: viscera-web:latest
+    restart: unless-stopped
+    environment:
+      PORT: "7860"
+      VISCERA_WEB_PRELOAD_LANGUAGE: "1"
+      HF_HUB_OFFLINE: "1"
+      TOKENIZERS_PARALLELISM: "false"
+      OMP_NUM_THREADS: ${OMP_THREADS:-4}
+      MKL_NUM_THREADS: ${OMP_THREADS:-4}
+      VISCERA_CORS_ORIGINS: ${PAGES_ORIGIN:-https://daniil-777.github.io}
+    expose: ["7860"]
+    deploy:
+      resources:
+        limits: { memory: 12g }
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:7860/api/health', timeout=4)"]
+      interval: 30s
+      timeout: 5s
+      start_period: 420s     # the text adapter loads before the port opens (slow first boot on a cold block volume)
+      retries: 5
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    ports: ["80:80", "443:443", "443:443/udp"]
+    environment:
+      SITE_HOST: ${SITE_HOST:?set SITE_HOST in .env}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      app:
+        condition: service_healthy
+volumes:
+  caddy_data:
+  caddy_config:

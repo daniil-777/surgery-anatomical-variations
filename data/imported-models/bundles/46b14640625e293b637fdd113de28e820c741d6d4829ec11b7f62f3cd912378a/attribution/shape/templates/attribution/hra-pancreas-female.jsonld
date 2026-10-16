@@ -1,0 +1,301 @@
+{
+    "@graph": [
+        {
+            "@id": "https://github.com/hubmapconsortium/hra-do-processor",
+            "dcat:conforms_to": "SoftwareApplication",
+            "schema1:version": "0.10.0",
+            "schema1:targetProduct": {
+                "@id": "_:b0"
+            },
+            "schema1:name": "HRA Digital Object Processor",
+            "rdfs:label": "HRA Digital Object Processor",
+            "@type": "schema1:SoftwareApplication"
+        },
+        {
+            "@id": "_:b0",
+            "rdfs:seeAlso": {
+                "@id": "https://github.com/hubmapconsortium/hra-do-processor/commit/cd8d578a4c9da7c0539008bc2742971b4a545121"
+            },
+            "schema1:codeRepository": {
+                "@id": "https://github.com/hubmapconsortium/hra-do-processor"
+            },
+            "@type": "schema1:SoftwareSourceCode"
+        },
+        {
+            "@id": "_:b1",
+            "schema1:funder": "National Institutes of Health",
+            "schema1:award": "OT2OD033756",
+            "@type": "schema1:Grant"
+        },
+        {
+            "@id": "https://lod.humanatlas.io/ref-organ/pancreas-female/v1.3#json",
+            "dcat:mediaType": "application/json",
+            "dcat:downloadURL": {
+                "@value": "https://cdn.humanatlas.io/digital-objects/ref-organ/pancreas-female/v1.3/graph.json",
+                "@type": "xsd:anyURI"
+            },
+            "dcat:accessURL": {
+                "@value": "https://lod.humanatlas.io/ref-organ/pancreas-female/v1.3#json",
+                "@type": "xsd:anyURI"
+            },
+            "dct:title": "Graph data distribution pancreas-female (v1.3) in JSON format",
+            "rdfs:label": "Graph data distribution pancreas-female (v1.3) in JSON format",
+            "@type": "dcat:Distribution"
+        },
+        {
+            "@id": "https://lod.humanatlas.io/ref-organ/pancreas-female/v1.3#nquads",
+            "dcat:mediaType": "application/n-quads",
+            "dcat:downloadURL": {
+                "@value": "https://cdn.humanatlas.io/digital-objects/ref-organ/pancreas-female/v1.3/graph.nq",
+                "@type": "xsd:anyURI"
+            },
+            "dcat:accessURL": {
+                "@value": "https://lod.humanatlas.io/ref-organ/pancreas-female/v1.3#nquads",
+                "@type": "xsd:anyURI"
+            },
+            "dct:title": "Graph data distribution pancreas-female (v1.3) in N-Quads format",
+            "rdfs:label": "Graph data distribution pancreas-female (v1.3) in N-Quads format",
+            "@type": "dcat:Distribution"
+        },
+        {
+            "@id": "https://lod.humanatlas.io/ref-organ/pancreas-female/v1.3#turtle",
+            "dcat:mediaType": "text/turtle",
+            "dcat:downloadURL": {
+                "@value": "https://cdn.humanatlas.io/digital-objects/ref-organ/pancreas-female/v1.3/graph.ttl",
+                "@type": "xsd:anyURI"
+            },
+            "dcat:accessURL": {
+                "@value": "https://lod.humanatlas.io/ref-organ/pancreas-female/v1.3#turtle",
+                "@type": "xsd:anyURI"
+            },
+            "dct:title": "Graph data distribution pancreas-female (v1.3) in Turtle format",
+            "rdfs:label": "Graph data distribution pancreas-female (v1.3) in Turtle format",
+            "@type": "dcat:Distribution"
+        },
+        {
+            "@id": "https://orcid.org/0000-0002-3321-6137",
+            "dcat:conforms_to": "Person",
+            "schema1:name": "Katy Börner",
+            "schema1:identifier": "0000-0002-3321-6137",
+            "schema1:givenName": "Katy",
+            "schema1:familyName": "Börner",
+            "rdfs:label": "Katy Börner",
+            "@type": "schema1:Person"
+        },
+        {
+            "@id": "https://orcid.org/0000-0002-3333-5646",
+            "dcat:conforms_to": "Person",
+            "schema1:name": "Heidi Schlehlein",
+            "schema1:identifier": "0000-0002-3333-5646",
+            "schema1:givenName": "Heidi",
+            "schema1:familyName": "Schlehlein",
+            "rdfs:label": "Heidi Schlehlein",
+            "@type": "schema1:Person"
+        },
+        {
+            "@id": "https://lod.humanatlas.io/ref-organ/pancreas-female/v1.3#jsonld",
+            "dcat:mediaType": "application/ld+json",
+            "dcat:downloadURL": {
+                "@value": "https://cdn.humanatlas.io/digital-objects/ref-organ/pancreas-female/v1.3/graph.jsonld",
+                "@type": "xsd:anyURI"
+            },
+            "dcat:accessURL": {
+                "@value": "https://lod.humanatlas.io/ref-organ/pancreas-female/v1.3#jsonld",
+                "@type": "xsd:anyURI"
+            },
+            "dct:title": "Graph data distribution pancreas-female (v1.3) in JSON-LD format",
+            "rdfs:label": "Graph data distribution pancreas-female (v1.3) in JSON-LD format",
+            "@type": "dcat:Distribution"
+        },
+        {
+            "@id": "https://lod.humanatlas.io/ref-organ/pancreas-female/v1.3#3d-vh-f-pancreas.glb",
+            "dcat:mediaType": "model/gltf-binary",
+            "dcat:downloadURL": {
+                "@value": "https://cdn.humanatlas.io/digital-objects/ref-organ/pancreas-female/v1.3/assets/3d-vh-f-pancreas.glb",
+                "@type": "xsd:anyURI"
+            },
+            "dcat:accessURL": {
+                "@value": "https://lod.humanatlas.io/ref-organ/pancreas-female/v1.3#3d-vh-f-pancreas.glb",
+                "@type": "xsd:anyURI"
+            },
+            "dct:title": "Raw data distribution '3d-vh-f-pancreas.glb' file",
+            "rdfs:label": "Raw data distribution '3d-vh-f-pancreas.glb' file",
+            "@type": "dcat:Distribution"
+        },
+        {
+            "@id": "https://lod.humanatlas.io/ref-organ/pancreas-female/v1.3#crosswalk.csv",
+            "dcat:mediaType": "text/csv",
+            "dcat:downloadURL": {
+                "@value": "https://cdn.humanatlas.io/digital-objects/ref-organ/pancreas-female/v1.3/assets/crosswalk.csv",
+                "@type": "xsd:anyURI"
+            },
+            "dcat:accessURL": {
+                "@value": "https://lod.humanatlas.io/ref-organ/pancreas-female/v1.3#crosswalk.csv",
+                "@type": "xsd:anyURI"
+            },
+            "dct:title": "Raw data distribution 'crosswalk.csv' file",
+            "rdfs:label": "Raw data distribution 'crosswalk.csv' file",
+            "@type": "dcat:Distribution"
+        },
+        {
+            "@id": "https://orcid.org/0000-0001-6878-1235",
+            "dcat:conforms_to": "Person",
+            "schema1:name": "Martha Campbell-Thompson",
+            "schema1:identifier": "0000-0001-6878-1235",
+            "schema1:givenName": "Martha",
+            "schema1:familyName": "Campbell-Thompson",
+            "rdfs:label": "Martha Campbell-Thompson",
+            "@type": "schema1:Person"
+        },
+        {
+            "@id": "https://lod.humanatlas.io/ref-organ/pancreas-female/v1.3",
+            "schema1:name": "pancreas-female",
+            "dcat:distribution": [
+                {
+                    "@id": "https://lod.humanatlas.io/ref-organ/pancreas-female/v1.3#rdfxml"
+                },
+                {
+                    "@id": "https://lod.humanatlas.io/ref-organ/pancreas-female/v1.3#turtle"
+                },
+                {
+                    "@id": "https://lod.humanatlas.io/ref-organ/pancreas-female/v1.3#nquads"
+                },
+                {
+                    "@id": "https://lod.humanatlas.io/ref-organ/pancreas-female/v1.3#json"
+                },
+                {
+                    "@id": "https://lod.humanatlas.io/ref-organ/pancreas-female/v1.3#ntriples"
+                },
+                {
+                    "@id": "https://lod.humanatlas.io/ref-organ/pancreas-female/v1.3#jsonld"
+                }
+            ],
+            "dct:publisher": "HuBMAP",
+            "prov:wasDerivedFrom": {
+                "@id": "https://lod.humanatlas.io/ref-organ/pancreas-female/v1.3#raw-data"
+            },
+            "@type": "dcat:Dataset",
+            "dct:creator": {
+                "@id": "https://github.com/hubmapconsortium/hra-do-processor"
+            },
+            "rdfs:seeAlso": {
+                "@id": "https://purl.humanatlas.io/ref-organ/pancreas-female/v1.3"
+            },
+            "dct:title": "pancreas-female (v1.3) graph data",
+            "schema1:dateCreated": {
+                "@value": "2026-06-08",
+                "@type": "xsd:date"
+            },
+            "dct:license": "https://creativecommons.org/licenses/by/4.0/",
+            "rdfs:label": "pancreas-female (v1.3) graph data",
+            "schema1:version": "v1.3",
+            "rdfs:comment": "The graph representation of the 3D Reference Organ for Pancreas, Female dataset.",
+            "schema1:additionalType": "ref-organ"
+        },
+        {
+            "@id": "https://lod.humanatlas.io/ref-organ/pancreas-female/v1.3#rdfxml",
+            "dcat:mediaType": "application/rdf+xml",
+            "dcat:downloadURL": {
+                "@value": "https://cdn.humanatlas.io/digital-objects/ref-organ/pancreas-female/v1.3/graph.xml",
+                "@type": "xsd:anyURI"
+            },
+            "dcat:accessURL": {
+                "@value": "https://lod.humanatlas.io/ref-organ/pancreas-female/v1.3#rdfxml",
+                "@type": "xsd:anyURI"
+            },
+            "dct:title": "Graph data distribution pancreas-female (v1.3) in RDF/XML format",
+            "rdfs:label": "Graph data distribution pancreas-female (v1.3) in RDF/XML format",
+            "@type": "dcat:Distribution"
+        },
+        {
+            "@id": "https://lod.humanatlas.io/ref-organ/pancreas-female/v1.3#raw-data",
+            "dct:creator": [
+                {
+                    "@id": "https://orcid.org/0000-0002-3333-5646"
+                },
+                {
+                    "@id": "https://orcid.org/0000-0003-4066-7531"
+                }
+            ],
+            "dct:references": "https://doi.org/10.1002/(SICI)1097-0185(199804)253:2<49::AID-AR8>3.0.CO;2-9",
+            "ccf:project_lead": {
+                "@id": "https://orcid.org/0000-0002-3321-6137"
+            },
+            "ccf:citation_overall": "Browne, Kristen, Heidi Schlehlein, Bruce W. Herr II, Ellen Quardokus, Andreas Bueckle, and Katy Börner. 2024. \"HuBMAP CCF 3D Reference Object Library.\" https://humanatlas.io/3d-reference-library. Accessed on June 15, 2024.",
+            "schema1:citation": "Browne, Kristen, and Heidi Schlehlein. 2024. \"3D Reference Organ for Pancreas, Female v1.3.\" https://doi.org/10.48539/HBM866.PNNZ.328. Accessed on June 15, 2024.",
+            "schema1:reviewedBy": {
+                "@id": "https://orcid.org/0000-0001-6878-1235"
+            },
+            "dcat:distribution": [
+                {
+                    "@id": "https://lod.humanatlas.io/ref-organ/pancreas-female/v1.3#crosswalk.csv"
+                },
+                {
+                    "@id": "https://lod.humanatlas.io/ref-organ/pancreas-female/v1.3#3d-vh-f-pancreas.glb"
+                }
+            ],
+            "schema1:dateCreated": {
+                "@value": "2024-06-15",
+                "@type": "xsd:date"
+            },
+            "ccf:doi": {
+                "@id": "https://doi.org/10.48539/HBM866.PNNZ.328"
+            },
+            "rdfs:comment": "This reference organ, Pancreas-female (https://humanatlas.io/3d-reference-library) was created using data from the\nVisible Human Dataset, provided by the National Library of Medicine (Spitzer and Whitlock 2002). In version v1.3,\nadjustments were made from the previous version to make the neck region smaller, and the body and tail regions more\nequal in length.\n\n**Bibliography:**\n\n* Spitzer, Victor M., and David G. Whitlock. 2002. “The Visible Human Dataset: The Anatomical Platform for Human Simulation.” *The Anatomical Record* 253 (2): 49–57. https://doi.org/10.1002/(SICI)1097-0185(199804)253:2<49::AID-AR8>3.0.CO;2-9.",
+            "dct:publisher": "HuBMAP",
+            "@type": "dcat:Dataset",
+            "dct:title": "3D Reference Organ for Pancreas, Female",
+            "dct:license": "Creative Commons Attribution 4.0 International ([CC BY 4.0](https://creativecommons.org/licenses/by/4.0/))",
+            "schema1:funding": [
+                {
+                    "@id": "_:b2"
+                },
+                {
+                    "@id": "_:b1"
+                }
+            ],
+            "ccf:hubmap_id": "HBM866.PNNZ.328",
+            "rdfs:label": "3D Reference Organ for Pancreas, Female"
+        },
+        {
+            "@id": "https://lod.humanatlas.io/ref-organ/pancreas-female/v1.3#ntriples",
+            "dcat:mediaType": "application/n-triples",
+            "dcat:downloadURL": {
+                "@value": "https://cdn.humanatlas.io/digital-objects/ref-organ/pancreas-female/v1.3/graph.nt",
+                "@type": "xsd:anyURI"
+            },
+            "dcat:accessURL": {
+                "@value": "https://lod.humanatlas.io/ref-organ/pancreas-female/v1.3#ntriples",
+                "@type": "xsd:anyURI"
+            },
+            "dct:title": "Graph data distribution pancreas-female (v1.3) in N-Triples format",
+            "rdfs:label": "Graph data distribution pancreas-female (v1.3) in N-Triples format",
+            "@type": "dcat:Distribution"
+        },
+        {
+            "@id": "https://orcid.org/0000-0003-4066-7531",
+            "dcat:conforms_to": "Person",
+            "schema1:name": "Kristen Browne",
+            "schema1:identifier": "0000-0003-4066-7531",
+            "schema1:givenName": "Kristen",
+            "schema1:familyName": "Browne",
+            "rdfs:label": "Kristen Browne",
+            "@type": "schema1:Person"
+        },
+        {
+            "@id": "_:b2",
+            "schema1:funder": "National Institutes of Health",
+            "schema1:award": "OT2OD026671",
+            "@type": "schema1:Grant"
+        }
+    ],
+    "@context": {
+        "dct": "http://purl.org/dc/terms/",
+        "schema1": "http://schema.org/",
+        "ccf": "http://purl.org/ccf/",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "dcat": "http://www.w3.org/ns/dcat#",
+        "prov": "http://www.w3.org/ns/prov#"
+    }
+}

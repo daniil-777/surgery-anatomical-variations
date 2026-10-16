@@ -1,0 +1,9 @@
+Selected: conditional_vae
+Selection gates: {
+  "reconstruction_improves_mean_5pct": true,
+  "mean_distribution_error_no_worse_than_baseline": true,
+  "std_distribution_error_under_60pct": true,
+  "every_profile_diverse": true,
+  "deployment_decoder_parity": true
+}
+Decoder parity: 1.1920928955078125e-07

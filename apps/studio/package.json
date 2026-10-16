@@ -1,0 +1,28 @@
+{
+  "name": "@viscera/studio",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "three": "0.186.1",
+    "lucide-react": "^0.468.0",
+    "@fontsource/inter": "5.2.8",
+    "@fontsource/jetbrains-mono": "5.2.8"
+  },
+  "devDependencies": {
+    "vite": "6.4.4",
+    "@vitejs/plugin-react": "4.7.0",
+    "typescript": "5.9.3",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@types/three": "^0.183.1"
+  }
+}

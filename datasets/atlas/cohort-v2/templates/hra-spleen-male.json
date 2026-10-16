@@ -1,0 +1,381 @@
+{
+  "artifact_sha256": "0177454d0735a3158981d0e16c48b929282023a7741d4903a6e78f817ec64701",
+  "attribution": "Browne, Kristen, and Heidi Schlehlein. 2024. *3D Reference Organ for Spleen, Male v1.3*. https://doi.org/10.48539/HBM437.LMTZ.752. Accessed on June 15, 2024.",
+  "attribution_verified": true,
+  "clean_faces_sha256": "677aebfe07aeebac91bcad1227bf91f8ebb37f55a5584b50b9a7133d8f10c944",
+  "cleaning_components": [
+    {
+      "clean_face_count": 1040,
+      "component": "VH_M_colic_surface_of_spleen",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 1040,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 6320,
+      "component": "VH_M_diaphragmatic_surface_of_spleen",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 6320,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 2384,
+      "component": "VH_M_gastric_surface_of_spleen",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 2384,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 5339,
+      "component": "VH_M_hilum_of_spleen",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 5339,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 1789,
+      "component": "VH_M_renal_surface_of_spleen",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 1789,
+      "winding_after": true,
+      "winding_before": true
+    }
+  ],
+  "cleaning_policy": "Drop triangles with area <=1e-12 mm2; repair winding per connected component on welded audit copy with minimum face reversals and transfer only face reversal. No vertex movement or connectivity additions.",
+  "cohort_eligible": true,
+  "colors_provenance": "Source schematic material colors; glTF linear factors converted to sRGB after trimesh 8-bit quantization",
+  "colors_space": "sRGB",
+  "components": [
+    {
+      "face_count": 1040,
+      "face_start": 0,
+      "name": "VH_M_colic_surface_of_spleen",
+      "source_geometry": "VH_M_colic_surface_of_spleen",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": true,
+      "vertex_count": 556,
+      "vertex_start": 0
+    },
+    {
+      "face_count": 6320,
+      "face_start": 1040,
+      "name": "VH_M_diaphragmatic_surface_of_spleen",
+      "source_geometry": "VH_M_diaphragmatic_surface_of_spleen",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": true,
+      "vertex_count": 3258,
+      "vertex_start": 556
+    },
+    {
+      "face_count": 2384,
+      "face_start": 7360,
+      "name": "VH_M_gastric_surface_of_spleen",
+      "source_geometry": "VH_M_gastric_surface_of_spleen",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": true,
+      "vertex_count": 1288,
+      "vertex_start": 3814
+    },
+    {
+      "face_count": 5339,
+      "face_start": 9744,
+      "name": "VH_M_hilum_of_spleen",
+      "source_geometry": "VH_M_hilum_of_spleen",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": true,
+      "vertex_count": 2945,
+      "vertex_start": 5102
+    },
+    {
+      "face_count": 1789,
+      "face_start": 15083,
+      "name": "VH_M_renal_surface_of_spleen",
+      "source_geometry": "VH_M_renal_surface_of_spleen",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": true,
+      "vertex_count": 967,
+      "vertex_start": 8047
+    }
+  ],
+  "control_limit_provenance": "design_heuristic; not measured population intervals",
+  "control_limits": [
+    0.1,
+    0.1,
+    0.08,
+    0.06,
+    0.1,
+    0.07,
+    0.04
+  ],
+  "control_names": [
+    "scale_x",
+    "scale_y",
+    "scale_z",
+    "bend",
+    "twist",
+    "taper",
+    "asymmetry"
+  ],
+  "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+  "deformer_version": "invertible-atlas-controls-1.0.0",
+  "evidence_kind": "expert_authored",
+  "excluded_source_nodes": [],
+  "extent_mm": [
+    110.40755361318588,
+    118.6375617980957,
+    88.63268792629242
+  ],
+  "face_count": 16872,
+  "face_map_keys": [
+    "source_to_clean_face_indices",
+    "clean_to_source_face_indices",
+    "clean_face_orientation_reversed",
+    "source_faces"
+  ],
+  "generator_version": "invertible-atlas-controls-1.0.0",
+  "geometry_sha256": "89d5a59239c3b6964f3ecd407065a06ae69bbbeae0f98e1bf9e11c2984df49cf",
+  "inverse_coordinate_transform": "source_world = source_to_authoring_rotation.T @ (vertices_mm + source_center_mm) / source_to_mm_scale",
+  "laterality": null,
+  "license": "CC-BY-4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "mesh_role": "annotated_display_surface_assembly_not_organ_envelope",
+  "modifications": "Selected named display components, applied scene transforms, explicit units, bounding-box centering. Removed degenerate triangles and repaired winding with reversible face maps. No smoothing, decimation or remeshing.",
+  "normalization_mm": 59.31878089904785,
+  "organ": "spleen",
+  "organ_id": "spleen",
+  "population_prevalence": null,
+  "profile": "development_preview",
+  "removed_degenerate_faces": 0,
+  "reversed_faces": 0,
+  "review_status": "unreviewed",
+  "selection_policy_version": "external-display-components-1.1.0",
+  "sex_label": "male",
+  "source_center_mm": [
+    81.0917355120182,
+    370.0637221336365,
+    -36.52402013540268
+  ],
+  "source_citation": "Browne, Kristen, and Heidi Schlehlein. 2024. *3D Reference Organ for Spleen, Male v1.3*. https://doi.org/10.48539/HBM437.LMTZ.752. Accessed on June 15, 2024.",
+  "source_collection": "HRA",
+  "source_creators": [
+    {
+      "id": "https://orcid.org/0000-0003-4066-7531",
+      "name": "Kristen Browne"
+    },
+    {
+      "id": "https://orcid.org/0000-0002-3333-5646",
+      "name": "Heidi Schlehlein"
+    }
+  ],
+  "source_derivation_description": "This reference organ, Spleen-male (https://humanatlas.io/3d-reference-library) was created using data from the Visible\nHuman Male, provided by the National Library of Medicine (Spitzer et al. 1996; Ackerman 1998).\n\n**Bibliography:**\n\n* Ackerman, Michael J. 1998. \u201cThe Visible Human Project.\u201d *Proceedings of the IEEE* 86 (3): 504\u201311. https://doi.org/10.1109/5.662875.\n* Spitzer, V., M. J. Ackerman, A. L. Scherzinger, and D. Whitlock. 1996. \u201cThe Visible Human Male: A Technical Report.\u201d *Journal of the American Medical Informatics Association* 3 (2): 118\u201330. https://doi.org/10.1136/jamia.1996.96236280.",
+  "source_doi": "https://doi.org/10.48539/HBM437.LMTZ.752",
+  "source_faces_sha256": "677aebfe07aeebac91bcad1227bf91f8ebb37f55a5584b50b9a7133d8f10c944",
+  "source_geometry_sha256": "89d5a59239c3b6964f3ecd407065a06ae69bbbeae0f98e1bf9e11c2984df49cf",
+  "source_group_id": "hra-visible-human-male",
+  "source_group_reason": "Conservative atlas ancestry grouping; organ files are not independent donors",
+  "source_license_statement": "Creative Commons Attribution 4.0 International ([CC BY 4.0](https://creativecommons.org/licenses/by/4.0/))",
+  "source_metadata_file": "attribution/hra-spleen-male.jsonld",
+  "source_metadata_sha256": "da9c4bea14a403e4cbb99306a81b651bdc44d10108bffa87a334c1ba85b3dfa7",
+  "source_metadata_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/spleen-male/v1.3/metadata.jsonld",
+  "source_overall_citation": "Browne, Kristen, Heidi Schlehlein, Bruce W. Herr II, Ellen Quardokus, Andreas Bueckle, and Katy B\u00f6rner. 2024. *HuBMAP CCF 3D Reference Object Library*. Accessed on June 15, 2024. https://humanatlas.io/3d-reference-library.",
+  "source_release": "11th Release (v2.5)",
+  "source_sha256": "826012b9dc6b69064b76c3aabbce32a2baa32d1f97fde3e88a015f399c9040b8",
+  "source_title": "3D Reference Organ for Spleen, Male",
+  "source_to_authoring_rotation": [
+    [
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      1,
+      0
+    ],
+    [
+      0,
+      0,
+      1
+    ]
+  ],
+  "source_to_mm_scale": 1000.0,
+  "source_topology_audit": {
+    "boundary_edges_after_audit_weld": 0,
+    "connected_vertex_components": 1,
+    "degenerate_faces": 0,
+    "method": "trimesh-geometric-weld-audit-copy-1.0",
+    "nonmanifold_edges_after_audit_weld": 0,
+    "self_intersection": {
+      "reason": "No robust intersection backend",
+      "status": "NOT_RUN"
+    },
+    "simulation_readiness": {
+      "reason": "No volumetric domain/materials",
+      "status": "NOT_RUN"
+    },
+    "watertight_after_audit_weld": true,
+    "weld_precision_mm": 1e-08,
+    "winding_consistent_after_audit_weld": true,
+    "zero_length_edges": 0
+  },
+  "source_up_axis": "Y (glTF convention); patient-axis interpretation not asserted",
+  "source_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/spleen-male/v1.3/assets/3d-vh-m-spleen.glb",
+  "template_id": "hra-spleen-male",
+  "template_version": "atlas-display-1.1.0",
+  "topology_audit": {
+    "boundary_edges_after_audit_weld": 0,
+    "connected_vertex_components": 1,
+    "degenerate_faces": 0,
+    "method": "trimesh-geometric-weld-audit-copy-1.0",
+    "nonmanifold_edges_after_audit_weld": 0,
+    "self_intersection": {
+      "reason": "No robust intersection backend",
+      "status": "NOT_RUN"
+    },
+    "simulation_readiness": {
+      "reason": "No volumetric domain/materials",
+      "status": "NOT_RUN"
+    },
+    "watertight_after_audit_weld": true,
+    "weld_precision_mm": 1e-08,
+    "winding_consistent_after_audit_weld": true,
+    "zero_length_edges": 0
+  },
+  "unit": "mm",
+  "units_evidence": "glTF 2.0 linear distances use metres; explicit multiplication by 1000",
+  "vertex_count": 9014
+}

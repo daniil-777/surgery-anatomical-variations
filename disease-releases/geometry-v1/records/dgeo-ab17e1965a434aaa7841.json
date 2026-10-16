@@ -1,0 +1,273 @@
+{
+  "appearance_evidence": "authored_vertex_color_not_measured_tissue_texture",
+  "clinical_review_status": "unreviewed",
+  "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+  "disease_field": {
+    "applied_displacement_fraction": 1.0,
+    "clinical_stage": null,
+    "color_strength": 0.27497519798479075,
+    "fields": [
+      {
+        "amplitude_mm": 0.34604410778623396,
+        "center_mm": [
+          -0.6044499999999999,
+          -3.105000000000018,
+          -15.70950000000002
+        ],
+        "direction": [
+          0.43420703889130563,
+          -0.7473948376459356,
+          -0.5028570413521617
+        ],
+        "radius_mm": 5.179332393907836
+      },
+      {
+        "amplitude_mm": 0.33560834661096645,
+        "center_mm": [
+          7.19135,
+          3.884999999999991,
+          -6.780500000000018
+        ],
+        "direction": [
+          0.9836148210199617,
+          -0.07775841494054354,
+          0.16265150714273477
+        ],
+        "radius_mm": 5.179332393907836
+      },
+      {
+        "amplitude_mm": 0.3629967207548866,
+        "center_mm": [
+          17.55225,
+          19.164999999999964,
+          -16.924499999999995
+        ],
+        "direction": [
+          0.7332989895923211,
+          0.049024437829916896,
+          0.6781365617324742
+        ],
+        "radius_mm": 5.179332393907836
+      },
+      {
+        "amplitude_mm": 0.3353124975225279,
+        "center_mm": [
+          -4.422449999999998,
+          8.834999999999809,
+          -2.038499999999999
+        ],
+        "direction": [
+          -0.477906080000026,
+          0.8364524970983491,
+          0.26824056143123653
+        ],
+        "radius_mm": 5.179332393907836
+      }
+    ],
+    "gradient_bound_per_step": 0.12129244470596312,
+    "pattern": "mass",
+    "profile_id": "gallbladder-carcinoma",
+    "realized_sites": 4,
+    "requested_sites": 4,
+    "steps": 3,
+    "surface_site_frame": "undeformed-atlas-Y-up-mm",
+    "target_srgb": [
+      0.67,
+      0.45,
+      0.32
+    ],
+    "version": "disease-morphology-design-1.0.0"
+  },
+  "display_normal_sha256": "77d0ecaa38fca28c9d5ee2fdc929168d20e416f2f8ab1b5d2521911900be627c",
+  "face_count": 2396,
+  "features": [
+    37.09903650674326,
+    40.442226505946714,
+    48.40899999999999,
+    3886.3922012667585,
+    1.0629889975464746,
+    1.0
+  ],
+  "geometry_evidence": "authored_disease_surface_from_licensed_reference_template",
+  "geometry_sha256": "5901a5149f1bd59a854df5136a16ee89a2a2d8ae2f94e808217376ead8b02de0",
+  "group_id": "gallbladder-carcinoma:1335039652",
+  "mechanics_evidence": "none",
+  "normal_fallback_count": 0,
+  "organ": "gallbladder",
+  "parent_recipe_index": 400,
+  "parent_sample_id": "gallbladder-carcinoma:1335039652",
+  "path": "records/dgeo-ab17e1965a434aaa7841.json",
+  "patient_id": null,
+  "point_count": 2048,
+  "point_sampling_seed": 905271178,
+  "profile_id": "gallbladder-carcinoma",
+  "qa": {
+    "anatomical_plausibility": {
+      "status": "NOT_RUN"
+    },
+    "area_ratio_max": 1.593377749599531,
+    "area_ratio_min": 0.939383335942206,
+    "continuous_jacobian_lower_bound": 0.3123196038136299,
+    "mechanical_validation": {
+      "status": "NOT_RUN"
+    },
+    "min_normal_dot": 0.6770013277654623,
+    "new_degenerate_faces": 0,
+    "normal_turns_over_90_degrees": 0,
+    "passed": true,
+    "scope": "finite nondegenerate same-topology outer-surface design",
+    "self_intersection": {
+      "reason": "Discrete/source triangle intersections not certified",
+      "status": "NOT_RUN"
+    },
+    "source_topology": {
+      "boundary_edges_after_audit_weld": 0,
+      "connected_vertex_components": 1,
+      "degenerate_faces": 0,
+      "method": "trimesh-geometric-weld-audit-copy-1.0",
+      "nonmanifold_edges_after_audit_weld": 0,
+      "self_intersection": {
+        "reason": "No robust intersection backend",
+        "status": "NOT_RUN"
+      },
+      "simulation_readiness": {
+        "reason": "No volumetric domain/materials",
+        "status": "NOT_RUN"
+      },
+      "watertight_after_audit_weld": true,
+      "weld_precision_mm": 1e-08,
+      "winding_consistent_after_audit_weld": true,
+      "zero_length_edges": 0
+    },
+    "status": "PASS",
+    "topology_preserved": true
+  },
+  "realized_id": "517dc214edc500f21d62e9532b8efa77751898b70b452a3d1a60481ff8cbf1c9",
+  "recipe_features": [
+    0.3525943160057068,
+    0.5556046962738037,
+    0.4426723122596741,
+    0.33937162160873413,
+    0.7798628211021423,
+    0.4285714328289032,
+    0.5453361868858337,
+    0.2916605770587921,
+    0.14055907726287842
+  ],
+  "sample_id": "dgeo-ab17e1965a434aaa7841",
+  "source_attribution": "BodyParts3D, \u00a9 The Database Center for Life Science licensed under CC Attribution 4.0 International",
+  "source_group_id": "bodyparts3d-adult-male-atlas",
+  "source_license": "CC-BY-4.0",
+  "source_template_artifact_sha256": "6e94e0266417eb204fe9056dd9a49fcd288417318162ca27c31000b869441bab",
+  "source_template_geometry_sha256": "6331d533a0051ab3b65e8d27e21cd048fde89543103ab85d9947f7198263ef8e",
+  "source_url": "https://dbarchive.biosciencedbc.jp/data/bodyparts3d/LATEST/partof_BP3D_4.0_obj_99.zip",
+  "spec": {
+    "appearance": "tissue",
+    "controls": {
+      "asymmetry": 0.0,
+      "bend": 0.0,
+      "scale_x": 0.0,
+      "scale_y": 0.0,
+      "scale_z": 0.0,
+      "taper": 0.0,
+      "twist": 0.0
+    },
+    "disease": {
+      "contrast": 0.7798628211021423,
+      "count": 4,
+      "irregularity": 0.33937162160873413,
+      "location": [
+        0.09067237377166748,
+        -0.41667884588241577,
+        -0.7188818454742432
+      ],
+      "profile_id": "gallbladder-carcinoma",
+      "seed": 1335039652,
+      "severity": 0.3525943160057068,
+      "size": 0.5556046962738037,
+      "spread": 0.4426723122596741
+    },
+    "realized_id": "517dc214edc500f21d62e9532b8efa77751898b70b452a3d1a60481ff8cbf1c9",
+    "seed": 1335039652,
+    "template_id": "bp3d-gallbladder-male",
+    "template_sha256": "6e94e0266417eb204fe9056dd9a49fcd288417318162ca27c31000b869441bab"
+  },
+  "split": "train",
+  "split_track": "within_generator",
+  "summary": {
+    "disease": {
+      "applied_displacement_fraction": 1.0,
+      "displacement_limited_by_source_mesh": false,
+      "evidence": "synthetic_surface_morphology_not_patient_or_population_geometry",
+      "internal_anatomy_generated": false,
+      "max_displacement_mm": 1.0629889975464746,
+      "physical_parameters_inferred": false,
+      "profile": {
+        "clinical_source_url": "https://www.cancer.gov/types/gallbladder/patient/gallbladder-treatment-pdq",
+        "evidence": "image_reference_not_paired_3d_supervision",
+        "id": "gallbladder-carcinoma",
+        "label": "Gallbladder carcinoma",
+        "limits": "Close-up lacks whole-organ orientation and calibrated scale; the photo cannot establish invasion depth or stage. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+        "morphology_targets": [
+          "focal mural mass",
+          "surface irregularity",
+          "lesion attachment extent"
+        ],
+        "organ": "gallbladder",
+        "pattern": "mass",
+        "source_ref": "I06",
+        "source_url": "https://commons.wikimedia.org/wiki/File:Gross_pathology_of_gallbladder_carcinoma.jpg",
+        "supported": true,
+        "unavailable_reason": ""
+      },
+      "realized_sites": 4,
+      "recipe": {
+        "contrast": 0.7798628211021423,
+        "count": 4,
+        "irregularity": 0.33937162160873413,
+        "location": [
+          0.09067237377166748,
+          -0.41667884588241577,
+          -0.7188818454742432
+        ],
+        "profile_id": "gallbladder-carcinoma",
+        "seed": 1335039652,
+        "severity": 0.3525943160057068,
+        "size": 0.5556046962738037,
+        "spread": 0.4426723122596741
+      },
+      "requested_sites": 4,
+      "version": "disease-morphology-design-1.0.0"
+    },
+    "extent_mm": [
+      37.09903650674326,
+      40.442226505946714,
+      48.40899999999999
+    ],
+    "measurements": {
+      "compactness": null,
+      "extent_x_mm": 37.09903650674326,
+      "extent_y_mm": 40.442226505946714,
+      "extent_z_mm": 48.40899999999999,
+      "method": "disease-display-triangle-measurements-1.0.0",
+      "surface_area_definition": "Sum of selected triangles including capsule/internal faces",
+      "surface_area_mm2": 3886.3922012667585,
+      "volume_ml": null,
+      "volume_reason": "Display surface assembly is not a certified closed outer envelope",
+      "volume_status": "NOT_APPLICABLE"
+    },
+    "min_jacobian": 0.3123196038136299,
+    "min_jacobian_kind": "conservative_bound",
+    "organ": "gallbladder",
+    "profile": "development_preview",
+    "qa_scope": "finite nondegenerate same-topology outer-surface design",
+    "qa_status": "PASS",
+    "reference": "bp3d-gallbladder-male",
+    "review_status": "unreviewed",
+    "triangles": 2396,
+    "vertices": 1202
+  },
+  "template_id": "bp3d-gallbladder-male",
+  "units": "mm",
+  "vertex_count": 1202
+}

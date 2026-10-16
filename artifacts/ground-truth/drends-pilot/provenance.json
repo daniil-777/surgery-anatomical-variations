@@ -1,0 +1,49 @@
+{
+  "schema": "viscera.external-evidence.v1",
+  "source_url": "https://zenodo.org/records/17598453",
+  "archive_url": "https://zenodo.org/api/records/17598453/files/DRENDS_ExVivo_Sequences.zip/content",
+  "archive_size": 3805507338,
+  "published_archive_checksum": "md5:b76d34ead73f49ffe2219b42c64bfa49",
+  "full_archive_checksum_verified": false,
+  "selected_member_crcs_verified": true,
+  "license_spdx": "CC-BY-4.0",
+  "species": "porcine",
+  "domain": "ex_vivo_endoscopy",
+  "organ": "colon",
+  "condition_label": null,
+  "whole_organ_mesh": false,
+  "colour_calibrated_albedo": false,
+  "training_label_eligible_for_joint_human_disease_vae": false,
+  "files": [
+    {
+      "member": "Seq01_Colon_Med/intensity.mp4",
+      "size": 3507690,
+      "sha256": "0a74386f1551b29ff97c11133cbfaf74bf6fabf339809ab67256d01ec1a12d02",
+      "zip_crc32": "03d82bc4"
+    },
+    {
+      "member": "Seq01_Colon_Med/point_clouds.hdf5",
+      "size": 52144673,
+      "sha256": "1f559dc3e85a4bef52d3565885056fc144d3eac29556fadb11b1075098b8fab6",
+      "zip_crc32": "b55b8bda"
+    },
+    {
+      "member": "Seq01_Colon_Med/timestamps.csv",
+      "size": 3131,
+      "sha256": "442e3749083221debbef360d21921c1cb734c669152ea02ee7354e5f8c020750",
+      "zip_crc32": "c408a74d"
+    },
+    {
+      "member": "Seq01_Colon_Med/left.mp4",
+      "size": 128514853,
+      "sha256": "3de734c1c7ed00bcd7aa571f152bec6d1abe3693080045b282c36163ecea21c1",
+      "zip_crc32": "bdf57d16"
+    },
+    {
+      "member": "Seq01_Colon_Med/right.mp4",
+      "size": 130207202,
+      "sha256": "c299916a14628292f9548e33eeb8d55029ab7ed4e4f2fb47645fe91d0700e5b1",
+      "zip_crc32": "dc0d46ad"
+    }
+  ]
+}

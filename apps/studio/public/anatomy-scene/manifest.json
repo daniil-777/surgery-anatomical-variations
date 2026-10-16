@@ -1,0 +1,2935 @@
+{
+  "schemaVersion": "1.0",
+  "asset": "/anatomy-scene/bodyparts3d-torso.glb",
+  "sha256": "b604569cf1a976adb037c0f63d60fcdb0e39e83f69029d9bc5427bf4e5644ca6",
+  "units": "atlas millimetres (source OBJ scale assumed)",
+  "coordinateSystem": {
+    "x": "patient left",
+    "y": "superior",
+    "z": "anterior",
+    "sourceTransform": "(x,y,z) -> (x,z,-y) - commonCenter",
+    "commonCenter": [
+      0.0,
+      1070.0,
+      110.0
+    ]
+  },
+  "bounds": [
+    [
+      -144.872,
+      -318.049,
+      -117.25375
+    ],
+    [
+      144.754,
+      325.44000000000005,
+      103.832
+    ]
+  ],
+  "sourceUrl": "https://dbarchive.biosciencedbc.jp/en/bodyparts3d/download.html",
+  "license": "CC-BY-4.0",
+  "licenseUrl": "https://dbarchive.biosciencedbc.jp/en/bodyparts3d/lic.html",
+  "attribution": "BodyParts3D, \u00a9 The Database Center for Life Science licensed under CC Attribution 4.0 International",
+  "archiveSha256": "9fbc713fffeee924a5a657d9813d84d7eb957bded63adb854931dd5e3eb61c97",
+  "modifications": "Shared rigid coordinate conversion and common translation; selected original mesh components concatenated by named organ; display colors and normals assigned. HRA heart/lungs fitted as explicitly approximate thoracic replacements. No deformation or arbitrary placement of BP3D organs. Coincident vertices within 0.00001 mm share indices and smooth normals; first original vertex coordinates retained. Liver segment assembly replaced by an explicitly derived continuous voxel capsule; per-organ derivation and geometric comparison recorded. Separate bowel-only ambient visibility attribute baked by local self-organ ray sampling; positions and indices unchanged.",
+  "limitations": [
+    "Adult male authored atlas, not a population or patient scan.",
+    "Official BP3D source has 99% polygon reduction; smooth shading adds no measured tissue detail.",
+    "HRA lungs and heart are independently fitted display surfaces, not validated same-donor registration.",
+    "The source common hepatic duct element includes the inferior extrahepatic bile route; label reflects combined surface.",
+    "Color, pathology and animation are illustrative; no physiological or surgical validation.",
+    "Connected visual surfaces do not establish watertight lumens or volumetric finite-element meshes.",
+    "Mesentery and added vascular branches retain source component fragmentation; no lumen continuity or physiological flow is inferred."
+  ],
+  "organs": [
+    {
+      "id": "liver",
+      "label": "Liver",
+      "category": "digestive",
+      "color": "#7f3536",
+      "source": "BodyParts3D",
+      "registration": "native shared atlas frame",
+      "fmaIds": [
+        "FMA13365",
+        "FMA15739",
+        "FMA15741",
+        "FMA15742",
+        "FMA15743",
+        "FMA15744",
+        "FMA15745",
+        "FMA15746"
+      ],
+      "sourceIds": [
+        "FJ2816",
+        "FJ2818",
+        "FJ2819",
+        "FJ2820",
+        "FJ2821",
+        "FJ2822",
+        "FJ2409",
+        "FJ2823",
+        "FJ2824"
+      ],
+      "sourceMeshes": [
+        {
+          "elementId": "FJ2816",
+          "member": "partof_BP3D_4.0_obj_99/FJ2816.obj",
+          "sha256": "81c86ccdd356c27a960f957f49b4ea883d22d7e75fef29aa794e154d4f5da51e"
+        },
+        {
+          "elementId": "FJ2818",
+          "member": "partof_BP3D_4.0_obj_99/FJ2818.obj",
+          "sha256": "773b11b267fd680f399e0dbc71217aef981c6f8ee2a2273723481edc5864ee8a"
+        },
+        {
+          "elementId": "FJ2819",
+          "member": "partof_BP3D_4.0_obj_99/FJ2819.obj",
+          "sha256": "ba7174ecd641887a57116848661d56c2c377659cc3aca4235132e8f548bbd8b9"
+        },
+        {
+          "elementId": "FJ2820",
+          "member": "partof_BP3D_4.0_obj_99/FJ2820.obj",
+          "sha256": "af49d0747496fb3008b7b33be23ea1c169bb4667ccfad0fa0208d42390737c22"
+        },
+        {
+          "elementId": "FJ2821",
+          "member": "partof_BP3D_4.0_obj_99/FJ2821.obj",
+          "sha256": "13886d9c2d473e121e27083fa03218fe22e4a75aab3402dcf53754a1375948f9"
+        },
+        {
+          "elementId": "FJ2822",
+          "member": "partof_BP3D_4.0_obj_99/FJ2822.obj",
+          "sha256": "8f64d0c177586089610214a5a32a189a6a659ca2770b15d193c9255667c8afd2"
+        },
+        {
+          "elementId": "FJ2409",
+          "member": "partof_BP3D_4.0_obj_99/FJ2409.obj",
+          "sha256": "4662aac785711a9b0ca91b860720d018f4e61e8457e919722b68ce814bc27e84"
+        },
+        {
+          "elementId": "FJ2823",
+          "member": "partof_BP3D_4.0_obj_99/FJ2823.obj",
+          "sha256": "a89dd2a52ffee337e9777376d1235330463577331fc7f18a40ccf8bc6c99a8d0"
+        },
+        {
+          "elementId": "FJ2824",
+          "member": "partof_BP3D_4.0_obj_99/FJ2824.obj",
+          "sha256": "2f5e34fceea6c8b718bd3f50a125bf24c434ae7eb3d925b9795b0585272c1349"
+        }
+      ],
+      "derivedCapsule": true,
+      "sourceVertexCount": 70286,
+      "sourceFaceCount": 127788,
+      "capsuleDerivation": {
+        "method": "1 mm surface voxelization; padded grid; one 3\u00d73\u00d73 binary closing; enclosed-volume fill; signed distance Gaussian-filtered with sigma 1.25 mm; marching cubes sampled every 2 voxels; 8 Taubin smoothing iterations lambda=.5 nu=.53; outward winding.",
+        "scope": "Derived display capsule, not new anatomical ground truth. Original source liver segments retained in the source archive and baseline assets.",
+        "source_vertices": 63932,
+        "source_faces": 127788,
+        "candidate_vertices": 32276,
+        "candidate_faces": 64548,
+        "source_bounds": [
+          [
+            -115.06400299072266,
+            -42.060001373291016,
+            -66.67130279541016
+          ],
+          [
+            94.3667984008789,
+            113.13999938964844,
+            92.41300201416016
+          ]
+        ],
+        "candidate_bounds": [
+          [
+            -115.7373919877468,
+            -42.46189142286359,
+            -67.64725870335843
+          ],
+          [
+            93.78133734223152,
+            113.61063073260456,
+            92.61291517241354
+          ]
+        ],
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 1523088.9935231933,
+        "connected_components": 1,
+        "distance_method": "Vertex-to-triangle distance over 32 nearest triangle-centroid candidates: conservative distance upper bounds, not guaranteed exact nearest triangle. All vertices evaluated in both directions.",
+        "candidate_to_source_surface_mm": {
+          "max": 2.143368678502709,
+          "p95": 0.8206155775405393,
+          "median": 0.6599050922994902
+        },
+        "all_source_to_candidate_surface_mm": {
+          "max": 45.46191823327364,
+          "p95": 14.987727250199022,
+          "median": 0.7086675748339569
+        },
+        "directional_exterior_source_to_candidate_surface_mm": {
+          "max": 45.46191823327364,
+          "p95": 2.6199260110911453,
+          "median": 0.6387038848417526
+        },
+        "directional_exterior_source_vertex_count": 10952,
+        "directional_exterior_scope": "Source-only six-axis extremal vertices in 3 mm projected bins, an approximate exposed-source subset; not exact ray-visibility or proof all source exterior points are included.",
+        "reverse_scope": "All-source reverse distances include deliberately removed interior segmentation sheets. Their maximum cannot be interpreted as exterior shape error.",
+        "shape_claim": "No exact Hausdorff error bound asserted. The capsule removes internal sheets and shallow segmentation creases, while respecting the source external scale and registration.",
+        "source_file": "viscera/artifacts/whole-scene-2026-10-08/source-candidates/bodyparts3d-torso-source.glb",
+        "source_sha256": "040b58a57ae73df34494970e80840cb83f12f102ded7336d7fe8d928b0736c50",
+        "source_is_verified_original_segment_baseline": true
+      },
+      "coincidentVerticesWelded": 0,
+      "weldToleranceMm": 1e-05,
+      "bounds": [
+        [
+          -115.7373919877468,
+          -42.46189142286357,
+          -67.64725870335843
+        ],
+        [
+          93.78133734223152,
+          113.61063073260448,
+          92.61291517241352
+        ]
+      ],
+      "center": [
+        -10.97802732275764,
+        35.57436965487045,
+        12.482828234527545
+      ],
+      "vertexCount": 32276,
+      "faceCount": 64548
+    },
+    {
+      "id": "stomach",
+      "label": "Stomach",
+      "category": "digestive",
+      "color": "#c9837f",
+      "source": "BodyParts3D",
+      "registration": "native shared atlas frame",
+      "fmaIds": [
+        "FMA7148"
+      ],
+      "sourceIds": [
+        "FJ2564"
+      ],
+      "sourceMeshes": [
+        {
+          "elementId": "FJ2564",
+          "member": "partof_BP3D_4.0_obj_99/FJ2564.obj",
+          "sha256": "cb78c3f2214fd21a16fa6c9f2389b9aa874e9d3ce624c42b34d4563c31554c67"
+        }
+      ],
+      "coincidentVerticesWelded": 7,
+      "weldToleranceMm": 1e-05,
+      "bounds": [
+        [
+          -28.9516,
+          -30.11999999999989,
+          -28.5201
+        ],
+        [
+          105.524,
+          86.8900000000001,
+          84.37
+        ]
+      ],
+      "center": [
+        38.2862,
+        28.385000000000105,
+        27.924950000000003
+      ],
+      "vertexCount": 907,
+      "faceCount": 1810
+    },
+    {
+      "id": "gallbladder",
+      "label": "Gallbladder",
+      "category": "digestive",
+      "color": "#648956",
+      "source": "BodyParts3D",
+      "registration": "native shared atlas frame",
+      "fmaIds": [
+        "FMA7202"
+      ],
+      "sourceIds": [
+        "FJ2817"
+      ],
+      "sourceMeshes": [
+        {
+          "elementId": "FJ2817",
+          "member": "partof_BP3D_4.0_obj_99/FJ2817.obj",
+          "sha256": "625af13ef374a4df98eb5e51f9c2201a1436ca33168ce4deb277ce811c3fb8c8"
+        }
+      ],
+      "coincidentVerticesWelded": 2,
+      "weldToleranceMm": 1e-05,
+      "bounds": [
+        [
+          -63.2817,
+          -18.930000000000064,
+          20.15100000000001
+        ],
+        [
+          -26.8404,
+          21.480000000000018,
+          68.56
+        ]
+      ],
+      "center": [
+        -45.06105,
+        1.2749999999999773,
+        44.355500000000006
+      ],
+      "vertexCount": 1200,
+      "faceCount": 2396
+    },
+    {
+      "id": "pancreas",
+      "label": "Pancreas",
+      "category": "digestive",
+      "color": "#d9a58a",
+      "source": "BodyParts3D",
+      "registration": "native shared atlas frame",
+      "fmaIds": [
+        "FMA7198"
+      ],
+      "sourceIds": [
+        "FJ1895"
+      ],
+      "sourceMeshes": [
+        {
+          "elementId": "FJ1895",
+          "member": "partof_BP3D_4.0_obj_99/FJ1895.obj",
+          "sha256": "fea8a371ac940fb8c5c13e9d459af6c2bd50e1b499f8989c63883a7db0f149ae"
+        }
+      ],
+      "coincidentVerticesWelded": 15,
+      "weldToleranceMm": 1e-05,
+      "bounds": [
+        [
+          -47.9048,
+          -65.63999999999999,
+          -14.587999999999994
+        ],
+        [
+          72.6744,
+          8.099999999999909,
+          36.37899999999999
+        ]
+      ],
+      "center": [
+        12.384800000000002,
+        -28.77000000000004,
+        10.895499999999998
+      ],
+      "vertexCount": 2447,
+      "faceCount": 4890
+    },
+    {
+      "id": "spleen",
+      "label": "Spleen",
+      "category": "digestive",
+      "color": "#773d54",
+      "source": "BodyParts3D",
+      "registration": "native shared atlas frame",
+      "fmaIds": [
+        "FMA7196"
+      ],
+      "sourceIds": [
+        "FJ2561"
+      ],
+      "sourceMeshes": [
+        {
+          "elementId": "FJ2561",
+          "member": "isa_BP3D_4.0_obj_99/FJ2561.obj",
+          "sha256": "8dadb164d15392b61e0b08286625c9ea9f959a0f13d8f166b32d84abad4689bf",
+          "archiveUrl": "https://dbarchive.biosciencedbc.jp/data/bodyparts3d/LATEST/isa_BP3D_4.0_obj_99.zip"
+        }
+      ],
+      "coincidentVerticesWelded": 22,
+      "weldToleranceMm": 1e-05,
+      "bounds": [
+        [
+          55.6341,
+          -18.3900000000001,
+          -63.8039
+        ],
+        [
+          113.868,
+          51.83999999999992,
+          31.262
+        ]
+      ],
+      "center": [
+        84.75104999999999,
+        16.72499999999991,
+        -16.27095
+      ],
+      "vertexCount": 667,
+      "faceCount": 1330
+    },
+    {
+      "id": "right-kidney",
+      "label": "Right kidney",
+      "category": "urinary",
+      "color": "#a7524c",
+      "source": "BodyParts3D",
+      "registration": "native shared atlas frame",
+      "fmaIds": [
+        "FMA7204"
+      ],
+      "sourceIds": [
+        "FJ3147"
+      ],
+      "sourceMeshes": [
+        {
+          "elementId": "FJ3147",
+          "member": "partof_BP3D_4.0_obj_99/FJ3147.obj",
+          "sha256": "e21e2ebd5224b1cbf8caabbf4fa788d894819a328a006dcdb2eb8aa6eee5875a"
+        }
+      ],
+      "coincidentVerticesWelded": 6,
+      "weldToleranceMm": 1e-05,
+      "bounds": [
+        [
+          -87.5754,
+          -103.18799999999999,
+          -45.299899999999994
+        ],
+        [
+          -30.4276,
+          1.240000000000009,
+          1.855000000000004
+        ]
+      ],
+      "center": [
+        -59.0015,
+        -50.97399999999999,
+        -21.722449999999995
+      ],
+      "vertexCount": 1157,
+      "faceCount": 2310
+    },
+    {
+      "id": "left-kidney",
+      "label": "Left kidney",
+      "category": "urinary",
+      "color": "#a7524c",
+      "source": "BodyParts3D",
+      "registration": "native shared atlas frame",
+      "fmaIds": [
+        "FMA7205"
+      ],
+      "sourceIds": [
+        "FJ3145"
+      ],
+      "sourceMeshes": [
+        {
+          "elementId": "FJ3145",
+          "member": "partof_BP3D_4.0_obj_99/FJ3145.obj",
+          "sha256": "b52066a987f767ad9e5c3092958bf5dd760d9f05f1497d1fc7f7ff11539bdfd2"
+        }
+      ],
+      "coincidentVerticesWelded": 4,
+      "weldToleranceMm": 1e-05,
+      "bounds": [
+        [
+          32.8399,
+          -85.50599999999997,
+          -50.4086
+        ],
+        [
+          90.383,
+          20.440000000000055,
+          -9.814999999999998
+        ]
+      ],
+      "center": [
+        61.61145,
+        -32.53299999999996,
+        -30.1118
+      ],
+      "vertexCount": 1493,
+      "faceCount": 2982
+    },
+    {
+      "id": "esophagus",
+      "label": "Esophagus",
+      "category": "digestive",
+      "color": "#b97878",
+      "source": "BodyParts3D",
+      "registration": "native shared atlas frame",
+      "fmaIds": [
+        "FMA7131"
+      ],
+      "sourceIds": [
+        "FJ2563"
+      ],
+      "sourceMeshes": [
+        {
+          "elementId": "FJ2563",
+          "member": "partof_BP3D_4.0_obj_99/FJ2563.obj",
+          "sha256": "0bc2935e13650b9a5ea143dee97767e2dba0589eae92f0df4e01f3e2fce3c4b0"
+        }
+      ],
+      "coincidentVerticesWelded": 32,
+      "weldToleranceMm": 1e-05,
+      "bounds": [
+        [
+          -8.81063,
+          45.99000000000001,
+          -43.612700000000004
+        ],
+        [
+          23.6032,
+          320.3900000000001,
+          14.263999999999996
+        ]
+      ],
+      "center": [
+        7.396285000000001,
+        183.19000000000005,
+        -14.674350000000004
+      ],
+      "vertexCount": 291,
+      "faceCount": 578
+    },
+    {
+      "id": "duodenum",
+      "label": "Duodenum",
+      "category": "digestive",
+      "color": "#ce9b90",
+      "source": "BodyParts3D",
+      "registration": "native shared atlas frame",
+      "fmaIds": [
+        "FMA7206"
+      ],
+      "sourceIds": [
+        "FJ2573"
+      ],
+      "sourceMeshes": [
+        {
+          "elementId": "FJ2573",
+          "member": "partof_BP3D_4.0_obj_99/FJ2573.obj",
+          "sha256": "d549d9857ced73b198cdde3ad2494e897b620884364588f8644d7f6fd74ae1cb"
+        }
+      ],
+      "coincidentVerticesWelded": 45,
+      "weldToleranceMm": 1e-05,
+      "bounds": [
+        [
+          -65.6243,
+          -84.39099999999996,
+          -6.106999999999999
+        ],
+        [
+          32.3295,
+          7.1099999999999,
+          46.92400000000001
+        ]
+      ],
+      "center": [
+        -16.6474,
+        -38.64050000000003,
+        20.408500000000004
+      ],
+      "vertexCount": 932,
+      "faceCount": 1860
+    },
+    {
+      "id": "colon",
+      "label": "Large intestine",
+      "category": "digestive",
+      "color": "#bb827e",
+      "source": "BodyParts3D",
+      "registration": "native shared atlas frame",
+      "fmaIds": [
+        "FMA7201"
+      ],
+      "sourceIds": [
+        "FJ2566",
+        "FJ2567",
+        "FJ2568",
+        "FJ2569",
+        "FJ2570",
+        "FJ2571",
+        "FJ2572",
+        "FJ2599"
+      ],
+      "sourceMeshes": [
+        {
+          "elementId": "FJ2566",
+          "member": "partof_BP3D_4.0_obj_99/FJ2566.obj",
+          "sha256": "8c156d4b6c70b181ae7d5b181913f693948c38558a530996dbad0158993fb653"
+        },
+        {
+          "elementId": "FJ2567",
+          "member": "partof_BP3D_4.0_obj_99/FJ2567.obj",
+          "sha256": "01227dde6807b83e2d2a4d1771765e5cb9f33d54719dbd1771b7245a5f7f7a4b"
+        },
+        {
+          "elementId": "FJ2568",
+          "member": "partof_BP3D_4.0_obj_99/FJ2568.obj",
+          "sha256": "0cb3bccddc08f3121e0e25355c88f68f484ea07d5d8815733b7b49eefd9dbcda"
+        },
+        {
+          "elementId": "FJ2569",
+          "member": "partof_BP3D_4.0_obj_99/FJ2569.obj",
+          "sha256": "9566e92b9c5c2a265c752200709f45d3deaacf32e8a62e4c41f0f3866b569107"
+        },
+        {
+          "elementId": "FJ2570",
+          "member": "partof_BP3D_4.0_obj_99/FJ2570.obj",
+          "sha256": "9574b2cbadd22a230c1450101f27ba566d11e2f8c0c3c63329a082b39d89a807"
+        },
+        {
+          "elementId": "FJ2571",
+          "member": "partof_BP3D_4.0_obj_99/FJ2571.obj",
+          "sha256": "99a7fe3eb3f8aeb10b21b4eedde3a25df209cd80676cfb130f314cc731a8fcaf"
+        },
+        {
+          "elementId": "FJ2572",
+          "member": "partof_BP3D_4.0_obj_99/FJ2572.obj",
+          "sha256": "66c493a453400d704e39950bbf468e70182c1e68090ac8a85099bfece42c9d35"
+        },
+        {
+          "elementId": "FJ2599",
+          "member": "partof_BP3D_4.0_obj_99/FJ2599.obj",
+          "sha256": "38a95d81d5bf9acc1f22b29c50f5d6ee23352dc013ac245d227b1eaf96c5aa28"
+        }
+      ],
+      "coincidentVerticesWelded": 21411,
+      "weldToleranceMm": 1e-05,
+      "bounds": [
+        [
+          -126.783,
+          -312.673,
+          -98.7192
+        ],
+        [
+          117.482,
+          -5.269999999999982,
+          86.93100000000001
+        ]
+      ],
+      "center": [
+        -4.650500000000001,
+        -158.9715,
+        -5.894099999999995
+      ],
+      "vertexCount": 30287,
+      "faceCount": 59284,
+      "ambientVisibilityAttribute": "_TISSUE_OCCLUSION"
+    },
+    {
+      "id": "small-intestine",
+      "label": "Small intestine",
+      "category": "digestive",
+      "color": "#d6a193",
+      "source": "BodyParts3D",
+      "registration": "native shared atlas frame",
+      "fmaIds": [
+        "FMA7207",
+        "FMA7208"
+      ],
+      "sourceIds": [
+        "FJ2606",
+        "FJ2607",
+        "FJ2608",
+        "FJ2609",
+        "FJ2610",
+        "FJ2611",
+        "FJ2612",
+        "FJ2613",
+        "FJ2614",
+        "FJ2615",
+        "FJ2616",
+        "FJ2617",
+        "FJ2618",
+        "FJ2619",
+        "FJ2620",
+        "FJ2621",
+        "FJ2622",
+        "FJ2623",
+        "FJ2624",
+        "FJ2625",
+        "FJ2626",
+        "FJ2627",
+        "FJ2628",
+        "FJ2574",
+        "FJ2575",
+        "FJ2576",
+        "FJ2577",
+        "FJ2578",
+        "FJ2579",
+        "FJ2580",
+        "FJ2581",
+        "FJ2582",
+        "FJ2583",
+        "FJ2584",
+        "FJ2585",
+        "FJ2586",
+        "FJ2587",
+        "FJ2588",
+        "FJ2589",
+        "FJ2590",
+        "FJ2591",
+        "FJ2592",
+        "FJ2593",
+        "FJ2594",
+        "FJ2595",
+        "FJ2596",
+        "FJ2597",
+        "FJ2598",
+        "FJ2600",
+        "FJ2601",
+        "FJ2602",
+        "FJ2603",
+        "FJ2604",
+        "FJ2605"
+      ],
+      "sourceMeshes": [
+        {
+          "elementId": "FJ2606",
+          "member": "partof_BP3D_4.0_obj_99/FJ2606.obj",
+          "sha256": "89b5f2a7b84ce723f206eefd2ffedd8318fca2fd540ceddee173243fb57d9912"
+        },
+        {
+          "elementId": "FJ2607",
+          "member": "partof_BP3D_4.0_obj_99/FJ2607.obj",
+          "sha256": "13bbe7d80aa85d7d25e1dad84b9c91842c64f25baa7d46c55950aac11cd12e94"
+        },
+        {
+          "elementId": "FJ2608",
+          "member": "partof_BP3D_4.0_obj_99/FJ2608.obj",
+          "sha256": "f1699baa49100725b02d81bec5cbe9a344f08bbf04f66a335d77fae079230130"
+        },
+        {
+          "elementId": "FJ2609",
+          "member": "partof_BP3D_4.0_obj_99/FJ2609.obj",
+          "sha256": "c666347a146576fef68f20a0108b3aaa4c64a4b47340fb4d438429a6878d7b0b"
+        },
+        {
+          "elementId": "FJ2610",
+          "member": "partof_BP3D_4.0_obj_99/FJ2610.obj",
+          "sha256": "b99fd902532e7f255a4bbf324e8965adc3630544f981763357f1a3362bc8f2d1"
+        },
+        {
+          "elementId": "FJ2611",
+          "member": "partof_BP3D_4.0_obj_99/FJ2611.obj",
+          "sha256": "f307128f506971b523b25c63df7d603561f283327f7cb7a027c69cbd05985abf"
+        },
+        {
+          "elementId": "FJ2612",
+          "member": "partof_BP3D_4.0_obj_99/FJ2612.obj",
+          "sha256": "4caa419f277f7a7543a92becadeafdbb2ece3f7e9d423986edb0b2f5c72efd77"
+        },
+        {
+          "elementId": "FJ2613",
+          "member": "partof_BP3D_4.0_obj_99/FJ2613.obj",
+          "sha256": "4050e67d24cc9e4682b006278584417b05b996501fc14fa1b9ac3e25924174a2"
+        },
+        {
+          "elementId": "FJ2614",
+          "member": "partof_BP3D_4.0_obj_99/FJ2614.obj",
+          "sha256": "3a0fe667c05cf00349c0f0e6dee83af8f9612d2ab0a61cb393082acbd2f45273"
+        },
+        {
+          "elementId": "FJ2615",
+          "member": "partof_BP3D_4.0_obj_99/FJ2615.obj",
+          "sha256": "d88c128830e798dd41d723687954fa148702362df7794cb8bff0e69e85fbac6b"
+        },
+        {
+          "elementId": "FJ2616",
+          "member": "partof_BP3D_4.0_obj_99/FJ2616.obj",
+          "sha256": "39f4f1e9c3e1c6882e60b1e1386ca8b75b7877b7da247c7188868ddd891c9411"
+        },
+        {
+          "elementId": "FJ2617",
+          "member": "partof_BP3D_4.0_obj_99/FJ2617.obj",
+          "sha256": "b590f94cbe6821b109ecb7d6db1f0a7ba34c696c7618187c3c93ce732317a31d"
+        },
+        {
+          "elementId": "FJ2618",
+          "member": "partof_BP3D_4.0_obj_99/FJ2618.obj",
+          "sha256": "dba020a6ad5d06cefef0bd468aa2767ff642f8fa9fe8d9907ad7d4d8031358a6"
+        },
+        {
+          "elementId": "FJ2619",
+          "member": "partof_BP3D_4.0_obj_99/FJ2619.obj",
+          "sha256": "9f4394a95d24321b3c19f7cf41744a10db1fc8cb8b180c11c89ca15a01c0b920"
+        },
+        {
+          "elementId": "FJ2620",
+          "member": "partof_BP3D_4.0_obj_99/FJ2620.obj",
+          "sha256": "e44f63bc62ff749cb53c1e7a914e6ab6284e82adbdfc4117c6c62092de4d2ecc"
+        },
+        {
+          "elementId": "FJ2621",
+          "member": "partof_BP3D_4.0_obj_99/FJ2621.obj",
+          "sha256": "fa44e8a3155ccd5c6c98b111a28de4727654ddc5a2ff7a22dd0a50e6efe3ab76"
+        },
+        {
+          "elementId": "FJ2622",
+          "member": "partof_BP3D_4.0_obj_99/FJ2622.obj",
+          "sha256": "005ab831ac1e943836bbab604e1d65977d4c386e593e3644e78f5361ed027cbf"
+        },
+        {
+          "elementId": "FJ2623",
+          "member": "partof_BP3D_4.0_obj_99/FJ2623.obj",
+          "sha256": "38ecee2c5b418641b9399e91f493db87abba6b6a1e8cf9250fcdc295491f025d"
+        },
+        {
+          "elementId": "FJ2624",
+          "member": "partof_BP3D_4.0_obj_99/FJ2624.obj",
+          "sha256": "732a475c4d81228ac54222aa259390d259d2d0f86453777fd23c670a1123a626"
+        },
+        {
+          "elementId": "FJ2625",
+          "member": "partof_BP3D_4.0_obj_99/FJ2625.obj",
+          "sha256": "668459db84a25f6301edb716439c81a58532ccda4e763f4235da6ea1248163fe"
+        },
+        {
+          "elementId": "FJ2626",
+          "member": "partof_BP3D_4.0_obj_99/FJ2626.obj",
+          "sha256": "35124a0a754ebdf402a38f8e8d2193dde0c91bbb4cd851163fed49dba2747b8c"
+        },
+        {
+          "elementId": "FJ2627",
+          "member": "partof_BP3D_4.0_obj_99/FJ2627.obj",
+          "sha256": "994297bdf2c25126db37d5afae74cb9cec76550c4adb6748a7c1f906a2ffab03"
+        },
+        {
+          "elementId": "FJ2628",
+          "member": "partof_BP3D_4.0_obj_99/FJ2628.obj",
+          "sha256": "be71bf232347b0d1188112f4ded90d1efe15b6672b6d17cdf4728c661da9b732"
+        },
+        {
+          "elementId": "FJ2574",
+          "member": "partof_BP3D_4.0_obj_99/FJ2574.obj",
+          "sha256": "b6547b41e4102688005d102b63a853dc0dc5c2e34610672e8c0639a6b4c4d563"
+        },
+        {
+          "elementId": "FJ2575",
+          "member": "partof_BP3D_4.0_obj_99/FJ2575.obj",
+          "sha256": "6be375a4887d1354e6b3e8e251e55f22da640e5b5f1f8a8224fd6678d1eda826"
+        },
+        {
+          "elementId": "FJ2576",
+          "member": "partof_BP3D_4.0_obj_99/FJ2576.obj",
+          "sha256": "5e5687e8af2e373c06136c1020a24ab8803c6dc580197fc589a41f9faea4f40e"
+        },
+        {
+          "elementId": "FJ2577",
+          "member": "partof_BP3D_4.0_obj_99/FJ2577.obj",
+          "sha256": "ee3f47d0554de48b943b4db2d0f6bc1ec584e6ade56f8ec74bb185d1bdbcf84e"
+        },
+        {
+          "elementId": "FJ2578",
+          "member": "partof_BP3D_4.0_obj_99/FJ2578.obj",
+          "sha256": "390a30e04a95b41f2a243cc96cc584a463ce8d1accd9b20d459ff71385b29065"
+        },
+        {
+          "elementId": "FJ2579",
+          "member": "partof_BP3D_4.0_obj_99/FJ2579.obj",
+          "sha256": "b82be69d1481aeab262e79b074b4eacb1f783ae2090cf42b7774b20209e7cf58"
+        },
+        {
+          "elementId": "FJ2580",
+          "member": "partof_BP3D_4.0_obj_99/FJ2580.obj",
+          "sha256": "f45bc8e30afc5d0aa37e8bcf5e310f5b4716df2c21ae7ebea299c8ec183b5b8b"
+        },
+        {
+          "elementId": "FJ2581",
+          "member": "partof_BP3D_4.0_obj_99/FJ2581.obj",
+          "sha256": "bde15b34176f21e9eb9f65f7c2c6746637d183a8f088200595443a1f5d4266d5"
+        },
+        {
+          "elementId": "FJ2582",
+          "member": "partof_BP3D_4.0_obj_99/FJ2582.obj",
+          "sha256": "d48d46d478d409f78b8d68c0ac8848192669680c93f00efdf1aff3741ab1eddb"
+        },
+        {
+          "elementId": "FJ2583",
+          "member": "partof_BP3D_4.0_obj_99/FJ2583.obj",
+          "sha256": "69cc9c8b12d7c12092fbe451f2ed68860e378ec2c46967a2b71ac2e8806838f5"
+        },
+        {
+          "elementId": "FJ2584",
+          "member": "partof_BP3D_4.0_obj_99/FJ2584.obj",
+          "sha256": "7bfd148d820040c750592c12cb0c86411fead3701607dffd2c3895369c6c1c11"
+        },
+        {
+          "elementId": "FJ2585",
+          "member": "partof_BP3D_4.0_obj_99/FJ2585.obj",
+          "sha256": "1263e4a01037f3348768686d364f9f590008dfee2f8dd78539964db91f4aa861"
+        },
+        {
+          "elementId": "FJ2586",
+          "member": "partof_BP3D_4.0_obj_99/FJ2586.obj",
+          "sha256": "91b76f2902b8f280779820a305caf932cae577073952ba6d116be7a2f8a9243b"
+        },
+        {
+          "elementId": "FJ2587",
+          "member": "partof_BP3D_4.0_obj_99/FJ2587.obj",
+          "sha256": "cd8315e26a28fce7c54233477704ed4ef1474d75572eb3e26e4e2e9ddc9c056d"
+        },
+        {
+          "elementId": "FJ2588",
+          "member": "partof_BP3D_4.0_obj_99/FJ2588.obj",
+          "sha256": "b7cbb7897f8d57eb4a7169c32be00f5be796c1e7cc86e74aaec3ad193c677485"
+        },
+        {
+          "elementId": "FJ2589",
+          "member": "partof_BP3D_4.0_obj_99/FJ2589.obj",
+          "sha256": "1d7695ab41a305eb349921c43dd720bf8016d23bf3859567370d9c339baf6722"
+        },
+        {
+          "elementId": "FJ2590",
+          "member": "partof_BP3D_4.0_obj_99/FJ2590.obj",
+          "sha256": "73a877864b309b18fc7cb65db64d32baa9c058c9536b4b89fee097e2fc82dbae"
+        },
+        {
+          "elementId": "FJ2591",
+          "member": "partof_BP3D_4.0_obj_99/FJ2591.obj",
+          "sha256": "dadd4bbb9dc091d2800e3f8d955d7766e5c86c2b854c34a6cd5c61a072d641a3"
+        },
+        {
+          "elementId": "FJ2592",
+          "member": "partof_BP3D_4.0_obj_99/FJ2592.obj",
+          "sha256": "f5c18c8096976a2c19daa3d6c26cd0032ecec1691392d478b22f1d20c8273a1d"
+        },
+        {
+          "elementId": "FJ2593",
+          "member": "partof_BP3D_4.0_obj_99/FJ2593.obj",
+          "sha256": "af8ebff2a50f5af91a8a54dac0fb2102850fe9415adb8a3d6893d3275c6736ff"
+        },
+        {
+          "elementId": "FJ2594",
+          "member": "partof_BP3D_4.0_obj_99/FJ2594.obj",
+          "sha256": "70d6c0ad3390dbfccdda54d352f45b8156ab3255c2184072fecf2e974da01a5d"
+        },
+        {
+          "elementId": "FJ2595",
+          "member": "partof_BP3D_4.0_obj_99/FJ2595.obj",
+          "sha256": "996e47dec84bf03f4ac007194b83e0eb4d5f511288288986a444fcb6140c1d1d"
+        },
+        {
+          "elementId": "FJ2596",
+          "member": "partof_BP3D_4.0_obj_99/FJ2596.obj",
+          "sha256": "6dc16ba09ede9b97474595da2540e1268d98bfb10af952b0cc9e36231c3a505f"
+        },
+        {
+          "elementId": "FJ2597",
+          "member": "partof_BP3D_4.0_obj_99/FJ2597.obj",
+          "sha256": "bdd01b5ff6a117a4a13f23e9f4a9ac390dfa6f0e7550464527c62cf4998dceb6"
+        },
+        {
+          "elementId": "FJ2598",
+          "member": "partof_BP3D_4.0_obj_99/FJ2598.obj",
+          "sha256": "0efc0e799d28e9df3d0483c828ff9cd4b65db7e0da5fd5d157bf0d10959bd897"
+        },
+        {
+          "elementId": "FJ2600",
+          "member": "partof_BP3D_4.0_obj_99/FJ2600.obj",
+          "sha256": "14cbe0e74c698aace6e1ed1d95d9da60a494f215caf948d760a84441cb47ffda"
+        },
+        {
+          "elementId": "FJ2601",
+          "member": "partof_BP3D_4.0_obj_99/FJ2601.obj",
+          "sha256": "af315559e744dcc9ba57c249ec3e7faae53f19211861731ba6cbb994d91061cf"
+        },
+        {
+          "elementId": "FJ2602",
+          "member": "partof_BP3D_4.0_obj_99/FJ2602.obj",
+          "sha256": "7300e8d6bcefd3476479fecc61eb1f707806500c9a896934ac7248a6088a01d3"
+        },
+        {
+          "elementId": "FJ2603",
+          "member": "partof_BP3D_4.0_obj_99/FJ2603.obj",
+          "sha256": "cdff2efd1e8a0acd13aafa6328043cc8f6e5b8a2b0831fb457af06e33d0d97ab"
+        },
+        {
+          "elementId": "FJ2604",
+          "member": "partof_BP3D_4.0_obj_99/FJ2604.obj",
+          "sha256": "cbe476086c02ceced25590d0fcbb6f250e0361f6cac08dca6e743f5ada2b6872"
+        },
+        {
+          "elementId": "FJ2605",
+          "member": "partof_BP3D_4.0_obj_99/FJ2605.obj",
+          "sha256": "3ad5c6f04a91c08332c264e9b7fea7839867ca1cada6d540d018ba75c64d49e9"
+        }
+      ],
+      "coincidentVerticesWelded": 444,
+      "weldToleranceMm": 1e-05,
+      "bounds": [
+        [
+          -87.0539,
+          -264.71000000000004,
+          7.489999999999995
+        ],
+        [
+          106.621,
+          -46.35000000000002,
+          73.429
+        ]
+      ],
+      "center": [
+        9.783549999999998,
+        -155.53000000000003,
+        40.4595
+      ],
+      "vertexCount": 7063,
+      "faceCount": 13910,
+      "ambientVisibilityAttribute": "_TISSUE_OCCLUSION"
+    },
+    {
+      "id": "urinary-bladder",
+      "label": "Urinary bladder",
+      "category": "urinary",
+      "color": "#c2a287",
+      "source": "BodyParts3D",
+      "registration": "native shared atlas frame",
+      "fmaIds": [
+        "FMA15900"
+      ],
+      "sourceIds": [
+        "FJ3149"
+      ],
+      "sourceMeshes": [
+        {
+          "elementId": "FJ3149",
+          "member": "partof_BP3D_4.0_obj_99/FJ3149.obj",
+          "sha256": "b49f40d01bf28550094a7d17901e33e7066039f3a0fb8cf44d79fff2472f9926"
+        }
+      ],
+      "coincidentVerticesWelded": 12,
+      "weldToleranceMm": 1e-05,
+      "bounds": [
+        [
+          -34.1466,
+          -280.26800000000003,
+          -53.4747
+        ],
+        [
+          32.6238,
+          -240.01099999999997,
+          18.24000000000001
+        ]
+      ],
+      "center": [
+        -0.7613999999999983,
+        -260.1395,
+        -17.617349999999995
+      ],
+      "vertexCount": 115,
+      "faceCount": 226
+    },
+    {
+      "id": "right-ureter",
+      "label": "Right ureter",
+      "category": "urinary",
+      "color": "#d2b295",
+      "source": "BodyParts3D",
+      "registration": "native shared atlas frame",
+      "fmaIds": [
+        "FMA15571"
+      ],
+      "sourceIds": [
+        "FJ3146"
+      ],
+      "sourceMeshes": [
+        {
+          "elementId": "FJ3146",
+          "member": "partof_BP3D_4.0_obj_99/FJ3146.obj",
+          "sha256": "780889608ce700962d98be95432f94d58ca121b240099adeb83d8278ca8a779d"
+        }
+      ],
+      "coincidentVerticesWelded": 168,
+      "weldToleranceMm": 1e-05,
+      "bounds": [
+        [
+          -72.7935,
+          -258.797,
+          -49.6541
+        ],
+        [
+          -9.39929,
+          -13.0,
+          8.968999999999994
+        ]
+      ],
+      "center": [
+        -41.096395,
+        -135.8985,
+        -20.342550000000003
+      ],
+      "vertexCount": 964,
+      "faceCount": 1924
+    },
+    {
+      "id": "left-ureter",
+      "label": "Left ureter",
+      "category": "urinary",
+      "color": "#d2b295",
+      "source": "BodyParts3D",
+      "registration": "native shared atlas frame",
+      "fmaIds": [
+        "FMA15572"
+      ],
+      "sourceIds": [
+        "FJ3144"
+      ],
+      "sourceMeshes": [
+        {
+          "elementId": "FJ3144",
+          "member": "partof_BP3D_4.0_obj_99/FJ3144.obj",
+          "sha256": "1235a492a66c738eceafaafa512def0ed82785741367a29835aae2fdb706d59a"
+        }
+      ],
+      "coincidentVerticesWelded": 92,
+      "weldToleranceMm": 1e-05,
+      "bounds": [
+        [
+          23.2688,
+          -251.961,
+          -48.389
+        ],
+        [
+          79.3766,
+          2.5699999999999363,
+          9.751000000000005
+        ]
+      ],
+      "center": [
+        51.3227,
+        -124.69550000000004,
+        -19.319
+      ],
+      "vertexCount": 1033,
+      "faceCount": 2062
+    },
+    {
+      "id": "cystic-duct",
+      "label": "Cystic duct",
+      "category": "digestive",
+      "color": "#809251",
+      "source": "BodyParts3D",
+      "registration": "native shared atlas frame",
+      "fmaIds": [
+        "FMA14539"
+      ],
+      "sourceIds": [
+        "FJ3080"
+      ],
+      "sourceMeshes": [
+        {
+          "elementId": "FJ3080",
+          "member": "partof_BP3D_4.0_obj_99/FJ3080.obj",
+          "sha256": "80484b44aa66eac24bd6b2654bf44bd4ea7db72f58354a4d8892a7efd1232bab"
+        }
+      ],
+      "coincidentVerticesWelded": 15,
+      "weldToleranceMm": 1e-05,
+      "bounds": [
+        [
+          -29.6802,
+          9.160000000000082,
+          18.441000000000003
+        ],
+        [
+          -20.898,
+          21.34999999999991,
+          27.786
+        ]
+      ],
+      "center": [
+        -25.289099999999998,
+        15.254999999999995,
+        23.113500000000002
+      ],
+      "vertexCount": 141,
+      "faceCount": 278
+    },
+    {
+      "id": "hepatic-duct",
+      "label": "Hepatic / common bile duct",
+      "category": "digestive",
+      "color": "#86945c",
+      "source": "BodyParts3D",
+      "registration": "native shared atlas frame",
+      "fmaIds": [
+        "FMA14668",
+        "FMA14669",
+        "FMA14670"
+      ],
+      "sourceIds": [
+        "FJ3079",
+        "FJ3123",
+        "FJ3096"
+      ],
+      "sourceMeshes": [
+        {
+          "elementId": "FJ3079",
+          "member": "partof_BP3D_4.0_obj_99/FJ3079.obj",
+          "sha256": "3a7275527584d73fae6e8909ddbcc2badf176ca6141cb8ae4cfaf2fbb51f01c4"
+        },
+        {
+          "elementId": "FJ3123",
+          "member": "partof_BP3D_4.0_obj_99/FJ3123.obj",
+          "sha256": "67c97c70cce9aed074743d4b3ceba046d34e1d3b05bc5ca35e39a37499e7a66d"
+        },
+        {
+          "elementId": "FJ3096",
+          "member": "partof_BP3D_4.0_obj_99/FJ3096.obj",
+          "sha256": "c4f34b49d7a1b657ac99631a0614b283ff3cff231bfcb4d41a5ed48b4c8ab15b"
+        }
+      ],
+      "coincidentVerticesWelded": 2,
+      "weldToleranceMm": 1e-05,
+      "bounds": [
+        [
+          -43.682,
+          -50.41999999999996,
+          -2.962999999999994
+        ],
+        [
+          7.39447,
+          60.0,
+          47.429
+        ]
+      ],
+      "center": [
+        -18.143765000000002,
+        4.7900000000000205,
+        22.233000000000004
+      ],
+      "vertexCount": 1225,
+      "faceCount": 2438
+    },
+    {
+      "id": "pancreatic-duct",
+      "label": "Pancreatic duct",
+      "category": "digestive",
+      "color": "#e1c4a1",
+      "source": "BodyParts3D",
+      "registration": "native shared atlas frame",
+      "fmaIds": [
+        "FMA10419"
+      ],
+      "sourceIds": [
+        "FJ1896"
+      ],
+      "sourceMeshes": [
+        {
+          "elementId": "FJ1896",
+          "member": "partof_BP3D_4.0_obj_99/FJ1896.obj",
+          "sha256": "17213b1a13963da2a60c792ac6f4047268890f1836d9d03e0383f783b7b73312"
+        }
+      ],
+      "coincidentVerticesWelded": 2255,
+      "weldToleranceMm": 1e-05,
+      "bounds": [
+        [
+          -49.5436,
+          -48.620000000000005,
+          -8.045000000000002
+        ],
+        [
+          61.4969,
+          -3.2899999999999636,
+          28.10300000000001
+        ]
+      ],
+      "center": [
+        5.976649999999999,
+        -25.954999999999984,
+        10.029000000000003
+      ],
+      "vertexCount": 1686,
+      "faceCount": 3368
+    },
+    {
+      "id": "aorta",
+      "label": "Aorta",
+      "category": "cardiovascular",
+      "color": "#ae4c46",
+      "source": "BodyParts3D",
+      "registration": "native shared atlas frame",
+      "fmaIds": [
+        "FMA3734"
+      ],
+      "sourceIds": [
+        "FJ1931",
+        "FJ1932",
+        "FJ3411",
+        "FJ3413",
+        "FJ3427"
+      ],
+      "sourceMeshes": [
+        {
+          "elementId": "FJ1931",
+          "member": "partof_BP3D_4.0_obj_99/FJ1931.obj",
+          "sha256": "3d7af57f70b77dc8dbf784bcb9863743ceeec351b642f9ccf110e6a747e77899"
+        },
+        {
+          "elementId": "FJ1932",
+          "member": "partof_BP3D_4.0_obj_99/FJ1932.obj",
+          "sha256": "cbdbe976943f977c48b9dbdfa2efdd9eb025f935d3f921a3fb8479df2090d25d"
+        },
+        {
+          "elementId": "FJ3411",
+          "member": "partof_BP3D_4.0_obj_99/FJ3411.obj",
+          "sha256": "7f1bbd874b05ea618649bfd5a51ac2675523f419dd3e5f5e160d90f47bd413db"
+        },
+        {
+          "elementId": "FJ3413",
+          "member": "partof_BP3D_4.0_obj_99/FJ3413.obj",
+          "sha256": "f4d566821c5ee6347147631b4d1b1e5c5cb3465e05ec23fadffa161c268c7bb2"
+        },
+        {
+          "elementId": "FJ3427",
+          "member": "partof_BP3D_4.0_obj_99/FJ3427.obj",
+          "sha256": "5785787fdaf951e8f64c3f8d5be27cdf015bafb6adf0c70dd4b63f0b5ac2736c"
+        }
+      ],
+      "coincidentVerticesWelded": 312,
+      "weldToleranceMm": 1e-05,
+      "bounds": [
+        [
+          -6.83046,
+          -123.221,
+          -64.9142
+        ],
+        [
+          34.8378,
+          247.08999999999992,
+          27.438999999999993
+        ]
+      ],
+      "center": [
+        14.00367,
+        61.93449999999996,
+        -18.7376
+      ],
+      "vertexCount": 5104,
+      "faceCount": 10188
+    },
+    {
+      "id": "vena-cava",
+      "label": "Vena cava",
+      "category": "cardiovascular",
+      "color": "#617793",
+      "source": "BodyParts3D",
+      "registration": "native shared atlas frame",
+      "fmaIds": [
+        "FMA4720",
+        "FMA10951"
+      ],
+      "sourceIds": [
+        "FJ3645",
+        "FJ3441",
+        "FJ3659"
+      ],
+      "sourceMeshes": [
+        {
+          "elementId": "FJ3645",
+          "member": "partof_BP3D_4.0_obj_99/FJ3645.obj",
+          "sha256": "68710b61d5edce86b6a31ce0a471c88cf63308671f78ba57d9974f6514cdb04b"
+        },
+        {
+          "elementId": "FJ3441",
+          "member": "partof_BP3D_4.0_obj_99/FJ3441.obj",
+          "sha256": "749081b95f406bd38edea220d216f84aa17e019b91c117e7cfd5f3e546ea1163"
+        },
+        {
+          "elementId": "FJ3659",
+          "member": "partof_BP3D_4.0_obj_99/FJ3659.obj",
+          "sha256": "a2ff79789ca4d74a0ed2382f347918bc630710f92fab40146ba7353b98bc2b02"
+        }
+      ],
+      "coincidentVerticesWelded": 234,
+      "weldToleranceMm": 1e-05,
+      "bounds": [
+        [
+          -26.8256,
+          -119.10799999999995,
+          -6.447999999999993
+        ],
+        [
+          -2.0585,
+          239.80999999999995,
+          18.789999999999992
+        ]
+      ],
+      "center": [
+        -14.44205,
+        60.351,
+        6.170999999999999
+      ],
+      "vertexCount": 1845,
+      "faceCount": 3678
+    },
+    {
+      "id": "portal-vein",
+      "label": "Portal venous connection",
+      "category": "cardiovascular",
+      "color": "#7b6886",
+      "source": "BodyParts3D",
+      "registration": "native shared atlas frame",
+      "fmaIds": [
+        "FMA14329",
+        "FMA15414",
+        "FMA15415"
+      ],
+      "sourceIds": [
+        "FJ3102",
+        "FJ3122",
+        "FJ1913",
+        "FJ2405",
+        "FJ1893",
+        "FJ2404"
+      ],
+      "sourceMeshes": [
+        {
+          "elementId": "FJ3102",
+          "member": "partof_BP3D_4.0_obj_99/FJ3102.obj",
+          "sha256": "34942cd65cf922f32fdacf165ceab2f35a90f074a2bf3e342abe5d4b8b90ce80"
+        },
+        {
+          "elementId": "FJ3122",
+          "member": "partof_BP3D_4.0_obj_99/FJ3122.obj",
+          "sha256": "ff00a9830cf1ab18c4de3186ddce1920d62daffe57ec51d6adc6bd64cd13beab"
+        },
+        {
+          "elementId": "FJ1913",
+          "member": "partof_BP3D_4.0_obj_99/FJ1913.obj",
+          "sha256": "a305c27d3f093693dcd36b79d17494eec4b854623abd5ef1bf9b8cfcc1924fef"
+        },
+        {
+          "elementId": "FJ2405",
+          "member": "partof_BP3D_4.0_obj_99/FJ2405.obj",
+          "sha256": "dbeafcb261e23112037b6616d8ffd130f9c96d9e30e70d61855e2f7ef71fccc1"
+        },
+        {
+          "elementId": "FJ1893",
+          "member": "partof_BP3D_4.0_obj_99/FJ1893.obj",
+          "sha256": "c92536c5059b17366769bfb48700bc3aa3d1500f9c0e21d94f9cd98e3e9372a6"
+        },
+        {
+          "elementId": "FJ2404",
+          "member": "partof_BP3D_4.0_obj_99/FJ2404.obj",
+          "sha256": "316a7b553981cafff7ac1279140251cff0c6a88d4cf91f5d729cdb02702405b8"
+        }
+      ],
+      "coincidentVerticesWelded": 2948,
+      "weldToleranceMm": 1e-05,
+      "bounds": [
+        [
+          -101.458,
+          4.289999999999964,
+          -60.4146
+        ],
+        [
+          56.4309,
+          93.47000000000003,
+          89.50399999999999
+        ]
+      ],
+      "center": [
+        -22.51355,
+        48.879999999999995,
+        14.544699999999995
+      ],
+      "vertexCount": 7790,
+      "faceCount": 15512
+    },
+    {
+      "id": "hepatic-artery",
+      "label": "Hepatic artery",
+      "category": "cardiovascular",
+      "color": "#b2574e",
+      "source": "BodyParts3D",
+      "registration": "native shared atlas frame",
+      "fmaIds": [
+        "FMA14771",
+        "FMA14772"
+      ],
+      "sourceIds": [
+        "FJ3078",
+        "FJ3081"
+      ],
+      "sourceMeshes": [
+        {
+          "elementId": "FJ3078",
+          "member": "partof_BP3D_4.0_obj_99/FJ3078.obj",
+          "sha256": "eec86b21d496f432542f70b6eb84df5ad86f50d4ca2ca56f974fa1e7da56bb0c"
+        },
+        {
+          "elementId": "FJ3081",
+          "member": "partof_BP3D_4.0_obj_99/FJ3081.obj",
+          "sha256": "bf69f9eb22bdde959860b0c2f13e00399126f69cc3e608dcf2fa364950d0a467"
+        }
+      ],
+      "coincidentVerticesWelded": 8,
+      "weldToleranceMm": 1e-05,
+      "bounds": [
+        [
+          -22.4174,
+          5.210000000000036,
+          16.891000000000005
+        ],
+        [
+          5.7907,
+          41.74000000000001,
+          41.458
+        ]
+      ],
+      "center": [
+        -8.31335,
+        23.475000000000023,
+        29.174500000000002
+      ],
+      "vertexCount": 357,
+      "faceCount": 706
+    },
+    {
+      "id": "trachea",
+      "label": "Trachea",
+      "category": "respiratory",
+      "color": "#ceb2a1",
+      "source": "BodyParts3D",
+      "registration": "native shared atlas frame",
+      "fmaIds": [
+        "FMA7394"
+      ],
+      "sourceIds": [
+        "FJ2541"
+      ],
+      "sourceMeshes": [
+        {
+          "elementId": "FJ2541",
+          "member": "partof_BP3D_4.0_obj_99/FJ2541.obj",
+          "sha256": "f4c8cd3c70d212b09db6319e3b218b35aecfa02f53678d6886484a31aaa11cd9"
+        }
+      ],
+      "coincidentVerticesWelded": 107,
+      "weldToleranceMm": 1e-05,
+      "bounds": [
+        [
+          -13.1241,
+          215.08999999999992,
+          -32.634
+        ],
+        [
+          12.8145,
+          325.44000000000005,
+          0.13100000000000023
+        ]
+      ],
+      "center": [
+        -0.15479999999999983,
+        270.265,
+        -16.2515
+      ],
+      "vertexCount": 2500,
+      "faceCount": 4996
+    },
+    {
+      "id": "bronchi",
+      "label": "Bronchial tree",
+      "category": "respiratory",
+      "color": "#bf9e89",
+      "source": "BodyParts3D",
+      "registration": "native shared atlas frame",
+      "fmaIds": [
+        "FMA7409"
+      ],
+      "sourceIds": [
+        "FJ2450",
+        "FJ2539"
+      ],
+      "sourceMeshes": [
+        {
+          "elementId": "FJ2450",
+          "member": "partof_BP3D_4.0_obj_99/FJ2450.obj",
+          "sha256": "e7741f9d9f72b13ef5ccc5204df336713f48b02cf73baa73ca7a0be2816cde19"
+        },
+        {
+          "elementId": "FJ2539",
+          "member": "partof_BP3D_4.0_obj_99/FJ2539.obj",
+          "sha256": "0e1e4dc8c326263c21819c3c48a3e2e41e72fa92425983876d4902fa5dcc3074"
+        }
+      ],
+      "coincidentVerticesWelded": 552,
+      "weldToleranceMm": 1e-05,
+      "bounds": [
+        [
+          -50.4191,
+          134.02999999999997,
+          -48.9986
+        ],
+        [
+          72.3474,
+          228.0,
+          -11.507199999999997
+        ]
+      ],
+      "center": [
+        10.964149999999997,
+        181.015,
+        -30.2529
+      ],
+      "vertexCount": 4316,
+      "faceCount": 8604
+    },
+    {
+      "id": "diaphragm",
+      "label": "Diaphragm",
+      "category": "connective",
+      "color": "#a86d65",
+      "source": "BodyParts3D",
+      "registration": "native shared atlas frame",
+      "fmaIds": [
+        "FMA13295"
+      ],
+      "sourceIds": [
+        "FJ3131"
+      ],
+      "sourceMeshes": [
+        {
+          "elementId": "FJ3131",
+          "member": "partof_BP3D_4.0_obj_99/FJ3131.obj",
+          "sha256": "2a78d0f155249d4b8348e9656170af4caf2b41778c0e047fc8c1c6890878058b"
+        }
+      ],
+      "coincidentVerticesWelded": 1261,
+      "weldToleranceMm": 1e-05,
+      "bounds": [
+        [
+          -122.329,
+          -84.14800000000002,
+          -84.0842
+        ],
+        [
+          120.863,
+          122.57999999999993,
+          95.32300000000001
+        ]
+      ],
+      "center": [
+        -0.732999999999997,
+        19.21599999999995,
+        5.619400000000006
+      ],
+      "vertexCount": 34266,
+      "faceCount": 68522
+    },
+    {
+      "id": "rib-cage",
+      "label": "Rib cage",
+      "category": "skeleton",
+      "color": "#ddcdb2",
+      "source": "BodyParts3D",
+      "registration": "native shared atlas frame",
+      "fmaIds": [
+        "FMA7480"
+      ],
+      "sourceIds": [
+        "FJ3153",
+        "FJ3178",
+        "FJ3225",
+        "FJ3226",
+        "FJ3227",
+        "FJ3228",
+        "FJ3229",
+        "FJ3230",
+        "FJ3231",
+        "FJ3232",
+        "FJ3233",
+        "FJ3234",
+        "FJ3235",
+        "FJ3236",
+        "FJ3239",
+        "FJ3242",
+        "FJ3245",
+        "FJ3248",
+        "FJ3251",
+        "FJ3254",
+        "FJ3255",
+        "FJ3290",
+        "FJ3330",
+        "FJ3331",
+        "FJ3332",
+        "FJ3333",
+        "FJ3334",
+        "FJ3335",
+        "FJ3336",
+        "FJ3337",
+        "FJ3338",
+        "FJ3339",
+        "FJ3340",
+        "FJ3341",
+        "FJ3342",
+        "FJ3343",
+        "FJ3344",
+        "FJ3345",
+        "FJ3346",
+        "FJ3347",
+        "FJ3348"
+      ],
+      "sourceMeshes": [
+        {
+          "elementId": "FJ3153",
+          "member": "partof_BP3D_4.0_obj_99/FJ3153.obj",
+          "sha256": "d17057ed1dad252a6fa6a3e8d92bc13310cebe0b584df147af0cc4a646f98f3e"
+        },
+        {
+          "elementId": "FJ3178",
+          "member": "partof_BP3D_4.0_obj_99/FJ3178.obj",
+          "sha256": "32a06946d8eadbe1a847a373abe7499381c0182c72b7c94e3e2a0c3ba7c867e3"
+        },
+        {
+          "elementId": "FJ3225",
+          "member": "partof_BP3D_4.0_obj_99/FJ3225.obj",
+          "sha256": "daa25aba7fba3ff691d61cd239f8d49debc84ff871a351051c1d57a192b91dfd"
+        },
+        {
+          "elementId": "FJ3226",
+          "member": "partof_BP3D_4.0_obj_99/FJ3226.obj",
+          "sha256": "4bb9d52fdb2c15cb459c2bd08fd58082cdb39d15903cde675313762ea2287fc8"
+        },
+        {
+          "elementId": "FJ3227",
+          "member": "partof_BP3D_4.0_obj_99/FJ3227.obj",
+          "sha256": "83e04b8b6f91e4de57e7b380a2f2c7d6f0bbf284ce76710ca89aa82fb376bd4e"
+        },
+        {
+          "elementId": "FJ3228",
+          "member": "partof_BP3D_4.0_obj_99/FJ3228.obj",
+          "sha256": "eb534d19462226e26b91234544f99abe118878a25c125f2a8839341e6769252b"
+        },
+        {
+          "elementId": "FJ3229",
+          "member": "partof_BP3D_4.0_obj_99/FJ3229.obj",
+          "sha256": "b752f038ceba8430f3872897ce69495d7dd74ed8e19c21d3f75d0bc0b156d84f"
+        },
+        {
+          "elementId": "FJ3230",
+          "member": "partof_BP3D_4.0_obj_99/FJ3230.obj",
+          "sha256": "8b42d241c711fe9765b1239be33fcab6b865ab4619b5d05fa98ea245b6075d5c"
+        },
+        {
+          "elementId": "FJ3231",
+          "member": "partof_BP3D_4.0_obj_99/FJ3231.obj",
+          "sha256": "28b852d4813703c5654d0405168e22bf0032632d47b9667b4b16e60ed89a425b"
+        },
+        {
+          "elementId": "FJ3232",
+          "member": "partof_BP3D_4.0_obj_99/FJ3232.obj",
+          "sha256": "6fa730aea273685148d3e9d3f52fe450acec4c13d6e3b1b6865e0e9532283abb"
+        },
+        {
+          "elementId": "FJ3233",
+          "member": "partof_BP3D_4.0_obj_99/FJ3233.obj",
+          "sha256": "2a0f1e32b8410b6396bea7ae342a16ae1ac1b77042e70d7e98cabeb7dcf3dfb9"
+        },
+        {
+          "elementId": "FJ3234",
+          "member": "partof_BP3D_4.0_obj_99/FJ3234.obj",
+          "sha256": "638a766f20b64d02095efa845b5ea316624a376acb44c7e4a6d533d4da6ef4db"
+        },
+        {
+          "elementId": "FJ3235",
+          "member": "partof_BP3D_4.0_obj_99/FJ3235.obj",
+          "sha256": "81a7215ef6ed923bbad6f07208bbc0ee26ddbaae3b1423f624cae465012d9144"
+        },
+        {
+          "elementId": "FJ3236",
+          "member": "partof_BP3D_4.0_obj_99/FJ3236.obj",
+          "sha256": "3dc292292b9f2bd5e226ac100d3a8db76cba8eb1d9d09533a6e5e871f023e2a8"
+        },
+        {
+          "elementId": "FJ3239",
+          "member": "partof_BP3D_4.0_obj_99/FJ3239.obj",
+          "sha256": "9ca5fdb0582ad2795c9316ab9bb2f89f952b5a8c8fcf92a37efa042fc5c7739c"
+        },
+        {
+          "elementId": "FJ3242",
+          "member": "partof_BP3D_4.0_obj_99/FJ3242.obj",
+          "sha256": "c83bb88d995837a455e72707e9d5ecb0035ad60d8fd2f6f28d3710b4ef4c9d8e"
+        },
+        {
+          "elementId": "FJ3245",
+          "member": "partof_BP3D_4.0_obj_99/FJ3245.obj",
+          "sha256": "ac65f51684b5dbcc3ea82381edae8723cbd9c7b8680bf6149a31dbf0acd26065"
+        },
+        {
+          "elementId": "FJ3248",
+          "member": "partof_BP3D_4.0_obj_99/FJ3248.obj",
+          "sha256": "3633cb39f1540513872b9477c829d562114dce8d19cba5c99073fe4e3abeb1be"
+        },
+        {
+          "elementId": "FJ3251",
+          "member": "partof_BP3D_4.0_obj_99/FJ3251.obj",
+          "sha256": "86be490af572a3d8c7f41fd1ed3f4bfac19a9966737bc1275f135f160d8298be"
+        },
+        {
+          "elementId": "FJ3254",
+          "member": "partof_BP3D_4.0_obj_99/FJ3254.obj",
+          "sha256": "bc9ca44f2ea1fa9800d7f0a35c4596f41df1750ba9c89910d4f64041131db2bf"
+        },
+        {
+          "elementId": "FJ3255",
+          "member": "partof_BP3D_4.0_obj_99/FJ3255.obj",
+          "sha256": "97e69ede580a6e81cc42bb54fb22d4752719b61c5fced8ccccfb18ce64996676"
+        },
+        {
+          "elementId": "FJ3290",
+          "member": "partof_BP3D_4.0_obj_99/FJ3290.obj",
+          "sha256": "b847e67db475197cc4510744fef76bafd8e75c50797ca85eb8cd56dd853d61d6"
+        },
+        {
+          "elementId": "FJ3330",
+          "member": "partof_BP3D_4.0_obj_99/FJ3330.obj",
+          "sha256": "0f688dd4e0d20a8328b4763c0acc7582a9beac8fe5c7ce58586db99c6e366945"
+        },
+        {
+          "elementId": "FJ3331",
+          "member": "partof_BP3D_4.0_obj_99/FJ3331.obj",
+          "sha256": "761d6d8713c31d4b9f795c4875da9fc750c913907386489568fdebea15af49c3"
+        },
+        {
+          "elementId": "FJ3332",
+          "member": "partof_BP3D_4.0_obj_99/FJ3332.obj",
+          "sha256": "ece92488a9293cde2d8a8275cee8232326b377811afba888f6147d7217e04e07"
+        },
+        {
+          "elementId": "FJ3333",
+          "member": "partof_BP3D_4.0_obj_99/FJ3333.obj",
+          "sha256": "616b5add6471a3fd2a7297cbebfee18a13866eb165ca0be05c5942ae16bacc10"
+        },
+        {
+          "elementId": "FJ3334",
+          "member": "partof_BP3D_4.0_obj_99/FJ3334.obj",
+          "sha256": "ecef0080744a8422b72b4f52229bd68945692cdef7d6fe2a57043b2155c49d17"
+        },
+        {
+          "elementId": "FJ3335",
+          "member": "partof_BP3D_4.0_obj_99/FJ3335.obj",
+          "sha256": "065a4969ea4210ce6d3f5838dc2da20f1153de478e02c7a86ced152eab82bf6a"
+        },
+        {
+          "elementId": "FJ3336",
+          "member": "partof_BP3D_4.0_obj_99/FJ3336.obj",
+          "sha256": "e9f527453bb2a48764ac7243d0b9b23e37fb2a85e92cee445972a1a770a5eaa4"
+        },
+        {
+          "elementId": "FJ3337",
+          "member": "partof_BP3D_4.0_obj_99/FJ3337.obj",
+          "sha256": "469513e43364a7212843011c944a9fff22b5b50496a11e739bcdafc70005d3dd"
+        },
+        {
+          "elementId": "FJ3338",
+          "member": "partof_BP3D_4.0_obj_99/FJ3338.obj",
+          "sha256": "69dbbcfc72d592aa862621612e7ad1151ada3fa06c5ce51e24731015561ad7ac"
+        },
+        {
+          "elementId": "FJ3339",
+          "member": "partof_BP3D_4.0_obj_99/FJ3339.obj",
+          "sha256": "fc442f6596ca1a7ce18fc2d65cb92dcc1de1951381ebd631223469b6e84923b1"
+        },
+        {
+          "elementId": "FJ3340",
+          "member": "partof_BP3D_4.0_obj_99/FJ3340.obj",
+          "sha256": "b9bc6bbb160fd579ed246c3eb145b39f82866dc2dfeebe798f0dba5a2e352597"
+        },
+        {
+          "elementId": "FJ3341",
+          "member": "partof_BP3D_4.0_obj_99/FJ3341.obj",
+          "sha256": "921b821e925624302d8ab138dfa80a24bf3d9150e006b7ac27a2b5f73d15ab33"
+        },
+        {
+          "elementId": "FJ3342",
+          "member": "partof_BP3D_4.0_obj_99/FJ3342.obj",
+          "sha256": "11d403618e4114a5edcd8f2fa4e90ef4e6427b04f4cd3962c59462694b55c443"
+        },
+        {
+          "elementId": "FJ3343",
+          "member": "partof_BP3D_4.0_obj_99/FJ3343.obj",
+          "sha256": "3b633ffd599c51c1f00d66442855a047b013bda569fa092ea31ece5fdc289111"
+        },
+        {
+          "elementId": "FJ3344",
+          "member": "partof_BP3D_4.0_obj_99/FJ3344.obj",
+          "sha256": "67f1f42fea1c289adaf4929716534bad7dfdd136ca0057f05de83d6e20c8f0a8"
+        },
+        {
+          "elementId": "FJ3345",
+          "member": "partof_BP3D_4.0_obj_99/FJ3345.obj",
+          "sha256": "a4d22796f4ffc6f9ad1b7d620c917be1638244864eca62aec60bd11033ed3041"
+        },
+        {
+          "elementId": "FJ3346",
+          "member": "partof_BP3D_4.0_obj_99/FJ3346.obj",
+          "sha256": "91aa56e034fbe6f413c0f15b76d725a1f8efd115aa2900beda6edf43a3ab0c43"
+        },
+        {
+          "elementId": "FJ3347",
+          "member": "partof_BP3D_4.0_obj_99/FJ3347.obj",
+          "sha256": "43a1591cf1e123ca01f64297a7ce008d679a5f5f26421cc5b69e2232da89d743"
+        },
+        {
+          "elementId": "FJ3348",
+          "member": "partof_BP3D_4.0_obj_99/FJ3348.obj",
+          "sha256": "7d3a969b778da18eb38b1a64d92e2b90e1730fcb0d7b2bfacd125ff4826876d0"
+        }
+      ],
+      "coincidentVerticesWelded": 3436,
+      "weldToleranceMm": 1e-05,
+      "bounds": [
+        [
+          -137.085,
+          -61.940000000000055,
+          -106.35859
+        ],
+        [
+          135.778,
+          300.48,
+          103.832
+        ]
+      ],
+      "center": [
+        -0.6535000000000082,
+        119.26999999999998,
+        -1.2632950000000065
+      ],
+      "vertexCount": 97159,
+      "faceCount": 194110
+    },
+    {
+      "id": "spine",
+      "label": "Thoracic and lumbar spine",
+      "category": "skeleton",
+      "color": "#d1bfa2",
+      "source": "BodyParts3D",
+      "registration": "native shared atlas frame",
+      "fmaIds": [],
+      "sourceIds": [
+        "FJ3154",
+        "FJ3155",
+        "FJ3156",
+        "FJ3158",
+        "FJ3160",
+        "FJ3163",
+        "FJ3166",
+        "FJ3169",
+        "FJ3171",
+        "FJ3173",
+        "FJ3174",
+        "FJ3175",
+        "FJ3203",
+        "FJ3204",
+        "FJ3205",
+        "FJ3206",
+        "FJ3207",
+        "FJ3208",
+        "FJ3209",
+        "FJ3210",
+        "FJ3222",
+        "FJ3223",
+        "FJ3224",
+        "FJ3157",
+        "FJ3159",
+        "FJ3162",
+        "FJ3165",
+        "FJ3168",
+        "FJ3212",
+        "FJ3214",
+        "FJ3215",
+        "FJ3216",
+        "FJ3217"
+      ],
+      "sourceMeshes": [
+        {
+          "elementId": "FJ3154",
+          "member": "partof_BP3D_4.0_obj_99/FJ3154.obj",
+          "sha256": "55fd0b1ec25bc207c5a58cb2aa3d5f2880df6593719ec803c83ac898d3bda358"
+        },
+        {
+          "elementId": "FJ3155",
+          "member": "partof_BP3D_4.0_obj_99/FJ3155.obj",
+          "sha256": "7ce892808f37a9c96c74f298334be195cb50bfdbe64bcfa62072141ed38df0a2"
+        },
+        {
+          "elementId": "FJ3156",
+          "member": "partof_BP3D_4.0_obj_99/FJ3156.obj",
+          "sha256": "d78f0563a0c0b5be89284a6d73434998a05dc9dbddb471b49e398c9ef96f07ae"
+        },
+        {
+          "elementId": "FJ3158",
+          "member": "partof_BP3D_4.0_obj_99/FJ3158.obj",
+          "sha256": "57a9cd9f62fc902f2d10f32c83237bba5bee4a24ae323a2b2405d9df68fd585b"
+        },
+        {
+          "elementId": "FJ3160",
+          "member": "partof_BP3D_4.0_obj_99/FJ3160.obj",
+          "sha256": "f04ca280dc74fdc79afb14e5da1515a1e77762960bb38fab869be0e617348eac"
+        },
+        {
+          "elementId": "FJ3163",
+          "member": "partof_BP3D_4.0_obj_99/FJ3163.obj",
+          "sha256": "968ed4928160fd54c444aa8c4a2c318fa56368c55c715afcdeaa48445382d3f6"
+        },
+        {
+          "elementId": "FJ3166",
+          "member": "partof_BP3D_4.0_obj_99/FJ3166.obj",
+          "sha256": "cd744d75a90dc4d2b38f3b25928656ae2f9b873ea3113d01f91a102290eda5bd"
+        },
+        {
+          "elementId": "FJ3169",
+          "member": "partof_BP3D_4.0_obj_99/FJ3169.obj",
+          "sha256": "7eb98fe2886168196d8a7ee37d1c7a6e7decbc1c09cdf2d4295c13ed7ba3df0c"
+        },
+        {
+          "elementId": "FJ3171",
+          "member": "partof_BP3D_4.0_obj_99/FJ3171.obj",
+          "sha256": "7c9c326269edd09bdf02aca90333c61debe4f39c777fbef887751826a54adb9e"
+        },
+        {
+          "elementId": "FJ3173",
+          "member": "partof_BP3D_4.0_obj_99/FJ3173.obj",
+          "sha256": "1bcf85e649234f976236f81077019ae66971c69c0943992a7ec0072939d42245"
+        },
+        {
+          "elementId": "FJ3174",
+          "member": "partof_BP3D_4.0_obj_99/FJ3174.obj",
+          "sha256": "f5928470229deb2c7579804b883ffeaae611127dac1454caed3b3df93fe8dad6"
+        },
+        {
+          "elementId": "FJ3175",
+          "member": "partof_BP3D_4.0_obj_99/FJ3175.obj",
+          "sha256": "f1ce32fedb9f84ac37b800b2a182f6701f972fbd8cc01be7732ab3ca3864603e"
+        },
+        {
+          "elementId": "FJ3203",
+          "member": "partof_BP3D_4.0_obj_99/FJ3203.obj",
+          "sha256": "e4d18b10b53cf1dce6254ed32e0cf2bde492f3fba523001f9d0099b6836c4955"
+        },
+        {
+          "elementId": "FJ3204",
+          "member": "partof_BP3D_4.0_obj_99/FJ3204.obj",
+          "sha256": "aea5417173600504e344b7ff1987e73255fb8cc10a0309fad43c9749ceb53363"
+        },
+        {
+          "elementId": "FJ3205",
+          "member": "partof_BP3D_4.0_obj_99/FJ3205.obj",
+          "sha256": "1419ec408f4c3084e1ee41c6272d5a93ec07e6fba49c3f99b813cc559cae2961"
+        },
+        {
+          "elementId": "FJ3206",
+          "member": "partof_BP3D_4.0_obj_99/FJ3206.obj",
+          "sha256": "b3ea7878a0c4dc7acda522e4de58ee9048d7197167279c9d57c816e22752ef05"
+        },
+        {
+          "elementId": "FJ3207",
+          "member": "partof_BP3D_4.0_obj_99/FJ3207.obj",
+          "sha256": "6ba7cf1f72bcb78289c2043a89c0269821b7e17933b95cde1785de36f164dd88"
+        },
+        {
+          "elementId": "FJ3208",
+          "member": "partof_BP3D_4.0_obj_99/FJ3208.obj",
+          "sha256": "9a674b66719c1b358420e1f4b36884d0fd4cb48c9aec4c7512edb6a6257b3943"
+        },
+        {
+          "elementId": "FJ3209",
+          "member": "partof_BP3D_4.0_obj_99/FJ3209.obj",
+          "sha256": "9f0ce1156106b47bf9b1cd4e42ab0d2f6cd726774f2642e491c00b3e8f1903db"
+        },
+        {
+          "elementId": "FJ3210",
+          "member": "partof_BP3D_4.0_obj_99/FJ3210.obj",
+          "sha256": "0612b7a8bd73b5250b8cda72b0c30d7c9ceb21010dabfc683826f581b4fe6b5e"
+        },
+        {
+          "elementId": "FJ3222",
+          "member": "partof_BP3D_4.0_obj_99/FJ3222.obj",
+          "sha256": "c83ba588bcfaf229b5bbea5ea521d6751f6fa586997c147dd1ec5215ee9d0639"
+        },
+        {
+          "elementId": "FJ3223",
+          "member": "partof_BP3D_4.0_obj_99/FJ3223.obj",
+          "sha256": "465db0485b4ad437a2b39f3fbe60170eed5e144c9597e294414cacaa4e0e9a16"
+        },
+        {
+          "elementId": "FJ3224",
+          "member": "partof_BP3D_4.0_obj_99/FJ3224.obj",
+          "sha256": "20a49a6ae3e5709cc272cff12b461806ff0e93626e34ec007e0a381a7b7b97c7"
+        },
+        {
+          "elementId": "FJ3157",
+          "member": "partof_BP3D_4.0_obj_99/FJ3157.obj",
+          "sha256": "2e252a2558f0f64430efa35d79a4fe8677b6cbb0ab6e93afda94b8d4239479fd"
+        },
+        {
+          "elementId": "FJ3159",
+          "member": "partof_BP3D_4.0_obj_99/FJ3159.obj",
+          "sha256": "1e63e0abb22ccf6255f1fb910699b2bade07cace17ffc12b43bb185228dd3696"
+        },
+        {
+          "elementId": "FJ3162",
+          "member": "partof_BP3D_4.0_obj_99/FJ3162.obj",
+          "sha256": "07fdac1c69d14c68241176f055da667eec8c2976c3a579df235d90e66fca91b0"
+        },
+        {
+          "elementId": "FJ3165",
+          "member": "partof_BP3D_4.0_obj_99/FJ3165.obj",
+          "sha256": "e30bc2a914a50d097dc5824cacbe54be10fc68c9f43cd9ef023519bc146cab61"
+        },
+        {
+          "elementId": "FJ3168",
+          "member": "partof_BP3D_4.0_obj_99/FJ3168.obj",
+          "sha256": "884ef6993f9578f86a6441ca7016f647f22778a9ab850189e1863d5f4112001d"
+        },
+        {
+          "elementId": "FJ3212",
+          "member": "partof_BP3D_4.0_obj_99/FJ3212.obj",
+          "sha256": "7713e48391f7bddcf0b38736831f3bf570d2aff4aa761ba555c4c2cc3f5e1e1f"
+        },
+        {
+          "elementId": "FJ3214",
+          "member": "partof_BP3D_4.0_obj_99/FJ3214.obj",
+          "sha256": "6f798a68e6456c961a7b82f814cb9dd867dc005b49d9b5711b65a93cd25dde5d"
+        },
+        {
+          "elementId": "FJ3215",
+          "member": "partof_BP3D_4.0_obj_99/FJ3215.obj",
+          "sha256": "671fbfa846c09e3ef118964eadd7433ba7a181065dc67f303d63efef4e29569e"
+        },
+        {
+          "elementId": "FJ3216",
+          "member": "partof_BP3D_4.0_obj_99/FJ3216.obj",
+          "sha256": "a83d0843c597451b0bf8be3bd0f59511e123d65555b66377b2fa4b8b4aafa837"
+        },
+        {
+          "elementId": "FJ3217",
+          "member": "partof_BP3D_4.0_obj_99/FJ3217.obj",
+          "sha256": "5f534a8cc9f026b6cc46a4153804eb3b3b53023ba4d27ad36373fbdc0c623b38"
+        }
+      ],
+      "coincidentVerticesWelded": 22809,
+      "weldToleranceMm": 1e-05,
+      "bounds": [
+        [
+          -51.0007,
+          -175.17399999999998,
+          -110.0185499
+        ],
+        [
+          49.5736,
+          306.9000000000001,
+          5.991
+        ]
+      ],
+      "center": [
+        -0.7135500000000015,
+        65.86300000000006,
+        -52.01377495
+      ],
+      "vertexCount": 43573,
+      "faceCount": 87262
+    },
+    {
+      "id": "pelvis",
+      "label": "Bony pelvis and sacrum",
+      "category": "skeleton",
+      "color": "#d6c5aa",
+      "source": "BodyParts3D",
+      "registration": "native shared atlas frame",
+      "fmaIds": [
+        "FMA16580"
+      ],
+      "sourceIds": [
+        "FJ3152",
+        "FJ3288",
+        "FJ3393"
+      ],
+      "sourceMeshes": [
+        {
+          "elementId": "FJ3152",
+          "member": "partof_BP3D_4.0_obj_99/FJ3152.obj",
+          "sha256": "708e42cba3d1817230c98410c80742875d56bb5b3e688a566f62509c7a63e424"
+        },
+        {
+          "elementId": "FJ3288",
+          "member": "partof_BP3D_4.0_obj_99/FJ3288.obj",
+          "sha256": "981411a910d502c80e454cc95128a9812a1284202295d1ebc7ab5020a08d83aa"
+        },
+        {
+          "elementId": "FJ3393",
+          "member": "partof_BP3D_4.0_obj_99/FJ3393.obj",
+          "sha256": "fd95a0b26f450e4939858c9effb7b14e589874c9210edfdb92e8f4552dd484de"
+        }
+      ],
+      "coincidentVerticesWelded": 532,
+      "weldToleranceMm": 1e-05,
+      "bounds": [
+        [
+          -144.872,
+          -318.049,
+          -117.25375
+        ],
+        [
+          144.754,
+          -111.90999999999997,
+          29.095
+        ]
+      ],
+      "center": [
+        -0.05900000000001171,
+        -214.97949999999997,
+        -44.079375
+      ],
+      "vertexCount": 7300,
+      "faceCount": 14628
+    },
+    {
+      "id": "right-lung",
+      "label": "Right lung",
+      "category": "respiratory",
+      "color": "#b88c94",
+      "source": "Human Reference Atlas",
+      "registration": "approximate cross-atlas bounds fit; not same donor",
+      "sourceIds": [
+        "hra-lung-male"
+      ],
+      "sourceUrl": "https://cdn.humanatlas.io/digital-objects/ref-organ/lung-male/v1.4/assets/3d-vh-m-lung.glb",
+      "sourceSha256": "06df9d8fe8520dbbb54853392e8adcc078143c5c3ef0e927bd9fa6699f12000b",
+      "attribution": "Browne, Kristen, and Heidi Schlehlein. 2024. \"3D Reference Organ for Lung, Male v1.4.\" https://doi.org/10.48539/HBM532.KLZD.394. Accessed on June 15, 2024.",
+      "license": "CC-BY-4.0",
+      "targetBoundsAtlasMm": [
+        [
+          -126,
+          1126,
+          24
+        ],
+        [
+          -2,
+          1360,
+          190
+        ]
+      ],
+      "coincidentVerticesWelded": 366,
+      "weldToleranceMm": 1e-05,
+      "bounds": [
+        [
+          -126.0,
+          56.0,
+          -86.0
+        ],
+        [
+          -2.0,
+          290.0,
+          80.0
+        ]
+      ],
+      "center": [
+        -64.0,
+        173.0,
+        -3.0
+      ],
+      "vertexCount": 4605,
+      "faceCount": 9202
+    },
+    {
+      "id": "left-lung",
+      "label": "Left lung",
+      "category": "respiratory",
+      "color": "#b88c94",
+      "source": "Human Reference Atlas",
+      "registration": "approximate cross-atlas bounds fit; not same donor",
+      "sourceIds": [
+        "hra-lung-male"
+      ],
+      "sourceUrl": "https://cdn.humanatlas.io/digital-objects/ref-organ/lung-male/v1.4/assets/3d-vh-m-lung.glb",
+      "sourceSha256": "06df9d8fe8520dbbb54853392e8adcc078143c5c3ef0e927bd9fa6699f12000b",
+      "attribution": "Browne, Kristen, and Heidi Schlehlein. 2024. \"3D Reference Organ for Lung, Male v1.4.\" https://doi.org/10.48539/HBM532.KLZD.394. Accessed on June 15, 2024.",
+      "license": "CC-BY-4.0",
+      "targetBoundsAtlasMm": [
+        [
+          3,
+          1120,
+          22
+        ],
+        [
+          130,
+          1368,
+          186
+        ]
+      ],
+      "coincidentVerticesWelded": 382,
+      "weldToleranceMm": 1e-05,
+      "bounds": [
+        [
+          3.0,
+          50.0,
+          -88.0
+        ],
+        [
+          130.0,
+          298.0,
+          76.0
+        ]
+      ],
+      "center": [
+        66.5,
+        174.0,
+        -6.0
+      ],
+      "vertexCount": 3736,
+      "faceCount": 7462
+    },
+    {
+      "id": "heart",
+      "label": "Heart",
+      "category": "cardiovascular",
+      "color": "#a04b50",
+      "source": "Human Reference Atlas",
+      "registration": "approximate cross-atlas bounds fit; not same donor",
+      "sourceIds": [
+        "hra-heart-male"
+      ],
+      "sourceUrl": "https://cdn.humanatlas.io/digital-objects/ref-organ/heart-male/v1.3/assets/3d-vh-m-heart.glb",
+      "sourceSha256": "18333fba39c5909d816271c6ccb215db7f1b996bec6058a3886ed1c739059fa4",
+      "attribution": "Browne, Kristen, and Heidi Schlehlein. 2024. \"3D Reference Organ for Heart, Male v1.3.\" https://doi.org/10.48539/HBM564.WKNG.249. Accessed on June 15, 2024.",
+      "license": "CC-BY-4.0",
+      "coincidentVerticesWelded": 519,
+      "weldToleranceMm": 1e-05,
+      "bounds": [
+        [
+          -36.3,
+          104.90000000000009,
+          -39.8
+        ],
+        [
+          79.4,
+          209.5,
+          66.5
+        ]
+      ],
+      "center": [
+        21.550000000000004,
+        157.20000000000005,
+        13.350000000000001
+      ],
+      "vertexCount": 58954,
+      "faceCount": 118284
+    },
+    {
+      "id": "mesentery",
+      "label": "Small-intestinal mesentery",
+      "category": "connective",
+      "color": "#d6bd96",
+      "source": "BodyParts3D",
+      "registration": "native shared atlas frame",
+      "fmaIds": [
+        "FMA14643"
+      ],
+      "sourceIds": [
+        "FJ3396"
+      ],
+      "sourceMeshes": [
+        {
+          "elementId": "FJ3396",
+          "member": "partof_BP3D_4.0_obj_99/FJ3396.obj",
+          "sha256": "1422c081de9a42c5770c92dde76484ca04e6241666aa553b9e87698717a01797"
+        }
+      ],
+      "coincidentVerticesWelded": 38510,
+      "weldToleranceMm": 1e-05,
+      "bounds": [
+        [
+          -79.9072,
+          -250.15300000000002,
+          10.225999999999999
+        ],
+        [
+          92.673,
+          -39.65000000000009,
+          58.900000000000006
+        ]
+      ],
+      "center": [
+        6.382899999999999,
+        -144.90150000000006,
+        34.563
+      ],
+      "vertexCount": 18437,
+      "faceCount": 38274
+    },
+    {
+      "id": "superior-mesenteric-artery",
+      "label": "Superior mesenteric artery",
+      "category": "cardiovascular",
+      "color": "#ad6559",
+      "source": "BodyParts3D",
+      "registration": "native shared atlas frame",
+      "fmaIds": [
+        "FMA14749"
+      ],
+      "sourceIds": [
+        "FJ1928",
+        "FJ2011",
+        "FJ2025",
+        "FJ2034",
+        "FJ3406",
+        "FJ3410",
+        "FJ3414",
+        "FJ3437",
+        "FJ3439",
+        "FJ3446",
+        "FJ3542",
+        "FJ3553",
+        "FJ3590",
+        "FJ3644"
+      ],
+      "sourceMeshes": [
+        {
+          "elementId": "FJ1928",
+          "member": "partof_BP3D_4.0_obj_99/FJ1928.obj",
+          "sha256": "b7426d40dbe4b6767598f4d7ec09a4b990c35a5aa9b43ed20d4c27a2d0cedafe"
+        },
+        {
+          "elementId": "FJ2011",
+          "member": "partof_BP3D_4.0_obj_99/FJ2011.obj",
+          "sha256": "ee1b8782b77e819347de9090714116651f64b1eeed7cf30c6f1a638ebfc16c5d"
+        },
+        {
+          "elementId": "FJ2025",
+          "member": "partof_BP3D_4.0_obj_99/FJ2025.obj",
+          "sha256": "0aacd2456f34d662a406fc6f81ddd7ddb040975ebb0a7b4f6b839769ea143965"
+        },
+        {
+          "elementId": "FJ2034",
+          "member": "partof_BP3D_4.0_obj_99/FJ2034.obj",
+          "sha256": "7242f071018cd378e8875f289d4d504f69440c5431b252f93915d99380d2dcd3"
+        },
+        {
+          "elementId": "FJ3406",
+          "member": "partof_BP3D_4.0_obj_99/FJ3406.obj",
+          "sha256": "0e6e41a966b50e450324cafd803efec1d3714bb177a15d1b589b1c155ed42c85"
+        },
+        {
+          "elementId": "FJ3410",
+          "member": "partof_BP3D_4.0_obj_99/FJ3410.obj",
+          "sha256": "d762effbe96eb0492fb54fbbc6bd5e1bf7d8a18cde52f5855e7de80a6c6c9cb4"
+        },
+        {
+          "elementId": "FJ3414",
+          "member": "partof_BP3D_4.0_obj_99/FJ3414.obj",
+          "sha256": "3d877b8431617e93325aefc873ce211bf8d83402f306499de478c3be9d40fa8a"
+        },
+        {
+          "elementId": "FJ3437",
+          "member": "partof_BP3D_4.0_obj_99/FJ3437.obj",
+          "sha256": "0cfda48cc950fa823f4ee2ea1c633b509aabacc6337794338ec82478e4c46255"
+        },
+        {
+          "elementId": "FJ3439",
+          "member": "partof_BP3D_4.0_obj_99/FJ3439.obj",
+          "sha256": "527d09b93b720a1afef8d56beb257b1dc817e2eee8496ac16f09ae67f8195730"
+        },
+        {
+          "elementId": "FJ3446",
+          "member": "partof_BP3D_4.0_obj_99/FJ3446.obj",
+          "sha256": "c88c85d9dca53b227cfa2a99ae47d60e49e2b5cc5b85c155013be39fe8698314"
+        },
+        {
+          "elementId": "FJ3542",
+          "member": "partof_BP3D_4.0_obj_99/FJ3542.obj",
+          "sha256": "3963ff70d46adbda2b225ea476d30df60e5c3573d15a689f4abc37a5397f1cf5"
+        },
+        {
+          "elementId": "FJ3553",
+          "member": "partof_BP3D_4.0_obj_99/FJ3553.obj",
+          "sha256": "35fc6676cc0a1e2d31117eb62413576804b273c07f3cd0cd50bfaa78c2de7976"
+        },
+        {
+          "elementId": "FJ3590",
+          "member": "partof_BP3D_4.0_obj_99/FJ3590.obj",
+          "sha256": "72d5f1ffabfb94dc4f472063aa8deee3563d3ad5f41aa7fae63ac69dfb436c98"
+        },
+        {
+          "elementId": "FJ3644",
+          "member": "partof_BP3D_4.0_obj_99/FJ3644.obj",
+          "sha256": "2692d062e09638f7696155b4543ca677651592e1f9f9a7fe9921c32ff9bc3d72"
+        }
+      ],
+      "coincidentVerticesWelded": 1663,
+      "weldToleranceMm": 1e-05,
+      "bounds": [
+        [
+          -72.607,
+          -197.288,
+          -21.6126
+        ],
+        [
+          68.6947,
+          -4.410000000000082,
+          69.459
+        ]
+      ],
+      "center": [
+        -1.956150000000001,
+        -100.84900000000005,
+        23.9232
+      ],
+      "vertexCount": 5072,
+      "faceCount": 10328
+    },
+    {
+      "id": "inferior-mesenteric-artery",
+      "label": "Inferior mesenteric artery",
+      "category": "cardiovascular",
+      "color": "#ad6559",
+      "source": "BodyParts3D",
+      "registration": "native shared atlas frame",
+      "fmaIds": [
+        "FMA14750"
+      ],
+      "sourceIds": [
+        "FJ3442",
+        "FJ3494",
+        "FJ3534",
+        "FJ3638",
+        "FJ3656"
+      ],
+      "sourceMeshes": [
+        {
+          "elementId": "FJ3442",
+          "member": "partof_BP3D_4.0_obj_99/FJ3442.obj",
+          "sha256": "475d7a7e4575052ce65588aa365aa2a4431392a5bcc9a991506f8a528155422d"
+        },
+        {
+          "elementId": "FJ3494",
+          "member": "partof_BP3D_4.0_obj_99/FJ3494.obj",
+          "sha256": "522c13042664240fe6e6f6df34aaf76d54eb2968a1661997015d4baf6a3269d0"
+        },
+        {
+          "elementId": "FJ3534",
+          "member": "partof_BP3D_4.0_obj_99/FJ3534.obj",
+          "sha256": "a4455f323b092e35c8102efcfe44ce11797bf5c4b6babf947146b04ce332707b"
+        },
+        {
+          "elementId": "FJ3638",
+          "member": "partof_BP3D_4.0_obj_99/FJ3638.obj",
+          "sha256": "5ac4997ca09c67eef92013a91018b0528316ce8084f51beff83e1a78110b5835"
+        },
+        {
+          "elementId": "FJ3656",
+          "member": "partof_BP3D_4.0_obj_99/FJ3656.obj",
+          "sha256": "a0dcb3440fb97b955c35fad92e05d146c8a40c0e2749a995aa719eb89817e9ed"
+        }
+      ],
+      "coincidentVerticesWelded": 782,
+      "weldToleranceMm": 1e-05,
+      "bounds": [
+        [
+          -70.2111,
+          -220.49199999999996,
+          -85.88210000000001
+        ],
+        [
+          70.3838,
+          -4.410000000000082,
+          59.92400000000001
+        ]
+      ],
+      "center": [
+        0.08634999999999593,
+        -112.45100000000002,
+        -12.97905
+      ],
+      "vertexCount": 2491,
+      "faceCount": 4954
+    },
+    {
+      "id": "right-renal-artery",
+      "label": "Right renal artery",
+      "category": "cardiovascular",
+      "color": "#ad6559",
+      "source": "BodyParts3D",
+      "registration": "native shared atlas frame",
+      "fmaIds": [
+        "FMA14752"
+      ],
+      "sourceIds": [
+        "FJ2038",
+        "FJ3576",
+        "FJ3581",
+        "FJ3582",
+        "FJ3584"
+      ],
+      "sourceMeshes": [
+        {
+          "elementId": "FJ2038",
+          "member": "partof_BP3D_4.0_obj_99/FJ2038.obj",
+          "sha256": "9224463ef0a139b1e97cff5a0b83f3e7e5d16a0247f6d929627c48fb862378f2"
+        },
+        {
+          "elementId": "FJ3576",
+          "member": "partof_BP3D_4.0_obj_99/FJ3576.obj",
+          "sha256": "6991e362e8e203efc572aabf8a542b95574d850b6ff16518de7e51d970f4174e"
+        },
+        {
+          "elementId": "FJ3581",
+          "member": "partof_BP3D_4.0_obj_99/FJ3581.obj",
+          "sha256": "00896e3b9da9900822733640ae94ff19265665a67b44d845a93d614a2a729a77"
+        },
+        {
+          "elementId": "FJ3582",
+          "member": "partof_BP3D_4.0_obj_99/FJ3582.obj",
+          "sha256": "e73ade72f7f868af514bab99ba626e98e496995fa55972ba9a4f310f3242bf1d"
+        },
+        {
+          "elementId": "FJ3584",
+          "member": "partof_BP3D_4.0_obj_99/FJ3584.obj",
+          "sha256": "445644cb2d0342f24978aed1743e32b2ece4100a9050eded56537263db07cc9f"
+        }
+      ],
+      "coincidentVerticesWelded": 350,
+      "weldToleranceMm": 1e-05,
+      "bounds": [
+        [
+          -70.1148,
+          -87.51300000000003,
+          -34.465999999999994
+        ],
+        [
+          12.919,
+          1.509999999999991,
+          10.149000000000001
+        ]
+      ],
+      "center": [
+        -28.597900000000003,
+        -43.00150000000002,
+        -12.158499999999997
+      ],
+      "vertexCount": 1170,
+      "faceCount": 2316
+    },
+    {
+      "id": "left-renal-artery",
+      "label": "Left renal artery",
+      "category": "cardiovascular",
+      "color": "#ad6559",
+      "source": "BodyParts3D",
+      "registration": "native shared atlas frame",
+      "fmaIds": [
+        "FMA14753"
+      ],
+      "sourceIds": [
+        "FJ2046",
+        "FJ3467",
+        "FJ3476",
+        "FJ3481"
+      ],
+      "sourceMeshes": [
+        {
+          "elementId": "FJ2046",
+          "member": "partof_BP3D_4.0_obj_99/FJ2046.obj",
+          "sha256": "d6d46221e140447706f7aa8cad5c78b41c9a8b93f309365530e2b59e4b6dd1c5"
+        },
+        {
+          "elementId": "FJ3467",
+          "member": "partof_BP3D_4.0_obj_99/FJ3467.obj",
+          "sha256": "5ffb5fe2556d31c2ea4778611ce4e2d89b78c10aaef302e3b51c111d430e7b23"
+        },
+        {
+          "elementId": "FJ3476",
+          "member": "partof_BP3D_4.0_obj_99/FJ3476.obj",
+          "sha256": "21dde47eb9f3d68e9fd321c88292940914868e67d70b53a0e09030ac194cc699"
+        },
+        {
+          "elementId": "FJ3481",
+          "member": "partof_BP3D_4.0_obj_99/FJ3481.obj",
+          "sha256": "574b3b363b93b8a542259336d6fed632db907251a39e7b19332a7ee207f4de4a"
+        }
+      ],
+      "coincidentVerticesWelded": 568,
+      "weldToleranceMm": 1e-05,
+      "bounds": [
+        [
+          3.6509,
+          -100.18600000000004,
+          -41.556
+        ],
+        [
+          76.0255,
+          18.190000000000055,
+          10.307000000000002
+        ]
+      ],
+      "center": [
+        39.8382,
+        -40.99799999999999,
+        -15.624499999999998
+      ],
+      "vertexCount": 1408,
+      "faceCount": 2796
+    },
+    {
+      "id": "splenic-artery",
+      "label": "Splenic artery",
+      "category": "cardiovascular",
+      "color": "#ad6559",
+      "source": "BodyParts3D",
+      "registration": "native shared atlas frame",
+      "fmaIds": [
+        "FMA14773"
+      ],
+      "sourceIds": [
+        "FJ2562",
+        "FJ3420",
+        "FJ3544",
+        "FJ3640"
+      ],
+      "sourceMeshes": [
+        {
+          "elementId": "FJ2562",
+          "member": "partof_BP3D_4.0_obj_99/FJ2562.obj",
+          "sha256": "fcfee67e5160e8185a84392961a59eede2d3d61901b94fbb188291bcb40a3f68"
+        },
+        {
+          "elementId": "FJ3420",
+          "member": "partof_BP3D_4.0_obj_99/FJ3420.obj",
+          "sha256": "fb74806d124c5237abbbb0d95a3902da3a3c05cec2faa28f51b721489aa36801"
+        },
+        {
+          "elementId": "FJ3544",
+          "member": "partof_BP3D_4.0_obj_99/FJ3544.obj",
+          "sha256": "cf3df714e16430ff0173c859d2c8d1351312ec65bf43d0289095bd45f50a97ee"
+        },
+        {
+          "elementId": "FJ3640",
+          "member": "partof_BP3D_4.0_obj_99/FJ3640.obj",
+          "sha256": "dd50135d7ae25d05189e0df3608389f8b1f5ffec0d77f917fc8dd1c16919c987"
+        }
+      ],
+      "coincidentVerticesWelded": 2189,
+      "weldToleranceMm": 1e-05,
+      "bounds": [
+        [
+          1.94083,
+          -10.410000000000082,
+          -29.581900000000005
+        ],
+        [
+          100.456,
+          24.569999999999936,
+          27.58099999999999
+        ]
+      ],
+      "center": [
+        51.198415000000004,
+        7.079999999999927,
+        -1.0004500000000078
+      ],
+      "vertexCount": 3236,
+      "faceCount": 6444
+    },
+    {
+      "id": "celiac-trunk",
+      "label": "Celiac trunk",
+      "category": "cardiovascular",
+      "color": "#ad6559",
+      "source": "BodyParts3D",
+      "registration": "native shared atlas frame",
+      "fmaIds": [
+        "FMA14812"
+      ],
+      "sourceIds": [
+        "FJ3421"
+      ],
+      "sourceMeshes": [
+        {
+          "elementId": "FJ3421",
+          "member": "partof_BP3D_4.0_obj_99/FJ3421.obj",
+          "sha256": "f70068564c53bd6297ebcd1f129e6af6c6441b9a7f2a771ac6e466dde7bfaf1e"
+        }
+      ],
+      "coincidentVerticesWelded": 12,
+      "weldToleranceMm": 1e-05,
+      "bounds": [
+        [
+          1.10407,
+          7.650000000000091,
+          -2.406000000000006
+        ],
+        [
+          12.2403,
+          19.829999999999927,
+          20.787000000000006
+        ]
+      ],
+      "center": [
+        6.672185,
+        13.740000000000009,
+        9.1905
+      ],
+      "vertexCount": 121,
+      "faceCount": 238
+    },
+    {
+      "id": "right-renal-vein",
+      "label": "Right renal vein",
+      "category": "cardiovascular",
+      "color": "#817180",
+      "source": "BodyParts3D",
+      "registration": "native shared atlas frame",
+      "fmaIds": [
+        "FMA14335"
+      ],
+      "sourceIds": [
+        "FJ3577",
+        "FJ3578"
+      ],
+      "sourceMeshes": [
+        {
+          "elementId": "FJ3577",
+          "member": "isa_BP3D_4.0_obj_99/FJ3577.obj",
+          "sha256": "36125db169fc547f88860a3f8ea873742437d8be55b6f5f1a7f877219b759449"
+        },
+        {
+          "elementId": "FJ3578",
+          "member": "isa_BP3D_4.0_obj_99/FJ3578.obj",
+          "sha256": "ccb15ddc46ef6b11ef62fa8dd6923b6fdeedb9b3371ab80513ff11a0fc120734"
+        }
+      ],
+      "coincidentVerticesWelded": 1526,
+      "weldToleranceMm": 1e-05,
+      "bounds": [
+        [
+          -73.3557,
+          -89.11900000000003,
+          -31.3429
+        ],
+        [
+          -8.98893,
+          -11.740000000000009,
+          7.222999999999999
+        ]
+      ],
+      "center": [
+        -41.172315,
+        -50.42950000000002,
+        -12.05995
+      ],
+      "vertexCount": 2511,
+      "faceCount": 5014
+    },
+    {
+      "id": "left-renal-vein",
+      "label": "Left renal vein",
+      "category": "cardiovascular",
+      "color": "#817180",
+      "source": "BodyParts3D",
+      "registration": "native shared atlas frame",
+      "fmaIds": [
+        "FMA14336"
+      ],
+      "sourceIds": [
+        "FJ3477",
+        "FJ3478"
+      ],
+      "sourceMeshes": [
+        {
+          "elementId": "FJ3477",
+          "member": "isa_BP3D_4.0_obj_99/FJ3477.obj",
+          "sha256": "3299a1375f6f86c5d523d7f3abd1bce371f13d0b4b586e53bf95600b6ed17adf"
+        },
+        {
+          "elementId": "FJ3478",
+          "member": "isa_BP3D_4.0_obj_99/FJ3478.obj",
+          "sha256": "06a4b0b274aac5458aeb7ff33881f05afcd2a15e776ddfb9af59e61a06b4b2a1"
+        }
+      ],
+      "coincidentVerticesWelded": 1531,
+      "weldToleranceMm": 1e-05,
+      "bounds": [
+        [
+          -15.7686,
+          -72.41200000000003,
+          -42.292699999999996
+        ],
+        [
+          81.0475,
+          4.599999999999909,
+          22.425999999999988
+        ]
+      ],
+      "center": [
+        32.63945,
+        -33.90600000000006,
+        -9.933350000000004
+      ],
+      "vertexCount": 2460,
+      "faceCount": 4912
+    }
+  ],
+  "supplementalSourceManifest": "references/whole-scene/supplemental-bodyparts3d/source-manifest.json",
+  "ambientVisibilityDerivation": {
+    "source_asset_sha256": "c285d0a7c2b11dc8da48ca1d88e942de3379e54bb49deebff191b54c754330f4",
+    "attribute": "_TISSUE_OCCLUSION",
+    "range": [
+      0,
+      1
+    ],
+    "meaning": "1 unoccluded; 0 fully locally occluded",
+    "method": "Sixteen deterministic cosine-hemisphere samples per vertex; self-organ triangle rays with 0.2 mm outward origin bias and linearly decreasing 18 mm range; two 35% adjacent-vertex smoothing passes.",
+    "scope": "Authored display ambient visibility only, no other-organ occlusion, no coordinate or topology modification, no anatomical or optical measurement.",
+    "recommended_maximum_ambient_attenuation": 0.35,
+    "structures": [
+      {
+        "id": "small-intestine",
+        "vertex_count": 7063,
+        "rays_per_vertex": 16,
+        "radius_mm": 18.0,
+        "origin_bias_mm": 0.2,
+        "seed": 2365348878,
+        "visibility_min_p05_p50_p95_max": [
+          0.05792482942342758,
+          0.19426449984312058,
+          0.6104241609573364,
+          0.9937428712844849,
+          1.0
+        ],
+        "seconds": 5.738060712814331
+      },
+      {
+        "id": "colon",
+        "vertex_count": 30287,
+        "rays_per_vertex": 16,
+        "radius_mm": 18.0,
+        "origin_bias_mm": 0.2,
+        "seed": 1891479113,
+        "visibility_min_p05_p50_p95_max": [
+          0.007636915892362595,
+          0.3376247763633728,
+          0.8283089399337769,
+          0.999847012758255,
+          1.0
+        ],
+        "seconds": 35.81812310218811
+      }
+    ],
+    "kernel_validation": {
+      "analytical_cube_cases": 6,
+      "reference_bowel_rays": 363,
+      "maximum_attenuation_difference": 1.1102230246251565e-15
+    }
+  }
+}

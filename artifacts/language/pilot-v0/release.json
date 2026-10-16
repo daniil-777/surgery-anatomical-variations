@@ -1,0 +1,24 @@
+{
+  "profile": "synthetic_language_policy",
+  "seed": 837,
+  "limits": "Authored template-family holdout; no human natural-language or anatomy validation.",
+  "tracks": {
+    "wording_family_holdout": true,
+    "state_group_disjoint": true,
+    "operation_family_holdout": false
+  },
+  "splits": {
+    "train": {
+      "count": 256,
+      "sha256": "ed0c93da7f3668e081e398679d7a3cc469f1cb35c999683cb4285c414a6915fd"
+    },
+    "val": {
+      "count": 48,
+      "sha256": "44e9ca057ec021f3d5786576bc11c6f7a5f31224e3b143cf2ba2657c2d4dbee7"
+    },
+    "test": {
+      "count": 48,
+      "sha256": "1539529daacd9512baaa48491071b46911459a030c13daac645d53f88fbbd491"
+    }
+  }
+}

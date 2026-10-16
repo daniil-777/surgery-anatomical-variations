@@ -1,0 +1,559 @@
+{
+  "artifact_sha256": "a9c0c7f665daf19380f7fc6f184abc87f3b0ad58880ab1372eacb3a962715e1b",
+  "attribution": "Browne, Kristen, and Heidi Schlehlein. 2024. \"3D Reference Organ for Large Intestine, Male v1.3.\" https://doi.org/10.48539/HBM487.ZKSN.693. Accessed on June 15, 2024.",
+  "attribution_verified": true,
+  "clean_faces_sha256": "800df87e2b2ead22c19ebb8d01473533b227bbc75e38f9cc9e3e9f1044e428a4",
+  "cleaning_components": [
+    {
+      "clean_face_count": 4451,
+      "component": "VH_M_ascending_colon",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 4451,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 3331,
+      "component": "VH_M_caecum",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 3331,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 3304,
+      "component": "VH_M_descending_colon",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 3304,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 2332,
+      "component": "VH_M_hepatic_flexure_of_colon",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 2332,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 1890,
+      "component": "VH_M_rectum",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 1890,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 3694,
+      "component": "VH_M_sigmoid_colon",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 3694,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 2000,
+      "component": "VH_M_splenic_flexure_of_colon",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 2000,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 8888,
+      "component": "VH_M_transverse_colon",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 8888,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 192,
+      "component": "VH_M_vermiform_appendix",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 192,
+      "winding_after": true,
+      "winding_before": true
+    }
+  ],
+  "cleaning_policy": "Drop triangles with area <=1e-12 mm2; repair winding per connected component on welded audit copy with minimum face reversals and transfer only face reversal. No vertex movement or connectivity additions.",
+  "cohort_eligible": true,
+  "colors_provenance": "Source schematic material colors; glTF linear factors converted to sRGB after trimesh 8-bit quantization",
+  "colors_space": "sRGB",
+  "components": [
+    {
+      "face_count": 4451,
+      "face_start": 0,
+      "name": "VH_M_ascending_colon",
+      "source_geometry": "VH_M_ascending_colon",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 2274,
+      "vertex_start": 0
+    },
+    {
+      "face_count": 3331,
+      "face_start": 4451,
+      "name": "VH_M_caecum",
+      "source_geometry": "VH_M_caecum",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 1694,
+      "vertex_start": 2274
+    },
+    {
+      "face_count": 3304,
+      "face_start": 7782,
+      "name": "VH_M_descending_colon",
+      "source_geometry": "VH_M_descending_colon",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 1704,
+      "vertex_start": 3968
+    },
+    {
+      "face_count": 2332,
+      "face_start": 11086,
+      "name": "VH_M_hepatic_flexure_of_colon",
+      "source_geometry": "VH_M_hepatic_flexure_of_colon",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 1213,
+      "vertex_start": 5672
+    },
+    {
+      "face_count": 1890,
+      "face_start": 13418,
+      "name": "VH_M_rectum",
+      "source_geometry": "VH_M_rectum",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 966,
+      "vertex_start": 6885
+    },
+    {
+      "face_count": 3694,
+      "face_start": 15308,
+      "name": "VH_M_sigmoid_colon",
+      "source_geometry": "VH_M_sigmoid_colon",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 1883,
+      "vertex_start": 7851
+    },
+    {
+      "face_count": 2000,
+      "face_start": 19002,
+      "name": "VH_M_splenic_flexure_of_colon",
+      "source_geometry": "VH_M_splenic_flexure_of_colon",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 1045,
+      "vertex_start": 9734
+    },
+    {
+      "face_count": 8888,
+      "face_start": 21002,
+      "name": "VH_M_transverse_colon",
+      "source_geometry": "VH_M_transverse_colon",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 4502,
+      "vertex_start": 10779
+    },
+    {
+      "face_count": 192,
+      "face_start": 29890,
+      "name": "VH_M_vermiform_appendix",
+      "source_geometry": "VH_M_vermiform_appendix",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 101,
+      "vertex_start": 15281
+    }
+  ],
+  "control_limit_provenance": "design_heuristic; not measured population intervals",
+  "control_limits": [
+    0.07,
+    0.07,
+    0.07,
+    0.04,
+    0.05,
+    0.04,
+    0.025
+  ],
+  "control_names": [
+    "scale_x",
+    "scale_y",
+    "scale_z",
+    "bend",
+    "twist",
+    "taper",
+    "asymmetry"
+  ],
+  "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+  "deformer_version": "invertible-atlas-controls-1.0.0",
+  "evidence_kind": "expert_authored",
+  "excluded_source_nodes": [
+    "VH_M_ileocecal_valve"
+  ],
+  "extent_mm": [
+    259.1260001063347,
+    450.3008648753166,
+    224.84415024518967
+  ],
+  "face_count": 30082,
+  "face_map_keys": [
+    "source_to_clean_face_indices",
+    "clean_to_source_face_indices",
+    "clean_face_orientation_reversed",
+    "source_faces"
+  ],
+  "generator_version": "invertible-atlas-controls-1.0.0",
+  "geometry_sha256": "3c212e8de298592cb60d94d2d8193d510941193a3a14d0cfa8ddf6fa689b0b64",
+  "inverse_coordinate_transform": "source_world = source_to_authoring_rotation.T @ (vertices_mm + source_center_mm) / source_to_mm_scale",
+  "laterality": null,
+  "license": "CC-BY-4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "mesh_role": "annotated_display_surface_assembly_not_organ_envelope",
+  "modifications": "Selected named display components, applied scene transforms, explicit units, bounding-box centering. Removed degenerate triangles and repaired winding with reversible face maps. No smoothing, decimation or remeshing.",
+  "normalization_mm": 225.1504324376583,
+  "organ": "large-intestine",
+  "organ_id": "large-intestine",
+  "population_prevalence": null,
+  "profile": "development_preview",
+  "removed_degenerate_faces": 0,
+  "reversed_faces": 0,
+  "review_status": "unreviewed",
+  "selection_policy_version": "external-display-components-1.1.0",
+  "sex_label": "male",
+  "source_center_mm": [
+    13.486180454492569,
+    186.25417724251747,
+    26.557091623544693
+  ],
+  "source_citation": "Browne, Kristen, and Heidi Schlehlein. 2024. \"3D Reference Organ for Large Intestine, Male v1.3.\" https://doi.org/10.48539/HBM487.ZKSN.693. Accessed on June 15, 2024.",
+  "source_collection": "HRA",
+  "source_creators": [
+    {
+      "id": "https://orcid.org/0000-0002-3333-5646",
+      "name": "Heidi Schlehlein"
+    },
+    {
+      "id": "https://orcid.org/0000-0003-4066-7531",
+      "name": "Kristen Browne"
+    }
+  ],
+  "source_derivation_description": "This reference organ, Large-intestine-male (https://humanatlas.io/3d-reference-library) was primarily based on\ncolonoscopy-derived data provided by Arie Kaufman (Stony Brook University). The model was generally aligned to the\nVisible Human Male, provided by the National Library of Medicine (Spitzer et al. 1996; Ackerman 1998) and other\nreference organs.\n\n**Bibliography:**\n\n* Ackerman, Michael J. 1998. \u201cThe Visible Human Project.\u201d *Proceedings of the IEEE* 86 (3): 504\u201311. https://doi.org/10.1109/5.662875.\n* Spitzer, V., M. J. Ackerman, A. L. Scherzinger, and D. Whitlock. 1996. \u201cThe Visible Human Male: A Technical Report.\u201d *Journal of the American Medical Informatics Association* 3 (2): 118\u201330. https://doi.org/10.1136/jamia.1996.96236280.",
+  "source_doi": "https://doi.org/10.48539/HBM487.ZKSN.693",
+  "source_faces_sha256": "800df87e2b2ead22c19ebb8d01473533b227bbc75e38f9cc9e3e9f1044e428a4",
+  "source_geometry_sha256": "3c212e8de298592cb60d94d2d8193d510941193a3a14d0cfa8ddf6fa689b0b64",
+  "source_group_id": "hra-visible-human-male",
+  "source_group_reason": "Conservative atlas ancestry grouping; organ files are not independent donors",
+  "source_license_statement": "Creative Commons Attribution 4.0 International ([CC BY 4.0](https://creativecommons.org/licenses/by/4.0/))",
+  "source_metadata_file": "attribution/hra-large-intestine-male.jsonld",
+  "source_metadata_sha256": "9558a96affdbc6f8b8095782080c7da0d6601a603a621592a2c047334f64074c",
+  "source_metadata_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/large-intestine-male/v1.3/metadata.jsonld",
+  "source_overall_citation": "Browne, Kristen, Heidi Schlehlein, Bruce W. Herr II, Ellen Quardokus, Andreas Bueckle, and Katy B\u00f6rner. 2024. \"HuBMAP CCF 3D Reference Object Library.\" https://humanatlas.io/3d-reference-library. Accessed on June 15, 2024.",
+  "source_release": "11th Release (v2.5)",
+  "source_sha256": "908a5c38bf14574a673f2d2619502281f7f9e47c46c4eba837aae2e80e38c489",
+  "source_title": "3D Reference Organ for Large Intestine, Male",
+  "source_to_authoring_rotation": [
+    [
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      1,
+      0
+    ],
+    [
+      0,
+      0,
+      1
+    ]
+  ],
+  "source_to_mm_scale": 1000.0,
+  "source_topology_audit": {
+    "boundary_edges_after_audit_weld": 170,
+    "connected_vertex_components": 4,
+    "degenerate_faces": 0,
+    "method": "trimesh-geometric-weld-audit-copy-1.0",
+    "nonmanifold_edges_after_audit_weld": 5006,
+    "self_intersection": {
+      "reason": "No robust intersection backend",
+      "status": "NOT_RUN"
+    },
+    "simulation_readiness": {
+      "reason": "No volumetric domain/materials",
+      "status": "NOT_RUN"
+    },
+    "watertight_after_audit_weld": false,
+    "weld_precision_mm": 1e-08,
+    "winding_consistent_after_audit_weld": true,
+    "zero_length_edges": 0
+  },
+  "source_up_axis": "Y (glTF convention); patient-axis interpretation not asserted",
+  "source_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/large-intestine-male/v1.3/assets/3d-sbu-m-large-intestine.glb",
+  "template_id": "hra-large-intestine-male",
+  "template_version": "atlas-display-1.1.0",
+  "topology_audit": {
+    "boundary_edges_after_audit_weld": 170,
+    "connected_vertex_components": 4,
+    "degenerate_faces": 0,
+    "method": "trimesh-geometric-weld-audit-copy-1.0",
+    "nonmanifold_edges_after_audit_weld": 5006,
+    "self_intersection": {
+      "reason": "No robust intersection backend",
+      "status": "NOT_RUN"
+    },
+    "simulation_readiness": {
+      "reason": "No volumetric domain/materials",
+      "status": "NOT_RUN"
+    },
+    "watertight_after_audit_weld": false,
+    "weld_precision_mm": 1e-08,
+    "winding_consistent_after_audit_weld": true,
+    "zero_length_edges": 0
+  },
+  "unit": "mm",
+  "units_evidence": "glTF 2.0 linear distances use metres; explicit multiplication by 1000",
+  "vertex_count": 15382
+}

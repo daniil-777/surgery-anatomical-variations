@@ -1,0 +1,22 @@
+{
+  "format": "viscera-joint-flow-v2",
+  "profile": "full",
+  "smoke_only": false,
+  "dataset_dependencies": {
+    "baseline": "62ede316a73f51f9e5ef988400ebfbd08d6528ecf55710bd99a4ef77b6663688",
+    "disease": "fdee30be9d848b7182fd6523848060009867bebb1a3496366832207227bf7fdd"
+  },
+  "artifact_hashes": {
+    "model.npz": "36c361b0d7e51c774a1888ba7f6ea51062d3162b043cc6d82ee3fca2f4499dd4",
+    "model.json": "0c2ab0af0e38930ac56a0df878a4e74dac8f0f73f8d202fea2cec5bccd6704f9",
+    "training_report.json": "d8963d0043550dd477c5a527a4caab9a2bc4937915f83ad200b2b4ab06d69a53",
+    "exact-renderer-audit.json": "28de97ac6149cb89d5dcedf929617869efa4f9abcd72aac197d543c44c264c86",
+    "data/baseline-release.json": "62ede316a73f51f9e5ef988400ebfbd08d6528ecf55710bd99a4ef77b6663688",
+    "data/baseline-dataset_card.json": "52cb6c56dce26406243b045a88bff6630c10b4524e666e2704c4721d0b82a636",
+    "data/baseline-reference_catalog.json": "561a7677c4e0df874a9c0c4bf5c1ede1d55c782336b9d33c324032b35cafc4fe",
+    "data/disease-release.json": "fdee30be9d848b7182fd6523848060009867bebb1a3496366832207227bf7fdd",
+    "data/disease-dataset_card.json": "6336f3be8ddb2b0d0daba36fdec5466617fb19d5cb931271d9a91c5b43120f54",
+    "data/disease-reference_catalog.json": "561a7677c4e0df874a9c0c4bf5c1ede1d55c782336b9d33c324032b35cafc4fe"
+  },
+  "scope": "conditional spline flow for bounded shape, authored colour/material and severity-stratified disease designs; no physics model"
+}

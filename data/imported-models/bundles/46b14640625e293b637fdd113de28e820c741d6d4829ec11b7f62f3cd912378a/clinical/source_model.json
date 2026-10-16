@@ -1,0 +1,280 @@
+{
+  "format": "viscera-disease-source-prior-v1",
+  "method": "conditional_empirical_case_prior",
+  "feature_names": [
+    "organ_extent_x_mm",
+    "organ_extent_y_mm",
+    "organ_extent_z_mm",
+    "organ_volume_ml",
+    "lesion_extent_x_mm",
+    "lesion_extent_y_mm",
+    "lesion_extent_z_mm",
+    "lesion_volume_ml",
+    "lesion_center_x_relative",
+    "lesion_center_y_relative",
+    "lesion_center_z_relative",
+    "lesion_to_organ_volume_ratio"
+  ],
+  "groups": [
+    {
+      "organ": "pancreas",
+      "disease_code": "pancreatic_ductal_adenocarcinoma",
+      "patient_count": 1,
+      "case_ids": [
+        "PDA-C3L-00395"
+      ],
+      "features": [
+        [
+          171.09375,
+          116.40625,
+          96.0,
+          228.031005859375,
+          76.5625,
+          76.5625,
+          50.0,
+          79.35546875,
+          -0.29233986139297485,
+          -0.1709808111190796,
+          0.23517009615898132,
+          0.34800297021865845
+        ]
+      ],
+      "mean_features": [
+        171.09375,
+        116.40625,
+        96.0,
+        228.031005859375,
+        76.5625,
+        76.5625,
+        50.0,
+        79.35546875,
+        -0.29233986139297485,
+        -0.1709808111190796,
+        0.23517009615898132,
+        0.34800297021865845
+      ],
+      "feature_min": [
+        171.09375,
+        116.40625,
+        96.0,
+        228.031005859375,
+        76.5625,
+        76.5625,
+        50.0,
+        79.35546875,
+        -0.29233986139297485,
+        -0.1709808111190796,
+        0.23517009615898132,
+        0.34800297021865845
+      ],
+      "feature_max": [
+        171.09375,
+        116.40625,
+        96.0,
+        228.031005859375,
+        76.5625,
+        76.5625,
+        50.0,
+        79.35546875,
+        -0.29233986139297485,
+        -0.1709808111190796,
+        0.23517009615898132,
+        0.34800297021865845
+      ],
+      "empirical_covariance": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "variance_identifiable": false
+    }
+  ],
+  "training_group_ids": [
+    "tcia:C3L_00395"
+  ],
+  "training_case_ids": [
+    "PDA-C3L-00395"
+  ],
+  "patient_count": 1,
+  "rights": {
+    "commercial_use": "CC-BY attribution conditions apply",
+    "contains_noncommercial": false,
+    "license_lanes": [
+      "attribution"
+    ],
+    "no_blanket_license": true
+  },
+  "dataset_hashes": {
+    "release.json": "6950b3462ecfba5a504cd59e16ce95763a16867008937a08caf92d5a842a0502",
+    "train.npz": "dd6b40d7dea054a4355d4c51a2d02f8ede6fe06cb7325a0e41c1417ab8c7bb5b",
+    "val.npz": "668c50ef477a28ee0dba23adc4b69d356a73b822ea1b891b47fd6b9eaf6679f5"
+  },
+  "scope": "measured_source_case_retrieval_not_a_population_generator",
+  "singleton_policy": "zero learned covariance; no added patient variation",
+  "trainer_sha256": "22a18ce6f7124cffe02b036364f1711134aba9e4f63bf3757ac0d8c873a36e45"
+}

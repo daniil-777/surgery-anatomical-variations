@@ -1,0 +1,49 @@
+{
+  "format": "viscera-final-training-v1",
+  "config": {
+    "profile": "full",
+    "device": "cpu",
+    "language": "auto"
+  },
+  "code_hashes": {
+    "scripts/final_train.py": "1c6d546da36123a0590e6c5e6ed61a8c35b7409e513574bc126f6ef330be6b30",
+    "py/viscera_core/__init__.py": "ecf6b68a60ffb4576e0e881c51d6c4c8822a24a37e802d137ab89b2f74e26348",
+    "py/viscera_core/atlas.py": "23e21cf860a2e75e565e91a6e7ed4c3a115a87847f01882665e39e2bef94f897",
+    "py/viscera_core/atlas_appearance.py": "e988dc8b5004cace6c9e4cd19a30ecced87f53c44d613ea2141efcaa1ebf4989",
+    "py/viscera_core/atlas_dataset.py": "2b686ea34a3fbdfc2350fcabd31f98db3790180fdfa265a44fc67d80abc91cab",
+    "py/viscera_core/atlas_disease.py": "6068b50d0a4faa14b52797f1b52451ca6a33164f6a7e176337579cf82a1c2c70",
+    "py/viscera_core/atlas_disease_dataset.py": "54b2f9094a68d7fdc083a7a3e177adf564e0bd92b35be9bc5e4d3a66b9232644",
+    "py/viscera_core/atlas_disease_geometry_dataset.py": "df5290486e6a8cf708bf9e2a986ef308b04bbf67f6a18515a51f1079b63b40dd",
+    "py/viscera_core/atlas_disease_recipe_dataset.py": "01b80ab71574605d25c121183bb51aeef80d2bc237a67a7ee14d6bafc5549b6d",
+    "py/viscera_core/atlas_disease_scene.py": "d4319afee56ec13141d723d9be4ef7c13ac8708058919bc9249db146c9010a0a",
+    "py/viscera_core/atlas_disease_text.py": "24d99873ccc272aa20c163efcc71e36928bfb132f5ff4ef1c680d249e20fa525",
+    "py/viscera_core/atlas_language.py": "33a4d692d44a521d9ca0ff6d814506546d40a21565a31a9e2373d1fd0ff0e2b3",
+    "py/viscera_core/atlas_material_bake.py": "63317552ec1c41e00705aa531d48e5b01392b755cf1e74b207f78094980bb914",
+    "py/viscera_core/atlas_material_dataset.py": "8827c90c4cbbeb7bd085cd4f0f9298f78b7f10b199bdc204ae54e03ca3081813",
+    "py/viscera_core/atlas_material_text.py": "d08afab25e0a76e5f85affee4f0fd0e7d432a832f56cdb676878b8292619b890",
+    "py/viscera_core/atlas_materials.py": "679aa9214cef534b92e1d64b0043213a88a8c6a0fdd9b25b7ae54e4fa289a0a3",
+    "py/viscera_core/atlas_scene.py": "9b886f174235a194e0a8541fa049839d115d693ecca4197bcc33ba0cb1845812",
+    "py/viscera_core/atlas_surface_normals.py": "6ea628a77156d4ee1a591c9b50768129ac82481c9f717fe521bb7c83fa1c1f0a",
+    "py/viscera_core/atlas_surface_scene.py": "f747daabfd9650c59cef638b52bc420e4e88718b9e8ecf43ac27ebf78d7702a1",
+    "py/viscera_core/atlas_text.py": "4fb73dc23e3e85a275baf07f961b05f570ca8eb1dfa34617f139af6c9eb8bda3",
+    "py/viscera_core/dataset.py": "e34547c00cd77c1ca6ffe7bc1ebd8a0305754992f4fcef126d92d3614892f602",
+    "py/viscera_core/geometry.py": "6440f37ee7e50f140908e0c8adc8bd174cbe1f63fff4c9500d24c13dde47eed8",
+    "py/viscera_core/mechanics.py": "b635a4706e676890ce90b423c20f301edd101fcc6291d1da3e82beeb7b3b9139",
+    "py/viscera_core/schema.py": "1b4df80ad1cab3622b87b1b57fa911b494327cfc136dfc355625d69722f2dd49",
+    "py/viscera_core/disease_profiles.json": "794bb6d5b34a51febfdc52998d50080d0d32e1be96877f6735249e25d5ba6706",
+    "pipelines/train/viscera_train/atlas_disease.py": "22a18ce6f7124cffe02b036364f1711134aba9e4f63bf3757ac0d8c873a36e45",
+    "pipelines/train/viscera_train/atlas_language.py": "82c57ccb8e04c5406474f329264a998d5871e8dd8fde4a1a71403fa55ad8c652",
+    "pipelines/train/viscera_train/atlas_material.py": "ff8ec950b4318dcc27cd5288ee077a4230cd4b1faa7aa6c9ff248d00abf76356",
+    "pipelines/train/viscera_train/atlas_shape.py": "863e34f6974da1e1a7abc1bb8f51d3730b8efec6724c79bbb18c0a1b2cd7bc59"
+  },
+  "release_hashes": {
+    "clinical": "6950b3462ecfba5a504cd59e16ce95763a16867008937a08caf92d5a842a0502",
+    "disease_geometry": "cef5cab774a7e887c35cb8459c2b47aba2e1bea6be6adc0b8ed9a4ff950c7c13",
+    "disease_recipes": "4bf35e3a242ae3fad1fad3e31e625d95e8507575083d7514614f59fd73652cf1",
+    "language": "89228a3009ea4eeba77f10635eb29fc395983f96c777276858e301c5f8339933",
+    "material": "f4b532c0af4f6f366fd0d26fa4bfe04cc6d54df8c19714285bd77e321188ed7d",
+    "shape": "20e738b89d08e2f6c4de9830dec5d6b04773f80233f3f827404773a5c9285a69"
+  },
+  "device": "cpu",
+  "language_enabled": false
+}

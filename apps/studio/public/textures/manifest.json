@@ -1,0 +1,766 @@
+{
+ "version": "photo-detail-tiles-1.0.0",
+ "organs": {
+  "liver": {
+   "organ": "liver",
+   "files": {
+    "albedo": "liver/albedo.png",
+    "gauss": "liver/gauss.png",
+    "lut": "liver/lut.png"
+   },
+   "side_px": 512,
+   "crop_px": 596,
+   "tile_mm": 48.0,
+   "mean_linear": [
+    0.3346968603899898,
+    0.1487435229324316,
+    0.12511558472172765
+   ],
+   "mean_srgb": [
+    0.613637365041491,
+    0.4219084154990524,
+    0.3887437137955226
+   ],
+   "luminance_std_relative": 0.03685685436957068,
+   "valid_fraction_of_crop": 0.9971482140444125,
+   "seam_ratio_x": 0.3733899078785589,
+   "seam_ratio_y": 0.7167177916421396,
+   "source": {
+    "collection": "DSAD",
+    "id": "dsad-03-2",
+    "region": "dsad-03-2-liver",
+    "credit": "Carstens et al. \u00b7 DSAD / NCT Dresden",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "source_url": "https://doi.org/10.6084/m9.figshare.21702600",
+    "photo": "/body-reference/dsad-03-2.png",
+    "photo_sha256": "ed0cc1d853c5d4f719884261a9ac8d3c1dd3b43addadcb994f2aead7000cce45"
+   },
+   "method": "eroded mask; glare/clipped/shadow excluded (studio rule) plus small specular spots (white top-hat at 17 and 41 px); a second flattening at a third of the crop; log-luminance shading flattened (\u03c3 3.5 % of width); largest clean square; normalised-convolution fill; offset-and-blend seamless; per-channel Gaussianisation with inverse LUT",
+   "evidence": "observed photograph detail with its lighting flattened; not calibrated albedo, not tissue optics",
+   "reference_color": {
+    "version": "reference-color-1",
+    "source_sha256": "ed0cc1d853c5d4f719884261a9ac8d3c1dd3b43addadcb994f2aead7000cce45",
+    "mask_sha256": "1bd03900b09b0be1568ac9b652f47f05477a0b4abf7db8bad6d402e1ba7b6fd1",
+    "organ": "liver",
+    "observed_srgb": [
+     0.7316196363887008,
+     0.4799049464459207,
+     0.4423651336340557
+    ],
+    "strength": 1.0,
+    "mode": "chroma"
+   },
+   "color_quality": {
+    "accepted_fraction": 0.7828810770947185,
+    "accepted_pixels": 414011
+   }
+  },
+  "stomach": {
+   "organ": "stomach",
+   "files": {
+    "albedo": "stomach/albedo.png",
+    "gauss": "stomach/gauss.png",
+    "lut": "stomach/lut.png"
+   },
+   "side_px": 226,
+   "crop_px": 226,
+   "tile_mm": 52.0,
+   "mean_linear": [
+    0.33398934011921044,
+    0.15403309281547628,
+    0.14887508558096416
+   ],
+   "mean_srgb": [
+    0.6130480674942346,
+    0.4289029924921406,
+    0.4220841294680129
+   ],
+   "luminance_std_relative": 0.06358525845245708,
+   "valid_fraction_of_crop": 0.9844545383350302,
+   "seam_ratio_x": 1.1886333527022361,
+   "seam_ratio_y": 0.7884561493090995,
+   "source": {
+    "collection": "DSAD",
+    "id": "dsad-25-6",
+    "region": "dsad-25-6-stomach",
+    "credit": "Carstens et al. \u00b7 DSAD / NCT Dresden",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "source_url": "https://doi.org/10.6084/m9.figshare.21702600",
+    "photo": "/body-reference/dsad-25-6.png",
+    "photo_sha256": "bae3823b2c28354f32464ade306bd9971273e313e8c4f1cc5016b148d3168e05"
+   },
+   "method": "eroded mask; glare/clipped/shadow excluded (studio rule) plus small specular spots (white top-hat at 17 and 41 px); a second flattening at a third of the crop; log-luminance shading flattened (\u03c3 3.5 % of width); largest clean square; normalised-convolution fill; offset-and-blend seamless; per-channel Gaussianisation with inverse LUT",
+   "evidence": "observed photograph detail with its lighting flattened; not calibrated albedo, not tissue optics",
+   "reference_color": {
+    "version": "reference-color-1",
+    "source_sha256": "bae3823b2c28354f32464ade306bd9971273e313e8c4f1cc5016b148d3168e05",
+    "mask_sha256": "7344d4685ef6a721c17fc33d70e7382e5a9f526f0050d4c1b0c4be2d75fd03e6",
+    "organ": "stomach",
+    "observed_srgb": [
+     0.7323524176657511,
+     0.47826984772476594,
+     0.4599274992233094
+    ],
+    "strength": 1.0,
+    "mode": "chroma"
+   },
+   "color_quality": {
+    "accepted_fraction": 0.6444892807917767,
+    "accepted_pixels": 232863
+   }
+  },
+  "spleen": {
+   "organ": "spleen",
+   "files": {
+    "albedo": "spleen/albedo.png",
+    "gauss": "spleen/gauss.png",
+    "lut": "spleen/lut.png"
+   },
+   "side_px": 116,
+   "crop_px": 116,
+   "tile_mm": 44.0,
+   "mean_linear": [
+    0.07725121855187055,
+    0.02018011474416073,
+    0.024405549233011026
+   ],
+   "mean_srgb": [
+    0.3079774824100234,
+    0.15247732468243477,
+    0.16958084091139955
+   ],
+   "luminance_std_relative": 0.11358422565305944,
+   "valid_fraction_of_crop": 0.9854340071343638,
+   "seam_ratio_x": 0.6308195889934347,
+   "seam_ratio_y": 0.8398516900377088,
+   "source": {
+    "collection": "DSAD",
+    "id": "dsad-12-29",
+    "region": "dsad-12-29-spleen",
+    "credit": "Carstens et al. \u00b7 DSAD / NCT Dresden",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "source_url": "https://doi.org/10.6084/m9.figshare.21702600",
+    "photo": "/body-reference/dsad-12-29.png",
+    "photo_sha256": "ada6d6404ca2dd1ff7fdc38dbd96c168a58ee305c770ef8f0877ff513e998ca9"
+   },
+   "method": "eroded mask; glare/clipped/shadow excluded (studio rule) plus small specular spots (white top-hat at 17 and 41 px); a second flattening at a third of the crop; log-luminance shading flattened (\u03c3 3.5 % of width); largest clean square; normalised-convolution fill; offset-and-blend seamless; per-channel Gaussianisation with inverse LUT",
+   "evidence": "observed photograph detail with its lighting flattened; not calibrated albedo, not tissue optics",
+   "reference_color": {
+    "version": "reference-color-1",
+    "source_sha256": "ada6d6404ca2dd1ff7fdc38dbd96c168a58ee305c770ef8f0877ff513e998ca9",
+    "mask_sha256": "b1e8594cabbbaaf7ffd2ae04ffec21c98fb769f1e2c9f404fd97cd4cda5e7da9",
+    "organ": "spleen",
+    "observed_srgb": [
+     0.3603297447562936,
+     0.19876133604372476,
+     0.2343196397615982
+    ],
+    "strength": 1.0,
+    "mode": "chroma"
+   },
+   "color_quality": {
+    "accepted_fraction": 0.7566598584643444,
+    "accepted_pixels": 121142
+   }
+  },
+  "small-intestine": {
+   "organ": "small-intestine",
+   "files": {
+    "albedo": "small-intestine/albedo.png",
+    "gauss": "small-intestine/gauss.png",
+    "lut": "small-intestine/lut.png"
+   },
+   "side_px": 156,
+   "crop_px": 156,
+   "tile_mm": 36.0,
+   "mean_linear": [
+    0.3340354619881293,
+    0.1110714363664265,
+    0.0851473760393833
+   ],
+   "mean_srgb": [
+    0.6130865048293761,
+    0.36726665505241257,
+    0.3229988585370044
+   ],
+   "luminance_std_relative": 0.10661160855065485,
+   "valid_fraction_of_crop": 0.9697567389875082,
+   "seam_ratio_x": 1.4955101722046638,
+   "seam_ratio_y": 1.0788713089691655,
+   "source": {
+    "collection": "DSAD",
+    "id": "dsad-25-47",
+    "region": "dsad-25-47-small-intestine",
+    "credit": "Carstens et al. \u00b7 DSAD / NCT Dresden",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "source_url": "https://doi.org/10.6084/m9.figshare.21702600",
+    "photo": "/body-reference/dsad-25-47.png",
+    "photo_sha256": "ccad9e0775bbf7c59870c06c4db1d8e62bda43fd46c44bbb4fab571de67a3128"
+   },
+   "method": "eroded mask; glare/clipped/shadow excluded (studio rule) plus small specular spots (white top-hat at 17 and 41 px); a second flattening at a third of the crop; log-luminance shading flattened (\u03c3 3.5 % of width); largest clean square; normalised-convolution fill; offset-and-blend seamless; per-channel Gaussianisation with inverse LUT",
+   "evidence": "observed photograph detail with its lighting flattened; not calibrated albedo, not tissue optics",
+   "reference_color": {
+    "version": "reference-color-1",
+    "source_sha256": "ccad9e0775bbf7c59870c06c4db1d8e62bda43fd46c44bbb4fab571de67a3128",
+    "mask_sha256": "3dd28af8d858109515c0bfac8cc9718252bde3a7844816db49959e0e4e19666e",
+    "organ": "small-intestine",
+    "observed_srgb": [
+     0.6020902043465437,
+     0.3278245571585904,
+     0.27524819215477053
+    ],
+    "strength": 1.0,
+    "mode": "chroma"
+   },
+   "color_quality": {
+    "accepted_fraction": 0.7600791287593888,
+    "accepted_pixels": 73771
+   }
+  },
+  "large-intestine": {
+   "organ": "large-intestine",
+   "files": {
+    "albedo": "large-intestine/albedo.png",
+    "gauss": "large-intestine/gauss.png",
+    "lut": "large-intestine/lut.png"
+   },
+   "side_px": 148,
+   "crop_px": 148,
+   "tile_mm": 44.0,
+   "mean_linear": [
+    0.3866194065047397,
+    0.11020930137927766,
+    0.08205371887872473
+   ],
+   "mean_srgb": [
+    0.6550473545921673,
+    0.36589787218509934,
+    0.3172146007858087
+   ],
+   "luminance_std_relative": 0.13643242065558828,
+   "valid_fraction_of_crop": 0.9798210372534697,
+   "seam_ratio_x": 1.0095845418013007,
+   "seam_ratio_y": 1.2751671010479888,
+   "source": {
+    "collection": "DSAD",
+    "id": "dsad-21-5",
+    "region": "dsad-21-5-colon",
+    "credit": "Carstens et al. \u00b7 DSAD / NCT Dresden",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "source_url": "https://doi.org/10.6084/m9.figshare.21702600",
+    "photo": "/body-reference/dsad-21-5.png",
+    "photo_sha256": "00672f5ce35efd969a8c4830b29771c97bbbf9593089129d9a50de15223557b8"
+   },
+   "method": "eroded mask; glare/clipped/shadow excluded (studio rule) plus small specular spots (white top-hat at 17 and 41 px); a second flattening at a third of the crop; log-luminance shading flattened (\u03c3 3.5 % of width); largest clean square; normalised-convolution fill; offset-and-blend seamless; per-channel Gaussianisation with inverse LUT",
+   "evidence": "observed photograph detail with its lighting flattened; not calibrated albedo, not tissue optics",
+   "reference_color": {
+    "version": "reference-color-1",
+    "source_sha256": "00672f5ce35efd969a8c4830b29771c97bbbf9593089129d9a50de15223557b8",
+    "mask_sha256": "c9aa68187146b35cc65d7c200bf5756fb011c17964f394d303ba047bf4411397",
+    "organ": "large-intestine",
+    "observed_srgb": [
+     0.7138571925138363,
+     0.4690348195296165,
+     0.4184825479634843
+    ],
+    "strength": 1.0,
+    "mode": "chroma"
+   },
+   "color_quality": {
+    "accepted_fraction": 0.7264532192677243,
+    "accepted_pixels": 113788
+   }
+  }
+ },
+ "candidates": [
+  {
+   "organ": "liver",
+   "side_px": 240,
+   "crop_px": 240,
+   "tile_mm": 48.0,
+   "mean_linear": [
+    0.05894207231167295,
+    0.012219905245204186,
+    0.012320545532185494
+   ],
+   "mean_srgb": [
+    0.2692871276566878,
+    0.11334390313163087,
+    0.11392020526462646
+   ],
+   "luminance_std_relative": 0.09165213636506357,
+   "valid_fraction_of_crop": 0.9802256944444444,
+   "seam_ratio_x": 1.9023273731046373,
+   "seam_ratio_y": 0.903810148139462,
+   "source": {
+    "collection": "DSAD",
+    "id": "dsad-25-6",
+    "region": "dsad-25-6-liver",
+    "credit": "Carstens et al. \u00b7 DSAD / NCT Dresden",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "source_url": "https://doi.org/10.6084/m9.figshare.21702600",
+    "photo": "/body-reference/dsad-25-6.png",
+    "photo_sha256": "bae3823b2c28354f32464ade306bd9971273e313e8c4f1cc5016b148d3168e05"
+   },
+   "method": "eroded mask; glare/clipped/shadow excluded (studio rule) plus small specular spots (white top-hat at 17 and 41 px); a second flattening at a third of the crop; log-luminance shading flattened (\u03c3 3.5 % of width); largest clean square; normalised-convolution fill; offset-and-blend seamless; per-channel Gaussianisation with inverse LUT",
+   "evidence": "observed photograph detail with its lighting flattened; not calibrated albedo, not tissue optics",
+   "reference_color": {
+    "version": "reference-color-1",
+    "source_sha256": "bae3823b2c28354f32464ade306bd9971273e313e8c4f1cc5016b148d3168e05",
+    "mask_sha256": "1e2ff6d06a0ad2c917615d99414d93e67d7d04c3a48e600602e4552c4905ac05",
+    "organ": "liver",
+    "observed_srgb": [
+     0.25162273858348133,
+     0.11229624808377395,
+     0.11630583612131645
+    ],
+    "strength": 1.0,
+    "mode": "chroma"
+   },
+   "color_quality": {
+    "accepted_fraction": 0.3951652829367044,
+    "accepted_pixels": 152452
+   }
+  },
+  {
+   "organ": "stomach",
+   "side_px": 226,
+   "crop_px": 226,
+   "tile_mm": 52.0,
+   "mean_linear": [
+    0.33398934011921044,
+    0.15403309281547628,
+    0.14887508558096416
+   ],
+   "mean_srgb": [
+    0.6130480674942346,
+    0.4289029924921406,
+    0.4220841294680129
+   ],
+   "luminance_std_relative": 0.06358525845245708,
+   "valid_fraction_of_crop": 0.9844545383350302,
+   "seam_ratio_x": 1.1886333527022361,
+   "seam_ratio_y": 0.7884561493090995,
+   "source": {
+    "collection": "DSAD",
+    "id": "dsad-25-6",
+    "region": "dsad-25-6-stomach",
+    "credit": "Carstens et al. \u00b7 DSAD / NCT Dresden",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "source_url": "https://doi.org/10.6084/m9.figshare.21702600",
+    "photo": "/body-reference/dsad-25-6.png",
+    "photo_sha256": "bae3823b2c28354f32464ade306bd9971273e313e8c4f1cc5016b148d3168e05"
+   },
+   "method": "eroded mask; glare/clipped/shadow excluded (studio rule) plus small specular spots (white top-hat at 17 and 41 px); a second flattening at a third of the crop; log-luminance shading flattened (\u03c3 3.5 % of width); largest clean square; normalised-convolution fill; offset-and-blend seamless; per-channel Gaussianisation with inverse LUT",
+   "evidence": "observed photograph detail with its lighting flattened; not calibrated albedo, not tissue optics",
+   "reference_color": {
+    "version": "reference-color-1",
+    "source_sha256": "bae3823b2c28354f32464ade306bd9971273e313e8c4f1cc5016b148d3168e05",
+    "mask_sha256": "7344d4685ef6a721c17fc33d70e7382e5a9f526f0050d4c1b0c4be2d75fd03e6",
+    "organ": "stomach",
+    "observed_srgb": [
+     0.7323524176657511,
+     0.47826984772476594,
+     0.4599274992233094
+    ],
+    "strength": 1.0,
+    "mode": "chroma"
+   },
+   "color_quality": {
+    "accepted_fraction": 0.6444892807917767,
+    "accepted_pixels": 232863
+   }
+  },
+  {
+   "organ": "spleen",
+   "side_px": 116,
+   "crop_px": 116,
+   "tile_mm": 44.0,
+   "mean_linear": [
+    0.07725121855187055,
+    0.02018011474416073,
+    0.024405549233011026
+   ],
+   "mean_srgb": [
+    0.3079774824100234,
+    0.15247732468243477,
+    0.16958084091139955
+   ],
+   "luminance_std_relative": 0.11358422565305944,
+   "valid_fraction_of_crop": 0.9854340071343638,
+   "seam_ratio_x": 0.6308195889934347,
+   "seam_ratio_y": 0.8398516900377088,
+   "source": {
+    "collection": "DSAD",
+    "id": "dsad-12-29",
+    "region": "dsad-12-29-spleen",
+    "credit": "Carstens et al. \u00b7 DSAD / NCT Dresden",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "source_url": "https://doi.org/10.6084/m9.figshare.21702600",
+    "photo": "/body-reference/dsad-12-29.png",
+    "photo_sha256": "ada6d6404ca2dd1ff7fdc38dbd96c168a58ee305c770ef8f0877ff513e998ca9"
+   },
+   "method": "eroded mask; glare/clipped/shadow excluded (studio rule) plus small specular spots (white top-hat at 17 and 41 px); a second flattening at a third of the crop; log-luminance shading flattened (\u03c3 3.5 % of width); largest clean square; normalised-convolution fill; offset-and-blend seamless; per-channel Gaussianisation with inverse LUT",
+   "evidence": "observed photograph detail with its lighting flattened; not calibrated albedo, not tissue optics",
+   "reference_color": {
+    "version": "reference-color-1",
+    "source_sha256": "ada6d6404ca2dd1ff7fdc38dbd96c168a58ee305c770ef8f0877ff513e998ca9",
+    "mask_sha256": "b1e8594cabbbaaf7ffd2ae04ffec21c98fb769f1e2c9f404fd97cd4cda5e7da9",
+    "organ": "spleen",
+    "observed_srgb": [
+     0.3603297447562936,
+     0.19876133604372476,
+     0.2343196397615982
+    ],
+    "strength": 1.0,
+    "mode": "chroma"
+   },
+   "color_quality": {
+    "accepted_fraction": 0.7566598584643444,
+    "accepted_pixels": 121142
+   }
+  },
+  {
+   "organ": "pancreas",
+   "skipped": "largest usable square is 68 px; 96 needed",
+   "source": {
+    "collection": "DSAD",
+    "id": "dsad-22-6",
+    "region": "dsad-22-6-pancreas",
+    "credit": "Carstens et al. \u00b7 DSAD / NCT Dresden",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "source_url": "https://doi.org/10.6084/m9.figshare.21702600",
+    "photo": "/body-reference/dsad-22-6.png"
+   }
+  },
+  {
+   "organ": "small-intestine",
+   "side_px": 156,
+   "crop_px": 156,
+   "tile_mm": 36.0,
+   "mean_linear": [
+    0.3340354619881293,
+    0.1110714363664265,
+    0.0851473760393833
+   ],
+   "mean_srgb": [
+    0.6130865048293761,
+    0.36726665505241257,
+    0.3229988585370044
+   ],
+   "luminance_std_relative": 0.10661160855065485,
+   "valid_fraction_of_crop": 0.9697567389875082,
+   "seam_ratio_x": 1.4955101722046638,
+   "seam_ratio_y": 1.0788713089691655,
+   "source": {
+    "collection": "DSAD",
+    "id": "dsad-25-47",
+    "region": "dsad-25-47-small-intestine",
+    "credit": "Carstens et al. \u00b7 DSAD / NCT Dresden",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "source_url": "https://doi.org/10.6084/m9.figshare.21702600",
+    "photo": "/body-reference/dsad-25-47.png",
+    "photo_sha256": "ccad9e0775bbf7c59870c06c4db1d8e62bda43fd46c44bbb4fab571de67a3128"
+   },
+   "method": "eroded mask; glare/clipped/shadow excluded (studio rule) plus small specular spots (white top-hat at 17 and 41 px); a second flattening at a third of the crop; log-luminance shading flattened (\u03c3 3.5 % of width); largest clean square; normalised-convolution fill; offset-and-blend seamless; per-channel Gaussianisation with inverse LUT",
+   "evidence": "observed photograph detail with its lighting flattened; not calibrated albedo, not tissue optics",
+   "reference_color": {
+    "version": "reference-color-1",
+    "source_sha256": "ccad9e0775bbf7c59870c06c4db1d8e62bda43fd46c44bbb4fab571de67a3128",
+    "mask_sha256": "3dd28af8d858109515c0bfac8cc9718252bde3a7844816db49959e0e4e19666e",
+    "organ": "small-intestine",
+    "observed_srgb": [
+     0.6020902043465437,
+     0.3278245571585904,
+     0.27524819215477053
+    ],
+    "strength": 1.0,
+    "mode": "chroma"
+   },
+   "color_quality": {
+    "accepted_fraction": 0.7600791287593888,
+    "accepted_pixels": 73771
+   }
+  },
+  {
+   "organ": "large-intestine",
+   "side_px": 148,
+   "crop_px": 148,
+   "tile_mm": 44.0,
+   "mean_linear": [
+    0.3866194065047397,
+    0.11020930137927766,
+    0.08205371887872473
+   ],
+   "mean_srgb": [
+    0.6550473545921673,
+    0.36589787218509934,
+    0.3172146007858087
+   ],
+   "luminance_std_relative": 0.13643242065558828,
+   "valid_fraction_of_crop": 0.9798210372534697,
+   "seam_ratio_x": 1.0095845418013007,
+   "seam_ratio_y": 1.2751671010479888,
+   "source": {
+    "collection": "DSAD",
+    "id": "dsad-21-5",
+    "region": "dsad-21-5-colon",
+    "credit": "Carstens et al. \u00b7 DSAD / NCT Dresden",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "source_url": "https://doi.org/10.6084/m9.figshare.21702600",
+    "photo": "/body-reference/dsad-21-5.png",
+    "photo_sha256": "00672f5ce35efd969a8c4830b29771c97bbbf9593089129d9a50de15223557b8"
+   },
+   "method": "eroded mask; glare/clipped/shadow excluded (studio rule) plus small specular spots (white top-hat at 17 and 41 px); a second flattening at a third of the crop; log-luminance shading flattened (\u03c3 3.5 % of width); largest clean square; normalised-convolution fill; offset-and-blend seamless; per-channel Gaussianisation with inverse LUT",
+   "evidence": "observed photograph detail with its lighting flattened; not calibrated albedo, not tissue optics",
+   "reference_color": {
+    "version": "reference-color-1",
+    "source_sha256": "00672f5ce35efd969a8c4830b29771c97bbbf9593089129d9a50de15223557b8",
+    "mask_sha256": "c9aa68187146b35cc65d7c200bf5756fb011c17964f394d303ba047bf4411397",
+    "organ": "large-intestine",
+    "observed_srgb": [
+     0.7138571925138363,
+     0.4690348195296165,
+     0.4184825479634843
+    ],
+    "strength": 1.0,
+    "mode": "chroma"
+   },
+   "color_quality": {
+    "accepted_fraction": 0.7264532192677243,
+    "accepted_pixels": 113788
+   }
+  },
+  {
+   "organ": "liver",
+   "side_px": 512,
+   "crop_px": 596,
+   "tile_mm": 48.0,
+   "mean_linear": [
+    0.3346968603899898,
+    0.1487435229324316,
+    0.12511558472172765
+   ],
+   "mean_srgb": [
+    0.613637365041491,
+    0.4219084154990524,
+    0.3887437137955226
+   ],
+   "luminance_std_relative": 0.03685685436957068,
+   "valid_fraction_of_crop": 0.9971482140444125,
+   "seam_ratio_x": 0.3733899078785589,
+   "seam_ratio_y": 0.7167177916421396,
+   "source": {
+    "collection": "DSAD",
+    "id": "dsad-03-2",
+    "region": "dsad-03-2-liver",
+    "credit": "Carstens et al. \u00b7 DSAD / NCT Dresden",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "source_url": "https://doi.org/10.6084/m9.figshare.21702600",
+    "photo": "/body-reference/dsad-03-2.png",
+    "photo_sha256": "ed0cc1d853c5d4f719884261a9ac8d3c1dd3b43addadcb994f2aead7000cce45"
+   },
+   "method": "eroded mask; glare/clipped/shadow excluded (studio rule) plus small specular spots (white top-hat at 17 and 41 px); a second flattening at a third of the crop; log-luminance shading flattened (\u03c3 3.5 % of width); largest clean square; normalised-convolution fill; offset-and-blend seamless; per-channel Gaussianisation with inverse LUT",
+   "evidence": "observed photograph detail with its lighting flattened; not calibrated albedo, not tissue optics",
+   "reference_color": {
+    "version": "reference-color-1",
+    "source_sha256": "ed0cc1d853c5d4f719884261a9ac8d3c1dd3b43addadcb994f2aead7000cce45",
+    "mask_sha256": "1bd03900b09b0be1568ac9b652f47f05477a0b4abf7db8bad6d402e1ba7b6fd1",
+    "organ": "liver",
+    "observed_srgb": [
+     0.7316196363887008,
+     0.4799049464459207,
+     0.4423651336340557
+    ],
+    "strength": 1.0,
+    "mode": "chroma"
+   },
+   "color_quality": {
+    "accepted_fraction": 0.7828810770947185,
+    "accepted_pixels": 414011
+   }
+  },
+  {
+   "organ": "large-intestine",
+   "skipped": "largest usable square is 2 px; 96 needed",
+   "source": {
+    "collection": "DRENDS",
+    "id": "colon-1",
+    "credit": "Loza, Magro, Calm\u00e9, Hu, Jones, de Momi, Ali, Valdastri \u00b7 DRENDS (2025) \u00b7 ex-vivo porcine colon, Seq01_Colon_Med",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "source_url": "https://zenodo.org/records/17598453",
+    "photo": "/reference-material/colon-view-1.png",
+    "region": "colon-1",
+    "selection": {
+     "box": [
+      0.11,
+      0.04,
+      0.5,
+      0.87
+     ],
+     "foreground_points": [
+      [
+       0.29,
+       0.43
+      ],
+      [
+       0.26,
+       0.58
+      ],
+      [
+       0.3,
+       0.23
+      ],
+      [
+       0.2,
+       0.38
+      ]
+     ],
+     "background_points": [
+      [
+       0.53,
+       0.49
+      ],
+      [
+       0.08,
+       0.2
+      ],
+      [
+       0.37,
+       0.75
+      ]
+     ]
+    },
+    "identity": "assigned by the build author from the photograph's description; not clinically reviewed"
+   }
+  },
+  {
+   "organ": "large-intestine",
+   "skipped": "largest usable square is 4 px; 96 needed",
+   "source": {
+    "collection": "DRENDS",
+    "id": "colon-2",
+    "credit": "Loza, Magro, Calm\u00e9, Hu, Jones, de Momi, Ali, Valdastri \u00b7 DRENDS (2025) \u00b7 ex-vivo porcine colon, Seq01_Colon_Med",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "source_url": "https://zenodo.org/records/17598453",
+    "photo": "/reference-material/colon-view-2.png",
+    "region": "colon-2",
+    "selection": {
+     "box": [
+      0.19,
+      0.22,
+      0.52,
+      0.59
+     ],
+     "foreground_points": [
+      [
+       0.29,
+       0.4
+      ],
+      [
+       0.24,
+       0.52
+      ],
+      [
+       0.39,
+       0.31
+      ],
+      [
+       0.44,
+       0.41
+      ]
+     ],
+     "background_points": [
+      [
+       0.64,
+       0.5
+      ],
+      [
+       0.1,
+       0.2
+      ],
+      [
+       0.38,
+       0.8
+      ]
+     ]
+    },
+    "identity": "assigned by the build author from the photograph's description; not clinically reviewed"
+   }
+  },
+  {
+   "organ": "large-intestine",
+   "skipped": "largest usable square is 0 px; 96 needed",
+   "source": {
+    "collection": "DRENDS",
+    "id": "colon-3",
+    "credit": "Loza, Magro, Calm\u00e9, Hu, Jones, de Momi, Ali, Valdastri \u00b7 DRENDS (2025) \u00b7 ex-vivo porcine colon, Seq01_Colon_Med",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "source_url": "https://zenodo.org/records/17598453",
+    "photo": "/reference-material/colon-view-3.png",
+    "region": "colon-3",
+    "selection": {
+     "box": [
+      0.49,
+      0.37,
+      0.8,
+      0.88
+     ],
+     "foreground_points": [
+      [
+       0.62,
+       0.63
+      ],
+      [
+       0.65,
+       0.7
+      ],
+      [
+       0.56,
+       0.57
+      ],
+      [
+       0.72,
+       0.7
+      ]
+     ],
+     "background_points": [
+      [
+       0.45,
+       0.7
+      ],
+      [
+       0.84,
+       0.59
+      ],
+      [
+       0.69,
+       0.94
+      ],
+      [
+       0.7,
+       0.3
+      ]
+     ]
+    },
+    "identity": "assigned by the build author from the photograph's description; not clinically reviewed"
+   }
+  }
+ ],
+ "shader": "hex-tiled triplanar, histogram-preserving blending (Heitz & Neyret 2018; Mikkelsen 2022), mean-preserving modulation of the tissue colour"
+}

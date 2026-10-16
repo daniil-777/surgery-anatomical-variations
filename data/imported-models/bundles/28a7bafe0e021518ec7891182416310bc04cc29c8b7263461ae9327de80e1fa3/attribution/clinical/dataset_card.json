@@ -1,0 +1,46 @@
+{
+  "augmentation_policy": "none; all future derivatives inherit patient split",
+  "case_count": 3,
+  "dataset_version": "atlas-disease-cases-1.0.0",
+  "feature_names": [
+    "organ_extent_x_mm",
+    "organ_extent_y_mm",
+    "organ_extent_z_mm",
+    "organ_volume_ml",
+    "lesion_extent_x_mm",
+    "lesion_extent_y_mm",
+    "lesion_extent_z_mm",
+    "lesion_volume_ml",
+    "lesion_center_x_relative",
+    "lesion_center_y_relative",
+    "lesion_center_z_relative",
+    "lesion_to_organ_volume_ratio"
+  ],
+  "independent_patient_count": 3,
+  "limits": [
+    "Not enough patients to learn disease prevalence, realistic population variation or histology",
+    "No healthy/disease paired scans, source surgical textures or measured mechanics",
+    "KiTS masks contain both kidneys; kidney volume features are bilateral",
+    "Pancreas age is not recorded in this source metadata; do not assert confirmed adult status",
+    "Annotation boundaries retain voxel steps; do not interpret sub-voxel detail as anatomy",
+    "Images guide review only; morphology proposals and numeric controls are not clinical labels"
+  ],
+  "purpose": "Small paired clinical geometry pilot; source-case retrieval and engineering validation",
+  "reference_image_count": 36,
+  "release_id": "638b3382d40e8648b1f8",
+  "rights": {
+    "commercial_use": "CC-BY attribution conditions apply",
+    "contains_noncommercial": false,
+    "license_lanes": [
+      "attribution"
+    ],
+    "no_blanket_license": true
+  },
+  "split_counts": {
+    "audit": 1,
+    "train": 1,
+    "val": 1
+  },
+  "training_images_included": 0,
+  "unpaired_external_viewer_models_included": 0
+}

@@ -1,0 +1,204 @@
+{
+  "created": "2021-10-08T16:05:39.250428+00:00",
+  "modified": "2021-10-09T01:48:41.917857+00:00",
+  "id": 5510650,
+  "conceptrecid": "5510649",
+  "doi": "10.5281/zenodo.5510650",
+  "conceptdoi": "10.5281/zenodo.5510649",
+  "doi_url": "https://doi.org/10.5281/zenodo.5510650",
+  "metadata": {
+    "title": "Pancreas cancer segmentation on portal-venous phase CTs",
+    "doi": "10.5281/zenodo.5510650",
+    "publication_date": "2021-03-16",
+    "description": "<p>This&nbsp;dataset consists of reference segmentations for 91 abdominal CTs delineating the pancreas and pancreas adenocarcinoma (PDA). The CTs were downloaded from freely available public archives for pancreas AI applications-&nbsp;<a href=\"https://wiki.cancerimagingarchive.net/display/Public/CPTAC-PDA#339482584dc5f53338634b35a3500cbed18472e0\">The Cancer Imaging Archive (TCIA) CPTAC-PDA</a>&nbsp;(n=60) and&nbsp;<a href=\"https://drive.google.com/drive/folders/1HqEgzS8BV2c7xYNrZdEAnrHk7osJJ--2\">Medical Segmentation Decathlon</a>&nbsp;(n=420) and evaluated by two radiologists for image quality, phase of image acquisition, presence of biliary stents and etiology of the pancreatic lesion. Volumetric pancreas and PDA segmentations was done on the portal-venous phase CTs on 3D Slicer software,&nbsp;by a radiologist with 4-year post residency experience. The PDA segmentations were subsequently verified by an expert abdominal radiologist with 11-years post residency experience. Segmentations were performed only on CTs that did not have expert segmentations as a part of original dataset.</p>\n\n<p>For the CPTAC-PDA dataset, segmentations were performed on 42 out of 60 CTs after excluding 18 CTs for the following reasons: presence of biliary stent (n=10), missing slices through pancreas (n=4), post-pancreatectomy status (n=1), incorrect region of scan (n=1) and unavailable portal-venous phase (n=2).&nbsp;</p>\n\n<p>For the MSD dataset, segmentations were performed on 49 out of 139 &lsquo;testing&rsquo; subset CTs after excluding 90 CTs for the following reasons: presence of biliary stent (n=38), non-PDA pathology [n=36 for IPMN, n=14 for PNET) and post-treatment status (n=2).&nbsp;</p>\n\n<p>The uploaded files are&nbsp;in NIfTI format. In addition, a metadata has been uploaded containing the following information for each segmented CT: location of tumor in pancreas, T-stage, single largest diameter of tumor, presence or absence of pancreatic atrophy, dilatation of main pancreatic duct and common bile duct.&nbsp;</p>\n\n<p>This dataset has been referenced and elaborated in the paper-<a href=\"https://pubmed.ncbi.nlm.nih.gov/33840636/\">https://pubmed.ncbi.nlm.nih.gov/33840636/</a>.</p>",
+    "access_right": "open",
+    "creators": [
+      {
+        "name": "Suman Garima",
+        "affiliation": "Mayo Clinic, Rochester"
+      },
+      {
+        "name": "Patra Anurima",
+        "affiliation": "Mayo Clinic, Rochester"
+      },
+      {
+        "name": "Korfiatis Panagiotis",
+        "affiliation": "Mayo Clinic, Rochester"
+      },
+      {
+        "name": "Majumder Shounak",
+        "affiliation": "Mayo Clinic, Rochester"
+      },
+      {
+        "name": "Chari Suresh",
+        "affiliation": "Mayo Clinic, Rochester"
+      },
+      {
+        "name": "Truty Mark",
+        "affiliation": "Mayo Clinic, Rochester"
+      },
+      {
+        "name": "Fletcher Joel",
+        "affiliation": "Mayo Clinic, Rochester"
+      },
+      {
+        "name": "Goenka Ajit",
+        "affiliation": "Mayo Clinic, Rochester"
+      }
+    ],
+    "keywords": [
+      "Pancreas cancer",
+      "Biases",
+      "Metadata",
+      "Deep learning",
+      "Segmentation",
+      "Pancreas"
+    ],
+    "related_identifiers": [
+      {
+        "identifier": "10.1016/j.pan.2021.03.016",
+        "relation": "isReferencedBy",
+        "resource_type": "publication-article",
+        "scheme": "doi"
+      },
+      {
+        "identifier": "10.1007/s10278-013-9622-7",
+        "relation": "isPartOf",
+        "resource_type": "dataset",
+        "scheme": "doi"
+      },
+      {
+        "identifier": "https://arxiv.org/abs/1902.09063v1",
+        "relation": "isReferencedBy",
+        "resource_type": "publication-article",
+        "scheme": "url"
+      }
+    ],
+    "references": [
+      "Suman G, Patra A, Korfiatis P, et al. Quality gaps in public pancreas imaging datasets: Implications & challenges for AI applications. Pancreatology. 2021;21(5):1001-1008. doi:10.1016/j.pan.2021.03.016",
+      "National Cancer Institute Clinical Proteomic Tumor Analysis Consortium: Radiology data from the clinical proteomic tumor analysis consortium pancreatic ductal adenocarcinoma [CPTAC-PDA] collection [Data Set]; In: The Cancer Imaging Archive 2018",
+      "Simpson AL, Antonelli M, Bakas S, Bilello M, Farahani K, Van G et al.: A large annotated medical image dataset for the development and evaluation of segmentation algorithms. arXiv:190209063 2019"
+    ],
+    "language": "eng",
+    "resource_type": {
+      "title": "Dataset",
+      "type": "dataset"
+    },
+    "journal": {
+      "issue": "5",
+      "pages": "1001-1008",
+      "title": "Pancreatology",
+      "volume": "21"
+    },
+    "license": {
+      "id": "cc-by-4.0"
+    },
+    "relations": {
+      "version": [
+        {
+          "index": 0,
+          "is_last": true,
+          "parent": {
+            "pid_type": "recid",
+            "pid_value": "5510649"
+          }
+        }
+      ]
+    }
+  },
+  "title": "Pancreas cancer segmentation on portal-venous phase CTs",
+  "links": {
+    "self": "https://zenodo.org/api/records/5510650",
+    "self_html": "https://zenodo.org/records/5510650",
+    "preview_html": "https://zenodo.org/records/5510650?preview=1",
+    "doi": "https://doi.org/10.5281/zenodo.5510650",
+    "self_doi": "https://doi.org/10.5281/zenodo.5510650",
+    "self_doi_html": "https://zenodo.org/doi/10.5281/zenodo.5510650",
+    "reserve_doi": "https://zenodo.org/api/records/5510650/draft/pids/doi",
+    "parent": "https://zenodo.org/api/records/5510649",
+    "parent_html": "https://zenodo.org/records/5510649",
+    "parent_doi": "https://doi.org/10.5281/zenodo.5510649",
+    "parent_doi_html": "https://zenodo.org/doi/10.5281/zenodo.5510649",
+    "self_iiif_manifest": "https://zenodo.org/api/iiif/record:5510650/manifest",
+    "self_iiif_sequence": "https://zenodo.org/api/iiif/record:5510650/sequence/default",
+    "files": "https://zenodo.org/api/records/5510650/files",
+    "media_files": "https://zenodo.org/api/records/5510650/media-files",
+    "archive": "https://zenodo.org/api/records/5510650/files-archive",
+    "archive_media": "https://zenodo.org/api/records/5510650/media-files-archive",
+    "latest": "https://zenodo.org/api/records/5510650/versions/latest",
+    "latest_html": "https://zenodo.org/records/5510650/latest",
+    "versions": "https://zenodo.org/api/records/5510650/versions",
+    "draft": "https://zenodo.org/api/records/5510650/draft",
+    "access_links": "https://zenodo.org/api/records/5510650/access/links",
+    "access_grants": "https://zenodo.org/api/records/5510650/access/grants",
+    "access_users": "https://zenodo.org/api/records/5510650/access/users",
+    "access_request": "https://zenodo.org/api/records/5510650/access/request",
+    "access": "https://zenodo.org/api/records/5510650/access",
+    "communities": "https://zenodo.org/api/records/5510650/communities",
+    "communities-suggestions": "https://zenodo.org/api/records/5510650/communities-suggestions",
+    "request_deletion": "https://zenodo.org/api/records/5510650/request-deletion",
+    "file_modification": "https://zenodo.org/api/records/5510650/file-modification",
+    "quota_increase": "https://zenodo.org/api/records/5510650/quota-increase",
+    "requests": "https://zenodo.org/api/records/5510650/requests"
+  },
+  "updated": "2021-10-09T01:48:41.917857+00:00",
+  "recid": "5510650",
+  "revision": 2,
+  "files": [
+    {
+      "id": "873f0bcb-c797-47ac-89d6-51e22b4f681d",
+      "key": "Tumor_segmentations.zip",
+      "size": 190746,
+      "checksum": "md5:f045275daee60be12b68d3e63a651d6d",
+      "links": {
+        "self": "https://zenodo.org/api/records/5510650/files/Tumor_segmentations.zip/content"
+      }
+    },
+    {
+      "id": "be5d3908-23b6-4e8b-b6d9-7a73daeda3b1",
+      "key": "Volume files.zip",
+      "size": 4282285313,
+      "checksum": "md5:6068ad9fc389c56d6c448f4370af6051",
+      "links": {
+        "self": "https://zenodo.org/api/records/5510650/files/Volume%20files.zip/content"
+      }
+    },
+    {
+      "id": "93f87eae-e6e9-48ad-b4fc-f01ae3afe19e",
+      "key": "Metadata.xlsx",
+      "size": 14330,
+      "checksum": "md5:327d8186e9c44dfc2fc9859b26830e1f",
+      "links": {
+        "self": "https://zenodo.org/api/records/5510650/files/Metadata.xlsx/content"
+      }
+    },
+    {
+      "id": "a5a48cbb-dd6e-4865-9752-ca1cefc12af3",
+      "key": "Pancreas_segmentations.zip",
+      "size": 560156,
+      "checksum": "md5:a0c3c838496502105cf02a2217e1b586",
+      "links": {
+        "self": "https://zenodo.org/api/records/5510650/files/Pancreas_segmentations.zip/content"
+      }
+    }
+  ],
+  "swh": {},
+  "owners": [
+    {
+      "id": "254136"
+    }
+  ],
+  "status": "published",
+  "stats": {
+    "downloads": 1599,
+    "unique_downloads": 725,
+    "views": 1474,
+    "unique_views": 1328,
+    "version_downloads": 1597,
+    "version_unique_downloads": 723,
+    "version_unique_views": 1320,
+    "version_views": 1465
+  },
+  "state": "done",
+  "submitted": true
+}

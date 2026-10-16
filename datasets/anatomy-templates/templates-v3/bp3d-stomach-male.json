@@ -1,0 +1,200 @@
+{
+  "artifact_sha256": "2c8008326d3c6a2a073bcd3799ad5ebe99518c07793aa0bc6ddb0777e7e254cf",
+  "attribution": "BodyParts3D, \u00a9 The Database Center for Life Science licensed under CC Attribution 4.0 International",
+  "attribution_verified": true,
+  "clean_faces_sha256": "3e4cbbd4ef6e05dd735bf166c29f5130d958efff64d4478c0c7974b963fef51e",
+  "cleaning_components": [
+    {
+      "clean_face_count": 1810,
+      "component": "stomach--FJ2564.obj",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 1810,
+      "winding_after": true,
+      "winding_before": true
+    }
+  ],
+  "cleaning_policy": "Drop triangles with area <=1e-12 mm2; repair winding per connected component on welded audit copy with minimum face reversals and transfer only face reversal. No vertex movement or connectivity additions.",
+  "cohort_eligible": true,
+  "colors_provenance": "Source schematic material colors; glTF linear factors converted to sRGB after trimesh 8-bit quantization",
+  "colors_space": "sRGB",
+  "components": [
+    {
+      "face_count": 1810,
+      "face_start": 0,
+      "name": "stomach--FJ2564.obj",
+      "source_geometry": "stomach--FJ2564.obj",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 914,
+      "vertex_start": 0
+    }
+  ],
+  "control_limit_provenance": "design_heuristic; not measured population intervals",
+  "control_limits": [
+    0.1,
+    0.1,
+    0.1,
+    0.06,
+    0.09,
+    0.07,
+    0.04
+  ],
+  "control_names": [
+    "scale_x",
+    "scale_y",
+    "scale_z",
+    "bend",
+    "twist",
+    "taper",
+    "asymmetry"
+  ],
+  "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+  "deformer_version": "invertible-atlas-controls-1.0.0",
+  "evidence_kind": "expert_authored",
+  "excluded_source_nodes": [],
+  "extent_mm": [
+    134.4756,
+    117.00999999999999,
+    112.8901
+  ],
+  "face_count": 1810,
+  "face_map_keys": [
+    "source_to_clean_face_indices",
+    "clean_to_source_face_indices",
+    "clean_face_orientation_reversed",
+    "source_faces"
+  ],
+  "fma": "FMA7148",
+  "generator_version": "invertible-atlas-controls-1.0.0",
+  "geometry_sha256": "cee13678d42392b6abcdbcb1c833e9156584c899f80025b816b39d7721bd44f8",
+  "inverse_coordinate_transform": "source_world = source_to_authoring_rotation.T @ (vertices_mm + source_center_mm) / source_to_mm_scale",
+  "laterality": null,
+  "license": "CC-BY-4.0",
+  "license_url": "https://dbarchive.biosciencedbc.jp/en/bodyparts3d/lic.html",
+  "mesh_role": "annotated_display_surface_assembly_not_organ_envelope",
+  "modifications": "Selected named display components, applied scene transforms, explicit units, bounding-box centering. Removed degenerate triangles and repaired winding with reversible face maps. No smoothing, decimation or remeshing.",
+  "normalization_mm": 67.2378,
+  "organ": "stomach",
+  "organ_id": "stomach",
+  "population_prevalence": null,
+  "profile": "development_preview",
+  "removed_degenerate_faces": 0,
+  "resolution_limit": "Low polygon reference; subdivision cannot recover missing anatomy",
+  "reversed_faces": 0,
+  "review_status": "unreviewed",
+  "selection_policy_version": "external-display-components-1.1.0",
+  "sex_label": "male",
+  "source_archive_sha256": "9fbc713fffeee924a5a657d9813d84d7eb957bded63adb854931dd5e3eb61c97",
+  "source_center_mm": [
+    38.2862,
+    1098.3850000000002,
+    137.92495
+  ],
+  "source_collection": "BodyParts3D",
+  "source_creators": [
+    {
+      "id": "https://dbcls.rois.ac.jp/",
+      "name": "The Database Center for Life Science"
+    }
+  ],
+  "source_faces_sha256": "3e4cbbd4ef6e05dd735bf166c29f5130d958efff64d4478c0c7974b963fef51e",
+  "source_geometry_sha256": "cee13678d42392b6abcdbcb1c833e9156584c899f80025b816b39d7721bd44f8",
+  "source_group_id": "bodyparts3d-adult-male-atlas",
+  "source_group_reason": "Same authored atlas, not an independent sample per part",
+  "source_license_evidence_file": "attribution/bodyparts3d-official-license.html",
+  "source_license_evidence_sha256": "b296a77a1e9479f81575d27fd61e0b0d93501f63c53c1f6014b1f4b315bc8eec",
+  "source_license_evidence_url": "https://dbarchive.biosciencedbc.jp/en/bodyparts3d/lic.html",
+  "source_member": "partof_BP3D_4.0_obj_99/FJ2564.obj",
+  "source_release": "4.0; official 99% polygon-reduction archive",
+  "source_sha256": "cb78c3f2214fd21a16fa6c9f2389b9aa874e9d3ce624c42b34d4563c31554c67",
+  "source_to_authoring_rotation": [
+    [
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      1
+    ],
+    [
+      0,
+      -1,
+      0
+    ]
+  ],
+  "source_to_mm_scale": 1.0,
+  "source_topology_audit": {
+    "boundary_edges_after_audit_weld": 0,
+    "connected_vertex_components": 1,
+    "degenerate_faces": 0,
+    "method": "trimesh-geometric-weld-audit-copy-1.0",
+    "nonmanifold_edges_after_audit_weld": 0,
+    "self_intersection": {
+      "reason": "No robust intersection backend",
+      "status": "NOT_RUN"
+    },
+    "simulation_readiness": {
+      "reason": "No volumetric domain/materials",
+      "status": "NOT_RUN"
+    },
+    "watertight_after_audit_weld": true,
+    "weld_precision_mm": 1e-08,
+    "winding_consistent_after_audit_weld": true,
+    "zero_length_edges": 0
+  },
+  "source_up_axis": "Z per source viewer; rotated -90 degrees X to display Y-up",
+  "source_url": "https://dbarchive.biosciencedbc.jp/data/bodyparts3d/LATEST/partof_BP3D_4.0_obj_99.zip",
+  "template_id": "bp3d-stomach-male",
+  "template_version": "atlas-display-1.1.0",
+  "topology_audit": {
+    "boundary_edges_after_audit_weld": 0,
+    "connected_vertex_components": 1,
+    "degenerate_faces": 0,
+    "method": "trimesh-geometric-weld-audit-copy-1.0",
+    "nonmanifold_edges_after_audit_weld": 0,
+    "self_intersection": {
+      "reason": "No robust intersection backend",
+      "status": "NOT_RUN"
+    },
+    "simulation_readiness": {
+      "reason": "No volumetric domain/materials",
+      "status": "NOT_RUN"
+    },
+    "watertight_after_audit_weld": true,
+    "weld_precision_mm": 1e-08,
+    "winding_consistent_after_audit_weld": true,
+    "zero_length_edges": 0
+  },
+  "unit": "mm",
+  "units_evidence": "Assumed millimetres from source coordinates/body scale; source OBJ has no explicit unit tag",
+  "units_flag": "design_heuristic",
+  "vertex_count": 914
+}

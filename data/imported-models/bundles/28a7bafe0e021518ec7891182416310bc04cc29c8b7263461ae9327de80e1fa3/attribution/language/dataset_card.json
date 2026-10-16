@@ -1,0 +1,41 @@
+{
+  "category_counts": {
+    "absolute_dimension": 1536,
+    "conflicting_appearance": 256,
+    "numeric_shape_controls": 1536,
+    "out_of_range_control": 256,
+    "reference_selector": 1536,
+    "relative_shape_control": 1536,
+    "relative_width": 1536,
+    "unsupported_multi_organ": 256,
+    "unsupported_negation": 256,
+    "unsupported_pathology": 256,
+    "unsupported_volume": 256
+  },
+  "content": "Context recipe, text instruction, atomic expected status, exact target recipe and generated geometry hash",
+  "geometry_coordinates": "atlas-Y-up-centered-mm; width/height/depth are template X/Y/Z extents, not anatomical population measurements",
+  "label_authority": "Current bounded rule compiler plus full-resolution source-derived mesh generator",
+  "language_version": "atlas-compiler-pairs-1.0.0",
+  "limitations": [
+    "Templates and control maps are shared across train/val/audit; these are within-generator parent splits.",
+    "Utterances are deterministic grammar templates, not independent expert or patient language.",
+    "No learned text-to-3D model was trained by this builder; no unseen phrasing benchmark is claimed.",
+    "Clinical anatomy, material mechanics, pathology and self-intersections are not validated by language replay.",
+    "Absolute dimensions denote actual source-derived mesh bounds, not physiological normal ranges.",
+    "Unsupported rows contain no target recipe and must not be learned as successful edits."
+  ],
+  "pair_count": 9216,
+  "parent_count": 1536,
+  "parent_release_id": "f1142554e6c82e9a4f80",
+  "source_licenses": "Inherit each referenced template's attribution and license from the pinned parent dataset",
+  "split_counts": {
+    "audit": 1440,
+    "train": 6336,
+    "val": 1440
+  },
+  "status": "synthetic_compiler_distillation_development_dataset",
+  "status_counts": {
+    "accepted": 7680,
+    "unsupported": 1536
+  }
+}

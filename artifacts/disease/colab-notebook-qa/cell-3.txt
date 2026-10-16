@@ -1,0 +1,6 @@
+Recipe profiles / organ families: 25 12
+Recipe splits: {'train': 2400, 'val': 600, 'audit': 600}
+Reference-only profiles: ['gallbladder-stones', 'stomach-ulcer', 'spleen-rupture', 'small-intestine-obstruction', 'colon-ulcerative-colitis-detail', 'kidney-hydronephrosis', 'bladder-stones', 'heart-aortic-stenosis', 'heart-endocarditis', 'lung-bronchiectasis', 'brain-aneurysm']
+Clinical patients: 3
+Realized geometry release: dc4986c54970c08c8b12
+Integrity verified. Audit metrics have not been evaluated for the new run.

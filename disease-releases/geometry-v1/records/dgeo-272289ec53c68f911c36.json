@@ -1,0 +1,273 @@
+{
+  "appearance_evidence": "authored_vertex_color_not_measured_tissue_texture",
+  "clinical_review_status": "unreviewed",
+  "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+  "disease_field": {
+    "applied_displacement_fraction": 1.0,
+    "clinical_stage": null,
+    "color_strength": 0.33762397057773086,
+    "fields": [
+      {
+        "amplitude_mm": 2.9330537381648374,
+        "center_mm": [
+          9.607724845409393,
+          79.75806295871735,
+          -10.272890329360962
+        ],
+        "direction": [
+          -0.8015729646431016,
+          -0.16580576415153075,
+          0.5744468913027523
+        ],
+        "radius_mm": 70.36586584356104
+      },
+      {
+        "amplitude_mm": 3.0115291307683045,
+        "center_mm": [
+          -108.42383280396461,
+          -49.64043200016022,
+          18.852170556783676
+        ],
+        "direction": [
+          0.5514030270220727,
+          -0.8282522342793492,
+          -0.09976441350582668
+        ],
+        "radius_mm": 70.36586584356104
+      },
+      {
+        "amplitude_mm": 3.531856488420341,
+        "center_mm": [
+          125.41304901242256,
+          -69.71915066242218,
+          46.3583879172802
+        ],
+        "direction": [
+          0.9960397064226563,
+          0.0878765999121834,
+          0.013513194194663018
+        ],
+        "radius_mm": 70.36586584356104
+      },
+      {
+        "amplitude_mm": 3.685604356642863,
+        "center_mm": [
+          31.308773905038834,
+          -93.48143637180328,
+          -77.18900218605995
+        ],
+        "direction": [
+          -0.7036347629951245,
+          -0.09356821381752112,
+          -0.7043742681755161
+        ],
+        "radius_mm": 70.36586584356104
+      }
+    ],
+    "gradient_bound_per_step": 0.2801568660736084,
+    "pattern": "dilation",
+    "profile_id": "lung-emphysema",
+    "realized_sites": 4,
+    "requested_sites": 4,
+    "steps": 3,
+    "surface_site_frame": "undeformed-atlas-Y-up-mm",
+    "target_srgb": [
+      0.51,
+      0.35,
+      0.31
+    ],
+    "version": "disease-morphology-design-1.0.0"
+  },
+  "display_normal_sha256": "7f46731527a25607e76d995e3e71e750163cc7b45cc8811ed15ff7f2ce979a33",
+  "face_count": 16664,
+  "features": [
+    265.6740372498149,
+    228.7448007653669,
+    191.23863735569716,
+    278328.4335586047,
+    10.90752727914621,
+    1.0
+  ],
+  "geometry_evidence": "authored_disease_surface_from_licensed_reference_template",
+  "geometry_sha256": "92b760950b74fb3d73432a1c3be64244bede14710d4bb514e557d4b8f1aee2be",
+  "group_id": "lung-emphysema:2487346631",
+  "mechanics_evidence": "none",
+  "normal_fallback_count": 0,
+  "organ": "lung",
+  "parent_recipe_index": 549,
+  "parent_sample_id": "lung-emphysema:2487346631",
+  "path": "records/dgeo-272289ec53c68f911c36.json",
+  "patient_id": null,
+  "point_count": 2048,
+  "point_sampling_seed": 30070827,
+  "profile_id": "lung-emphysema",
+  "qa": {
+    "anatomical_plausibility": {
+      "status": "NOT_RUN"
+    },
+    "area_ratio_max": 1.283198623750158,
+    "area_ratio_min": 0.8199012876018282,
+    "continuous_jacobian_lower_bound": 0.0518968262308464,
+    "mechanical_validation": {
+      "status": "NOT_RUN"
+    },
+    "min_normal_dot": 0.9636899540286151,
+    "new_degenerate_faces": 0,
+    "normal_turns_over_90_degrees": 0,
+    "passed": true,
+    "scope": "finite nondegenerate same-topology outer-surface design",
+    "self_intersection": {
+      "reason": "Discrete/source triangle intersections not certified",
+      "status": "NOT_RUN"
+    },
+    "source_topology": {
+      "boundary_edges_after_audit_weld": 4,
+      "connected_vertex_components": 5,
+      "degenerate_faces": 0,
+      "method": "trimesh-geometric-weld-audit-copy-1.0",
+      "nonmanifold_edges_after_audit_weld": 0,
+      "self_intersection": {
+        "reason": "No robust intersection backend",
+        "status": "NOT_RUN"
+      },
+      "simulation_readiness": {
+        "reason": "No volumetric domain/materials",
+        "status": "NOT_RUN"
+      },
+      "watertight_after_audit_weld": false,
+      "weld_precision_mm": 1e-08,
+      "winding_consistent_after_audit_weld": true,
+      "zero_length_edges": 0
+    },
+    "status": "PASS",
+    "topology_preserved": true
+  },
+  "realized_id": "7c76726d1e5f564c453c3bfaa9eed13d277607ea35d750b4f5bca7131136a9f6",
+  "recipe_features": [
+    0.8144094944000244,
+    0.8328763842582703,
+    0.7828883528709412,
+    0.786370038986206,
+    0.4145629107952118,
+    0.4285714328289032,
+    0.5554608702659607,
+    0.8517719507217407,
+    0.42535829544067383
+  ],
+  "sample_id": "dgeo-272289ec53c68f911c36",
+  "source_attribution": "Browne, Kristen, and Heidi Schlehlein. 2024. \"3D Reference Organ for Lung, Male v1.4.\" https://doi.org/10.48539/HBM532.KLZD.394. Accessed on June 15, 2024.",
+  "source_group_id": "hra-visible-human-male",
+  "source_license": "CC-BY-4.0",
+  "source_template_artifact_sha256": "06df9d8fe8520dbbb54853392e8adcc078143c5c3ef0e927bd9fa6699f12000b",
+  "source_template_geometry_sha256": "84ed95d7854af14879b9158944e78417ec129c65ca0fe52b5b97724c4d3421c6",
+  "source_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/lung-male/v1.4/assets/3d-vh-m-lung.glb",
+  "spec": {
+    "appearance": "tissue",
+    "controls": {
+      "asymmetry": 0.0,
+      "bend": 0.0,
+      "scale_x": 0.0,
+      "scale_y": 0.0,
+      "scale_z": 0.0,
+      "taper": 0.0,
+      "twist": 0.0
+    },
+    "disease": {
+      "contrast": 0.4145629107952118,
+      "count": 4,
+      "irregularity": 0.786370038986206,
+      "location": [
+        0.11092174053192139,
+        0.7035439014434814,
+        -0.14928340911865234
+      ],
+      "profile_id": "lung-emphysema",
+      "seed": 2487346631,
+      "severity": 0.8144094944000244,
+      "size": 0.8328763842582703,
+      "spread": 0.7828883528709412
+    },
+    "realized_id": "7c76726d1e5f564c453c3bfaa9eed13d277607ea35d750b4f5bca7131136a9f6",
+    "seed": 2487346631,
+    "template_id": "hra-lung-male",
+    "template_sha256": "06df9d8fe8520dbbb54853392e8adcc078143c5c3ef0e927bd9fa6699f12000b"
+  },
+  "split": "audit",
+  "split_track": "within_generator",
+  "summary": {
+    "disease": {
+      "applied_displacement_fraction": 1.0,
+      "displacement_limited_by_source_mesh": false,
+      "evidence": "synthetic_surface_morphology_not_patient_or_population_geometry",
+      "internal_anatomy_generated": false,
+      "max_displacement_mm": 10.90752727914621,
+      "physical_parameters_inferred": false,
+      "profile": {
+        "clinical_source_url": "https://www.nhlbi.nih.gov/health/copd/treatment",
+        "evidence": "image_reference_not_paired_3d_supervision",
+        "id": "lung-emphysema",
+        "label": "Centrilobular emphysema",
+        "limits": "Fixed cut surface; black pigment and cavities do not determine lung function or suitability for surgery. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+        "morphology_targets": [
+          "airspace enlargement",
+          "regional distribution",
+          "residual parenchymal structure"
+        ],
+        "organ": "lung",
+        "pattern": "dilation",
+        "source_ref": "I32",
+        "source_url": "https://commons.wikimedia.org/wiki/File:Centrilobular_emphysema_865_lores.jpg",
+        "supported": true,
+        "unavailable_reason": ""
+      },
+      "realized_sites": 4,
+      "recipe": {
+        "contrast": 0.4145629107952118,
+        "count": 4,
+        "irregularity": 0.786370038986206,
+        "location": [
+          0.11092174053192139,
+          0.7035439014434814,
+          -0.14928340911865234
+        ],
+        "profile_id": "lung-emphysema",
+        "seed": 2487346631,
+        "severity": 0.8144094944000244,
+        "size": 0.8328763842582703,
+        "spread": 0.7828883528709412
+      },
+      "requested_sites": 4,
+      "version": "disease-morphology-design-1.0.0"
+    },
+    "extent_mm": [
+      265.6740372498149,
+      228.7448007653669,
+      191.23863735569716
+    ],
+    "measurements": {
+      "compactness": null,
+      "extent_x_mm": 265.6740372498149,
+      "extent_y_mm": 228.7448007653669,
+      "extent_z_mm": 191.23863735569716,
+      "method": "disease-display-triangle-measurements-1.0.0",
+      "surface_area_definition": "Sum of selected triangles including capsule/internal faces",
+      "surface_area_mm2": 278328.4335586047,
+      "volume_ml": null,
+      "volume_reason": "Display surface assembly is not a certified closed outer envelope",
+      "volume_status": "NOT_APPLICABLE"
+    },
+    "min_jacobian": 0.0518968262308464,
+    "min_jacobian_kind": "conservative_bound",
+    "organ": "lung",
+    "profile": "development_preview",
+    "qa_scope": "finite nondegenerate same-topology outer-surface design",
+    "qa_status": "PASS",
+    "reference": "hra-lung-male",
+    "review_status": "unreviewed",
+    "triangles": 16664,
+    "vertices": 9089
+  },
+  "template_id": "hra-lung-male",
+  "units": "mm",
+  "vertex_count": 9089
+}

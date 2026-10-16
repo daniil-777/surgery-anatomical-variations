@@ -1,0 +1,24 @@
+{
+  "model_sha256": "0464b98318df4461128e2d18b1ce1168f853214f519a3a53b051bae98118a090",
+  "checkpoint_sha256": "892a10b77d14cf24c923f000a334b40d04f792b5b5f332f3b8a01f0695d68341",
+  "release_sha256": "20e738b89d08e2f6c4de9830dec5d6b04773f80233f3f827404773a5c9285a69",
+  "training_source_sha256": "863e34f6974da1e1a7abc1bb8f51d3730b8efec6724c79bbb18c0a1b2cd7bc59",
+  "selected_method": "ridge",
+  "selection_split": "val",
+  "final_audit_opened": false,
+  "configuration": {
+    "steps": 2000,
+    "batch_size": 128,
+    "hidden": 128,
+    "lr": 0.001,
+    "weight_decay": 0.0001,
+    "ridge_alpha": 0.1,
+    "seed": 6143,
+    "condition_dropout": 0.25,
+    "unconditional_dropout": 0.15,
+    "checkpoint_every": 100,
+    "device": "cpu",
+    "threads": 1,
+    "neural_improvement": 0.02
+  }
+}

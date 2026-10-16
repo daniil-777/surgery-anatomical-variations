@@ -1,0 +1,231 @@
+{
+  "appearance_evidence": "authored_vertex_color_not_measured_tissue_texture",
+  "clinical_review_status": "unreviewed",
+  "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+  "disease_field": {
+    "applied_displacement_fraction": 1.0,
+    "clinical_stage": null,
+    "color_strength": 0.16744305260329995,
+    "fields": [
+      {
+        "amplitude_mm": 0.18128884159811912,
+        "center_mm": [
+          49.736788496375084,
+          -8.263036608695984,
+          -16.227419953793287
+        ],
+        "direction": [
+          -0.8602110887217888,
+          -0.1570945445176801,
+          0.48513728667549094
+        ],
+        "radius_mm": 16.859766202810167
+      }
+    ],
+    "gradient_bound_per_step": 0.16508358120918273,
+    "pattern": "scar",
+    "profile_id": "heart-infarction",
+    "realized_sites": 1,
+    "requested_sites": 1,
+    "steps": 3,
+    "surface_site_frame": "undeformed-atlas-Y-up-mm",
+    "target_srgb": [
+      0.64,
+      0.53,
+      0.43
+    ],
+    "version": "disease-morphology-design-1.0.0"
+  },
+  "display_normal_sha256": "b7f3d7ddb2a28a2559ea4afe789128b183764a03a0ac2c976b26bca8db903a2e",
+  "face_count": 118284,
+  "features": [
+    124.35118481516838,
+    105.43522238731384,
+    105.21523747593164,
+    89816.62816911194,
+    0.543552321880604,
+    1.0
+  ],
+  "geometry_evidence": "authored_disease_surface_from_licensed_reference_template",
+  "geometry_sha256": "578bc28ed37bd83b184138bf9b0cb4dec8cff984859e8101f32120a436accfa8",
+  "group_id": "heart-infarction:1217947506",
+  "mechanics_evidence": "none",
+  "normal_fallback_count": 0,
+  "organ": "heart",
+  "parent_recipe_index": 1959,
+  "parent_sample_id": "heart-infarction:1217947506",
+  "path": "records/dgeo-f88a40de54931782cf22.json",
+  "patient_id": null,
+  "point_count": 2048,
+  "point_sampling_seed": 2566018589,
+  "profile_id": "heart-infarction",
+  "qa": {
+    "anatomical_plausibility": {
+      "status": "NOT_RUN"
+    },
+    "area_ratio_max": 1.0001017598976825,
+    "area_ratio_min": 0.984096262059871,
+    "continuous_jacobian_lower_bound": 0.1971455663588478,
+    "mechanical_validation": {
+      "status": "NOT_RUN"
+    },
+    "min_normal_dot": 0.9982741407342471,
+    "new_degenerate_faces": 0,
+    "normal_turns_over_90_degrees": 0,
+    "passed": true,
+    "scope": "finite nondegenerate same-topology outer-surface design",
+    "self_intersection": {
+      "reason": "Discrete/source triangle intersections not certified",
+      "status": "NOT_RUN"
+    },
+    "source_topology": {
+      "boundary_edges_after_audit_weld": 11,
+      "connected_vertex_components": 6,
+      "degenerate_faces": 0,
+      "method": "trimesh-geometric-weld-audit-copy-1.0",
+      "nonmanifold_edges_after_audit_weld": 148,
+      "self_intersection": {
+        "reason": "No robust intersection backend",
+        "status": "NOT_RUN"
+      },
+      "simulation_readiness": {
+        "reason": "No volumetric domain/materials",
+        "status": "NOT_RUN"
+      },
+      "watertight_after_audit_weld": false,
+      "weld_precision_mm": 1e-08,
+      "winding_consistent_after_audit_weld": true,
+      "zero_length_edges": 0
+    },
+    "status": "PASS",
+    "topology_preserved": true
+  },
+  "realized_id": "fd06fca28161b74f49301ce067419cd81b37c112ee66a0f2d28a51a364f16e92",
+  "recipe_features": [
+    0.47989413142204285,
+    0.37162455916404724,
+    0.10192257165908813,
+    0.4948502480983734,
+    0.3489166498184204,
+    0.0,
+    0.7939422726631165,
+    0.5355225205421448,
+    0.3059147894382477
+  ],
+  "sample_id": "dgeo-f88a40de54931782cf22",
+  "source_attribution": "Browne, Kristen, and Heidi Schlehlein. 2024. \"3D Reference Organ for Heart, Male v1.3.\" https://doi.org/10.48539/HBM564.WKNG.249. Accessed on June 15, 2024.",
+  "source_group_id": "hra-visible-human-male",
+  "source_license": "CC-BY-4.0",
+  "source_template_artifact_sha256": "ac3825959ab0398f61610ccfefbdecf55840b4392a856647a993034baba8d774",
+  "source_template_geometry_sha256": "69b5e9cca6e03033522a376bbaea800522d52ad3519da4f7c0361ff8349b8b4a",
+  "source_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/heart-male/v1.3/assets/3d-vh-m-heart.glb",
+  "spec": {
+    "appearance": "tissue",
+    "controls": {
+      "asymmetry": 0.0,
+      "bend": 0.0,
+      "scale_x": 0.0,
+      "scale_y": 0.0,
+      "scale_z": 0.0,
+      "taper": 0.0,
+      "twist": 0.0
+    },
+    "disease": {
+      "contrast": 0.3489166498184204,
+      "count": 1,
+      "irregularity": 0.4948502480983734,
+      "location": [
+        0.5878845453262329,
+        0.07104504108428955,
+        -0.38817042112350464
+      ],
+      "profile_id": "heart-infarction",
+      "seed": 1217947506,
+      "severity": 0.47989413142204285,
+      "size": 0.37162455916404724,
+      "spread": 0.10192257165908813
+    },
+    "realized_id": "fd06fca28161b74f49301ce067419cd81b37c112ee66a0f2d28a51a364f16e92",
+    "seed": 1217947506,
+    "template_id": "hra-heart-male",
+    "template_sha256": "ac3825959ab0398f61610ccfefbdecf55840b4392a856647a993034baba8d774"
+  },
+  "split": "train",
+  "split_track": "within_generator",
+  "summary": {
+    "disease": {
+      "applied_displacement_fraction": 1.0,
+      "displacement_limited_by_source_mesh": false,
+      "evidence": "synthetic_surface_morphology_not_patient_or_population_geometry",
+      "internal_anatomy_generated": false,
+      "max_displacement_mm": 0.543552321880604,
+      "physical_parameters_inferred": false,
+      "profile": {
+        "clinical_source_url": "https://www.nhlbi.nih.gov/health/coronary-artery-bypass-grafting/who-needs",
+        "evidence": "image_reference_not_paired_3d_supervision",
+        "id": "heart-infarction",
+        "label": "Healed myocardial infarction",
+        "limits": "Old infarction is shown; this photograph cannot establish viability, coronary anatomy or a surgical indication. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+        "morphology_targets": [
+          "scar extent and depth",
+          "regional wall thickness",
+          "ventricular shape"
+        ],
+        "organ": "heart",
+        "pattern": "scar",
+        "source_ref": "I28",
+        "source_url": "https://commons.wikimedia.org/wiki/File:Gross_pathology_of_old_myocardial_infarction.jpg",
+        "supported": true,
+        "unavailable_reason": ""
+      },
+      "realized_sites": 1,
+      "recipe": {
+        "contrast": 0.3489166498184204,
+        "count": 1,
+        "irregularity": 0.4948502480983734,
+        "location": [
+          0.5878845453262329,
+          0.07104504108428955,
+          -0.38817042112350464
+        ],
+        "profile_id": "heart-infarction",
+        "seed": 1217947506,
+        "severity": 0.47989413142204285,
+        "size": 0.37162455916404724,
+        "spread": 0.10192257165908813
+      },
+      "requested_sites": 1,
+      "version": "disease-morphology-design-1.0.0"
+    },
+    "extent_mm": [
+      124.35118481516838,
+      105.43522238731384,
+      105.21523747593164
+    ],
+    "measurements": {
+      "compactness": null,
+      "extent_x_mm": 124.35118481516838,
+      "extent_y_mm": 105.43522238731384,
+      "extent_z_mm": 105.21523747593164,
+      "method": "disease-display-triangle-measurements-1.0.0",
+      "surface_area_definition": "Sum of selected triangles including capsule/internal faces",
+      "surface_area_mm2": 89816.62816911194,
+      "volume_ml": null,
+      "volume_reason": "Display surface assembly is not a certified closed outer envelope",
+      "volume_status": "NOT_APPLICABLE"
+    },
+    "min_jacobian": 0.1971455663588478,
+    "min_jacobian_kind": "conservative_bound",
+    "organ": "heart",
+    "profile": "development_preview",
+    "qa_scope": "finite nondegenerate same-topology outer-surface design",
+    "qa_status": "PASS",
+    "reference": "hra-heart-male",
+    "review_status": "unreviewed",
+    "triangles": 118284,
+    "vertices": 59473
+  },
+  "template_id": "hra-heart-male",
+  "units": "mm",
+  "vertex_count": 59473
+}

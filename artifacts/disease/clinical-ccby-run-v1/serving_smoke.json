@@ -1,0 +1,42 @@
+{
+  "cases": [
+    {
+      "case_id": "PDA-C3L-00395",
+      "organ": "pancreas",
+      "disease_code": "pancreatic_ductal_adenocarcinoma",
+      "measured_features": {
+        "organ_extent_x_mm": 171.09375,
+        "organ_extent_y_mm": 116.40625,
+        "organ_extent_z_mm": 96.0,
+        "organ_volume_ml": 228.031005859375,
+        "lesion_extent_x_mm": 76.5625,
+        "lesion_extent_y_mm": 76.5625,
+        "lesion_extent_z_mm": 50.0,
+        "lesion_volume_ml": 79.35546875,
+        "lesion_center_x_relative": -0.29233986139297485,
+        "lesion_center_y_relative": -0.1709808111190796,
+        "lesion_center_z_relative": 0.23517009615898132,
+        "lesion_to_organ_volume_ratio": 0.34800297021865845
+      },
+      "observed_training_patients": 1,
+      "sampling": "empirical_case_retrieval",
+      "requested_conditions": {},
+      "conditions_are_exactly_matched": true
+    }
+  ],
+  "model": {
+    "method": "conditional_empirical_case_prior",
+    "model_sha256": "784b140b55f5cb73e9dd43e5d7ac1683fa17ed2f554d8dcd71608f57b91131a8",
+    "release_sha256": "6950b3462ecfba5a504cd59e16ce95763a16867008937a08caf92d5a842a0502",
+    "scope": "measured_source_case_retrieval_not_a_population_generator",
+    "training_patient_count": 1,
+    "rights": {
+      "commercial_use": "CC-BY attribution conditions apply",
+      "contains_noncommercial": false,
+      "license_lanes": [
+        "attribution"
+      ],
+      "no_blanket_license": true
+    }
+  }
+}

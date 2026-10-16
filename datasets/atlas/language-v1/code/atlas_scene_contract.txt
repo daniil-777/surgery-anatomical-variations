@@ -1,0 +1,49 @@
+class AtlasSpec(BaseModel):
+    model_config = ConfigDict(extra="forbid", allow_inf_nan=False)
+    template_id: str = Field(min_length=1, max_length=100, pattern=r"^[a-z0-9-]+$")
+    seed: int = Field(default=42, ge=0, le=2**32 - 1, strict=True)
+    controls: dict[str, float] = Field(default_factory=lambda: {k: 0.0 for k in CONTROL_NAMES})
+    appearance: Literal["tissue", "source", "clay"] = "tissue"
+    template_sha256: str | None = Field(default=None, pattern=r"^[a-f0-9]{64}$")
+    realized_id: str | None = Field(default=None, pattern=r"^[a-f0-9]{64}$")
+
+    @field_validator("controls", mode="before")
+    @classmethod
+    def valid_controls(cls, v: Any) -> dict[str, float]:
+        if not isinstance(v, dict) or set(v) - set(CONTROL_NAMES):
+            raise ValueError("Unknown atlas shape controls")
+        if any(
+            isinstance(a, bool)
+            or not isinstance(a, (int, float))
+            or not np.isfinite(a)
+            or not -1 <= a <= 1
+            for a in v.values()
+        ):
+            raise ValueError("Shape controls must be finite numbers in [-1,1]")
+        return {k: float(v.get(k, 0.0)) for k in CONTROL_NAMES}
+
+
+@lru_cache(maxsize=32)
+def _cached_template(
+    root: str, template_id: str, metadata_mtime: int, artifact_mtime: int, artifact_size: int
+) -> AtlasTemplate:
+    return load_template(root, template_id)
+
+
+def get_template(root: str | Path, template_id: str) -> AtlasTemplate:
+    p = Path(root)
+    if not template_id or any(
+        c not in "abcdefghijklmnopqrstuvwxyz0123456789-" for c in template_id
+    ):
+        raise ValueError("Invalid template ID")
+    meta = p / f"{template_id}.json"
+    if not meta.is_file():
+        raise KeyError(f"Template {template_id} is unavailable")
+    artifact = (p / f"{template_id}.npz").stat()
+    return _cached_template(
+        str(p.resolve()),
+        template_id,
+        meta.stat().st_mtime_ns,
+        artifact.st_mtime_ns,
+        artifact.st_size,
+    )

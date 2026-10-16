@@ -1,0 +1,301 @@
+{
+  "appearance_evidence": "authored_vertex_color_not_measured_tissue_texture",
+  "clinical_review_status": "unreviewed",
+  "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+  "disease_field": {
+    "applied_displacement_fraction": 1.0,
+    "clinical_stage": null,
+    "color_strength": 0.39027288841199237,
+    "fields": [
+      {
+        "amplitude_mm": 0.543937214906977,
+        "center_mm": [
+          -7.336748763918877,
+          -15.7456174492836,
+          14.4967595115304
+        ],
+        "direction": [
+          -0.9867837425280814,
+          0.02878769956457925,
+          0.15946508657399883
+        ],
+        "radius_mm": 5.450047214241927
+      },
+      {
+        "amplitude_mm": 0.529480907859745,
+        "center_mm": [
+          -26.95268951356411,
+          5.824320018291473,
+          -17.73559395223856
+        ],
+        "direction": [
+          0.9027492744563089,
+          0.02218124059395024,
+          0.42959485568884687
+        ],
+        "radius_mm": 5.450047214241927
+      },
+      {
+        "amplitude_mm": 0.6323141786382199,
+        "center_mm": [
+          14.628948643803596,
+          23.83115142583847,
+          6.575523875653744
+        ],
+        "direction": [
+          -0.4751532363211995,
+          0.5458775691721997,
+          0.6901065725582831
+        ],
+        "radius_mm": 5.450047214241927
+      },
+      {
+        "amplitude_mm": 0.5908010222218925,
+        "center_mm": [
+          14.279520139098167,
+          17.887912690639496,
+          -25.927732698619366
+        ],
+        "direction": [
+          0.5317237207054726,
+          -0.4453128789918104,
+          -0.7203931736511349
+        ],
+        "radius_mm": 5.450047214241927
+      },
+      {
+        "amplitude_mm": 0.5193574211642892,
+        "center_mm": [
+          4.816444590687752,
+          -39.28523510694504,
+          37.8321772441268
+        ],
+        "direction": [
+          -0.1715008168636507,
+          0.01774052522160135,
+          0.9850242350216376
+        ],
+        "radius_mm": 5.450047214241927
+      },
+      {
+        "amplitude_mm": 0.5895700996851987,
+        "center_mm": [
+          -14.558156952261925,
+          -43.35837811231613,
+          3.189660608768463
+        ],
+        "direction": [
+          -0.06499065486236523,
+          -0.6686288251678534,
+          -0.7407507738336945
+        ],
+        "radius_mm": 5.450047214241927
+      }
+    ],
+    "gradient_bound_per_step": 0.20701285219192503,
+    "pattern": "cysts",
+    "profile_id": "kidney-polycystic",
+    "realized_sites": 6,
+    "requested_sites": 6,
+    "steps": 3,
+    "surface_site_frame": "undeformed-atlas-Y-up-mm",
+    "target_srgb": [
+      0.48,
+      0.37,
+      0.27
+    ],
+    "version": "disease-morphology-design-1.0.0"
+  },
+  "display_normal_sha256": "f4aec1c13e376f20bf7d1e2b00bc70c70cbb46b5c686b92069cdca965fb89061",
+  "face_count": 15397,
+  "features": [
+    65.49602374434471,
+    112.53462731838226,
+    77.47765227065045,
+    35194.53146516177,
+    1.7786296871916765,
+    1.0
+  ],
+  "geometry_evidence": "authored_disease_surface_from_licensed_reference_template",
+  "geometry_sha256": "c94f138dd056e56336e2a3dc38f63da92ab63e1d95b09e2700936c65c700550f",
+  "group_id": "kidney-polycystic:3100212872",
+  "mechanics_evidence": "none",
+  "normal_fallback_count": 0,
+  "organ": "kidney",
+  "parent_recipe_index": 1648,
+  "parent_sample_id": "kidney-polycystic:3100212872",
+  "path": "records/dgeo-642a0cdcabe7ef9b3544.json",
+  "patient_id": null,
+  "point_count": 2048,
+  "point_sampling_seed": 1716751308,
+  "profile_id": "kidney-polycystic",
+  "qa": {
+    "anatomical_plausibility": {
+      "status": "NOT_RUN"
+    },
+    "area_ratio_max": 1.3243566518932643,
+    "area_ratio_min": 0.797366692538632,
+    "continuous_jacobian_lower_bound": 0.1239924774712093,
+    "mechanical_validation": {
+      "status": "NOT_RUN"
+    },
+    "min_normal_dot": 0.8508201982816367,
+    "new_degenerate_faces": 0,
+    "normal_turns_over_90_degrees": 0,
+    "passed": true,
+    "scope": "finite nondegenerate same-topology outer-surface design",
+    "self_intersection": {
+      "reason": "Discrete/source triangle intersections not certified",
+      "status": "NOT_RUN"
+    },
+    "source_topology": {
+      "boundary_edges_after_audit_weld": 289,
+      "connected_vertex_components": 2,
+      "degenerate_faces": 0,
+      "method": "trimesh-geometric-weld-audit-copy-1.0",
+      "nonmanifold_edges_after_audit_weld": 0,
+      "self_intersection": {
+        "reason": "No robust intersection backend",
+        "status": "NOT_RUN"
+      },
+      "simulation_readiness": {
+        "reason": "No volumetric domain/materials",
+        "status": "NOT_RUN"
+      },
+      "watertight_after_audit_weld": false,
+      "weld_precision_mm": 1e-08,
+      "winding_consistent_after_audit_weld": true,
+      "zero_length_edges": 0
+    },
+    "status": "PASS",
+    "topology_preserved": true
+  },
+  "realized_id": "be9cd76c923cca7e72b1ee6cc91ef5539d14d6478a370585a983e833af54b0a7",
+  "recipe_features": [
+    0.6017815470695496,
+    0.6959571838378906,
+    0.5233745574951172,
+    0.8980469107627869,
+    0.6485291719436646,
+    0.2857142984867096,
+    0.3914315104484558,
+    0.3142160177230835,
+    0.5605284571647644
+  ],
+  "sample_id": "dgeo-642a0cdcabe7ef9b3544",
+  "source_attribution": "Browne, Kristen, and Heidi Schlehlein. 2024. \"3D Reference Organ for Kidney, Male, Right v1.3.\" https://doi.org/10.48539/HBM364.QTSC.334. Accessed on June 15, 2024.",
+  "source_group_id": "hra-visible-human-male",
+  "source_license": "CC-BY-4.0",
+  "source_template_artifact_sha256": "ad3efc6d3988871ec8340f73f79cf7bdba5b5149aa3a4d1d7c6b64d6bc5156f5",
+  "source_template_geometry_sha256": "a191cdafd35e023611ba81d0e5a6987bf6682e8f5c38640d408de65b462bd3f4",
+  "source_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/kidney-male-right/v1.3/assets/3d-vh-m-kidney-r.glb",
+  "spec": {
+    "appearance": "tissue",
+    "controls": {
+      "asymmetry": 0.0,
+      "bend": 0.0,
+      "scale_x": 0.0,
+      "scale_y": 0.0,
+      "scale_z": 0.0,
+      "taper": 0.0,
+      "twist": 0.0
+    },
+    "disease": {
+      "contrast": 0.6485291719436646,
+      "count": 3,
+      "irregularity": 0.8980469107627869,
+      "location": [
+        -0.21713697910308838,
+        -0.371567964553833,
+        0.12105691432952881
+      ],
+      "profile_id": "kidney-polycystic",
+      "seed": 3100212872,
+      "severity": 0.6017815470695496,
+      "size": 0.6959571838378906,
+      "spread": 0.5233745574951172
+    },
+    "realized_id": "be9cd76c923cca7e72b1ee6cc91ef5539d14d6478a370585a983e833af54b0a7",
+    "seed": 3100212872,
+    "template_id": "hra-kidney-male-right",
+    "template_sha256": "ad3efc6d3988871ec8340f73f79cf7bdba5b5149aa3a4d1d7c6b64d6bc5156f5"
+  },
+  "split": "train",
+  "split_track": "within_generator",
+  "summary": {
+    "disease": {
+      "applied_displacement_fraction": 1.0,
+      "displacement_limited_by_source_mesh": false,
+      "evidence": "synthetic_surface_morphology_not_patient_or_population_geometry",
+      "internal_anatomy_generated": false,
+      "max_displacement_mm": 1.7786296871916765,
+      "physical_parameters_inferred": false,
+      "profile": {
+        "clinical_source_url": "https://www.niddk.nih.gov/health-information/kidney-disease/polycystic-kidney-disease/autosomal-dominant-pkd",
+        "evidence": "image_reference_not_paired_3d_supervision",
+        "id": "kidney-polycystic",
+        "label": "Polycystic kidney disease",
+        "limits": "Single historical specimen; patient age and genotype are not supplied. Do not infer a population distribution. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+        "morphology_targets": [
+          "cyst number and diameter distribution",
+          "cyst depth",
+          "overall kidney enlargement"
+        ],
+        "organ": "kidney",
+        "pattern": "cysts",
+        "source_ref": "I23",
+        "source_url": "https://commons.wikimedia.org/wiki/File:Polycystic_kidney.jpg",
+        "supported": true,
+        "unavailable_reason": ""
+      },
+      "realized_sites": 6,
+      "recipe": {
+        "contrast": 0.6485291719436646,
+        "count": 3,
+        "irregularity": 0.8980469107627869,
+        "location": [
+          -0.21713697910308838,
+          -0.371567964553833,
+          0.12105691432952881
+        ],
+        "profile_id": "kidney-polycystic",
+        "seed": 3100212872,
+        "severity": 0.6017815470695496,
+        "size": 0.6959571838378906,
+        "spread": 0.5233745574951172
+      },
+      "requested_sites": 6,
+      "version": "disease-morphology-design-1.0.0"
+    },
+    "extent_mm": [
+      65.49602374434471,
+      112.53462731838226,
+      77.47765227065045
+    ],
+    "measurements": {
+      "compactness": null,
+      "extent_x_mm": 65.49602374434471,
+      "extent_y_mm": 112.53462731838226,
+      "extent_z_mm": 77.47765227065045,
+      "method": "disease-display-triangle-measurements-1.0.0",
+      "surface_area_definition": "Sum of selected triangles including capsule/internal faces",
+      "surface_area_mm2": 35194.53146516177,
+      "volume_ml": null,
+      "volume_reason": "Display surface assembly is not a certified closed outer envelope",
+      "volume_status": "NOT_APPLICABLE"
+    },
+    "min_jacobian": 0.1239924774712093,
+    "min_jacobian_kind": "conservative_bound",
+    "organ": "kidney",
+    "profile": "development_preview",
+    "qa_scope": "finite nondegenerate same-topology outer-surface design",
+    "qa_status": "PASS",
+    "reference": "hra-kidney-male-right",
+    "review_status": "unreviewed",
+    "triangles": 15397,
+    "vertices": 7832
+  },
+  "template_id": "hra-kidney-male-right",
+  "units": "mm",
+  "vertex_count": 7832
+}

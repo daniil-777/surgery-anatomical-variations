@@ -1,0 +1,59 @@
+{
+  "all_computation_cells_pass": true,
+  "cell_results": [
+    {
+      "cell": 1,
+      "status": "PASS",
+      "seconds": 0.1513802080298774
+    },
+    {
+      "cell": 3,
+      "status": "PASS",
+      "seconds": 1.010195125010796
+    },
+    {
+      "cell": 5,
+      "status": "PASS",
+      "seconds": 4.89661904098466
+    },
+    {
+      "cell": 7,
+      "status": "PASS",
+      "seconds": 0.01567474997136742
+    },
+    {
+      "cell": 9,
+      "status": "PASS",
+      "seconds": 0.9883159589953721
+    },
+    {
+      "cell": 11,
+      "status": "PASS",
+      "seconds": 0.3597763750003651
+    },
+    {
+      "cell": 13,
+      "status": "PASS",
+      "seconds": 0.06574074999662116
+    },
+    {
+      "cell": 15,
+      "status": "PASS",
+      "seconds": 0.23901462502544746
+    },
+    {
+      "cell": 17,
+      "status": "PASS",
+      "seconds": 0.14392824994865805
+    },
+    {
+      "cell": 19,
+      "status": "PASS",
+      "seconds": 0.06089895800687373
+    }
+  ],
+  "figures": 3,
+  "install_step": "replaced by exact installed-version assertions; actual Google Colab runtime/network installation not exercised",
+  "source": "freshly extracted final default CC-BY bundle",
+  "bundle_sha256": "e883ad0358b488b3133756d1c86076ee00fb8738a2d7b8fbb620964e52774ab8"
+}

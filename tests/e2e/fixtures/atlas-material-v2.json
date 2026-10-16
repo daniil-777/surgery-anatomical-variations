@@ -1,0 +1,2632 @@
+{
+  "catalog": {
+    "version": "atlas-material-2.0.0",
+    "shader_version": "atlas-material-field-glsl-2.0.0",
+    "presets": [
+      {
+        "id": "balanced",
+        "label": "Balanced",
+        "description": "Subtle pigment and moist surface detail."
+      },
+      {
+        "id": "soft",
+        "label": "Soft",
+        "description": "Lighter, quieter pigment with a softer sheen."
+      },
+      {
+        "id": "rich",
+        "label": "Rich pigment",
+        "description": "Deeper organ-specific color with varied mottling."
+      },
+      {
+        "id": "moist",
+        "label": "Moist",
+        "description": "A stronger wet sheen with restrained pigment contrast."
+      }
+    ],
+    "defaults": {
+      "liver": {
+        "version": "atlas-material-2.0.0",
+        "organ": "liver",
+        "preset": "balanced",
+        "seed": 42,
+        "tint": 0.0,
+        "pigment_contrast": 0.55,
+        "mottle_scale_mm": 16.0,
+        "wetness": 0.5,
+        "fine_detail": 0.5,
+        "structure_strength": 0.3
+      },
+      "gallbladder": {
+        "version": "atlas-material-2.0.0",
+        "organ": "gallbladder",
+        "preset": "balanced",
+        "seed": 42,
+        "tint": 0.0,
+        "pigment_contrast": 0.55,
+        "mottle_scale_mm": 16.0,
+        "wetness": 0.5,
+        "fine_detail": 0.5,
+        "structure_strength": 0.3
+      },
+      "stomach": {
+        "version": "atlas-material-2.0.0",
+        "organ": "stomach",
+        "preset": "balanced",
+        "seed": 42,
+        "tint": 0.0,
+        "pigment_contrast": 0.55,
+        "mottle_scale_mm": 16.0,
+        "wetness": 0.5,
+        "fine_detail": 0.5,
+        "structure_strength": 0.3
+      },
+      "pancreas": {
+        "version": "atlas-material-2.0.0",
+        "organ": "pancreas",
+        "preset": "balanced",
+        "seed": 42,
+        "tint": 0.0,
+        "pigment_contrast": 0.55,
+        "mottle_scale_mm": 16.0,
+        "wetness": 0.5,
+        "fine_detail": 0.5,
+        "structure_strength": 0.3
+      },
+      "spleen": {
+        "version": "atlas-material-2.0.0",
+        "organ": "spleen",
+        "preset": "balanced",
+        "seed": 42,
+        "tint": 0.0,
+        "pigment_contrast": 0.55,
+        "mottle_scale_mm": 16.0,
+        "wetness": 0.5,
+        "fine_detail": 0.5,
+        "structure_strength": 0.3
+      },
+      "kidney": {
+        "version": "atlas-material-2.0.0",
+        "organ": "kidney",
+        "preset": "balanced",
+        "seed": 42,
+        "tint": 0.0,
+        "pigment_contrast": 0.55,
+        "mottle_scale_mm": 16.0,
+        "wetness": 0.5,
+        "fine_detail": 0.5,
+        "structure_strength": 0.3
+      },
+      "small-intestine": {
+        "version": "atlas-material-2.0.0",
+        "organ": "small-intestine",
+        "preset": "balanced",
+        "seed": 42,
+        "tint": 0.0,
+        "pigment_contrast": 0.55,
+        "mottle_scale_mm": 16.0,
+        "wetness": 0.5,
+        "fine_detail": 0.5,
+        "structure_strength": 0.3
+      },
+      "large-intestine": {
+        "version": "atlas-material-2.0.0",
+        "organ": "large-intestine",
+        "preset": "balanced",
+        "seed": 42,
+        "tint": 0.0,
+        "pigment_contrast": 0.55,
+        "mottle_scale_mm": 16.0,
+        "wetness": 0.5,
+        "fine_detail": 0.5,
+        "structure_strength": 0.3
+      },
+      "heart": {
+        "version": "atlas-material-2.0.0",
+        "organ": "heart",
+        "preset": "balanced",
+        "seed": 42,
+        "tint": 0.0,
+        "pigment_contrast": 0.55,
+        "mottle_scale_mm": 16.0,
+        "wetness": 0.5,
+        "fine_detail": 0.5,
+        "structure_strength": 0.3
+      },
+      "lung": {
+        "version": "atlas-material-2.0.0",
+        "organ": "lung",
+        "preset": "balanced",
+        "seed": 42,
+        "tint": 0.0,
+        "pigment_contrast": 0.55,
+        "mottle_scale_mm": 16.0,
+        "wetness": 0.5,
+        "fine_detail": 0.5,
+        "structure_strength": 0.3
+      },
+      "brain": {
+        "version": "atlas-material-2.0.0",
+        "organ": "brain",
+        "preset": "balanced",
+        "seed": 42,
+        "tint": 0.0,
+        "pigment_contrast": 0.55,
+        "mottle_scale_mm": 16.0,
+        "wetness": 0.5,
+        "fine_detail": 0.5,
+        "structure_strength": 0.3
+      },
+      "urinary-bladder": {
+        "version": "atlas-material-2.0.0",
+        "organ": "urinary-bladder",
+        "preset": "balanced",
+        "seed": 42,
+        "tint": 0.0,
+        "pigment_contrast": 0.55,
+        "mottle_scale_mm": 16.0,
+        "wetness": 0.5,
+        "fine_detail": 0.5,
+        "structure_strength": 0.3
+      }
+    },
+    "organ_presets": {
+      "liver": {
+        "balanced": {
+          "recipe": {
+            "version": "atlas-material-2.0.0",
+            "organ": "liver",
+            "preset": "balanced",
+            "seed": 42,
+            "tint": 0.0,
+            "pigment_contrast": 0.55,
+            "mottle_scale_mm": 16.0,
+            "wetness": 0.5,
+            "fine_detail": 0.5,
+            "structure_strength": 0.3
+          },
+          "swatches": [
+            "#793f37",
+            "#6a3730"
+          ]
+        },
+        "soft": {
+          "recipe": {
+            "version": "atlas-material-2.0.0",
+            "organ": "liver",
+            "preset": "soft",
+            "seed": 42,
+            "tint": -0.12,
+            "pigment_contrast": 0.3,
+            "mottle_scale_mm": 23.0,
+            "wetness": 0.3,
+            "fine_detail": 0.32,
+            "structure_strength": 0.18
+          },
+          "swatches": [
+            "#82463d",
+            "#723d36"
+          ]
+        },
+        "rich": {
+          "recipe": {
+            "version": "atlas-material-2.0.0",
+            "organ": "liver",
+            "preset": "rich",
+            "seed": 42,
+            "tint": 0.12,
+            "pigment_contrast": 0.78,
+            "mottle_scale_mm": 10.0,
+            "wetness": 0.45,
+            "fine_detail": 0.62,
+            "structure_strength": 0.45
+          },
+          "swatches": [
+            "#68332d",
+            "#5b2d28"
+          ]
+        },
+        "moist": {
+          "recipe": {
+            "version": "atlas-material-2.0.0",
+            "organ": "liver",
+            "preset": "moist",
+            "seed": 42,
+            "tint": 0.04,
+            "pigment_contrast": 0.4,
+            "mottle_scale_mm": 18.0,
+            "wetness": 0.85,
+            "fine_detail": 0.38,
+            "structure_strength": 0.24
+          },
+          "swatches": [
+            "#773c35",
+            "#69352e"
+          ]
+        }
+      },
+      "gallbladder": {
+        "balanced": {
+          "recipe": {
+            "version": "atlas-material-2.0.0",
+            "organ": "gallbladder",
+            "preset": "balanced",
+            "seed": 42,
+            "tint": 0.0,
+            "pigment_contrast": 0.55,
+            "mottle_scale_mm": 16.0,
+            "wetness": 0.5,
+            "fine_detail": 0.5,
+            "structure_strength": 0.3
+          },
+          "swatches": [
+            "#777953",
+            "#696a49"
+          ]
+        },
+        "soft": {
+          "recipe": {
+            "version": "atlas-material-2.0.0",
+            "organ": "gallbladder",
+            "preset": "soft",
+            "seed": 42,
+            "tint": -0.12,
+            "pigment_contrast": 0.3,
+            "mottle_scale_mm": 23.0,
+            "wetness": 0.3,
+            "fine_detail": 0.32,
+            "structure_strength": 0.18
+          },
+          "swatches": [
+            "#80855c",
+            "#707551"
+          ]
+        },
+        "rich": {
+          "recipe": {
+            "version": "atlas-material-2.0.0",
+            "organ": "gallbladder",
+            "preset": "rich",
+            "seed": 42,
+            "tint": 0.12,
+            "pigment_contrast": 0.78,
+            "mottle_scale_mm": 10.0,
+            "wetness": 0.45,
+            "fine_detail": 0.62,
+            "structure_strength": 0.45
+          },
+          "swatches": [
+            "#666245",
+            "#5a563d"
+          ]
+        },
+        "moist": {
+          "recipe": {
+            "version": "atlas-material-2.0.0",
+            "organ": "gallbladder",
+            "preset": "moist",
+            "seed": 42,
+            "tint": 0.04,
+            "pigment_contrast": 0.4,
+            "mottle_scale_mm": 18.0,
+            "wetness": 0.85,
+            "fine_detail": 0.38,
+            "structure_strength": 0.24
+          },
+          "swatches": [
+            "#75744f",
+            "#676646"
+          ]
+        }
+      },
+      "stomach": {
+        "balanced": {
+          "recipe": {
+            "version": "atlas-material-2.0.0",
+            "organ": "stomach",
+            "preset": "balanced",
+            "seed": 42,
+            "tint": 0.0,
+            "pigment_contrast": 0.55,
+            "mottle_scale_mm": 16.0,
+            "wetness": 0.5,
+            "fine_detail": 0.5,
+            "structure_strength": 0.3
+          },
+          "swatches": [
+            "#b58a80",
+            "#9f7971"
+          ]
+        },
+        "soft": {
+          "recipe": {
+            "version": "atlas-material-2.0.0",
+            "organ": "stomach",
+            "preset": "soft",
+            "seed": 42,
+            "tint": -0.12,
+            "pigment_contrast": 0.3,
+            "mottle_scale_mm": 23.0,
+            "wetness": 0.3,
+            "fine_detail": 0.32,
+            "structure_strength": 0.18
+          },
+          "swatches": [
+            "#c3988e",
+            "#ab867d"
+          ]
+        },
+        "rich": {
+          "recipe": {
+            "version": "atlas-material-2.0.0",
+            "organ": "stomach",
+            "preset": "rich",
+            "seed": 42,
+            "tint": 0.12,
+            "pigment_contrast": 0.78,
+            "mottle_scale_mm": 10.0,
+            "wetness": 0.45,
+            "fine_detail": 0.62,
+            "structure_strength": 0.45
+          },
+          "swatches": [
+            "#9b706b",
+            "#88625e"
+          ]
+        },
+        "moist": {
+          "recipe": {
+            "version": "atlas-material-2.0.0",
+            "organ": "stomach",
+            "preset": "moist",
+            "seed": 42,
+            "tint": 0.04,
+            "pigment_contrast": 0.4,
+            "mottle_scale_mm": 18.0,
+            "wetness": 0.85,
+            "fine_detail": 0.38,
+            "structure_strength": 0.24
+          },
+          "swatches": [
+            "#b2847b",
+            "#9c756c"
+          ]
+        }
+      },
+      "pancreas": {
+        "balanced": {
+          "recipe": {
+            "version": "atlas-material-2.0.0",
+            "organ": "pancreas",
+            "preset": "balanced",
+            "seed": 42,
+            "tint": 0.0,
+            "pigment_contrast": 0.55,
+            "mottle_scale_mm": 16.0,
+            "wetness": 0.5,
+            "fine_detail": 0.5,
+            "structure_strength": 0.3
+          },
+          "swatches": [
+            "#bc9b80",
+            "#a58871"
+          ]
+        },
+        "soft": {
+          "recipe": {
+            "version": "atlas-material-2.0.0",
+            "organ": "pancreas",
+            "preset": "soft",
+            "seed": 42,
+            "tint": -0.12,
+            "pigment_contrast": 0.3,
+            "mottle_scale_mm": 23.0,
+            "wetness": 0.3,
+            "fine_detail": 0.32,
+            "structure_strength": 0.18
+          },
+          "swatches": [
+            "#caab8e",
+            "#b2967d"
+          ]
+        },
+        "rich": {
+          "recipe": {
+            "version": "atlas-material-2.0.0",
+            "organ": "pancreas",
+            "preset": "rich",
+            "seed": 42,
+            "tint": 0.12,
+            "pigment_contrast": 0.78,
+            "mottle_scale_mm": 10.0,
+            "wetness": 0.45,
+            "fine_detail": 0.62,
+            "structure_strength": 0.45
+          },
+          "swatches": [
+            "#a17d6b",
+            "#8d6e5e"
+          ]
+        },
+        "moist": {
+          "recipe": {
+            "version": "atlas-material-2.0.0",
+            "organ": "pancreas",
+            "preset": "moist",
+            "seed": 42,
+            "tint": 0.04,
+            "pigment_contrast": 0.4,
+            "mottle_scale_mm": 18.0,
+            "wetness": 0.85,
+            "fine_detail": 0.38,
+            "structure_strength": 0.24
+          },
+          "swatches": [
+            "#b9957b",
+            "#a2836c"
+          ]
+        }
+      },
+      "spleen": {
+        "balanced": {
+          "recipe": {
+            "version": "atlas-material-2.0.0",
+            "organ": "spleen",
+            "preset": "balanced",
+            "seed": 42,
+            "tint": 0.0,
+            "pigment_contrast": 0.55,
+            "mottle_scale_mm": 16.0,
+            "wetness": 0.5,
+            "fine_detail": 0.5,
+            "structure_strength": 0.3
+          },
+          "swatches": [
+            "#713e52",
+            "#633748"
+          ]
+        },
+        "soft": {
+          "recipe": {
+            "version": "atlas-material-2.0.0",
+            "organ": "spleen",
+            "preset": "soft",
+            "seed": 42,
+            "tint": -0.12,
+            "pigment_contrast": 0.3,
+            "mottle_scale_mm": 23.0,
+            "wetness": 0.3,
+            "fine_detail": 0.32,
+            "structure_strength": 0.18
+          },
+          "swatches": [
+            "#79445b",
+            "#6b3c50"
+          ]
+        },
+        "rich": {
+          "recipe": {
+            "version": "atlas-material-2.0.0",
+            "organ": "spleen",
+            "preset": "rich",
+            "seed": 42,
+            "tint": 0.12,
+            "pigment_contrast": 0.78,
+            "mottle_scale_mm": 10.0,
+            "wetness": 0.45,
+            "fine_detail": 0.62,
+            "structure_strength": 0.45
+          },
+          "swatches": [
+            "#613244",
+            "#552c3c"
+          ]
+        },
+        "moist": {
+          "recipe": {
+            "version": "atlas-material-2.0.0",
+            "organ": "spleen",
+            "preset": "moist",
+            "seed": 42,
+            "tint": 0.04,
+            "pigment_contrast": 0.4,
+            "mottle_scale_mm": 18.0,
+            "wetness": 0.85,
+            "fine_detail": 0.38,
+            "structure_strength": 0.24
+          },
+          "swatches": [
+            "#6f3b4e",
+            "#623445"
+          ]
+        }
+      },
+      "kidney": {
+        "balanced": {
+          "recipe": {
+            "version": "atlas-material-2.0.0",
+            "organ": "kidney",
+            "preset": "balanced",
+            "seed": 42,
+            "tint": 0.0,
+            "pigment_contrast": 0.55,
+            "mottle_scale_mm": 16.0,
+            "wetness": 0.5,
+            "fine_detail": 0.5,
+            "structure_strength": 0.3
+          },
+          "swatches": [
+            "#a15c50",
+            "#8e5146"
+          ]
+        },
+        "soft": {
+          "recipe": {
+            "version": "atlas-material-2.0.0",
+            "organ": "kidney",
+            "preset": "soft",
+            "seed": 42,
+            "tint": -0.12,
+            "pigment_contrast": 0.3,
+            "mottle_scale_mm": 23.0,
+            "wetness": 0.3,
+            "fine_detail": 0.32,
+            "structure_strength": 0.18
+          },
+          "swatches": [
+            "#ad6559",
+            "#98594e"
+          ]
+        },
+        "rich": {
+          "recipe": {
+            "version": "atlas-material-2.0.0",
+            "organ": "kidney",
+            "preset": "rich",
+            "seed": 42,
+            "tint": 0.12,
+            "pigment_contrast": 0.78,
+            "mottle_scale_mm": 10.0,
+            "wetness": 0.45,
+            "fine_detail": 0.62,
+            "structure_strength": 0.45
+          },
+          "swatches": [
+            "#8a4a42",
+            "#79413a"
+          ]
+        },
+        "moist": {
+          "recipe": {
+            "version": "atlas-material-2.0.0",
+            "organ": "kidney",
+            "preset": "moist",
+            "seed": 42,
+            "tint": 0.04,
+            "pigment_contrast": 0.4,
+            "mottle_scale_mm": 18.0,
+            "wetness": 0.85,
+            "fine_detail": 0.38,
+            "structure_strength": 0.24
+          },
+          "swatches": [
+            "#9e584d",
+            "#8b4e43"
+          ]
+        }
+      },
+      "small-intestine": {
+        "balanced": {
+          "recipe": {
+            "version": "atlas-material-2.0.0",
+            "organ": "small-intestine",
+            "preset": "balanced",
+            "seed": 42,
+            "tint": 0.0,
+            "pigment_contrast": 0.55,
+            "mottle_scale_mm": 16.0,
+            "wetness": 0.5,
+            "fine_detail": 0.5,
+            "structure_strength": 0.3
+          },
+          "swatches": [
+            "#c09a89",
+            "#a98879"
+          ]
+        },
+        "soft": {
+          "recipe": {
+            "version": "atlas-material-2.0.0",
+            "organ": "small-intestine",
+            "preset": "soft",
+            "seed": 42,
+            "tint": -0.12,
+            "pigment_contrast": 0.3,
+            "mottle_scale_mm": 23.0,
+            "wetness": 0.3,
+            "fine_detail": 0.32,
+            "structure_strength": 0.18
+          },
+          "swatches": [
+            "#ceaa97",
+            "#b69585"
+          ]
+        },
+        "rich": {
+          "recipe": {
+            "version": "atlas-material-2.0.0",
+            "organ": "small-intestine",
+            "preset": "rich",
+            "seed": 42,
+            "tint": 0.12,
+            "pigment_contrast": 0.78,
+            "mottle_scale_mm": 10.0,
+            "wetness": 0.45,
+            "fine_detail": 0.62,
+            "structure_strength": 0.45
+          },
+          "swatches": [
+            "#a47c72",
+            "#906e65"
+          ]
+        },
+        "moist": {
+          "recipe": {
+            "version": "atlas-material-2.0.0",
+            "organ": "small-intestine",
+            "preset": "moist",
+            "seed": 42,
+            "tint": 0.04,
+            "pigment_contrast": 0.4,
+            "mottle_scale_mm": 18.0,
+            "wetness": 0.85,
+            "fine_detail": 0.38,
+            "structure_strength": 0.24
+          },
+          "swatches": [
+            "#bc9483",
+            "#a68274"
+          ]
+        }
+      },
+      "large-intestine": {
+        "balanced": {
+          "recipe": {
+            "version": "atlas-material-2.0.0",
+            "organ": "large-intestine",
+            "preset": "balanced",
+            "seed": 42,
+            "tint": 0.0,
+            "pigment_contrast": 0.55,
+            "mottle_scale_mm": 16.0,
+            "wetness": 0.5,
+            "fine_detail": 0.5,
+            "structure_strength": 0.3
+          },
+          "swatches": [
+            "#b89784",
+            "#a28574"
+          ]
+        },
+        "soft": {
+          "recipe": {
+            "version": "atlas-material-2.0.0",
+            "organ": "large-intestine",
+            "preset": "soft",
+            "seed": 42,
+            "tint": -0.12,
+            "pigment_contrast": 0.3,
+            "mottle_scale_mm": 23.0,
+            "wetness": 0.3,
+            "fine_detail": 0.32,
+            "structure_strength": 0.18
+          },
+          "swatches": [
+            "#c6a692",
+            "#ae9280"
+          ]
+        },
+        "rich": {
+          "recipe": {
+            "version": "atlas-material-2.0.0",
+            "organ": "large-intestine",
+            "preset": "rich",
+            "seed": 42,
+            "tint": 0.12,
+            "pigment_contrast": 0.78,
+            "mottle_scale_mm": 10.0,
+            "wetness": 0.45,
+            "fine_detail": 0.62,
+            "structure_strength": 0.45
+          },
+          "swatches": [
+            "#9d7a6e",
+            "#8a6b61"
+          ]
+        },
+        "moist": {
+          "recipe": {
+            "version": "atlas-material-2.0.0",
+            "organ": "large-intestine",
+            "preset": "moist",
+            "seed": 42,
+            "tint": 0.04,
+            "pigment_contrast": 0.4,
+            "mottle_scale_mm": 18.0,
+            "wetness": 0.85,
+            "fine_detail": 0.38,
+            "structure_strength": 0.24
+          },
+          "swatches": [
+            "#b5917e",
+            "#9f7f6f"
+          ]
+        }
+      },
+      "heart": {
+        "balanced": {
+          "recipe": {
+            "version": "atlas-material-2.0.0",
+            "organ": "heart",
+            "preset": "balanced",
+            "seed": 42,
+            "tint": 0.0,
+            "pigment_contrast": 0.55,
+            "mottle_scale_mm": 16.0,
+            "wetness": 0.5,
+            "fine_detail": 0.5,
+            "structure_strength": 0.3
+          },
+          "swatches": [
+            "#9d5e58",
+            "#8a534d"
+          ]
+        },
+        "soft": {
+          "recipe": {
+            "version": "atlas-material-2.0.0",
+            "organ": "heart",
+            "preset": "soft",
+            "seed": 42,
+            "tint": -0.12,
+            "pigment_contrast": 0.3,
+            "mottle_scale_mm": 23.0,
+            "wetness": 0.3,
+            "fine_detail": 0.32,
+            "structure_strength": 0.18
+          },
+          "swatches": [
+            "#a96862",
+            "#945b56"
+          ]
+        },
+        "rich": {
+          "recipe": {
+            "version": "atlas-material-2.0.0",
+            "organ": "heart",
+            "preset": "rich",
+            "seed": 42,
+            "tint": 0.12,
+            "pigment_contrast": 0.78,
+            "mottle_scale_mm": 10.0,
+            "wetness": 0.45,
+            "fine_detail": 0.62,
+            "structure_strength": 0.45
+          },
+          "swatches": [
+            "#864c49",
+            "#764340"
+          ]
+        },
+        "moist": {
+          "recipe": {
+            "version": "atlas-material-2.0.0",
+            "organ": "heart",
+            "preset": "moist",
+            "seed": 42,
+            "tint": 0.04,
+            "pigment_contrast": 0.4,
+            "mottle_scale_mm": 18.0,
+            "wetness": 0.85,
+            "fine_detail": 0.38,
+            "structure_strength": 0.24
+          },
+          "swatches": [
+            "#9a5a54",
+            "#884f4a"
+          ]
+        }
+      },
+      "lung": {
+        "balanced": {
+          "recipe": {
+            "version": "atlas-material-2.0.0",
+            "organ": "lung",
+            "preset": "balanced",
+            "seed": 42,
+            "tint": 0.0,
+            "pigment_contrast": 0.55,
+            "mottle_scale_mm": 16.0,
+            "wetness": 0.5,
+            "fine_detail": 0.5,
+            "structure_strength": 0.3
+          },
+          "swatches": [
+            "#b5979b",
+            "#9f8588"
+          ]
+        },
+        "soft": {
+          "recipe": {
+            "version": "atlas-material-2.0.0",
+            "organ": "lung",
+            "preset": "soft",
+            "seed": 42,
+            "tint": -0.12,
+            "pigment_contrast": 0.3,
+            "mottle_scale_mm": 23.0,
+            "wetness": 0.3,
+            "fine_detail": 0.32,
+            "structure_strength": 0.18
+          },
+          "swatches": [
+            "#c3a6ab",
+            "#ab9297"
+          ]
+        },
+        "rich": {
+          "recipe": {
+            "version": "atlas-material-2.0.0",
+            "organ": "lung",
+            "preset": "rich",
+            "seed": 42,
+            "tint": 0.12,
+            "pigment_contrast": 0.78,
+            "mottle_scale_mm": 10.0,
+            "wetness": 0.45,
+            "fine_detail": 0.62,
+            "structure_strength": 0.45
+          },
+          "swatches": [
+            "#9b7a81",
+            "#886b72"
+          ]
+        },
+        "moist": {
+          "recipe": {
+            "version": "atlas-material-2.0.0",
+            "organ": "lung",
+            "preset": "moist",
+            "seed": 42,
+            "tint": 0.04,
+            "pigment_contrast": 0.4,
+            "mottle_scale_mm": 18.0,
+            "wetness": 0.85,
+            "fine_detail": 0.38,
+            "structure_strength": 0.24
+          },
+          "swatches": [
+            "#b29195",
+            "#9c7f83"
+          ]
+        }
+      },
+      "brain": {
+        "balanced": {
+          "recipe": {
+            "version": "atlas-material-2.0.0",
+            "organ": "brain",
+            "preset": "balanced",
+            "seed": 42,
+            "tint": 0.0,
+            "pigment_contrast": 0.55,
+            "mottle_scale_mm": 16.0,
+            "wetness": 0.5,
+            "fine_detail": 0.5,
+            "structure_strength": 0.3
+          },
+          "swatches": [
+            "#b8ada1",
+            "#a2988e"
+          ]
+        },
+        "soft": {
+          "recipe": {
+            "version": "atlas-material-2.0.0",
+            "organ": "brain",
+            "preset": "soft",
+            "seed": 42,
+            "tint": -0.12,
+            "pigment_contrast": 0.3,
+            "mottle_scale_mm": 23.0,
+            "wetness": 0.3,
+            "fine_detail": 0.32,
+            "structure_strength": 0.18
+          },
+          "swatches": [
+            "#c6bfb2",
+            "#aea89d"
+          ]
+        },
+        "rich": {
+          "recipe": {
+            "version": "atlas-material-2.0.0",
+            "organ": "brain",
+            "preset": "rich",
+            "seed": 42,
+            "tint": 0.12,
+            "pigment_contrast": 0.78,
+            "mottle_scale_mm": 10.0,
+            "wetness": 0.45,
+            "fine_detail": 0.62,
+            "structure_strength": 0.45
+          },
+          "swatches": [
+            "#9d8c86",
+            "#8a7b76"
+          ]
+        },
+        "moist": {
+          "recipe": {
+            "version": "atlas-material-2.0.0",
+            "organ": "brain",
+            "preset": "moist",
+            "seed": 42,
+            "tint": 0.04,
+            "pigment_contrast": 0.4,
+            "mottle_scale_mm": 18.0,
+            "wetness": 0.85,
+            "fine_detail": 0.38,
+            "structure_strength": 0.24
+          },
+          "swatches": [
+            "#b5a69a",
+            "#9f9288"
+          ]
+        }
+      },
+      "urinary-bladder": {
+        "balanced": {
+          "recipe": {
+            "version": "atlas-material-2.0.0",
+            "organ": "urinary-bladder",
+            "preset": "balanced",
+            "seed": 42,
+            "tint": 0.0,
+            "pigment_contrast": 0.55,
+            "mottle_scale_mm": 16.0,
+            "wetness": 0.5,
+            "fine_detail": 0.5,
+            "structure_strength": 0.3
+          },
+          "swatches": [
+            "#b9958b",
+            "#a3837a"
+          ]
+        },
+        "soft": {
+          "recipe": {
+            "version": "atlas-material-2.0.0",
+            "organ": "urinary-bladder",
+            "preset": "soft",
+            "seed": 42,
+            "tint": -0.12,
+            "pigment_contrast": 0.3,
+            "mottle_scale_mm": 23.0,
+            "wetness": 0.3,
+            "fine_detail": 0.32,
+            "structure_strength": 0.18
+          },
+          "swatches": [
+            "#c7a49a",
+            "#af9087"
+          ]
+        },
+        "rich": {
+          "recipe": {
+            "version": "atlas-material-2.0.0",
+            "organ": "urinary-bladder",
+            "preset": "rich",
+            "seed": 42,
+            "tint": 0.12,
+            "pigment_contrast": 0.78,
+            "mottle_scale_mm": 10.0,
+            "wetness": 0.45,
+            "fine_detail": 0.62,
+            "structure_strength": 0.45
+          },
+          "swatches": [
+            "#9e7874",
+            "#8b6a66"
+          ]
+        },
+        "moist": {
+          "recipe": {
+            "version": "atlas-material-2.0.0",
+            "organ": "urinary-bladder",
+            "preset": "moist",
+            "seed": 42,
+            "tint": 0.04,
+            "pigment_contrast": 0.4,
+            "mottle_scale_mm": 18.0,
+            "wetness": 0.85,
+            "fine_detail": 0.38,
+            "structure_strength": 0.24
+          },
+          "swatches": [
+            "#b68f85",
+            "#a07e75"
+          ]
+        }
+      }
+    },
+    "controls": [
+      {
+        "key": "tint",
+        "label": "Warmth",
+        "min": -1.0,
+        "max": 1.0,
+        "step": 0.01
+      },
+      {
+        "key": "pigment_contrast",
+        "label": "Pigment contrast",
+        "min": 0.0,
+        "max": 1.0,
+        "step": 0.01
+      },
+      {
+        "key": "mottle_scale_mm",
+        "label": "Pattern size (mm)",
+        "min": 2.0,
+        "max": 40.0,
+        "step": 0.1
+      },
+      {
+        "key": "wetness",
+        "label": "Surface sheen",
+        "min": 0.0,
+        "max": 1.0,
+        "step": 0.01
+      },
+      {
+        "key": "fine_detail",
+        "label": "Fine surface detail",
+        "min": 0.0,
+        "max": 1.0,
+        "step": 0.01
+      },
+      {
+        "key": "structure_strength",
+        "label": "Tissue grain",
+        "min": 0.0,
+        "max": 1.0,
+        "step": 0.01
+      }
+    ],
+    "organ_profiles": {
+      "liver": {
+        "base_color_srgb": [
+          0.4745098039215686,
+          0.24705882352941178,
+          0.21568627450980393
+        ],
+        "structure_label": "Soft grain",
+        "presets": [
+          {
+            "id": "balanced",
+            "label": "Balanced",
+            "description": "Subtle pigment and moist surface detail.",
+            "recipe": {
+              "version": "atlas-material-2.0.0",
+              "organ": "liver",
+              "preset": "balanced",
+              "seed": 42,
+              "tint": 0.0,
+              "pigment_contrast": 0.55,
+              "mottle_scale_mm": 16.0,
+              "wetness": 0.5,
+              "fine_detail": 0.5,
+              "structure_strength": 0.3
+            }
+          },
+          {
+            "id": "soft",
+            "label": "Soft",
+            "description": "Lighter, quieter pigment with a softer sheen.",
+            "recipe": {
+              "version": "atlas-material-2.0.0",
+              "organ": "liver",
+              "preset": "soft",
+              "seed": 42,
+              "tint": -0.12,
+              "pigment_contrast": 0.3,
+              "mottle_scale_mm": 23.0,
+              "wetness": 0.3,
+              "fine_detail": 0.32,
+              "structure_strength": 0.18
+            }
+          },
+          {
+            "id": "rich",
+            "label": "Rich pigment",
+            "description": "Deeper organ-specific color with varied mottling.",
+            "recipe": {
+              "version": "atlas-material-2.0.0",
+              "organ": "liver",
+              "preset": "rich",
+              "seed": 42,
+              "tint": 0.12,
+              "pigment_contrast": 0.78,
+              "mottle_scale_mm": 10.0,
+              "wetness": 0.45,
+              "fine_detail": 0.62,
+              "structure_strength": 0.45
+            }
+          },
+          {
+            "id": "moist",
+            "label": "Moist",
+            "description": "A stronger wet sheen with restrained pigment contrast.",
+            "recipe": {
+              "version": "atlas-material-2.0.0",
+              "organ": "liver",
+              "preset": "moist",
+              "seed": 42,
+              "tint": 0.04,
+              "pigment_contrast": 0.4,
+              "mottle_scale_mm": 18.0,
+              "wetness": 0.85,
+              "fine_detail": 0.38,
+              "structure_strength": 0.24
+            }
+          }
+        ]
+      },
+      "gallbladder": {
+        "base_color_srgb": [
+          0.4666666666666667,
+          0.4745098039215686,
+          0.3254901960784314
+        ],
+        "structure_label": "Soft grain",
+        "presets": [
+          {
+            "id": "balanced",
+            "label": "Balanced",
+            "description": "Subtle pigment and moist surface detail.",
+            "recipe": {
+              "version": "atlas-material-2.0.0",
+              "organ": "gallbladder",
+              "preset": "balanced",
+              "seed": 42,
+              "tint": 0.0,
+              "pigment_contrast": 0.55,
+              "mottle_scale_mm": 16.0,
+              "wetness": 0.5,
+              "fine_detail": 0.5,
+              "structure_strength": 0.3
+            }
+          },
+          {
+            "id": "soft",
+            "label": "Soft",
+            "description": "Lighter, quieter pigment with a softer sheen.",
+            "recipe": {
+              "version": "atlas-material-2.0.0",
+              "organ": "gallbladder",
+              "preset": "soft",
+              "seed": 42,
+              "tint": -0.12,
+              "pigment_contrast": 0.3,
+              "mottle_scale_mm": 23.0,
+              "wetness": 0.3,
+              "fine_detail": 0.32,
+              "structure_strength": 0.18
+            }
+          },
+          {
+            "id": "rich",
+            "label": "Rich pigment",
+            "description": "Deeper organ-specific color with varied mottling.",
+            "recipe": {
+              "version": "atlas-material-2.0.0",
+              "organ": "gallbladder",
+              "preset": "rich",
+              "seed": 42,
+              "tint": 0.12,
+              "pigment_contrast": 0.78,
+              "mottle_scale_mm": 10.0,
+              "wetness": 0.45,
+              "fine_detail": 0.62,
+              "structure_strength": 0.45
+            }
+          },
+          {
+            "id": "moist",
+            "label": "Moist",
+            "description": "A stronger wet sheen with restrained pigment contrast.",
+            "recipe": {
+              "version": "atlas-material-2.0.0",
+              "organ": "gallbladder",
+              "preset": "moist",
+              "seed": 42,
+              "tint": 0.04,
+              "pigment_contrast": 0.4,
+              "mottle_scale_mm": 18.0,
+              "wetness": 0.85,
+              "fine_detail": 0.38,
+              "structure_strength": 0.24
+            }
+          }
+        ]
+      },
+      "stomach": {
+        "base_color_srgb": [
+          0.7098039215686275,
+          0.5411764705882353,
+          0.5019607843137255
+        ],
+        "structure_label": "Soft grain",
+        "presets": [
+          {
+            "id": "balanced",
+            "label": "Balanced",
+            "description": "Subtle pigment and moist surface detail.",
+            "recipe": {
+              "version": "atlas-material-2.0.0",
+              "organ": "stomach",
+              "preset": "balanced",
+              "seed": 42,
+              "tint": 0.0,
+              "pigment_contrast": 0.55,
+              "mottle_scale_mm": 16.0,
+              "wetness": 0.5,
+              "fine_detail": 0.5,
+              "structure_strength": 0.3
+            }
+          },
+          {
+            "id": "soft",
+            "label": "Soft",
+            "description": "Lighter, quieter pigment with a softer sheen.",
+            "recipe": {
+              "version": "atlas-material-2.0.0",
+              "organ": "stomach",
+              "preset": "soft",
+              "seed": 42,
+              "tint": -0.12,
+              "pigment_contrast": 0.3,
+              "mottle_scale_mm": 23.0,
+              "wetness": 0.3,
+              "fine_detail": 0.32,
+              "structure_strength": 0.18
+            }
+          },
+          {
+            "id": "rich",
+            "label": "Rich pigment",
+            "description": "Deeper organ-specific color with varied mottling.",
+            "recipe": {
+              "version": "atlas-material-2.0.0",
+              "organ": "stomach",
+              "preset": "rich",
+              "seed": 42,
+              "tint": 0.12,
+              "pigment_contrast": 0.78,
+              "mottle_scale_mm": 10.0,
+              "wetness": 0.45,
+              "fine_detail": 0.62,
+              "structure_strength": 0.45
+            }
+          },
+          {
+            "id": "moist",
+            "label": "Moist",
+            "description": "A stronger wet sheen with restrained pigment contrast.",
+            "recipe": {
+              "version": "atlas-material-2.0.0",
+              "organ": "stomach",
+              "preset": "moist",
+              "seed": 42,
+              "tint": 0.04,
+              "pigment_contrast": 0.4,
+              "mottle_scale_mm": 18.0,
+              "wetness": 0.85,
+              "fine_detail": 0.38,
+              "structure_strength": 0.24
+            }
+          }
+        ]
+      },
+      "pancreas": {
+        "base_color_srgb": [
+          0.7372549019607844,
+          0.6078431372549019,
+          0.5019607843137255
+        ],
+        "structure_label": "Lobular mottling",
+        "presets": [
+          {
+            "id": "balanced",
+            "label": "Balanced",
+            "description": "Subtle pigment and moist surface detail.",
+            "recipe": {
+              "version": "atlas-material-2.0.0",
+              "organ": "pancreas",
+              "preset": "balanced",
+              "seed": 42,
+              "tint": 0.0,
+              "pigment_contrast": 0.55,
+              "mottle_scale_mm": 16.0,
+              "wetness": 0.5,
+              "fine_detail": 0.5,
+              "structure_strength": 0.3
+            }
+          },
+          {
+            "id": "soft",
+            "label": "Soft",
+            "description": "Lighter, quieter pigment with a softer sheen.",
+            "recipe": {
+              "version": "atlas-material-2.0.0",
+              "organ": "pancreas",
+              "preset": "soft",
+              "seed": 42,
+              "tint": -0.12,
+              "pigment_contrast": 0.3,
+              "mottle_scale_mm": 23.0,
+              "wetness": 0.3,
+              "fine_detail": 0.32,
+              "structure_strength": 0.18
+            }
+          },
+          {
+            "id": "rich",
+            "label": "Rich pigment",
+            "description": "Deeper organ-specific color with varied mottling.",
+            "recipe": {
+              "version": "atlas-material-2.0.0",
+              "organ": "pancreas",
+              "preset": "rich",
+              "seed": 42,
+              "tint": 0.12,
+              "pigment_contrast": 0.78,
+              "mottle_scale_mm": 10.0,
+              "wetness": 0.45,
+              "fine_detail": 0.62,
+              "structure_strength": 0.45
+            }
+          },
+          {
+            "id": "moist",
+            "label": "Moist",
+            "description": "A stronger wet sheen with restrained pigment contrast.",
+            "recipe": {
+              "version": "atlas-material-2.0.0",
+              "organ": "pancreas",
+              "preset": "moist",
+              "seed": 42,
+              "tint": 0.04,
+              "pigment_contrast": 0.4,
+              "mottle_scale_mm": 18.0,
+              "wetness": 0.85,
+              "fine_detail": 0.38,
+              "structure_strength": 0.24
+            }
+          }
+        ]
+      },
+      "spleen": {
+        "base_color_srgb": [
+          0.44313725490196076,
+          0.24313725490196078,
+          0.3215686274509804
+        ],
+        "structure_label": "Soft grain",
+        "presets": [
+          {
+            "id": "balanced",
+            "label": "Balanced",
+            "description": "Subtle pigment and moist surface detail.",
+            "recipe": {
+              "version": "atlas-material-2.0.0",
+              "organ": "spleen",
+              "preset": "balanced",
+              "seed": 42,
+              "tint": 0.0,
+              "pigment_contrast": 0.55,
+              "mottle_scale_mm": 16.0,
+              "wetness": 0.5,
+              "fine_detail": 0.5,
+              "structure_strength": 0.3
+            }
+          },
+          {
+            "id": "soft",
+            "label": "Soft",
+            "description": "Lighter, quieter pigment with a softer sheen.",
+            "recipe": {
+              "version": "atlas-material-2.0.0",
+              "organ": "spleen",
+              "preset": "soft",
+              "seed": 42,
+              "tint": -0.12,
+              "pigment_contrast": 0.3,
+              "mottle_scale_mm": 23.0,
+              "wetness": 0.3,
+              "fine_detail": 0.32,
+              "structure_strength": 0.18
+            }
+          },
+          {
+            "id": "rich",
+            "label": "Rich pigment",
+            "description": "Deeper organ-specific color with varied mottling.",
+            "recipe": {
+              "version": "atlas-material-2.0.0",
+              "organ": "spleen",
+              "preset": "rich",
+              "seed": 42,
+              "tint": 0.12,
+              "pigment_contrast": 0.78,
+              "mottle_scale_mm": 10.0,
+              "wetness": 0.45,
+              "fine_detail": 0.62,
+              "structure_strength": 0.45
+            }
+          },
+          {
+            "id": "moist",
+            "label": "Moist",
+            "description": "A stronger wet sheen with restrained pigment contrast.",
+            "recipe": {
+              "version": "atlas-material-2.0.0",
+              "organ": "spleen",
+              "preset": "moist",
+              "seed": 42,
+              "tint": 0.04,
+              "pigment_contrast": 0.4,
+              "mottle_scale_mm": 18.0,
+              "wetness": 0.85,
+              "fine_detail": 0.38,
+              "structure_strength": 0.24
+            }
+          }
+        ]
+      },
+      "kidney": {
+        "base_color_srgb": [
+          0.6313725490196078,
+          0.3607843137254902,
+          0.3137254901960784
+        ],
+        "structure_label": "Soft grain",
+        "presets": [
+          {
+            "id": "balanced",
+            "label": "Balanced",
+            "description": "Subtle pigment and moist surface detail.",
+            "recipe": {
+              "version": "atlas-material-2.0.0",
+              "organ": "kidney",
+              "preset": "balanced",
+              "seed": 42,
+              "tint": 0.0,
+              "pigment_contrast": 0.55,
+              "mottle_scale_mm": 16.0,
+              "wetness": 0.5,
+              "fine_detail": 0.5,
+              "structure_strength": 0.3
+            }
+          },
+          {
+            "id": "soft",
+            "label": "Soft",
+            "description": "Lighter, quieter pigment with a softer sheen.",
+            "recipe": {
+              "version": "atlas-material-2.0.0",
+              "organ": "kidney",
+              "preset": "soft",
+              "seed": 42,
+              "tint": -0.12,
+              "pigment_contrast": 0.3,
+              "mottle_scale_mm": 23.0,
+              "wetness": 0.3,
+              "fine_detail": 0.32,
+              "structure_strength": 0.18
+            }
+          },
+          {
+            "id": "rich",
+            "label": "Rich pigment",
+            "description": "Deeper organ-specific color with varied mottling.",
+            "recipe": {
+              "version": "atlas-material-2.0.0",
+              "organ": "kidney",
+              "preset": "rich",
+              "seed": 42,
+              "tint": 0.12,
+              "pigment_contrast": 0.78,
+              "mottle_scale_mm": 10.0,
+              "wetness": 0.45,
+              "fine_detail": 0.62,
+              "structure_strength": 0.45
+            }
+          },
+          {
+            "id": "moist",
+            "label": "Moist",
+            "description": "A stronger wet sheen with restrained pigment contrast.",
+            "recipe": {
+              "version": "atlas-material-2.0.0",
+              "organ": "kidney",
+              "preset": "moist",
+              "seed": 42,
+              "tint": 0.04,
+              "pigment_contrast": 0.4,
+              "mottle_scale_mm": 18.0,
+              "wetness": 0.85,
+              "fine_detail": 0.38,
+              "structure_strength": 0.24
+            }
+          }
+        ]
+      },
+      "small-intestine": {
+        "base_color_srgb": [
+          0.7529411764705882,
+          0.6039215686274509,
+          0.5372549019607843
+        ],
+        "structure_label": "Soft grain",
+        "presets": [
+          {
+            "id": "balanced",
+            "label": "Balanced",
+            "description": "Subtle pigment and moist surface detail.",
+            "recipe": {
+              "version": "atlas-material-2.0.0",
+              "organ": "small-intestine",
+              "preset": "balanced",
+              "seed": 42,
+              "tint": 0.0,
+              "pigment_contrast": 0.55,
+              "mottle_scale_mm": 16.0,
+              "wetness": 0.5,
+              "fine_detail": 0.5,
+              "structure_strength": 0.3
+            }
+          },
+          {
+            "id": "soft",
+            "label": "Soft",
+            "description": "Lighter, quieter pigment with a softer sheen.",
+            "recipe": {
+              "version": "atlas-material-2.0.0",
+              "organ": "small-intestine",
+              "preset": "soft",
+              "seed": 42,
+              "tint": -0.12,
+              "pigment_contrast": 0.3,
+              "mottle_scale_mm": 23.0,
+              "wetness": 0.3,
+              "fine_detail": 0.32,
+              "structure_strength": 0.18
+            }
+          },
+          {
+            "id": "rich",
+            "label": "Rich pigment",
+            "description": "Deeper organ-specific color with varied mottling.",
+            "recipe": {
+              "version": "atlas-material-2.0.0",
+              "organ": "small-intestine",
+              "preset": "rich",
+              "seed": 42,
+              "tint": 0.12,
+              "pigment_contrast": 0.78,
+              "mottle_scale_mm": 10.0,
+              "wetness": 0.45,
+              "fine_detail": 0.62,
+              "structure_strength": 0.45
+            }
+          },
+          {
+            "id": "moist",
+            "label": "Moist",
+            "description": "A stronger wet sheen with restrained pigment contrast.",
+            "recipe": {
+              "version": "atlas-material-2.0.0",
+              "organ": "small-intestine",
+              "preset": "moist",
+              "seed": 42,
+              "tint": 0.04,
+              "pigment_contrast": 0.4,
+              "mottle_scale_mm": 18.0,
+              "wetness": 0.85,
+              "fine_detail": 0.38,
+              "structure_strength": 0.24
+            }
+          }
+        ]
+      },
+      "large-intestine": {
+        "base_color_srgb": [
+          0.7215686274509804,
+          0.592156862745098,
+          0.5176470588235295
+        ],
+        "structure_label": "Soft grain",
+        "presets": [
+          {
+            "id": "balanced",
+            "label": "Balanced",
+            "description": "Subtle pigment and moist surface detail.",
+            "recipe": {
+              "version": "atlas-material-2.0.0",
+              "organ": "large-intestine",
+              "preset": "balanced",
+              "seed": 42,
+              "tint": 0.0,
+              "pigment_contrast": 0.55,
+              "mottle_scale_mm": 16.0,
+              "wetness": 0.5,
+              "fine_detail": 0.5,
+              "structure_strength": 0.3
+            }
+          },
+          {
+            "id": "soft",
+            "label": "Soft",
+            "description": "Lighter, quieter pigment with a softer sheen.",
+            "recipe": {
+              "version": "atlas-material-2.0.0",
+              "organ": "large-intestine",
+              "preset": "soft",
+              "seed": 42,
+              "tint": -0.12,
+              "pigment_contrast": 0.3,
+              "mottle_scale_mm": 23.0,
+              "wetness": 0.3,
+              "fine_detail": 0.32,
+              "structure_strength": 0.18
+            }
+          },
+          {
+            "id": "rich",
+            "label": "Rich pigment",
+            "description": "Deeper organ-specific color with varied mottling.",
+            "recipe": {
+              "version": "atlas-material-2.0.0",
+              "organ": "large-intestine",
+              "preset": "rich",
+              "seed": 42,
+              "tint": 0.12,
+              "pigment_contrast": 0.78,
+              "mottle_scale_mm": 10.0,
+              "wetness": 0.45,
+              "fine_detail": 0.62,
+              "structure_strength": 0.45
+            }
+          },
+          {
+            "id": "moist",
+            "label": "Moist",
+            "description": "A stronger wet sheen with restrained pigment contrast.",
+            "recipe": {
+              "version": "atlas-material-2.0.0",
+              "organ": "large-intestine",
+              "preset": "moist",
+              "seed": 42,
+              "tint": 0.04,
+              "pigment_contrast": 0.4,
+              "mottle_scale_mm": 18.0,
+              "wetness": 0.85,
+              "fine_detail": 0.38,
+              "structure_strength": 0.24
+            }
+          }
+        ]
+      },
+      "heart": {
+        "base_color_srgb": [
+          0.615686274509804,
+          0.3686274509803922,
+          0.34509803921568627
+        ],
+        "structure_label": "Directional grain",
+        "presets": [
+          {
+            "id": "balanced",
+            "label": "Balanced",
+            "description": "Subtle pigment and moist surface detail.",
+            "recipe": {
+              "version": "atlas-material-2.0.0",
+              "organ": "heart",
+              "preset": "balanced",
+              "seed": 42,
+              "tint": 0.0,
+              "pigment_contrast": 0.55,
+              "mottle_scale_mm": 16.0,
+              "wetness": 0.5,
+              "fine_detail": 0.5,
+              "structure_strength": 0.3
+            }
+          },
+          {
+            "id": "soft",
+            "label": "Soft",
+            "description": "Lighter, quieter pigment with a softer sheen.",
+            "recipe": {
+              "version": "atlas-material-2.0.0",
+              "organ": "heart",
+              "preset": "soft",
+              "seed": 42,
+              "tint": -0.12,
+              "pigment_contrast": 0.3,
+              "mottle_scale_mm": 23.0,
+              "wetness": 0.3,
+              "fine_detail": 0.32,
+              "structure_strength": 0.18
+            }
+          },
+          {
+            "id": "rich",
+            "label": "Rich pigment",
+            "description": "Deeper organ-specific color with varied mottling.",
+            "recipe": {
+              "version": "atlas-material-2.0.0",
+              "organ": "heart",
+              "preset": "rich",
+              "seed": 42,
+              "tint": 0.12,
+              "pigment_contrast": 0.78,
+              "mottle_scale_mm": 10.0,
+              "wetness": 0.45,
+              "fine_detail": 0.62,
+              "structure_strength": 0.45
+            }
+          },
+          {
+            "id": "moist",
+            "label": "Moist",
+            "description": "A stronger wet sheen with restrained pigment contrast.",
+            "recipe": {
+              "version": "atlas-material-2.0.0",
+              "organ": "heart",
+              "preset": "moist",
+              "seed": 42,
+              "tint": 0.04,
+              "pigment_contrast": 0.4,
+              "mottle_scale_mm": 18.0,
+              "wetness": 0.85,
+              "fine_detail": 0.38,
+              "structure_strength": 0.24
+            }
+          }
+        ]
+      },
+      "lung": {
+        "base_color_srgb": [
+          0.7098039215686275,
+          0.592156862745098,
+          0.6078431372549019
+        ],
+        "structure_label": "Lobular mottling",
+        "presets": [
+          {
+            "id": "balanced",
+            "label": "Balanced",
+            "description": "Subtle pigment and moist surface detail.",
+            "recipe": {
+              "version": "atlas-material-2.0.0",
+              "organ": "lung",
+              "preset": "balanced",
+              "seed": 42,
+              "tint": 0.0,
+              "pigment_contrast": 0.55,
+              "mottle_scale_mm": 16.0,
+              "wetness": 0.5,
+              "fine_detail": 0.5,
+              "structure_strength": 0.3
+            }
+          },
+          {
+            "id": "soft",
+            "label": "Soft",
+            "description": "Lighter, quieter pigment with a softer sheen.",
+            "recipe": {
+              "version": "atlas-material-2.0.0",
+              "organ": "lung",
+              "preset": "soft",
+              "seed": 42,
+              "tint": -0.12,
+              "pigment_contrast": 0.3,
+              "mottle_scale_mm": 23.0,
+              "wetness": 0.3,
+              "fine_detail": 0.32,
+              "structure_strength": 0.18
+            }
+          },
+          {
+            "id": "rich",
+            "label": "Rich pigment",
+            "description": "Deeper organ-specific color with varied mottling.",
+            "recipe": {
+              "version": "atlas-material-2.0.0",
+              "organ": "lung",
+              "preset": "rich",
+              "seed": 42,
+              "tint": 0.12,
+              "pigment_contrast": 0.78,
+              "mottle_scale_mm": 10.0,
+              "wetness": 0.45,
+              "fine_detail": 0.62,
+              "structure_strength": 0.45
+            }
+          },
+          {
+            "id": "moist",
+            "label": "Moist",
+            "description": "A stronger wet sheen with restrained pigment contrast.",
+            "recipe": {
+              "version": "atlas-material-2.0.0",
+              "organ": "lung",
+              "preset": "moist",
+              "seed": 42,
+              "tint": 0.04,
+              "pigment_contrast": 0.4,
+              "mottle_scale_mm": 18.0,
+              "wetness": 0.85,
+              "fine_detail": 0.38,
+              "structure_strength": 0.24
+            }
+          }
+        ]
+      },
+      "brain": {
+        "base_color_srgb": [
+          0.7215686274509804,
+          0.6784313725490196,
+          0.6313725490196078
+        ],
+        "structure_label": "Soft grain",
+        "presets": [
+          {
+            "id": "balanced",
+            "label": "Balanced",
+            "description": "Subtle pigment and moist surface detail.",
+            "recipe": {
+              "version": "atlas-material-2.0.0",
+              "organ": "brain",
+              "preset": "balanced",
+              "seed": 42,
+              "tint": 0.0,
+              "pigment_contrast": 0.55,
+              "mottle_scale_mm": 16.0,
+              "wetness": 0.5,
+              "fine_detail": 0.5,
+              "structure_strength": 0.3
+            }
+          },
+          {
+            "id": "soft",
+            "label": "Soft",
+            "description": "Lighter, quieter pigment with a softer sheen.",
+            "recipe": {
+              "version": "atlas-material-2.0.0",
+              "organ": "brain",
+              "preset": "soft",
+              "seed": 42,
+              "tint": -0.12,
+              "pigment_contrast": 0.3,
+              "mottle_scale_mm": 23.0,
+              "wetness": 0.3,
+              "fine_detail": 0.32,
+              "structure_strength": 0.18
+            }
+          },
+          {
+            "id": "rich",
+            "label": "Rich pigment",
+            "description": "Deeper organ-specific color with varied mottling.",
+            "recipe": {
+              "version": "atlas-material-2.0.0",
+              "organ": "brain",
+              "preset": "rich",
+              "seed": 42,
+              "tint": 0.12,
+              "pigment_contrast": 0.78,
+              "mottle_scale_mm": 10.0,
+              "wetness": 0.45,
+              "fine_detail": 0.62,
+              "structure_strength": 0.45
+            }
+          },
+          {
+            "id": "moist",
+            "label": "Moist",
+            "description": "A stronger wet sheen with restrained pigment contrast.",
+            "recipe": {
+              "version": "atlas-material-2.0.0",
+              "organ": "brain",
+              "preset": "moist",
+              "seed": 42,
+              "tint": 0.04,
+              "pigment_contrast": 0.4,
+              "mottle_scale_mm": 18.0,
+              "wetness": 0.85,
+              "fine_detail": 0.38,
+              "structure_strength": 0.24
+            }
+          }
+        ]
+      },
+      "urinary-bladder": {
+        "base_color_srgb": [
+          0.7254901960784313,
+          0.5843137254901961,
+          0.5450980392156862
+        ],
+        "structure_label": "Soft grain",
+        "presets": [
+          {
+            "id": "balanced",
+            "label": "Balanced",
+            "description": "Subtle pigment and moist surface detail.",
+            "recipe": {
+              "version": "atlas-material-2.0.0",
+              "organ": "urinary-bladder",
+              "preset": "balanced",
+              "seed": 42,
+              "tint": 0.0,
+              "pigment_contrast": 0.55,
+              "mottle_scale_mm": 16.0,
+              "wetness": 0.5,
+              "fine_detail": 0.5,
+              "structure_strength": 0.3
+            }
+          },
+          {
+            "id": "soft",
+            "label": "Soft",
+            "description": "Lighter, quieter pigment with a softer sheen.",
+            "recipe": {
+              "version": "atlas-material-2.0.0",
+              "organ": "urinary-bladder",
+              "preset": "soft",
+              "seed": 42,
+              "tint": -0.12,
+              "pigment_contrast": 0.3,
+              "mottle_scale_mm": 23.0,
+              "wetness": 0.3,
+              "fine_detail": 0.32,
+              "structure_strength": 0.18
+            }
+          },
+          {
+            "id": "rich",
+            "label": "Rich pigment",
+            "description": "Deeper organ-specific color with varied mottling.",
+            "recipe": {
+              "version": "atlas-material-2.0.0",
+              "organ": "urinary-bladder",
+              "preset": "rich",
+              "seed": 42,
+              "tint": 0.12,
+              "pigment_contrast": 0.78,
+              "mottle_scale_mm": 10.0,
+              "wetness": 0.45,
+              "fine_detail": 0.62,
+              "structure_strength": 0.45
+            }
+          },
+          {
+            "id": "moist",
+            "label": "Moist",
+            "description": "A stronger wet sheen with restrained pigment contrast.",
+            "recipe": {
+              "version": "atlas-material-2.0.0",
+              "organ": "urinary-bladder",
+              "preset": "moist",
+              "seed": 42,
+              "tint": 0.04,
+              "pigment_contrast": 0.4,
+              "mottle_scale_mm": 18.0,
+              "wetness": 0.85,
+              "fine_detail": 0.38,
+              "structure_strength": 0.24
+            }
+          }
+        ]
+      }
+    },
+    "evidence": "design_heuristic",
+    "optical_validation": "NOT_RUN",
+    "geometry_modified": false,
+    "clinical_state_labels": false
+  },
+  "resolved": {
+    "liver": {
+      "balanced": {
+        "version": "atlas-material-2.0.0",
+        "shader_version": "atlas-material-field-glsl-2.0.0",
+        "recipe": {
+          "version": "atlas-material-2.0.0",
+          "organ": "liver",
+          "preset": "balanced",
+          "seed": 42,
+          "tint": 0.0,
+          "pigment_contrast": 0.55,
+          "mottle_scale_mm": 16.0,
+          "wetness": 0.5,
+          "fine_detail": 0.5,
+          "structure_strength": 0.3
+        },
+        "recipe_sha256": "0c9fa8f6cb88b930973860295497923cc658999834dedb3f00f88c054033fbe2",
+        "uniforms": {
+          "uAtlasSeed": 42,
+          "uAtlasBaseColor": [
+            0.19120168274079138,
+            0.04970656598412723,
+            0.0382043715953465
+          ],
+          "uAtlasLigamentColor": [
+            0.5149176653765214,
+            0.43415363617474895,
+            0.3277780980565422
+          ],
+          "uAtlasPigmentContrast": 0.55,
+          "uAtlasMottleScaleMm": 16.0,
+          "uAtlasWetness": 0.5,
+          "uAtlasFineDetail": 0.5,
+          "uAtlasStructureStrength": 0.3,
+          "uAtlasRoughnessBase": 0.43,
+          "uAtlasPigmentAmplitude": 0.36,
+          "uAtlasFineScaleMm": 0.48,
+          "uAtlasHeightAmplitudeMm": 0.024,
+          "uAtlasStructureScaleMm": 2.4,
+          "uAtlasStructureMode": 0,
+          "uAtlasStructureStretch": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "base_color_srgb": [
+          0.4745098039215686,
+          0.24705882352941178,
+          0.21568627450980393
+        ],
+        "ligament_color_srgb": [
+          0.7450980392156863,
+          0.6901960784313725,
+          0.6078431372549019
+        ],
+        "clearcoat": 0.33,
+        "clearcoat_roughness": 0.32999999999999996,
+        "metalness": 0.0,
+        "coordinates": "template_rest_mm",
+        "height_units": "mm",
+        "normal_gradient": "d(height_mm)/d(template_rest_mm); apply as shading only",
+        "region_ids": {
+          "0": "tissue",
+          "1": "ligament"
+        },
+        "evidence": "design_heuristic",
+        "optical_validation": "NOT_RUN",
+        "geometry_modified": false,
+        "vascular_ground_truth": false,
+        "structure_interpretation": "authored soft grain, not measured microanatomy or fiber orientation",
+        "shader_sha256": "1320bb268f9128a13ad116e7f16f9aa7e0d2cacfe3c08f4dd853cf43f62e9afd"
+      },
+      "soft": {
+        "version": "atlas-material-2.0.0",
+        "shader_version": "atlas-material-field-glsl-2.0.0",
+        "recipe": {
+          "version": "atlas-material-2.0.0",
+          "organ": "liver",
+          "preset": "soft",
+          "seed": 42,
+          "tint": -0.12,
+          "pigment_contrast": 0.3,
+          "mottle_scale_mm": 23.0,
+          "wetness": 0.3,
+          "fine_detail": 0.32,
+          "structure_strength": 0.18
+        },
+        "recipe_sha256": "e1eaa83dd5f6bb10689beb3d3b3966ac7ffba25900a3bf454d95f66f688d25a1",
+        "uniforms": {
+          "uAtlasSeed": 42,
+          "uAtlasBaseColor": [
+            0.22211660515086598,
+            0.06045276014055913,
+            0.04710757129280406
+          ],
+          "uAtlasLigamentColor": [
+            0.5115877102438823,
+            0.434825097729789,
+            0.32977547384812195
+          ],
+          "uAtlasPigmentContrast": 0.3,
+          "uAtlasMottleScaleMm": 23.0,
+          "uAtlasWetness": 0.3,
+          "uAtlasFineDetail": 0.32,
+          "uAtlasStructureStrength": 0.18,
+          "uAtlasRoughnessBase": 0.43,
+          "uAtlasPigmentAmplitude": 0.36,
+          "uAtlasFineScaleMm": 0.48,
+          "uAtlasHeightAmplitudeMm": 0.024,
+          "uAtlasStructureScaleMm": 2.4,
+          "uAtlasStructureMode": 0,
+          "uAtlasStructureStretch": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "base_color_srgb": [
+          0.5086305882352942,
+          0.272724705882353,
+          0.24037490196078434
+        ],
+        "ligament_color_srgb": [
+          0.7429380392156862,
+          0.6906760784313726,
+          0.6095231372549019
+        ],
+        "clearcoat": 0.222,
+        "clearcoat_roughness": 0.39,
+        "metalness": 0.0,
+        "coordinates": "template_rest_mm",
+        "height_units": "mm",
+        "normal_gradient": "d(height_mm)/d(template_rest_mm); apply as shading only",
+        "region_ids": {
+          "0": "tissue",
+          "1": "ligament"
+        },
+        "evidence": "design_heuristic",
+        "optical_validation": "NOT_RUN",
+        "geometry_modified": false,
+        "vascular_ground_truth": false,
+        "structure_interpretation": "authored soft grain, not measured microanatomy or fiber orientation",
+        "shader_sha256": "1320bb268f9128a13ad116e7f16f9aa7e0d2cacfe3c08f4dd853cf43f62e9afd"
+      },
+      "rich": {
+        "version": "atlas-material-2.0.0",
+        "shader_version": "atlas-material-field-glsl-2.0.0",
+        "recipe": {
+          "version": "atlas-material-2.0.0",
+          "organ": "liver",
+          "preset": "rich",
+          "seed": 42,
+          "tint": 0.12,
+          "pigment_contrast": 0.78,
+          "mottle_scale_mm": 10.0,
+          "wetness": 0.45,
+          "fine_detail": 0.62,
+          "structure_strength": 0.45
+        },
+        "recipe_sha256": "5ac659234f68fd04de27b700b780f9c98a06099db7281543a2b5babe38ad1c2f",
+        "uniforms": {
+          "uAtlasSeed": 42,
+          "uAtlasBaseColor": [
+            0.13795130649765394,
+            0.03284291768441627,
+            0.02667478289269318
+          ],
+          "uAtlasLigamentColor": [
+            0.5182602300158303,
+            0.4334827798547575,
+            0.32578779709787625
+          ],
+          "uAtlasPigmentContrast": 0.78,
+          "uAtlasMottleScaleMm": 10.0,
+          "uAtlasWetness": 0.45,
+          "uAtlasFineDetail": 0.62,
+          "uAtlasStructureStrength": 0.45,
+          "uAtlasRoughnessBase": 0.43,
+          "uAtlasPigmentAmplitude": 0.36,
+          "uAtlasFineScaleMm": 0.48,
+          "uAtlasHeightAmplitudeMm": 0.024,
+          "uAtlasStructureScaleMm": 2.4,
+          "uAtlasStructureMode": 0,
+          "uAtlasStructureStretch": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "base_color_srgb": [
+          0.40717333333333333,
+          0.19915764705882355,
+          0.1780564705882353
+        ],
+        "ligament_color_srgb": [
+          0.7472580392156863,
+          0.6897160784313725,
+          0.6061631372549019
+        ],
+        "clearcoat": 0.30300000000000005,
+        "clearcoat_roughness": 0.345,
+        "metalness": 0.0,
+        "coordinates": "template_rest_mm",
+        "height_units": "mm",
+        "normal_gradient": "d(height_mm)/d(template_rest_mm); apply as shading only",
+        "region_ids": {
+          "0": "tissue",
+          "1": "ligament"
+        },
+        "evidence": "design_heuristic",
+        "optical_validation": "NOT_RUN",
+        "geometry_modified": false,
+        "vascular_ground_truth": false,
+        "structure_interpretation": "authored soft grain, not measured microanatomy or fiber orientation",
+        "shader_sha256": "1320bb268f9128a13ad116e7f16f9aa7e0d2cacfe3c08f4dd853cf43f62e9afd"
+      },
+      "moist": {
+        "version": "atlas-material-2.0.0",
+        "shader_version": "atlas-material-field-glsl-2.0.0",
+        "recipe": {
+          "version": "atlas-material-2.0.0",
+          "organ": "liver",
+          "preset": "moist",
+          "seed": 42,
+          "tint": 0.04,
+          "pigment_contrast": 0.4,
+          "mottle_scale_mm": 18.0,
+          "wetness": 0.85,
+          "fine_detail": 0.38,
+          "structure_strength": 0.24
+        },
+        "recipe_sha256": "5550a3d6fff6f81fa307693cb30dd025fac875d5a2e78f43eacaedd9ca4a84d9",
+        "uniforms": {
+          "uAtlasSeed": 42,
+          "uAtlasBaseColor": [
+            0.18416362405401548,
+            0.04577206224826749,
+            0.03501115867826917
+          ],
+          "uAtlasLigamentColor": [
+            0.5160304518609937,
+            0.4339299501607806,
+            0.32711387866535346
+          ],
+          "uAtlasPigmentContrast": 0.4,
+          "uAtlasMottleScaleMm": 18.0,
+          "uAtlasWetness": 0.85,
+          "uAtlasFineDetail": 0.38,
+          "uAtlasStructureStrength": 0.24,
+          "uAtlasRoughnessBase": 0.43,
+          "uAtlasPigmentAmplitude": 0.36,
+          "uAtlasFineScaleMm": 0.48,
+          "uAtlasHeightAmplitudeMm": 0.024,
+          "uAtlasStructureScaleMm": 2.4,
+          "uAtlasStructureMode": 0,
+          "uAtlasStructureStretch": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "base_color_srgb": [
+          0.46629960784313723,
+          0.2368564705882353,
+          0.20601882352941175
+        ],
+        "ligament_color_srgb": [
+          0.7458180392156863,
+          0.6900360784313725,
+          0.6072831372549019
+        ],
+        "clearcoat": 0.519,
+        "clearcoat_roughness": 0.22499999999999998,
+        "metalness": 0.0,
+        "coordinates": "template_rest_mm",
+        "height_units": "mm",
+        "normal_gradient": "d(height_mm)/d(template_rest_mm); apply as shading only",
+        "region_ids": {
+          "0": "tissue",
+          "1": "ligament"
+        },
+        "evidence": "design_heuristic",
+        "optical_validation": "NOT_RUN",
+        "geometry_modified": false,
+        "vascular_ground_truth": false,
+        "structure_interpretation": "authored soft grain, not measured microanatomy or fiber orientation",
+        "shader_sha256": "1320bb268f9128a13ad116e7f16f9aa7e0d2cacfe3c08f4dd853cf43f62e9afd"
+      }
+    },
+    "kidney": {
+      "balanced": {
+        "version": "atlas-material-2.0.0",
+        "shader_version": "atlas-material-field-glsl-2.0.0",
+        "recipe": {
+          "version": "atlas-material-2.0.0",
+          "organ": "kidney",
+          "preset": "balanced",
+          "seed": 42,
+          "tint": 0.0,
+          "pigment_contrast": 0.55,
+          "mottle_scale_mm": 16.0,
+          "wetness": 0.5,
+          "fine_detail": 0.5,
+          "structure_strength": 0.3
+        },
+        "recipe_sha256": "0b49289d1fbf164029e1b7464eebfc9dd7755b7b1532435c462c26591784222d",
+        "uniforms": {
+          "uAtlasSeed": 42,
+          "uAtlasBaseColor": [
+            0.3564001441459435,
+            0.10702310297826761,
+            0.08021982031446832
+          ],
+          "uAtlasLigamentColor": [
+            0.5149176653765214,
+            0.43415363617474895,
+            0.3277780980565422
+          ],
+          "uAtlasPigmentContrast": 0.55,
+          "uAtlasMottleScaleMm": 16.0,
+          "uAtlasWetness": 0.5,
+          "uAtlasFineDetail": 0.5,
+          "uAtlasStructureStrength": 0.3,
+          "uAtlasRoughnessBase": 0.42,
+          "uAtlasPigmentAmplitude": 0.28,
+          "uAtlasFineScaleMm": 0.42,
+          "uAtlasHeightAmplitudeMm": 0.018,
+          "uAtlasStructureScaleMm": 1.8,
+          "uAtlasStructureMode": 0,
+          "uAtlasStructureStretch": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "base_color_srgb": [
+          0.6313725490196078,
+          0.3607843137254902,
+          0.3137254901960784
+        ],
+        "ligament_color_srgb": [
+          0.7450980392156863,
+          0.6901960784313725,
+          0.6078431372549019
+        ],
+        "clearcoat": 0.33,
+        "clearcoat_roughness": 0.32999999999999996,
+        "metalness": 0.0,
+        "coordinates": "template_rest_mm",
+        "height_units": "mm",
+        "normal_gradient": "d(height_mm)/d(template_rest_mm); apply as shading only",
+        "region_ids": {
+          "0": "tissue",
+          "1": "ligament"
+        },
+        "evidence": "design_heuristic",
+        "optical_validation": "NOT_RUN",
+        "geometry_modified": false,
+        "vascular_ground_truth": false,
+        "structure_interpretation": "authored soft grain, not measured microanatomy or fiber orientation",
+        "shader_sha256": "1320bb268f9128a13ad116e7f16f9aa7e0d2cacfe3c08f4dd853cf43f62e9afd"
+      },
+      "soft": {
+        "version": "atlas-material-2.0.0",
+        "shader_version": "atlas-material-field-glsl-2.0.0",
+        "recipe": {
+          "version": "atlas-material-2.0.0",
+          "organ": "kidney",
+          "preset": "soft",
+          "seed": 42,
+          "tint": -0.12,
+          "pigment_contrast": 0.3,
+          "mottle_scale_mm": 23.0,
+          "wetness": 0.3,
+          "fine_detail": 0.32,
+          "structure_strength": 0.18
+        },
+        "recipe_sha256": "034d72e676e87cd972b96f626943466f07ec2adb64e43ef5bfda6f2403d94a61",
+        "uniforms": {
+          "uAtlasSeed": 42,
+          "uAtlasBaseColor": [
+            0.41735330696158923,
+            0.13134751372941464,
+            0.09942371462232892
+          ],
+          "uAtlasLigamentColor": [
+            0.5115877102438823,
+            0.434825097729789,
+            0.32977547384812195
+          ],
+          "uAtlasPigmentContrast": 0.3,
+          "uAtlasMottleScaleMm": 23.0,
+          "uAtlasWetness": 0.3,
+          "uAtlasFineDetail": 0.32,
+          "uAtlasStructureStrength": 0.18,
+          "uAtlasRoughnessBase": 0.42,
+          "uAtlasPigmentAmplitude": 0.28,
+          "uAtlasFineScaleMm": 0.42,
+          "uAtlasHeightAmplitudeMm": 0.018,
+          "uAtlasStructureScaleMm": 1.8,
+          "uAtlasStructureMode": 0,
+          "uAtlasStructureStretch": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "base_color_srgb": [
+          0.6780423529411765,
+          0.3978227450980393,
+          0.34821803921568634
+        ],
+        "ligament_color_srgb": [
+          0.7429380392156862,
+          0.6906760784313726,
+          0.6095231372549019
+        ],
+        "clearcoat": 0.222,
+        "clearcoat_roughness": 0.39,
+        "metalness": 0.0,
+        "coordinates": "template_rest_mm",
+        "height_units": "mm",
+        "normal_gradient": "d(height_mm)/d(template_rest_mm); apply as shading only",
+        "region_ids": {
+          "0": "tissue",
+          "1": "ligament"
+        },
+        "evidence": "design_heuristic",
+        "optical_validation": "NOT_RUN",
+        "geometry_modified": false,
+        "vascular_ground_truth": false,
+        "structure_interpretation": "authored soft grain, not measured microanatomy or fiber orientation",
+        "shader_sha256": "1320bb268f9128a13ad116e7f16f9aa7e0d2cacfe3c08f4dd853cf43f62e9afd"
+      },
+      "rich": {
+        "version": "atlas-material-2.0.0",
+        "shader_version": "atlas-material-field-glsl-2.0.0",
+        "recipe": {
+          "version": "atlas-material-2.0.0",
+          "organ": "kidney",
+          "preset": "rich",
+          "seed": 42,
+          "tint": 0.12,
+          "pigment_contrast": 0.78,
+          "mottle_scale_mm": 10.0,
+          "wetness": 0.45,
+          "fine_detail": 0.62,
+          "structure_strength": 0.45
+        },
+        "recipe_sha256": "7ec9c3bdfab7bd3cf999bebfea5a97ac1482654764ae7aed96ed841ba2f417b8",
+        "uniforms": {
+          "uAtlasSeed": 42,
+          "uAtlasBaseColor": [
+            0.2534673378442549,
+            0.06899310859991767,
+            0.05514336357329176
+          ],
+          "uAtlasLigamentColor": [
+            0.5182602300158303,
+            0.4334827798547575,
+            0.32578779709787625
+          ],
+          "uAtlasPigmentContrast": 0.78,
+          "uAtlasMottleScaleMm": 10.0,
+          "uAtlasWetness": 0.45,
+          "uAtlasFineDetail": 0.62,
+          "uAtlasStructureStrength": 0.45,
+          "uAtlasRoughnessBase": 0.42,
+          "uAtlasPigmentAmplitude": 0.28,
+          "uAtlasFineScaleMm": 0.42,
+          "uAtlasHeightAmplitudeMm": 0.018,
+          "uAtlasStructureScaleMm": 1.8,
+          "uAtlasStructureMode": 0,
+          "uAtlasStructureStretch": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "base_color_srgb": [
+          0.5405066666666666,
+          0.2912752941176471,
+          0.26040941176470583
+        ],
+        "ligament_color_srgb": [
+          0.7472580392156863,
+          0.6897160784313725,
+          0.6061631372549019
+        ],
+        "clearcoat": 0.30300000000000005,
+        "clearcoat_roughness": 0.345,
+        "metalness": 0.0,
+        "coordinates": "template_rest_mm",
+        "height_units": "mm",
+        "normal_gradient": "d(height_mm)/d(template_rest_mm); apply as shading only",
+        "region_ids": {
+          "0": "tissue",
+          "1": "ligament"
+        },
+        "evidence": "design_heuristic",
+        "optical_validation": "NOT_RUN",
+        "geometry_modified": false,
+        "vascular_ground_truth": false,
+        "structure_interpretation": "authored soft grain, not measured microanatomy or fiber orientation",
+        "shader_sha256": "1320bb268f9128a13ad116e7f16f9aa7e0d2cacfe3c08f4dd853cf43f62e9afd"
+      },
+      "moist": {
+        "version": "atlas-material-2.0.0",
+        "shader_version": "atlas-material-field-glsl-2.0.0",
+        "recipe": {
+          "version": "atlas-material-2.0.0",
+          "organ": "kidney",
+          "preset": "moist",
+          "seed": 42,
+          "tint": 0.04,
+          "pigment_contrast": 0.4,
+          "mottle_scale_mm": 18.0,
+          "wetness": 0.85,
+          "fine_detail": 0.38,
+          "structure_strength": 0.24
+        },
+        "recipe_sha256": "865319e198df4f33280975dbd30dccd34772211ce0adee170f04aaf7ed6589e5",
+        "uniforms": {
+          "uAtlasSeed": 42,
+          "uAtlasBaseColor": [
+            0.3424221945524724,
+            0.09813551606107726,
+            0.07330654564612821
+          ],
+          "uAtlasLigamentColor": [
+            0.5160304518609937,
+            0.4339299501607806,
+            0.32711387866535346
+          ],
+          "uAtlasPigmentContrast": 0.4,
+          "uAtlasMottleScaleMm": 18.0,
+          "uAtlasWetness": 0.85,
+          "uAtlasFineDetail": 0.38,
+          "uAtlasStructureStrength": 0.24,
+          "uAtlasRoughnessBase": 0.42,
+          "uAtlasPigmentAmplitude": 0.28,
+          "uAtlasFineScaleMm": 0.42,
+          "uAtlasHeightAmplitudeMm": 0.018,
+          "uAtlasStructureScaleMm": 1.8,
+          "uAtlasStructureMode": 0,
+          "uAtlasStructureStretch": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "base_color_srgb": [
+          0.6200250980392156,
+          0.3460329411764706,
+          0.3001364705882353
+        ],
+        "ligament_color_srgb": [
+          0.7458180392156863,
+          0.6900360784313725,
+          0.6072831372549019
+        ],
+        "clearcoat": 0.519,
+        "clearcoat_roughness": 0.22499999999999998,
+        "metalness": 0.0,
+        "coordinates": "template_rest_mm",
+        "height_units": "mm",
+        "normal_gradient": "d(height_mm)/d(template_rest_mm); apply as shading only",
+        "region_ids": {
+          "0": "tissue",
+          "1": "ligament"
+        },
+        "evidence": "design_heuristic",
+        "optical_validation": "NOT_RUN",
+        "geometry_modified": false,
+        "vascular_ground_truth": false,
+        "structure_interpretation": "authored soft grain, not measured microanatomy or fiber orientation",
+        "shader_sha256": "1320bb268f9128a13ad116e7f16f9aa7e0d2cacfe3c08f4dd853cf43f62e9afd"
+      }
+    }
+  }
+}

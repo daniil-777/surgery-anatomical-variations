@@ -1,0 +1,966 @@
+{
+  "shape": {
+    "selected": "ridge",
+    "steps": 1200,
+    "scope": "seven bounded synthetic atlas geometry controls",
+    "audit": {
+      "rows": 240,
+      "method": "ridge",
+      "macro_template_control_nrmse": 0.20529108705100008,
+      "per_template_control_nrmse": {
+        "bp3d-gallbladder-male": 0.2021246395577007,
+        "bp3d-stomach-male": 0.2137855841703995,
+        "hra-brain-female": 0.19814988038146863,
+        "hra-brain-male": 0.2101222968898745,
+        "hra-heart-female": 0.18719371606343777,
+        "hra-heart-male": 0.22639343023438674,
+        "hra-kidney-female-left": 0.22630687362559887,
+        "hra-kidney-female-right": 0.21890344506499135,
+        "hra-kidney-male-left": 0.23926457732123774,
+        "hra-kidney-male-right": 0.20290559180502582,
+        "hra-large-intestine-female": 0.20863277248678566,
+        "hra-large-intestine-male": 0.18038104675697084,
+        "hra-liver-female": 0.18705483815287102,
+        "hra-liver-male": 0.19076422596063278,
+        "hra-lung-female": 0.21185164834771067,
+        "hra-lung-male": 0.2090016497018697,
+        "hra-pancreas-female": 0.18927693286401384,
+        "hra-pancreas-male": 0.18878075301425867,
+        "hra-small-intestine-female": 0.16896765997532445,
+        "hra-small-intestine-male": 0.22837898417340274,
+        "hra-spleen-female": 0.19809146360216245,
+        "hra-spleen-male": 0.2516531238104067,
+        "hra-urinary-bladder-female": 0.19892335302533523,
+        "hra-urinary-bladder-male": 0.19007760223813516
+      },
+      "per_organ_control_nrmse": {
+        "brain": 0.20422384134261465,
+        "gallbladder": 0.2021246395577007,
+        "heart": 0.20772033192122902,
+        "kidney": 0.22223396255859093,
+        "large-intestine": 0.1950191731403138,
+        "liver": 0.18891863643213727,
+        "lung": 0.21043147398350978,
+        "pancreas": 0.189029005741234,
+        "small-intestine": 0.2008818440397392,
+        "spleen": 0.22646139039092597,
+        "stomach": 0.2137855841703995,
+        "urinary-bladder": 0.1945507584814833
+      },
+      "per_control_nrmse": {
+        "scale_x": 0.02043015775343969,
+        "scale_y": 0.022770113504319484,
+        "scale_z": 0.033288705127921696,
+        "bend": 0.2850043401363522,
+        "twist": 0.2822310407609806,
+        "taper": 0.2315251586579084,
+        "asymmetry": 0.28469074756687596
+      },
+      "unconditional_empirical_diversity": {
+        "bp3d-gallbladder-male": {
+          "mean_control_std": 0.5684458086271776,
+          "unique_fraction": 0.328125
+        },
+        "bp3d-stomach-male": {
+          "mean_control_std": 0.59431789989698,
+          "unique_fraction": 0.328125
+        },
+        "hra-brain-female": {
+          "mean_control_std": 0.577061554898832,
+          "unique_fraction": 0.328125
+        },
+        "hra-brain-male": {
+          "mean_control_std": 0.5663595965788494,
+          "unique_fraction": 0.328125
+        },
+        "hra-heart-female": {
+          "mean_control_std": 0.5669223359838792,
+          "unique_fraction": 0.328125
+        },
+        "hra-heart-male": {
+          "mean_control_std": 0.5632396627963375,
+          "unique_fraction": 0.328125
+        },
+        "hra-kidney-female-left": {
+          "mean_control_std": 0.5570084989659726,
+          "unique_fraction": 0.328125
+        },
+        "hra-kidney-female-right": {
+          "mean_control_std": 0.5658951273412184,
+          "unique_fraction": 0.328125
+        },
+        "hra-kidney-male-left": {
+          "mean_control_std": 0.5453906948863352,
+          "unique_fraction": 0.328125
+        },
+        "hra-kidney-male-right": {
+          "mean_control_std": 0.5853545177005134,
+          "unique_fraction": 0.328125
+        },
+        "hra-large-intestine-female": {
+          "mean_control_std": 0.5539145074988724,
+          "unique_fraction": 0.328125
+        },
+        "hra-large-intestine-male": {
+          "mean_control_std": 0.5658880109771786,
+          "unique_fraction": 0.328125
+        },
+        "hra-liver-female": {
+          "mean_control_std": 0.5613621086090588,
+          "unique_fraction": 0.328125
+        },
+        "hra-liver-male": {
+          "mean_control_std": 0.5698124566483888,
+          "unique_fraction": 0.328125
+        },
+        "hra-lung-female": {
+          "mean_control_std": 0.5725611644661063,
+          "unique_fraction": 0.328125
+        },
+        "hra-lung-male": {
+          "mean_control_std": 0.5562988028473828,
+          "unique_fraction": 0.328125
+        },
+        "hra-pancreas-female": {
+          "mean_control_std": 0.5816561052650331,
+          "unique_fraction": 0.328125
+        },
+        "hra-pancreas-male": {
+          "mean_control_std": 0.5665024595101282,
+          "unique_fraction": 0.328125
+        },
+        "hra-small-intestine-female": {
+          "mean_control_std": 0.5665916950398934,
+          "unique_fraction": 0.328125
+        },
+        "hra-small-intestine-male": {
+          "mean_control_std": 0.5657412313581431,
+          "unique_fraction": 0.328125
+        },
+        "hra-spleen-female": {
+          "mean_control_std": 0.5868464134250638,
+          "unique_fraction": 0.328125
+        },
+        "hra-spleen-male": {
+          "mean_control_std": 0.5572384088919903,
+          "unique_fraction": 0.328125
+        },
+        "hra-urinary-bladder-female": {
+          "mean_control_std": 0.5896306298596851,
+          "unique_fraction": 0.328125
+        },
+        "hra-urinary-bladder-male": {
+          "mean_control_std": 0.582293116247892,
+          "unique_fraction": 0.328125
+        }
+      },
+      "conditional_proposal_diversity": {
+        "bp3d-gallbladder-male": {
+          "status": "MEASURED",
+          "mean_control_std": 0.29165711050210014,
+          "secondary_controls_mean_std": 0.46659341764498463,
+          "unique_fraction": 0.53125
+        },
+        "bp3d-stomach-male": {
+          "status": "MEASURED",
+          "mean_control_std": 0.3100755497450791,
+          "secondary_controls_mean_std": 0.5157084732535755,
+          "unique_fraction": 0.59375
+        },
+        "hra-brain-female": {
+          "status": "UNSUPPORTED",
+          "reason": "Requested surface_area_mm2 exceeds training support for hra-brain-female"
+        },
+        "hra-brain-male": {
+          "status": "MEASURED",
+          "mean_control_std": 0.2919060975472152,
+          "secondary_controls_mean_std": 0.4916312592432354,
+          "unique_fraction": 0.625
+        },
+        "hra-heart-female": {
+          "status": "MEASURED",
+          "mean_control_std": 0.24592263499978298,
+          "secondary_controls_mean_std": 0.41401966368010057,
+          "unique_fraction": 0.625
+        },
+        "hra-heart-male": {
+          "status": "MEASURED",
+          "mean_control_std": 0.2587589610921451,
+          "secondary_controls_mean_std": 0.4228162277229941,
+          "unique_fraction": 0.65625
+        },
+        "hra-kidney-female-left": {
+          "status": "MEASURED",
+          "mean_control_std": 0.2896051187662173,
+          "secondary_controls_mean_std": 0.49237149846288353,
+          "unique_fraction": 0.625
+        },
+        "hra-kidney-female-right": {
+          "status": "MEASURED",
+          "mean_control_std": 0.3076753592337128,
+          "secondary_controls_mean_std": 0.5190791058687236,
+          "unique_fraction": 0.625
+        },
+        "hra-kidney-male-left": {
+          "status": "MEASURED",
+          "mean_control_std": 0.29047444805058403,
+          "secondary_controls_mean_std": 0.4952677654715925,
+          "unique_fraction": 0.625
+        },
+        "hra-kidney-male-right": {
+          "status": "MEASURED",
+          "mean_control_std": 0.2828452496273532,
+          "secondary_controls_mean_std": 0.483883500578199,
+          "unique_fraction": 0.40625
+        },
+        "hra-large-intestine-female": {
+          "status": "UNSUPPORTED",
+          "reason": "Requested extent_x_mm exceeds training support for hra-large-intestine-female"
+        },
+        "hra-large-intestine-male": {
+          "status": "MEASURED",
+          "mean_control_std": 0.28808540903116336,
+          "secondary_controls_mean_std": 0.4876492612684543,
+          "unique_fraction": 0.5625
+        },
+        "hra-liver-female": {
+          "status": "MEASURED",
+          "mean_control_std": 0.20724896084709837,
+          "secondary_controls_mean_std": 0.326844423984513,
+          "unique_fraction": 0.59375
+        },
+        "hra-liver-male": {
+          "status": "MEASURED",
+          "mean_control_std": 0.28390182879448067,
+          "secondary_controls_mean_std": 0.47024520450687324,
+          "unique_fraction": 0.59375
+        },
+        "hra-lung-female": {
+          "status": "MEASURED",
+          "mean_control_std": 0.2772795319539901,
+          "secondary_controls_mean_std": 0.4550829038571347,
+          "unique_fraction": 0.59375
+        },
+        "hra-lung-male": {
+          "status": "MEASURED",
+          "mean_control_std": 0.3114423746723249,
+          "secondary_controls_mean_std": 0.4945042695348161,
+          "unique_fraction": 0.65625
+        },
+        "hra-pancreas-female": {
+          "status": "MEASURED",
+          "mean_control_std": 0.27618195790735345,
+          "secondary_controls_mean_std": 0.4299505669576171,
+          "unique_fraction": 0.65625
+        },
+        "hra-pancreas-male": {
+          "status": "MEASURED",
+          "mean_control_std": 0.21391176494875475,
+          "secondary_controls_mean_std": 0.3477405929648178,
+          "unique_fraction": 0.53125
+        },
+        "hra-small-intestine-female": {
+          "status": "MEASURED",
+          "mean_control_std": 0.23643878574144553,
+          "secondary_controls_mean_std": 0.39991961932433434,
+          "unique_fraction": 0.5
+        },
+        "hra-small-intestine-male": {
+          "status": "MEASURED",
+          "mean_control_std": 0.2373165570763773,
+          "secondary_controls_mean_std": 0.395952911576202,
+          "unique_fraction": 0.4375
+        },
+        "hra-spleen-female": {
+          "status": "UNSUPPORTED",
+          "reason": "Requested extent_x_mm exceeds training support for hra-spleen-female"
+        },
+        "hra-spleen-male": {
+          "status": "MEASURED",
+          "mean_control_std": 0.2867158357167449,
+          "secondary_controls_mean_std": 0.45486000370836355,
+          "unique_fraction": 0.65625
+        },
+        "hra-urinary-bladder-female": {
+          "status": "MEASURED",
+          "mean_control_std": 0.27457203224850824,
+          "secondary_controls_mean_std": 0.45802746155774976,
+          "unique_fraction": 0.6875
+        },
+        "hra-urinary-bladder-male": {
+          "status": "MEASURED",
+          "mean_control_std": 0.2404539846098994,
+          "secondary_controls_mean_std": 0.3830615730227011,
+          "unique_fraction": 0.625
+        }
+      },
+      "control_bound_violation_count": 0,
+      "decoded_geometry": {
+        "status": "MEASURED",
+        "conditions": {
+          "extent_x_mm": {
+            "observed_rows": 240,
+            "mae_original_units": 0.1354829133209768,
+            "nrmse_training_std": 0.027699743505084258
+          },
+          "extent_y_mm": {
+            "observed_rows": 240,
+            "mae_original_units": 0.14345475913290417,
+            "nrmse_training_std": 0.028532144421727797
+          },
+          "extent_z_mm": {
+            "observed_rows": 240,
+            "mae_original_units": 0.14283275809743173,
+            "nrmse_training_std": 0.038276503419660574
+          },
+          "surface_area_mm2": {
+            "observed_rows": 240,
+            "mae_original_units": 147.69673682533121,
+            "nrmse_training_std": 0.036134044387301105
+          },
+          "volume_ml": {
+            "observed_rows": 0,
+            "mae_original_units": null,
+            "nrmse_training_std": null
+          },
+          "compactness": {
+            "observed_rows": 0,
+            "mae_original_units": null,
+            "nrmse_training_std": null
+          }
+        }
+      },
+      "scope": "Within-generator held-out seeds; not unseen-person anatomical validation",
+      "split": "audit",
+      "model_sha256": "8cb1c7591a85cb982ce43167b919fd771f19d178657432f54ea14714081aec12",
+      "split_sha256": "9f2eeb2149695370dc81d0626369c5456b70dbd6e3e866b846026c005a27433d",
+      "model_frozen": true
+    },
+    "elapsed_seconds": 38.495
+  },
+  "material": {
+    "selected": "ridge",
+    "steps": 2000,
+    "scope": "six synthetic procedural appearance controls; no measured tissue optics",
+    "audit": {
+      "rows": 144,
+      "macro_control_nrmse": 0.08637396104625907,
+      "macro_field_summary_nrmse": 0.08340065630087173,
+      "condition_rmse_original_units": {
+        "mean_red_linear": 0.003520403125541513,
+        "mean_green_linear": 0.0010789788159864917,
+        "mean_blue_linear": 0.0016200071626281231,
+        "luminance_std": 0.000674986273861472,
+        "roughness_mean": 0.00047427502617055164,
+        "roughness_std": 0.00029379516022963936,
+        "height_rms_mm": 0.00010956658767281947,
+        "gradient_rms": 0.001019271941012514
+      },
+      "field_mae_rmse": {
+        "rgb_linear_mae": 0.006656189785684684,
+        "roughness_mae": 0.005728396447588024,
+        "height_mm_rmse": 0.00010740120305803395,
+        "gradient_rmse": 0.00046549282481030043
+      },
+      "per_group": {
+        "brain|balanced": {
+          "control_nrmse": 0.058511571967712714,
+          "field_summary_nrmse": 0.07084461108723583
+        },
+        "brain|moist": {
+          "control_nrmse": 0.12758776738725744,
+          "field_summary_nrmse": 0.06472088303351972
+        },
+        "brain|rich": {
+          "control_nrmse": 0.12740736883703946,
+          "field_summary_nrmse": 0.10917976027288114
+        },
+        "brain|soft": {
+          "control_nrmse": 0.04927860271817112,
+          "field_summary_nrmse": 0.046651348545888253
+        },
+        "gallbladder|balanced": {
+          "control_nrmse": 0.08046126714756474,
+          "field_summary_nrmse": 0.05308061901968612
+        },
+        "gallbladder|moist": {
+          "control_nrmse": 0.10097603080401582,
+          "field_summary_nrmse": 0.10098077380264668
+        },
+        "gallbladder|rich": {
+          "control_nrmse": 0.08824069055600842,
+          "field_summary_nrmse": 0.08440805648990868
+        },
+        "gallbladder|soft": {
+          "control_nrmse": 0.10328227996015164,
+          "field_summary_nrmse": 0.04976655739436407
+        },
+        "heart|balanced": {
+          "control_nrmse": 0.09951885040862164,
+          "field_summary_nrmse": 0.08868454500594906
+        },
+        "heart|moist": {
+          "control_nrmse": 0.0611485115073604,
+          "field_summary_nrmse": 0.047941342792804195
+        },
+        "heart|rich": {
+          "control_nrmse": 0.08968947485272372,
+          "field_summary_nrmse": 0.0857570548328405
+        },
+        "heart|soft": {
+          "control_nrmse": 0.04025297450857171,
+          "field_summary_nrmse": 0.06881571643089013
+        },
+        "kidney|balanced": {
+          "control_nrmse": 0.10840360345174088,
+          "field_summary_nrmse": 0.08866264402782133
+        },
+        "kidney|moist": {
+          "control_nrmse": 0.08672361729167799,
+          "field_summary_nrmse": 0.057666698743012904
+        },
+        "kidney|rich": {
+          "control_nrmse": 0.12266671336450759,
+          "field_summary_nrmse": 0.07126820873061147
+        },
+        "kidney|soft": {
+          "control_nrmse": 0.06417995422507901,
+          "field_summary_nrmse": 0.06808300157932438
+        },
+        "large-intestine|balanced": {
+          "control_nrmse": 0.11865368305467586,
+          "field_summary_nrmse": 0.06950798819750063
+        },
+        "large-intestine|moist": {
+          "control_nrmse": 0.06439388169498958,
+          "field_summary_nrmse": 0.08012062752542871
+        },
+        "large-intestine|rich": {
+          "control_nrmse": 0.11457567835161109,
+          "field_summary_nrmse": 0.07340276914037541
+        },
+        "large-intestine|soft": {
+          "control_nrmse": 0.080294550957847,
+          "field_summary_nrmse": 0.11751021946101249
+        },
+        "liver|balanced": {
+          "control_nrmse": 0.1000042458918814,
+          "field_summary_nrmse": 0.09528176329004012
+        },
+        "liver|moist": {
+          "control_nrmse": 0.0763236094943047,
+          "field_summary_nrmse": 0.05587903661366189
+        },
+        "liver|rich": {
+          "control_nrmse": 0.07582083169458341,
+          "field_summary_nrmse": 0.06380436902405358
+        },
+        "liver|soft": {
+          "control_nrmse": 0.08549036385499191,
+          "field_summary_nrmse": 0.0649846785315345
+        },
+        "lung|balanced": {
+          "control_nrmse": 0.07808648869224606,
+          "field_summary_nrmse": 0.06494608635663693
+        },
+        "lung|moist": {
+          "control_nrmse": 0.06622166676737937,
+          "field_summary_nrmse": 0.05746716486113493
+        },
+        "lung|rich": {
+          "control_nrmse": 0.07283206157775543,
+          "field_summary_nrmse": 0.08344150568954406
+        },
+        "lung|soft": {
+          "control_nrmse": 0.10273793533557854,
+          "field_summary_nrmse": 0.12667473040511895
+        },
+        "pancreas|balanced": {
+          "control_nrmse": 0.057531709973154356,
+          "field_summary_nrmse": 0.2010080354826603
+        },
+        "pancreas|moist": {
+          "control_nrmse": 0.06787545746790755,
+          "field_summary_nrmse": 0.175118395754228
+        },
+        "pancreas|rich": {
+          "control_nrmse": 0.08009372003436493,
+          "field_summary_nrmse": 0.11555093085022715
+        },
+        "pancreas|soft": {
+          "control_nrmse": 0.09202778915285713,
+          "field_summary_nrmse": 0.17586341143589093
+        },
+        "small-intestine|balanced": {
+          "control_nrmse": 0.073353295846558,
+          "field_summary_nrmse": 0.07759928380215486
+        },
+        "small-intestine|moist": {
+          "control_nrmse": 0.09457816976781307,
+          "field_summary_nrmse": 0.07977380384257618
+        },
+        "small-intestine|rich": {
+          "control_nrmse": 0.09618426751904216,
+          "field_summary_nrmse": 0.05464034468800874
+        },
+        "small-intestine|soft": {
+          "control_nrmse": 0.041998595901353096,
+          "field_summary_nrmse": 0.05654626517853651
+        },
+        "spleen|balanced": {
+          "control_nrmse": 0.07676696900548764,
+          "field_summary_nrmse": 0.09154615461232392
+        },
+        "spleen|moist": {
+          "control_nrmse": 0.08626362933423798,
+          "field_summary_nrmse": 0.06393961843426425
+        },
+        "spleen|rich": {
+          "control_nrmse": 0.13372983870406172,
+          "field_summary_nrmse": 0.07220349446987735
+        },
+        "spleen|soft": {
+          "control_nrmse": 0.08814239271731117,
+          "field_summary_nrmse": 0.0606337385957364
+        },
+        "stomach|balanced": {
+          "control_nrmse": 0.13081100540202828,
+          "field_summary_nrmse": 0.10245259092541727
+        },
+        "stomach|moist": {
+          "control_nrmse": 0.0785348437308154,
+          "field_summary_nrmse": 0.1295512741496102
+        },
+        "stomach|rich": {
+          "control_nrmse": 0.12831383079748637,
+          "field_summary_nrmse": 0.05270959813538629
+        },
+        "stomach|soft": {
+          "control_nrmse": 0.0611567612386357,
+          "field_summary_nrmse": 0.05176616750118037
+        },
+        "urinary-bladder|balanced": {
+          "control_nrmse": 0.0634121090373575,
+          "field_summary_nrmse": 0.06395749023572071
+        },
+        "urinary-bladder|moist": {
+          "control_nrmse": 0.05093258675849701,
+          "field_summary_nrmse": 0.07173964781951887
+        },
+        "urinary-bladder|rich": {
+          "control_nrmse": 0.06908465396715424,
+          "field_summary_nrmse": 0.07005649788249207
+        },
+        "urinary-bladder|soft": {
+          "control_nrmse": 0.13139422750826377,
+          "field_summary_nrmse": 0.12704199776060562
+        }
+      },
+      "per_organ": {
+        "brain": {
+          "control_nrmse": 0.09793270745878327,
+          "field_summary_nrmse": 0.07632876259172224
+        },
+        "gallbladder": {
+          "control_nrmse": 0.09370675420092955,
+          "field_summary_nrmse": 0.07519324941207241
+        },
+        "heart": {
+          "control_nrmse": 0.07633420907817884,
+          "field_summary_nrmse": 0.07458752602343917
+        },
+        "kidney": {
+          "control_nrmse": 0.09802871534588631,
+          "field_summary_nrmse": 0.07228583068216388
+        },
+        "large-intestine": {
+          "control_nrmse": 0.09721119982471403,
+          "field_summary_nrmse": 0.08724576432925404
+        },
+        "liver": {
+          "control_nrmse": 0.08497579566200049,
+          "field_summary_nrmse": 0.07158052650500465
+        },
+        "lung": {
+          "control_nrmse": 0.08115171196040412,
+          "field_summary_nrmse": 0.08736338100881912
+        },
+        "pancreas": {
+          "control_nrmse": 0.07550015454325049,
+          "field_summary_nrmse": 0.16981654804697055
+        },
+        "small-intestine": {
+          "control_nrmse": 0.0795943333159493,
+          "field_summary_nrmse": 0.06813324445413371
+        },
+        "spleen": {
+          "control_nrmse": 0.0987260508046779,
+          "field_summary_nrmse": 0.07307319635061225
+        },
+        "stomach": {
+          "control_nrmse": 0.10426388328807647,
+          "field_summary_nrmse": 0.09046836996220355
+        },
+        "urinary-bladder": {
+          "control_nrmse": 0.08463503471189157,
+          "field_summary_nrmse": 0.0870125274272134
+        }
+      },
+      "scope": "Reconstruction of procedural material fields, not comparison with tissue photographs"
+    },
+    "elapsed_seconds": 14.969
+  },
+  "disease": {
+    "selected": "conditional_vae",
+    "steps": 1600,
+    "scope": "synthetic_visual_recipe_distribution_not_patient_population",
+    "patient_count": 0,
+    "audit": {
+      "split": "audit",
+      "model_sha256": "733757a4c1bc8e33f07e8b0bf166ab54c9ef231c38c62a536163375c0d9df1f3",
+      "method": "conditional_vae",
+      "scope": "synthetic_visual_recipe_distribution_not_patient_population",
+      "patient_count": 0,
+      "metrics": {
+        "macro_mean_feature_mae": 0.04661413788795471,
+        "macro_relative_std_error": 0.1933032578229904,
+        "min_unique_control_vectors": 128,
+        "per_profile": {
+          "bladder-cancer": {
+            "mean_feature_mae": 0.05459737777709961,
+            "relative_std_error": 0.2095920592546463,
+            "unique_control_vectors": 128,
+            "samples": 128,
+            "validation_recipes": 24
+          },
+          "bladder-diverticulum": {
+            "mean_feature_mae": 0.05106230080127716,
+            "relative_std_error": 0.1818840503692627,
+            "unique_control_vectors": 128,
+            "samples": 128,
+            "validation_recipes": 24
+          },
+          "brain-glioblastoma": {
+            "mean_feature_mae": 0.04499443247914314,
+            "relative_std_error": 0.1753983199596405,
+            "unique_control_vectors": 128,
+            "samples": 128,
+            "validation_recipes": 24
+          },
+          "brain-meningioma": {
+            "mean_feature_mae": 0.06058343127369881,
+            "relative_std_error": 0.17510874569416046,
+            "unique_control_vectors": 128,
+            "samples": 128,
+            "validation_recipes": 24
+          },
+          "colon-cancer": {
+            "mean_feature_mae": 0.05673960968852043,
+            "relative_std_error": 0.19966894388198853,
+            "unique_control_vectors": 128,
+            "samples": 128,
+            "validation_recipes": 24
+          },
+          "colon-diverticulosis": {
+            "mean_feature_mae": 0.027116311714053154,
+            "relative_std_error": 0.20960813760757446,
+            "unique_control_vectors": 128,
+            "samples": 128,
+            "validation_recipes": 24
+          },
+          "gallbladder-carcinoma": {
+            "mean_feature_mae": 0.06061069294810295,
+            "relative_std_error": 0.18404465913772583,
+            "unique_control_vectors": 128,
+            "samples": 128,
+            "validation_recipes": 24
+          },
+          "gallbladder-cholecystitis": {
+            "mean_feature_mae": 0.03513529151678085,
+            "relative_std_error": 0.18989577889442444,
+            "unique_control_vectors": 128,
+            "samples": 128,
+            "validation_recipes": 24
+          },
+          "heart-infarction": {
+            "mean_feature_mae": 0.0438537523150444,
+            "relative_std_error": 0.1618921458721161,
+            "unique_control_vectors": 128,
+            "samples": 128,
+            "validation_recipes": 24
+          },
+          "kidney-cancer": {
+            "mean_feature_mae": 0.03594060242176056,
+            "relative_std_error": 0.2093086689710617,
+            "unique_control_vectors": 128,
+            "samples": 128,
+            "validation_recipes": 24
+          },
+          "kidney-polycystic": {
+            "mean_feature_mae": 0.042227692902088165,
+            "relative_std_error": 0.17149993777275085,
+            "unique_control_vectors": 128,
+            "samples": 128,
+            "validation_recipes": 24
+          },
+          "liver-cirrhosis": {
+            "mean_feature_mae": 0.052964143455028534,
+            "relative_std_error": 0.18329209089279175,
+            "unique_control_vectors": 128,
+            "samples": 128,
+            "validation_recipes": 24
+          },
+          "liver-hcc": {
+            "mean_feature_mae": 0.08142438530921936,
+            "relative_std_error": 0.16307920217514038,
+            "unique_control_vectors": 128,
+            "samples": 128,
+            "validation_recipes": 24
+          },
+          "liver-metastases": {
+            "mean_feature_mae": 0.022138969972729683,
+            "relative_std_error": 0.20316118001937866,
+            "unique_control_vectors": 128,
+            "samples": 128,
+            "validation_recipes": 24
+          },
+          "lung-cancer": {
+            "mean_feature_mae": 0.03951837122440338,
+            "relative_std_error": 0.17841921746730804,
+            "unique_control_vectors": 128,
+            "samples": 128,
+            "validation_recipes": 24
+          },
+          "lung-emphysema": {
+            "mean_feature_mae": 0.041309647262096405,
+            "relative_std_error": 0.17931674420833588,
+            "unique_control_vectors": 128,
+            "samples": 128,
+            "validation_recipes": 24
+          },
+          "pancreas-cancer": {
+            "mean_feature_mae": 0.034949254244565964,
+            "relative_std_error": 0.26011455059051514,
+            "unique_control_vectors": 128,
+            "samples": 128,
+            "validation_recipes": 24
+          },
+          "pancreas-pancreatitis": {
+            "mean_feature_mae": 0.04561794176697731,
+            "relative_std_error": 0.24181754887104034,
+            "unique_control_vectors": 128,
+            "samples": 128,
+            "validation_recipes": 24
+          },
+          "pancreas-pseudocyst": {
+            "mean_feature_mae": 0.06283850222826004,
+            "relative_std_error": 0.21494871377944946,
+            "unique_control_vectors": 128,
+            "samples": 128,
+            "validation_recipes": 24
+          },
+          "small-intestine-crohn": {
+            "mean_feature_mae": 0.03418488800525665,
+            "relative_std_error": 0.13489431142807007,
+            "unique_control_vectors": 128,
+            "samples": 128,
+            "validation_recipes": 24
+          },
+          "small-intestine-net": {
+            "mean_feature_mae": 0.03149330988526344,
+            "relative_std_error": 0.21552526950836182,
+            "unique_control_vectors": 128,
+            "samples": 128,
+            "validation_recipes": 24
+          },
+          "spleen-cyst": {
+            "mean_feature_mae": 0.05683749169111252,
+            "relative_std_error": 0.18049952387809753,
+            "unique_control_vectors": 128,
+            "samples": 128,
+            "validation_recipes": 24
+          },
+          "spleen-infarct": {
+            "mean_feature_mae": 0.058778099715709686,
+            "relative_std_error": 0.16968800127506256,
+            "unique_control_vectors": 128,
+            "samples": 128,
+            "validation_recipes": 24
+          },
+          "stomach-adenocarcinoma": {
+            "mean_feature_mae": 0.042300522327423096,
+            "relative_std_error": 0.17288950085639954,
+            "unique_control_vectors": 128,
+            "samples": 128,
+            "validation_recipes": 24
+          },
+          "stomach-gist": {
+            "mean_feature_mae": 0.04813642427325249,
+            "relative_std_error": 0.2670341432094574,
+            "unique_control_vectors": 128,
+            "samples": 128,
+            "validation_recipes": 24
+          }
+        }
+      }
+    },
+    "elapsed_seconds": 9.959
+  },
+  "clinical": {
+    "selected": "conditional_empirical_case_prior",
+    "scope": "measured_source_case_retrieval_not_a_population_generator",
+    "training_patients": 1,
+    "audit": {
+      "split": "audit",
+      "model_sha256": "784b140b55f5cb73e9dd43e5d7ac1683fa17ed2f554d8dcd71608f57b91131a8",
+      "scope": "measured_source_case_retrieval_not_a_population_generator",
+      "metrics": {
+        "patients": 1,
+        "supported_patients": 1,
+        "unsupported_patients": [],
+        "per_patient": [
+          {
+            "case_id": "PDA-C3L-00622",
+            "training_patients": 1,
+            "absolute_error": {
+              "organ_extent_x_mm": 23.244461059570312,
+              "organ_extent_y_mm": 52.048797607421875,
+              "organ_extent_z_mm": 10.400970458984375,
+              "organ_volume_ml": 119.50587463378906,
+              "lesion_extent_x_mm": 38.546104431152344,
+              "lesion_extent_y_mm": 48.64842224121094,
+              "lesion_extent_z_mm": 24.863454818725586,
+              "lesion_volume_ml": 63.467949867248535,
+              "lesion_center_x_relative": 0.6217300891876221,
+              "lesion_center_y_relative": 0.4103260785341263,
+              "lesion_center_z_relative": 0.5404310822486877,
+              "lesion_to_organ_volume_ratio": 0.20160813629627228
+            }
+          }
+        ],
+        "feature_mae": {
+          "organ_extent_x_mm": 23.244461059570312,
+          "organ_extent_y_mm": 52.048797607421875,
+          "organ_extent_z_mm": 10.400970458984375,
+          "organ_volume_ml": 119.50587463378906,
+          "lesion_extent_x_mm": 38.546104431152344,
+          "lesion_extent_y_mm": 48.64842224121094,
+          "lesion_extent_z_mm": 24.863454818725586,
+          "lesion_volume_ml": 63.467949867248535,
+          "lesion_center_x_relative": 0.6217300891876221,
+          "lesion_center_y_relative": 0.4103260785341263,
+          "lesion_center_z_relative": 0.5404310822486877,
+          "lesion_to_organ_volume_ratio": 0.20160813629627228
+        },
+        "interpretation": "patient-held-out feature prediction; too few cases for population claims"
+      }
+    },
+    "elapsed_seconds": 0.431
+  },
+  "language": {
+    "status": "unpromoted_research_adapter",
+    "steps": 200,
+    "runtime_integrated": false,
+    "studio_inference": "available_after_explicit_guarded_enable",
+    "audit": {
+      "rows": 24,
+      "valid_json_schema_fraction": 1.0,
+      "status_accuracy": 1.0,
+      "compiler_semantic_match_fraction": 0.8333333333333334,
+      "false_accept_count": 0,
+      "applied_geometry_count": 0,
+      "per_organ_counts": {
+        "brain": {
+          "rows": 2,
+          "schema_valid": 2,
+          "semantic_match": 2
+        },
+        "gallbladder": {
+          "rows": 2,
+          "schema_valid": 2,
+          "semantic_match": 1
+        },
+        "heart": {
+          "rows": 2,
+          "schema_valid": 2,
+          "semantic_match": 2
+        },
+        "kidney": {
+          "rows": 2,
+          "schema_valid": 2,
+          "semantic_match": 2
+        },
+        "large-intestine": {
+          "rows": 2,
+          "schema_valid": 2,
+          "semantic_match": 1
+        },
+        "liver": {
+          "rows": 2,
+          "schema_valid": 2,
+          "semantic_match": 2
+        },
+        "lung": {
+          "rows": 2,
+          "schema_valid": 2,
+          "semantic_match": 2
+        },
+        "pancreas": {
+          "rows": 2,
+          "schema_valid": 2,
+          "semantic_match": 2
+        },
+        "small-intestine": {
+          "rows": 2,
+          "schema_valid": 2,
+          "semantic_match": 2
+        },
+        "spleen": {
+          "rows": 2,
+          "schema_valid": 2,
+          "semantic_match": 1
+        },
+        "stomach": {
+          "rows": 2,
+          "schema_valid": 2,
+          "semantic_match": 1
+        },
+        "urinary-bladder": {
+          "rows": 2,
+          "schema_valid": 2,
+          "semantic_match": 2
+        }
+      },
+      "scope": "Synthetic paired atlas intents; no human-language or clinical generalization claim",
+      "split": "audit",
+      "selected_example_ids": [
+        "atlas-language-02669bff99b5e260b2f2ec5f",
+        "atlas-language-679b3abefc08248b7178fa19",
+        "atlas-language-f117cb59f2a03ffd120c116f",
+        "atlas-language-8c82bac88a6adb8e37360141",
+        "atlas-language-ad02aa95f5eb9c6ed19fc0a5",
+        "atlas-language-54f9e9e3e8a035d9786f19ed",
+        "atlas-language-3a8cfdf2e10a414ec3505159",
+        "atlas-language-13d86c8c34189022a4cbf6b5",
+        "atlas-language-269a890f18f264b0806d106d",
+        "atlas-language-977d2fb6efd0366b52b19352",
+        "atlas-language-8a6bb8c1f707195fd3ed05bb",
+        "atlas-language-1aaf34db4a3fdfb2c4fbaea1",
+        "atlas-language-68620a0f1968aa6776ea1b06",
+        "atlas-language-a9e9eb3a9d2f4275722bd00f",
+        "atlas-language-2df3b4c7bc96f68921dbbfc1",
+        "atlas-language-fa007e9d6b92b91e630a1aab",
+        "atlas-language-a7b9b8666e78e55b2fba9cb1",
+        "atlas-language-bf72826f4e21bb4ce705a138",
+        "atlas-language-dc13852791cbe17bff0a3008",
+        "atlas-language-37a885a16529b7f008b192e7",
+        "atlas-language-a1ed5c71a5f59f4a5c825286",
+        "atlas-language-01804792f422e717acb27be7",
+        "atlas-language-7c812932a384795ed0bf8385",
+        "atlas-language-959430cdfe27ae4ce71a7b02"
+      ],
+      "full_audit_rows": 1440
+    },
+    "elapsed_seconds": 614.796
+  }
+}

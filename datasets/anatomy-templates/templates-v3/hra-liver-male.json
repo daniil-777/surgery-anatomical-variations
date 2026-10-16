@@ -1,0 +1,489 @@
+{
+  "artifact_sha256": "c74d7787e13b9b6ada02b10fde915158aea10ea789b5f693f41b1c93d7e8815f",
+  "attribution": "Browne, Kristen, and Heidi Schlehlein. 2024. \"3D Reference Organ for Liver, Male v1.2.\" https://doi.org/10.48539/HBM896.WMSL.867. Accessed on June 15, 2024.",
+  "attribution_verified": true,
+  "clean_faces_sha256": "452f7120fbd83f5f058e7faf63354f76641d1b076a6961677014344fd62552e0",
+  "cleaning_components": [
+    {
+      "clean_face_count": 1058,
+      "component": "VH_M_coronary_ligament_of_liver",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 1058,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 192,
+      "component": "VH_M_falciform_ligament",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 192,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 424,
+      "component": "VH_M_hepataduodenal_ligament",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 424,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 350,
+      "component": "VH_M_ligamentum_venosum",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 350,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 27860,
+      "component": "VH_M_liver_capsule",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 27860,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 190,
+      "component": "VH_M_round_ligament_of_liver",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 190,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 58,
+      "component": "VH_M_triangular_ligament_of_liver",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 58,
+      "winding_after": true,
+      "winding_before": true
+    }
+  ],
+  "cleaning_policy": "Drop triangles with area <=1e-12 mm2; repair winding per connected component on welded audit copy with minimum face reversals and transfer only face reversal. No vertex movement or connectivity additions.",
+  "cohort_eligible": true,
+  "colors_provenance": "Source schematic material colors; glTF linear factors converted to sRGB after trimesh 8-bit quantization",
+  "colors_space": "sRGB",
+  "components": [
+    {
+      "face_count": 1058,
+      "face_start": 0,
+      "name": "VH_M_coronary_ligament_of_liver",
+      "source_geometry": "VH_M_coronary_ligament_of_liver",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 542,
+      "vertex_start": 0
+    },
+    {
+      "face_count": 192,
+      "face_start": 1058,
+      "name": "VH_M_falciform_ligament",
+      "source_geometry": "VH_M_falciform_ligament",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 105,
+      "vertex_start": 542
+    },
+    {
+      "face_count": 424,
+      "face_start": 1250,
+      "name": "VH_M_hepataduodenal_ligament",
+      "source_geometry": "VH_M_hepataduodenal_ligament",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 225,
+      "vertex_start": 647
+    },
+    {
+      "face_count": 350,
+      "face_start": 1674,
+      "name": "VH_M_ligamentum_venosum",
+      "source_geometry": "VH_M_ligamentum_venosum",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 195,
+      "vertex_start": 872
+    },
+    {
+      "face_count": 27860,
+      "face_start": 2024,
+      "name": "VH_M_liver_capsule",
+      "source_geometry": "VH_M_liver_capsule",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 13930,
+      "vertex_start": 1067
+    },
+    {
+      "face_count": 190,
+      "face_start": 29884,
+      "name": "VH_M_round_ligament_of_liver",
+      "source_geometry": "VH_M_round_ligament_of_liver",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 105,
+      "vertex_start": 14997
+    },
+    {
+      "face_count": 58,
+      "face_start": 30074,
+      "name": "VH_M_triangular_ligament_of_liver",
+      "source_geometry": "VH_M_triangular_ligament_of_liver",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 34,
+      "vertex_start": 15102
+    }
+  ],
+  "control_limit_provenance": "design_heuristic; not measured population intervals",
+  "control_limits": [
+    0.1,
+    0.09,
+    0.1,
+    0.06,
+    0.09,
+    0.07,
+    0.04
+  ],
+  "control_names": [
+    "scale_x",
+    "scale_y",
+    "scale_z",
+    "bend",
+    "twist",
+    "taper",
+    "asymmetry"
+  ],
+  "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+  "deformer_version": "invertible-atlas-controls-1.0.0",
+  "evidence_kind": "expert_authored",
+  "excluded_source_nodes": [
+    "VH_M_bare_area_of_liver",
+    "VH_M_caudate_lobe_of_liver",
+    "VH_M_colic_impression_of_liver",
+    "VH_M_diaphragmatic_surface",
+    "VH_M_duodenal_impression_of_liver",
+    "VH_M_esophageal_impression_of_liver",
+    "VH_M_gastric_impression_of_liver",
+    "VH_M_left_anterolateral_segment",
+    "VH_M_left_inferomedial_segment",
+    "VH_M_left_posterolateral_segment",
+    "VH_M_left_superiomedial_segment",
+    "VH_M_porta_hepatis",
+    "VH_M_quadrate_lobe_of_liver",
+    "VH_M_renal_impression_of_liver",
+    "VH_M_right_anteroinferior_segment",
+    "VH_M_right_anterosuperior_segment",
+    "VH_M_right_posteroinferior_segment",
+    "VH_M_right_posterosuperior_segment",
+    "VH_M_suprarenal_impression_of_liver"
+  ],
+  "extent_mm": [
+    191.36759638786316,
+    174.55455660820007,
+    201.7567679286003
+  ],
+  "face_count": 30132,
+  "face_map_keys": [
+    "source_to_clean_face_indices",
+    "clean_to_source_face_indices",
+    "clean_face_orientation_reversed",
+    "source_faces"
+  ],
+  "generator_version": "invertible-atlas-controls-1.0.0",
+  "geometry_sha256": "e245d564c783caa97b78616678332509a2f33fd55311c3ae811a008648d58b7d",
+  "inverse_coordinate_transform": "source_world = source_to_authoring_rotation.T @ (vertices_mm + source_center_mm) / source_to_mm_scale",
+  "laterality": null,
+  "license": "CC-BY-4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "mesh_role": "annotated_display_surface_assembly_not_organ_envelope",
+  "modifications": "Selected named display components, applied scene transforms, explicit units, bounding-box centering. Removed degenerate triangles and repaired winding with reversible face maps. No smoothing, decimation or remeshing.",
+  "normalization_mm": 100.87838396430016,
+  "organ": "liver",
+  "organ_id": "liver",
+  "population_prevalence": null,
+  "profile": "development_preview",
+  "removed_degenerate_faces": 0,
+  "reversed_faces": 0,
+  "review_status": "unreviewed",
+  "selection_policy_version": "external-display-components-1.1.0",
+  "sex_label": "male",
+  "source_center_mm": [
+    -37.58496046066284,
+    367.2509342432022,
+    11.299069970846176
+  ],
+  "source_citation": "Browne, Kristen, and Heidi Schlehlein. 2024. \"3D Reference Organ for Liver, Male v1.2.\" https://doi.org/10.48539/HBM896.WMSL.867. Accessed on June 15, 2024.",
+  "source_collection": "HRA",
+  "source_creators": [
+    {
+      "id": "https://orcid.org/0000-0003-4066-7531",
+      "name": "Kristen Browne"
+    },
+    {
+      "id": "https://orcid.org/0000-0002-3333-5646",
+      "name": "Heidi Schlehlein"
+    }
+  ],
+  "source_derivation_description": "This reference organ, Liver-male (https://humanatlas.io/3d-reference-library) was created using data from the Visible\nHuman Male, provided by the National Library of Medicine (Spitzer et al. 1996; Ackerman 1998).\n\n**Bibliography:**\n\n* Ackerman, Michael J. 1998. \u201cThe Visible Human Project.\u201d *Proceedings of the IEEE* 86 (3): 504\u201311. https://doi.org/10.1109/5.662875.\n* Spitzer, V., M. J. Ackerman, A. L. Scherzinger, and D. Whitlock. 1996. \u201cThe Visible Human Male: A Technical Report.\u201d *Journal of the American Medical Informatics Association* 3 (2): 118\u201330. https://doi.org/10.1136/jamia.1996.96236280.",
+  "source_doi": "https://doi.org/10.48539/HBM896.WMSL.867",
+  "source_faces_sha256": "452f7120fbd83f5f058e7faf63354f76641d1b076a6961677014344fd62552e0",
+  "source_geometry_sha256": "e245d564c783caa97b78616678332509a2f33fd55311c3ae811a008648d58b7d",
+  "source_group_id": "hra-visible-human-male",
+  "source_group_reason": "Conservative atlas ancestry grouping; organ files are not independent donors",
+  "source_license_statement": "Creative Commons Attribution 4.0 International ([CC BY 4.0](https://creativecommons.org/licenses/by/4.0/))",
+  "source_metadata_file": "attribution/hra-liver-male.jsonld",
+  "source_metadata_sha256": "2a363af75ee8765146bc7d096308d73ee8851f38a39199dfc50b417d5efabe1d",
+  "source_metadata_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/liver-male/v1.2/metadata.jsonld",
+  "source_overall_citation": "Browne, Kristen, Heidi Schlehlein, Bruce W. Herr II, Ellen Quardokus, Andreas Bueckle, and Katy B\u00f6rner. 2024. \"HuBMAP CCF 3D Reference Object Library.\" https://humanatlas.io/3d-reference-library. Accessed on June 15, 2024.",
+  "source_release": "11th Release (v2.5)",
+  "source_sha256": "8e4c38293cfdb6b4f47ef2930c7f4af9e37b9144d1cf26d07c8f12c5045eb404",
+  "source_title": "3D Reference Organ for Liver, Male",
+  "source_to_authoring_rotation": [
+    [
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      1,
+      0
+    ],
+    [
+      0,
+      0,
+      1
+    ]
+  ],
+  "source_to_mm_scale": 1000.0,
+  "source_topology_audit": {
+    "boundary_edges_after_audit_weld": 0,
+    "connected_vertex_components": 2,
+    "degenerate_faces": 0,
+    "method": "trimesh-geometric-weld-audit-copy-1.0",
+    "nonmanifold_edges_after_audit_weld": 0,
+    "self_intersection": {
+      "reason": "No robust intersection backend",
+      "status": "NOT_RUN"
+    },
+    "simulation_readiness": {
+      "reason": "No volumetric domain/materials",
+      "status": "NOT_RUN"
+    },
+    "watertight_after_audit_weld": true,
+    "weld_precision_mm": 1e-08,
+    "winding_consistent_after_audit_weld": true,
+    "zero_length_edges": 0
+  },
+  "source_up_axis": "Y (glTF convention); patient-axis interpretation not asserted",
+  "source_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/liver-male/v1.2/assets/3d-vh-m-liver.glb",
+  "template_id": "hra-liver-male",
+  "template_version": "atlas-display-1.1.0",
+  "topology_audit": {
+    "boundary_edges_after_audit_weld": 0,
+    "connected_vertex_components": 2,
+    "degenerate_faces": 0,
+    "method": "trimesh-geometric-weld-audit-copy-1.0",
+    "nonmanifold_edges_after_audit_weld": 0,
+    "self_intersection": {
+      "reason": "No robust intersection backend",
+      "status": "NOT_RUN"
+    },
+    "simulation_readiness": {
+      "reason": "No volumetric domain/materials",
+      "status": "NOT_RUN"
+    },
+    "watertight_after_audit_weld": true,
+    "weld_precision_mm": 1e-08,
+    "winding_consistent_after_audit_weld": true,
+    "zero_length_edges": 0
+  },
+  "unit": "mm",
+  "units_evidence": "glTF 2.0 linear distances use metres; explicit multiplication by 1000",
+  "vertex_count": 15136
+}

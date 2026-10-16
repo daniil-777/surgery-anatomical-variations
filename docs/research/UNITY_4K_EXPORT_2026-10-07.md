@@ -1,0 +1,39 @@
+# Unity 4K material export — research and implementation
+
+Date: 2026-10-07. Scope: reproducible visual anatomy assets for Unity, including the displayed sculpture and authored surface-vessel appearance. This is an engineering compatibility study; no Unity editor is installed on the export host.
+
+## Findings that determine the export
+
+The existing exporter already evaluated the continuous material at 4096² texels, but only embedded glTF textures and exposed a GLB download. A GLB's green roughness channel is not a Unity smoothness channel. Directly assigning that texture to a Unity material changes its reflectance.
+
+Unity's URP Lit/Complex Lit channel-packed layout uses red for metallic, green for occlusion, and alpha for smoothness; blue is unused. HDRP Lit adds a detail mask in blue. We therefore export one linear RGBA mask: `R=0`, `G=1`, `B=0`, `A=1-roughness`. The detail layer is disabled and AO is explicitly unbaked. Assign the mask to both the metallic and occlusion slots in Standard/URP, and to the mask slot in HDRP. [Unity URP packed textures](https://docs.unity.com/en-us/engine/6000.5/manual/materials-and-shaders/built-in/shaders-in-universalrp/channel-packed-texture), [Unity HDRP 17 mask maps](https://docs.unity3d.com/Packages/com.unity.render-pipelines.high-definition@17.0/manual/Mask-Map-and-Detail-Map.html), [Unity Standard material parameters](https://docs.unity.com/en-us/engine/6000.5/manual/materials-and-shaders/built-in/shader-built-in-birp/shader-standard-shader/standard-shader-material-parameters).
+
+Only base color is sRGB. The mask is linear, while normals use Unity's NormalMap texture type. The included texture postprocessor sets maximum size 4096, no lossy compression, trilinear mipmapping, clamped UVs and anisotropy 8. This avoids Unity's ordinary import defaults silently reducing the delivered maps. These are quality defaults, not a claim of optimal runtime memory use. [Unity TextureImporter API](https://docs.unity3d.com/6000.0/Documentation/ScriptReference/TextureImporter.html).
+
+The wet layer uses URP Complex Lit because the material supports a clearcoat mask and independent coat smoothness. Built-in Standard lacks this lobe; HDRP's coat model also differs from glTF. Those differences are recorded in the manifest rather than represented as exact cross-engine lighting equivalence. [Unity Complex Lit reference](https://docs.unity.com/en-us/engine/6000.7/manual/materials-and-shaders/built-in/shaders-in-universalrp/reference/shader-complex-lit), [Unity's HDRP Lit shader source](https://github.com/Unity-Technologies/Graphics/blob/master/Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/Lit.shader).
+
+## Exact geometry and tangent-frame contract
+
+The package contains a `.visceraunity` source asset and a small dependency-free editor importer. This avoids relying on an optional GLB plugin or an OBJ importer recalculating the normal-map frame. The importer creates a native Unity mesh, material and GameObject asset, preserves exported normals/tangents and selects the active render pipeline. [Unity ScriptedImporter API](https://docs.unity3d.com/6000.0/Documentation/ScriptReference/AssetImporters.ScriptedImporter.html).
+
+Unity uses a left-handed coordinate frame and clockwise front faces. The exporter reflects the authoring Z coordinate, converts millimetres to metres, and reverses triangle indices. Geometry is duplicated only at UV/tangent seams. [Unity coordinate system](https://docs.unity3d.com/cn/2023.2/Manual/QuaternionAndEulerRotationsInUnity.html), [Unity mesh winding](https://docs.unity3d.com/cn/6000.0/Manual/mesh-index-data.html).
+
+The image and frame conversion is coupled: `uv=(u,1-v)`; tangent/normal XYZ reflect Z; tangent `w` stays unchanged because spatial reflection and UV reflection each change its sign; the normal PNG's green channel is inverted once. Consequently the world-space perturbed normal equals the reflected authoring normal. The importer disables any second green flip and never recalculates tangents. An independent vector reconstruction test checks this identity rather than merely checking array values.
+
+## Implemented workflow
+
+`POST /api/atlas/export` accepts `format: "unity"`, `texture_resolution: 4096`, the displayed bound spec, optional `surface_edits: [{organ_id, positions}]`, and optional `surface_vessels: [{organ_id, network}]`. It regenerates and verifies the original bound specimen before accepting edits. Edited arrays must match its vertices and remain finite with no collapsed or reversed faces relative to the displayed source. Normals are recomputed, source rest coordinates stay unchanged, and export geometry/QA metadata is refreshed. Vessel endpoints must agree with their barycentric source attachments.
+
+The shared CPU bake evaluates vessels in rest space and adds their color, roughness and relief gradient to the same material field used for GLB export. Thus a sculpture does not cause the vascular pattern to slide across the tissue. The optional vessel layer remains procedural design; it does not identify patient vessels.
+
+The ZIP contains three full-resolution PNGs, exact mesh arrays, a manifest with hashes, original recipe/source attribution, edit provenance, and the Unity Editor importer. Copy `Assets/VISCERA` into a Unity project, let scripts compile, then drag `Anatomy.visceraunity` into the scene. The import scale is one, in metres. The asset's Inspector permits an explicit pipeline selection. Reimport it after changing pipelines. Unity texture export currently requires the tissue material appearance; clay/source displays retain their GLB path.
+
+## Verification and limits
+
+The focused suite passed 22 tests covering mask values, PNG dimensions/hashes, units, winding, tangent-frame reconstruction, edited-geometry preservation, rejected malformed edits, API export routing, barycentric vessel binding and pre-existing bake behavior. Run `pytest tests/python/test_atlas_unity_export.py tests/python/test_atlas_material_bake.py` from `viscera`.
+
+An actual HRA male-heart asset was baked at 4096 × 4096 with 118,284 original triangles. The ZIP is approximately 29.8 MB and the fresh bake took approximately 47 seconds on this host. `scripts/reports/verify_unity_bundle.py` independently reads the ZIP, verifies its hashes and full map dimensions, checks unit/orthogonal shading frames and UV charts, and creates an inspection sheet. The delivery is in `artifacts/unity-4k-2026-10-07/`.
+
+The integrated browser export was also checked against its actual submitted scene: a female liver with a 15.19946 mm drag, 14,688 changed vertices and 1,648 vessel segments. All 35,606 exported triangles reproduce the edited source positions after the Unity coordinate transform within 3.70 × 10⁻⁹ metres. Referenced shading normals match an independent area-weighted calculation within 2.98 × 10⁻⁸ per component. Five hundred sampled atlas texels reconstruct exactly from the original rest positions, submitted recipe and vascular field: zero uint8 error in base color, smoothness and Unity tangent normals. All three images are 4096². Eighteen unused chart vertices are preserved and do not contribute faces. Final packaging added attribution, a material-aware asset directory ID and vessel provenance; mesh, texture and importer bytes stayed identical to the API download. The integrated verification receipt records both original and final ZIP hashes.
+
+Unity editor compilation/rendering is **NOT_RUN**. No claim of engine pixel parity, physically measured optical constants, subsurface calibration, or validated organ mechanics is made. Visual comparison under Unity lighting remains the next engine-specific check. Self-intersection certification is outside the surface-edit acceptance check. A 4K atlas increases texture sampling detail; it does not create anatomical geometry absent from the source.

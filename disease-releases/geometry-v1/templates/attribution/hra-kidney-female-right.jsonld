@@ -1,0 +1,316 @@
+{
+    "@graph": [
+        {
+            "@id": "https://github.com/hubmapconsortium/hra-do-processor",
+            "dcat:conforms_to": "SoftwareApplication",
+            "schema1:version": "0.10.0",
+            "schema1:targetProduct": {
+                "@id": "_:b0"
+            },
+            "schema1:name": "HRA Digital Object Processor",
+            "rdfs:label": "HRA Digital Object Processor",
+            "@type": "schema1:SoftwareApplication"
+        },
+        {
+            "@id": "_:b0",
+            "rdfs:seeAlso": {
+                "@id": "https://github.com/hubmapconsortium/hra-do-processor/commit/cd8d578a4c9da7c0539008bc2742971b4a545121"
+            },
+            "schema1:codeRepository": {
+                "@id": "https://github.com/hubmapconsortium/hra-do-processor"
+            },
+            "@type": "schema1:SoftwareSourceCode"
+        },
+        {
+            "@id": "https://lod.humanatlas.io/ref-organ/kidney-female-right/v1.3#rdfxml",
+            "dcat:mediaType": "application/rdf+xml",
+            "dcat:downloadURL": {
+                "@value": "https://cdn.humanatlas.io/digital-objects/ref-organ/kidney-female-right/v1.3/graph.xml",
+                "@type": "xsd:anyURI"
+            },
+            "dcat:accessURL": {
+                "@value": "https://lod.humanatlas.io/ref-organ/kidney-female-right/v1.3#rdfxml",
+                "@type": "xsd:anyURI"
+            },
+            "dct:title": "Graph data distribution kidney-female-right (v1.3) in RDF/XML format",
+            "rdfs:label": "Graph data distribution kidney-female-right (v1.3) in RDF/XML format",
+            "@type": "dcat:Distribution"
+        },
+        {
+            "@id": "_:b1",
+            "schema1:funder": "National Institutes of Health",
+            "schema1:award": "OT2OD033756",
+            "@type": "schema1:Grant"
+        },
+        {
+            "@id": "https://lod.humanatlas.io/ref-organ/kidney-female-right/v1.3#3d-vh-f-kidney-r.glb",
+            "dcat:mediaType": "model/gltf-binary",
+            "dcat:downloadURL": {
+                "@value": "https://cdn.humanatlas.io/digital-objects/ref-organ/kidney-female-right/v1.3/assets/3d-vh-f-kidney-r.glb",
+                "@type": "xsd:anyURI"
+            },
+            "dcat:accessURL": {
+                "@value": "https://lod.humanatlas.io/ref-organ/kidney-female-right/v1.3#3d-vh-f-kidney-r.glb",
+                "@type": "xsd:anyURI"
+            },
+            "dct:title": "Raw data distribution '3d-vh-f-kidney-r.glb' file",
+            "rdfs:label": "Raw data distribution '3d-vh-f-kidney-r.glb' file",
+            "@type": "dcat:Distribution"
+        },
+        {
+            "@id": "https://orcid.org/0000-0002-3321-6137",
+            "dcat:conforms_to": "Person",
+            "schema1:name": "Katy Börner",
+            "schema1:identifier": "0000-0002-3321-6137",
+            "schema1:givenName": "Katy",
+            "schema1:familyName": "Börner",
+            "rdfs:label": "Katy Börner",
+            "@type": "schema1:Person"
+        },
+        {
+            "@id": "https://lod.humanatlas.io/ref-organ/kidney-female-right/v1.3#raw-data",
+            "ccf:project_lead": {
+                "@id": "https://orcid.org/0000-0002-3321-6137"
+            },
+            "dct:publisher": "HuBMAP",
+            "rdfs:label": "3D Reference Organ for Kidney, Female, Right",
+            "dct:references": "https://doi.org/10.1002/(SICI)1097-0185(199804)253:2<49::AID-AR8>3.0.CO;2-9",
+            "schema1:funding": [
+                {
+                    "@id": "_:b2"
+                },
+                {
+                    "@id": "_:b1"
+                }
+            ],
+            "schema1:reviewedBy": [
+                {
+                    "@id": "https://orcid.org/0000-0003-2804-127X"
+                },
+                {
+                    "@id": "https://orcid.org/0000-0001-9198-5498"
+                }
+            ],
+            "dct:license": "Creative Commons Attribution 4.0 International ([CC BY 4.0](https://creativecommons.org/licenses/by/4.0/))",
+            "rdfs:comment": "This reference organ, Right-kidney-female (https://humanatlas.io/3d-reference-library) was created using data from the\nVisible Human Dataset, provided by the National Library of Medicine (Spitzer and Whitlock 2002). In version v1.3,\nchanges include removing the renal calyces and renal papillae and adding them to the ureter model per subject matter\nexpert input.\n\n**Bibliography:**\n\n* Spitzer, Victor M., and David G. Whitlock. 2002. “The Visible Human Dataset: The Anatomical Platform for Human Simulation.” *The Anatomical Record* 253 (2): 49–57. https://doi.org/10.1002/(SICI)1097-0185(199804)253:2<49::AID-AR8>3.0.CO;2-9.",
+            "dct:title": "3D Reference Organ for Kidney, Female, Right",
+            "dcat:distribution": [
+                {
+                    "@id": "https://lod.humanatlas.io/ref-organ/kidney-female-right/v1.3#crosswalk.csv"
+                },
+                {
+                    "@id": "https://lod.humanatlas.io/ref-organ/kidney-female-right/v1.3#3d-vh-f-kidney-r.glb"
+                }
+            ],
+            "ccf:citation_overall": "Browne, Kristen, Heidi Schlehlein, Bruce W. Herr II, Ellen Quardokus, Andreas Bueckle, and Katy Börner. 2024. \"HuBMAP CCF 3D Reference Object Library.\" https://humanatlas.io/3d-reference-library. Accessed on June 15, 2024.",
+            "ccf:hubmap_id": "HBM968.HSNL.854",
+            "dct:creator": [
+                {
+                    "@id": "https://orcid.org/0000-0002-3333-5646"
+                },
+                {
+                    "@id": "https://orcid.org/0000-0003-4066-7531"
+                }
+            ],
+            "@type": "dcat:Dataset",
+            "schema1:dateCreated": {
+                "@value": "2024-06-15",
+                "@type": "xsd:date"
+            },
+            "ccf:doi": {
+                "@id": "https://doi.org/10.48539/HBM968.HSNL.854"
+            },
+            "schema1:citation": "Browne, Kristen, and Heidi Schlehlein. 2024. \"3D Reference Organ for Kidney, Female, Right v1.3.\" https://doi.org/10.48539/HBM968.HSNL.854. Accessed on June 15, 2024."
+        },
+        {
+            "@id": "_:b2",
+            "schema1:funder": "National Institutes of Health",
+            "schema1:award": "OT2OD026671",
+            "@type": "schema1:Grant"
+        },
+        {
+            "@id": "https://orcid.org/0000-0003-2804-127X",
+            "dcat:conforms_to": "Person",
+            "schema1:name": "Sanjay Jain",
+            "schema1:identifier": "0000-0003-2804-127X",
+            "schema1:givenName": "Sanjay",
+            "schema1:familyName": "Jain",
+            "rdfs:label": "Sanjay Jain",
+            "@type": "schema1:Person"
+        },
+        {
+            "@id": "https://lod.humanatlas.io/ref-organ/kidney-female-right/v1.3#crosswalk.csv",
+            "dcat:mediaType": "text/csv",
+            "dcat:downloadURL": {
+                "@value": "https://cdn.humanatlas.io/digital-objects/ref-organ/kidney-female-right/v1.3/assets/crosswalk.csv",
+                "@type": "xsd:anyURI"
+            },
+            "dcat:accessURL": {
+                "@value": "https://lod.humanatlas.io/ref-organ/kidney-female-right/v1.3#crosswalk.csv",
+                "@type": "xsd:anyURI"
+            },
+            "dct:title": "Raw data distribution 'crosswalk.csv' file",
+            "rdfs:label": "Raw data distribution 'crosswalk.csv' file",
+            "@type": "dcat:Distribution"
+        },
+        {
+            "@id": "https://orcid.org/0000-0002-3333-5646",
+            "dcat:conforms_to": "Person",
+            "schema1:name": "Heidi Schlehlein",
+            "schema1:identifier": "0000-0002-3333-5646",
+            "schema1:givenName": "Heidi",
+            "schema1:familyName": "Schlehlein",
+            "rdfs:label": "Heidi Schlehlein",
+            "@type": "schema1:Person"
+        },
+        {
+            "@id": "https://orcid.org/0000-0001-9198-5498",
+            "dcat:conforms_to": "Person",
+            "schema1:name": "Jeffrey Spraggins",
+            "schema1:identifier": "0000-0001-9198-5498",
+            "schema1:givenName": "Jeffrey",
+            "schema1:familyName": "Spraggins",
+            "rdfs:label": "Jeffrey Spraggins",
+            "@type": "schema1:Person"
+        },
+        {
+            "@id": "https://orcid.org/0000-0003-4066-7531",
+            "dcat:conforms_to": "Person",
+            "schema1:name": "Kristen Browne",
+            "schema1:identifier": "0000-0003-4066-7531",
+            "schema1:givenName": "Kristen",
+            "schema1:familyName": "Browne",
+            "rdfs:label": "Kristen Browne",
+            "@type": "schema1:Person"
+        },
+        {
+            "@id": "https://lod.humanatlas.io/ref-organ/kidney-female-right/v1.3#ntriples",
+            "dcat:mediaType": "application/n-triples",
+            "dcat:downloadURL": {
+                "@value": "https://cdn.humanatlas.io/digital-objects/ref-organ/kidney-female-right/v1.3/graph.nt",
+                "@type": "xsd:anyURI"
+            },
+            "dcat:accessURL": {
+                "@value": "https://lod.humanatlas.io/ref-organ/kidney-female-right/v1.3#ntriples",
+                "@type": "xsd:anyURI"
+            },
+            "dct:title": "Graph data distribution kidney-female-right (v1.3) in N-Triples format",
+            "rdfs:label": "Graph data distribution kidney-female-right (v1.3) in N-Triples format",
+            "@type": "dcat:Distribution"
+        },
+        {
+            "@id": "https://lod.humanatlas.io/ref-organ/kidney-female-right/v1.3#turtle",
+            "dcat:mediaType": "text/turtle",
+            "dcat:downloadURL": {
+                "@value": "https://cdn.humanatlas.io/digital-objects/ref-organ/kidney-female-right/v1.3/graph.ttl",
+                "@type": "xsd:anyURI"
+            },
+            "dcat:accessURL": {
+                "@value": "https://lod.humanatlas.io/ref-organ/kidney-female-right/v1.3#turtle",
+                "@type": "xsd:anyURI"
+            },
+            "dct:title": "Graph data distribution kidney-female-right (v1.3) in Turtle format",
+            "rdfs:label": "Graph data distribution kidney-female-right (v1.3) in Turtle format",
+            "@type": "dcat:Distribution"
+        },
+        {
+            "@id": "https://lod.humanatlas.io/ref-organ/kidney-female-right/v1.3#json",
+            "dcat:mediaType": "application/json",
+            "dcat:downloadURL": {
+                "@value": "https://cdn.humanatlas.io/digital-objects/ref-organ/kidney-female-right/v1.3/graph.json",
+                "@type": "xsd:anyURI"
+            },
+            "dcat:accessURL": {
+                "@value": "https://lod.humanatlas.io/ref-organ/kidney-female-right/v1.3#json",
+                "@type": "xsd:anyURI"
+            },
+            "dct:title": "Graph data distribution kidney-female-right (v1.3) in JSON format",
+            "rdfs:label": "Graph data distribution kidney-female-right (v1.3) in JSON format",
+            "@type": "dcat:Distribution"
+        },
+        {
+            "@id": "https://lod.humanatlas.io/ref-organ/kidney-female-right/v1.3#jsonld",
+            "dcat:mediaType": "application/ld+json",
+            "dcat:downloadURL": {
+                "@value": "https://cdn.humanatlas.io/digital-objects/ref-organ/kidney-female-right/v1.3/graph.jsonld",
+                "@type": "xsd:anyURI"
+            },
+            "dcat:accessURL": {
+                "@value": "https://lod.humanatlas.io/ref-organ/kidney-female-right/v1.3#jsonld",
+                "@type": "xsd:anyURI"
+            },
+            "dct:title": "Graph data distribution kidney-female-right (v1.3) in JSON-LD format",
+            "rdfs:label": "Graph data distribution kidney-female-right (v1.3) in JSON-LD format",
+            "@type": "dcat:Distribution"
+        },
+        {
+            "@id": "https://lod.humanatlas.io/ref-organ/kidney-female-right/v1.3#nquads",
+            "dcat:mediaType": "application/n-quads",
+            "dcat:downloadURL": {
+                "@value": "https://cdn.humanatlas.io/digital-objects/ref-organ/kidney-female-right/v1.3/graph.nq",
+                "@type": "xsd:anyURI"
+            },
+            "dcat:accessURL": {
+                "@value": "https://lod.humanatlas.io/ref-organ/kidney-female-right/v1.3#nquads",
+                "@type": "xsd:anyURI"
+            },
+            "dct:title": "Graph data distribution kidney-female-right (v1.3) in N-Quads format",
+            "rdfs:label": "Graph data distribution kidney-female-right (v1.3) in N-Quads format",
+            "@type": "dcat:Distribution"
+        },
+        {
+            "@id": "https://lod.humanatlas.io/ref-organ/kidney-female-right/v1.3",
+            "@type": "dcat:Dataset",
+            "dct:creator": {
+                "@id": "https://github.com/hubmapconsortium/hra-do-processor"
+            },
+            "dct:title": "kidney-female-right (v1.3) graph data",
+            "schema1:additionalType": "ref-organ",
+            "dcat:distribution": [
+                {
+                    "@id": "https://lod.humanatlas.io/ref-organ/kidney-female-right/v1.3#json"
+                },
+                {
+                    "@id": "https://lod.humanatlas.io/ref-organ/kidney-female-right/v1.3#rdfxml"
+                },
+                {
+                    "@id": "https://lod.humanatlas.io/ref-organ/kidney-female-right/v1.3#nquads"
+                },
+                {
+                    "@id": "https://lod.humanatlas.io/ref-organ/kidney-female-right/v1.3#turtle"
+                },
+                {
+                    "@id": "https://lod.humanatlas.io/ref-organ/kidney-female-right/v1.3#jsonld"
+                },
+                {
+                    "@id": "https://lod.humanatlas.io/ref-organ/kidney-female-right/v1.3#ntriples"
+                }
+            ],
+            "schema1:name": "kidney-female-right",
+            "dct:publisher": "HuBMAP",
+            "dct:license": "https://creativecommons.org/licenses/by/4.0/",
+            "prov:wasDerivedFrom": {
+                "@id": "https://lod.humanatlas.io/ref-organ/kidney-female-right/v1.3#raw-data"
+            },
+            "rdfs:label": "kidney-female-right (v1.3) graph data",
+            "rdfs:seeAlso": {
+                "@id": "https://purl.humanatlas.io/ref-organ/kidney-female-right/v1.3"
+            },
+            "schema1:version": "v1.3",
+            "rdfs:comment": "The graph representation of the 3D Reference Organ for Kidney, Female, Right dataset.",
+            "schema1:dateCreated": {
+                "@value": "2026-06-08",
+                "@type": "xsd:date"
+            }
+        }
+    ],
+    "@context": {
+        "dct": "http://purl.org/dc/terms/",
+        "schema1": "http://schema.org/",
+        "ccf": "http://purl.org/ccf/",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "dcat": "http://www.w3.org/ns/dcat#",
+        "prov": "http://www.w3.org/ns/prov#"
+    }
+}

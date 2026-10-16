@@ -1,0 +1,60 @@
+{
+  "family": "liver",
+  "frame": "RAS+",
+  "metadata": {
+    "anatomical_review": "unreviewed",
+    "evidence": {
+      "appearance": "procedural",
+      "geometry": "procedural",
+      "mechanics": "unknown"
+    },
+    "limitations": [
+      "Original authored approximation; independent anatomical review pending.",
+      "Surface validity does not establish anatomy, thickness or physiological mechanics."
+    ],
+    "metrics": {
+      "boundary_edge_count": 0,
+      "bounds_mm": [
+        [
+          -82.5,
+          -62.5,
+          17.5
+        ],
+        [
+          152.5,
+          62.5,
+          162.5
+        ]
+      ],
+      "degenerate_triangle_count": 0,
+      "depth_mm": 125.0,
+      "euler_characteristic": 2,
+      "finite": true,
+      "height_mm": 145.0,
+      "measurement_definition": "closed_outer_envelope_ras_extents_v1",
+      "minimum_triangle_area_mm2": 0.0003088900610774461,
+      "nonmanifold_edge_count": 0,
+      "reference_configuration": "authored_unloaded_geometry_not_known_stress_free",
+      "signed_volume_ml": 1847.1853144486481,
+      "surface_area_mm2": 78792.81354835628,
+      "triangle_count": 36480,
+      "vertex_count": 18242,
+      "volume_ml": 1847.1853144486481,
+      "watertight": true,
+      "width_mm": 235.0
+    },
+    "representation": "closed_outer_surface",
+    "topology_id": "liver-radial-18242-36480-v1",
+    "units": "mm",
+    "uv_seam": "periodic_u_seam_requires_wrap_aware_sampling_not_flat_interpolation"
+  },
+  "origin": "authored_scene_anchor",
+  "parent_lineage": "authored-abdominal-construction-v1",
+  "profile": "development_preview",
+  "reference_state": "authored_geometry_not_measured_stress_free",
+  "review_status": "unreviewed",
+  "template_id": "liver-original-authoring-v1",
+  "topology_id": "liver-radial-18242-36480-v1",
+  "units": "mm",
+  "version": "0.1.0"
+}

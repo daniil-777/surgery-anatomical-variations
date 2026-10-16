@@ -1,0 +1,38 @@
+{
+  "name": "viscera-workspace",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.17.1",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "studio": "pnpm --filter @viscera/studio dev",
+    "build": "pnpm --filter @viscera/studio build",
+    "typecheck": "pnpm --filter @viscera/studio typecheck",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "api": "uv run --extra train --extra disease-data --extra language uvicorn services.api.app:app --host 127.0.0.1 --port 8000",
+    "dataset": "uv run python -m viscera_core.dataset",
+    "check": "pnpm typecheck && pnpm test && uv run --extra train --extra disease-data --extra language pytest"
+  },
+  "dependencies": {
+    "@fontsource/inter": "5.2.8",
+    "@fontsource/jetbrains-mono": "5.2.8",
+    "lucide-react": "^0.468.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "three": "0.186.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.0",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@types/three": "^0.183.0",
+    "@vitejs/plugin-react": "4.7.0",
+    "typescript": "~5.9.3",
+    "vite": "6.4.4",
+    "vitest": "^3.2.4"
+  }
+}

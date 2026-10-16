@@ -1,0 +1,1893 @@
+{
+  "schema_version": "whole-scene-materials-1.0.0",
+  "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+  "model_version": "liver-inverse-sls-2.0.0",
+  "scope": "Existing neural inverse SLS ensemble with bounded physical refinement applied to synthetic category-dependent design histories for all soft scene structures. Not organ-specific biological training, clinical calibration, or validated whole-body tissue mechanics.",
+  "observation_origin": "synthetic-design-history",
+  "density_provenance": "Fixed 1000 kg/m^3 display-simulation assumption, not learned.",
+  "parameter_intervals_scope": "Synthetic inverse-model calibration only; does not measure human tissue uncertainty.",
+  "skeleton_scope": "Rib cage, spine and pelvis are rigid supports and have no soft material assigned.",
+  "inference_method": "Protocol-conditioned neural ensemble proposal followed by bounded robust physical refinement.",
+  "held_out_validation": {
+    "protocol": "New smooth half-sine-squared strain history, distinct from fitting ramp-hold-release history",
+    "samples_per_organ": 101,
+    "maximum_stress_nrmse": 0.0006503013991554503,
+    "acceptance_threshold": 0.02,
+    "accepted_count": 36
+  },
+  "materials": [
+    {
+      "id": "liver",
+      "young_pa": 4130.710320373896,
+      "relaxation_fraction": 0.418734102171403,
+      "relaxation_time_s": 0.6567654830773749,
+      "density_kg_m3": 1000.0,
+      "accepted_for_application": true,
+      "observation_origin": "synthetic-design-history",
+      "category": "digestive",
+      "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+      "design_parameters": {
+        "young_pa": 4125.301052844895,
+        "relaxation_fraction": 0.4184334366579475,
+        "relaxation_time_s": 0.6588434405324599
+      },
+      "neural_parameters": {
+        "young_pa": 4374.23074631032,
+        "relaxation_fraction": 0.40213195623287684,
+        "relaxation_time_s": 0.6688113759174156
+      },
+      "parameter_intervals_90": {
+        "young_pa": {
+          "lower": 4002.41799062339,
+          "upper": 4263.114894750368
+        },
+        "relaxation_fraction": {
+          "lower": 0.41107927048326226,
+          "upper": 0.4263889338595437
+        },
+        "relaxation_time_s": {
+          "lower": 0.622690766579671,
+          "upper": 0.6927048270382041
+        }
+      },
+      "fit_stress_nrmse": 0.00200967862294417,
+      "held_out_waveform_stress_nrmse": 0.0003038101487396171,
+      "diagnostics": {
+        "status": "supported",
+        "reasons": [],
+        "condition_number": 14.456015990615043,
+        "minimum_sensitivity": 1.5844467221468004,
+        "noise_fraction_estimate": 0.002,
+        "excitation": {
+          "peak_strain": 0.024,
+          "duration_s": 7.0,
+          "total_variation_over_amplitude": 2.0,
+          "peak_strain_rate_s_inv": 0.030000000000000027
+        },
+        "ood_scope": "Checks excitation support, fitted bounds, residual mismatch and local sensitivity; does not detect every biological model mismatch."
+      },
+      "provenance": "Synthetic scene design experiment for liver; standard linear solid simulator, seed 3954133161; category preset, not measured human Liver tissue. Metric calibration is synthetic: L0=20 mm; A0=100 mm^2."
+    },
+    {
+      "id": "stomach",
+      "young_pa": 4082.692087290111,
+      "relaxation_fraction": 0.41601272938795714,
+      "relaxation_time_s": 0.7361290852387489,
+      "density_kg_m3": 1000.0,
+      "accepted_for_application": true,
+      "observation_origin": "synthetic-design-history",
+      "category": "digestive",
+      "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+      "design_parameters": {
+        "young_pa": 4084.402120997039,
+        "relaxation_fraction": 0.41591596192797015,
+        "relaxation_time_s": 0.7353629649240385
+      },
+      "neural_parameters": {
+        "young_pa": 4299.926718449614,
+        "relaxation_fraction": 0.3980542259226183,
+        "relaxation_time_s": 0.7580760525925808
+      },
+      "parameter_intervals_90": {
+        "young_pa": {
+          "lower": 3955.915759527711,
+          "upper": 4213.531251133439
+        },
+        "relaxation_fraction": {
+          "lower": 0.4083699254566633,
+          "upper": 0.423655533319251
+        },
+        "relaxation_time_s": {
+          "lower": 0.6979589557036865,
+          "upper": 0.7763866710301099
+        }
+      },
+      "fit_stress_nrmse": 0.0017482820851836714,
+      "held_out_waveform_stress_nrmse": 0.00023215594048859513,
+      "diagnostics": {
+        "status": "supported",
+        "reasons": [],
+        "condition_number": 13.481869705116925,
+        "minimum_sensitivity": 1.6988826262352512,
+        "noise_fraction_estimate": 0.002,
+        "excitation": {
+          "peak_strain": 0.024,
+          "duration_s": 7.0,
+          "total_variation_over_amplitude": 2.0,
+          "peak_strain_rate_s_inv": 0.030000000000000027
+        },
+        "ood_scope": "Checks excitation support, fitted bounds, residual mismatch and local sensitivity; does not detect every biological model mismatch."
+      },
+      "provenance": "Synthetic scene design experiment for stomach; standard linear solid simulator, seed 3584088325; category preset, not measured human Stomach tissue. Metric calibration is synthetic: L0=20 mm; A0=100 mm^2."
+    },
+    {
+      "id": "gallbladder",
+      "young_pa": 3903.3950799113786,
+      "relaxation_fraction": 0.39158041329510246,
+      "relaxation_time_s": 0.7646764850535925,
+      "density_kg_m3": 1000.0,
+      "accepted_for_application": true,
+      "observation_origin": "synthetic-design-history",
+      "category": "digestive",
+      "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+      "design_parameters": {
+        "young_pa": 3898.8366303879857,
+        "relaxation_fraction": 0.3908183718252809,
+        "relaxation_time_s": 0.7668240833580499
+      },
+      "neural_parameters": {
+        "young_pa": 4040.066339615481,
+        "relaxation_fraction": 0.36763697069233786,
+        "relaxation_time_s": 0.7887871339104912
+      },
+      "parameter_intervals_90": {
+        "young_pa": {
+          "lower": 3782.1861049342338,
+          "upper": 4028.488479189014
+        },
+        "relaxation_fraction": {
+          "lower": 0.38393222453024123,
+          "upper": 0.3992286020599637
+        },
+        "relaxation_time_s": {
+          "lower": 0.7249848547962434,
+          "upper": 0.8065411614126136
+        }
+      },
+      "fit_stress_nrmse": 0.0019641358093424382,
+      "held_out_waveform_stress_nrmse": 0.0002560092343097315,
+      "diagnostics": {
+        "status": "supported",
+        "reasons": [],
+        "condition_number": 14.232886358437748,
+        "minimum_sensitivity": 1.6304027206857017,
+        "noise_fraction_estimate": 0.002027866537232418,
+        "excitation": {
+          "peak_strain": 0.024,
+          "duration_s": 7.0,
+          "total_variation_over_amplitude": 2.0,
+          "peak_strain_rate_s_inv": 0.030000000000000027
+        },
+        "ood_scope": "Checks excitation support, fitted bounds, residual mismatch and local sensitivity; does not detect every biological model mismatch."
+      },
+      "provenance": "Synthetic scene design experiment for gallbladder; standard linear solid simulator, seed 1291411931; category preset, not measured human Gallbladder tissue. Metric calibration is synthetic: L0=20 mm; A0=100 mm^2."
+    },
+    {
+      "id": "pancreas",
+      "young_pa": 3813.718520026463,
+      "relaxation_fraction": 0.422859968433773,
+      "relaxation_time_s": 0.7608448512834614,
+      "density_kg_m3": 1000.0,
+      "accepted_for_application": true,
+      "observation_origin": "synthetic-design-history",
+      "category": "digestive",
+      "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+      "design_parameters": {
+        "young_pa": 3808.936201724469,
+        "relaxation_fraction": 0.4227760921784669,
+        "relaxation_time_s": 0.7652197811299631
+      },
+      "neural_parameters": {
+        "young_pa": 3957.176535719072,
+        "relaxation_fraction": 0.40067036362759273,
+        "relaxation_time_s": 0.7943973617833425
+      },
+      "parameter_intervals_90": {
+        "young_pa": {
+          "lower": 3695.3004059360806,
+          "upper": 3935.931413486398
+        },
+        "relaxation_fraction": {
+          "lower": 0.41522195287045843,
+          "upper": 0.43049798399708755
+        },
+        "relaxation_time_s": {
+          "lower": 0.7214082436510698,
+          "upper": 0.8024373062259419
+        }
+      },
+      "fit_stress_nrmse": 0.001960973521698192,
+      "held_out_waveform_stress_nrmse": 0.0002952001312876205,
+      "diagnostics": {
+        "status": "supported",
+        "reasons": [],
+        "condition_number": 12.913119192307313,
+        "minimum_sensitivity": 1.7613609407954842,
+        "noise_fraction_estimate": 0.002,
+        "excitation": {
+          "peak_strain": 0.024,
+          "duration_s": 7.0,
+          "total_variation_over_amplitude": 2.0,
+          "peak_strain_rate_s_inv": 0.030000000000000027
+        },
+        "ood_scope": "Checks excitation support, fitted bounds, residual mismatch and local sensitivity; does not detect every biological model mismatch."
+      },
+      "provenance": "Synthetic scene design experiment for pancreas; standard linear solid simulator, seed 1646097755; category preset, not measured human Pancreas tissue. Metric calibration is synthetic: L0=20 mm; A0=100 mm^2."
+    },
+    {
+      "id": "spleen",
+      "young_pa": 3730.2218504614434,
+      "relaxation_fraction": 0.4160787717628293,
+      "relaxation_time_s": 0.7388614336762667,
+      "density_kg_m3": 1000.0,
+      "accepted_for_application": true,
+      "observation_origin": "synthetic-design-history",
+      "category": "digestive",
+      "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+      "design_parameters": {
+        "young_pa": 3729.188395191562,
+        "relaxation_fraction": 0.41555164065111105,
+        "relaxation_time_s": 0.7362270515251516
+      },
+      "neural_parameters": {
+        "young_pa": 3888.5238702777838,
+        "relaxation_fraction": 0.3976807230769976,
+        "relaxation_time_s": 0.7637081399011892
+      },
+      "parameter_intervals_90": {
+        "young_pa": {
+          "lower": 3614.3638867450395,
+          "upper": 3849.7936261174013
+        },
+        "relaxation_fraction": {
+          "lower": 0.40842302506321754,
+          "upper": 0.4237345184624411
+        },
+        "relaxation_time_s": {
+          "lower": 0.7004991511816231,
+          "upper": 0.779324596258654
+        }
+      },
+      "fit_stress_nrmse": 0.002161949358409075,
+      "held_out_waveform_stress_nrmse": 0.00044387479360443296,
+      "diagnostics": {
+        "status": "supported",
+        "reasons": [],
+        "condition_number": 13.446368991756565,
+        "minimum_sensitivity": 1.7033079925979224,
+        "noise_fraction_estimate": 0.002190067361858361,
+        "excitation": {
+          "peak_strain": 0.024,
+          "duration_s": 7.0,
+          "total_variation_over_amplitude": 2.0,
+          "peak_strain_rate_s_inv": 0.030000000000000027
+        },
+        "ood_scope": "Checks excitation support, fitted bounds, residual mismatch and local sensitivity; does not detect every biological model mismatch."
+      },
+      "provenance": "Synthetic scene design experiment for spleen; standard linear solid simulator, seed 2638767728; category preset, not measured human Spleen tissue. Metric calibration is synthetic: L0=20 mm; A0=100 mm^2."
+    },
+    {
+      "id": "right-kidney",
+      "young_pa": 6118.5425685193295,
+      "relaxation_fraction": 0.3171924920896699,
+      "relaxation_time_s": 0.5983330999460152,
+      "density_kg_m3": 1000.0,
+      "accepted_for_application": true,
+      "observation_origin": "synthetic-design-history",
+      "category": "urinary",
+      "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+      "design_parameters": {
+        "young_pa": 6112.542749402745,
+        "relaxation_fraction": 0.3167393717388063,
+        "relaxation_time_s": 0.6004011608899686
+      },
+      "neural_parameters": {
+        "young_pa": 6633.422150592382,
+        "relaxation_fraction": 0.2973500792114304,
+        "relaxation_time_s": 0.5913375847743289
+      },
+      "parameter_intervals_90": {
+        "young_pa": {
+          "lower": 5928.346770338649,
+          "upper": 6314.840310976715
+        },
+        "relaxation_fraction": {
+          "lower": 0.3094336710817853,
+          "upper": 0.32495131309755443
+        },
+        "relaxation_time_s": {
+          "lower": 0.5668996562630981,
+          "upper": 0.6315094647453082
+        }
+      },
+      "fit_stress_nrmse": 0.0021496804407010275,
+      "held_out_waveform_stress_nrmse": 0.00012087491849620457,
+      "diagnostics": {
+        "status": "supported",
+        "reasons": [],
+        "condition_number": 21.83323790300952,
+        "minimum_sensitivity": 1.118540522954131,
+        "noise_fraction_estimate": 0.0022666371758657206,
+        "excitation": {
+          "peak_strain": 0.024,
+          "duration_s": 7.0,
+          "total_variation_over_amplitude": 2.0,
+          "peak_strain_rate_s_inv": 0.030000000000000027
+        },
+        "ood_scope": "Checks excitation support, fitted bounds, residual mismatch and local sensitivity; does not detect every biological model mismatch."
+      },
+      "provenance": "Synthetic scene design experiment for right-kidney; standard linear solid simulator, seed 1781406473; category preset, not measured human Right kidney tissue. Metric calibration is synthetic: L0=20 mm; A0=100 mm^2."
+    },
+    {
+      "id": "left-kidney",
+      "young_pa": 5279.902241674623,
+      "relaxation_fraction": 0.34763216155513366,
+      "relaxation_time_s": 0.5379375284486412,
+      "density_kg_m3": 1000.0,
+      "accepted_for_application": true,
+      "observation_origin": "synthetic-design-history",
+      "category": "urinary",
+      "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+      "design_parameters": {
+        "young_pa": 5283.571148019292,
+        "relaxation_fraction": 0.348089099275205,
+        "relaxation_time_s": 0.5391367653217515
+      },
+      "neural_parameters": {
+        "young_pa": 5759.993504386245,
+        "relaxation_fraction": 0.32935326097893697,
+        "relaxation_time_s": 0.5289442566019485
+      },
+      "parameter_intervals_90": {
+        "young_pa": {
+          "lower": 5115.816566495427,
+          "upper": 5449.250832059838
+        },
+        "relaxation_fraction": {
+          "lower": 0.33990512431728015,
+          "upper": 0.3553591987929871
+        },
+        "relaxation_time_s": {
+          "lower": 0.5098365477802543,
+          "upper": 0.5675873684876696
+        }
+      },
+      "fit_stress_nrmse": 0.0018510594252594938,
+      "held_out_waveform_stress_nrmse": 0.00035512030908506375,
+      "diagnostics": {
+        "status": "supported",
+        "reasons": [],
+        "condition_number": 21.363779313409932,
+        "minimum_sensitivity": 1.127232392254418,
+        "noise_fraction_estimate": 0.002,
+        "excitation": {
+          "peak_strain": 0.024,
+          "duration_s": 7.0,
+          "total_variation_over_amplitude": 2.0,
+          "peak_strain_rate_s_inv": 0.030000000000000027
+        },
+        "ood_scope": "Checks excitation support, fitted bounds, residual mismatch and local sensitivity; does not detect every biological model mismatch."
+      },
+      "provenance": "Synthetic scene design experiment for left-kidney; standard linear solid simulator, seed 1009137298; category preset, not measured human Left kidney tissue. Metric calibration is synthetic: L0=20 mm; A0=100 mm^2."
+    },
+    {
+      "id": "esophagus",
+      "young_pa": 4385.182563101542,
+      "relaxation_fraction": 0.3918627789466342,
+      "relaxation_time_s": 0.6744106317231294,
+      "density_kg_m3": 1000.0,
+      "accepted_for_application": true,
+      "observation_origin": "synthetic-design-history",
+      "category": "digestive",
+      "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+      "design_parameters": {
+        "young_pa": 4387.491581742181,
+        "relaxation_fraction": 0.39221406704774064,
+        "relaxation_time_s": 0.6760692619588747
+      },
+      "neural_parameters": {
+        "young_pa": 4649.998982724063,
+        "relaxation_fraction": 0.3724084203889124,
+        "relaxation_time_s": 0.6888444904671299
+      },
+      "parameter_intervals_90": {
+        "young_pa": {
+          "lower": 4248.989784088261,
+          "upper": 4525.740726358583
+        },
+        "relaxation_fraction": {
+          "lower": 0.3842020610640031,
+          "upper": 0.39952349682926525
+        },
+        "relaxation_time_s": {
+          "lower": 0.6393851948569844,
+          "upper": 0.7113547574133705
+        }
+      },
+      "fit_stress_nrmse": 0.0019552841293103856,
+      "held_out_waveform_stress_nrmse": 0.00039171980621503116,
+      "diagnostics": {
+        "status": "supported",
+        "reasons": [],
+        "condition_number": 15.475947508606415,
+        "minimum_sensitivity": 1.5077235239860636,
+        "noise_fraction_estimate": 0.002,
+        "excitation": {
+          "peak_strain": 0.024,
+          "duration_s": 7.0,
+          "total_variation_over_amplitude": 2.0,
+          "peak_strain_rate_s_inv": 0.030000000000000027
+        },
+        "ood_scope": "Checks excitation support, fitted bounds, residual mismatch and local sensitivity; does not detect every biological model mismatch."
+      },
+      "provenance": "Synthetic scene design experiment for esophagus; standard linear solid simulator, seed 1350854608; category preset, not measured human Esophagus tissue. Metric calibration is synthetic: L0=20 mm; A0=100 mm^2."
+    },
+    {
+      "id": "duodenum",
+      "young_pa": 4389.895348985802,
+      "relaxation_fraction": 0.397781745792533,
+      "relaxation_time_s": 0.7475932334985952,
+      "density_kg_m3": 1000.0,
+      "accepted_for_application": true,
+      "observation_origin": "synthetic-design-history",
+      "category": "digestive",
+      "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+      "design_parameters": {
+        "young_pa": 4383.4554116347745,
+        "relaxation_fraction": 0.3974937854419391,
+        "relaxation_time_s": 0.7509824862103446
+      },
+      "neural_parameters": {
+        "young_pa": 4630.0841874961,
+        "relaxation_fraction": 0.3761882449212101,
+        "relaxation_time_s": 0.7679529063255961
+      },
+      "parameter_intervals_90": {
+        "young_pa": {
+          "lower": 4253.580105870119,
+          "upper": 4530.579111100358
+        },
+        "relaxation_fraction": {
+          "lower": 0.39013500522814676,
+          "upper": 0.4054284863569193
+        },
+        "relaxation_time_s": {
+          "lower": 0.708802436954567,
+          "upper": 0.7885069430266495
+        }
+      },
+      "fit_stress_nrmse": 0.0019269962213507579,
+      "held_out_waveform_stress_nrmse": 0.00032118989367971247,
+      "diagnostics": {
+        "status": "supported",
+        "reasons": [],
+        "condition_number": 14.15292469406923,
+        "minimum_sensitivity": 1.634387186544423,
+        "noise_fraction_estimate": 0.002,
+        "excitation": {
+          "peak_strain": 0.024,
+          "duration_s": 7.0,
+          "total_variation_over_amplitude": 2.0,
+          "peak_strain_rate_s_inv": 0.030000000000000027
+        },
+        "ood_scope": "Checks excitation support, fitted bounds, residual mismatch and local sensitivity; does not detect every biological model mismatch."
+      },
+      "provenance": "Synthetic scene design experiment for duodenum; standard linear solid simulator, seed 2570191865; category preset, not measured human Duodenum tissue. Metric calibration is synthetic: L0=20 mm; A0=100 mm^2."
+    },
+    {
+      "id": "colon",
+      "young_pa": 4461.412422566085,
+      "relaxation_fraction": 0.41149028457417186,
+      "relaxation_time_s": 0.6606752100302387,
+      "density_kg_m3": 1000.0,
+      "accepted_for_application": true,
+      "observation_origin": "synthetic-design-history",
+      "category": "digestive",
+      "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+      "design_parameters": {
+        "young_pa": 4460.805403658582,
+        "relaxation_fraction": 0.41140659628330867,
+        "relaxation_time_s": 0.659923203802765
+      },
+      "neural_parameters": {
+        "young_pa": 4776.643773739583,
+        "relaxation_fraction": 0.3966495915307628,
+        "relaxation_time_s": 0.672581420058593
+      },
+      "parameter_intervals_90": {
+        "young_pa": {
+          "lower": 4322.849863038304,
+          "upper": 4604.4164000267565
+        },
+        "relaxation_fraction": {
+          "lower": 0.40383383327759087,
+          "upper": 0.41914673587075285
+        },
+        "relaxation_time_s": {
+          "lower": 0.6263890764258069,
+          "upper": 0.6968380349784092
+        }
+      },
+      "fit_stress_nrmse": 0.00199248884927166,
+      "held_out_waveform_stress_nrmse": 0.00015845854870359598,
+      "diagnostics": {
+        "status": "supported",
+        "reasons": [],
+        "condition_number": 14.734384306794281,
+        "minimum_sensitivity": 1.5679623933999995,
+        "noise_fraction_estimate": 0.0020056333316325063,
+        "excitation": {
+          "peak_strain": 0.024,
+          "duration_s": 7.0,
+          "total_variation_over_amplitude": 2.0,
+          "peak_strain_rate_s_inv": 0.030000000000000027
+        },
+        "ood_scope": "Checks excitation support, fitted bounds, residual mismatch and local sensitivity; does not detect every biological model mismatch."
+      },
+      "provenance": "Synthetic scene design experiment for colon; standard linear solid simulator, seed 1891479113; category preset, not measured human Large intestine tissue. Metric calibration is synthetic: L0=20 mm; A0=100 mm^2."
+    },
+    {
+      "id": "small-intestine",
+      "young_pa": 4102.790471139469,
+      "relaxation_fraction": 0.4019916558918292,
+      "relaxation_time_s": 0.7758521318713709,
+      "density_kg_m3": 1000.0,
+      "accepted_for_application": true,
+      "observation_origin": "synthetic-design-history",
+      "category": "digestive",
+      "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+      "design_parameters": {
+        "young_pa": 4097.650937623855,
+        "relaxation_fraction": 0.4011586058804446,
+        "relaxation_time_s": 0.7794011945086884
+      },
+      "neural_parameters": {
+        "young_pa": 4270.895426629777,
+        "relaxation_fraction": 0.37835840439739316,
+        "relaxation_time_s": 0.8048400594082709
+      },
+      "parameter_intervals_90": {
+        "young_pa": {
+          "lower": 3975.3855093153416,
+          "upper": 4234.278565092387
+        },
+        "relaxation_fraction": {
+          "lower": 0.39434416974723857,
+          "upper": 0.4096391420364199
+        },
+        "relaxation_time_s": {
+          "lower": 0.7355854268071552,
+          "upper": 0.8183230779083395
+        }
+      },
+      "fit_stress_nrmse": 0.0021258638385720733,
+      "held_out_waveform_stress_nrmse": 0.00032411229632324306,
+      "diagnostics": {
+        "status": "supported",
+        "reasons": [],
+        "condition_number": 13.6350910602754,
+        "minimum_sensitivity": 1.6935713488207076,
+        "noise_fraction_estimate": 0.002088108586228385,
+        "excitation": {
+          "peak_strain": 0.024,
+          "duration_s": 7.0,
+          "total_variation_over_amplitude": 2.0,
+          "peak_strain_rate_s_inv": 0.030000000000000027
+        },
+        "ood_scope": "Checks excitation support, fitted bounds, residual mismatch and local sensitivity; does not detect every biological model mismatch."
+      },
+      "provenance": "Synthetic scene design experiment for small-intestine; standard linear solid simulator, seed 2365348878; category preset, not measured human Small intestine tissue. Metric calibration is synthetic: L0=20 mm; A0=100 mm^2."
+    },
+    {
+      "id": "urinary-bladder",
+      "young_pa": 5987.851693370316,
+      "relaxation_fraction": 0.3522768569593906,
+      "relaxation_time_s": 0.6226666672648641,
+      "density_kg_m3": 1000.0,
+      "accepted_for_application": true,
+      "observation_origin": "synthetic-design-history",
+      "category": "urinary",
+      "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+      "design_parameters": {
+        "young_pa": 5990.517444949119,
+        "relaxation_fraction": 0.35228864265978993,
+        "relaxation_time_s": 0.6227942281943741
+      },
+      "neural_parameters": {
+        "young_pa": 6449.699086446087,
+        "relaxation_fraction": 0.32953290061304225,
+        "relaxation_time_s": 0.6271257032118007
+      },
+      "parameter_intervals_90": {
+        "young_pa": {
+          "lower": 5801.798429834672,
+          "upper": 6179.8713511698825
+        },
+        "relaxation_fraction": {
+          "lower": 0.3445693453001839,
+          "upper": 0.35998436861859723
+        },
+        "relaxation_time_s": {
+          "lower": 0.5901680130616429,
+          "upper": 0.6569549178230986
+        }
+      },
+      "fit_stress_nrmse": 0.0020080240116706416,
+      "held_out_waveform_stress_nrmse": 0.0002701152468813368,
+      "diagnostics": {
+        "status": "supported",
+        "reasons": [],
+        "condition_number": 18.729353515618136,
+        "minimum_sensitivity": 1.2765416990770215,
+        "noise_fraction_estimate": 0.002139705813834576,
+        "excitation": {
+          "peak_strain": 0.024,
+          "duration_s": 7.0,
+          "total_variation_over_amplitude": 2.0,
+          "peak_strain_rate_s_inv": 0.030000000000000027
+        },
+        "ood_scope": "Checks excitation support, fitted bounds, residual mismatch and local sensitivity; does not detect every biological model mismatch."
+      },
+      "provenance": "Synthetic scene design experiment for urinary-bladder; standard linear solid simulator, seed 2672683445; category preset, not measured human Urinary bladder tissue. Metric calibration is synthetic: L0=20 mm; A0=100 mm^2."
+    },
+    {
+      "id": "right-ureter",
+      "young_pa": 6291.934529601649,
+      "relaxation_fraction": 0.3440215262314648,
+      "relaxation_time_s": 0.5315459303870967,
+      "density_kg_m3": 1000.0,
+      "accepted_for_application": true,
+      "observation_origin": "synthetic-design-history",
+      "category": "urinary",
+      "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+      "design_parameters": {
+        "young_pa": 6295.585986053135,
+        "relaxation_fraction": 0.3444603113861171,
+        "relaxation_time_s": 0.530686269906091
+      },
+      "neural_parameters": {
+        "young_pa": 6844.76885954806,
+        "relaxation_fraction": 0.323281008048609,
+        "relaxation_time_s": 0.5268036276115369
+      },
+      "parameter_intervals_90": {
+        "young_pa": {
+          "lower": 6096.387599250845,
+          "upper": 6493.7537976847725
+        },
+        "relaxation_fraction": {
+          "lower": 0.3362885295040342,
+          "upper": 0.3517545229588954
+        },
+        "relaxation_time_s": {
+          "lower": 0.5037622984260369,
+          "upper": 0.5608618925907323
+        }
+      },
+      "fit_stress_nrmse": 0.0015794124854228695,
+      "held_out_waveform_stress_nrmse": 0.00010543831775646477,
+      "diagnostics": {
+        "status": "supported",
+        "reasons": [],
+        "condition_number": 21.846740268761707,
+        "minimum_sensitivity": 1.1040938693454685,
+        "noise_fraction_estimate": 0.002,
+        "excitation": {
+          "peak_strain": 0.024,
+          "duration_s": 7.0,
+          "total_variation_over_amplitude": 2.0,
+          "peak_strain_rate_s_inv": 0.030000000000000027
+        },
+        "ood_scope": "Checks excitation support, fitted bounds, residual mismatch and local sensitivity; does not detect every biological model mismatch."
+      },
+      "provenance": "Synthetic scene design experiment for right-ureter; standard linear solid simulator, seed 4070943334; category preset, not measured human Right ureter tissue. Metric calibration is synthetic: L0=20 mm; A0=100 mm^2."
+    },
+    {
+      "id": "left-ureter",
+      "young_pa": 5531.930260997267,
+      "relaxation_fraction": 0.33873741147794506,
+      "relaxation_time_s": 0.5328946043114705,
+      "density_kg_m3": 1000.0,
+      "accepted_for_application": true,
+      "observation_origin": "synthetic-design-history",
+      "category": "urinary",
+      "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+      "design_parameters": {
+        "young_pa": 5529.605738476474,
+        "relaxation_fraction": 0.33835512907626175,
+        "relaxation_time_s": 0.5338122639389258
+      },
+      "neural_parameters": {
+        "young_pa": 6036.1291492469945,
+        "relaxation_fraction": 0.3193063195469981,
+        "relaxation_time_s": 0.5252161156380019
+      },
+      "parameter_intervals_90": {
+        "young_pa": {
+          "lower": 5359.875440205943,
+          "upper": 5709.508132032545
+        },
+        "relaxation_fraction": {
+          "lower": 0.33094431741460495,
+          "upper": 0.3465305055412852
+        },
+        "relaxation_time_s": {
+          "lower": 0.5048753800782014,
+          "upper": 0.5624688200488067
+        }
+      },
+      "fit_stress_nrmse": 0.002077246249060987,
+      "held_out_waveform_stress_nrmse": 0.00013250140351040094,
+      "diagnostics": {
+        "status": "supported",
+        "reasons": [],
+        "condition_number": 22.203689480259918,
+        "minimum_sensitivity": 1.0920750866057243,
+        "noise_fraction_estimate": 0.002338369014934012,
+        "excitation": {
+          "peak_strain": 0.024,
+          "duration_s": 7.0,
+          "total_variation_over_amplitude": 2.0,
+          "peak_strain_rate_s_inv": 0.030000000000000027
+        },
+        "ood_scope": "Checks excitation support, fitted bounds, residual mismatch and local sensitivity; does not detect every biological model mismatch."
+      },
+      "provenance": "Synthetic scene design experiment for left-ureter; standard linear solid simulator, seed 3697869446; category preset, not measured human Left ureter tissue. Metric calibration is synthetic: L0=20 mm; A0=100 mm^2."
+    },
+    {
+      "id": "cystic-duct",
+      "young_pa": 4284.8541534520855,
+      "relaxation_fraction": 0.3916413089027599,
+      "relaxation_time_s": 0.7557873321161771,
+      "density_kg_m3": 1000.0,
+      "accepted_for_application": true,
+      "observation_origin": "synthetic-design-history",
+      "category": "digestive",
+      "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+      "design_parameters": {
+        "young_pa": 4285.809432360021,
+        "relaxation_fraction": 0.3915050658164581,
+        "relaxation_time_s": 0.7550001122157548
+      },
+      "neural_parameters": {
+        "young_pa": 4495.01666686778,
+        "relaxation_fraction": 0.36871306991760666,
+        "relaxation_time_s": 0.7797595464029028
+      },
+      "parameter_intervals_90": {
+        "young_pa": {
+          "lower": 4151.802469543094,
+          "upper": 4422.1697084678835
+        },
+        "relaxation_fraction": {
+          "lower": 0.3839940803727945,
+          "upper": 0.39928853743272524
+        },
+        "relaxation_time_s": {
+          "lower": 0.716563838952156,
+          "upper": 0.7971578529870911
+        }
+      },
+      "fit_stress_nrmse": 0.001914600639521812,
+      "held_out_waveform_stress_nrmse": 0.00016556428072269123,
+      "diagnostics": {
+        "status": "supported",
+        "reasons": [],
+        "condition_number": 14.336925156316129,
+        "minimum_sensitivity": 1.6211950570883753,
+        "noise_fraction_estimate": 0.002,
+        "excitation": {
+          "peak_strain": 0.024,
+          "duration_s": 7.0,
+          "total_variation_over_amplitude": 2.0,
+          "peak_strain_rate_s_inv": 0.030000000000000027
+        },
+        "ood_scope": "Checks excitation support, fitted bounds, residual mismatch and local sensitivity; does not detect every biological model mismatch."
+      },
+      "provenance": "Synthetic scene design experiment for cystic-duct; standard linear solid simulator, seed 2971466773; category preset, not measured human Cystic duct tissue. Metric calibration is synthetic: L0=20 mm; A0=100 mm^2."
+    },
+    {
+      "id": "hepatic-duct",
+      "young_pa": 3897.6015286809834,
+      "relaxation_fraction": 0.40876833911298205,
+      "relaxation_time_s": 0.6872894642400649,
+      "density_kg_m3": 1000.0,
+      "accepted_for_application": true,
+      "observation_origin": "synthetic-design-history",
+      "category": "digestive",
+      "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+      "design_parameters": {
+        "young_pa": 3899.3940409222773,
+        "relaxation_fraction": 0.408664169390013,
+        "relaxation_time_s": 0.6867943931018136
+      },
+      "neural_parameters": {
+        "young_pa": 4092.966584400441,
+        "relaxation_fraction": 0.39088751583690456,
+        "relaxation_time_s": 0.7004604598150617
+      },
+      "parameter_intervals_90": {
+        "young_pa": {
+          "lower": 3776.544947415582,
+          "upper": 4022.538560482978
+        },
+        "relaxation_fraction": {
+          "lower": 0.40110939194240924,
+          "upper": 0.4164272862835549
+        },
+        "relaxation_time_s": {
+          "lower": 0.6516053149485903,
+          "upper": 0.7249278003397867
+        }
+      },
+      "fit_stress_nrmse": 0.002006969394566798,
+      "held_out_waveform_stress_nrmse": 0.0002899482873888755,
+      "diagnostics": {
+        "status": "supported",
+        "reasons": [],
+        "condition_number": 14.455087210707998,
+        "minimum_sensitivity": 1.588949892262987,
+        "noise_fraction_estimate": 0.0020739335484285457,
+        "excitation": {
+          "peak_strain": 0.024,
+          "duration_s": 7.0,
+          "total_variation_over_amplitude": 2.0,
+          "peak_strain_rate_s_inv": 0.030000000000000027
+        },
+        "ood_scope": "Checks excitation support, fitted bounds, residual mismatch and local sensitivity; does not detect every biological model mismatch."
+      },
+      "provenance": "Synthetic scene design experiment for hepatic-duct; standard linear solid simulator, seed 3228846470; category preset, not measured human Hepatic / common bile duct tissue. Metric calibration is synthetic: L0=20 mm; A0=100 mm^2."
+    },
+    {
+      "id": "pancreatic-duct",
+      "young_pa": 4448.359148772268,
+      "relaxation_fraction": 0.390378465776582,
+      "relaxation_time_s": 0.6767975813214144,
+      "density_kg_m3": 1000.0,
+      "accepted_for_application": true,
+      "observation_origin": "synthetic-design-history",
+      "category": "digestive",
+      "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+      "design_parameters": {
+        "young_pa": 4452.342391955104,
+        "relaxation_fraction": 0.391136442794855,
+        "relaxation_time_s": 0.6766672750134498
+      },
+      "neural_parameters": {
+        "young_pa": 4713.622072613253,
+        "relaxation_fraction": 0.36964584434184594,
+        "relaxation_time_s": 0.6912407188598929
+      },
+      "parameter_intervals_90": {
+        "young_pa": {
+          "lower": 4310.159569255828,
+          "upper": 4590.989915457443
+        },
+        "relaxation_fraction": {
+          "lower": 0.3826970624845816,
+          "upper": 0.3980598690685824
+        },
+        "relaxation_time_s": {
+          "lower": 0.6415753588481794,
+          "upper": 0.7139534892749981
+        }
+      },
+      "fit_stress_nrmse": 0.0022105171962362486,
+      "held_out_waveform_stress_nrmse": 0.0003254660118212143,
+      "diagnostics": {
+        "status": "supported",
+        "reasons": [],
+        "condition_number": 15.512481192349695,
+        "minimum_sensitivity": 1.4996065471999092,
+        "noise_fraction_estimate": 0.0022203960425957966,
+        "excitation": {
+          "peak_strain": 0.024,
+          "duration_s": 7.0,
+          "total_variation_over_amplitude": 2.0,
+          "peak_strain_rate_s_inv": 0.030000000000000027
+        },
+        "ood_scope": "Checks excitation support, fitted bounds, residual mismatch and local sensitivity; does not detect every biological model mismatch."
+      },
+      "provenance": "Synthetic scene design experiment for pancreatic-duct; standard linear solid simulator, seed 481006127; category preset, not measured human Pancreatic duct tissue. Metric calibration is synthetic: L0=20 mm; A0=100 mm^2."
+    },
+    {
+      "id": "aorta",
+      "young_pa": 8931.380581672474,
+      "relaxation_fraction": 0.2675530262781119,
+      "relaxation_time_s": 0.4182048335743321,
+      "density_kg_m3": 1000.0,
+      "accepted_for_application": true,
+      "observation_origin": "synthetic-design-history",
+      "category": "cardiovascular",
+      "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+      "design_parameters": {
+        "young_pa": 8931.656817527042,
+        "relaxation_fraction": 0.2667682072602786,
+        "relaxation_time_s": 0.4145459739754349
+      },
+      "neural_parameters": {
+        "young_pa": 9446.59279317058,
+        "relaxation_fraction": 0.2581704128811919,
+        "relaxation_time_s": 0.3972353876562566
+      },
+      "parameter_intervals_90": {
+        "young_pa": {
+          "lower": 8653.437401927495,
+          "upper": 9218.251128379097
+        },
+        "relaxation_fraction": {
+          "lower": 0.25964185607882945,
+          "upper": 0.2754641964773943
+        },
+        "relaxation_time_s": {
+          "lower": 0.3958693160675562,
+          "upper": 0.4418005531782324
+        }
+      },
+      "fit_stress_nrmse": 0.0019871240465053853,
+      "held_out_waveform_stress_nrmse": 0.0006503013991554503,
+      "diagnostics": {
+        "status": "supported",
+        "reasons": [],
+        "condition_number": 35.757519031118285,
+        "minimum_sensitivity": 0.7138242523472432,
+        "noise_fraction_estimate": 0.002,
+        "excitation": {
+          "peak_strain": 0.024,
+          "duration_s": 7.0,
+          "total_variation_over_amplitude": 2.0,
+          "peak_strain_rate_s_inv": 0.030000000000000027
+        },
+        "ood_scope": "Checks excitation support, fitted bounds, residual mismatch and local sensitivity; does not detect every biological model mismatch."
+      },
+      "provenance": "Synthetic scene design experiment for aorta; standard linear solid simulator, seed 2241926691; category preset, not measured human Aorta tissue. Metric calibration is synthetic: L0=20 mm; A0=100 mm^2."
+    },
+    {
+      "id": "vena-cava",
+      "young_pa": 7594.3963997248175,
+      "relaxation_fraction": 0.26807147515175983,
+      "relaxation_time_s": 0.4443238106186836,
+      "density_kg_m3": 1000.0,
+      "accepted_for_application": true,
+      "observation_origin": "synthetic-design-history",
+      "category": "cardiovascular",
+      "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+      "design_parameters": {
+        "young_pa": 7589.699701669633,
+        "relaxation_fraction": 0.2680045313044244,
+        "relaxation_time_s": 0.4463248512154316
+      },
+      "neural_parameters": {
+        "young_pa": 8124.728065570558,
+        "relaxation_fraction": 0.25106710684162276,
+        "relaxation_time_s": 0.44453058028968534
+      },
+      "parameter_intervals_90": {
+        "young_pa": {
+          "lower": 7358.092507588749,
+          "upper": 7838.289151253612
+        },
+        "relaxation_fraction": {
+          "lower": 0.26017716973006555,
+          "upper": 0.2759657805734541
+        },
+        "relaxation_time_s": {
+          "lower": 0.4206156786883815,
+          "upper": 0.4693682586876928
+        }
+      },
+      "fit_stress_nrmse": 0.001992778152836721,
+      "held_out_waveform_stress_nrmse": 0.00024880396377681554,
+      "diagnostics": {
+        "status": "supported",
+        "reasons": [],
+        "condition_number": 33.74040753926495,
+        "minimum_sensitivity": 0.7521465795100497,
+        "noise_fraction_estimate": 0.0020640562867850374,
+        "excitation": {
+          "peak_strain": 0.024,
+          "duration_s": 7.0,
+          "total_variation_over_amplitude": 2.0,
+          "peak_strain_rate_s_inv": 0.030000000000000027
+        },
+        "ood_scope": "Checks excitation support, fitted bounds, residual mismatch and local sensitivity; does not detect every biological model mismatch."
+      },
+      "provenance": "Synthetic scene design experiment for vena-cava; standard linear solid simulator, seed 1112870510; category preset, not measured human Vena cava tissue. Metric calibration is synthetic: L0=20 mm; A0=100 mm^2."
+    },
+    {
+      "id": "portal-vein",
+      "young_pa": 8874.153638910391,
+      "relaxation_fraction": 0.30213681206294063,
+      "relaxation_time_s": 0.4361248637259668,
+      "density_kg_m3": 1000.0,
+      "accepted_for_application": true,
+      "observation_origin": "synthetic-design-history",
+      "category": "cardiovascular",
+      "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+      "design_parameters": {
+        "young_pa": 8864.784505590986,
+        "relaxation_fraction": 0.3013568986590737,
+        "relaxation_time_s": 0.4379341411079832
+      },
+      "neural_parameters": {
+        "young_pa": 9375.12719383744,
+        "relaxation_fraction": 0.2875442225271951,
+        "relaxation_time_s": 0.4198845655720982
+      },
+      "parameter_intervals_90": {
+        "young_pa": {
+          "lower": 8598.100566619127,
+          "upper": 9159.069749977603
+        },
+        "relaxation_fraction": {
+          "lower": 0.29429423380107306,
+          "upper": 0.30997939032480826
+        },
+        "relaxation_time_s": {
+          "lower": 0.4130778368037169,
+          "upper": 0.4604577631948168
+        }
+      },
+      "fit_stress_nrmse": 0.0019139368986632289,
+      "held_out_waveform_stress_nrmse": 0.00012195325163124254,
+      "diagnostics": {
+        "status": "supported",
+        "reasons": [],
+        "condition_number": 30.161961615744048,
+        "minimum_sensitivity": 0.8317061352190662,
+        "noise_fraction_estimate": 0.002,
+        "excitation": {
+          "peak_strain": 0.024,
+          "duration_s": 7.0,
+          "total_variation_over_amplitude": 2.0,
+          "peak_strain_rate_s_inv": 0.030000000000000027
+        },
+        "ood_scope": "Checks excitation support, fitted bounds, residual mismatch and local sensitivity; does not detect every biological model mismatch."
+      },
+      "provenance": "Synthetic scene design experiment for portal-vein; standard linear solid simulator, seed 1224301255; category preset, not measured human Portal venous connection tissue. Metric calibration is synthetic: L0=20 mm; A0=100 mm^2."
+    },
+    {
+      "id": "hepatic-artery",
+      "young_pa": 7290.974478407871,
+      "relaxation_fraction": 0.27826061548955067,
+      "relaxation_time_s": 0.3959514038468028,
+      "density_kg_m3": 1000.0,
+      "accepted_for_application": true,
+      "observation_origin": "synthetic-design-history",
+      "category": "cardiovascular",
+      "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+      "design_parameters": {
+        "young_pa": 7279.048891819385,
+        "relaxation_fraction": 0.27750948578454837,
+        "relaxation_time_s": 0.4008805012397573
+      },
+      "neural_parameters": {
+        "young_pa": 7862.803493199191,
+        "relaxation_fraction": 0.2628898780621327,
+        "relaxation_time_s": 0.38944430837022465
+      },
+      "parameter_intervals_90": {
+        "young_pa": {
+          "lower": 7063.98158690196,
+          "upper": 7525.261524373336
+        },
+        "relaxation_fraction": {
+          "lower": 0.27031518291876455,
+          "upper": 0.28620604806033684
+        },
+        "relaxation_time_s": {
+          "lower": 0.3747838022561393,
+          "upper": 0.41831454098196874
+        }
+      },
+      "fit_stress_nrmse": 0.002056112086043834,
+      "held_out_waveform_stress_nrmse": 0.0003447751823958253,
+      "diagnostics": {
+        "status": "supported",
+        "reasons": [],
+        "condition_number": 36.13896724298962,
+        "minimum_sensitivity": 0.7056228449001463,
+        "noise_fraction_estimate": 0.0020384159242497063,
+        "excitation": {
+          "peak_strain": 0.024,
+          "duration_s": 7.0,
+          "total_variation_over_amplitude": 2.0,
+          "peak_strain_rate_s_inv": 0.030000000000000027
+        },
+        "ood_scope": "Checks excitation support, fitted bounds, residual mismatch and local sensitivity; does not detect every biological model mismatch."
+      },
+      "provenance": "Synthetic scene design experiment for hepatic-artery; standard linear solid simulator, seed 2147621437; category preset, not measured human Hepatic artery tissue. Metric calibration is synthetic: L0=20 mm; A0=100 mm^2."
+    },
+    {
+      "id": "trachea",
+      "young_pa": 2268.3997999586736,
+      "relaxation_fraction": 0.5132378537020966,
+      "relaxation_time_s": 0.9853667437190645,
+      "density_kg_m3": 1000.0,
+      "accepted_for_application": true,
+      "observation_origin": "synthetic-design-history",
+      "category": "respiratory",
+      "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+      "design_parameters": {
+        "young_pa": 2266.3001585822026,
+        "relaxation_fraction": 0.51272774136041,
+        "relaxation_time_s": 0.9865337715126477
+      },
+      "neural_parameters": {
+        "young_pa": 2207.7625022288094,
+        "relaxation_fraction": 0.5068582987349116,
+        "relaxation_time_s": 1.0421881483797408
+      },
+      "parameter_intervals_90": {
+        "young_pa": {
+          "lower": 2197.990573734674,
+          "upper": 2341.064476773184
+        },
+        "relaxation_fraction": {
+          "lower": 0.5056321207700558,
+          "upper": 0.5208435866341373
+        },
+        "relaxation_time_s": {
+          "lower": 0.9344396909695769,
+          "upper": 1.0390693257261525
+        }
+      },
+      "fit_stress_nrmse": 0.0018885350125246723,
+      "held_out_waveform_stress_nrmse": 0.0003020749030999314,
+      "diagnostics": {
+        "status": "supported",
+        "reasons": [],
+        "condition_number": 8.560380259700455,
+        "minimum_sensitivity": 2.564584590024505,
+        "noise_fraction_estimate": 0.002,
+        "excitation": {
+          "peak_strain": 0.024,
+          "duration_s": 7.0,
+          "total_variation_over_amplitude": 2.0,
+          "peak_strain_rate_s_inv": 0.030000000000000027
+        },
+        "ood_scope": "Checks excitation support, fitted bounds, residual mismatch and local sensitivity; does not detect every biological model mismatch."
+      },
+      "provenance": "Synthetic scene design experiment for trachea; standard linear solid simulator, seed 856485369; category preset, not measured human Trachea tissue. Metric calibration is synthetic: L0=20 mm; A0=100 mm^2."
+    },
+    {
+      "id": "bronchi",
+      "young_pa": 2490.0723695794604,
+      "relaxation_fraction": 0.4783054684203617,
+      "relaxation_time_s": 0.9025315430500638,
+      "density_kg_m3": 1000.0,
+      "accepted_for_application": true,
+      "observation_origin": "synthetic-design-history",
+      "category": "respiratory",
+      "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+      "design_parameters": {
+        "young_pa": 2488.192981590623,
+        "relaxation_fraction": 0.47852294836931925,
+        "relaxation_time_s": 0.9064008133574445
+      },
+      "neural_parameters": {
+        "young_pa": 2446.2463234257725,
+        "relaxation_fraction": 0.46155004549616185,
+        "relaxation_time_s": 0.9470563218556759
+      },
+      "parameter_intervals_90": {
+        "young_pa": {
+          "lower": 2412.774274643679,
+          "upper": 2569.8468650403524
+        },
+        "relaxation_fraction": {
+          "lower": 0.47069118492117246,
+          "upper": 0.48591975191955095
+        },
+        "relaxation_time_s": {
+          "lower": 0.855848628764065,
+          "upper": 0.9517608123958131
+        }
+      },
+      "fit_stress_nrmse": 0.0018176850215138464,
+      "held_out_waveform_stress_nrmse": 0.00027256010532749497,
+      "diagnostics": {
+        "status": "supported",
+        "reasons": [],
+        "condition_number": 9.873719459625885,
+        "minimum_sensitivity": 2.244586321704962,
+        "noise_fraction_estimate": 0.002,
+        "excitation": {
+          "peak_strain": 0.024,
+          "duration_s": 7.0,
+          "total_variation_over_amplitude": 2.0,
+          "peak_strain_rate_s_inv": 0.030000000000000027
+        },
+        "ood_scope": "Checks excitation support, fitted bounds, residual mismatch and local sensitivity; does not detect every biological model mismatch."
+      },
+      "provenance": "Synthetic scene design experiment for bronchi; standard linear solid simulator, seed 1565046485; category preset, not measured human Bronchial tree tissue. Metric calibration is synthetic: L0=20 mm; A0=100 mm^2."
+    },
+    {
+      "id": "diaphragm",
+      "young_pa": 11041.54186191832,
+      "relaxation_fraction": 0.24683662402124823,
+      "relaxation_time_s": 0.40032578214890896,
+      "density_kg_m3": 1000.0,
+      "accepted_for_application": true,
+      "observation_origin": "synthetic-design-history",
+      "category": "connective",
+      "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+      "design_parameters": {
+        "young_pa": 11047.839914265673,
+        "relaxation_fraction": 0.24674872424977495,
+        "relaxation_time_s": 0.4009582601933956
+      },
+      "neural_parameters": {
+        "young_pa": 11829.363040346114,
+        "relaxation_fraction": 0.23359015858919477,
+        "relaxation_time_s": 0.403047405937542
+      },
+      "parameter_intervals_90": {
+        "young_pa": {
+          "lower": 10697.795702176152,
+          "upper": 11396.333420696632
+        },
+        "relaxation_fraction": {
+          "lower": 0.23886271653120017,
+          "upper": 0.25481053151129623
+        },
+        "relaxation_time_s": {
+          "lower": 0.3787250266315543,
+          "upper": 0.4231585466598877
+        }
+      },
+      "fit_stress_nrmse": 0.001994103784205443,
+      "held_out_waveform_stress_nrmse": 0.0004460144400061963,
+      "diagnostics": {
+        "status": "supported",
+        "reasons": [],
+        "condition_number": 40.5264539320651,
+        "minimum_sensitivity": 0.636735180681817,
+        "noise_fraction_estimate": 0.002,
+        "excitation": {
+          "peak_strain": 0.024,
+          "duration_s": 7.0,
+          "total_variation_over_amplitude": 2.0,
+          "peak_strain_rate_s_inv": 0.030000000000000027
+        },
+        "ood_scope": "Checks excitation support, fitted bounds, residual mismatch and local sensitivity; does not detect every biological model mismatch."
+      },
+      "provenance": "Synthetic scene design experiment for diaphragm; standard linear solid simulator, seed 4093660925; category preset, not measured human Diaphragm tissue. Metric calibration is synthetic: L0=20 mm; A0=100 mm^2."
+    },
+    {
+      "id": "right-lung",
+      "young_pa": 2269.089597417128,
+      "relaxation_fraction": 0.5270114022465782,
+      "relaxation_time_s": 0.8560822236751878,
+      "density_kg_m3": 1000.0,
+      "accepted_for_application": true,
+      "observation_origin": "synthetic-design-history",
+      "category": "respiratory",
+      "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+      "design_parameters": {
+        "young_pa": 2270.006051499435,
+        "relaxation_fraction": 0.5277213588686024,
+        "relaxation_time_s": 0.8566380596676824
+      },
+      "neural_parameters": {
+        "young_pa": 2199.9794578541055,
+        "relaxation_fraction": 0.5175365408559344,
+        "relaxation_time_s": 0.9039257587940663
+      },
+      "parameter_intervals_90": {
+        "young_pa": {
+          "lower": 2198.6506153147398,
+          "upper": 2341.7852592143513
+        },
+        "relaxation_fraction": {
+          "lower": 0.519402915212185,
+          "upper": 0.5346198892809715
+        },
+        "relaxation_time_s": {
+          "lower": 0.8118394314543649,
+          "upper": 0.9027361141842378
+        }
+      },
+      "fit_stress_nrmse": 0.001992670669991079,
+      "held_out_waveform_stress_nrmse": 0.0004503527717919016,
+      "diagnostics": {
+        "status": "supported",
+        "reasons": [],
+        "condition_number": 8.779921575278165,
+        "minimum_sensitivity": 2.46802385930793,
+        "noise_fraction_estimate": 0.002,
+        "excitation": {
+          "peak_strain": 0.024,
+          "duration_s": 7.0,
+          "total_variation_over_amplitude": 2.0,
+          "peak_strain_rate_s_inv": 0.030000000000000027
+        },
+        "ood_scope": "Checks excitation support, fitted bounds, residual mismatch and local sensitivity; does not detect every biological model mismatch."
+      },
+      "provenance": "Synthetic scene design experiment for right-lung; standard linear solid simulator, seed 1054416454; category preset, not measured human Right lung tissue. Metric calibration is synthetic: L0=20 mm; A0=100 mm^2."
+    },
+    {
+      "id": "left-lung",
+      "young_pa": 2179.240637033902,
+      "relaxation_fraction": 0.5124786588850865,
+      "relaxation_time_s": 0.875724237899285,
+      "density_kg_m3": 1000.0,
+      "accepted_for_application": true,
+      "observation_origin": "synthetic-design-history",
+      "category": "respiratory",
+      "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+      "design_parameters": {
+        "young_pa": 2178.5108984085005,
+        "relaxation_fraction": 0.5129519649287552,
+        "relaxation_time_s": 0.8784791186685923
+      },
+      "neural_parameters": {
+        "young_pa": 2096.16767101241,
+        "relaxation_fraction": 0.5004769319713632,
+        "relaxation_time_s": 0.9254769296122155
+      },
+      "parameter_intervals_90": {
+        "young_pa": {
+          "lower": 2111.5915544920485,
+          "upper": 2249.0569939991747
+        },
+        "relaxation_fraction": {
+          "lower": 0.5048687875129814,
+          "upper": 0.5200885302571916
+        },
+        "relaxation_time_s": {
+          "lower": 0.8304567634159852,
+          "upper": 0.9234592029689307
+        }
+      },
+      "fit_stress_nrmse": 0.0019005007394658463,
+      "held_out_waveform_stress_nrmse": 0.0003763511444779198,
+      "diagnostics": {
+        "status": "supported",
+        "reasons": [],
+        "condition_number": 9.057437812907096,
+        "minimum_sensitivity": 2.4104779934450558,
+        "noise_fraction_estimate": 0.002,
+        "excitation": {
+          "peak_strain": 0.024,
+          "duration_s": 7.0,
+          "total_variation_over_amplitude": 2.0,
+          "peak_strain_rate_s_inv": 0.030000000000000027
+        },
+        "ood_scope": "Checks excitation support, fitted bounds, residual mismatch and local sensitivity; does not detect every biological model mismatch."
+      },
+      "provenance": "Synthetic scene design experiment for left-lung; standard linear solid simulator, seed 4025841966; category preset, not measured human Left lung tissue. Metric calibration is synthetic: L0=20 mm; A0=100 mm^2."
+    },
+    {
+      "id": "heart",
+      "young_pa": 7818.727362009028,
+      "relaxation_fraction": 0.28571915402581477,
+      "relaxation_time_s": 0.44685005733659994,
+      "density_kg_m3": 1000.0,
+      "accepted_for_application": true,
+      "observation_origin": "synthetic-design-history",
+      "category": "cardiovascular",
+      "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+      "design_parameters": {
+        "young_pa": 7823.2115308709535,
+        "relaxation_fraction": 0.28569220976944065,
+        "relaxation_time_s": 0.44441555090001245
+      },
+      "neural_parameters": {
+        "young_pa": 8384.81470887825,
+        "relaxation_fraction": 0.270283867566338,
+        "relaxation_time_s": 0.4407522155368769
+      },
+      "parameter_intervals_90": {
+        "young_pa": {
+          "lower": 7575.464115447387,
+          "upper": 8069.802276110226
+        },
+        "relaxation_fraction": {
+          "lower": 0.2778486042638598,
+          "upper": 0.2935897037877698
+        },
+        "relaxation_time_s": {
+          "lower": 0.4231227245259564,
+          "upper": 0.4719079410481384
+        }
+      },
+      "fit_stress_nrmse": 0.0021203857703967588,
+      "held_out_waveform_stress_nrmse": 0.0003055753813819787,
+      "diagnostics": {
+        "status": "supported",
+        "reasons": [],
+        "condition_number": 31.355894854790343,
+        "minimum_sensitivity": 0.8048524914584866,
+        "noise_fraction_estimate": 0.002077275413968246,
+        "excitation": {
+          "peak_strain": 0.024,
+          "duration_s": 7.0,
+          "total_variation_over_amplitude": 2.0,
+          "peak_strain_rate_s_inv": 0.030000000000000027
+        },
+        "ood_scope": "Checks excitation support, fitted bounds, residual mismatch and local sensitivity; does not detect every biological model mismatch."
+      },
+      "provenance": "Synthetic scene design experiment for heart; standard linear solid simulator, seed 1018783913; category preset, not measured human Heart tissue. Metric calibration is synthetic: L0=20 mm; A0=100 mm^2."
+    },
+    {
+      "id": "mesentery",
+      "young_pa": 11243.409314773988,
+      "relaxation_fraction": 0.22665642144368708,
+      "relaxation_time_s": 0.3727882613303478,
+      "density_kg_m3": 1000.0,
+      "accepted_for_application": true,
+      "observation_origin": "synthetic-design-history",
+      "category": "connective",
+      "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+      "design_parameters": {
+        "young_pa": 11259.576912103199,
+        "relaxation_fraction": 0.22763929840581462,
+        "relaxation_time_s": 0.3690717525876363
+      },
+      "neural_parameters": {
+        "young_pa": 12042.805521174652,
+        "relaxation_fraction": 0.21769479429738636,
+        "relaxation_time_s": 0.37049715722652293
+      },
+      "parameter_intervals_90": {
+        "young_pa": {
+          "lower": 10892.820870824997,
+          "upper": 11605.281544483174
+        },
+        "relaxation_fraction": {
+          "lower": 0.21848257510805807,
+          "upper": 0.2348302677793161
+        },
+        "relaxation_time_s": {
+          "lower": 0.3520959592337567,
+          "upper": 0.39469662784014137
+        }
+      },
+      "fit_stress_nrmse": 0.002198349049728812,
+      "held_out_waveform_stress_nrmse": 0.0001293128519470756,
+      "diagnostics": {
+        "status": "supported",
+        "reasons": [],
+        "condition_number": 47.361934760571685,
+        "minimum_sensitivity": 0.5544704743508483,
+        "noise_fraction_estimate": 0.002210755144802209,
+        "excitation": {
+          "peak_strain": 0.024,
+          "duration_s": 7.0,
+          "total_variation_over_amplitude": 2.0,
+          "peak_strain_rate_s_inv": 0.030000000000000027
+        },
+        "ood_scope": "Checks excitation support, fitted bounds, residual mismatch and local sensitivity; does not detect every biological model mismatch."
+      },
+      "provenance": "Synthetic scene design experiment for mesentery; standard linear solid simulator, seed 1664142528; category preset, not measured human Small-intestinal mesentery tissue. Metric calibration is synthetic: L0=20 mm; A0=100 mm^2."
+    },
+    {
+      "id": "superior-mesenteric-artery",
+      "young_pa": 9027.622772579458,
+      "relaxation_fraction": 0.2699050292623419,
+      "relaxation_time_s": 0.4216921590166555,
+      "density_kg_m3": 1000.0,
+      "accepted_for_application": true,
+      "observation_origin": "synthetic-design-history",
+      "category": "cardiovascular",
+      "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+      "design_parameters": {
+        "young_pa": 9033.760524011393,
+        "relaxation_fraction": 0.27027696829885073,
+        "relaxation_time_s": 0.4217167910800866
+      },
+      "neural_parameters": {
+        "young_pa": 9495.604632493549,
+        "relaxation_fraction": 0.25732989308968646,
+        "relaxation_time_s": 0.4092443390637847
+      },
+      "parameter_intervals_90": {
+        "young_pa": {
+          "lower": 8746.708085522356,
+          "upper": 9317.559489482866
+        },
+        "relaxation_fraction": {
+          "lower": 0.2620046133971181,
+          "upper": 0.2778054451275657
+        },
+        "relaxation_time_s": {
+          "lower": 0.39920155041823524,
+          "upper": 0.4454498655875095
+        }
+      },
+      "fit_stress_nrmse": 0.0019799433720999646,
+      "held_out_waveform_stress_nrmse": 0.0001758036537045273,
+      "diagnostics": {
+        "status": "supported",
+        "reasons": [],
+        "condition_number": 35.15409297866437,
+        "minimum_sensitivity": 0.727488827364292,
+        "noise_fraction_estimate": 0.002,
+        "excitation": {
+          "peak_strain": 0.024,
+          "duration_s": 7.0,
+          "total_variation_over_amplitude": 2.0,
+          "peak_strain_rate_s_inv": 0.030000000000000027
+        },
+        "ood_scope": "Checks excitation support, fitted bounds, residual mismatch and local sensitivity; does not detect every biological model mismatch."
+      },
+      "provenance": "Synthetic scene design experiment for superior-mesenteric-artery; standard linear solid simulator, seed 3202212701; category preset, not measured human Superior mesenteric artery tissue. Metric calibration is synthetic: L0=20 mm; A0=100 mm^2."
+    },
+    {
+      "id": "inferior-mesenteric-artery",
+      "young_pa": 7466.918181308298,
+      "relaxation_fraction": 0.30140445134810906,
+      "relaxation_time_s": 0.42572036364114335,
+      "density_kg_m3": 1000.0,
+      "accepted_for_application": true,
+      "observation_origin": "synthetic-design-history",
+      "category": "cardiovascular",
+      "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+      "design_parameters": {
+        "young_pa": 7482.551350102363,
+        "relaxation_fraction": 0.302390829483195,
+        "relaxation_time_s": 0.4218131766362321
+      },
+      "neural_parameters": {
+        "young_pa": 7973.060360206899,
+        "relaxation_fraction": 0.2807883329359409,
+        "relaxation_time_s": 0.42519235580129117
+      },
+      "parameter_intervals_90": {
+        "young_pa": {
+          "lower": 7234.559327603151,
+          "upper": 7706.739913462623
+        },
+        "relaxation_fraction": {
+          "lower": 0.293529088472043,
+          "upper": 0.3092798142241751
+        },
+        "relaxation_time_s": {
+          "lower": 0.40315809724131174,
+          "upper": 0.44954530061259484
+        }
+      },
+      "fit_stress_nrmse": 0.002082799196015796,
+      "held_out_waveform_stress_nrmse": 0.0002745440113288877,
+      "diagnostics": {
+        "status": "supported",
+        "reasons": [],
+        "condition_number": 30.929658742959916,
+        "minimum_sensitivity": 0.8099257441297598,
+        "noise_fraction_estimate": 0.002062632345264537,
+        "excitation": {
+          "peak_strain": 0.024,
+          "duration_s": 7.0,
+          "total_variation_over_amplitude": 2.0,
+          "peak_strain_rate_s_inv": 0.030000000000000027
+        },
+        "ood_scope": "Checks excitation support, fitted bounds, residual mismatch and local sensitivity; does not detect every biological model mismatch."
+      },
+      "provenance": "Synthetic scene design experiment for inferior-mesenteric-artery; standard linear solid simulator, seed 1828136290; category preset, not measured human Inferior mesenteric artery tissue. Metric calibration is synthetic: L0=20 mm; A0=100 mm^2."
+    },
+    {
+      "id": "right-renal-artery",
+      "young_pa": 7896.973254055992,
+      "relaxation_fraction": 0.2978315880454503,
+      "relaxation_time_s": 0.42074556543612934,
+      "density_kg_m3": 1000.0,
+      "accepted_for_application": true,
+      "observation_origin": "synthetic-design-history",
+      "category": "cardiovascular",
+      "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+      "design_parameters": {
+        "young_pa": 7885.753801875605,
+        "relaxation_fraction": 0.297134166841324,
+        "relaxation_time_s": 0.4234561330909446
+      },
+      "neural_parameters": {
+        "young_pa": 8419.737632739807,
+        "relaxation_fraction": 0.2791044489018801,
+        "relaxation_time_s": 0.4187626099247937
+      },
+      "parameter_intervals_90": {
+        "young_pa": {
+          "lower": 7651.264457157981,
+          "upper": 8150.572617697723
+        },
+        "relaxation_fraction": {
+          "lower": 0.28996452833110253,
+          "upper": 0.305698647759798
+        },
+        "relaxation_time_s": {
+          "lower": 0.3984596694482867,
+          "upper": 0.44427791419714385
+        }
+      },
+      "fit_stress_nrmse": 0.001958262399621933,
+      "held_out_waveform_stress_nrmse": 0.00017276325563884322,
+      "diagnostics": {
+        "status": "supported",
+        "reasons": [],
+        "condition_number": 31.686190756674428,
+        "minimum_sensitivity": 0.794608300350892,
+        "noise_fraction_estimate": 0.002,
+        "excitation": {
+          "peak_strain": 0.024,
+          "duration_s": 7.0,
+          "total_variation_over_amplitude": 2.0,
+          "peak_strain_rate_s_inv": 0.030000000000000027
+        },
+        "ood_scope": "Checks excitation support, fitted bounds, residual mismatch and local sensitivity; does not detect every biological model mismatch."
+      },
+      "provenance": "Synthetic scene design experiment for right-renal-artery; standard linear solid simulator, seed 729567740; category preset, not measured human Right renal artery tissue. Metric calibration is synthetic: L0=20 mm; A0=100 mm^2."
+    },
+    {
+      "id": "left-renal-artery",
+      "young_pa": 7168.8112050389645,
+      "relaxation_fraction": 0.29386721847160957,
+      "relaxation_time_s": 0.45910767631687566,
+      "density_kg_m3": 1000.0,
+      "accepted_for_application": true,
+      "observation_origin": "synthetic-design-history",
+      "category": "cardiovascular",
+      "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+      "design_parameters": {
+        "young_pa": 7160.280233041021,
+        "relaxation_fraction": 0.2928326050666845,
+        "relaxation_time_s": 0.4621892524225093
+      },
+      "neural_parameters": {
+        "young_pa": 7682.823548866647,
+        "relaxation_fraction": 0.27287055706296454,
+        "relaxation_time_s": 0.4611437599587547
+      },
+      "parameter_intervals_90": {
+        "young_pa": {
+          "lower": 6945.487437215098,
+          "upper": 7399.315679145276
+        },
+        "relaxation_fraction": {
+          "lower": 0.28589200036403717,
+          "upper": 0.301842436579182
+        },
+        "relaxation_time_s": {
+          "lower": 0.4344873615030506,
+          "upper": 0.48512310628303756
+        }
+      },
+      "fit_stress_nrmse": 0.002205608880983599,
+      "held_out_waveform_stress_nrmse": 0.0002988238402376326,
+      "diagnostics": {
+        "status": "supported",
+        "reasons": [],
+        "condition_number": 29.675945494466163,
+        "minimum_sensitivity": 0.8414923657628343,
+        "noise_fraction_estimate": 0.002519437572148624,
+        "excitation": {
+          "peak_strain": 0.024,
+          "duration_s": 7.0,
+          "total_variation_over_amplitude": 2.0,
+          "peak_strain_rate_s_inv": 0.030000000000000027
+        },
+        "ood_scope": "Checks excitation support, fitted bounds, residual mismatch and local sensitivity; does not detect every biological model mismatch."
+      },
+      "provenance": "Synthetic scene design experiment for left-renal-artery; standard linear solid simulator, seed 608007553; category preset, not measured human Left renal artery tissue. Metric calibration is synthetic: L0=20 mm; A0=100 mm^2."
+    },
+    {
+      "id": "splenic-artery",
+      "young_pa": 8035.863295605224,
+      "relaxation_fraction": 0.2556357936339483,
+      "relaxation_time_s": 0.4671887168463014,
+      "density_kg_m3": 1000.0,
+      "accepted_for_application": true,
+      "observation_origin": "synthetic-design-history",
+      "category": "cardiovascular",
+      "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+      "design_parameters": {
+        "young_pa": 8057.922518637656,
+        "relaxation_fraction": 0.2577165091792682,
+        "relaxation_time_s": 0.46166982481403046
+      },
+      "neural_parameters": {
+        "young_pa": 8549.232069657446,
+        "relaxation_fraction": 0.2391973623998113,
+        "relaxation_time_s": 0.47308408630521653
+      },
+      "parameter_intervals_90": {
+        "young_pa": {
+          "lower": 7785.774103474126,
+          "upper": 8293.985677909795
+        },
+        "relaxation_fraction": {
+          "lower": 0.24771341667011204,
+          "upper": 0.26355817059778447
+        },
+        "relaxation_time_s": {
+          "lower": 0.4421036375749769,
+          "upper": 0.49369713026049833
+        }
+      },
+      "fit_stress_nrmse": 0.0019488415544326786,
+      "held_out_waveform_stress_nrmse": 0.0002716549528902157,
+      "diagnostics": {
+        "status": "supported",
+        "reasons": [],
+        "condition_number": 33.90678416398949,
+        "minimum_sensitivity": 0.7541084097069048,
+        "noise_fraction_estimate": 0.002212776815823103,
+        "excitation": {
+          "peak_strain": 0.024,
+          "duration_s": 7.0,
+          "total_variation_over_amplitude": 2.0,
+          "peak_strain_rate_s_inv": 0.030000000000000027
+        },
+        "ood_scope": "Checks excitation support, fitted bounds, residual mismatch and local sensitivity; does not detect every biological model mismatch."
+      },
+      "provenance": "Synthetic scene design experiment for splenic-artery; standard linear solid simulator, seed 111690213; category preset, not measured human Splenic artery tissue. Metric calibration is synthetic: L0=20 mm; A0=100 mm^2."
+    },
+    {
+      "id": "celiac-trunk",
+      "young_pa": 8274.548357182764,
+      "relaxation_fraction": 0.2959436865835724,
+      "relaxation_time_s": 0.42460273951921357,
+      "density_kg_m3": 1000.0,
+      "accepted_for_application": true,
+      "observation_origin": "synthetic-design-history",
+      "category": "cardiovascular",
+      "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+      "design_parameters": {
+        "young_pa": 8295.2241481733,
+        "relaxation_fraction": 0.2978719182973287,
+        "relaxation_time_s": 0.4202128310920582
+      },
+      "neural_parameters": {
+        "young_pa": 8813.62238427023,
+        "relaxation_fraction": 0.2805486385118204,
+        "relaxation_time_s": 0.41121645759352415
+      },
+      "parameter_intervals_90": {
+        "young_pa": {
+          "lower": 8016.99603266206,
+          "upper": 8540.374753387663
+        },
+        "relaxation_fraction": {
+          "lower": 0.28804189323248636,
+          "upper": 0.30384547993465844
+        },
+        "relaxation_time_s": {
+          "lower": 0.4020304030665207,
+          "upper": 0.4484424188620141
+        }
+      },
+      "fit_stress_nrmse": 0.0019147477015340596,
+      "held_out_waveform_stress_nrmse": 0.000336883488101679,
+      "diagnostics": {
+        "status": "supported",
+        "reasons": [],
+        "condition_number": 31.635829999787344,
+        "minimum_sensitivity": 0.7928158010828932,
+        "noise_fraction_estimate": 0.0021191113925626576,
+        "excitation": {
+          "peak_strain": 0.024,
+          "duration_s": 7.0,
+          "total_variation_over_amplitude": 2.0,
+          "peak_strain_rate_s_inv": 0.030000000000000027
+        },
+        "ood_scope": "Checks excitation support, fitted bounds, residual mismatch and local sensitivity; does not detect every biological model mismatch."
+      },
+      "provenance": "Synthetic scene design experiment for celiac-trunk; standard linear solid simulator, seed 371305431; category preset, not measured human Celiac trunk tissue. Metric calibration is synthetic: L0=20 mm; A0=100 mm^2."
+    },
+    {
+      "id": "right-renal-vein",
+      "young_pa": 7388.559375648874,
+      "relaxation_fraction": 0.2580109308240291,
+      "relaxation_time_s": 0.42943047879525054,
+      "density_kg_m3": 1000.0,
+      "accepted_for_application": true,
+      "observation_origin": "synthetic-design-history",
+      "category": "cardiovascular",
+      "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+      "design_parameters": {
+        "young_pa": 7389.599077012747,
+        "relaxation_fraction": 0.2583180156283566,
+        "relaxation_time_s": 0.43346980114350714
+      },
+      "neural_parameters": {
+        "young_pa": 7958.364750813666,
+        "relaxation_fraction": 0.24631906007814186,
+        "relaxation_time_s": 0.42080141892641404
+      },
+      "parameter_intervals_90": {
+        "young_pa": {
+          "lower": 7158.658477185062,
+          "upper": 7625.843560140789
+        },
+        "relaxation_fraction": {
+          "lower": 0.2501051363230775,
+          "upper": 0.26591672532498073
+        },
+        "relaxation_time_s": {
+          "lower": 0.406461743384905,
+          "upper": 0.4536971538393659
+        }
+      },
+      "fit_stress_nrmse": 0.0019778972576018432,
+      "held_out_waveform_stress_nrmse": 0.0004617722301315444,
+      "diagnostics": {
+        "status": "supported",
+        "reasons": [],
+        "condition_number": 36.23860003922498,
+        "minimum_sensitivity": 0.7080021727433642,
+        "noise_fraction_estimate": 0.002,
+        "excitation": {
+          "peak_strain": 0.024,
+          "duration_s": 7.0,
+          "total_variation_over_amplitude": 2.0,
+          "peak_strain_rate_s_inv": 0.030000000000000027
+        },
+        "ood_scope": "Checks excitation support, fitted bounds, residual mismatch and local sensitivity; does not detect every biological model mismatch."
+      },
+      "provenance": "Synthetic scene design experiment for right-renal-vein; standard linear solid simulator, seed 1568574331; category preset, not measured human Right renal vein tissue. Metric calibration is synthetic: L0=20 mm; A0=100 mm^2."
+    },
+    {
+      "id": "left-renal-vein",
+      "young_pa": 8599.811248421776,
+      "relaxation_fraction": 0.2851801464957118,
+      "relaxation_time_s": 0.4274112493945641,
+      "density_kg_m3": 1000.0,
+      "accepted_for_application": true,
+      "observation_origin": "synthetic-design-history",
+      "category": "cardiovascular",
+      "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+      "design_parameters": {
+        "young_pa": 8602.319753124511,
+        "relaxation_fraction": 0.2857042406275439,
+        "relaxation_time_s": 0.42783389931445565
+      },
+      "neural_parameters": {
+        "young_pa": 9110.550916762373,
+        "relaxation_fraction": 0.26921604190847104,
+        "relaxation_time_s": 0.42102587254338547
+      },
+      "parameter_intervals_90": {
+        "young_pa": {
+          "lower": 8332.218626272735,
+          "upper": 8875.997717496886
+        },
+        "relaxation_fraction": {
+          "lower": 0.2772975136686026,
+          "upper": 0.29306277932282093
+        },
+        "relaxation_time_s": {
+          "lower": 0.40470085079845747,
+          "upper": 0.4513960762588015
+        }
+      },
+      "fit_stress_nrmse": 0.0021841365005238356,
+      "held_out_waveform_stress_nrmse": 0.0002585290762444866,
+      "diagnostics": {
+        "status": "supported",
+        "reasons": [],
+        "condition_number": 32.733608719037605,
+        "minimum_sensitivity": 0.7720869610663998,
+        "noise_fraction_estimate": 0.002026252597397403,
+        "excitation": {
+          "peak_strain": 0.024,
+          "duration_s": 7.0,
+          "total_variation_over_amplitude": 2.0,
+          "peak_strain_rate_s_inv": 0.030000000000000027
+        },
+        "ood_scope": "Checks excitation support, fitted bounds, residual mismatch and local sensitivity; does not detect every biological model mismatch."
+      },
+      "provenance": "Synthetic scene design experiment for left-renal-vein; standard linear solid simulator, seed 2851520501; category preset, not measured human Left renal vein tissue. Metric calibration is synthetic: L0=20 mm; A0=100 mm^2."
+    }
+  ],
+  "scene_asset_sha256": "b604569cf1a976adb037c0f63d60fcdb0e39e83f69029d9bc5427bf4e5644ca6"
+}

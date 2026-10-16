@@ -1,0 +1,653 @@
+{
+  "version": "disease-morphology-design-1.0.0",
+  "profiles": [
+    {
+      "id": "liver-cirrhosis",
+      "organ": "liver",
+      "label": "Alcohol-associated cirrhosis",
+      "pattern": "nodular",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I01",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Gross_pathology_of_alcoholic_liver_cirrhosis.jpg",
+      "clinical_source_url": "https://www.niddk.nih.gov/health-information/liver-disease/cirrhosis/treatment",
+      "morphology_targets": [
+        "nodule size and distribution",
+        "fibrous septa",
+        "regional volume redistribution"
+      ],
+      "limits": "Cut surface only; no intact capsule or calibrated in-vivo color. Not a stiffness measurement. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision"
+    },
+    {
+      "id": "liver-hcc",
+      "organ": "liver",
+      "label": "Hepatocellular carcinoma",
+      "pattern": "mass",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I02",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Hepatocellular_carcinoma_1.jpg",
+      "clinical_source_url": "https://www.cancer.gov/types/liver/what-is-liver-cancer/treatment",
+      "morphology_targets": [
+        "tumor extent and position",
+        "mass effect",
+        "cirrhotic background"
+      ],
+      "limits": "Historical formalin-fixed autopsy specimen; alcohol immersion altered color and reflections. One severe case, not all HCC. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision"
+    },
+    {
+      "id": "liver-metastases",
+      "organ": "liver",
+      "label": "Hepatic metastases",
+      "pattern": "multifocal",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I03",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Secondary_tumor_deposits_in_the_liver_from_a_primary_cancer_of_the_pancreas.jpg",
+      "clinical_source_url": "https://www.cancer.gov/types/pancreatic/treatment",
+      "morphology_targets": [
+        "lesion number",
+        "lesion diameter and distribution",
+        "parenchymal replacement"
+      ],
+      "limits": "Autopsy section; pancreatic metastases must not be treated as interchangeable with colorectal metastases or a resection recommendation. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision"
+    },
+    {
+      "id": "gallbladder-stones",
+      "organ": "gallbladder",
+      "label": "Cholelithiasis",
+      "pattern": "reference",
+      "supported": false,
+      "unavailable_reason": "The source template has no validated gallbladder lumen for stone placement.",
+      "source_ref": "I04",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Gross_pathology_of_a_trabeculated_gallbladder.jpg",
+      "clinical_source_url": "https://www.niddk.nih.gov/health-information/digestive-diseases/gallstones/treatment",
+      "morphology_targets": [
+        "stone number and size",
+        "intraluminal position",
+        "mucosal relief"
+      ],
+      "limits": "Opened specimen, not intact operative geometry; visible dark color alone does not establish stone composition. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision"
+    },
+    {
+      "id": "gallbladder-cholecystitis",
+      "organ": "gallbladder",
+      "label": "Chronic calculous cholecystitis",
+      "pattern": "inflammation",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I05",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Chronic_calculous_cholecystitis.jpg",
+      "clinical_source_url": "https://www.niddk.nih.gov/health-information/digestive-diseases/gallstones/treatment",
+      "morphology_targets": [
+        "wall profile",
+        "stone burden",
+        "contracted or distorted cavity"
+      ],
+      "limits": "Museum preservation changes color and surface appearance; fibrosis or wall stiffness cannot be estimated from this photo. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision"
+    },
+    {
+      "id": "gallbladder-carcinoma",
+      "organ": "gallbladder",
+      "label": "Gallbladder carcinoma",
+      "pattern": "mass",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I06",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Gross_pathology_of_gallbladder_carcinoma.jpg",
+      "clinical_source_url": "https://www.cancer.gov/types/gallbladder/patient/gallbladder-treatment-pdq",
+      "morphology_targets": [
+        "focal mural mass",
+        "surface irregularity",
+        "lesion attachment extent"
+      ],
+      "limits": "Close-up lacks whole-organ orientation and calibrated scale; the photo cannot establish invasion depth or stage. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision"
+    },
+    {
+      "id": "stomach-adenocarcinoma",
+      "organ": "stomach",
+      "label": "Gastric adenocarcinoma",
+      "pattern": "mass",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I07",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Adenocarcinoma_of_the_stomach.jpg",
+      "clinical_source_url": "https://www.cancer.gov/types/stomach/treatment",
+      "morphology_targets": [
+        "ulcer crater",
+        "irregular raised edge",
+        "local wall involvement"
+      ],
+      "limits": "Cut-open resection specimen; image appearance alone cannot distinguish all benign from malignant ulcers. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision"
+    },
+    {
+      "id": "stomach-ulcer",
+      "organ": "stomach",
+      "label": "Benign gastric ulcer",
+      "pattern": "reference",
+      "supported": false,
+      "unavailable_reason": "The source template has no annotated gastric mucosal surface for ulcer modeling.",
+      "source_ref": "I08",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Benign_gastric_ulcer_1.jpg",
+      "clinical_source_url": "https://www.niddk.nih.gov/health-information/digestive-diseases/peptic-ulcers-stomach-ulcers/treatment",
+      "morphology_targets": [
+        "ulcer depth and radius",
+        "fold convergence",
+        "localized wall defect"
+      ],
+      "limits": "Formalin-fixed and pinned-out specimen; source diagnosis is benign, but visual resemblance is not diagnostic. Low-resolution original. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision"
+    },
+    {
+      "id": "stomach-gist",
+      "organ": "stomach",
+      "label": "Gastric stromal tumor (GIST)",
+      "pattern": "mass",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I09",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Gastrointestinal_Stromal_Tumor_(GIST)_of_Stomach.jpg",
+      "clinical_source_url": "https://www.cancer.gov/types/soft-tissue-sarcoma/hp/gist-treatment-pdq",
+      "morphology_targets": [
+        "exophytic mass shape",
+        "gastric-wall attachment",
+        "internal heterogeneity"
+      ],
+      "limits": "Resected tumor rather than the whole stomach; archival scan was sharpened and contrast-adjusted by its creator. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision"
+    },
+    {
+      "id": "pancreas-cancer",
+      "organ": "pancreas",
+      "label": "Pancreatic ductal adenocarcinoma",
+      "pattern": "mass",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I10",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Macroscopic_image_of_pancreas_adenocarcinoma_removed_by_Whipple_procedure.jpg",
+      "clinical_source_url": "https://www.cancer.gov/types/pancreatic/treatment",
+      "morphology_targets": [
+        "focal pancreatic-head lesion",
+        "duct relationship",
+        "duodenal interface"
+      ],
+      "limits": "Original is only 291 x 512 pixels; adjacent tissues dominate this view, so fine tumor margins are not reliable. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision"
+    },
+    {
+      "id": "pancreas-pancreatitis",
+      "organ": "pancreas",
+      "label": "Chronic calculous pancreatitis",
+      "pattern": "fibrosis",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I11",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Pancr%C3%A9as_Pancr%C3%A9atite_55-o.apatho-650t-pancreas.jpg",
+      "clinical_source_url": "https://www.niddk.nih.gov/health-information/digestive-diseases/pancreatitis/treatment",
+      "morphology_targets": [
+        "duct dilation",
+        "intraductal calculi",
+        "fibrotic head remodeling"
+      ],
+      "limits": "Preserved historical specimen including bowel; yellow cast is not a live-tissue texture target. No mechanical properties measured. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision"
+    },
+    {
+      "id": "pancreas-pseudocyst",
+      "organ": "pancreas",
+      "label": "Pancreatic pseudocyst",
+      "pattern": "cyst",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I12",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Large_Pancreatic_Pseudocyst.PNG",
+      "clinical_source_url": "https://www.niddk.nih.gov/health-information/digestive-diseases/pancreatitis/treatment",
+      "morphology_targets": [
+        "collection volume and shape",
+        "wall thickness",
+        "displacement of adjacent organs"
+      ],
+      "limits": "CT is a spatial reference only: no true surface color, histology, texture, or complete volumetric series. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision"
+    },
+    {
+      "id": "spleen-infarct",
+      "organ": "spleen",
+      "label": "Healed splenic infarction",
+      "pattern": "scar",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I13",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Healed_splenic_infarcts.jpg",
+      "clinical_source_url": "https://pubmed.ncbi.nlm.nih.gov/9486895/",
+      "morphology_targets": [
+        "wedge-shaped perfusion territory",
+        "scar distribution",
+        "capsular involvement"
+      ],
+      "limits": "Healed infarcts, not an acute perfusion image; this section cannot establish viable volume or tissue strength. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision"
+    },
+    {
+      "id": "spleen-rupture",
+      "organ": "spleen",
+      "label": "Traumatic splenic rupture",
+      "pattern": "reference",
+      "supported": false,
+      "unavailable_reason": "Rupture requires topology changes and tissue failure mechanics, not a smooth surface deformation.",
+      "source_ref": "I14",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Milzruptur_THWZ.JPG",
+      "clinical_source_url": "https://www.nhs.uk/tests-and-treatments/spleen-problems-and-spleen-removal/",
+      "morphology_targets": [
+        "laceration location and depth",
+        "capsular disruption",
+        "hematoma extent"
+      ],
+      "limits": "Traumatic injury, not a chronic disease. Removed specimen; no injury grade or active bleeding rate can be inferred. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision"
+    },
+    {
+      "id": "spleen-cyst",
+      "organ": "spleen",
+      "label": "Splenic cystic lesion",
+      "pattern": "cyst",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I15",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Pseudozyste_der_Milz_mit_Randverkalkungen_83W_-_CT_KM_pv_-_001.jpg",
+      "clinical_source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5755232/",
+      "morphology_targets": [
+        "cyst position and diameter",
+        "rim calcification",
+        "residual splenic tissue"
+      ],
+      "limits": "Source favors a pseudocyst but does not establish histology; CT provides no operative color or material properties. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision"
+    },
+    {
+      "id": "small-intestine-crohn",
+      "organ": "small-intestine",
+      "label": "Crohn's disease of jejunum",
+      "pattern": "inflammation",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I16",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Crohn_Jejunum.PNG",
+      "clinical_source_url": "https://www.niddk.nih.gov/health-information/digestive-diseases/crohns-disease/treatment",
+      "morphology_targets": [
+        "segmental mucosal relief",
+        "wall thickening",
+        "stricture location"
+      ],
+      "limits": "Low-resolution regional specimen; external creeping fat, fistulas and whole-bowel length are not represented. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision"
+    },
+    {
+      "id": "small-intestine-net",
+      "organ": "small-intestine",
+      "label": "Small-bowel neuroendocrine tumor (carcinoid)",
+      "pattern": "mass",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I17",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Multiple_Carcinoid_Tumors_of_the_Small_Bowel_2.jpg",
+      "clinical_source_url": "https://www.cancer.gov/types/gi-neuroendocrine-tumors/patient/gi-neuroendocrine-treatment-pdq",
+      "morphology_targets": [
+        "mural nodule size and location",
+        "multifocal lesion count",
+        "mucosal preservation around lesion"
+      ],
+      "limits": "Low-resolution archival film photo (550 x 384 original); regional specimen rather than whole-organ geometry. Source uses older carcinoid terminology. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision"
+    },
+    {
+      "id": "small-intestine-obstruction",
+      "organ": "small-intestine",
+      "label": "Closed-loop small-bowel obstruction",
+      "pattern": "reference",
+      "supported": false,
+      "unavailable_reason": "Closed-loop obstruction requires bowel lumen, mesentery and contact constraints that are not modeled.",
+      "source_ref": "I18",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Intestinal_Obstruction.JPG",
+      "clinical_source_url": "https://www.niddk.nih.gov/health-information/digestive-diseases/abdominal-adhesions",
+      "morphology_targets": [
+        "loop dilation",
+        "closed-loop topology",
+        "transition points"
+      ],
+      "limits": "Source notes previous appendectomy, but the obstructing band is not established in this image; intraoperative handling alters pose. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision"
+    },
+    {
+      "id": "colon-cancer",
+      "organ": "large-intestine",
+      "label": "Sigmoid adenocarcinoma",
+      "pattern": "mass",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I19",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Adenocarcinoma_of_the_Sigmoid_Colon_%28longitudinal_section%29.jpg",
+      "clinical_source_url": "https://www.cancer.gov/types/colorectal/hp/colon-treatment-pdq",
+      "morphology_targets": [
+        "lesion location and width",
+        "wall invasion depth",
+        "luminal narrowing"
+      ],
+      "limits": "Cut specimen; black tattoo pigment is not tumor necrosis. No staging can be inferred from this photograph. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision"
+    },
+    {
+      "id": "colon-ulcerative-colitis-detail",
+      "organ": "large-intestine",
+      "label": "Ulcerative colitis with pseudopolyps",
+      "pattern": "reference",
+      "supported": false,
+      "unavailable_reason": "Mucosal pseudopolyps require a labeled internal colon surface.",
+      "source_ref": "I20",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Chronic_Ulcerative_Colitis_1.jpg",
+      "clinical_source_url": "https://www.niddk.nih.gov/health-information/digestive-diseases/ulcerative-colitis/treatment",
+      "morphology_targets": [
+        "mucosal pseudopolyp density",
+        "ulcerated mucosal coverage",
+        "segmental extent"
+      ],
+      "limits": "Formalin-fixed and alcohol-treated specimen; its restored red color is not a live-tissue color standard. Low-resolution source. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision"
+    },
+    {
+      "id": "colon-diverticulosis",
+      "organ": "large-intestine",
+      "label": "Diverticulosis",
+      "pattern": "pouches",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I21",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Gross_pathology_of_diverticulosis.jpg",
+      "clinical_source_url": "https://www.niddk.nih.gov/health-information/digestive-diseases/diverticulosis-diverticulitis/treatment",
+      "morphology_targets": [
+        "pouch count and location",
+        "diverticulum neck size",
+        "bowel wall thickness"
+      ],
+      "limits": "Diverticulosis is shown, not demonstrated acute diverticulitis; inflammation and abscess need separate references. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision"
+    },
+    {
+      "id": "kidney-cancer",
+      "organ": "kidney",
+      "label": "Renal cell carcinoma",
+      "pattern": "mass",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I22",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Kidney_cancer.jpg",
+      "clinical_source_url": "https://www.cancer.gov/types/kidney/hp/kidney-treatment-pdq",
+      "morphology_targets": [
+        "tumor position and diameter",
+        "endophytic versus exophytic extent",
+        "relationship to collecting system"
+      ],
+      "limits": "Sectioned specimen; vascular involvement, histologic subtype and stage are not established by this view. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision"
+    },
+    {
+      "id": "kidney-polycystic",
+      "organ": "kidney",
+      "label": "Polycystic kidney disease",
+      "pattern": "cysts",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I23",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Polycystic_kidney.jpg",
+      "clinical_source_url": "https://www.niddk.nih.gov/health-information/kidney-disease/polycystic-kidney-disease/autosomal-dominant-pkd",
+      "morphology_targets": [
+        "cyst number and diameter distribution",
+        "cyst depth",
+        "overall kidney enlargement"
+      ],
+      "limits": "Single historical specimen; patient age and genotype are not supplied. Do not infer a population distribution. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision"
+    },
+    {
+      "id": "kidney-hydronephrosis",
+      "organ": "kidney",
+      "label": "Hydronephrosis with calculi",
+      "pattern": "reference",
+      "supported": false,
+      "unavailable_reason": "Hydronephrosis requires a segmented collecting system and renal parenchymal thickness.",
+      "source_ref": "I24",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Hydronephrosis_of_kidney_with_Calculi.JPG",
+      "clinical_source_url": "https://www.nhs.uk/conditions/hydronephrosis/",
+      "morphology_targets": [
+        "collecting-system dilation",
+        "residual parenchymal thickness",
+        "stone burden and location"
+      ],
+      "limits": "Jar preservation alters color and appearance; cavities are not evidence of polycystic disease. No live mechanical measurements. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision"
+    },
+    {
+      "id": "bladder-cancer",
+      "organ": "urinary-bladder",
+      "label": "Bladder carcinoma",
+      "pattern": "mass",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I25",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Carcinoma_of_the_urinary_bladder.jpg",
+      "clinical_source_url": "https://www.cancer.gov/types/bladder/treatment",
+      "morphology_targets": [
+        "lesion attachment and location",
+        "intraluminal tumor burden",
+        "wall invasion depth"
+      ],
+      "limits": "Preserved specimen photographed through a jar; subtype and muscle invasion cannot be assigned visually. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision"
+    },
+    {
+      "id": "bladder-stones",
+      "organ": "urinary-bladder",
+      "label": "Bladder calculi",
+      "pattern": "reference",
+      "supported": false,
+      "unavailable_reason": "Stone placement requires a validated bladder lumen.",
+      "source_ref": "I26",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Urinary_Bladder_stones.jpg",
+      "clinical_source_url": "https://www.nhs.uk/conditions/bladder-stones/",
+      "morphology_targets": [
+        "stone count",
+        "stone size and roughness",
+        "free versus impacted position"
+      ],
+      "limits": "Stones are shown outside the bladder; bladder-wall changes and actual stone dimensions are not documented. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision"
+    },
+    {
+      "id": "bladder-diverticulum",
+      "organ": "urinary-bladder",
+      "label": "Bladder diverticulum",
+      "pattern": "pouches",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I27",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Bladderdiverticulum.png",
+      "clinical_source_url": "https://www.urologyhealth.org/urology-a-z/b/bladder-diverticulum",
+      "morphology_targets": [
+        "pouch volume",
+        "neck width and position",
+        "relation to ureteric orifices"
+      ],
+      "limits": "Single annotated CT slice; full 3D extent, wall material and live surface texture cannot be recovered from it. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision"
+    },
+    {
+      "id": "heart-infarction",
+      "organ": "heart",
+      "label": "Healed myocardial infarction",
+      "pattern": "scar",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I28",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Gross_pathology_of_old_myocardial_infarction.jpg",
+      "clinical_source_url": "https://www.nhlbi.nih.gov/health/coronary-artery-bypass-grafting/who-needs",
+      "morphology_targets": [
+        "scar extent and depth",
+        "regional wall thickness",
+        "ventricular shape"
+      ],
+      "limits": "Old infarction is shown; this photograph cannot establish viability, coronary anatomy or a surgical indication. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision"
+    },
+    {
+      "id": "heart-aortic-stenosis",
+      "organ": "heart",
+      "label": "Rheumatic aortic stenosis",
+      "pattern": "reference",
+      "supported": false,
+      "unavailable_reason": "The heart templates contain chambers but no annotated aortic valve leaflets.",
+      "source_ref": "I29",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Aortic_stenosis_rheumatic%2C_gross_pathology_20G0014_lores.jpg",
+      "clinical_source_url": "https://www.rbht.nhs.uk/our-services/transcatheter-aortic-valve-implantation-tavi-for-aortic-stenosis",
+      "morphology_targets": [
+        "valve opening area",
+        "commissural fusion",
+        "leaflet thickness"
+      ],
+      "limits": "Rheumatic disease reference; do not treat as a generic degenerative calcific valve. Static autopsy image gives no motion. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision"
+    },
+    {
+      "id": "heart-endocarditis",
+      "organ": "heart",
+      "label": "Infective mitral endocarditis",
+      "pattern": "reference",
+      "supported": false,
+      "unavailable_reason": "The heart templates contain chambers but no annotated mitral valve leaflets.",
+      "source_ref": "I30",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Haemophilus_parainfluenzae_Endocarditis_PHIL_851_lores.jpg",
+      "clinical_source_url": "https://www.guysandstthomas.nhs.uk/health-information/infective-endocarditis",
+      "morphology_targets": [
+        "vegetation size and position",
+        "leaflet destruction",
+        "annular or periannular extent"
+      ],
+      "limits": "Source identifies Haemophilus parainfluenzae; a photograph alone cannot identify the pathogen or embolic risk. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision"
+    },
+    {
+      "id": "lung-cancer",
+      "organ": "lung",
+      "label": "Squamous cell lung carcinoma",
+      "pattern": "mass",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I31",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Lung_cancer.jpg",
+      "clinical_source_url": "https://www.cancer.gov/types/lung/patient/non-small-cell-lung-treatment-pdq",
+      "morphology_targets": [
+        "tumor size and centrality",
+        "bronchial involvement",
+        "relationship to fissures and vessels"
+      ],
+      "limits": "Only one cut surface is shown; staging and resectability require more information. Source resolution is limited. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision"
+    },
+    {
+      "id": "lung-emphysema",
+      "organ": "lung",
+      "label": "Centrilobular emphysema",
+      "pattern": "dilation",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I32",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Centrilobular_emphysema_865_lores.jpg",
+      "clinical_source_url": "https://www.nhlbi.nih.gov/health/copd/treatment",
+      "morphology_targets": [
+        "airspace enlargement",
+        "regional distribution",
+        "residual parenchymal structure"
+      ],
+      "limits": "Fixed cut surface; black pigment and cavities do not determine lung function or suitability for surgery. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision"
+    },
+    {
+      "id": "lung-bronchiectasis",
+      "organ": "lung",
+      "label": "Obstructive bronchiectasis",
+      "pattern": "reference",
+      "supported": false,
+      "unavailable_reason": "Bronchiectasis requires airway lumen and wall geometry.",
+      "source_ref": "I33",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Bronchiectasis_.jpg",
+      "clinical_source_url": "https://www.rbht.nhs.uk/our-services/bronchiectasis-treatment",
+      "morphology_targets": [
+        "bronchial dilation and taper loss",
+        "airway wall thickness",
+        "localized distribution"
+      ],
+      "limits": "The source reports an obstructing carcinoid, but it is not visible in this photograph. Not representative of all bronchiectasis. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision"
+    },
+    {
+      "id": "brain-meningioma",
+      "organ": "brain",
+      "label": "Meningioma",
+      "pattern": "mass",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I34",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Meningioma_seen_at_autopsy.jpg",
+      "clinical_source_url": "https://www.cancer.gov/types/brain/patient/adult-brain-treatment-pdq",
+      "morphology_targets": [
+        "dural attachment footprint",
+        "extra-axial tumor size",
+        "mass effect on adjacent brain"
+      ],
+      "limits": "Autopsy view of dura and skull, not an intact brain; grade and operative plane cannot be determined from this photograph. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision"
+    },
+    {
+      "id": "brain-glioblastoma",
+      "organ": "brain",
+      "label": "Glioblastoma",
+      "pattern": "infiltrative",
+      "supported": true,
+      "unavailable_reason": "",
+      "source_ref": "I35",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Glioblastoma_macro.jpg",
+      "clinical_source_url": "https://www.cancer.gov/news-events/cancer-currents-blog/2017/glioblastoma-research-making-progress",
+      "morphology_targets": [
+        "infiltrative lesion extent",
+        "necrotic and hemorrhagic heterogeneity",
+        "mass effect and ventricular displacement"
+      ],
+      "limits": "Historical source label; current molecular classification is not supplied. A visible border does not equal the microscopic tumor boundary. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision"
+    },
+    {
+      "id": "brain-aneurysm",
+      "organ": "brain",
+      "label": "Cerebral aneurysm",
+      "pattern": "reference",
+      "supported": false,
+      "unavailable_reason": "Aneurysms require arterial centerlines, lumen and vessel-wall geometry.",
+      "source_ref": "I36",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Cerebral_aneurysm.png",
+      "clinical_source_url": "https://www.ninds.nih.gov/health-information/disorders/cerebral-aneurysms",
+      "morphology_targets": [
+        "sac size and lobulation",
+        "neck width",
+        "parent-vessel and branch geometry"
+      ],
+      "limits": "A rendered image, not a mesh download or tissue photograph. Underlying scan license and scale require separate verification. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+      "evidence": "image_reference_not_paired_3d_supervision"
+    }
+  ]
+}

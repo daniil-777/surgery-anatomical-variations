@@ -1,0 +1,516 @@
+{
+  "artifact_sha256": "d9ead1dfc12da020a5d3fffac71a76b05023313a1b874b63519ff8cc77b9bfd6",
+  "attribution": "Browne, Kristen, and Heidi Schlehlein. 2024. *3D Reference Organ for Small Intestine, Male v1.2*. https://doi.org/10.48539/HBM789.XTDK.794. Accessed on June 15, 2024.",
+  "attribution_verified": true,
+  "clean_faces_sha256": "d638b5570f8ca505cff9d262d9c2e252fef68d324e50e8199200d13f56979569",
+  "cleaning_components": [
+    {
+      "clean_face_count": 324,
+      "component": "VH_M_duodenal_ampulla",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 324,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 982,
+      "component": "VH_M_duodenum_ascending",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 982,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 654,
+      "component": "VH_M_duodenum_descending",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 654,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 808,
+      "component": "VH_M_duodenum_horizonal",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 808,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 482,
+      "component": "VH_M_duodenum_superior",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 482,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 7272,
+      "component": "VH_M_ileum",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 7272,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 1861,
+      "component": "VH_M_ileum_terminal",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 1861,
+      "winding_after": true,
+      "winding_before": true
+    },
+    {
+      "clean_face_count": 19739,
+      "component": "VH_M_jejunum",
+      "removed_degenerate_faces": 0,
+      "reversed_faces": 0,
+      "source_face_count": 19739,
+      "winding_after": true,
+      "winding_before": true
+    }
+  ],
+  "cleaning_policy": "Drop triangles with area <=1e-12 mm2; repair winding per connected component on welded audit copy with minimum face reversals and transfer only face reversal. No vertex movement or connectivity additions.",
+  "cohort_eligible": true,
+  "colors_provenance": "Source schematic material colors; glTF linear factors converted to sRGB after trimesh 8-bit quantization",
+  "colors_space": "sRGB",
+  "components": [
+    {
+      "face_count": 324,
+      "face_start": 0,
+      "name": "VH_M_duodenal_ampulla",
+      "source_geometry": "VH_M_duodenal_ampulla",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 180,
+      "vertex_start": 0
+    },
+    {
+      "face_count": 982,
+      "face_start": 324,
+      "name": "VH_M_duodenum_ascending",
+      "source_geometry": "VH_M_duodenum_ascending",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 528,
+      "vertex_start": 180
+    },
+    {
+      "face_count": 654,
+      "face_start": 1306,
+      "name": "VH_M_duodenum_descending",
+      "source_geometry": "VH_M_duodenum_descending",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 365,
+      "vertex_start": 708
+    },
+    {
+      "face_count": 808,
+      "face_start": 1960,
+      "name": "VH_M_duodenum_horizonal",
+      "source_geometry": "VH_M_duodenum_horizonal",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 441,
+      "vertex_start": 1073
+    },
+    {
+      "face_count": 482,
+      "face_start": 2768,
+      "name": "VH_M_duodenum_superior",
+      "source_geometry": "VH_M_duodenum_superior",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 278,
+      "vertex_start": 1514
+    },
+    {
+      "face_count": 7272,
+      "face_start": 3250,
+      "name": "VH_M_ileum",
+      "source_geometry": "VH_M_ileum",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 3651,
+      "vertex_start": 1792
+    },
+    {
+      "face_count": 1861,
+      "face_start": 10522,
+      "name": "VH_M_ileum_terminal",
+      "source_geometry": "VH_M_ileum_terminal",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 947,
+      "vertex_start": 5443
+    },
+    {
+      "face_count": 19739,
+      "face_start": 12383,
+      "name": "VH_M_jejunum",
+      "source_geometry": "VH_M_jejunum",
+      "source_node_transform": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "source_uv_available": false,
+      "vertex_count": 9907,
+      "vertex_start": 6390
+    }
+  ],
+  "control_limit_provenance": "design_heuristic; not measured population intervals",
+  "control_limits": [
+    0.06,
+    0.06,
+    0.06,
+    0.035,
+    0.04,
+    0.035,
+    0.025
+  ],
+  "control_names": [
+    "scale_x",
+    "scale_y",
+    "scale_z",
+    "bend",
+    "twist",
+    "taper",
+    "asymmetry"
+  ],
+  "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+  "deformer_version": "invertible-atlas-controls-1.0.0",
+  "evidence_kind": "expert_authored",
+  "excluded_source_nodes": [
+    "VH_M_papilla_of_santorini",
+    "VH_M_sphincter_of_hepatopancreatic_ampulla"
+  ],
+  "extent_mm": [
+    187.98230215907097,
+    265.37128537893295,
+    122.16299027204514
+  ],
+  "face_count": 32122,
+  "face_map_keys": [
+    "source_to_clean_face_indices",
+    "clean_to_source_face_indices",
+    "clean_face_orientation_reversed",
+    "source_faces"
+  ],
+  "generator_version": "invertible-atlas-controls-1.0.0",
+  "geometry_sha256": "ee35af74bce1a4f5fb3e39e4cf81994d430baeff66a039a4271226b47ae26b14",
+  "inverse_coordinate_transform": "source_world = source_to_authoring_rotation.T @ (vertices_mm + source_center_mm) / source_to_mm_scale",
+  "laterality": null,
+  "license": "CC-BY-4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "mesh_role": "annotated_display_surface_assembly_not_organ_envelope",
+  "modifications": "Selected named display components, applied scene transforms, explicit units, bounding-box centering. Removed degenerate triangles and repaired winding with reversible face maps. No smoothing, decimation or remeshing.",
+  "normalization_mm": 132.68564268946648,
+  "organ": "small-intestine",
+  "organ_id": "small-intestine",
+  "population_prevalence": null,
+  "profile": "development_preview",
+  "removed_degenerate_faces": 0,
+  "reversed_faces": 0,
+  "review_status": "unreviewed",
+  "selection_policy_version": "external-display-components-1.1.0",
+  "sex_label": "male",
+  "source_center_mm": [
+    32.24272467195988,
+    232.51577094197273,
+    63.051071017980576
+  ],
+  "source_citation": "Browne, Kristen, and Heidi Schlehlein. 2024. *3D Reference Organ for Small Intestine, Male v1.2*. https://doi.org/10.48539/HBM789.XTDK.794. Accessed on June 15, 2024.",
+  "source_collection": "HRA",
+  "source_creators": [
+    {
+      "id": "https://orcid.org/0000-0002-3333-5646",
+      "name": "Heidi Schlehlein"
+    },
+    {
+      "id": "https://orcid.org/0000-0003-4066-7531",
+      "name": "Kristen Browne"
+    }
+  ],
+  "source_derivation_description": "This reference organ, Small-intestine-male (https://humanatlas.io/3d-reference-library) was created using data from\nthe Visible Human Male, provided by the National Library of Medicine (Spitzer et al. 1996; Ackerman 1998). The small\nintestines have been updated to include a measurement system. A centerline was made in the center of the intestines,\nand markers were placed along the centerline. The teal discs measure 5 cm along the intestines, the green dashes\nmeasure 1 cm, and the yellow disc marks the jejunoileal junction. The Visible Human Male small intestine total length\nis 285 cm.\n\n**Bibliography:**\n\n* Ackerman, Michael J. 1998. \u201cThe Visible Human Project.\u201d *Proceedings of the IEEE* 86 (3): 504\u201311. https://doi.org/10.1109/5.662875.\n* Spitzer, V., M. J. Ackerman, A. L. Scherzinger, and D. Whitlock. 1996. \u201cThe Visible Human Male: A Technical Report.\u201d *Journal of the American Medical Informatics Association* 3 (2): 118\u201330. https://doi.org/10.1136/jamia.1996.96236280.",
+  "source_doi": "https://doi.org/10.48539/HBM789.XTDK.794",
+  "source_faces_sha256": "d638b5570f8ca505cff9d262d9c2e252fef68d324e50e8199200d13f56979569",
+  "source_geometry_sha256": "ee35af74bce1a4f5fb3e39e4cf81994d430baeff66a039a4271226b47ae26b14",
+  "source_group_id": "hra-visible-human-male",
+  "source_group_reason": "Conservative atlas ancestry grouping; organ files are not independent donors",
+  "source_license_statement": "Creative Commons Attribution 4.0 International ([CC BY 4.0](https://creativecommons.org/licenses/by/4.0/))",
+  "source_metadata_file": "attribution/hra-small-intestine-male.jsonld",
+  "source_metadata_sha256": "40fdd39dbb7dca8a8aac3e16de501057f433d22339acd67bc875f1af527561be",
+  "source_metadata_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/small-intestine-male/v1.2/metadata.jsonld",
+  "source_overall_citation": "Browne, Kristen, Heidi Schlehlein, Bruce W. Herr II, Ellen Quardokus, Andreas Bueckle, and Katy B\u00f6rner. 2024. *HuBMAP CCF 3D Reference Object Library*. https://humanatlas.io/3d-reference-library. Accessed on June 15, 2024.",
+  "source_release": "11th Release (v2.5)",
+  "source_sha256": "5d51b9b102e762f9b64fd1e7d9fbd1f1a23ed9cfdb536a9e756cca3206fbc5bb",
+  "source_title": "3D Reference Organ for Small Intestine, Male",
+  "source_to_authoring_rotation": [
+    [
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      1,
+      0
+    ],
+    [
+      0,
+      0,
+      1
+    ]
+  ],
+  "source_to_mm_scale": 1000.0,
+  "source_topology_audit": {
+    "boundary_edges_after_audit_weld": 94,
+    "connected_vertex_components": 1,
+    "degenerate_faces": 0,
+    "method": "trimesh-geometric-weld-audit-copy-1.0",
+    "nonmanifold_edges_after_audit_weld": 0,
+    "self_intersection": {
+      "reason": "No robust intersection backend",
+      "status": "NOT_RUN"
+    },
+    "simulation_readiness": {
+      "reason": "No volumetric domain/materials",
+      "status": "NOT_RUN"
+    },
+    "watertight_after_audit_weld": false,
+    "weld_precision_mm": 1e-08,
+    "winding_consistent_after_audit_weld": true,
+    "zero_length_edges": 0
+  },
+  "source_up_axis": "Y (glTF convention); patient-axis interpretation not asserted",
+  "source_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/small-intestine-male/v1.2/assets/3d-vh-m-small-intestine.glb",
+  "template_id": "hra-small-intestine-male",
+  "template_version": "atlas-display-1.1.0",
+  "topology_audit": {
+    "boundary_edges_after_audit_weld": 94,
+    "connected_vertex_components": 1,
+    "degenerate_faces": 0,
+    "method": "trimesh-geometric-weld-audit-copy-1.0",
+    "nonmanifold_edges_after_audit_weld": 0,
+    "self_intersection": {
+      "reason": "No robust intersection backend",
+      "status": "NOT_RUN"
+    },
+    "simulation_readiness": {
+      "reason": "No volumetric domain/materials",
+      "status": "NOT_RUN"
+    },
+    "watertight_after_audit_weld": false,
+    "weld_precision_mm": 1e-08,
+    "winding_consistent_after_audit_weld": true,
+    "zero_length_edges": 0
+  },
+  "unit": "mm",
+  "units_evidence": "glTF 2.0 linear distances use metres; explicit multiplication by 1000",
+  "vertex_count": 16297
+}

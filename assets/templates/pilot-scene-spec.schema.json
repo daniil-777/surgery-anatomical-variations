@@ -1,0 +1,102 @@
+{
+  "$defs": {
+    "ShapeParameters": {
+      "additionalProperties": false,
+      "description": "Eight continuous controls of one authored construction recipe.",
+      "properties": {
+        "fissure_depth_mm": {
+          "default": 7.0,
+          "maximum": 12.0,
+          "minimum": 2.0,
+          "title": "Fissure Depth Mm",
+          "type": "number"
+        },
+        "gallbladder_length_mm": {
+          "default": 80.0,
+          "maximum": 110.0,
+          "minimum": 55.0,
+          "title": "Gallbladder Length Mm",
+          "type": "number"
+        },
+        "gallbladder_radius_mm": {
+          "default": 15.0,
+          "maximum": 22.0,
+          "minimum": 10.0,
+          "title": "Gallbladder Radius Mm",
+          "type": "number"
+        },
+        "inferior_concavity": {
+          "default": 0.3,
+          "maximum": 0.55,
+          "minimum": 0.1,
+          "title": "Inferior Concavity",
+          "type": "number"
+        },
+        "left_lobe_ratio": {
+          "default": 0.48,
+          "maximum": 0.78,
+          "minimum": 0.3,
+          "title": "Left Lobe Ratio",
+          "type": "number"
+        },
+        "liver_depth_mm": {
+          "default": 125.0,
+          "maximum": 200.0,
+          "minimum": 120.0,
+          "title": "Liver Depth Mm",
+          "type": "number"
+        },
+        "liver_height_mm": {
+          "default": 145.0,
+          "maximum": 190.0,
+          "minimum": 120.0,
+          "title": "Liver Height Mm",
+          "type": "number"
+        },
+        "liver_width_mm": {
+          "default": 235.0,
+          "maximum": 300.0,
+          "minimum": 190.0,
+          "title": "Liver Width Mm",
+          "type": "number"
+        }
+      },
+      "title": "ShapeParameters",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Executable PilotSceneSpec request; unsupported keys fail validation.",
+  "properties": {
+    "include_vessels": {
+      "default": true,
+      "title": "Include Vessels",
+      "type": "boolean"
+    },
+    "parameters": {
+      "$ref": "#/$defs/ShapeParameters"
+    },
+    "seed": {
+      "default": 1234,
+      "maximum": 4294967295,
+      "minimum": 0,
+      "title": "Seed",
+      "type": "integer"
+    },
+    "title": {
+      "default": "Original abdominal anatomy",
+      "maxLength": 120,
+      "title": "Title",
+      "type": "string"
+    },
+    "wall_thickness_mm": {
+      "default": 1.5,
+      "maximum": 3.0,
+      "minimum": 0.5,
+      "title": "Wall Thickness Mm",
+      "type": "number"
+    }
+  },
+  "title": "SceneRequest",
+  "type": "object"
+}

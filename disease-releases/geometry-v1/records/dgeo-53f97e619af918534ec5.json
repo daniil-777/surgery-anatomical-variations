@@ -1,0 +1,259 @@
+{
+  "appearance_evidence": "authored_vertex_color_not_measured_tissue_texture",
+  "clinical_review_status": "unreviewed",
+  "coordinate_frame": "atlas-display-Y-up-centered-mm-not-RAS",
+  "disease_field": {
+    "applied_displacement_fraction": 1.0,
+    "clinical_stage": null,
+    "color_strength": 0.2609364756278687,
+    "fields": [
+      {
+        "amplitude_mm": 0.6765250934941773,
+        "center_mm": [
+          29.714440926909447,
+          19.50850337743759,
+          -1.5162117779254913
+        ],
+        "direction": [
+          -0.9233724439362643,
+          0.3208687636306422,
+          0.21077610468293947
+        ],
+        "radius_mm": 12.261205426598304
+      },
+      {
+        "amplitude_mm": 0.733326280605292,
+        "center_mm": [
+          -24.058489128947258,
+          -20.962901413440704,
+          18.310541287064552
+        ],
+        "direction": [
+          -0.5318420353008113,
+          0.28669062938375933,
+          0.7968390882170846
+        ],
+        "radius_mm": 12.261205426598304
+      },
+      {
+        "amplitude_mm": 0.6061582341042125,
+        "center_mm": [
+          19.496222957968712,
+          -19.112028181552887,
+          22.42946717888117
+        ],
+        "direction": [
+          0.5543344839128252,
+          -0.7830646834316495,
+          -0.2819981941559064
+        ],
+        "radius_mm": 12.261205426598304
+      }
+    ],
+    "gradient_bound_per_step": 0.1047922933101654,
+    "pattern": "mass",
+    "profile_id": "kidney-cancer",
+    "realized_sites": 3,
+    "requested_sites": 3,
+    "steps": 3,
+    "surface_site_frame": "undeformed-atlas-Y-up-mm",
+    "target_srgb": [
+      0.67,
+      0.45,
+      0.32
+    ],
+    "version": "disease-morphology-design-1.0.0"
+  },
+  "display_normal_sha256": "77320253a790adf55bc1832abce052156b2ace0f4933cefd9b0f58c739abb95b",
+  "face_count": 15397,
+  "features": [
+    65.49602374434471,
+    112.53462731838226,
+    76.35380886495113,
+    35156.12780015513,
+    2.161433952618621,
+    1.0
+  ],
+  "geometry_evidence": "authored_disease_surface_from_licensed_reference_template",
+  "geometry_sha256": "15bd9233bab5b8cdd0ad22a5064b79b765e9ac4f4d39c508e145fb8fe5994c2d",
+  "group_id": "kidney-cancer:3319171740",
+  "mechanics_evidence": "none",
+  "normal_fallback_count": 0,
+  "organ": "kidney",
+  "parent_recipe_index": 1538,
+  "parent_sample_id": "kidney-cancer:3319171740",
+  "path": "records/dgeo-53f97e619af918534ec5.json",
+  "patient_id": null,
+  "point_count": 2048,
+  "point_sampling_seed": 3410785644,
+  "profile_id": "kidney-cancer",
+  "qa": {
+    "anatomical_plausibility": {
+      "status": "NOT_RUN"
+    },
+    "area_ratio_max": 1.231525624785813,
+    "area_ratio_min": 0.8468285870642414,
+    "continuous_jacobian_lower_bound": 0.3692447343490391,
+    "mechanical_validation": {
+      "status": "NOT_RUN"
+    },
+    "min_normal_dot": 0.9481064550380657,
+    "new_degenerate_faces": 0,
+    "normal_turns_over_90_degrees": 0,
+    "passed": true,
+    "scope": "finite nondegenerate same-topology outer-surface design",
+    "self_intersection": {
+      "reason": "Discrete/source triangle intersections not certified",
+      "status": "NOT_RUN"
+    },
+    "source_topology": {
+      "boundary_edges_after_audit_weld": 289,
+      "connected_vertex_components": 2,
+      "degenerate_faces": 0,
+      "method": "trimesh-geometric-weld-audit-copy-1.0",
+      "nonmanifold_edges_after_audit_weld": 0,
+      "self_intersection": {
+        "reason": "No robust intersection backend",
+        "status": "NOT_RUN"
+      },
+      "simulation_readiness": {
+        "reason": "No volumetric domain/materials",
+        "status": "NOT_RUN"
+      },
+      "watertight_after_audit_weld": false,
+      "weld_precision_mm": 1e-08,
+      "winding_consistent_after_audit_weld": true,
+      "zero_length_edges": 0
+    },
+    "status": "PASS",
+    "topology_preserved": true
+  },
+  "realized_id": "7b46fd3ce7c6ec287aae07c73c388acdff2d4a553d6ea0904dd1508884de1bc5",
+  "recipe_features": [
+    0.30462875962257385,
+    0.7112446427345276,
+    0.5512265563011169,
+    0.6661183834075928,
+    0.8565720319747925,
+    0.2857142984867096,
+    0.9093627333641052,
+    0.6739256978034973,
+    0.49079781770706177
+  ],
+  "sample_id": "dgeo-53f97e619af918534ec5",
+  "source_attribution": "Browne, Kristen, and Heidi Schlehlein. 2024. \"3D Reference Organ for Kidney, Male, Right v1.3.\" https://doi.org/10.48539/HBM364.QTSC.334. Accessed on June 15, 2024.",
+  "source_group_id": "hra-visible-human-male",
+  "source_license": "CC-BY-4.0",
+  "source_template_artifact_sha256": "ad3efc6d3988871ec8340f73f79cf7bdba5b5149aa3a4d1d7c6b64d6bc5156f5",
+  "source_template_geometry_sha256": "a191cdafd35e023611ba81d0e5a6987bf6682e8f5c38640d408de65b462bd3f4",
+  "source_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/kidney-male-right/v1.3/assets/3d-vh-m-kidney-r.glb",
+  "spec": {
+    "appearance": "tissue",
+    "controls": {
+      "asymmetry": 0.0,
+      "bend": 0.0,
+      "scale_x": 0.0,
+      "scale_y": 0.0,
+      "scale_z": 0.0,
+      "taper": 0.0,
+      "twist": 0.0
+    },
+    "disease": {
+      "contrast": 0.8565720319747925,
+      "count": 3,
+      "irregularity": 0.6661183834075928,
+      "location": [
+        0.8187254667282104,
+        0.34785139560699463,
+        -0.018404364585876465
+      ],
+      "profile_id": "kidney-cancer",
+      "seed": 3319171740,
+      "severity": 0.30462875962257385,
+      "size": 0.7112446427345276,
+      "spread": 0.5512265563011169
+    },
+    "realized_id": "7b46fd3ce7c6ec287aae07c73c388acdff2d4a553d6ea0904dd1508884de1bc5",
+    "seed": 3319171740,
+    "template_id": "hra-kidney-male-right",
+    "template_sha256": "ad3efc6d3988871ec8340f73f79cf7bdba5b5149aa3a4d1d7c6b64d6bc5156f5"
+  },
+  "split": "train",
+  "split_track": "within_generator",
+  "summary": {
+    "disease": {
+      "applied_displacement_fraction": 1.0,
+      "displacement_limited_by_source_mesh": false,
+      "evidence": "synthetic_surface_morphology_not_patient_or_population_geometry",
+      "internal_anatomy_generated": false,
+      "max_displacement_mm": 2.161433952618621,
+      "physical_parameters_inferred": false,
+      "profile": {
+        "clinical_source_url": "https://www.cancer.gov/types/kidney/hp/kidney-treatment-pdq",
+        "evidence": "image_reference_not_paired_3d_supervision",
+        "id": "kidney-cancer",
+        "label": "Renal cell carcinoma",
+        "limits": "Sectioned specimen; vascular involvement, histologic subtype and stage are not established by this view. Generated output is an authored outer-surface morphology prototype. Disease subtype, internal architecture and clinical severity are not inferred from this surface.",
+        "morphology_targets": [
+          "tumor position and diameter",
+          "endophytic versus exophytic extent",
+          "relationship to collecting system"
+        ],
+        "organ": "kidney",
+        "pattern": "mass",
+        "source_ref": "I22",
+        "source_url": "https://commons.wikimedia.org/wiki/File:Kidney_cancer.jpg",
+        "supported": true,
+        "unavailable_reason": ""
+      },
+      "realized_sites": 3,
+      "recipe": {
+        "contrast": 0.8565720319747925,
+        "count": 3,
+        "irregularity": 0.6661183834075928,
+        "location": [
+          0.8187254667282104,
+          0.34785139560699463,
+          -0.018404364585876465
+        ],
+        "profile_id": "kidney-cancer",
+        "seed": 3319171740,
+        "severity": 0.30462875962257385,
+        "size": 0.7112446427345276,
+        "spread": 0.5512265563011169
+      },
+      "requested_sites": 3,
+      "version": "disease-morphology-design-1.0.0"
+    },
+    "extent_mm": [
+      65.49602374434471,
+      112.53462731838226,
+      76.35380886495113
+    ],
+    "measurements": {
+      "compactness": null,
+      "extent_x_mm": 65.49602374434471,
+      "extent_y_mm": 112.53462731838226,
+      "extent_z_mm": 76.35380886495113,
+      "method": "disease-display-triangle-measurements-1.0.0",
+      "surface_area_definition": "Sum of selected triangles including capsule/internal faces",
+      "surface_area_mm2": 35156.12780015513,
+      "volume_ml": null,
+      "volume_reason": "Display surface assembly is not a certified closed outer envelope",
+      "volume_status": "NOT_APPLICABLE"
+    },
+    "min_jacobian": 0.3692447343490391,
+    "min_jacobian_kind": "conservative_bound",
+    "organ": "kidney",
+    "profile": "development_preview",
+    "qa_scope": "finite nondegenerate same-topology outer-surface design",
+    "qa_status": "PASS",
+    "reference": "hra-kidney-male-right",
+    "review_status": "unreviewed",
+    "triangles": 15397,
+    "vertices": 7832
+  },
+  "template_id": "hra-kidney-male-right",
+  "units": "mm",
+  "vertex_count": 7832
+}

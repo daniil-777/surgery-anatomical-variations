@@ -1,0 +1,16 @@
+{
+  "generator_version": "original-abdomen-0.1.0",
+  "lineage_id": "authored-abdominal-construction-v1",
+  "parameters": {
+    "fissure_depth_mm": 7.0,
+    "gallbladder_length_mm": 80.0,
+    "gallbladder_radius_mm": 15.0,
+    "inferior_concavity": 0.3,
+    "left_lobe_ratio": 0.48,
+    "liver_depth_mm": 125.0,
+    "liver_height_mm": 145.0,
+    "liver_width_mm": 235.0
+  },
+  "resolution": "high",
+  "seed": 1234
+}

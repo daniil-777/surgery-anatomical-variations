@@ -1,0 +1,10 @@
+# Primary package pins tested with Python 3.11.16; transitive versions are recorded in each run.
+# CPU training is sufficient. Deployed inference uses NumPy, not PyTorch.
+numpy==2.4.6
+scipy==1.17.1
+trimesh==4.12.2
+pydantic==2.13.5
+torch==2.14.1
+matplotlib==3.11.2
+pillow==12.3.0
+xatlas==0.0.11

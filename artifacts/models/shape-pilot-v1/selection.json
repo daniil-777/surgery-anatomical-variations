@@ -1,0 +1,311 @@
+{
+  "frozen_at_utc": "2026-10-06T17:59:46.435281+00:00",
+  "model_sha256": "2a3893d25f0f2d7170222cb7e3bebb7bdbfcae8e5a95fff76be893224882ba1f",
+  "choice": "bounded_logit conditional flow; experimental",
+  "steps": 600,
+  "selection_data": "pilot-v1 validation only",
+  "criterion": "Authoritative control-domain constraint and validation geometry acceptance; no claim of best conditional accuracy",
+  "validation_comparison": {
+    "unbounded": {
+      "parameter_mmd": 2.194579785013973,
+      "parameter_coverage": 0.5789473684210527,
+      "metric_space": "train-standardized procedural controls, not anatomical surface distance",
+      "decoded_attempted": 19,
+      "decoded_accepted": 16,
+      "decoded_rejected": 3,
+      "conditional_errors": {
+        "liver_volume_ml": {
+          "mean_absolute": 71.3045058265534,
+          "p95_absolute": 139.12538999608967,
+          "denominator": 16,
+          "normalization_train_std": 278.54778578287073
+        },
+        "liver_width_mm": {
+          "mean_absolute": 3.329854362568046,
+          "p95_absolute": 7.380757202239565,
+          "denominator": 16,
+          "normalization_train_std": 17.532571123618123
+        },
+        "liver_height_mm": {
+          "mean_absolute": 3.5774059276511707,
+          "p95_absolute": 5.884305409768842,
+          "denominator": 16,
+          "normalization_train_std": 10.26671138720335
+        },
+        "gallbladder_enclosed_ml": {
+          "mean_absolute": 4.043301523968538,
+          "p95_absolute": 9.205981650812873,
+          "denominator": 16,
+          "normalization_train_std": 12.292084046297846
+        },
+        "gallbladder_length_mm": {
+          "mean_absolute": 5.008840861425501,
+          "p95_absolute": 9.918058849605409,
+          "denominator": 16,
+          "normalization_train_std": 14.429822511440705
+        }
+      },
+      "failures": [
+        {
+          "index": 7,
+          "accepted": false,
+          "reason": "parameter_out_of_bounds",
+          "fields": [
+            "fissure_depth_mm"
+          ]
+        },
+        {
+          "index": 9,
+          "accepted": false,
+          "reason": "parameter_out_of_bounds",
+          "fields": [
+            "inferior_concavity"
+          ]
+        },
+        {
+          "index": 12,
+          "accepted": false,
+          "reason": "parameter_out_of_bounds",
+          "fields": [
+            "gallbladder_radius_mm"
+          ]
+        }
+      ],
+      "fixed_condition_parameter_std": [
+        3.5943381771769918,
+        3.29502310411274,
+        3.0090820914122207,
+        0.12628613984659248,
+        0.09857187956938047,
+        1.919468870725449,
+        2.2697910674768864,
+        1.2099346423553075
+      ],
+      "realized_condition_sensitivity": [
+        {
+          "condition": "liver_volume_ml",
+          "requested_low": 1969.2642822265625,
+          "requested_high": 2136.39306640625,
+          "attempted": 2,
+          "accepted": 2,
+          "realized_low": 2103.0863976356673,
+          "realized_high": 2235.3615700429787,
+          "correct_direction": true,
+          "other_condition_normalized_drift": {
+            "liver_width_mm": 0.11347294581395526,
+            "liver_height_mm": 0.08250391177360714,
+            "gallbladder_enclosed_ml": 0.04280571475597653,
+            "gallbladder_length_mm": 0.06033608487259635
+          }
+        },
+        {
+          "condition": "liver_width_mm",
+          "requested_low": 241.65440368652344,
+          "requested_high": 252.17393493652344,
+          "attempted": 2,
+          "accepted": 2,
+          "realized_low": 248.32038380932147,
+          "realized_high": 257.1136987818914,
+          "correct_direction": true,
+          "other_condition_normalized_drift": {
+            "liver_volume_ml": 0.1133964496846868,
+            "liver_height_mm": 0.02235723197709204,
+            "gallbladder_enclosed_ml": 0.030106776744919697,
+            "gallbladder_length_mm": 0.020327013391726777
+          }
+        },
+        {
+          "condition": "liver_height_mm",
+          "requested_low": 143.88221740722656,
+          "requested_high": 150.04225158691406,
+          "attempted": 2,
+          "accepted": 2,
+          "realized_low": 142.19102417205465,
+          "realized_high": 147.69039492893177,
+          "correct_direction": true,
+          "other_condition_normalized_drift": {
+            "liver_volume_ml": 0.11501153042716923,
+            "liver_width_mm": 0.01118307498666153,
+            "gallbladder_enclosed_ml": 0.018387527449744243,
+            "gallbladder_length_mm": 0.039939128995808836
+          }
+        },
+        {
+          "condition": "gallbladder_enclosed_ml",
+          "requested_low": 35.538265228271484,
+          "requested_high": 42.913516998291016,
+          "attempted": 2,
+          "accepted": 2,
+          "realized_low": 35.08539674601576,
+          "realized_high": 42.31653978573385,
+          "correct_direction": true,
+          "other_condition_normalized_drift": {
+            "liver_volume_ml": 0.00470049880093673,
+            "liver_width_mm": 0.025370727696626107,
+            "liver_height_mm": 0.005129222880526001,
+            "gallbladder_length_mm": 0.014254470515037433
+          }
+        },
+        {
+          "condition": "gallbladder_length_mm",
+          "requested_low": 76.9156265258789,
+          "requested_high": 85.57352447509766,
+          "attempted": 2,
+          "accepted": 2,
+          "realized_low": 78.80042220177718,
+          "realized_high": 87.23963129075862,
+          "correct_direction": true,
+          "other_condition_normalized_drift": {
+            "liver_volume_ml": 0.004352327929362893,
+            "liver_width_mm": 0.0040903964899692636,
+            "liver_height_mm": 0.0128711088651534,
+            "gallbladder_enclosed_ml": 0.08420138229082326
+          }
+        }
+      ]
+    },
+    "bounded": {
+      "parameter_mmd": 2.196079474031241,
+      "parameter_coverage": 0.631578947368421,
+      "metric_space": "train-standardized procedural controls, not anatomical surface distance",
+      "decoded_attempted": 19,
+      "decoded_accepted": 19,
+      "decoded_rejected": 0,
+      "conditional_errors": {
+        "liver_volume_ml": {
+          "mean_absolute": 102.27637654752377,
+          "p95_absolute": 183.73111124470836,
+          "denominator": 19,
+          "normalization_train_std": 278.54778578287073
+        },
+        "liver_width_mm": {
+          "mean_absolute": 7.298962662017964,
+          "p95_absolute": 14.567231887525049,
+          "denominator": 19,
+          "normalization_train_std": 17.532571123618123
+        },
+        "liver_height_mm": {
+          "mean_absolute": 2.501072337865429,
+          "p95_absolute": 6.531302441516055,
+          "denominator": 19,
+          "normalization_train_std": 10.26671138720335
+        },
+        "gallbladder_enclosed_ml": {
+          "mean_absolute": 3.8759940184284356,
+          "p95_absolute": 11.351782070822981,
+          "denominator": 19,
+          "normalization_train_std": 12.292084046297846
+        },
+        "gallbladder_length_mm": {
+          "mean_absolute": 5.194515000913933,
+          "p95_absolute": 11.976158201412455,
+          "denominator": 19,
+          "normalization_train_std": 14.429822511440705
+        }
+      },
+      "failures": [],
+      "fixed_condition_parameter_std": [
+        3.8452285575172773,
+        3.6223547595672745,
+        5.019217374356199,
+        0.07667500804952339,
+        0.10546700460839227,
+        2.1134099220332843,
+        3.5406466360664215,
+        0.5309862232502339
+      ],
+      "realized_condition_sensitivity": [
+        {
+          "condition": "liver_volume_ml",
+          "requested_low": 1969.2642822265625,
+          "requested_high": 2136.39306640625,
+          "attempted": 2,
+          "accepted": 2,
+          "realized_low": 2081.8139304868337,
+          "realized_high": 2187.2228691114256,
+          "correct_direction": true,
+          "other_condition_normalized_drift": {
+            "liver_width_mm": 0.06232673573542182,
+            "liver_height_mm": 0.05538017899042003,
+            "gallbladder_enclosed_ml": 0.10869015933311844,
+            "gallbladder_length_mm": 0.027029641012079234
+          }
+        },
+        {
+          "condition": "liver_width_mm",
+          "requested_low": 241.65440368652344,
+          "requested_high": 252.17393493652344,
+          "attempted": 2,
+          "accepted": 2,
+          "realized_low": 242.07309630267895,
+          "realized_high": 252.16560457358287,
+          "correct_direction": true,
+          "other_condition_normalized_drift": {
+            "liver_volume_ml": 0.14417333352427036,
+            "liver_height_mm": 0.006907503959744317,
+            "gallbladder_enclosed_ml": 0.1077658208435881,
+            "gallbladder_length_mm": 0.01152174580734165
+          }
+        },
+        {
+          "condition": "liver_height_mm",
+          "requested_low": 143.88221740722656,
+          "requested_high": 150.04225158691406,
+          "attempted": 2,
+          "accepted": 2,
+          "realized_low": 150.84963043504786,
+          "realized_high": 156.8436437525354,
+          "correct_direction": true,
+          "other_condition_normalized_drift": {
+            "liver_volume_ml": 0.15749620059234654,
+            "liver_width_mm": 0.01572627106276841,
+            "gallbladder_enclosed_ml": 0.07205010062693233,
+            "gallbladder_length_mm": 0.03311197082729554
+          }
+        },
+        {
+          "condition": "gallbladder_enclosed_ml",
+          "requested_low": 35.538265228271484,
+          "requested_high": 42.913516998291016,
+          "attempted": 2,
+          "accepted": 2,
+          "realized_low": 34.59002254455107,
+          "realized_high": 41.94495913750795,
+          "correct_direction": true,
+          "other_condition_normalized_drift": {
+            "liver_volume_ml": 0.032840983165148135,
+            "liver_width_mm": 0.054933006865491296,
+            "liver_height_mm": 0.01949014753381243,
+            "gallbladder_length_mm": 0.02153014389625372
+          }
+        },
+        {
+          "condition": "gallbladder_length_mm",
+          "requested_low": 76.9156265258789,
+          "requested_high": 85.57352447509766,
+          "attempted": 2,
+          "accepted": 2,
+          "realized_low": 76.66825146643939,
+          "realized_high": 86.86366540866062,
+          "correct_direction": true,
+          "other_condition_normalized_drift": {
+            "liver_volume_ml": 0.012597475647070776,
+            "liver_width_mm": 0.011389200450337174,
+            "liver_height_mm": 0.022996483728536823,
+            "gallbladder_enclosed_ml": 0.1059284141559594
+          }
+        }
+      ]
+    }
+  },
+  "tradeoff": "Validation geometry acceptance improved16/19 to19/19, but liver-volume and width conditional MAE worsened; PCA remains a stronger control baseline.",
+  "former_test_status": "The former20 examples were inspected during development; all subsequent uses are development benchmarks, not untouched holdouts.",
+  "postfreeze_audit_plan": {
+    "count": 32,
+    "seed": 99174411,
+    "profile": "adult_design_v1",
+    "resolution": "medium",
+    "fit_or_selection_use": false,
+    "lineage": "same authored generator; no independent anatomical-design or biological generalization"
+  }
+}

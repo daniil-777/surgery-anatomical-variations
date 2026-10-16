@@ -1,0 +1,194 @@
+{
+  "center_mm": [
+    -15.812501311302185,
+    -1.5625003725290298,
+    -38.24999975040555
+  ],
+  "coordinate_frame": "RAS",
+  "features": {
+    "lesion_center_x_relative": -0.29233986139297485,
+    "lesion_center_y_relative": -0.1709808111190796,
+    "lesion_center_z_relative": 0.23517009615898132,
+    "lesion_extent_x_mm": 76.5625,
+    "lesion_extent_y_mm": 76.5625,
+    "lesion_extent_z_mm": 50.0,
+    "lesion_to_organ_volume_ratio": 0.34800297021865845,
+    "lesion_volume_ml": 79.35546875,
+    "organ_extent_x_mm": 171.09375,
+    "organ_extent_y_mm": 116.40625,
+    "organ_extent_z_mm": 96.0,
+    "organ_volume_ml": 228.031005859375
+  },
+  "lesion": {
+    "bounds_mm": [
+      [
+        -100.57812184095383,
+        -60.546875,
+        -40.24999961256981
+      ],
+      [
+        -24.015624076128006,
+        16.01562462747097,
+        9.750000201165676
+      ]
+    ],
+    "centroid_mm": [
+      -65.83002188192222,
+      -21.46573546717326,
+      -15.67367093280825
+    ],
+    "coordinate_units": "mm",
+    "extent_mm": [
+      76.56249776482582,
+      76.56249962747097,
+      49.999999813735485
+    ],
+    "half_voxel_alignment_error": 8.087158221314894e-06,
+    "header_spatial_units": "mm",
+    "label_value": 1,
+    "mesh_volume_ml": 79.25755632207161,
+    "shape": [
+      512,
+      512,
+      251
+    ],
+    "source_mask_surface_bounds_mm": [
+      [
+        -100.578125,
+        -60.546875,
+        -40.25
+      ],
+      [
+        -24.015625,
+        16.015625,
+        9.75
+      ]
+    ],
+    "surface_area_mm2": 14339.276166218027,
+    "units_basis": "NIfTI header",
+    "volume_ml": 79.35546875,
+    "voxel_count": 65008,
+    "voxel_spacing_mm": [
+      0.78125,
+      0.78125,
+      2.0
+    ],
+    "voxel_to_RAS_mm": [
+      [
+        -0.78125,
+        0.0,
+        0.0,
+        217.0
+      ],
+      [
+        0.0,
+        -0.78125,
+        0.0,
+        200.0
+      ],
+      [
+        0.0,
+        0.0,
+        2.0,
+        -395.25
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "watertight": true
+  },
+  "lesion_center_relative_definition": "(source-mask lesion centroid - organ bounding-box center) / organ XYZ extent",
+  "measured_material_properties": null,
+  "measured_surface_texture": null,
+  "organ": {
+    "bounds_mm": [
+      [
+        -101.35937482118607,
+        -59.76562574505806,
+        -86.24999970197678
+      ],
+      [
+        69.7343721985817,
+        56.640625,
+        9.750000201165676
+      ]
+    ],
+    "centroid_mm": [
+      -11.850250163273614,
+      10.60357953967548,
+      -31.291187775356946
+    ],
+    "coordinate_units": "mm",
+    "extent_mm": [
+      171.09374701976776,
+      116.40625074505806,
+      95.99999990314245
+    ],
+    "half_voxel_alignment_error": 8.087158221314894e-06,
+    "header_spatial_units": "mm",
+    "label_value": 1,
+    "mesh_volume_ml": 227.79606942803343,
+    "shape": [
+      512,
+      512,
+      251
+    ],
+    "source_mask_surface_bounds_mm": [
+      [
+        -101.359375,
+        -59.765625,
+        -86.25
+      ],
+      [
+        69.734375,
+        56.640625,
+        9.75
+      ]
+    ],
+    "surface_area_mm2": 39172.146134697345,
+    "units_basis": "NIfTI header",
+    "volume_ml": 228.031005859375,
+    "voxel_count": 186803,
+    "voxel_spacing_mm": [
+      0.78125,
+      0.78125,
+      2.0
+    ],
+    "voxel_to_RAS_mm": [
+      [
+        -0.78125,
+        0.0,
+        0.0,
+        217.0
+      ],
+      [
+        0.0,
+        -0.78125,
+        0.0,
+        200.0
+      ],
+      [
+        0.0,
+        0.0,
+        2.0,
+        -395.25
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "watertight": true
+  },
+  "organ_scope": "single_pancreas",
+  "scale_mm": 171.09374701976776,
+  "self_intersections": "not evaluated",
+  "units": "mm",
+  "volume_basis": "Source annotation voxel count, not fitted mesh volume"
+}

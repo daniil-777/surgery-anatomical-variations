@@ -1,0 +1,10 @@
+{
+  "accepted_full_mesh_replays": 7680,
+  "all_parent_splits_preserved": true,
+  "cross_split_identical_target_geometry": 0,
+  "minimum_target_jacobian": 0.7295336054576576,
+  "pairs_replayed": 9216,
+  "scope": "Exact local compiler replay and bounded mesh QA; not clinical or learned-language validation",
+  "status": "PASS",
+  "unsupported_atomic_replays": 1536
+}
