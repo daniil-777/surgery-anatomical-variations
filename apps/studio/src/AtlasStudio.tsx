@@ -1,9 +1,13 @@
-import { apiGet, apiOnline, apiUrl, reportError, reportReady } from "./api";
+import { apiGet, apiOnline, apiUrl, publicUrl, reportError, reportReady } from "./api";
 import { NEEDS_API, bundledReference } from "./atlasLocal";
-import { realizeSpecLocally } from "./atlasDiseaseLocal";
-import { diseaseModelInfo, sampleDiseaseLocally } from "./atlasDiseaseSampler";
-import { jointModelInfo, sampleJointLocally } from "./atlasJointLocal";
-import { sampleShapeLocally, shapeModelInfo } from "./atlasShapeSampler";
+// the browser samplers and the disease renderer load on first use: a visitor who never samples offline does not pay
+// for their code at first paint (their weights are fetched on demand by the modules themselves)
+const samplers = {
+  joint: () => import("./atlasJointLocal"),
+  shape: () => import("./atlasShapeSampler"),
+  disease: () => import("./atlasDiseaseSampler"),
+  renderer: () => import("./atlasDiseaseLocal"),
+};
 import { PhotoDetailControl } from "./PhotoDetailControl";
 import type { PhotoTileInfo } from "./photoDetail";
 import { ApiNotice } from "./ApiNotice";
@@ -166,8 +170,9 @@ export default function AtlasStudio({ textureLab = false }: { textureLab?: boole
       const status = await response.json();
       updateLanguageState(status.source === "imported" && status.language_enabled === true && !status.wording_bundle_sha256);
       const online = await apiOnline();
-      const bundled = (info: (signal: AbortSignal) => Promise<unknown>) => online || info(controller.signal).then(() => true, () => false);
-      const [joint, shape, disease] = await Promise.all([bundled(jointModelInfo), bundled(shapeModelInfo), bundled(diseaseModelInfo)]);
+      // offline, a sampler is available when its exported model is bundled (the metadata file is enough to know)
+      const bundled = (model: string) => online || fetch(publicUrl(`models/${model}/model.json`), { signal: controller.signal }).then((r) => r.ok, () => false);
+      const [joint, shape, disease] = await Promise.all([bundled("joint-v2"), bundled("shape-v2"), bundled("disease-recipes-v2")]);
       setJointAvailable(joint && status.lanes?.joint?.status === "active" && /^[a-f0-9]{64}$/.test(status.joint_bundle_sha256));
       setLearnedAvailable(shape && status.lanes?.shape?.status === "active");
       setDiseaseSamplerAvailable(disease && status.lanes?.disease?.status === "active");
@@ -240,11 +245,11 @@ export default function AtlasStudio({ textureLab = false }: { textureLab?: boole
         const reference = await bundledReference(spec.template_id, controller.signal);
         const template = library.organs.flatMap((organ) => organ.templates).find((item) => item.id === spec.template_id);
         if (!template) throw new Error("Unknown reference.");
-        result = joint ? await sampleJointLocally(reference, template, spec, options.jointTemperature!, options.severity ?? "auto", library.diseases, controller.signal)
-          : options.learned ? await sampleShapeLocally(reference, template, spec, options.matchDimensions ?? true, library.diseases, controller.signal)
-          : options.sampleDisease ? await sampleDiseaseLocally(reference, template, spec, library.diseases, controller.signal)
+        result = joint ? await (await samplers.joint()).sampleJointLocally(reference, template, spec, options.jointTemperature!, options.severity ?? "auto", library.diseases, controller.signal)
+          : options.learned ? await (await samplers.shape()).sampleShapeLocally(reference, template, spec, options.matchDimensions ?? true, library.diseases, controller.signal)
+          : options.sampleDisease ? await (await samplers.disease()).sampleDiseaseLocally(reference, template, spec, library.diseases, controller.signal)
           : sameAtlasRecipe(spec, defaultAtlasSpec(library, spec.template_id)) ? reference
-          : await realizeSpecLocally(reference, spec, template, library.diseases, controller.signal);
+          : await (await samplers.renderer()).realizeSpecLocally(reference, spec, template, library.diseases, controller.signal);
       } else {
         const response = await fetch(apiUrl(joint ? "/api/atlas/sample-joint" : options.sampleDisease ? "/api/atlas/sample-disease" : options.learned ? "/api/atlas/sample" : options.sampleSurface ? "/api/atlas/sample-material" : "/api/atlas/generate"), {
           method: "POST", headers: { "Content-Type": "application/json" },
