@@ -70,7 +70,7 @@ let cachedIndex: Promise<DiseaseSupportIndex> | null = null;
 const supports = new Map<string, Promise<DiseaseSupport>>();
 /** The index alone (15 KB): which templates the bundled renderer supports. */
 export function diseaseSupportIndex(signal?: AbortSignal): Promise<DiseaseSupportIndex> {
-  cachedIndex ??= fetch(publicUrl("models/disease-v2/index.json"), { signal: signal ?? null }).then(async (response) => {
+  cachedIndex ??= fetch(publicUrl("models/disease-v2/index.json"), { cache: "default" }).then(async (response) => {
     if (!response.ok) throw new Error("The disease renderer's support sets are not bundled with this copy.");
     const index = await response.json() as DiseaseSupportIndex;
     if (index.format !== DISEASE_SUPPORT_FORMAT || index.version !== DISEASE_FIELD_VERSION) throw new Error("Unsupported disease support export.");
@@ -84,7 +84,7 @@ export function loadDiseaseSupport(templateId: string, signal?: AbortSignal): Pr
     p = diseaseSupportIndex(signal).then(async (index) => {
       const entry = index.templates[templateId];
       if (!entry) throw new Error("This reference is absent from the bundled disease renderer; choose another reference.");
-      const response = await fetch(publicUrl(`models/disease-v2/${entry.file}`), { signal: signal ?? null });
+      const response = await fetch(publicUrl(`models/disease-v2/${entry.file}`), { cache: "default" });
       if (!response.ok) throw new Error("The disease support of this reference is not bundled with this copy.");
       return parseDiseaseSupport(entry, await response.arrayBuffer());
     });

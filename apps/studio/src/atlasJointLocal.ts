@@ -52,7 +52,7 @@ let cachedMeta: Promise<JointModelMeta> | null = null;
 let cachedModel: Promise<JointModel> | null = null;
 /** The slim metadata alone (26 KB): enough to know the model is bundled and which templates it covers. */
 export function jointModelInfo(signal?: AbortSignal): Promise<JointModelMeta> {
-  cachedMeta ??= fetch(publicUrl("models/joint-v2/model.json"), { signal: signal ?? null }).then(async (response) => {
+  cachedMeta ??= fetch(publicUrl("models/joint-v2/model.json"), { cache: "default" }).then(async (response) => {
     if (!response.ok) throw new Error("The joint flow is not bundled with this copy.");
     const meta = await response.json() as JointModelMeta;
     if (meta.format !== JOINT_WEB_FORMAT) throw new Error("Unsupported joint model export.");
@@ -63,7 +63,7 @@ export function jointModelInfo(signal?: AbortSignal): Promise<JointModelMeta> {
 /** Tests and tools that hold the model already (read from disk) hand it over instead of fetching. */
 export function primeJointModel(model: JointModel): void { cachedMeta = Promise.resolve(model.meta); cachedModel = Promise.resolve(model); }
 export function loadJointModel(signal?: AbortSignal): Promise<JointModel> {
-  cachedModel ??= Promise.all([jointModelInfo(signal), fetch(publicUrl("models/joint-v2/weights.bin"), { signal: signal ?? null }).then((response) => {
+  cachedModel ??= Promise.all([jointModelInfo(signal), fetch(publicUrl("models/joint-v2/weights.bin"), { cache: "default" }).then((response) => {
     if (!response.ok) throw new Error("The joint flow weights are not bundled with this copy.");
     return response.arrayBuffer();
   })]).then(([meta, weights]) => parseJointModel(meta, weights)).catch((error) => { cachedModel = null; throw error; });

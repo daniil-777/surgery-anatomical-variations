@@ -80,7 +80,7 @@ let cachedMeta: Promise<DiseaseModelMeta> | null = null;
 let cachedModel: Promise<DiseaseModel> | null = null;
 /** The slim metadata alone (3 KB): enough to know the model is bundled and which profiles it can propose. */
 export function diseaseModelInfo(signal?: AbortSignal): Promise<DiseaseModelMeta> {
-  cachedMeta ??= fetch(publicUrl("models/disease-recipes-v2/model.json"), { signal: signal ?? null }).then(async (response) => {
+  cachedMeta ??= fetch(publicUrl("models/disease-recipes-v2/model.json"), { cache: "default" }).then(async (response) => {
     if (!response.ok) throw new Error("The disease recipe model is not bundled with this copy.");
     const meta = await response.json() as DiseaseModelMeta;
     if (meta.format !== DISEASE_WEB_FORMAT) throw new Error("Unsupported disease model export.");
@@ -91,7 +91,7 @@ export function diseaseModelInfo(signal?: AbortSignal): Promise<DiseaseModelMeta
 /** Tests and tools that hold the model already (read from disk) hand it over instead of fetching. */
 export function primeDiseaseModel(model: DiseaseModel): void { cachedMeta = Promise.resolve(model.meta); cachedModel = Promise.resolve(model); }
 export function loadDiseaseModel(signal?: AbortSignal): Promise<DiseaseModel> {
-  cachedModel ??= Promise.all([diseaseModelInfo(signal), fetch(publicUrl("models/disease-recipes-v2/weights.bin"), { signal: signal ?? null }).then((response) => {
+  cachedModel ??= Promise.all([diseaseModelInfo(signal), fetch(publicUrl("models/disease-recipes-v2/weights.bin"), { cache: "default" }).then((response) => {
     if (!response.ok) throw new Error("The disease recipe weights are not bundled with this copy.");
     return response.arrayBuffer();
   })]).then(([meta, weights]) => parseDiseaseModel(meta, weights)).catch((error) => { cachedModel = null; throw error; });

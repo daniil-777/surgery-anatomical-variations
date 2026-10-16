@@ -76,7 +76,7 @@ let cachedMeta: Promise<ShapeModelMeta> | null = null;
 let cachedModel: Promise<ShapeModel> | null = null;
 /** The metadata alone (19 KB): whether the model is bundled, which templates it covers, the provenance it carries. */
 export function shapeModelInfo(signal?: AbortSignal): Promise<ShapeModelMeta> {
-  cachedMeta ??= fetch(publicUrl("models/shape-v2/model.json"), { signal: signal ?? null }).then(async (response) => {
+  cachedMeta ??= fetch(publicUrl("models/shape-v2/model.json"), { cache: "default" }).then(async (response) => {
     if (!response.ok) throw new Error("The learned shape model is not bundled with this copy.");
     const meta = await response.json() as ShapeModelMeta;
     if (meta.format !== SHAPE_WEB_FORMAT) throw new Error("Unsupported shape model export.");
@@ -87,7 +87,7 @@ export function shapeModelInfo(signal?: AbortSignal): Promise<ShapeModelMeta> {
 /** Tests and tools that hold the model already (read from disk) hand it over instead of fetching. */
 export function primeShapeModel(model: ShapeModel): void { cachedMeta = Promise.resolve(model.meta); cachedModel = Promise.resolve(model); }
 export function loadShapeModel(signal?: AbortSignal): Promise<ShapeModel> {
-  cachedModel ??= Promise.all([shapeModelInfo(signal), fetch(publicUrl("models/shape-v2/weights.bin"), { signal: signal ?? null }).then((response) => {
+  cachedModel ??= Promise.all([shapeModelInfo(signal), fetch(publicUrl("models/shape-v2/weights.bin"), { cache: "default" }).then((response) => {
     if (!response.ok) throw new Error("The learned shape model rows are not bundled with this copy.");
     return response.arrayBuffer();
   })]).then(([meta, weights]) => parseShapeModel(meta, weights)).catch((error) => { cachedModel = null; throw error; });
@@ -336,6 +336,10 @@ export async function sampleShapeLocally(reference: AtlasGeneration, template: A
   // spec whose template hash is stale; here the bundled reference is the displayed one
   const displayed = reference.spec.template_sha256;
   if (typeof displayed === "string" && displayed !== entry.artifact_sha256 && displayed !== entry.display_artifact_sha256) throw new Error("Selected reference does not match the model training template");
+  // the API's /api/atlas/sample binds the frozen cohort-v2 reference and refuses the two repaired references
+  // (templates-v3: male heart, male bladder) whose displayed hash differs from it; the public copy refuses the same
+  // way instead of offering a variation the local studio would not
+  if (typeof displayed === "string" && displayed !== entry.artifact_sha256) throw new Error("The trained shape sampler binds this organ's frozen reference, not its repaired one, so the local studio refuses it too; use the joint flow variation, which samples the repaired reference.");
   if (typeof spec.template_sha256 === "string" && spec.template_sha256 !== displayed) throw new Error("Displayed reference changed; reload before sampling");
   const limits = template.control_limits, normalization = template.normalization_mm;
   if ((Array.isArray(limits) && !(limits.length === CONTROLS && limits.every((value, i) => value === entry.control_limits[i]))) || (typeof normalization === "number" && normalization !== entry.normalization_mm)) throw new Error("Selected reference does not match the model training template");

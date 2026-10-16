@@ -35,7 +35,7 @@ export async function loadRuntimeApiConfig(): Promise<string | null> {
 const STATIC_API = "static/api";
 
 export const OFFLINE_MESSAGE =
-  "This public copy has no generation service. Shape controls, appearance, surface recipes, sculpting, the hands-on liver, the whole scene, disease morphology, the trained shape and disease samplers and the joint flow (healthy or with a disease) run here, in the browser; the trained material sampler, text commands, the analysis of your own photograph, recorded physics experiments and the textured exports need the VISCERA API, which runs with the local studio.";
+  "This public copy has no generation service. Everything you see is computed in your browser: shape controls, appearance, surface recipes, sculpting, the hands-on liver, the whole scene, disease morphology, the trained shape sampler and the joint shape + colour flow (healthy or with a disease). Still with the VISCERA API only: the trained material sampler, text commands, the analysis of your own photograph, recorded physics experiments and the textured GLB / Unity exports.";
 
 const listeners = new Set<(value: boolean) => void>();
 
