@@ -29,6 +29,8 @@
     "three": "0.186.1"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "0.5.11",
+    "@axe-core/playwright": "4.14.0",
     "@gltf-transform/core": "4.5.1",
     "@gltf-transform/extensions": "4.5.1",
     "@gltf-transform/functions": "4.5.1",
