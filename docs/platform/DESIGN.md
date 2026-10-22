@@ -224,3 +224,59 @@ CI green → merge → Pages deploy → live smoke. Runbook: OPERATIONS.md.
 
 `supabase login` (blocking for deploy). Optional: Google OAuth client, Apple Developer membership + Services ID + key,
 GitHub OAuth app, SMTP (Gmail app password or Resend), CAPTCHA keys, a custom domain, Supabase Pro.
+
+## 15. Review addendum (builder check, 2026-10-21 20:40) — binding
+
+A fresh reviewer ran the migrations as the real roles and type-checked the contracts. Decisions taken (supersede the
+sections above where they differ):
+
+1. CHECK-constraint validators (`private.is_valid_username`, `valid_tags`, `is_allowed_mime`) are executable by
+   `authenticated` and `service_role` (the private schema stays closed).
+2. No silent loss: `commit_version` and `restore_version` take `p_expected_draft_rev` (409 `draft_conflict`).
+   `restore_version` first commits an existing draft as an `autosave` version (with its attachments), then the restore
+   version, in one transaction. Both return `jsonb {project, version}`; the ports return `{ project, version }`.
+   `duplicate_project` checks the plan lookup; restoring from the trash re-checks `max_projects`.
+3. Asset collection is two-phase: `maintenance_forget_assets` marks orphans `deleting` under the owner's advisory lock
+   (the lock `reserve_asset` uses) and returns their paths; the function deletes the objects; `maintenance_finish_assets`
+   removes rows still `deleting`. `reserve_asset` answers 409 `asset_busy` for `deleting` rows; clients retry `put()`.
+4. Quotas count every asset row (pending and ready; counting only referenced bytes would let an account upload,
+   confirm and abandon files for free). Churn is bounded instead by collection: unreferenced ready assets after a 1-hour
+   grace, pending reservations after 6 hours, size mismatches marked `rejected` at confirm and collected at once; at most
+   8 pending reservations per account. Row caps: 1 000 versions per project, 5 000 library items and 2 000 imports per
+   account (PT403 `limit_reached`). MIME parameters are stripped before reserving (client and database). Maintenance runs
+   hourly.
+5. Autosave cadence: local journal (IndexedDB, whole documents incl. attachments) on every change; cloud draft at most
+   once per 60 s and only when `state_sha256` changed; `state_sha256 = sha256(canonical {schema, labId, state, versions,
+   attachments: {name: sha256}})`; thumbnails only on commit/close; one write at a time per session; a `beforeunload`
+   prompt while dirty or saving; "Recover unsaved changes" when the journal differs from the cloud draft; a second tab
+   (Web Locks `viscera.project:<id>`) opens read-only with "Edit here".
+6. Lab hosting: cancel or detect iframe navigations (Navigation API + anchor interception); any unexpected iframe load or
+   pagehide = "lab left" (autosave stops, banner); documents whose `labId` ≠ project `lab_id` are refused; labs open with
+   `&restore=pending` so they skip default generation; restore aborts on adapter dispose and retries on the next
+   register; change events are ignored until a restore resolves (then the baseline hash is taken); after `exact: false`
+   autosave waits for the user's acknowledgement and the source version is labelled automatically ("Kept before an
+   inexact restore"); Restore/Close/Record are disabled while `busy()` is not `false`.
+7. The bridge (`labSession.ts`) is self-contained (its own `JsonValue`, `LibraryKind`, `LibraryFileRole`; no imports), so a
+   lab tree can copy it byte-identical; state generics default to `unknown` (validated as canonical JSON at runtime); the
+   registry state lives on `window.__visceraLabSessions`; adapters may declare `localOnly: string[]` attachments, which
+   the host hashes but never uploads (restore asks for the local file); `exports()` items whose `claims.rights` marks them
+   research-only are refused by "Add to Library".
+8. `PlatformError` options accept `undefined` (exactOptionalPropertyTypes); `isPlatformError` checks by name.
+9. Auth: `verifyRecoveryCode(email, code)` in `AuthPort` (recovery by 6-digit code); reset and email codes hidden while
+   `emailDelivery` is false; password change and account deletion require a fresh sign-in (token `iat` < 10 minutes,
+   checked by `account-delete`); OAuth providers are enabled only together with SMTP and `enable_confirmations = true`
+   (pre-account takeover otherwise; OPERATIONS.md says so).
+10. `auth-username`: atomic `claim_login_attempt(keys, limit)` increments before calling Auth and clears on success;
+    client IP from `cf-connecting-ip`, else `x-real-ip`, else the rightmost `x-forwarded-for` entry; Auth called with the
+    secret key and `Sb-Forwarded-For`; lockouts are 15-minute windows answered with 429 and `retry_after_seconds`
+    (email sign-in stays available).
+11. New Supabase projects grant no table privileges by default: the shim no longer grants defaults; migrations grant
+    `service_role` explicitly; `alter default privileges … revoke execute on functions from public, anon, authenticated`;
+    owner/profile administration goes through a service-only RPC `admin_set_profile`.
+12. CSP is injected by `boot.ts` only in shell mode, after reading `platform.json` (connect/img/media: self, blob:, data:,
+    `https://<ref>.supabase.co`, `https://<ref>.storage.supabase.co`, `wss://<ref>.supabase.co`; script: self +
+    wasm-unsafe-eval; worker: self blob:; frame: self); framing by another origin is refused before any auth UI.
+13. The platform smoke asserts zero requests to `*.supabase.co` while signed out and re-checks the studio at `?mode=atlas`.
+14. `platform.json` holds a providers object; the Pages workflow converts the comma-separated `PLATFORM_PROVIDERS`.
+15. Lab ids use hyphens (`blood-surface`, not `blood:surface`).
+16. The owner account gets a plan `owner` (800 MB, 50 MB per file, 365-day history); free accounts get 250 MB.

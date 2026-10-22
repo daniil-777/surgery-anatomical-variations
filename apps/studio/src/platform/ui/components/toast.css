@@ -1,0 +1,70 @@
+/* Toast and HUD (APPLE_STYLE_SPEC §2.13): top layer through popover="manual", so they sit above sheets. */
+
+.px-toast {
+  position: fixed;
+  inset: auto 0 16px 0;
+  margin: 0 auto;
+  border: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: max-content;
+  max-width: min(480px, calc(100vw - 32px));
+  min-height: 36px;
+  padding: 6px 8px 6px 14px;
+  border-radius: 18px;
+  color: var(--px-label);
+  background: var(--px-mat-popover);
+  -webkit-backdrop-filter: var(--px-mat-popover-filter);
+  backdrop-filter: var(--px-mat-popover-filter);
+  box-shadow: var(--px-inner-highlight), var(--px-shadow-3);
+  overflow: visible;
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 150ms var(--px-ease-out),
+    transform var(--px-dur-spring-bouncy) var(--px-spring-bouncy);
+}
+@starting-style { .px-toast:popover-open { opacity: 0; transform: translateY(16px); } }
+.px-toast[data-multiline] { border-radius: 14px; align-items: flex-start; }
+.px-toast--leaving { opacity: 0; transform: none; transition: opacity 150ms var(--px-ease-in); }
+.px-toast__icon { flex: none; }
+.px-toast--info .px-toast__icon { color: var(--px-accent); }
+.px-toast--success .px-toast__icon { color: var(--px-success); }
+.px-toast--warning .px-toast__icon { color: var(--px-warning); }
+.px-toast--error .px-toast__icon { color: var(--px-danger); }
+.px-toast[data-multiline] .px-toast__icon { margin-top: 4px; }
+.px-toast__message { flex: 1; min-width: 0; margin: 0; padding-block: 4px; overflow-wrap: anywhere; }
+.px-toast__action { margin-inline-start: 2px; font-weight: var(--px-fw-semibold); }
+.px-toast .px-icon-btn { margin-inline-start: -2px; }
+
+.px-hud {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  border: 0;
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  width: 200px;
+  height: fit-content;
+  padding: 20px;
+  border-radius: 18px;
+  text-align: center;
+  color-scheme: dark;
+  color: var(--px-label-hud);
+  background: var(--px-mat-hud);
+  -webkit-backdrop-filter: var(--px-mat-hud-filter);
+  backdrop-filter: var(--px-mat-hud-filter);
+  box-shadow: var(--px-shadow-3);
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 150ms var(--px-ease-out);
+}
+@starting-style { .px-hud:popover-open { opacity: 0; } }
+.px-hud--leaving { opacity: 0; transition: opacity 300ms var(--px-ease-in); }
+.px-hud__label { font: var(--px-fw-semibold) var(--px-fs-body)/var(--px-lh-body) var(--px-font-sans); letter-spacing: var(--px-tr-body); }
+
+@media (forced-colors: active) {
+  .px-toast, .px-hud { border: 1px solid CanvasText; background: Canvas; color: CanvasText; -webkit-backdrop-filter: none; backdrop-filter: none; }
+}

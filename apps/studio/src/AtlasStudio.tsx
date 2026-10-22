@@ -37,6 +37,7 @@ import { createAtlasVesselNetwork } from "./atlasVessels";
 // the whole scene (its viewport, physics and tools) loads only when opened
 const WholeSceneStudio = lazy(() => import("./WholeSceneStudio"));
 import "./atlas.css";
+import { useOrganLabSession } from "./platform/labs/organ/useOrganLabSession";
 
 const modes: { id: AtlasAppearance; label: string; title: string }[] = [
   { id: "tissue", label: "Tissue", title: "Designed tissue appearance; not measured reflectance" },
@@ -599,6 +600,15 @@ export default function AtlasStudio({ textureLab = false }: { textureLab?: boole
 
   useEffect(() => { if (generated) reportReady(textureLab ? "textures" : "atlas"); }, [generated, textureLab]);
   useEffect(() => { if (error) reportError(error); }, [error]);
+  // account platform (platform/labs/organ): projects save and restore this organ, thumbnail it and add it to the Library
+  useOrganLabSession({
+    textureLab, catalog, catalogRef, generated, committed, setGenerated, generate, busy, exporting, modelSwitching, modelSwitchingRef, error,
+    cancelPendingPreview, activeRequest, requestId, sculptHistory, sculptHistoryRef, setSculptHistory, setSculptEnabled, setSculptReport,
+    vesselsEnabled, setVesselsEnabled, vesselDensity, setVesselDensity, vesselVisibility, setVesselVisibility, vesselRadiusScale, setVesselRadiusScale,
+    vesselSeed, setVesselSeed, photoDetail, setPhotoDetail, photoRelief, setPhotoRelief, photoTile, wireframe, setWireframe, view, setView,
+    inspectorTab, setInspectorTab, sculptRadius, setSculptRadius, sculptStiffness, setSculptStiffness, variationStrength, setVariationStrength,
+    jointTemperature, setJointTemperature, jointSeverity, setJointSeverity, matchDimensions, setMatchDimensions, viewport, displayedScene,
+  });
 
   if (wholeSceneOpen) return <Suspense fallback={<div className="atlas-loading" role="status">Loading the whole scene…</div>}><WholeSceneStudio onBack={() => switchWorkspace(false)} textureLab={textureLab} /></Suspense>;
 

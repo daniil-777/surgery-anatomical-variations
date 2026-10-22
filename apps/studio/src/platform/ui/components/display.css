@@ -1,0 +1,59 @@
+/* Empty state, badges and keyboard shortcut hints (APPLE_STYLE_SPEC §2.15, §2.9 chips, §4.1 display) */
+
+.px-empty {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  max-width: 360px;
+  margin: 0 auto;
+  padding: 32px 16px;
+  text-align: center;
+  translate: 0 -8%;
+}
+.px-empty__icon { color: var(--px-label-tertiary); margin-bottom: 12px; }
+.px-empty__title {
+  font: var(--px-fw-bold) var(--px-fs-title2)/var(--px-lh-title2) var(--px-font-sans);
+  letter-spacing: var(--px-tr-title2);
+  color: var(--px-label);
+}
+.px-empty__description { margin-top: 6px; color: var(--px-label-secondary); }
+.px-empty__action { margin-top: 16px; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+
+.px-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  min-height: 16px;
+  padding: 1px 5px;
+  border-radius: var(--px-radius-small);
+  font: var(--px-fw-medium) var(--px-fs-caption)/var(--px-lh-caption) var(--px-font-sans);
+  letter-spacing: var(--px-tr-caption);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  color: var(--px-label-secondary);
+  background: var(--px-fill-tertiary);
+}
+.px-badge__label { overflow: hidden; text-overflow: ellipsis; }
+.px-badge--accent { color: var(--px-accent-text); background: var(--px-accent-tint); }
+.px-badge--success { color: var(--px-success-text); background: color-mix(in srgb, var(--px-system-green) 14%, transparent); }
+.px-badge--warning { color: var(--px-warning-text); background: color-mix(in srgb, var(--px-system-orange) 14%, transparent); }
+.px-badge--danger { color: var(--px-danger-text); background: color-mix(in srgb, var(--px-system-red) 12%, transparent); }
+.px-badge--hud {
+  color-scheme: dark;
+  color: var(--px-label-hud);
+  background: var(--px-mat-hud);
+  -webkit-backdrop-filter: var(--px-mat-hud-filter);
+  backdrop-filter: var(--px-mat-hud-filter);
+}
+
+.px-kbd { display: inline-flex; color: var(--px-label-secondary); }
+.px-kbd kbd {
+  font: var(--px-fw-regular) var(--px-fs-callout)/var(--px-lh-callout) var(--px-font-sans);
+  letter-spacing: .04em;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+@media (forced-colors: active) {
+  .px-badge { border: 1px solid CanvasText; }
+}

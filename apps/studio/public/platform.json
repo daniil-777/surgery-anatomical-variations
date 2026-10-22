@@ -1,0 +1,5 @@
+{
+  "schema": "viscera.platform/v1",
+  "supabaseUrl": null,
+  "note": "Accounts are off in this build. The Pages workflow writes the production copy from repository variables (docs/platform/OPERATIONS.md)."
+}

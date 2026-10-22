@@ -1,0 +1,95 @@
+/* The Library page frame (APPLE_STYLE_SPEC §3.4): the grid and the inspector side by side, the drop overlay and the
+   loading skeletons. Mirrors the Imports page layout. Tokens only; type sizes through --px-fs-*. */
+
+.px-library {
+  --_aside: 0px;
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--_aside);
+  min-height: 100%;
+}
+.px-library[data-inspector="shown"] { --_aside: var(--px-inspector-w); }
+.px-library__main {
+  min-width: 0;
+  padding: var(--px-content-pad-top) var(--px-content-pad-x) 32px;
+}
+.px-library__inspector {
+  position: sticky;
+  top: var(--px-toolbar-h);
+  height: calc(100dvh - var(--px-toolbar-h));
+  min-width: 0;
+  overflow: hidden;
+  border-inline-start: var(--px-hairline) solid var(--px-separator);
+}
+/* below 1280 px the inspector floats over the content (§2.1 breakpoints) */
+@media (max-width: 1279px) {
+  .px-library[data-inspector="shown"] { --_aside: 0px; }
+  .px-library__inspector {
+    position: fixed;
+    top: calc(var(--px-toolbar-h) + var(--px-panel-inset));
+    right: var(--px-panel-inset);
+    bottom: var(--px-panel-inset);
+    z-index: var(--px-z-floating-panel);
+    width: min(var(--px-inspector-w), calc(100% - 2 * var(--px-panel-inset)));
+    height: auto;
+    border: 0;
+    border-radius: var(--px-radius-panel);
+    box-shadow: var(--px-shadow-4);
+  }
+}
+@media (max-width: 599px) {
+  .px-library__main { padding-inline: 16px; }
+}
+
+.px-library__empty {
+  display: grid;
+  place-items: center;
+  min-height: calc(100dvh - var(--px-toolbar-h) - 96px);
+}
+.px-library__note {
+  margin: 20px 0 0;
+  text-align: center;
+  color: var(--px-label-secondary);
+  font: var(--px-fw-regular) var(--px-fs-footnote)/var(--px-lh-footnote) var(--px-font-sans);
+  letter-spacing: var(--px-tr-footnote);
+}
+.px-library__scope { min-width: 0; }
+.px-library__view,
+.px-library__inspector-toggle { flex: none; }
+.px-library__search { width: clamp(160px, 22vw, 260px); }
+
+/* Drop overlay: positioned over the grid area by the page (inline top/left/width/height) */
+.px-lib-drop {
+  position: fixed;
+  z-index: var(--px-z-drop-overlay);
+  display: grid;
+  place-items: center;
+  border: 2px dashed var(--px-accent);
+  border-radius: var(--px-radius-panel);
+  background: var(--px-accent-tint);
+  pointer-events: none;
+  animation: px-lib-drop-fade var(--px-dur-fast) var(--px-ease-out);
+}
+.px-lib-drop__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 0 16px;
+  border-radius: var(--px-radius-capsule);
+  color: var(--px-label-hud);
+  background: var(--px-mat-hud);
+  -webkit-backdrop-filter: var(--px-mat-hud-filter);
+  backdrop-filter: var(--px-mat-hud-filter);
+  box-shadow: var(--px-shadow-3);
+  font: var(--px-fw-semibold) var(--px-fs-body)/var(--px-lh-body) var(--px-font-sans);
+  letter-spacing: var(--px-tr-body);
+}
+@keyframes px-lib-drop-fade { from { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .px-lib-drop { animation: none; }
+}
+
+/* Loading skeletons in the shape of media cards */
+.px-lib-skeleton-card { display: grid; gap: 8px; }
+.px-lib-skeleton-card__thumb { width: 100%; aspect-ratio: 1; }

@@ -1,9 +1,13 @@
 -- VISCERA account platform, part 3/5: lab projects with Adobe-style version history.
 -- A project belongs to one lab. Its history is a list of immutable numbered versions (seq 1..n); head_version_id is
 -- the latest. Between versions the lab autosaves a mutable cloud "draft" (working copy). Every write is optimistic:
--- callers pass the head (and draft revision) they started from and get 409 version_conflict / draft_conflict when
--- another tab or device moved it. Restoring never rewrites history: it commits a new version that reuses the old
--- version's immutable snapshot.
+-- callers pass the head and the draft revision they started from and get 409 version_conflict / draft_conflict when
+-- another tab or device moved either. Nothing is ever lost silently: a commit or restore over a draft someone else
+-- saved is refused, and restoring first keeps an existing draft as an autosave version. Restoring never rewrites
+-- history: it commits a new version that reuses the old version's immutable snapshot.
+-- draft_rev arithmetic: save_draft, discard_draft, commit_version and restore_version each move draft_rev on by exactly
+-- one (commit and restore clear the draft once per call, whether or not there was one). The project each of them
+-- returns carries the new value, which is the caller's next p_expected_draft_rev.
 
 create table public.projects (
   id uuid primary key default gen_random_uuid(),
@@ -18,13 +22,17 @@ create table public.projects (
   draft_thumbnail_asset_id uuid references public.assets (id),
   draft_rev bigint not null default 0 check (draft_rev >= 0),
   draft_saved_at timestamptz,
+  -- what the lab reported with the draft; a restore keeps the draft as a version with these (null: not sent)
+  draft_lab_schema_version integer check (draft_lab_schema_version between 1 and 1000000),
+  draft_app_build text check (draft_app_build is null or char_length(draft_app_build) between 1 and 64),
   thumbnail_asset_id uuid references public.assets (id),
   favorite boolean not null default false,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
   opened_at timestamptz,
   trashed_at timestamptz,
-  check ((draft_asset_id is null) = (draft_state_sha256 is null))
+  check ((draft_asset_id is null) = (draft_state_sha256 is null)),
+  check (draft_asset_id is not null or (draft_lab_schema_version is null and draft_app_build is null))
 );
 comment on table public.projects is 'Lab projects. head_* = latest committed version; draft_* = autosaved working copy since then.';
 comment on column public.projects.updated_at is 'Last content change (commit or draft save); renames and favourites do not move it.';
@@ -145,7 +153,6 @@ $$;
 create or replace function private.attachment_rows(p_uid uuid, p_attachments jsonb)
 returns table (att_name text, att_asset_id uuid, att_bytes bigint)
 language plpgsql
-stable
 set search_path = ''
 as $$
 declare
@@ -185,7 +192,22 @@ begin
 end
 $$;
 
--- Inserts the version's attachments and sets its byte_size (snapshot + distinct attachments).
+-- byte_size of a version: its snapshot plus its distinct attachments (thumbnails never count).
+create or replace function private.size_version(p_version_id uuid)
+returns void
+language sql
+set search_path = ''
+as $$
+  update public.project_versions v
+     set byte_size = (
+       select coalesce(sum(a.byte_size), 0) from public.assets a
+        where a.id = v.snapshot_asset_id
+           or a.id in (select x.asset_id from public.project_version_assets x where x.version_id = v.id)
+     )
+   where v.id = p_version_id
+$$;
+
+-- Inserts the version's attachments and sets its byte_size.
 create or replace function private.attach_version_assets(p_uid uuid, p_version_id uuid, p_attachments jsonb)
 returns void
 language plpgsql
@@ -194,13 +216,7 @@ as $$
 begin
   insert into public.project_version_assets (version_id, owner_id, name, asset_id)
   select p_version_id, p_uid, r.att_name, r.att_asset_id from private.attachment_rows(p_uid, p_attachments) r;
-  update public.project_versions v
-     set byte_size = (
-       select coalesce(sum(a.byte_size), 0) from public.assets a
-        where a.id = v.snapshot_asset_id
-           or a.id in (select x.asset_id from public.project_version_assets x where x.version_id = v.id)
-     )
-   where v.id = p_version_id;
+  perform private.size_version(p_version_id);
 end
 $$;
 
@@ -236,6 +252,67 @@ begin
 end
 $$;
 
+-- The draft revision the caller last saw must still be current (null never matches): otherwise another tab or device
+-- saved or cleared the working copy since, and writing now would drop that work unseen.
+create or replace function private.require_draft_rev(p_project public.projects, p_expected_draft_rev bigint)
+returns void
+language plpgsql
+set search_path = ''
+as $$
+begin
+  if p_expected_draft_rev is distinct from p_project.draft_rev then
+    perform private.raise_error('draft_conflict', 409, json_build_object('draft_rev', p_project.draft_rev)::text);
+  end if;
+end
+$$;
+
+-- At most 1 000 versions per project (DESIGN.md §15.4); p_needed is how many the caller is about to add. Callers hold
+-- the project lock, so the count is exact.
+create or replace function private.require_version_room(p_project_id uuid, p_needed integer default 1)
+returns void
+language plpgsql
+stable
+set search_path = ''
+as $$
+begin
+  if (select count(*) from public.project_versions v where v.project_id = p_project_id) + p_needed > 1000 then
+    perform private.raise_error('limit_reached', 403, 'at most 1000 versions per project');
+  end if;
+end
+$$;
+
+-- Putting a project back from the trash must respect the plan's project limit like creating one does (otherwise
+-- trash → create → restore exceeds it). Same per-account lock as create_project / duplicate_project.
+create or replace function private.check_project_untrash()
+returns trigger
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare
+  v_max integer;
+  v_count integer;
+begin
+  if old.trashed_at is not null and new.trashed_at is null then
+    perform pg_advisory_xact_lock(hashtextextended('viscera.projects:' || new.owner_id::text, 0));
+    select pl.max_projects into v_max
+      from public.profiles pr join public.plans pl on pl.id = pr.plan_id where pr.id = new.owner_id;
+    if not found then
+      perform private.raise_error('not_found', 404, 'profile');
+    end if;
+    select count(*) into v_count from public.projects p where p.owner_id = new.owner_id and p.trashed_at is null;
+    if v_count >= v_max then
+      perform private.raise_error('limit_reached', 403, format('at most %s projects on this plan', v_max));
+    end if;
+  end if;
+  return new;
+end
+$$;
+create trigger projects_check_untrash
+  before update of trashed_at on public.projects
+  for each row execute function private.check_project_untrash();
+
+-- Drops the working copy and moves draft_rev on by one (also when there was no draft).
 create or replace function private.clear_draft(p_project_id uuid)
 returns void
 language plpgsql
@@ -245,9 +322,22 @@ begin
   delete from public.project_draft_assets d where d.project_id = p_project_id;
   update public.projects p
      set draft_asset_id = null, draft_state_sha256 = null, draft_thumbnail_asset_id = null,
+         draft_lab_schema_version = null, draft_app_build = null,
          draft_saved_at = null, draft_rev = p.draft_rev + 1
    where p.id = p_project_id;
 end
+$$;
+
+-- The answer of commit_version and restore_version: {project, version} as the tables' rows.
+create or replace function private.project_and_version(p_project_id uuid, p_version_id uuid)
+returns jsonb
+language sql
+set search_path = ''
+as $$
+  select jsonb_build_object(
+    'project', (select to_jsonb(p) from public.projects p where p.id = p_project_id),
+    'version', (select to_jsonb(v) from public.project_versions v where v.id = p_version_id)
+  )
 $$;
 
 -- RPCs -----------------------------------------------------------------------------------------------------------
@@ -286,6 +376,9 @@ begin
     perform private.raise_error('invalid_input', 422, 'description');
   end if;
   perform private.require_sha256(p_state_sha256, 'state_sha256');
+  if p_snapshot_asset_id is null then
+    perform private.raise_error('invalid_input', 422, 'snapshot_asset_id');
+  end if;
   if p_lab_schema_version is null or p_lab_schema_version not between 1 and 1000000 then
     perform private.raise_error('invalid_input', 422, 'lab_schema_version');
   end if;
@@ -335,7 +428,9 @@ create or replace function public.save_draft(
   p_snapshot_asset_id uuid,
   p_state_sha256 text,
   p_thumbnail_asset_id uuid default null,
-  p_attachments jsonb default '[]'::jsonb
+  p_attachments jsonb default '[]'::jsonb,
+  p_lab_schema_version integer default null,
+  p_app_build text default null
 )
 returns public.projects
 language plpgsql
@@ -348,10 +443,17 @@ declare
 begin
   v_project := private.lock_own_project(v_uid, p_project_id);
   perform private.require_head(v_project, p_expected_head_version_id);
-  if p_expected_draft_rev is distinct from v_project.draft_rev then
-    perform private.raise_error('draft_conflict', 409, json_build_object('draft_rev', v_project.draft_rev)::text);
-  end if;
+  perform private.require_draft_rev(v_project, p_expected_draft_rev);
   perform private.require_sha256(p_state_sha256, 'state_sha256');
+  if p_snapshot_asset_id is null then
+    perform private.raise_error('invalid_input', 422, 'snapshot_asset_id');
+  end if;
+  if p_lab_schema_version is not null and p_lab_schema_version not between 1 and 1000000 then
+    perform private.raise_error('invalid_input', 422, 'lab_schema_version');
+  end if;
+  if p_app_build is not null and char_length(p_app_build) not between 1 and 64 then
+    perform private.raise_error('invalid_input', 422, 'app_build');
+  end if;
   perform private.ready_asset_size(v_uid, p_snapshot_asset_id, 'snapshot_asset_id');
   perform private.ready_asset_size(v_uid, p_thumbnail_asset_id, 'thumbnail_asset_id');
 
@@ -363,6 +465,8 @@ begin
      set draft_asset_id = p_snapshot_asset_id,
          draft_state_sha256 = p_state_sha256,
          draft_thumbnail_asset_id = p_thumbnail_asset_id,
+         draft_lab_schema_version = p_lab_schema_version,
+         draft_app_build = p_app_build,
          draft_rev = p.draft_rev + 1,
          draft_saved_at = now(),
          updated_at = now(),
@@ -372,7 +476,7 @@ begin
   return v_project;
 end
 $$;
-comment on function public.save_draft(uuid, uuid, bigint, uuid, text, uuid, jsonb) is
+comment on function public.save_draft(uuid, uuid, bigint, uuid, text, uuid, jsonb, integer, text) is
   'Autosave: replaces the working copy. 409 version_conflict if the head moved, draft_conflict if the draft did.';
 
 create or replace function public.discard_draft(p_project_id uuid, p_expected_draft_rev bigint)
@@ -386,9 +490,7 @@ declare
   v_project public.projects;
 begin
   v_project := private.lock_own_project(v_uid, p_project_id);
-  if p_expected_draft_rev is distinct from v_project.draft_rev then
-    perform private.raise_error('draft_conflict', 409, json_build_object('draft_rev', v_project.draft_rev)::text);
-  end if;
+  perform private.require_draft_rev(v_project, p_expected_draft_rev);
   perform private.clear_draft(p_project_id);
   update public.projects p
      set thumbnail_asset_id = coalesce(
@@ -403,6 +505,7 @@ $$;
 create or replace function public.commit_version(
   p_project_id uuid,
   p_expected_head_version_id uuid,
+  p_expected_draft_rev bigint,
   p_kind text,
   p_snapshot_asset_id uuid,
   p_state_sha256 text,
@@ -412,7 +515,7 @@ create or replace function public.commit_version(
   p_app_build text default null,
   p_attachments jsonb default '[]'::jsonb
 )
-returns public.project_versions
+returns jsonb
 language plpgsql
 security definer
 set search_path = ''
@@ -425,6 +528,8 @@ declare
 begin
   v_project := private.lock_own_project(v_uid, p_project_id);
   perform private.require_head(v_project, p_expected_head_version_id);
+  -- the commit clears the draft: one saved meanwhile by another tab or device must not vanish unseen
+  perform private.require_draft_rev(v_project, p_expected_draft_rev);
   if p_kind is null or p_kind not in ('autosave', 'manual', 'named') then
     perform private.raise_error('invalid_input', 422, 'kind');
   end if;
@@ -435,6 +540,9 @@ begin
     perform private.raise_error('invalid_input', 422, 'label');
   end if;
   perform private.require_sha256(p_state_sha256, 'state_sha256');
+  if p_snapshot_asset_id is null then
+    perform private.raise_error('invalid_input', 422, 'snapshot_asset_id');
+  end if;
   if p_lab_schema_version is null or p_lab_schema_version not between 1 and 1000000 then
     perform private.raise_error('invalid_input', 422, 'lab_schema_version');
   end if;
@@ -443,6 +551,7 @@ begin
   end if;
   perform private.ready_asset_size(v_uid, p_snapshot_asset_id, 'snapshot_asset_id');
   perform private.ready_asset_size(v_uid, p_thumbnail_asset_id, 'thumbnail_asset_id');
+  perform private.require_version_room(p_project_id);
 
   insert into public.project_versions
     (project_id, owner_id, seq, parent_version_id, kind, label, snapshot_asset_id, state_sha256, thumbnail_asset_id,
@@ -459,19 +568,19 @@ begin
          updated_at = now(),
          thumbnail_asset_id = coalesce(p_thumbnail_asset_id, p.thumbnail_asset_id)
    where p.id = p_project_id;
-  select v.* into v_version from public.project_versions v where v.id = v_version.id;
-  return v_version;
+  return private.project_and_version(p_project_id, v_version.id);
 end
 $$;
-comment on function public.commit_version(uuid, uuid, text, uuid, text, text, uuid, integer, text, jsonb) is
-  'Creates the next version (autosave checkpoint, manual save or named version) and clears the draft.';
+comment on function public.commit_version(uuid, uuid, bigint, text, uuid, text, text, uuid, integer, text, jsonb) is
+  'Creates the next version (autosave checkpoint, manual save or named version), clears the draft; {project, version}.';
 
 create or replace function public.restore_version(
   p_project_id uuid,
   p_version_id uuid,
-  p_expected_head_version_id uuid
+  p_expected_head_version_id uuid,
+  p_expected_draft_rev bigint
 )
-returns public.project_versions
+returns jsonb
 language plpgsql
 security definer
 set search_path = ''
@@ -480,26 +589,57 @@ declare
   v_uid uuid := private.require_uid();
   v_project public.projects;
   v_source public.project_versions;
+  v_head_schema integer;
+  v_head_build text;
+  v_kept_id uuid;
+  v_parent_id uuid;
+  v_seq integer;
   v_version public.project_versions;
 begin
   v_project := private.lock_own_project(v_uid, p_project_id);
   perform private.require_head(v_project, p_expected_head_version_id);
+  perform private.require_draft_rev(v_project, p_expected_draft_rev);
+  -- locked so that retention cannot delete it, and with it the last reference to its files, while it is copied
   select v.* into v_source from public.project_versions v
-   where v.id = p_version_id and v.project_id = p_project_id and v.owner_id = v_uid;
+   where v.id = p_version_id and v.project_id = p_project_id and v.owner_id = v_uid
+     for key share;
   if not found then
     perform private.raise_error('not_found', 404, 'version');
+  end if;
+  perform private.require_version_room(p_project_id, case when v_project.draft_asset_id is null then 1 else 2 end);
+
+  v_parent_id := v_project.head_version_id;
+  v_seq := v_project.head_seq;
+  if v_project.draft_asset_id is not null then
+    -- the working copy is kept as an autosave version (with its attachments) before anything replaces it
+    -- what the lab did not report with the draft is taken from the head it was made on
+    select v.lab_schema_version, v.app_build into v_head_schema, v_head_build
+      from public.project_versions v where v.id = v_project.head_version_id;
+    insert into public.project_versions
+      (project_id, owner_id, seq, parent_version_id, kind, snapshot_asset_id, state_sha256, thumbnail_asset_id,
+       lab_schema_version, app_build)
+    values
+      (p_project_id, v_uid, v_seq + 1, v_parent_id, 'autosave', v_project.draft_asset_id, v_project.draft_state_sha256,
+       v_project.draft_thumbnail_asset_id, coalesce(v_project.draft_lab_schema_version, v_head_schema, 1),
+       coalesce(v_project.draft_app_build, v_head_build))
+    returning id into v_kept_id;
+    insert into public.project_version_assets (version_id, owner_id, name, asset_id)
+    select v_kept_id, v_uid, d.name, d.asset_id from public.project_draft_assets d where d.project_id = p_project_id;
+    perform private.size_version(v_kept_id);
+    v_parent_id := v_kept_id;
+    v_seq := v_seq + 1;
   end if;
 
   insert into public.project_versions
     (project_id, owner_id, seq, parent_version_id, kind, snapshot_asset_id, state_sha256, thumbnail_asset_id,
      restored_from_version_id, lab_schema_version, app_build, byte_size)
   values
-    (p_project_id, v_uid, v_project.head_seq + 1, v_project.head_version_id, 'restore', v_source.snapshot_asset_id,
-     v_source.state_sha256, v_source.thumbnail_asset_id, v_source.id, v_source.lab_schema_version,
-     v_source.app_build, v_source.byte_size)
+    (p_project_id, v_uid, v_seq + 1, v_parent_id, 'restore', v_source.snapshot_asset_id, v_source.state_sha256,
+     v_source.thumbnail_asset_id, v_source.id, v_source.lab_schema_version, v_source.app_build, v_source.byte_size)
   returning * into v_version;
   insert into public.project_version_assets (version_id, owner_id, name, asset_id)
   select v_version.id, v_uid, x.name, x.asset_id from public.project_version_assets x where x.version_id = v_source.id;
+  -- cleared once, after its content was kept: draft_rev moves on by exactly one
   perform private.clear_draft(p_project_id);
   update public.projects p
      set head_version_id = v_version.id,
@@ -507,11 +647,11 @@ begin
          updated_at = now(),
          thumbnail_asset_id = coalesce(v_source.thumbnail_asset_id, p.thumbnail_asset_id)
    where p.id = p_project_id;
-  return v_version;
+  return private.project_and_version(p_project_id, v_version.id);
 end
 $$;
-comment on function public.restore_version(uuid, uuid, uuid) is
-  'Non-destructive restore: a new head version that reuses the chosen version''s snapshot; clears the draft.';
+comment on function public.restore_version(uuid, uuid, uuid, bigint) is
+  'Non-destructive restore: keeps a draft as an autosave version, then a restore version reusing the chosen files becomes the head; {project, version}.';
 
 create or replace function public.label_version(p_version_id uuid, p_label text)
 returns public.project_versions
@@ -522,11 +662,18 @@ as $$
 declare
   v_uid uuid := private.require_uid();
   v_label text := nullif(btrim(coalesce(p_label, '')), '');
+  v_project_id uuid;
   v_version public.project_versions;
 begin
   if v_label is not null and char_length(v_label) > 120 then
     perform private.raise_error('invalid_input', 422, 'label');
   end if;
+  select v.project_id into v_project_id from public.project_versions v where v.id = p_version_id and v.owner_id = v_uid;
+  if not found then
+    perform private.raise_error('not_found', 404, 'version');
+  end if;
+  -- a trashed project's history is read-only; the project lock also orders this with delete_version
+  perform private.lock_own_project(v_uid, v_project_id);
   update public.project_versions v set label = v_label
    where v.id = p_version_id and v.owner_id = v_uid
   returning * into v_version;
@@ -546,15 +693,22 @@ set search_path = ''
 as $$
 declare
   v_uid uuid := private.require_uid();
+  v_project_id uuid;
+  v_project public.projects;
   v_version public.project_versions;
-  v_head uuid;
 begin
-  select v.* into v_version from public.project_versions v where v.id = p_version_id and v.owner_id = v_uid;
+  select v.project_id into v_project_id from public.project_versions v where v.id = p_version_id and v.owner_id = v_uid;
   if not found then
     perform private.raise_error('not_found', 404, 'version');
   end if;
-  select p.head_version_id into v_head from public.projects p where p.id = v_version.project_id for update;
-  if v_head = v_version.id then
+  -- a trashed project's history is read-only
+  v_project := private.lock_own_project(v_uid, v_project_id);
+  -- read under the project lock, so a name given meanwhile (label_version takes the same lock) is seen
+  select v.* into v_version from public.project_versions v where v.id = p_version_id;
+  if not found then
+    perform private.raise_error('not_found', 404, 'version');
+  end if;
+  if v_project.head_version_id = v_version.id then
     perform private.raise_error('invalid_input', 422, 'the current version cannot be deleted');
   end if;
   if v_version.label is not null then
@@ -587,9 +741,11 @@ begin
   if not found then
     perform private.raise_error('not_found', 404, 'project');
   end if;
+  -- locked so that retention cannot delete it, and with it the last reference to its files, while it is copied
   select v.* into v_source from public.project_versions v
    where v.id = coalesce(p_version_id, v_source_project.head_version_id)
-     and v.project_id = p_project_id and v.owner_id = v_uid;
+     and v.project_id = p_project_id and v.owner_id = v_uid
+     for key share;
   if not found then
     perform private.raise_error('not_found', 404, 'version');
   end if;
@@ -597,6 +753,9 @@ begin
   perform pg_advisory_xact_lock(hashtextextended('viscera.projects:' || v_uid::text, 0));
   select pl.max_projects into v_max
     from public.profiles pr join public.plans pl on pl.id = pr.plan_id where pr.id = v_uid;
+  if not found then
+    perform private.raise_error('not_found', 404, 'profile');
+  end if;
   select count(*) into v_count from public.projects p where p.owner_id = v_uid and p.trashed_at is null;
   if v_count >= v_max then
     perform private.raise_error('limit_reached', 403, format('at most %s projects on this plan', v_max));

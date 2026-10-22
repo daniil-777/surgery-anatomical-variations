@@ -1,0 +1,8 @@
+-- VISCERA account platform: seed for `supabase db reset` (config.toml [db.seed] sql_paths = ["./seed.sql"]).
+--
+-- Intentionally empty. The migrations already create everything the platform needs to run (the free and pro plans,
+-- the private user-content bucket and its policies), so a reset database is complete without a seed.
+--
+-- Accounts are never seeded: no users, passwords, tokens or keys belong in this repository. For a local database,
+-- sign up in the app or create a user with the Admin API and the local service key that `supabase status` prints.
+-- The production owner account is created by scripts/platform/provision.mjs (see docs/platform/OPERATIONS.md).

@@ -1,0 +1,269 @@
+/* VISCERA px tokens v1 (docs/platform/APPLE_STYLE_SPEC.md §1.3). Every custom property uses the --px- prefix.
+   Colours use light-dark(), which resolves against the color-scheme of the element that uses the token: forced-dark
+   subtrees (lab routes, HUDs) are correct without derived tokens. Theme attributes live on <html> (px-base.css). */
+:root {
+  /* 1 · Reference palette: HIG "System colors" 2025+ (light, dark) */
+  --px-system-red:    light-dark(#FF383C, #FF4245);
+  --px-system-orange: light-dark(#FF8D28, #FF9230);
+  --px-system-yellow: light-dark(#FFCC00, #FFD600);
+  --px-system-green:  light-dark(#34C759, #30D158);
+  --px-system-mint:   light-dark(#00C8B3, #00DAC3);
+  --px-system-teal:   light-dark(#00C3D0, #00D2E0);
+  --px-system-cyan:   light-dark(#00C0E8, #3CD3FE);
+  --px-system-blue:   light-dark(#0088FF, #0091FF);
+  --px-system-indigo: light-dark(#6155F5, #6D7CFF);
+  --px-system-purple: light-dark(#CB30E0, #DB34F2);
+  --px-system-pink:   light-dark(#FF2D55, #FF375F);
+  --px-system-brown:  light-dark(#AC7F5E, #B78A66);
+  --px-system-gray:   #8E8E93;
+  --px-system-gray2:  light-dark(#AEAEB2, #636366);
+  --px-system-gray3:  light-dark(#C7C7CC, #48484A);
+  --px-system-gray4:  light-dark(#D1D1D6, #3A3A3C);
+  --px-system-gray5:  light-dark(#E5E5EA, #2C2C2E);
+  --px-system-gray6:  light-dark(#F2F2F7, #1C1C1E);
+
+  /* 2 · Labels (AppKit label colours; secondary raised to .56 in light for AA) */
+  --px-label:             light-dark(rgba(0,0,0,.85), rgba(255,255,255,.85));
+  --px-label-secondary:   light-dark(rgba(0,0,0,.56), rgba(255,255,255,.55));
+  --px-label-tertiary:    light-dark(rgba(0,0,0,.26), rgba(255,255,255,.25));
+  --px-label-quaternary:  light-dark(rgba(0,0,0,.10), rgba(255,255,255,.10));
+  --px-placeholder:       light-dark(rgba(0,0,0,.25), rgba(255,255,255,.25));
+  --px-label-on-fill:     #FFFFFF;
+  --px-label-hud:         #FFFFFF;
+  --px-label-hud-secondary: rgba(255,255,255,.70);
+  --px-text-selection:    light-dark(#B3D7FF, #3F638B);   /* selectedTextBackgroundColor */
+
+  /* 3 · Separators & strokes */
+  --px-hairline:          1px;
+  --px-separator:         light-dark(rgba(0,0,0,.10), rgba(255,255,255,.10));
+  --px-separator-opaque:  light-dark(#C6C6C8, #38383A);
+  --px-border-control:    light-dark(rgba(0,0,0,.14), rgba(255,255,255,.12));
+  --px-border-checkbox:   light-dark(rgba(0,0,0,.28), rgba(255,255,255,.30));
+  --px-image-outline:     light-dark(rgba(0,0,0,.10), rgba(255,255,255,.10));
+
+  /* 4 · Backgrounds */
+  --px-bg-window:         light-dark(#ECECEC, #323232);
+  --px-bg-content:        light-dark(#FFFFFF, #1E1E1E);
+  --px-bg-content-alt:    light-dark(#F4F5F5, #292929);
+  --px-bg-underpage:      light-dark(#9F9F9F, #292929);
+  --px-bg-grouped:        light-dark(#F2F2F7, #1C1C1E);
+  --px-bg-grouped-row:    light-dark(#FFFFFF, #2C2C2E);
+  --px-bg-elevated:       light-dark(#FFFFFF, #2C2C2E);
+  --px-bg-control:        light-dark(#FFFFFF, rgba(255,255,255,.10));
+  --px-bg-control-hover:  light-dark(#F7F7F8, rgba(255,255,255,.14));
+  --px-bg-control-pressed:light-dark(#EBEBED, rgba(255,255,255,.20));
+  --px-bg-field:          light-dark(#FFFFFF, rgba(255,255,255,.05));
+  --px-bg-thumb:          light-dark(#F2F2F7, #2C2C2E);
+  --px-bg-stage:          #18181A;
+  --px-bg-banner-danger:  light-dark(#FDECEC, rgba(255,66,69,.14));
+
+  /* 5 · Fills (UIKit systemFill family) */
+  --px-fill:              light-dark(rgba(120,120,128,.20), rgba(120,120,128,.36));
+  --px-fill-secondary:    light-dark(rgba(120,120,128,.16), rgba(120,120,128,.32));
+  --px-fill-tertiary:     light-dark(rgba(118,118,128,.12), rgba(118,118,128,.24));
+  --px-fill-quaternary:   light-dark(rgba(116,116,128,.08), rgba(118,118,128,.18));
+
+  /* 6 · Accent, selection, focus */
+  --px-accent:            light-dark(#0071E3, #0091FF);
+  --px-accent-text:       light-dark(#0062CC, #5CB8FF);
+  --px-accent-fill:       #0071E3;
+  --px-accent-fill-hover: #0066CC;
+  --px-accent-fill-pressed: #005BB5;
+  --px-accent-tint:       light-dark(rgba(0,113,227,.12), rgba(0,145,255,.20));
+  --px-selection:         light-dark(#0063E1, #0058D0);
+  --px-selection-unemphasized: light-dark(#DCDCDC, #464646);
+  --px-focus-ring:        var(--px-accent);
+  --px-focus-halo:        light-dark(rgba(0,113,227,.25), rgba(0,145,255,.35));
+
+  /* 7 · Status */
+  --px-danger:            var(--px-system-red);
+  --px-danger-text:       light-dark(#CC0014, #FF8285);
+  --px-danger-text-control: light-dark(#CC0014, #FF8E90);  /* on control fills over raised panels: 4.6:1 on #414143 */
+  --px-danger-fill:       #E9152D;  --px-danger-fill-hover: #D70015;  --px-danger-fill-pressed: #C40012;
+  --px-success:           var(--px-system-green);
+  --px-success-text:      light-dark(#00752B, #30D158);
+  --px-warning:           var(--px-system-orange);
+  --px-warning-text:      light-dark(#AD4800, #FFA056);
+  --px-caution:           var(--px-system-yellow);
+
+  /* 8 · Identity (fixed colours with meaning, used sparingly) */
+  --px-brand:             #FF5C6C;
+  --px-lab-organ:         var(--px-system-pink);
+  --px-lab-tissue:        var(--px-system-orange);
+  --px-lab-fat:           var(--px-system-yellow);
+  --px-lab-blood:         var(--px-system-red);
+  --px-lab-physics:       var(--px-system-indigo);
+
+  /* 9 · Typography (font sizes only ever through these properties) */
+  --px-font-sans:    -apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, "Inter Variable", "Segoe UI Variable Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --px-font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", Inter, "Inter Variable", "Segoe UI Variable Display", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --px-font-mono:    ui-monospace, "SF Mono", SFMono-Regular, "JetBrains Mono", Menlo, Consolas, monospace;
+  --px-text-scale:   var(--ui-text-scale, 1);
+  --px-fw-regular: 400; --px-fw-medium: 500; --px-fw-semibold: 600; --px-fw-bold: 700; --px-fw-heavy: 800;
+  --px-fs-large-title: calc(26px * var(--px-text-scale)); --px-lh-large-title: calc(32px * var(--px-text-scale));
+  --px-fs-title1:      calc(22px * var(--px-text-scale)); --px-lh-title1:      calc(26px * var(--px-text-scale));
+  --px-fs-title2:      calc(17px * var(--px-text-scale)); --px-lh-title2:      calc(22px * var(--px-text-scale));
+  --px-fs-title3:      calc(15px * var(--px-text-scale)); --px-lh-title3:      calc(20px * var(--px-text-scale));
+  --px-fs-headline:    calc(13px * var(--px-text-scale)); --px-lh-headline:    calc(16px * var(--px-text-scale));
+  --px-fs-body:        calc(13px * var(--px-text-scale)); --px-lh-body:        calc(16px * var(--px-text-scale));
+  --px-fs-callout:     calc(12px * var(--px-text-scale)); --px-lh-callout:     calc(15px * var(--px-text-scale));
+  --px-fs-subheadline: max(10px, calc(11px * var(--px-text-scale))); --px-lh-subheadline: max(13px, calc(14px * var(--px-text-scale)));
+  --px-fs-footnote:    max(10px, calc(10px * var(--px-text-scale))); --px-lh-footnote:    max(13px, calc(13px * var(--px-text-scale)));
+  --px-fs-caption:     max(10px, calc(10px * var(--px-text-scale))); --px-lh-caption:     max(13px, calc(13px * var(--px-text-scale)));
+  --px-fs-input:       var(--px-fs-body);
+  --px-fs-input-auth:  calc(15px * var(--px-text-scale));
+  --px-tr-large-title: .008em; --px-tr-title1: -.012em; --px-tr-title2: -.026em; --px-tr-title3: -.016em;
+  --px-tr-headline: -.006em; --px-tr-body: -.006em; --px-tr-callout: 0em; --px-tr-subheadline: .006em;
+  --px-tr-footnote: .012em; --px-tr-caption: .012em;
+
+  /* 10 · Spacing (named by pixel value) */
+  --px-space-2: 2px; --px-space-4: 4px; --px-space-6: 6px; --px-space-8: 8px; --px-space-10: 10px;
+  --px-space-12: 12px; --px-space-16: 16px; --px-space-20: 20px; --px-space-24: 24px; --px-space-32: 32px;
+  --px-space-40: 40px; --px-space-48: 48px; --px-space-64: 64px;
+
+  /* 11 · Sizes */
+  --px-toolbar-h: 52px;  --px-toolbar-item-h: 36px;  --px-panel-inset: 8px;
+  --px-sidebar-w: 240px; --px-sidebar-w-min: 220px; --px-sidebar-w-max: 260px; --px-sidebar-row-h: 28px;
+  --px-inspector-w: 280px; --px-inspector-w-min: 240px; --px-inspector-w-max: 360px;
+  --px-version-panel-w: 320px;
+  --px-ctl-h-sm: 20px; --px-ctl-h-md: 24px; --px-ctl-h-lg: 28px; --px-ctl-h-xl: 36px; --px-ctl-h-auth: 40px;
+  --px-row-h: 28px; --px-menu-row-h: 24px;
+  --px-hit-min: 24px;
+  --px-icon-sm: 12px; --px-icon-md: 16px; --px-icon-lg: 20px; --px-icon-toolbar: 17px;
+  --px-content-pad-x: 24px; --px-content-pad-top: 20px;
+  --px-tile-min: 168px;
+
+  /* 12 · Radii (concentric map in §1.4) */
+  --px-radius-window: 26px;  --px-radius-panel: 18px;  --px-radius-sheet: 20px;
+  --px-radius-popover: 14px; --px-radius-menu: 12px;   --px-radius-menu-item: 7px;
+  --px-radius-card: 14px;    --px-radius-thumb: 10px;  --px-radius-sidebar-item: 8px;
+  --px-radius-control-sm: 5px; --px-radius-control: 7px; --px-radius-field-xl: 10px;
+  --px-radius-small: 4px;    --px-radius-capsule: 9999px;
+
+  /* 13 · Materials (tint · filter · solid fallback); --px-glass-k is the user's glass level */
+  --px-glass-k: 1;
+  --px-mat-sidebar:        light-dark(rgb(226 226 232 / min(1, .70 * var(--px-glass-k))), rgb(46 46 50 / min(1, .70 * var(--px-glass-k))));
+  --px-mat-sidebar-solid:  light-dark(#EBEBEF, #29292C);
+  --px-mat-sidebar-filter: blur(30px) saturate(180%);
+  --px-mat-toolbar-item:        light-dark(rgb(255 255 255 / min(1, .72 * var(--px-glass-k))), rgb(64 64 68 / min(1, .62 * var(--px-glass-k))));
+  --px-mat-toolbar-item-solid:  light-dark(#FFFFFF, #3A3A3C);
+  --px-mat-toolbar-filter:      blur(20px) saturate(180%);
+  --px-mat-bar:            light-dark(rgb(250 250 252 / min(1, .80 * var(--px-glass-k))), rgb(30 30 32 / min(1, .78 * var(--px-glass-k))));
+  --px-mat-bar-solid:      light-dark(#FAFAFC, #1F1F21);
+  --px-mat-bar-filter:     blur(24px) saturate(180%);
+  --px-mat-popover:        light-dark(rgb(246 246 248 / min(1, .82 * max(1, var(--px-glass-k)))), rgb(50 50 54 / min(1, .82 * max(1, var(--px-glass-k)))));
+  --px-mat-popover-solid:  light-dark(#F6F6F8, #2E2E31);
+  --px-mat-popover-filter: blur(40px) saturate(180%);
+  --px-mat-sheet:          light-dark(rgb(248 248 250 / .88), rgb(44 44 48 / .90));
+  --px-mat-sheet-solid:    light-dark(#F5F5F7, #2C2C2E);
+  --px-mat-sheet-filter:   blur(50px) saturate(180%);
+  --px-mat-hud:            rgb(28 28 30 / .80);
+  --px-mat-hud-solid:      #1C1C1E;
+  --px-mat-hud-filter:     blur(24px) saturate(160%);
+  --px-mat-scrim:          light-dark(rgba(0,0,0,.20), rgba(0,0,0,.45));
+  --px-glass-edge:         light-dark(rgba(0,0,0,.10), rgba(0,0,0,.55));
+  --px-glass-highlight:    light-dark(rgba(255,255,255,.80), rgba(255,255,255,.14));
+
+  /* 14 · Shadows / elevation */
+  --px-inner-highlight: inset 0 var(--px-hairline) 0 var(--px-glass-highlight);
+  --px-shadow-1: 0 0 0 var(--px-hairline) var(--px-border-control), 0 1px 1.5px light-dark(rgba(0,0,0,.10), rgba(0,0,0,.40));
+  --px-shadow-2: 0 1px 3px light-dark(rgba(0,0,0,.08), rgba(0,0,0,.35)), 0 6px 16px light-dark(rgba(0,0,0,.08), rgba(0,0,0,.30));
+  --px-shadow-3: 0 0 0 var(--px-hairline) var(--px-glass-edge), 0 4px 10px light-dark(rgba(0,0,0,.08), rgba(0,0,0,.30)), 0 12px 32px light-dark(rgba(0,0,0,.14), rgba(0,0,0,.45));
+  --px-shadow-4: 0 0 0 var(--px-hairline) var(--px-glass-edge), 0 2px 8px light-dark(rgba(0,0,0,.06), rgba(0,0,0,.30)), 0 12px 32px light-dark(rgba(0,0,0,.08), rgba(0,0,0,.35));
+  --px-shadow-5: 0 0 0 var(--px-hairline) var(--px-glass-edge), 0 8px 24px light-dark(rgba(0,0,0,.10), rgba(0,0,0,.35)), 0 24px 64px light-dark(rgba(0,0,0,.18), rgba(0,0,0,.55));
+  --px-shadow-6: 0 0 0 var(--px-hairline) var(--px-glass-edge), 0 12px 32px light-dark(rgba(0,0,0,.10), rgba(0,0,0,.35)), 0 32px 80px light-dark(rgba(0,0,0,.20), rgba(0,0,0,.60));
+  --px-shadow-thumb: 0 1px 2px light-dark(rgba(0,0,0,.12), rgba(0,0,0,.30)), 0 0 0 .5px light-dark(rgba(0,0,0,.04), rgba(0,0,0,.20));
+  --px-shadow-knob: 0 1px 2px rgba(0,0,0,.2), 0 0 0 .5px rgba(0,0,0,.04);
+  --px-shadow-field: inset 0 .5px 1px light-dark(rgba(0,0,0,.06), transparent);
+
+  /* Component surfaces the spec gives inline (§2.4, §2.14, §2.16) */
+  --px-seg-thumb:         light-dark(#FFFFFF, #636366);
+  --px-seg-thumb-toolbar: light-dark(rgb(255 255 255 / .9), rgb(255 255 255 / .16));
+  --px-skeleton-shimmer:  light-dark(rgba(255,255,255,.55), rgba(255,255,255,.06));
+  --px-avatar-fill:       linear-gradient(180deg, #A5ABB8, #858994);
+
+  /* 15 · Motion (Core Animation curves + numerically fitted springs) */
+  --px-dur-press: 90ms; --px-dur-fast: 150ms; --px-dur-base: 200ms; --px-dur-medium: 250ms; --px-dur-slow: 350ms;
+  --px-ease-default:    cubic-bezier(.25,.1,.25,1);
+  --px-ease-in:         cubic-bezier(.42,0,1,1);
+  --px-ease-out:        cubic-bezier(0,0,.58,1);
+  --px-ease-in-out:     cubic-bezier(.42,0,.58,1);
+  --px-ease-emphasized: cubic-bezier(.32,.72,0,1);
+  --px-spring-smooth: linear(0, 0.004 1%, 0.019 2.2%, 0.079 5%, 0.161 7.8%, 0.465 17%, 0.557 20.2%, 0.638 23.5%, 0.706 26.8%, 0.767 30.2%, 0.817 33.8%, 0.86 37.5%, 0.899 42%, 0.929 46.8%, 0.953 52.2%, 0.971 58.5%, 0.991 73.8%, 1);
+  --px-dur-spring-smooth: 515ms;
+  --px-spring-snappy: linear(0, 0.006 1.2%, 0.025 2.8%, 0.056 4.2%, 0.095 5.8%, 0.19 8.8%, 0.511 18%, 0.61 21.2%, 0.695 24.5%, 0.762 27.5%, 0.823 30.8%, 0.871 34%, 0.912 37.5%, 0.944 41.2%, 0.97 45.5%, 0.988 50.2%, 1 55.8%, 1.006 68%, 1);
+  --px-dur-spring-snappy: 490ms;
+  --px-spring-bouncy: linear(0, 0.008 1.2%, 0.029 2.5%, 0.062 3.8%, 0.112 5.2%, 0.215 7.8%, 0.482 13.5%, 0.592 16%, 0.701 18.8%, 0.785 21.2%, 0.857 23.8%, 0.919 26.5%, 0.966 29.2%, 1.003 32.2%, 1.035 37%, 1.046 42.8%, 1.003 70.5%, 1);
+  --px-dur-spring-bouncy: 740ms;
+  --px-press-scale: .97;  --px-motion-distance: 8px;  --px-motion-scale-from: .98;
+
+  /* 16 · Z-index (in-flow only; overlays use the top layer) */
+  --px-z-base: 0; --px-z-raised: 1; --px-z-sticky: 10; --px-z-toolbar: 20; --px-z-sidebar: 30; --px-z-inspector: 30;
+  --px-z-floating-panel: 40; --px-z-drop-overlay: 50; --px-z-popover: 1000; --px-z-sheet: 1100; --px-z-toast: 1200;
+  --px-z-tooltip: 1300; --px-z-drag-ghost: 1400;
+}
+
+/* Inter fallback: Inter dynamic-metrics tracking */
+:root[data-px-font="inter"] {
+  --px-tr-large-title: -.020em; --px-tr-title1: -.018em; --px-tr-title2: -.013em; --px-tr-title3: -.009em;
+  --px-tr-headline: -.003em; --px-tr-body: -.003em; --px-tr-callout: 0em; --px-tr-subheadline: .005em;
+  --px-tr-footnote: .010em; --px-tr-caption: .010em;
+}
+@media (min-resolution: 2dppx) { :root { --px-hairline: .5px; } }
+
+/* Glass level (Account ▸ Appearance ▸ Glass), mirrors the macOS 27 transparency slider */
+:root[data-px-glass="clear"]  { --px-glass-k: .65; }
+:root[data-px-glass="tinted"] { --px-glass-k: 1.36; }
+
+/* Solid materials: no backdrop support / Reduce Transparency (system or manual) */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { :root {
+  --px-mat-sidebar: var(--px-mat-sidebar-solid); --px-mat-toolbar-item: var(--px-mat-toolbar-item-solid);
+  --px-mat-bar: var(--px-mat-bar-solid); --px-mat-popover: var(--px-mat-popover-solid);
+  --px-mat-sheet: var(--px-mat-sheet-solid); --px-mat-hud: var(--px-mat-hud-solid); } }
+@media (prefers-reduced-transparency: reduce) { :root {
+  --px-mat-sidebar: var(--px-mat-sidebar-solid); --px-mat-toolbar-item: var(--px-mat-toolbar-item-solid);
+  --px-mat-bar: var(--px-mat-bar-solid); --px-mat-popover: var(--px-mat-popover-solid);
+  --px-mat-sheet: var(--px-mat-sheet-solid); --px-mat-hud: var(--px-mat-hud-solid);
+  --px-mat-sidebar-filter: none; --px-mat-toolbar-filter: none; --px-mat-bar-filter: none;
+  --px-mat-popover-filter: none; --px-mat-sheet-filter: none; --px-mat-hud-filter: none; } }
+:root[data-px-transparency="reduce"] {
+  --px-mat-sidebar: var(--px-mat-sidebar-solid); --px-mat-toolbar-item: var(--px-mat-toolbar-item-solid);
+  --px-mat-bar: var(--px-mat-bar-solid); --px-mat-popover: var(--px-mat-popover-solid);
+  --px-mat-sheet: var(--px-mat-sheet-solid); --px-mat-hud: var(--px-mat-hud-solid);
+  --px-mat-sidebar-filter: none; --px-mat-toolbar-filter: none; --px-mat-bar-filter: none;
+  --px-mat-popover-filter: none; --px-mat-sheet-filter: none; --px-mat-hud-filter: none; }
+
+/* Increase Contrast: HIG increased-contrast values + solid materials + stronger strokes */
+@media (prefers-contrast: more) { :root {
+  --px-system-red: light-dark(#E9152D, #FF6165);    --px-system-orange: light-dark(#C55300, #FFA056);
+  --px-system-yellow: light-dark(#A16A00, #FEDF43); --px-system-green: light-dark(#008932, #4AD968);
+  --px-system-mint: light-dark(#008575, #54DFCB);   --px-system-teal: light-dark(#008198, #3BDDEC);
+  --px-system-cyan: light-dark(#007EAE, #6DD9FF);   --px-system-blue: light-dark(#1E6EF4, #5CB8FF);
+  --px-system-indigo: light-dark(#564ADE, #A7AAFF); --px-system-purple: light-dark(#B02FC2, #EA8DFF);
+  --px-system-pink: light-dark(#E7124D, #FF8AC4);   --px-system-brown: light-dark(#956D51, #DBA679);
+  --px-system-gray: light-dark(#6C6C70, #AEAEB2);   --px-system-gray2: light-dark(#8E8E93, #7C7C80);
+  --px-system-gray3: light-dark(#AEAEB2, #545456);  --px-system-gray4: light-dark(#BCBCC0, #444446);
+  --px-system-gray5: light-dark(#D8D8DC, #363638);  --px-system-gray6: light-dark(#EBEBF0, #242426);
+  --px-label-secondary: light-dark(rgba(0,0,0,.70), rgba(255,255,255,.72));
+  --px-separator: light-dark(rgba(0,0,0,.30), rgba(255,255,255,.30));
+  --px-border-control: light-dark(rgba(0,0,0,.45), rgba(255,255,255,.45));
+  --px-glass-edge: light-dark(rgba(0,0,0,.35), rgba(255,255,255,.35));
+  --px-mat-sidebar: var(--px-mat-sidebar-solid); --px-mat-toolbar-item: var(--px-mat-toolbar-item-solid);
+  --px-mat-bar: var(--px-mat-bar-solid); --px-mat-popover: var(--px-mat-popover-solid);
+  --px-mat-sheet: var(--px-mat-sheet-solid); --px-mat-hud: var(--px-mat-hud-solid);
+  /* solid materials gain nothing from a blur that cannot show through: skip the GPU work */
+  --px-mat-sidebar-filter: none; --px-mat-toolbar-filter: none; --px-mat-bar-filter: none;
+  --px-mat-popover-filter: none; --px-mat-sheet-filter: none; --px-mat-hud-filter: none; } }
+
+/* Reduced motion: replace slides with fades, no scale, springs become 150 ms ease-out */
+@media (prefers-reduced-motion: reduce) { :root {
+  --px-dur-slow: 200ms; --px-dur-medium: 150ms;
+  --px-spring-smooth: var(--px-ease-out); --px-spring-snappy: var(--px-ease-out); --px-spring-bouncy: var(--px-ease-out);
+  --px-dur-spring-smooth: 150ms; --px-dur-spring-snappy: 150ms; --px-dur-spring-bouncy: 150ms;
+  --px-press-scale: 1; --px-motion-distance: 0px; --px-motion-scale-from: 1; } }
+
+/* Density & touch (components read the base size tokens directly; never alias size tokens at :root) */
+[data-px-density="compact"] { --px-ctl-h-sm: 18px; --px-ctl-h-md: 22px; --px-ctl-h-lg: 26px; --px-ctl-h-xl: 32px;
+  --px-row-h: 24px; --px-sidebar-row-h: 24px; --px-menu-row-h: 22px; }
+@media (pointer: coarse) { :root { --px-ctl-h-sm: 28px; --px-ctl-h-md: 36px; --px-ctl-h-lg: 44px; --px-ctl-h-xl: 50px;
+  --px-row-h: 44px; --px-sidebar-row-h: 44px; --px-menu-row-h: 44px; --px-hit-min: 44px; --px-fs-input: 16px; --px-fs-input-auth: 16px; } }

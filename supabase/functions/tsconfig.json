@@ -1,0 +1,16 @@
+// Node-side typecheck of the Edge Functions and their tests:
+//   node node_modules/typescript/bin/tsc --noEmit -p supabase/functions/tsconfig.json
+// Deno does not read this file. The npm: path points tsc at the supabase-js the studio installs (the same version).
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "types": [],
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "paths": {
+      "npm:@supabase/supabase-js@2.118.0": ["../../apps/studio/node_modules/@supabase/supabase-js"]
+    }
+  },
+  "include": ["**/*.ts", "../tests/functions/*.test.ts"]
+}

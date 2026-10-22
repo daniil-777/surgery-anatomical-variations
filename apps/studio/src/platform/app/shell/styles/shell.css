@@ -1,0 +1,105 @@
+/* The shell frame and the page primitives shared by Home, Trash and Settings (APPLE_STYLE_SPEC §2.1, §2.15, §3.2).
+   Tokens only; font sizes only through --px-fs-* properties. */
+
+/* the page toolbar's portal target sits in AppLayout's header as if it were the toolbar itself */
+.px-shell-toolbar-slot { display: contents; }
+
+.px-shell-boot {
+  display: grid;
+  place-items: center;
+  min-height: 100dvh;
+  color: var(--px-label-secondary);
+  background: var(--px-bg-content);
+}
+.px-shell-boot--stage { color-scheme: dark; background: var(--px-bg-stage); color: var(--px-label-secondary); }
+.px-shell-loading { display: grid; place-items: center; min-height: 240px; padding: 48px 16px; color: var(--px-label-secondary); }
+.px-shell-error { display: grid; place-items: center; min-height: min(70vh, 560px); padding: 32px 16px; }
+.px-shell-error--stage { min-height: 100dvh; color-scheme: dark; color: var(--px-label); background: var(--px-bg-stage); }
+
+/* the Trash row stands apart from the labs above it */
+.px-shell-sidebar-end { margin-top: 12px; }
+
+/* the account menu's storage line: text plus a decorative bar (the text carries the meaning) */
+.px-shell-menu-usage { display: grid; gap: 6px; margin-top: 8px; }
+.px-shell-menu-usage__text {
+  font: var(--px-fw-regular) var(--px-fs-subheadline)/var(--px-lh-subheadline) var(--px-font-sans);
+  letter-spacing: var(--px-tr-subheadline);
+  color: var(--px-label-secondary);
+}
+.px-shell-menu-usage--warning .px-shell-menu-usage__text { color: var(--px-warning-text); }
+.px-shell-menu-usage--full .px-shell-menu-usage__text { color: var(--px-danger-text); }
+.px-shell-menu-usage__bar { display: block; height: 4px; border-radius: 2px; overflow: hidden; background: var(--px-fill-tertiary); }
+.px-shell-menu-usage__bar > span { display: block; width: var(--_fill, 0%); height: 100%; border-radius: inherit; background: var(--px-accent); }
+.px-shell-menu-usage--warning .px-shell-menu-usage__bar > span { background: var(--px-system-orange); }
+.px-shell-menu-usage--full .px-shell-menu-usage__bar > span { background: var(--px-system-red); }
+
+/* keyboard shortcuts sheet */
+.px-shell-shortcuts { display: grid; gap: 6px; }
+.px-shell-shortcuts__title {
+  padding: 0 4px;
+  font: var(--px-fw-bold) var(--px-fs-headline)/var(--px-lh-headline) var(--px-font-sans);
+  letter-spacing: var(--px-tr-headline);
+}
+.px-shell-shortcuts__list {
+  display: grid;
+  margin: 0;
+  border-radius: var(--px-radius-field-xl);
+  background: var(--px-bg-grouped-row);
+  box-shadow: 0 0 0 var(--px-hairline) var(--px-separator);
+}
+.px-shell-shortcuts__row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 36px;
+  padding: 6px 12px;
+}
+.px-shell-shortcuts__row + .px-shell-shortcuts__row::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  inset-inline: 12px;
+  height: var(--px-hairline);
+  background: var(--px-separator);
+}
+.px-shell-shortcuts__row dd { margin: 0; }
+
+/* Pages ---------------------------------------------------------------------------------------------------------- */
+.px-page {
+  display: grid;
+  align-content: start;
+  gap: 32px;
+  min-width: 0;
+  padding: var(--px-content-pad-top) var(--px-content-pad-x) 48px;
+}
+.px-page--narrow { width: 100%; max-width: calc(720px + 2 * var(--px-content-pad-x)); margin-inline: auto; }
+
+.px-page-section { display: grid; gap: 12px; min-width: 0; scroll-margin-top: 16px; }
+.px-page-section__header { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; min-width: 0; }
+.px-page-section__titles { display: grid; gap: 2px; min-width: 0; }
+.px-page-section__title {
+  font: var(--px-fw-bold) var(--px-fs-title2)/var(--px-lh-title2) var(--px-font-sans);
+  letter-spacing: var(--px-tr-title2);
+}
+.px-page-section__description { color: var(--px-label-secondary); }
+.px-page-section__trailing { display: flex; align-items: center; gap: 8px; flex: none; }
+.px-page-section__trailing > a { white-space: nowrap; }
+
+/* a thumbnail without an image: the lab glyph on its tint */
+.px-thumb-placeholder {
+  --_tint: var(--px-system-gray);
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--_tint);
+  background:
+    radial-gradient(120% 90% at 30% 20%, color-mix(in srgb, var(--_tint) 22%, transparent), transparent 70%),
+    var(--px-bg-thumb);
+}
+
+@media (max-width: 599px) {
+  .px-page { gap: 28px; padding-bottom: 32px; }
+}

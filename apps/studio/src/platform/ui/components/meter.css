@@ -1,0 +1,44 @@
+/* Storage meter (APPLE_STYLE_SPEC §3.7) */
+
+.px-meter { display: grid; gap: 8px; min-width: 0; }
+.px-meter__header { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.px-meter__headline { font-weight: var(--px-fw-semibold); color: var(--px-label); }
+.px-meter__status {
+  font: var(--px-fw-regular) var(--px-fs-subheadline)/var(--px-lh-subheadline) var(--px-font-sans);
+  letter-spacing: var(--px-tr-subheadline);
+}
+.px-meter--warning :is(.px-meter__headline, .px-meter__status) { color: var(--px-warning-text); }
+.px-meter--full :is(.px-meter__headline, .px-meter__status) { color: var(--px-danger-text); }
+
+.px-meter__bar {
+  display: flex;
+  gap: 1px;
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--px-fill-tertiary);
+}
+.px-meter--compact .px-meter__bar { height: 6px; border-radius: 3px; }
+.px-meter__segment {
+  flex: 0 0 var(--_share);
+  min-width: 2px;
+  background: var(--_color);
+  transition: flex-basis var(--px-dur-base) var(--px-ease-out);
+}
+
+.px-meter__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  font: var(--px-fw-regular) var(--px-fs-subheadline)/var(--px-lh-subheadline) var(--px-font-sans);
+  letter-spacing: var(--px-tr-subheadline);
+  color: var(--px-label);
+}
+.px-meter__legend-item { display: inline-flex; align-items: center; gap: 6px; }
+.px-meter__dot { width: 8px; height: 8px; border-radius: 50%; background: var(--_color); flex: none; }
+.px-meter__legend-value { color: var(--px-label-secondary); }
+
+@media (forced-colors: active) {
+  .px-meter__bar { border: 1px solid CanvasText; }
+  .px-meter__segment, .px-meter__dot { forced-color-adjust: none; }
+}

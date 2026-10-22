@@ -1,5 +1,6 @@
-// The lab ⇄ platform contract. Dependency-free on purpose (no React, three.js or supabase-js): any lab can import it
-// without pulling platform code into its bundle or typecheck graph.
+// The lab ⇄ platform contract. Self-contained on purpose (no imports, no React, three.js or supabase-js): a lab can import
+// it — or copy this file byte-identical into its own tree — without pulling platform code into its bundle or typecheck
+// graph.
 //
 // A lab registers one adapter while it is mounted. When the lab runs inside the account platform (a same-origin
 // iframe opened with ?embed=1), the platform shell in the parent document finds the registry on the lab's window,
@@ -8,32 +9,65 @@
 //
 // Guarantees the platform gives a lab:
 //   * restore() is only ever called on a freshly loaded lab, before the user interacts (the platform reloads the
-//     lab iframe before applying a version), so an adapter never has to cancel half-finished work;
-//   * serialize()/thumbnail() are never called while busy() is truthy or while a scene recording is active;
-//   * attachments are stored byte-exact, content-addressed by SHA-256, and handed back unchanged.
+//     lab iframe before applying a version). A lab opened with ?restore=pending (isRestorePending()) should skip its
+//     default start-up work: the platform then calls either restore() or startFresh();
+//   * serialize()/thumbnail() are never called while busy() is not false or while a scene recording is active;
+//   * attachments are stored byte-exact, content-addressed by SHA-256, and handed back unchanged; attachments named in
+//     `localOnly` never leave the device (only their SHA-256 is kept) and come back listed in context.missingLocal.
 // What a lab promises the platform:
 //   * serialize() returns JSON-safe state; integers above 2^53 (uint64 seeds) are decimal strings;
 //   * honesty and limitation strings in exports are copied verbatim from the lab (never upgraded to claims such as
 //     "validated", "measured" or "learned" that the lab itself does not make).
-
-import type { JsonValue, LibraryFileRole, LibraryKind } from "../core/types";
 
 export const LAB_SESSION_PROTOCOL = 1;
 
 /** Attachment names: ^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$ (the database enforces the same rule). */
 export const LAB_ATTACHMENT_NAME = /^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$/;
 
-export interface LabSessionDocument<S extends JsonValue = JsonValue> {
-  /** Lab-owned, versioned schema id, e.g. "viscera.atlas-session/1". */
+/** Query parameter the platform adds when it will restore a saved document into a freshly loaded lab. */
+export const LAB_RESTORE_PENDING_PARAM = "restore";
+
+export type JsonValue = null | boolean | number | string | JsonValue[] | { [key: string]: JsonValue };
+
+export type LibraryKind = "shape" | "material" | "texture" | "recording" | "scene" | "image" | "model";
+
+export type LibraryFileRole =
+  | "primary"
+  | "mesh"
+  | "albedo"
+  | "normal"
+  | "roughness"
+  | "metalness"
+  | "height"
+  | "ao"
+  | "emissive"
+  | "opacity"
+  | "thumbnail"
+  | "preview"
+  | "video"
+  | "data"
+  | "spec"
+  | "material"
+  | "other";
+
+export interface LabSessionDocument<S = JsonValue> {
+  /** Lab-owned, versioned schema id, e.g. "viscera.atlas-session/1" (the number after "/" is the schema version). */
   schema: string;
-  /** Registry id of the lab, e.g. "organ". */
+  /** Registry id of the lab, e.g. "organ" (^[a-z][a-z0-9-]{1,31}$). */
   labId: string;
-  /** JSON-safe state. Integers above 2^53 (uint64 seeds) must be decimal strings. */
+  /** JSON-safe state (validated at runtime). Integers above 2^53 (uint64 seeds) must be decimal strings. */
   state: S;
   /** Binary parts by name, stored content-addressed and returned byte-exact. */
   attachments?: Record<string, Blob>;
+  /** Attachment names that must never leave this device: the platform stores only their SHA-256. */
+  localOnly?: string[];
   /** Generator/material/solver revisions in use; a restore warns when they differ. */
   versions?: Record<string, string>;
+}
+
+export interface LabRestoreContext {
+  /** Local-only attachments that were not available on this device; ask the user for the file or degrade. */
+  missingLocal: Array<{ name: string; sha256: string }>;
 }
 
 export interface LabRestoreReport {
@@ -43,6 +77,7 @@ export interface LabRestoreReport {
   warnings: string[];
 }
 
+/** A non-empty reason while the lab is busy; the platform treats anything other than false as busy. */
 export type LabBusyReason = "loading" | "recording" | "running" | "baking" | "importing" | "exporting" | (string & {});
 
 export interface LabLibraryFile {
@@ -59,7 +94,7 @@ export interface LabLibraryExport {
   files: LabLibraryFile[];
   thumbnail?: Blob | null;
   metadata?: { [key: string]: JsonValue };
-  /** Copied verbatim from the lab: what the item is, what it is not, and any rights limits. */
+  /** Copied verbatim from the lab: what the item is, what it is not, and any rights limits ("research-only" is refused). */
   claims: { evidence: string; limitations: string[]; rights?: string };
 }
 
@@ -71,14 +106,16 @@ export interface LabExportAction {
   run(signal: AbortSignal): Promise<LabLibraryExport>;
 }
 
-export interface LabSessionAdapter<S extends JsonValue = JsonValue> {
+export interface LabSessionAdapter<S = JsonValue> {
   labId: string;
   /** Human-readable lab name, e.g. "Organ Design". */
   title: string;
   serialize(): LabSessionDocument<S> | Promise<LabSessionDocument<S>>;
   /** Applies a saved document to a freshly loaded lab (see the guarantees above). */
-  restore(document: LabSessionDocument<S>, signal: AbortSignal): Promise<LabRestoreReport>;
-  /** Truthy while saving, restoring or capturing would be unsafe; the platform waits for false. */
+  restore(document: LabSessionDocument<S>, signal: AbortSignal, context?: LabRestoreContext): Promise<LabRestoreReport>;
+  /** The platform will not restore (new project, or the restore failed): run the default start-up now. */
+  startFresh?(): void;
+  /** Not false while saving, restoring or capturing would be unsafe; the platform waits for false. */
   busy(): false | LabBusyReason;
   /** A cover-cropped still of the current view; null when nothing is drawn yet. */
   thumbnail?(width: number, height: number): Promise<Blob | null>;
@@ -108,23 +145,32 @@ export interface LabSessionRegistry {
   subscribe(listener: (event: LabSessionEvent) => void): () => void;
 }
 
-declare global {
-  interface Window {
-    __visceraLabSessions?: LabSessionRegistry;
-  }
-}
-
-export const LAB_READY_MESSAGE = "viscera:lab-session";
-
 interface RegistryState {
   adapters: LabSessionAdapter[];
   listeners: Set<(event: LabSessionEvent) => void>;
 }
 
-const state: RegistryState = { adapters: [], listeners: new Set() };
+declare global {
+  interface Window {
+    __visceraLabSessions?: LabSessionRegistry;
+    __visceraLabSessionState?: RegistryState;
+  }
+}
+
+export const LAB_READY_MESSAGE = "viscera:lab-session";
+
+// Without a window (unit tests in node) the registry lives in this module.
+const moduleState: RegistryState = { adapters: [], listeners: new Set() };
+
+function registryState(): RegistryState {
+  if (typeof window === "undefined") return moduleState;
+  // shared through window so that two copies of this module (duplicated chunks) see one registry
+  window.__visceraLabSessionState ??= { adapters: [], listeners: new Set() };
+  return window.__visceraLabSessionState;
+}
 
 function emit(event: LabSessionEvent): void {
-  for (const listener of [...state.listeners]) {
+  for (const listener of [...registryState().listeners]) {
     try {
       listener(event);
     } catch (error) {
@@ -133,22 +179,18 @@ function emit(event: LabSessionEvent): void {
   }
 }
 
-function registry(): LabSessionRegistry {
-  return {
+function installRegistry(): void {
+  if (typeof window === "undefined" || window.__visceraLabSessions) return;
+  window.__visceraLabSessions = {
     protocol: LAB_SESSION_PROTOCOL,
-    current: () => state.adapters[state.adapters.length - 1] ?? null,
+    current: () => currentLabSession(),
     subscribe(listener) {
-      state.listeners.add(listener);
+      registryState().listeners.add(listener);
       return () => {
-        state.listeners.delete(listener);
+        registryState().listeners.delete(listener);
       };
     },
   };
-}
-
-function installRegistry(): void {
-  if (typeof window === "undefined" || window.__visceraLabSessions) return;
-  window.__visceraLabSessions = registry();
 }
 
 function notifyParent(labId: string): void {
@@ -161,10 +203,11 @@ function notifyParent(labId: string): void {
 }
 
 /** Registers the mounted lab's adapter. The most recently registered adapter is the current one. */
-export function registerLabSession<S extends JsonValue>(adapter: LabSessionAdapter<S>): LabSessionHandle {
+export function registerLabSession<S>(adapter: LabSessionAdapter<S>): LabSessionHandle {
   installRegistry();
+  // the platform validates every state as canonical JSON at runtime, so the registry stores the JSON view
   const entry = adapter as unknown as LabSessionAdapter;
-  state.adapters.push(entry);
+  registryState().adapters.push(entry);
   emit({ type: "register", labId: adapter.labId, adapter: entry });
   notifyParent(adapter.labId);
   let disposed = false;
@@ -175,6 +218,7 @@ export function registerLabSession<S extends JsonValue>(adapter: LabSessionAdapt
     dispose() {
       if (disposed) return;
       disposed = true;
+      const state = registryState();
       state.adapters = state.adapters.filter((candidate) => candidate !== entry);
       emit({ type: "dispose", labId: adapter.labId });
     },
@@ -184,6 +228,7 @@ export function registerLabSession<S extends JsonValue>(adapter: LabSessionAdapt
 /** For code running in the same document as the lab (tests, standalone tools). The platform host uses the window registry. */
 export function onLabSessions(listener: (event: LabSessionEvent) => void): () => void {
   installRegistry();
+  const state = registryState();
   state.listeners.add(listener);
   return () => {
     state.listeners.delete(listener);
@@ -191,7 +236,8 @@ export function onLabSessions(listener: (event: LabSessionEvent) => void): () =>
 }
 
 export function currentLabSession(): LabSessionAdapter | null {
-  return state.adapters[state.adapters.length - 1] ?? null;
+  const adapters = registryState().adapters;
+  return adapters[adapters.length - 1] ?? null;
 }
 
 /** True when this document is a lab opened by the account platform (?embed=1 inside a same-origin parent). */
@@ -203,6 +249,12 @@ export function isEmbeddedInPlatform(): boolean {
   } catch {
     return false;
   }
+}
+
+/** True when the platform will restore a saved document: skip default start-up work and wait for restore()/startFresh(). */
+export function isRestorePending(): boolean {
+  if (!isEmbeddedInPlatform()) return false;
+  return new URLSearchParams(window.location.search).get(LAB_RESTORE_PENDING_PARAM) === "pending";
 }
 
 installRegistry();

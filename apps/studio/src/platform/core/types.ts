@@ -366,6 +366,7 @@ export type PlatformErrorCode =
   | "version_conflict"
   | "draft_conflict"
   | "asset_not_ready"
+  | "asset_busy"
   | "upload_missing"
   | "size_mismatch"
   | "limit_reached"
@@ -386,7 +387,11 @@ export class PlatformError extends Error {
   readonly status: number | null;
   readonly detail: string | null;
 
-  constructor(code: PlatformErrorCode, message?: string, options?: { status?: number | null; detail?: string | null; cause?: unknown }) {
+  constructor(
+    code: PlatformErrorCode,
+    message?: string,
+    options?: { status?: number | null | undefined; detail?: string | null | undefined; cause?: unknown },
+  ) {
     super(message ?? code, options?.cause === undefined ? undefined : { cause: options.cause });
     this.name = "PlatformError";
     this.code = code;
@@ -395,8 +400,12 @@ export class PlatformError extends Error {
   }
 }
 
+/** By shape, not instanceof: errors can cross realms (lab iframes) and duplicated chunks. */
 export function isPlatformError(error: unknown, code?: PlatformErrorCode): error is PlatformError {
-  return error instanceof PlatformError && (code === undefined || error.code === code);
+  if (error instanceof PlatformError) return code === undefined || error.code === code;
+  if (typeof error !== "object" || error === null) return false;
+  const candidate = error as { name?: unknown; code?: unknown };
+  return candidate.name === "PlatformError" && typeof candidate.code === "string" && (code === undefined || candidate.code === code);
 }
 
 // Ports -------------------------------------------------------------------------------------------------------------
@@ -422,6 +431,10 @@ export interface AuthPort {
   /** Navigates away to the provider; resolves only if navigation did not happen. */
   signInWithOAuth(provider: OAuthProvider): Promise<void>;
   sendPasswordReset(email: string): Promise<void>;
+  /** Signs in with the 6-digit code from a password-reset email (works on any device); then call updatePassword. */
+  verifyRecoveryCode(email: string, code: string): Promise<Session>;
+  /** Fresh sign-in for sensitive actions (password change, account deletion) on accounts that have a password. */
+  reauthenticate(password: string): Promise<void>;
   updatePassword(password: string): Promise<void>;
   signOut(scope?: "local" | "global"): Promise<void>;
   linkIdentity(provider: OAuthProvider): Promise<void>;
@@ -461,8 +474,26 @@ export interface ProjectPort {
   draftAttachments(projectId: Uuid): Promise<NamedAttachment[]>;
   saveDraft(projectId: Uuid, expected: { headVersionId: Uuid | null; draftRev: number }, snapshot: SnapshotRef): Promise<Project>;
   discardDraft(projectId: Uuid, expectedDraftRev: number): Promise<Project>;
-  commit(projectId: Uuid, expectedHeadVersionId: Uuid | null, kind: CommitKind, snapshot: SnapshotRef, label?: string): Promise<ProjectVersion>;
-  restore(projectId: Uuid, versionId: Uuid, expectedHeadVersionId: Uuid | null): Promise<ProjectVersion>;
+  /**
+   * Commits the next version and clears the draft. 409 version_conflict when the head moved, draft_conflict when the
+   * draft changed since `expected.draftRev`. Returns the updated project (new head, new draft_rev) with the version.
+   */
+  commit(
+    projectId: Uuid,
+    expected: { headVersionId: Uuid | null; draftRev: number },
+    kind: CommitKind,
+    snapshot: SnapshotRef,
+    label?: string,
+  ): Promise<{ project: Project; version: ProjectVersion }>;
+  /**
+   * Non-destructive restore: an existing draft is first kept as an autosave version, then a restore version that
+   * reuses the chosen version's files becomes the head. Same conflict rules and return shape as commit().
+   */
+  restore(
+    projectId: Uuid,
+    versionId: Uuid,
+    expected: { headVersionId: Uuid | null; draftRev: number },
+  ): Promise<{ project: Project; version: ProjectVersion }>;
   label(versionId: Uuid, label: string | null): Promise<ProjectVersion>;
   deleteVersion(versionId: Uuid): Promise<void>;
   duplicate(projectId: Uuid, title: string, versionId?: Uuid): Promise<Project>;

@@ -1,0 +1,86 @@
+/* Unified toolbar and toolbar groups (APPLE_STYLE_SPEC §2.3) */
+
+.px-toolbar {
+  --_start-min: min(140px, 30%);
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(var(--_start-min), 1fr) max-content;
+  align-items: center;
+  gap: 12px;
+  height: var(--px-toolbar-h);
+  padding: 0 8px 0 var(--px-content-pad-x);
+  isolation: isolate;
+}
+/* with a centre control the two sides share the rest equally, so the control sits in the middle of the window */
+.px-toolbar--centered { grid-template-columns: minmax(var(--_start-min), 1fr) auto minmax(max-content, 1fr); }
+/* the toolbar is its own size container: lower-priority items step aside before the title is squeezed */
+.px-toolbar { container-type: inline-size; }
+.px-tb-item { display: contents; }
+@container (max-width: 920px) { .px-toolbar [data-px-priority="3"] { display: none; } }
+@container (max-width: 760px) { .px-toolbar [data-px-priority="2"] { display: none; } }
+.px-toolbar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--px-mat-bar);
+  -webkit-backdrop-filter: var(--px-mat-bar-filter);
+  backdrop-filter: var(--px-mat-bar-filter);
+  box-shadow: inset 0 calc(-1 * var(--px-hairline)) 0 var(--px-separator);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--px-dur-fast) var(--px-ease-out);
+}
+.px-toolbar[data-scrolled]::before { opacity: 1; }
+.px-toolbar[data-scrolled] :is(.px-tb-group, .px-btn--glass, .px-icon-btn--glass, .px-seg--toolbar, .px-search--toolbar .px-search__input) {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+/* explicit columns: when a lower-priority centre item hides, the trailing items stay at the trailing edge */
+.px-toolbar__start { grid-column: 1; display: flex; align-items: center; gap: 8px; min-width: 0; }
+.px-toolbar__titles { display: grid; min-width: 0; max-width: 100%; }
+.px-toolbar__title {
+  font: var(--px-fw-semibold) var(--px-fs-title3)/var(--px-lh-title3) var(--px-font-sans);
+  letter-spacing: var(--px-tr-title3);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  outline: none;
+}
+.px-toolbar__subtitle {
+  font: var(--px-fw-regular) var(--px-fs-subheadline)/var(--px-lh-subheadline) var(--px-font-sans);
+  letter-spacing: var(--px-tr-subheadline);
+  color: var(--px-label-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.px-toolbar__center { grid-column: 2; display: flex; justify-content: center; min-width: 0; }
+.px-toolbar__end { grid-column: -2 / -1; display: flex; align-items: center; justify-content: flex-end; gap: 8px; min-width: 0; }
+
+.px-tb-group {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  height: var(--px-toolbar-item-h);
+  padding: 0 2px;
+  border-radius: var(--px-radius-capsule);
+  background: var(--px-mat-toolbar-item);
+  -webkit-backdrop-filter: var(--px-mat-toolbar-filter);
+  backdrop-filter: var(--px-mat-toolbar-filter);
+  box-shadow: var(--px-inner-highlight), var(--px-shadow-2);
+}
+.px-tb-group > .px-icon-btn--toolbar { --_size: calc(var(--px-toolbar-item-h) - 4px); width: 34px; }
+.px-tb-group:has(> .px-icon-btn:only-of-type) { padding: 0; }
+.px-tb-group:has(> .px-icon-btn:only-of-type) > .px-icon-btn--toolbar { --_size: var(--px-toolbar-item-h); width: var(--px-toolbar-item-h); }
+
+@media (max-width: 899px) {
+  .px-toolbar { padding-inline-start: 8px; gap: 8px; }
+  .px-toolbar--centered { grid-template-columns: minmax(var(--_start-min), 1fr) auto auto; }
+}
+
+@media (forced-colors: active) {
+  .px-tb-group { border: 1px solid ButtonText; }
+  .px-toolbar[data-scrolled] { border-bottom: 1px solid CanvasText; }
+}

@@ -1,0 +1,26 @@
+# Hourly maintenance of the account platform (DESIGN.md §15.3/§15.4): version retention, 30-day trash purge and the
+# two-phase collection of unreferenced files. Each run also counts as database activity, which keeps a free Supabase
+# project from pausing. GitHub disables scheduled workflows after 60 days without repository activity: check the
+# Actions tab if the platform has been quiet for that long.
+name: platform-maintenance
+on:
+  schedule:
+    - cron: "17 * * * *"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  maintenance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: call the maintenance function
+        env:
+          URL: ${{ vars.PLATFORM_SUPABASE_URL }}
+          SECRET: ${{ secrets.PLATFORM_MAINTENANCE_SECRET }}
+        run: |
+          if [ -z "$URL" ] || [ -z "$SECRET" ]; then echo "accounts are not configured; nothing to do"; exit 0; fi
+          status=$(curl -sS -o response.json -w "%{http_code}" -X POST "$URL/functions/v1/maintenance" \
+            -H "x-maintenance-secret: $SECRET" -H "content-type: application/json" --data '{}')
+          cat response.json; echo
+          test "$status" = "200"

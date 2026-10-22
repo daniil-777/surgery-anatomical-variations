@@ -1,0 +1,97 @@
+/* px-base: the shell's own scoped reset, text styles and the glass utility (APPLE_STYLE_SPEC §1.4, §2.0).
+   The shell page never loads the studio's styles.css (DESIGN.md D2/D13) and labs run in iframes, so everything here is
+   scoped to html.px-shell (or to .px-* classes) and resets use :where() to stay at zero specificity. */
+
+html.px-shell { color-scheme: light dark; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+html.px-shell[data-px-theme="light"] { color-scheme: light; }
+html.px-shell[data-px-theme="dark"], html.px-shell[data-px-route="lab"] { color-scheme: dark; }
+
+html.px-shell *, html.px-shell *::before, html.px-shell *::after { box-sizing: border-box; }
+
+html.px-shell, html.px-shell > body { margin: 0; min-height: 100%; }
+html.px-shell > body { background: var(--px-bg-content); }
+html.px-shell[data-px-route="lab"] > body { background: var(--px-bg-stage); }
+
+/* Shell typography. Lab DOM never lives in this document (labs are iframes), so body-level type is safe here. */
+html.px-shell > body, .px-app, .px-auth, .px-portal {
+  font: var(--px-fw-regular) var(--px-fs-body)/var(--px-lh-body) var(--px-font-sans);
+  letter-spacing: var(--px-tr-body);
+  color: var(--px-label);
+  font-feature-settings: normal;
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+:where(html.px-shell) :where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, fieldset) { margin: 0; }
+:where(html.px-shell) :where(h1, h2, h3, h4, h5, h6) { font: inherit; letter-spacing: inherit; }
+:where(html.px-shell) :where(fieldset) { border: 0; padding: 0; min-width: 0; }
+:where(html.px-shell) :where(legend) { padding: 0; }
+:where(html.px-shell) :where(button, input, select, textarea, optgroup) { font: inherit; letter-spacing: inherit; color: inherit; margin: 0; }
+:where(html.px-shell) :where(button) { background: none; border: 0; padding: 0; cursor: default; -webkit-tap-highlight-color: transparent; }
+:where(html.px-shell) :where(ul, ol)[role="list"] { list-style: none; margin: 0; padding: 0; }
+:where(html.px-shell) :where(img, picture, video, canvas, svg) { vertical-align: middle; }
+:where(html.px-shell) :where(img, video) { max-width: 100%; }
+:where(html.px-shell) :where(a) { color: var(--px-accent-text); text-decoration: none; cursor: pointer; }
+@media (hover: hover) { :where(html.px-shell) :where(a:hover) { text-decoration: underline; } }
+:where(html.px-shell) :where(kbd, code, samp) { font-family: var(--px-font-mono); }
+:where(html.px-shell) :where(table) { border-collapse: collapse; }
+:where(html.px-shell) :focus-visible { outline: 2px solid var(--px-focus-ring); outline-offset: 2px; }
+:where(html.px-shell) ::selection { background: var(--px-text-selection); }
+:where(html.px-shell) [hidden]:not([hidden="until-found"]) { display: none !important; }
+:where(html.px-shell) :where(dialog) { color: inherit; }
+html.px-shell:has(dialog.px-dialog[open]) { overflow: hidden; }
+
+/* Text styles: HIG macOS table (size/line, weight, emphasized weight via .px-em) */
+.px-num { font-variant-numeric: tabular-nums; }
+:where(.px-app, .px-auth, .px-portal) :is(h1, h2, h3, .px-balance) { text-wrap: balance; margin: 0; }
+:where(.px-app, .px-auth, .px-portal) :is(p, .px-pretty) { text-wrap: pretty; }
+
+.px-large-title { font: var(--px-fw-regular) var(--px-fs-large-title)/var(--px-lh-large-title) var(--px-font-display); letter-spacing: var(--px-tr-large-title); --px-fw-em: 700; }
+.px-title1      { font: var(--px-fw-regular) var(--px-fs-title1)/var(--px-lh-title1) var(--px-font-display);           letter-spacing: var(--px-tr-title1); --px-fw-em: 700; }
+.px-title2      { font: var(--px-fw-regular) var(--px-fs-title2)/var(--px-lh-title2) var(--px-font-sans);              letter-spacing: var(--px-tr-title2); --px-fw-em: 700; }
+.px-title3      { font: var(--px-fw-regular) var(--px-fs-title3)/var(--px-lh-title3) var(--px-font-sans);              letter-spacing: var(--px-tr-title3); --px-fw-em: 600; }
+.px-headline    { font: var(--px-fw-bold) var(--px-fs-headline)/var(--px-lh-headline) var(--px-font-sans);             letter-spacing: var(--px-tr-headline); --px-fw-em: 800; }
+.px-body        { font: var(--px-fw-regular) var(--px-fs-body)/var(--px-lh-body) var(--px-font-sans);                  letter-spacing: var(--px-tr-body); --px-fw-em: 600; }
+.px-callout     { font: var(--px-fw-regular) var(--px-fs-callout)/var(--px-lh-callout) var(--px-font-sans);            letter-spacing: var(--px-tr-callout); --px-fw-em: 600; }
+.px-subheadline { font: var(--px-fw-regular) var(--px-fs-subheadline)/var(--px-lh-subheadline) var(--px-font-sans);    letter-spacing: var(--px-tr-subheadline); --px-fw-em: 600; }
+.px-footnote    { font: var(--px-fw-regular) var(--px-fs-footnote)/var(--px-lh-footnote) var(--px-font-sans);          letter-spacing: var(--px-tr-footnote); --px-fw-em: 600; }
+.px-caption1    { font: var(--px-fw-regular) var(--px-fs-caption)/var(--px-lh-caption) var(--px-font-sans);            letter-spacing: var(--px-tr-caption); --px-fw-em: 500; }
+.px-caption2    { font: var(--px-fw-medium) var(--px-fs-caption)/var(--px-lh-caption) var(--px-font-sans);             letter-spacing: var(--px-tr-caption); --px-fw-em: 600; }
+.px-em          { font-weight: var(--px-fw-em, 600); }
+.px-secondary   { color: var(--px-label-secondary); }
+.px-truncate    { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+
+.px-visually-hidden {
+  position: absolute !important; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0;
+  overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+}
+
+/* "Skip to Content": the first focusable element, visible on focus as a top-left chip (§4.2) */
+.px-skip-link {
+  position: fixed; top: 8px; left: 8px; z-index: var(--px-z-tooltip);
+  padding: 6px 12px; border-radius: var(--px-radius-capsule);
+  font: var(--px-fw-medium) var(--px-fs-body)/var(--px-lh-body) var(--px-font-sans);
+  color: var(--px-label-on-fill); background: var(--px-accent-fill); box-shadow: var(--px-shadow-3);
+  transform: translateY(calc(-100% - 16px));
+  transition: transform var(--px-dur-fast) var(--px-ease-out);
+}
+.px-skip-link:focus-visible { transform: none; outline: 2px solid var(--px-focus-ring); outline-offset: 2px; text-decoration: none; }
+
+/* Glass utility (§2.0): only on the functional layer, never over a WebGL canvas */
+.px-glass {
+  background: var(--_mat, var(--px-mat-popover));
+  -webkit-backdrop-filter: var(--_filter, none);
+  backdrop-filter: var(--_filter, none);
+  box-shadow: var(--px-inner-highlight), var(--_shadow, var(--px-shadow-2));
+}
+[data-px-route="lab"] .px-glass--over-stage { -webkit-backdrop-filter: none; backdrop-filter: none; }
+
+/* Icons inherit colour and never take pointer events (the control does) */
+.px-icon { flex: none; pointer-events: none; }
+
+@media (forced-colors: active) {
+  .px-glass { -webkit-backdrop-filter: none; backdrop-filter: none; background: Canvas; border: 1px solid CanvasText; }
+  :where(html.px-shell) :focus-visible { outline-color: Highlight; }
+}

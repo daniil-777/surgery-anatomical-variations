@@ -1,0 +1,98 @@
+# The account platform's tests: typecheck, unit + database (PGlite) + Edge Function tests, the offline UI suite, and an
+# integration job on a real local Supabase stack (Docker is available on GitHub's runners, not on the dev Mac).
+name: platform
+on:
+  push:
+    paths:
+      - "apps/studio/**"
+      - "supabase/**"
+      - "tests/platform/**"
+      - "playwright.platform.config.ts"
+      - "scripts/platform/**"
+      - "scripts/smoke_platform.mjs"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - ".github/workflows/platform.yml"
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: platform-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 24 }
+      - run: corepack enable && corepack prepare pnpm@10.17.1 --activate
+      - run: pnpm install --frozen-lockfile
+      - name: typecheck (studio + platform)
+        run: node node_modules/typescript/bin/tsc --noEmit -p apps/studio/tsconfig.json
+      - name: typecheck (edge functions)
+        run: node node_modules/typescript/bin/tsc --noEmit -p supabase/functions/tsconfig.json
+      - name: unit, database (PGlite) and function tests
+        run: node node_modules/vitest/vitest.mjs run apps/studio/src/platform supabase/tests
+
+  e2e:
+    needs: unit
+    if: ${{ hashFiles('playwright.platform.config.ts') != '' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 24 }
+      - run: corepack enable && corepack prepare pnpm@10.17.1 --activate
+      - run: pnpm install --frozen-lockfile
+      - name: offline UI suite (memory backend, headless Chrome)
+        run: node node_modules/@playwright/test/cli.js test -c playwright.platform.config.ts
+        env:
+          CHROME: /usr/bin/google-chrome
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: platform-e2e-report
+          path: |
+            playwright-report-platform
+            test-results-platform
+          if-no-files-found: ignore
+
+  integration:
+    needs: unit
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 24 }
+      - run: corepack enable && corepack prepare pnpm@10.17.1 --activate
+      - run: pnpm install --frozen-lockfile
+      - uses: supabase/setup-cli@v1
+        with: { version: latest }
+      - name: start a local Supabase stack and apply the migrations
+        run: |
+          supabase start -x studio,imgproxy,vector,logflare,realtime
+          supabase db reset
+      - name: serve the Edge Functions
+        run: |
+          supabase status -o env > .supabase.env
+          set -a; . ./.supabase.env; set +a
+          printf 'PLATFORM_SECRET_KEY=%s\nPLATFORM_PUBLISHABLE_KEY=%s\nAPP_ORIGINS=http://127.0.0.1:5180\nMAINTENANCE_SECRET=ci-maintenance-secret\n' "${SECRET_KEY:-$SERVICE_ROLE_KEY}" "${PUBLISHABLE_KEY:-$ANON_KEY}" > supabase/functions/.env.ci
+          nohup supabase functions serve --env-file supabase/functions/.env.ci > functions.log 2>&1 &
+          for i in $(seq 1 60); do curl -s -o /dev/null http://127.0.0.1:54321/functions/v1/ && break; sleep 2; done
+      - name: backend contract against the real stack
+        run: |
+          set -a; . ./.supabase.env; set +a
+          export VISCERA_SUPABASE_URL="$API_URL"
+          export VISCERA_SUPABASE_KEY="${PUBLISHABLE_KEY:-$ANON_KEY}"
+          export VISCERA_SUPABASE_SECRET_KEY="${SECRET_KEY:-$SERVICE_ROLE_KEY}"
+          export VISCERA_MAILPIT_URL="${MAILPIT_URL:-${INBUCKET_URL:-}}"
+          node node_modules/vitest/vitest.mjs run apps/studio/src/platform/core/supabase/supabaseBackend.contract.test.ts
+      - if: failure()
+        run: |
+          echo "== functions.log"; tail -80 functions.log || true
+          supabase status || true

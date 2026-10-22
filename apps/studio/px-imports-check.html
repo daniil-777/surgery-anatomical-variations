@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en" class="px-shell" data-px-route="app">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23121c23'/%3E%3Cpath d='M4 17h6l3-9 5 17 3-8h7' fill='none' stroke='%23db8f85' stroke-width='2'/%3E%3C/svg%3E" />
+    <title>VISCERA — Import Check</title>
+    <meta name="description" content="Development check of the 3D import analyser in a real browser: fixtures, previews, thumbnails and refusals (not part of the build)." />
+    <script>
+      // APPLE_STYLE_SPEC §1.1 boot, as px-gallery.html: font and appearance attributes before CSS paints.
+      (() => {
+        const d = document.documentElement;
+        const ua = (navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || "";
+        d.dataset.pxFont = /Mac|iPhone|iPad|iPod/i.test(ua) ? "sf" : "inter";
+        try {
+          const p = JSON.parse(localStorage.getItem("viscera.px.appearance.v1") || "{}");
+          d.dataset.pxTheme = p.theme || "system";
+          d.dataset.pxGlass = p.glass || "regular";
+          d.dataset.pxTransparency = p.transparency || "system";
+        } catch {
+          d.dataset.pxTheme = "system";
+        }
+      })();
+    </script>
+    <style>
+      /* Page layout for the import check; colours, type and radii come from the px tokens. */
+      .px-ic { display: grid; gap: 32px; max-width: 1320px; padding: var(--px-content-pad-top) var(--px-content-pad-x) 56px; }
+      .px-ic-intro { display: grid; gap: 6px; max-width: 760px; }
+      .px-ic-intro__eyebrow {
+        font: var(--px-fw-semibold) var(--px-fs-subheadline)/var(--px-lh-subheadline) var(--px-font-sans);
+        letter-spacing: .06em;
+        text-transform: uppercase;
+        color: var(--px-accent-text);
+      }
+      .px-ic-intro__lede { color: var(--px-label-secondary); }
+      .px-ic-status { display: grid; gap: 8px; max-width: 560px; min-height: 34px; }
+      .px-ic-done { display: flex; align-items: center; gap: 8px; margin: 0; color: var(--px-label); }
+      .px-ic-done .px-icon { color: var(--px-danger); }
+      .px-ic-done[data-ok] .px-icon { color: var(--px-success); }
+      .px-ic-section { display: grid; gap: 14px; min-width: 0; }
+      .px-ic-section__header { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+      .px-ic-section__title {
+        margin: 0;
+        font: var(--px-fw-bold) var(--px-fs-title2)/var(--px-lh-title2) var(--px-font-sans);
+        letter-spacing: var(--px-tr-title2);
+      }
+      .px-ic-section__count { color: var(--px-label-secondary); }
+      .px-ic-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(296px, 100%), 1fr)); gap: 16px; }
+      .px-ic-card {
+        display: grid;
+        grid-template-rows: auto 1fr;
+        min-width: 0;
+        overflow: hidden;
+        border-radius: var(--px-radius-card);
+        background: var(--px-bg-content-alt);
+        box-shadow: inset 0 0 0 var(--px-hairline) var(--px-separator);
+      }
+      .px-ic-thumb { position: relative; aspect-ratio: 1; margin: 6px 6px 0; overflow: hidden; border-radius: var(--px-radius-thumb); background: var(--px-bg-thumb); }
+      .px-ic-thumb img { display: block; width: 100%; height: 100%; object-fit: cover; }
+      .px-ic-thumb::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 var(--px-hairline) var(--px-image-outline, var(--px-separator)); pointer-events: none; }
+      .px-ic-thumb__empty { display: grid; place-items: center; height: 100%; color: var(--px-label-tertiary); }
+      .px-ic-card__body { display: grid; align-content: start; gap: 10px; min-width: 0; padding: 10px 14px 14px; }
+      .px-ic-card__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; min-width: 0; }
+      .px-ic-card__titles { display: grid; gap: 2px; min-width: 0; }
+      .px-ic-card__title { margin: 0; font: var(--px-fw-semibold) var(--px-fs-body)/var(--px-lh-body) var(--px-font-sans); letter-spacing: var(--px-tr-body); }
+      .px-ic-facts {
+        display: grid;
+        grid-template-columns: max-content minmax(0, 1fr);
+        gap: 3px 12px;
+        margin: 0;
+        font: var(--px-fw-regular) var(--px-fs-subheadline)/var(--px-lh-subheadline) var(--px-font-sans);
+        letter-spacing: var(--px-tr-subheadline);
+      }
+      .px-ic-facts > div { display: contents; }
+      .px-ic-facts dt { color: var(--px-label-secondary); }
+      .px-ic-facts dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+      .px-ic-list {
+        display: grid;
+        gap: 3px;
+        margin: 0;
+        padding: 0 0 0 14px;
+        font: var(--px-fw-regular) var(--px-fs-footnote)/var(--px-lh-footnote) var(--px-font-sans);
+        letter-spacing: var(--px-tr-footnote);
+        color: var(--px-label-secondary);
+      }
+      .px-ic-list--problems { color: var(--px-danger-text); }
+      .px-ic-panel {
+        display: grid;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        min-width: 0;
+        border-radius: var(--px-radius-card);
+        background: var(--px-bg-content-alt);
+        box-shadow: inset 0 0 0 var(--px-hairline) var(--px-separator);
+      }
+      .px-ic-row {
+        display: grid;
+        grid-template-columns: minmax(150px, 210px) minmax(0, 1fr) max-content;
+        align-items: start;
+        gap: 4px 16px;
+        padding: 11px 16px;
+        border-top: var(--px-hairline) solid var(--px-separator);
+      }
+      .px-ic-row:first-child { border-top: 0; }
+      .px-ic-row__name { display: grid; gap: 2px; min-width: 0; }
+      .px-ic-row__text { display: grid; gap: 2px; min-width: 0; }
+      .px-ic-code { font: var(--px-fw-regular) var(--px-fs-footnote)/var(--px-lh-footnote) var(--px-font-mono); color: var(--px-label-secondary); overflow-wrap: anywhere; }
+      .px-ic-drop {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-height: 64px;
+        padding: 12px 16px;
+        border-radius: var(--px-radius-card);
+        border: 2px dashed var(--px-separator-opaque);
+        color: var(--px-label-secondary);
+      }
+      .px-ic-drop[data-active] { border-color: var(--px-accent); background: var(--px-accent-tint); color: var(--px-label); }
+      @media (max-width: 720px) {
+        .px-ic-row { grid-template-columns: minmax(0, 1fr) max-content; }
+        .px-ic-row__text { grid-column: 1 / -1; }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="px-imports-check-root"></div>
+    <script type="module" src="/src/platform/devlab/importsCheck.tsx"></script>
+  </body>
+</html>

@@ -1,0 +1,21 @@
+/* Trash: the retention note, the grid (the kit's MediaGrid) and the destructive toolbar label. */
+
+.px-trash { gap: 16px; }
+.px-trash-note {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font: var(--px-fw-regular) var(--px-fs-subheadline)/var(--px-lh-subheadline) var(--px-font-sans);
+  letter-spacing: var(--px-tr-subheadline);
+  color: var(--px-label-secondary);
+}
+.px-btn.px-trash-delete { --_fg: var(--px-danger-text-control); }
+.px-trash-alert-icon { color: var(--px-label-secondary); }
+
+.px-trash-skeleton {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(var(--px-tile-min), 100%), 1fr));
+  gap: 16px 12px;
+}
+.px-trash-skeleton__card { display: grid; gap: 6px; padding: 4px; }
+.px-trash-skeleton__thumb { aspect-ratio: 1; margin-bottom: 4px; }

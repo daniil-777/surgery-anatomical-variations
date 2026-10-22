@@ -1,0 +1,79 @@
+/* Tooltip and popover (APPLE_STYLE_SPEC §2.12). Both sit in the top layer through the popover attribute; the UA's
+   [popover] box (inset 0, margin auto, border, padding, Canvas colours) is reset here and floating-ui sets left/top. */
+
+.px-tooltip, .px-popover {
+  position: fixed;
+  inset: auto;
+  margin: 0;
+  border: 0;
+  color: var(--px-label);
+  background: var(--px-mat-popover);
+  -webkit-backdrop-filter: var(--px-mat-popover-filter);
+  backdrop-filter: var(--px-mat-popover-filter);
+  box-shadow: var(--px-inner-highlight), var(--px-shadow-3);
+  overflow: visible;
+}
+
+.px-tooltip {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  max-width: 240px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font: var(--px-fw-regular) var(--px-fs-subheadline)/var(--px-lh-subheadline) var(--px-font-sans);
+  letter-spacing: var(--px-tr-subheadline);
+  opacity: 0;
+  transition: opacity var(--px-dur-fast) var(--px-ease-out);
+}
+.px-tooltip[data-positioned] { opacity: 1; }
+.px-tooltip__text { min-width: 0; overflow-wrap: anywhere; }
+.px-tooltip__shortcut { flex: none; color: var(--px-label-secondary); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+.px-popover {
+  --_origin: top center;
+  max-width: min(360px, calc(100vw - 16px));
+  padding: 0;
+  border-radius: var(--px-radius-popover);
+  opacity: 0;
+  transform: scale(.98);
+  transform-origin: var(--_origin);
+  transition: opacity var(--px-dur-fast) var(--px-ease-out), transform var(--px-dur-fast) var(--px-ease-out);
+}
+.px-popover[data-positioned] { opacity: 1; transform: none; }
+.px-popover[data-placement^="top"] { --_origin: bottom center; }
+.px-popover[data-placement^="left"] { --_origin: center right; }
+.px-popover[data-placement^="right"] { --_origin: center left; }
+@media (prefers-reduced-motion: reduce) { .px-popover { transform: none; } }
+
+.px-popover__scroll { max-height: inherit; overflow: auto; border-radius: inherit; overscroll-behavior: contain; }
+.px-popover__header {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  padding: 14px 16px 0;
+}
+.px-popover__title {
+  font: var(--px-fw-bold) var(--px-fs-headline)/var(--px-lh-headline) var(--px-font-sans);
+  letter-spacing: var(--px-tr-headline);
+}
+.px-popover__body { padding: 12px 16px 16px; }
+.px-popover__footer { display: flex; justify-content: flex-end; gap: 8px; padding: 0 16px 16px; }
+
+/* The arrow is a clipped square of the same material placed outside the box, so the two never overlap */
+.px-popover__arrow {
+  position: absolute;
+  width: 16px;
+  height: 8px;
+  background: var(--px-mat-popover);
+  -webkit-backdrop-filter: var(--px-mat-popover-filter);
+  backdrop-filter: var(--px-mat-popover-filter);
+  pointer-events: none;
+}
+.px-popover[data-placement^="bottom"] .px-popover__arrow { top: -8px; clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+.px-popover[data-placement^="top"] .px-popover__arrow { bottom: -8px; clip-path: polygon(0 0, 100% 0, 50% 100%); }
+.px-popover[data-placement^="left"] .px-popover__arrow { right: -8px; width: 8px; height: 16px; clip-path: polygon(0 0, 100% 50%, 0 100%); }
+.px-popover[data-placement^="right"] .px-popover__arrow { left: -8px; width: 8px; height: 16px; clip-path: polygon(100% 0, 100% 100%, 0 50%); }
+
+@media (forced-colors: active) {
+  .px-tooltip, .px-popover { border: 1px solid CanvasText; background: Canvas; -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .px-popover__arrow { display: none; }
+}

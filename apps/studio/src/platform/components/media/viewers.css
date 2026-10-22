@@ -1,0 +1,209 @@
+/* Media viewers: the 3D model stage, the zoomable image, the video player and the file list (APPLE_STYLE_SPEC §2.10
+   preview, §3.4 Quick Look, §4.5 renderer errors). Glass never sits over the WebGL canvas: HUDs over it are solid. */
+
+/* 3D model ------------------------------------------------------------------------------------------------------- */
+.px-model-viewer {
+  --px-viewer-inner: light-dark(#FFFFFF, #3A3A3D);
+  --px-viewer-outer: light-dark(#DCDDE3, #1E1E21);
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 120px;
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: inherit;
+  background: radial-gradient(120% 95% at 50% 32%, var(--px-viewer-inner) 0%, var(--px-viewer-outer) 100%);
+}
+.px-model-viewer--dark {
+  --px-viewer-inner: #34343A;
+  --px-viewer-outer: #121214;
+  color-scheme: dark;
+}
+.px-model-viewer__stage {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  outline: none;
+  cursor: grab;
+  touch-action: none;
+}
+.px-model-viewer__stage:active { cursor: grabbing; }
+/* overflow clips an outline: draw the focus ring inside */
+.px-model-viewer__stage:focus-visible { box-shadow: inset 0 0 0 2px var(--px-focus-ring), inset 0 0 0 5px var(--px-focus-halo); }
+.px-model-viewer__canvas { display: block; width: 100%; height: 100%; }
+.px-model-viewer__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  pointer-events: none;
+}
+.px-model-viewer__message {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  max-width: 280px;
+  text-align: center;
+  font: var(--px-fw-regular) var(--px-fs-subheadline)/var(--px-lh-subheadline) var(--px-font-sans);
+  letter-spacing: var(--px-tr-subheadline);
+  color: var(--px-label-secondary);
+}
+.px-model-viewer__message .px-icon { color: var(--px-label-secondary); }
+/* the renderer-error card (§4.5): solid HUD material, never a blur over the canvas */
+.px-model-viewer__hud {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  max-width: 240px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  text-align: center;
+  color-scheme: dark;
+  color: var(--px-label-hud);
+  background: var(--px-mat-hud-solid);
+  box-shadow: var(--px-shadow-3);
+  pointer-events: auto;
+  font: var(--px-fw-medium) var(--px-fs-subheadline)/var(--px-lh-subheadline) var(--px-font-sans);
+  letter-spacing: var(--px-tr-subheadline);
+}
+
+/* Image ---------------------------------------------------------------------------------------------------------- */
+.px-image-viewer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 120px;
+  overflow: hidden;
+  border-radius: inherit;
+  outline: none;
+  touch-action: none;
+  background: var(--px-bg-thumb);
+  user-select: none;
+  -webkit-user-select: none;
+}
+.px-image-viewer--checker {
+  background-color: light-dark(#FFFFFF, #2C2C2E);
+  background-image:
+    linear-gradient(45deg, var(--px-fill-tertiary) 25%, transparent 25%, transparent 75%, var(--px-fill-tertiary) 75%),
+    linear-gradient(45deg, var(--px-fill-tertiary) 25%, transparent 25%, transparent 75%, var(--px-fill-tertiary) 75%);
+  background-position: 0 0, 8px 8px;
+  background-size: 16px 16px;
+}
+.px-image-viewer--zoomed { cursor: grab; }
+.px-image-viewer--dragging { cursor: grabbing; }
+.px-image-viewer:focus-visible { box-shadow: inset 0 0 0 2px var(--px-focus-ring), inset 0 0 0 5px var(--px-focus-halo); }
+.px-image-viewer__image {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  max-width: none;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  transition: opacity var(--px-dur-base) var(--px-ease-out);
+}
+.px-image-viewer__image[data-loaded] { opacity: 1; }
+.px-image-viewer__image[data-pixelated] { image-rendering: pixelated; }
+.px-image-viewer__message, .px-video-player__message {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 8px;
+  padding: 16px;
+  text-align: center;
+  font: var(--px-fw-regular) var(--px-fs-subheadline)/var(--px-lh-subheadline) var(--px-font-sans);
+  letter-spacing: var(--px-tr-subheadline);
+  color: var(--px-label-secondary);
+}
+.px-image-viewer__hud {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px;
+  border-radius: var(--px-radius-capsule);
+  color-scheme: dark;
+  color: var(--px-label-hud);
+  background: var(--px-mat-hud);
+  -webkit-backdrop-filter: var(--px-mat-hud-filter);
+  backdrop-filter: var(--px-mat-hud-filter);
+  transition: opacity var(--px-dur-fast) var(--px-ease-out);
+}
+.px-image-viewer__hud .px-icon-btn { --_fg: var(--px-label-hud-secondary); --_fg-hover: var(--px-label-hud); border-radius: var(--px-radius-capsule); }
+.px-image-viewer--compact .px-image-viewer__hud { opacity: 0; }
+@media (hover: hover) { .px-image-viewer--compact:hover .px-image-viewer__hud { opacity: 1; } }
+.px-image-viewer--compact:focus-within .px-image-viewer__hud { opacity: 1; }
+.px-image-viewer__level {
+  position: relative;
+  min-width: 44px;
+  height: var(--px-ctl-h-sm);
+  padding: 0 4px;
+  border: 0;
+  border-radius: var(--px-radius-capsule);
+  font: var(--px-fw-medium) var(--px-fs-caption)/1 var(--px-font-sans);
+  letter-spacing: var(--px-tr-caption);
+  color: var(--px-label-hud);
+  background: transparent;
+  cursor: default;
+  outline: none;
+}
+.px-image-viewer__level::after { content: ""; position: absolute; inset: -2px 0; }
+@media (hover: hover) { .px-image-viewer__level:hover { background: var(--px-fill-quaternary); } }
+.px-image-viewer__level:focus-visible { outline: 2px solid var(--px-focus-ring); outline-offset: 1px; }
+
+/* Video ---------------------------------------------------------------------------------------------------------- */
+.px-video-player {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 120px;
+  overflow: hidden;
+  border-radius: inherit;
+  color-scheme: dark;
+  background: #000000;
+}
+.px-video-player__video { display: block; width: 100%; height: 100%; object-fit: contain; background: #000000; }
+.px-video-player__message { color: var(--px-label-secondary); }
+
+/* Files ---------------------------------------------------------------------------------------------------------- */
+.px-file-list { display: grid; gap: 2px; margin: 0; padding: 0; list-style: none; }
+.px-file-list__row {
+  display: grid;
+  grid-template-columns: 16px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  min-height: 32px;
+  padding: 2px 2px 2px 4px;
+  border-radius: var(--px-radius-control);
+}
+@media (hover: hover) { .px-file-list__row:hover { background: var(--px-fill-quaternary); } }
+.px-file-list__icon { color: var(--px-label-secondary); }
+.px-file-list__text { display: grid; min-width: 0; }
+.px-file-list__name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font: var(--px-fw-regular) var(--px-fs-callout)/var(--px-lh-callout) var(--px-font-sans);
+  letter-spacing: var(--px-tr-callout);
+  color: var(--px-label);
+}
+.px-file-list__details {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font: var(--px-fw-regular) var(--px-fs-subheadline)/var(--px-lh-subheadline) var(--px-font-sans);
+  letter-spacing: var(--px-tr-subheadline);
+  color: var(--px-label-secondary);
+}
+.px-file-list__busy { display: grid; place-items: center; width: var(--px-ctl-h-sm); height: var(--px-ctl-h-sm); }
+
+@media (forced-colors: active) {
+  .px-image-viewer__hud, .px-model-viewer__hud { border: 1px solid CanvasText; background: Canvas; color: CanvasText; -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .px-model-viewer__stage:focus-visible, .px-image-viewer:focus-visible { outline: 2px solid Highlight; outline-offset: -2px; box-shadow: none; }
+}

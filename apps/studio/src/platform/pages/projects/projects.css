@@ -1,0 +1,155 @@
+/* Projects page (APPLE_STYLE_SPEC §3.3). The page brings its own unified toolbar: it sits in the window's toolbar row
+   (pinned over the content column's top padding) and the content scrolls under it. Font sizes only through --px-fs-*. */
+
+.px-projects {
+  position: relative;
+  min-height: 100%;
+  padding-bottom: 32px;
+}
+.px-projects > .px-projects__toolbar {
+  position: sticky;
+  top: 0;
+  z-index: var(--px-z-toolbar);
+  /* the content column keeps a toolbar-high top padding for the window's toolbar row: take that row */
+  margin-top: calc(-1 * var(--px-toolbar-h));
+}
+.px-projects__scope { padding: var(--px-content-pad-top) var(--px-content-pad-x) 0; }
+.px-projects__scope .px-seg { max-width: 100%; }
+.px-projects__content { padding: var(--px-content-pad-top) var(--px-content-pad-x) 0; }
+.px-projects__content > .px-empty { margin-top: 12vh; }
+.px-projects__grid { min-width: 0; }
+
+/* A lab glyph on its tint while a project has no picture yet */
+.px-project-placeholder {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--_tint);
+  background:
+    radial-gradient(120% 90% at 50% 40%, color-mix(in srgb, var(--_tint) 16%, transparent), transparent 70%),
+    var(--px-bg-thumb);
+}
+
+/* Inline rename (Finder): a field over the title, outside the listbox */
+.px-inline-rename {
+  position: fixed;
+  z-index: var(--px-z-popover);
+  height: 22px;
+  padding: 0 4px;
+  border: 0;
+  border-radius: var(--px-radius-small);
+  color: var(--px-label);
+  background: var(--px-bg-field);
+  box-shadow: 0 0 0 2px var(--px-focus-ring), var(--px-shadow-2);
+  font: var(--px-fw-regular) var(--px-fs-body)/22px var(--px-font-sans);
+  letter-spacing: var(--px-tr-body);
+  outline: none;
+}
+html.px-shell .px-inline-rename { background: light-dark(#FFFFFF, #2C2C2E); }
+.px-inline-rename--row { position: static; width: 100%; max-width: 420px; box-shadow: 0 0 0 2px var(--px-focus-ring); }
+
+/* List view: a Finder-style table, rows 28, alternating backgrounds */
+.px-projects-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
+  font: var(--px-fw-regular) var(--px-fs-body)/var(--px-lh-body) var(--px-font-sans);
+}
+.px-projects-table th {
+  height: 28px;
+  padding: 0 8px;
+  color: var(--px-label-secondary);
+  font: var(--px-fw-semibold) var(--px-fs-subheadline)/var(--px-lh-subheadline) var(--px-font-sans);
+  letter-spacing: var(--px-tr-subheadline);
+  text-align: start;
+  white-space: nowrap;
+  box-shadow: inset 0 calc(-1 * var(--px-hairline)) 0 var(--px-separator);
+}
+.px-projects-table th:nth-child(2) { width: auto; }
+.px-projects-table th:nth-child(3) { width: 18%; }
+.px-projects-table th:nth-child(4), .px-projects-table th:nth-child(5) { width: 15%; }
+.px-projects-table__fav { width: 32px; }
+.px-projects-table th.px-projects-table__fav, .px-projects-table td.px-projects-table__fav { padding-inline: 4px 0; }
+.px-projects-table__actions { width: 40px; text-align: end; }
+.px-projects-table__sort {
+  height: 22px;
+  margin: 0 -6px;
+  padding: 0 6px;
+  border: 0;
+  border-radius: var(--px-radius-small);
+  color: inherit;
+  background: transparent;
+  font: inherit;
+  cursor: default;
+  outline: none;
+}
+.px-projects-table__sort--active { color: var(--px-label); }
+.px-projects-table__sort--active::after { content: " ▾"; font-size: var(--px-fs-caption); }
+@media (hover: hover) { .px-projects-table__sort:hover { background: var(--px-fill-quaternary); } }
+.px-projects-table__sort:focus-visible { outline: 2px solid var(--px-focus-ring); outline-offset: 0; }
+.px-projects-table td {
+  height: 32px;
+  padding: 0 8px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.px-projects-table__row:nth-child(even) td { background: var(--px-bg-content-alt); }
+.px-projects-table__row td:first-child { border-start-start-radius: 6px; border-end-start-radius: 6px; }
+.px-projects-table__row td:last-child { border-start-end-radius: 6px; border-end-end-radius: 6px; }
+.px-projects-table__row--selected td,
+.px-projects-table__row--selected:nth-child(even) td { background: var(--px-selection-unemphasized); }
+.px-projects-table:focus-within .px-projects-table__row--selected td { color: #FFFFFF; background: var(--px-selection); }
+.px-projects-table:focus-within .px-projects-table__row--selected .px-projects-table__secondary { color: rgba(255, 255, 255, .82); }
+.px-projects-table__secondary { color: var(--px-label-secondary); }
+.px-projects-table__name { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.px-projects-table td.px-projects-table__name { display: table-cell; }
+.px-projects-table__name > * { vertical-align: middle; }
+.px-projects-table__thumb {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 32px;
+  height: 20px;
+  margin-inline-end: 8px;
+  overflow: hidden;
+  border-radius: 4px;
+  color: var(--_tint);
+  background: var(--px-bg-thumb);
+  vertical-align: middle;
+}
+.px-projects-table__thumb img { width: 100%; height: 100%; object-fit: cover; }
+.px-projects-table__thumb::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 1px var(--px-image-outline); }
+.px-projects-table__open {
+  max-width: calc(100% - 48px);
+  overflow: hidden;
+  padding: 0;
+  border: 0;
+  color: inherit;
+  background: transparent;
+  font: var(--px-fw-medium) var(--px-fs-body)/var(--px-lh-body) var(--px-font-sans);
+  text-align: start;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: default;
+  outline: none;
+}
+.px-projects-table__open:focus-visible { outline: 2px solid var(--px-focus-ring); outline-offset: 2px; border-radius: 2px; }
+.px-projects-table__heart--on { color: var(--px-system-pink); }
+.px-projects-table__heart--on svg { fill: currentColor; }
+.px-projects-table:focus-within .px-projects-table__row--selected .px-projects-table__heart { color: #FFFFFF; }
+
+/* Loading */
+.px-projects-skeleton__card { display: grid; gap: 8px; padding: 4px; }
+.px-projects-skeleton .px-projects-skeleton__thumb { aspect-ratio: 16 / 10; height: auto; }
+.px-projects-skeleton-list { display: grid; gap: 14px; padding-top: 8px; }
+
+@media (max-width: 760px) {
+  .px-projects-table th:nth-child(5), .px-projects-table td:nth-child(5) { display: none; }
+}
+@media (max-width: 599px) {
+  .px-projects-table th:nth-child(3), .px-projects-table td:nth-child(3) { display: none; }
+}

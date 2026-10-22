@@ -1,0 +1,134 @@
+/* Window frame (APPLE_STYLE_SPEC §2.1): floating sidebar, unified toolbar over a scrolling content column, inspector.
+   Breakpoints: ≥ 1280 three columns · 900–1279 floating inspector · < 900 overlay sidebar · < 600 compact padding. */
+
+.px-app {
+  --_sb: calc(var(--px-sidebar-w) + var(--px-panel-inset));
+  --_insp: 0px;
+  position: relative;
+  display: grid;
+  grid-template-rows: var(--px-toolbar-h) minmax(0, 1fr);
+  grid-template-columns: var(--_sb) minmax(0, 1fr) var(--_insp);
+  height: 100dvh;
+  overflow: hidden;
+  color: var(--px-label);
+  background: var(--px-bg-content);
+  transition: grid-template-columns var(--px-dur-slow) var(--px-ease-emphasized);
+}
+.px-app[data-sidebar="hidden"] { --_sb: 0px; }
+.px-app[data-inspector="shown"] { --_insp: var(--px-inspector-w); }
+
+.px-app__sidebar {
+  position: relative;
+  z-index: var(--px-z-sidebar);
+  grid-area: 1 / 1 / -1 / 2;
+  width: var(--px-sidebar-w);
+  min-height: 0;
+  margin: var(--px-panel-inset) 0 var(--px-panel-inset) var(--px-panel-inset);
+  transition: transform var(--px-dur-slow) var(--px-ease-emphasized), visibility 0s linear 0s;
+}
+.px-app[data-sidebar="hidden"] .px-app__sidebar {
+  transform: translateX(calc(-100% - 2 * var(--px-panel-inset)));
+  visibility: hidden;
+  transition: transform var(--px-dur-slow) var(--px-ease-emphasized), visibility 0s linear var(--px-dur-slow);
+}
+.px-app__resize {
+  position: absolute;
+  top: 20px;
+  bottom: 20px;
+  right: 0;
+  z-index: 1;
+  width: 6px;
+  border-radius: 3px;
+  cursor: col-resize;
+  outline: none;
+  touch-action: none;
+}
+.px-app__resize:focus-visible { background: var(--px-focus-ring); }
+
+.px-app__toolbar { grid-area: 1 / 2 / 2 / -1; z-index: var(--px-z-toolbar); min-width: 0; }
+.px-content {
+  position: relative;
+  grid-area: 1 / 2 / -1 / 3;
+  min-width: 0;
+  overflow: auto;
+  padding-top: var(--px-toolbar-h);
+  scroll-padding-top: var(--px-toolbar-h);
+  overscroll-behavior: contain;
+  outline: none;
+}
+.px-content__sentinel { position: absolute; top: 0; left: 0; width: 1px; height: 1px; pointer-events: none; }
+.px-app__inspector {
+  grid-area: 2 / 3 / -1 / -1;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  border-inline-start: var(--px-hairline) solid var(--px-separator);
+}
+
+.px-app__scrim {
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--px-z-sidebar) + 10);
+  background: var(--px-mat-scrim);
+  animation: px-fade-in var(--px-dur-base) var(--px-ease-out);
+}
+@keyframes px-fade-in { from { opacity: 0; } }
+
+@media (max-width: 1279px) {
+  /* the inspector floats over the content instead of taking a column */
+  .px-app[data-inspector="shown"] { --_insp: 0px; }
+  .px-app__inspector {
+    /* the whole window is the containing block (its own column is 0 px wide here) */
+    grid-area: 1 / 1 / -1 / -1;
+    position: absolute;
+    top: calc(var(--px-toolbar-h) + var(--px-panel-inset));
+    right: var(--px-panel-inset);
+    bottom: var(--px-panel-inset);
+    z-index: var(--px-z-floating-panel);
+    width: min(var(--px-inspector-w), calc(100% - 2 * var(--px-panel-inset)));
+    border: 0;
+    border-radius: var(--px-radius-panel);
+    box-shadow: var(--px-shadow-4);
+  }
+}
+
+.px-app--narrow { --_sb: 0px; }
+.px-app--narrow[data-sidebar] { --_sb: 0px; }
+.px-app--narrow .px-app__sidebar {
+  position: fixed;
+  inset: var(--px-panel-inset) auto var(--px-panel-inset) var(--px-panel-inset);
+  z-index: calc(var(--px-z-sidebar) + 20);
+  width: min(var(--px-sidebar-w), calc(100vw - 48px));
+  margin: 0;
+}
+.px-app--narrow .px-sidebar {
+  background: var(--px-mat-sidebar-solid);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow: var(--px-inner-highlight), var(--px-shadow-5);
+}
+@media (max-width: 599px) {
+  .px-app { --px-content-pad-x: 16px; --px-tile-min: 140px; }
+}
+
+/* Lab routes: the canvas never sits under the toolbar and never reflows when the sidebar toggles */
+.px-app[data-mode="lab"] { --_sb: 0px; background: var(--px-bg-stage); }
+.px-app[data-mode="lab"] .px-app__toolbar {
+  background: var(--px-bg-content);
+  box-shadow: inset 0 calc(-1 * var(--px-hairline)) 0 var(--px-separator);
+}
+.px-app[data-mode="lab"] .px-content { grid-row: 2; padding-top: 0; overflow: hidden; }
+.px-app[data-mode="lab"] .px-app__sidebar {
+  position: absolute;
+  inset: calc(var(--px-toolbar-h) + var(--px-panel-inset)) auto var(--px-panel-inset) var(--px-panel-inset);
+  margin: 0;
+}
+.px-app[data-mode="lab"] .px-sidebar { background: var(--px-mat-sidebar-solid); -webkit-backdrop-filter: none; backdrop-filter: none; }
+
+/* The lab iframe's frame: the shell never styles lab DOM, only the box it lives in (DESIGN.md D2) */
+.px-lab-host { position: relative; width: 100%; height: 100%; isolation: isolate; color-scheme: dark; background: var(--px-bg-stage); }
+.px-lab-frame { display: block; width: 100%; height: 100%; border: 0; background: var(--px-bg-stage); }
+
+@media (prefers-reduced-motion: reduce) {
+  .px-app, .px-app__sidebar { transition-duration: 0s; }
+}

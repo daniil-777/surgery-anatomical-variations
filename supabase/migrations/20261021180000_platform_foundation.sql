@@ -27,6 +27,28 @@ $$;
 comment on function private.raise_error(text, integer, text) is
   'Raises a platform error: MESSAGE = stable code, SQLSTATE PT<status> (PostgREST maps it to that HTTP status).';
 
+-- The same error for the rare RPC that must keep a state change and still fail (confirm_asset marks a mismatched
+-- upload 'rejected'): a raised error would roll that change back. PostgREST commits, answers with the HTTP status of
+-- the transaction-local response.status setting and sends the returned body, which has the shape of its own error
+-- bodies, so a client sees exactly what raise_error would have given it. Callers return this value unchanged.
+create or replace function private.error_response(p_code text, p_status integer, p_detail text default null)
+returns jsonb
+language plpgsql
+set search_path = ''
+as $$
+begin
+  perform set_config('response.status', p_status::text, true);
+  return jsonb_build_object(
+    'code', 'PT' || lpad(p_status::text, 3, '0'),
+    'message', p_code,
+    'details', coalesce(p_detail, ''),
+    'hint', null
+  );
+end
+$$;
+comment on function private.error_response(text, integer, text) is
+  'A platform error as a committed answer: sets response.status and returns PostgREST''s error body.';
+
 create or replace function private.require_uid()
 returns uuid
 language plpgsql
@@ -67,9 +89,12 @@ create table public.plans (
 );
 comment on table public.plans is 'Account plans: storage quota, per-file limit, version retention, project limit.';
 
+-- The Supabase Free project holds 1 GB of files in total: free accounts get 250 MB, the owner's account 800 MB
+-- (DESIGN.md §15.16).
 insert into public.plans (id, title, storage_quota_bytes, max_file_bytes, version_retention_days, max_projects)
 values
-  ('free', 'Free', 524288000, 52428800, 30, 100),
+  ('free', 'Free', 262144000, 52428800, 30, 100),
+  ('owner', 'Owner', 838860800, 52428800, 365, 1000),
   ('pro', 'Pro', 21474836480, 1073741824, 180, 10000)
 on conflict (id) do update set
   title = excluded.title,
@@ -139,7 +164,9 @@ as $$
 declare
   v_meta jsonb := coalesce(new.raw_user_meta_data, '{}'::jsonb);
   v_username text := lower(nullif(btrim(v_meta ->> 'username'), ''));
-  v_display text := nullif(btrim(coalesce(v_meta ->> 'display_name', v_meta ->> 'full_name', v_meta ->> 'name')), '');
+  -- each candidate is blank-checked on its own, so an empty display_name falls back to the provider's name
+  v_display text := coalesce(nullif(btrim(v_meta ->> 'display_name'), ''), nullif(btrim(v_meta ->> 'full_name'), ''),
+                             nullif(btrim(v_meta ->> 'name'), ''));
 begin
   if v_username is not null and not private.is_valid_username(v_username) then
     v_username := null;

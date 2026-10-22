@@ -1,0 +1,204 @@
+/* Sign-in screens (APPLE_STYLE_SPEC §3.1): a centred glass card (radius 26, padding 32; 24 below 480 px) over a soft
+   two-colour backdrop. Font sizes only through --px-fs-* properties. */
+
+.px-auth {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 100dvh;
+  padding: 24px 16px;
+  background:
+    radial-gradient(1200px 800px at 15% 10%, light-dark(#FDE8EC, #3A1C24), transparent 60%),
+    radial-gradient(1000px 700px at 85% 85%, light-dark(#E3EEFF, #0F2240), transparent 55%),
+    light-dark(#F5F5F7, #0B0B0D);
+}
+.px-auth__main { display: grid; justify-items: center; gap: 16px; width: 100%; outline: none; }
+
+.px-auth__card {
+  position: relative;
+  display: grid;
+  width: min(400px, 100%);
+  padding: 32px;
+  border-radius: var(--px-radius-window);
+  color: var(--px-label);
+  background: var(--px-mat-sheet);
+  -webkit-backdrop-filter: var(--px-mat-sheet-filter);
+  backdrop-filter: var(--px-mat-sheet-filter);
+  box-shadow: var(--px-inner-highlight), var(--px-shadow-6);
+}
+@media (max-width: 479px) { .px-auth__card { padding: 24px; } }
+
+.px-auth__back { position: absolute; top: 12px; left: 12px; }
+.px-auth__back .px-btn { --_px: 8px; }
+.px-auth__icon { display: grid; justify-items: center; margin-bottom: 16px; }
+.px-auth__icon .px-app-mark { border-radius: 14px; box-shadow: var(--px-shadow-2); }
+.px-auth__title {
+  text-align: center;
+  font: var(--px-fw-bold) var(--px-fs-title1)/var(--px-lh-title1) var(--px-font-display);
+  letter-spacing: var(--px-tr-title1);
+}
+.px-auth__subtitle { margin-top: 6px; text-align: center; color: var(--px-label-secondary); }
+.px-auth__body { display: grid; min-width: 0; margin-top: 24px; }
+.px-auth__footnote {
+  max-width: 400px;
+  text-align: center;
+  font: var(--px-fw-regular) var(--px-fs-footnote)/var(--px-lh-footnote) var(--px-font-sans);
+  letter-spacing: var(--px-tr-footnote);
+  color: var(--px-label-secondary);
+}
+
+/* a round glyph in place of the app mark while waiting for a code or after a reset */
+.px-auth-glyph {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  color: var(--px-accent);
+  background: var(--px-accent-tint);
+}
+.px-auth-glyph--success { color: var(--px-success-text); background: color-mix(in srgb, var(--px-system-green) 16%, transparent); }
+
+/* the form: label → field 6, field → next label 14, password → Sign In 20, Sign In → secondary action 8 */
+.px-auth-form { display: grid; gap: 14px; min-width: 0; }
+.px-auth-form__actions { display: grid; gap: 8px; margin-top: 6px; }
+.px-auth-form__hint {
+  font: var(--px-fw-regular) var(--px-fs-subheadline)/var(--px-lh-subheadline) var(--px-font-sans);
+  letter-spacing: var(--px-tr-subheadline);
+  color: var(--px-label-secondary);
+  text-align: center;
+}
+.px-auth-form__row { display: flex; align-items: center; justify-content: center; gap: 6px 14px; flex-wrap: wrap; }
+
+.px-auth-providers { display: grid; gap: 10px; }
+
+.px-auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0;
+  font: var(--px-fw-regular) var(--px-fs-subheadline)/var(--px-lh-subheadline) var(--px-font-sans);
+  letter-spacing: var(--px-tr-subheadline);
+  color: var(--px-label-secondary);
+}
+.px-auth-divider::before, .px-auth-divider::after { content: ""; flex: 1; height: var(--px-hairline); background: var(--px-separator); }
+
+.px-auth-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: var(--px-radius-field-xl);
+  color: var(--px-danger-text);
+  background: var(--px-bg-banner-danger);
+}
+.px-auth-banner--info { color: var(--px-label); background: var(--px-accent-tint); }
+.px-auth-banner--info .px-auth-banner__icon { color: var(--px-accent-text); }
+.px-auth-banner__icon { margin-top: 0; flex: none; }
+.px-auth-banner__text { min-width: 0; }
+
+.px-auth-switch {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: var(--px-hairline) solid var(--px-separator);
+  text-align: center;
+}
+.px-auth-switch__line { color: var(--px-label-secondary); }
+.px-auth-switch__line a { font-weight: var(--px-fw-medium); }
+.px-auth-guest {
+  font: var(--px-fw-regular) var(--px-fs-callout)/var(--px-lh-callout) var(--px-font-sans);
+  letter-spacing: var(--px-tr-callout);
+  color: var(--px-label-secondary);
+}
+.px-auth-guest:hover { color: var(--px-label); }
+.px-auth-legal {
+  margin-top: 14px;
+  text-align: center;
+  font: var(--px-fw-regular) var(--px-fs-footnote)/var(--px-lh-footnote) var(--px-font-sans);
+  letter-spacing: var(--px-tr-footnote);
+  color: var(--px-label-secondary);
+}
+.px-auth-field-status { display: inline-flex; align-items: center; gap: 4px; }
+.px-auth-field-status--ok { color: var(--px-success-text); }
+.px-auth-optional { font: var(--px-fw-regular) var(--px-fs-callout)/var(--px-lh-callout) var(--px-font-sans); color: var(--px-label-secondary); }
+
+/* provider buttons: brand colours, same size and weight for every provider */
+.px-btn.px-provider-btn {
+  --_bg: #FFFFFF;
+  --_bg-hover: #F6F6F6;
+  --_bg-pressed: #ECECEC;
+  --_fg: #1F1F1F;
+  --_shadow: inset 0 0 0 1px #747775;
+  justify-content: center;
+  font: var(--px-fw-medium) var(--px-fs-title3)/1 var(--px-font-sans);
+  letter-spacing: var(--px-tr-title3);
+}
+.px-btn.px-provider-btn .px-btn__label { display: inline-flex; align-items: center; gap: 10px; overflow: visible; }
+/* Apple: "white with outline" on light backgrounds, plain "white" on dark ones (light-dark follows the page) */
+.px-btn.px-provider-btn--apple { --_fg: #000000; --_shadow: inset 0 0 0 1px light-dark(#000000, transparent); }
+.px-btn.px-provider-btn--github { --_fg: #1F2328; --_shadow: inset 0 0 0 1px #8C959F; }
+.px-btn.px-provider-btn--azure { --_fg: #5E5E5E; --_shadow: inset 0 0 0 1px #8C8C8C; }
+.px-provider-btn__logo { display: inline-grid; place-items: center; width: 18px; height: 18px; flex: none; }
+.px-provider-btn__logo .px-spinner { color: #1F1F1F; }
+.px-provider-btn__title { white-space: nowrap; }
+.px-provider-logo { display: block; }
+.px-btn.px-provider-btn:focus-visible { outline: 2px solid var(--px-focus-ring); outline-offset: 2px; }
+
+/* six-digit code: cells 40 × 44, radius 10, gap 8 */
+.px-code-field { display: grid; justify-items: center; gap: 8px; }
+.px-code { position: relative; width: 100%; max-width: 280px; height: 44px; }
+.px-code__cells { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; pointer-events: none; }
+.px-code__cell {
+  display: grid;
+  place-items: center;
+  border-radius: var(--px-radius-field-xl);
+  background: var(--px-bg-field);
+  box-shadow: inset 0 0 0 var(--px-hairline) var(--px-border-control), var(--px-shadow-field);
+  font: var(--px-fw-semibold) var(--px-fs-title2)/1 var(--px-font-sans);
+  font-variant-numeric: tabular-nums;
+  color: var(--px-label);
+  transition: box-shadow var(--px-dur-fast) var(--px-ease-out);
+}
+.px-code:focus-within .px-code__cell[data-active] { box-shadow: inset 0 0 0 1px var(--px-focus-ring), 0 0 0 3px var(--px-focus-halo); }
+.px-code--invalid .px-code__cell { box-shadow: inset 0 0 0 1px var(--px-danger); }
+.px-code--disabled { opacity: .5; }
+.px-code__input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  caret-color: transparent;
+  font-size: var(--px-fs-input-auth);
+  cursor: text;
+}
+.px-code__input::selection { background: transparent; }
+.px-code-field__error { justify-content: center; }
+
+/* password strength: four segments and a sentence; colour is never the only signal */
+.px-strength { display: grid; gap: 6px; }
+.px-strength__bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
+.px-strength__bar > span { height: 4px; border-radius: 2px; background: var(--px-fill-secondary); transition: background-color var(--px-dur-fast) var(--px-ease-out); }
+.px-strength[data-score="1"] .px-strength__bar > span:nth-child(-n + 1) { background: var(--px-system-red); }
+.px-strength[data-score="2"] .px-strength__bar > span:nth-child(-n + 2) { background: var(--px-system-orange); }
+.px-strength[data-score="3"] .px-strength__bar > span:nth-child(-n + 3) { background: var(--px-system-green); }
+.px-strength[data-score="4"] .px-strength__bar > span { background: var(--px-system-green); }
+.px-strength__label { font-weight: var(--px-fw-semibold); }
+.px-strength[data-level="weak"] .px-strength__label, .px-strength[data-level="short"] .px-strength__label { color: var(--px-danger-text); }
+.px-strength[data-level="fair"] .px-strength__label { color: var(--px-warning-text); }
+.px-strength[data-level="good"] .px-strength__label, .px-strength[data-level="strong"] .px-strength__label { color: var(--px-success-text); }
+
+@media (forced-colors: active) {
+  .px-auth__card { border: 1px solid CanvasText; background: Canvas; -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .px-code__cell { border: 1px solid CanvasText; }
+  .px-strength__bar > span { border: 1px solid CanvasText; }
+}

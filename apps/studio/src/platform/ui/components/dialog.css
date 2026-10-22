@@ -1,0 +1,140 @@
+/* Sheet and alert (APPLE_STYLE_SPEC §2.11) on native <dialog> + showModal(). The UA dialog box (border, padding,
+   Canvas colours, centring) is reset; entry and exit animate with @starting-style and allow-discrete. */
+
+.px-dialog {
+  position: fixed;
+  inset: 0;
+  margin: max(48px, 10vh) auto auto;
+  padding: 0;
+  border: 0;
+  max-width: calc(100vw - 32px);
+  max-height: calc(100dvh - 96px);
+  color: var(--px-label);
+  background: var(--px-mat-sheet);
+  -webkit-backdrop-filter: var(--px-mat-sheet-filter);
+  backdrop-filter: var(--px-mat-sheet-filter);
+  box-shadow: var(--px-inner-highlight), var(--px-shadow-5);
+  border-radius: var(--px-radius-sheet);
+  overflow: hidden;
+  outline: none;
+  font: var(--px-fw-regular) var(--px-fs-body)/var(--px-lh-body) var(--px-font-sans);
+  letter-spacing: var(--px-tr-body);
+  opacity: 0;
+  transform: translateY(var(--px-motion-distance)) scale(var(--px-motion-scale-from));
+  transition:
+    opacity var(--px-dur-fast) var(--px-ease-in),
+    transform var(--px-dur-fast) var(--px-ease-in),
+    overlay var(--px-dur-fast) allow-discrete,
+    display var(--px-dur-fast) allow-discrete;
+}
+.px-dialog[open] {
+  display: flex;
+  flex-direction: column;
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity var(--px-dur-base) var(--px-ease-out),
+    transform var(--px-dur-spring-snappy) var(--px-spring-snappy),
+    overlay var(--px-dur-base) allow-discrete,
+    display var(--px-dur-base) allow-discrete;
+}
+@starting-style {
+  .px-dialog[open] { opacity: 0; transform: translateY(var(--px-motion-distance)) scale(var(--px-motion-scale-from)); }
+}
+.px-dialog::backdrop {
+  background: transparent;
+  transition:
+    background-color var(--px-dur-fast) var(--px-ease-in),
+    overlay var(--px-dur-fast) allow-discrete,
+    display var(--px-dur-fast) allow-discrete;
+}
+.px-dialog[open]::backdrop { background: var(--px-mat-scrim); transition-duration: var(--px-dur-base); }
+@starting-style { .px-dialog[open]::backdrop { background: transparent; } }
+
+/* Sheet ---------------------------------------------------------------------------------------------------------- */
+.px-sheet { width: 560px; }
+.px-sheet--small { width: 420px; }
+.px-sheet--large { width: 720px; }
+.px-sheet__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex: none;
+  min-height: 52px;
+  padding: 12px 20px 8px;
+}
+.px-sheet__heading { display: grid; gap: 2px; min-width: 0; }
+.px-sheet__title {
+  font: var(--px-fw-semibold) var(--px-fs-title3)/var(--px-lh-title3) var(--px-font-sans);
+  letter-spacing: var(--px-tr-title3);
+}
+.px-sheet__description {
+  font: var(--px-fw-regular) var(--px-fs-subheadline)/var(--px-lh-subheadline) var(--px-font-sans);
+  letter-spacing: var(--px-tr-subheadline);
+  color: var(--px-label-secondary);
+}
+.px-sheet__header .px-icon-btn { margin-inline-end: -6px; }
+.px-sheet__body {
+  display: grid;
+  align-content: start;
+  gap: 16px;
+  flex: 1;
+  min-height: 0;
+  padding: 4px 20px 20px;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+.px-sheet--grouped .px-sheet__body { background: color-mix(in srgb, var(--px-bg-grouped) 60%, transparent); padding-top: 16px; }
+.px-sheet__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex: none;
+  min-height: 60px;
+  padding: 12px 20px;
+  border-top: var(--px-hairline) solid var(--px-separator);
+}
+.px-sheet__footer-leading, .px-sheet__footer-trailing { display: flex; align-items: center; gap: 8px; }
+.px-sheet__footer-trailing { margin-inline-start: auto; }
+
+/* Alert ---------------------------------------------------------------------------------------------------------- */
+.px-alert {
+  width: 300px;
+  margin-block-start: max(64px, 18vh);
+  padding: 20px;
+  align-items: center;
+  text-align: center;
+}
+.px-alert[open] { display: flex; }
+.px-alert__icon { display: grid; place-items: center; margin-bottom: 12px; }
+.px-alert__title {
+  font: var(--px-fw-bold) var(--px-fs-headline)/var(--px-lh-headline) var(--px-font-sans);
+  letter-spacing: var(--px-tr-headline);
+}
+.px-alert__message {
+  margin-top: 6px;
+  font: var(--px-fw-regular) var(--px-fs-subheadline)/var(--px-lh-subheadline) var(--px-font-sans);
+  letter-spacing: var(--px-tr-subheadline);
+  color: var(--px-label-secondary);
+}
+.px-alert__actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; margin-top: 20px; }
+.px-alert__actions--single { grid-template-columns: 1fr; }
+.px-alert__actions .px-btn { min-width: 0; width: 100%; }
+
+@media (max-width: 599px) {
+  /* bottom sheets on phones */
+  .px-sheet, .px-sheet--small, .px-sheet--large {
+    width: 100%;
+    max-width: 100%;
+    max-height: calc(100dvh - 24px);
+    margin: auto 0 0;
+    border-radius: var(--px-radius-sheet) var(--px-radius-sheet) 0 0;
+  }
+  .px-sheet__footer { padding-bottom: max(12px, env(safe-area-inset-bottom)); }
+}
+
+@media (forced-colors: active) {
+  .px-dialog { border: 1px solid CanvasText; background: Canvas; -webkit-backdrop-filter: none; backdrop-filter: none; }
+}

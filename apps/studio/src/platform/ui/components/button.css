@@ -1,0 +1,205 @@
+/* Buttons and icon buttons (APPLE_STYLE_SPEC §2.6, §2.3 toolbar items).
+   data-px-state="hover|pressed|focus" forces a state (used by the gallery to show every state side by side). */
+
+.px-btn {
+  --_h: var(--px-ctl-h-md);
+  --_px: 10px;
+  --_radius: var(--px-radius-control);
+  --_bg: var(--px-bg-control);
+  --_bg-hover: var(--px-bg-control-hover);
+  --_bg-pressed: var(--px-bg-control-pressed);
+  --_fg: var(--px-label);
+  --_shadow: var(--px-inner-highlight), var(--px-shadow-1);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex: none;
+  height: var(--_h);
+  min-width: 64px;
+  max-width: 100%;
+  padding: 0 var(--_px);
+  border: 0;
+  border-radius: var(--_radius);
+  font: var(--px-fw-regular) var(--px-fs-body)/1 var(--px-font-sans);
+  letter-spacing: var(--px-tr-body);
+  color: var(--_fg);
+  background: var(--_bg);
+  box-shadow: var(--_shadow);
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: default;
+  user-select: none;
+  -webkit-user-select: none;
+  opacity: 1;
+  outline: none;
+  transition-property: background-color, box-shadow, color, transform, opacity;
+  transition-duration: var(--px-dur-fast);
+  transition-timing-function: var(--px-ease-out);
+  -webkit-tap-highlight-color: transparent;
+}
+/* WCAG 2.2 target size: controls under 24 px get an invisible hit area */
+.px-btn::after { content: ""; position: absolute; inset: min(0px, calc((var(--_h) - var(--px-hit-min)) / 2)); }
+.px-btn__label { overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.px-btn__trailing { opacity: .7; }
+.px-btn .px-spinner { color: inherit; }
+
+.px-btn--small {
+  --_h: var(--px-ctl-h-sm); --_px: 8px; --_radius: var(--px-radius-control-sm);
+  min-width: 48px; gap: 4px;
+  font: var(--px-fw-medium) var(--px-fs-subheadline)/1 var(--px-font-sans);
+  letter-spacing: var(--px-tr-subheadline);
+}
+.px-btn--large { --_h: var(--px-ctl-h-lg); --_px: 14px; --_radius: var(--px-radius-capsule); min-width: 80px; }
+.px-btn--xlarge {
+  --_h: var(--px-ctl-h-xl); --_px: 18px; --_radius: var(--px-radius-capsule);
+  min-width: 120px; gap: 8px;
+  font: var(--px-fw-semibold) var(--px-fs-title3)/1 var(--px-font-sans);
+  letter-spacing: var(--px-tr-title3);
+}
+.px-btn--toolbar {
+  --_h: var(--px-toolbar-item-h); --_px: 14px; --_radius: var(--px-radius-capsule);
+  min-width: 0;
+  font-weight: var(--px-fw-medium);
+}
+.px-btn--auth {
+  --_h: var(--px-ctl-h-auth); --_px: 20px; --_radius: var(--px-radius-capsule);
+  width: 100%; gap: 8px;
+  font: var(--px-fw-semibold) var(--px-fs-title3)/1 var(--px-font-sans);
+  letter-spacing: var(--px-tr-title3);
+}
+.px-btn--full { width: 100%; }
+
+.px-btn--plain {
+  --_bg: transparent; --_bg-hover: var(--px-fill-quaternary); --_bg-pressed: var(--px-fill-tertiary);
+  --_fg: var(--px-accent-text); --_shadow: none;
+  min-width: 0;
+}
+.px-btn--borderedProminent, .px-btn--destructiveProminent {
+  --_fg: var(--px-label-on-fill);
+  --_shadow: 0 .5px 1px rgba(0,0,0,.15), inset 0 .5px 0 rgba(255,255,255,.18);
+  font-weight: var(--px-fw-semibold);
+}
+.px-btn--borderedProminent { --_bg: var(--px-accent-fill); --_bg-hover: var(--px-accent-fill-hover); --_bg-pressed: var(--px-accent-fill-pressed); }
+.px-btn--destructiveProminent { --_bg: var(--px-danger-fill); --_bg-hover: var(--px-danger-fill-hover); --_bg-pressed: var(--px-danger-fill-pressed); }
+.px-btn--toolbar.px-btn--borderedProminent { --_px: 16px; }
+.px-btn--destructive {
+  --_fg: var(--px-danger-text-control);
+  /* dark: a red tint instead of a lighter grey keeps the red label ≥ 4.5:1 while hovered and pressed */
+  --_bg-hover: light-dark(var(--px-bg-control-hover), rgba(255,66,69,.12));
+  --_bg-pressed: light-dark(var(--px-bg-control-pressed), rgba(255,66,69,.18));
+}
+.px-btn--glass {
+  --_bg: var(--px-mat-toolbar-item); --_bg-hover: var(--px-mat-toolbar-item); --_bg-pressed: var(--px-mat-toolbar-item);
+  --_shadow: var(--px-inner-highlight), var(--px-shadow-2);
+  -webkit-backdrop-filter: var(--px-mat-toolbar-filter);
+  backdrop-filter: var(--px-mat-toolbar-filter);
+  isolation: isolate;
+}
+/* glass hover/press is an inner pill, not a tint of the material */
+.px-btn--glass::before {
+  content: ""; position: absolute; inset: 3px; z-index: -1; border-radius: inherit;
+  background: transparent; transition: background-color var(--px-dur-fast) var(--px-ease-out);
+}
+
+@media (hover: hover) {
+  .px-btn:hover:not(:disabled, [aria-disabled="true"]) { background: var(--_bg-hover); }
+  .px-btn--glass:hover:not(:disabled, [aria-disabled="true"])::before { background: var(--px-fill-quaternary); }
+}
+.px-btn[data-px-state="hover"] { background: var(--_bg-hover); }
+.px-btn--glass[data-px-state="hover"]::before { background: var(--px-fill-quaternary); }
+.px-btn:active:not(:disabled, [aria-disabled="true"]), .px-btn[data-px-state="pressed"] { background: var(--_bg-pressed); }
+.px-btn--glass:active:not(:disabled, [aria-disabled="true"])::before, .px-btn--glass[data-px-state="pressed"]::before { background: var(--px-fill-tertiary); }
+.px-btn:is(.px-btn--large, .px-btn--xlarge, .px-btn--auth, .px-btn--toolbar):active:not(:disabled, [aria-disabled="true"]) {
+  transform: scale(var(--px-press-scale));
+  transition-duration: var(--px-dur-press);
+}
+.px-btn:focus-visible, .px-btn[data-px-state="focus"] { outline: 2px solid var(--px-focus-ring); outline-offset: 2px; }
+.px-btn:disabled, .px-btn[aria-disabled="true"]:not([aria-busy="true"]) { opacity: .4; }
+.px-btn:disabled { pointer-events: none; }
+
+/* Icon buttons ----------------------------------------------------------------------------------------------------- */
+.px-icon-btn {
+  --_size: var(--px-ctl-h-md);
+  --_fg: var(--px-label-secondary);
+  --_fg-hover: var(--px-label);
+  --_bg: transparent;
+  --_bg-hover: var(--px-fill-quaternary);
+  --_bg-pressed: var(--px-fill-tertiary);
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: var(--_size);
+  height: var(--_size);
+  padding: 0;
+  border: 0;
+  border-radius: var(--px-radius-control);
+  color: var(--_fg);
+  background: var(--_bg);
+  box-shadow: none;
+  cursor: default;
+  outline: none;
+  user-select: none;
+  -webkit-user-select: none;
+  opacity: 1;
+  isolation: isolate;
+  transition-property: background-color, color, box-shadow, transform, opacity;
+  transition-duration: var(--px-dur-fast);
+  transition-timing-function: var(--px-ease-out);
+  -webkit-tap-highlight-color: transparent;
+}
+.px-icon-btn::after { content: ""; position: absolute; inset: min(0px, calc((var(--_size) - var(--px-hit-min)) / 2)); }
+.px-icon-btn > .px-icon { transition: transform var(--px-dur-press) var(--px-ease-out); }
+.px-icon-btn--small { --_size: var(--px-ctl-h-sm); border-radius: var(--px-radius-control-sm); }
+.px-icon-btn--large { --_size: var(--px-ctl-h-lg); }
+.px-icon-btn--bordered {
+  --_bg: var(--px-bg-control); --_bg-hover: var(--px-bg-control-hover); --_bg-pressed: var(--px-bg-control-pressed);
+  --_fg: var(--px-label);
+  box-shadow: var(--px-inner-highlight), var(--px-shadow-1);
+}
+.px-icon-btn--toolbar, .px-icon-btn--glass {
+  --_fg: var(--px-label);
+  --_bg-hover: transparent; --_bg-pressed: transparent;
+  border-radius: var(--px-radius-capsule);
+}
+.px-icon-btn--toolbar { --_size: var(--px-toolbar-item-h); }
+.px-icon-btn--glass {
+  --_bg: var(--px-mat-toolbar-item); --_bg-hover: var(--px-mat-toolbar-item); --_bg-pressed: var(--px-mat-toolbar-item);
+  -webkit-backdrop-filter: var(--px-mat-toolbar-filter);
+  backdrop-filter: var(--px-mat-toolbar-filter);
+  box-shadow: var(--px-inner-highlight), var(--px-shadow-2);
+}
+.px-icon-btn--glass.px-icon-btn--regular { --_size: var(--px-toolbar-item-h); }
+/* toolbar items: hover is an inner pill (inset 4, radius 14), press darkens it and nudges the glyph */
+.px-icon-btn--toolbar::before, .px-icon-btn--glass::before {
+  content: ""; position: absolute; inset: 4px; z-index: -1; border-radius: inherit;
+  background: transparent; transition: background-color var(--px-dur-fast) var(--px-ease-out);
+}
+
+@media (hover: hover) {
+  .px-icon-btn:hover:not(:disabled, [aria-disabled="true"]) { background: var(--_bg-hover); color: var(--_fg-hover); }
+  .px-icon-btn:is(.px-icon-btn--toolbar, .px-icon-btn--glass):hover:not(:disabled, [aria-disabled="true"])::before { background: var(--px-fill-tertiary); }
+}
+.px-icon-btn[data-px-state="hover"] { background: var(--_bg-hover); color: var(--_fg-hover); }
+.px-icon-btn:is(.px-icon-btn--toolbar, .px-icon-btn--glass)[data-px-state="hover"]::before { background: var(--px-fill-tertiary); }
+.px-icon-btn:active:not(:disabled, [aria-disabled="true"]), .px-icon-btn[data-px-state="pressed"] { background: var(--_bg-pressed); color: var(--_fg-hover); }
+.px-icon-btn:is(.px-icon-btn--toolbar, .px-icon-btn--glass):is(:active:not(:disabled, [aria-disabled="true"]), [data-px-state="pressed"])::before { background: var(--px-fill-secondary); }
+.px-icon-btn:is(:active:not(:disabled, [aria-disabled="true"]), [data-px-state="pressed"]) > .px-icon { transform: scale(.96); }
+.px-icon-btn[aria-pressed="true"] { color: var(--px-accent); }
+.px-icon-btn--plain[aria-pressed="true"], .px-icon-btn--bordered[aria-pressed="true"] { background: var(--px-fill-tertiary); }
+.px-icon-btn:is(.px-icon-btn--toolbar, .px-icon-btn--glass)[aria-pressed="true"]::before { background: var(--px-fill-tertiary); }
+.px-icon-btn:focus-visible, .px-icon-btn[data-px-state="focus"] { outline: 2px solid var(--px-focus-ring); outline-offset: 2px; }
+.px-icon-btn:is(.px-icon-btn--toolbar, .px-icon-btn--glass):focus-visible { outline-offset: -2px; }
+.px-icon-btn:disabled, .px-icon-btn[aria-disabled="true"] { color: var(--px-label-tertiary); }
+.px-icon-btn:disabled { pointer-events: none; }
+
+@media (forced-colors: active) {
+  .px-btn, .px-icon-btn--bordered, .px-icon-btn--glass { border: 1px solid ButtonText; }
+  .px-btn--borderedProminent, .px-btn--destructiveProminent {
+    --_bg: Highlight; --_bg-hover: Highlight; --_bg-pressed: Highlight; --_fg: HighlightText;
+    forced-color-adjust: none;
+  }
+  .px-icon-btn[aria-pressed="true"] { outline: 1px solid Highlight; }
+}

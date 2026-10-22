@@ -1,0 +1,194 @@
+/* Text fields, search fields and grouped form rows (APPLE_STYLE_SPEC §2.5, §2.7, §2.11) */
+
+.px-field { display: grid; gap: 6px; min-width: 0; }
+.px-field__label-row { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; min-width: 0; }
+.px-field__label {
+  font: var(--px-fw-medium) var(--px-fs-callout)/var(--px-lh-callout) var(--px-font-sans);
+  letter-spacing: var(--px-tr-callout);
+  color: var(--px-label-secondary);
+}
+.px-field__label-row :is(a, button) { font: var(--px-fw-regular) var(--px-fs-callout)/var(--px-lh-callout) var(--px-font-sans); }
+
+.px-field__control {
+  --_h: var(--px-ctl-h-lg);
+  --_px: 9px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  height: var(--_h);
+  padding: 0 calc(var(--_px) - var(--px-hairline));
+  border: var(--px-hairline) solid var(--px-border-control);
+  border-radius: var(--px-radius-control);
+  background: var(--px-bg-field);
+  box-shadow: var(--px-shadow-field);
+  cursor: text;
+  transition-property: border-color, box-shadow;
+  transition-duration: var(--px-dur-fast);
+  transition-timing-function: var(--px-ease-out);
+}
+.px-field--regular .px-field__control { --_h: var(--px-ctl-h-md); --_px: 7px; }
+.px-field--auth .px-field__control { --_h: var(--px-ctl-h-auth); --_px: 12px; border-radius: var(--px-radius-field-xl); }
+.px-field--multiline .px-field__control { height: auto; align-items: stretch; padding: 0; }
+
+.px-field__input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--px-label);
+  caret-color: var(--px-accent);
+  font: var(--px-fw-regular) var(--px-fs-input)/normal var(--px-font-sans);
+  letter-spacing: var(--px-tr-body);
+  text-overflow: ellipsis;
+}
+.px-field--auth .px-field__input { font-size: var(--px-fs-input-auth); }
+.px-field__input::placeholder { color: var(--px-placeholder); opacity: 1; }
+.px-field__input::-ms-reveal { display: none; }
+.px-field__textarea {
+  min-height: calc(3 * var(--px-lh-body) + 12px);
+  padding: 6px 9px;
+  line-height: var(--px-lh-body);
+  resize: vertical;
+  border-radius: inherit;
+}
+
+.px-field__control:has(> .px-field__input:focus) {
+  border-color: var(--px-focus-ring);
+  box-shadow: 0 0 0 3px var(--px-focus-halo);
+}
+.px-field--invalid .px-field__control { border-color: var(--px-danger); }
+.px-field--invalid .px-field__control:has(> .px-field__input:focus) {
+  border-color: var(--px-danger);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--px-danger) 25%, transparent);
+}
+.px-field__control:has(> .px-field__input:disabled) { opacity: .5; cursor: default; }
+.px-field__control:has(> .px-field__input:read-only:not(:disabled)) { background: var(--px-fill-quaternary); box-shadow: none; }
+
+.px-field__leading { color: var(--px-label-secondary); }
+.px-field__caps { display: inline-grid; place-items: center; color: var(--px-label-secondary); }
+.px-field__reveal { margin-inline-end: -4px; }
+.px-field--auth .px-field__reveal { margin-inline-end: -6px; }
+
+.px-field__message {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  font: var(--px-fw-regular) var(--px-fs-subheadline)/var(--px-lh-subheadline) var(--px-font-sans);
+  letter-spacing: var(--px-tr-subheadline);
+  color: var(--px-label-secondary);
+}
+.px-field__message--error { color: var(--px-danger-text); }
+.px-field__message--error .px-icon { margin-top: 1px; }
+
+/* Search ------------------------------------------------------------------------------------------------------------ */
+.px-search { position: relative; display: inline-flex; align-items: center; min-width: 0; isolation: isolate; }
+.px-search__input {
+  width: 100%;
+  min-width: 0;
+  height: var(--px-ctl-h-md);
+  padding: 0 24px 0 25px;
+  border: 0;
+  border-radius: var(--px-radius-control);
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  background: var(--px-fill-tertiary);
+  color: var(--px-label);
+  caret-color: var(--px-accent);
+  font: var(--px-fw-regular) var(--px-fs-input)/normal var(--px-font-sans);
+  letter-spacing: var(--px-tr-body);
+  transition: box-shadow var(--px-dur-fast) var(--px-ease-out);
+}
+.px-search__input::placeholder { color: var(--px-label-secondary); opacity: 1; }
+.px-search__input::-webkit-search-cancel-button,
+.px-search__input::-webkit-search-decoration { -webkit-appearance: none; appearance: none; display: none; }
+.px-search__input:focus { box-shadow: 0 0 0 1px var(--px-focus-ring), 0 0 0 4px var(--px-focus-halo); }
+/* above the input: a glass (backdrop-filter) input is a stacking context and would paint over an earlier sibling */
+.px-search__icon { position: absolute; z-index: 1; inset-inline-start: 7px; color: var(--px-label-secondary); }
+.px-search__clear {
+  position: absolute;
+  z-index: 1;
+  inset-inline-end: 4px;
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  color: var(--px-bg-content);
+  background: var(--px-label-tertiary);
+  cursor: default;
+}
+@media (hover: hover) { .px-search__clear:hover { background: var(--px-label-secondary); } }
+
+.px-search--toolbar { width: 220px; min-width: 160px; max-width: 280px; flex: 0 1 220px; }
+.px-search--toolbar .px-search__input {
+  height: var(--px-toolbar-item-h);
+  padding: 0 30px 0 32px;
+  border-radius: var(--px-radius-capsule);
+  background: var(--px-mat-toolbar-item);
+  -webkit-backdrop-filter: var(--px-mat-toolbar-filter);
+  backdrop-filter: var(--px-mat-toolbar-filter);
+  box-shadow: var(--px-inner-highlight), var(--px-shadow-2);
+}
+.px-search--toolbar .px-search__input:focus { box-shadow: var(--px-inner-highlight), 0 0 0 1px var(--px-focus-ring), 0 0 0 4px var(--px-focus-halo); }
+.px-search--toolbar .px-search__icon { inset-inline-start: 11px; }
+.px-search--toolbar .px-search__clear { inset-inline-end: 9px; }
+
+/* Grouped form (sheet bodies, Account) -------------------------------------------------------------------------------- */
+.px-form-group { display: grid; gap: 6px; min-width: 0; }
+.px-form-group__title {
+  padding: 0 4px;
+  font: var(--px-fw-bold) var(--px-fs-headline)/var(--px-lh-headline) var(--px-font-sans);
+  letter-spacing: var(--px-tr-headline);
+}
+.px-form-group__box {
+  display: grid;
+  border-radius: var(--px-radius-field-xl);
+  background: var(--px-bg-grouped-row);
+  box-shadow: 0 0 0 var(--px-hairline) var(--px-separator);
+  overflow: hidden;
+}
+.px-form-group__footer {
+  padding: 0 4px;
+  font: var(--px-fw-regular) var(--px-fs-footnote)/var(--px-lh-footnote) var(--px-font-sans);
+  letter-spacing: var(--px-tr-footnote);
+  color: var(--px-label-secondary);
+}
+.px-form-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 36px;
+  padding: 6px 12px;
+}
+.px-form-row + .px-form-row::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  inset-inline: 12px;
+  height: var(--px-hairline);
+  background: var(--px-separator);
+}
+.px-form-row__text { display: grid; gap: 1px; min-width: 0; }
+.px-form-row__label { color: var(--px-label); }
+.px-form-row__description {
+  font: var(--px-fw-regular) var(--px-fs-subheadline)/var(--px-lh-subheadline) var(--px-font-sans);
+  letter-spacing: var(--px-tr-subheadline);
+  color: var(--px-label-secondary);
+}
+.px-form-row__control { display: flex; align-items: center; justify-content: flex-end; gap: 8px; flex: none; min-width: 0; color: var(--px-label-secondary); }
+
+@media (forced-colors: active) {
+  .px-field__control { border-color: FieldText; }
+  .px-field__control:has(> .px-field__input:focus), .px-search__input:focus { outline: 2px solid Highlight; outline-offset: 1px; }
+  .px-search__input { border: 1px solid FieldText; }
+}

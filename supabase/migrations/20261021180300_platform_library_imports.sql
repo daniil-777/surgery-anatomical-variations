@@ -148,6 +148,7 @@ declare
   v_filename text;
   v_role text;
   v_asset_text text;
+  v_position_text text;
   v_position integer;
 begin
   if p_kind is null or p_kind not in ('shape', 'material', 'texture', 'recording', 'scene', 'image', 'model') then
@@ -183,6 +184,11 @@ begin
     perform private.raise_error('not_found', 404, 'source_version_id');
   end if;
   perform private.ready_asset_size(v_uid, p_thumbnail_asset_id, 'thumbnail_asset_id');
+  -- at most 5 000 items per account, trash included (DESIGN.md §15.4); the lock keeps the count exact
+  perform pg_advisory_xact_lock(hashtextextended('viscera.library:' || v_uid::text, 0));
+  if (select count(*) from public.library_items i where i.owner_id = v_uid) >= 5000 then
+    perform private.raise_error('limit_reached', 403, 'at most 5000 library items per account');
+  end if;
 
   insert into public.library_items
     (owner_id, kind, title, description, tags, lab_id, source_project_id, source_version_id, metadata, thumbnail_asset_id)
@@ -198,11 +204,20 @@ begin
     v_filename := v_file ->> 'filename';
     v_role := coalesce(v_file ->> 'role', 'other');
     v_asset_text := v_file ->> 'asset_id';
-    v_position := coalesce((v_file ->> 'position')::integer, 0);
+    v_position_text := v_file ->> 'position';
     if v_filename is null or v_filename !~ '^[^/\\[:cntrl:]]{1,180}$' or v_filename ~ '^[.]'
        or v_filename <> btrim(v_filename) then
       perform private.raise_error('invalid_input', 422, 'filename');
     end if;
+    -- checked here so a bad entry answers 422 like every other field (not a raw check or cast error)
+    if v_role not in ('primary', 'mesh', 'albedo', 'normal', 'roughness', 'metalness', 'height', 'ao', 'emissive',
+                      'opacity', 'thumbnail', 'preview', 'video', 'data', 'spec', 'material', 'other') then
+      perform private.raise_error('invalid_input', 422, 'role of ' || v_filename);
+    end if;
+    if v_position_text is not null and (v_position_text !~ '^[0-9]{1,4}$' or v_position_text::integer > 1000) then
+      perform private.raise_error('invalid_input', 422, 'position of ' || v_filename);
+    end if;
+    v_position := coalesce(v_position_text::integer, 0);
     if lower(v_filename) = any (v_names) then
       perform private.raise_error('invalid_input', 422, 'duplicate filename ' || v_filename);
     end if;
@@ -276,9 +291,17 @@ begin
   if not private.valid_tags(coalesce(p_tags, '{}')) then
     perform private.raise_error('invalid_input', 422, 'tags');
   end if;
+  if p_original_asset_id is null then
+    perform private.raise_error('invalid_input', 422, 'original_asset_id');
+  end if;
   perform private.ready_asset_size(v_uid, p_original_asset_id, 'original_asset_id');
   perform private.ready_asset_size(v_uid, p_display_asset_id, 'display_asset_id');
   perform private.ready_asset_size(v_uid, p_thumbnail_asset_id, 'thumbnail_asset_id');
+  -- at most 2 000 imported objects per account, trash included (DESIGN.md §15.4)
+  perform pg_advisory_xact_lock(hashtextextended('viscera.imports:' || v_uid::text, 0));
+  if (select count(*) from public.imported_objects o where o.owner_id = v_uid) >= 2000 then
+    perform private.raise_error('limit_reached', 403, 'at most 2000 imported objects per account');
+  end if;
 
   insert into public.imported_objects
     (owner_id, title, source_app, source_detail, detected_by, format, original_asset_id, display_asset_id,

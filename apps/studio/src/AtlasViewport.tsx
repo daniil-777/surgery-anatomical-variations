@@ -119,6 +119,68 @@ export const AtlasViewport = forwardRef<AtlasViewportHandle, Props>(function Atl
         },
       };
     },
+    // account platform (platform/labs/organ/useOrganLabSession.ts): the camera of a saved session, a probe for a sculpt
+    // drag in progress, and a still rendered and read in one task (sculpt hover ring hidden, the stage's gradient behind
+    // the organ, cover-cropped) so it never depends on the frame loop, which pauses in hidden tabs
+    getCamera: () => {
+      const current = runtime.current;
+      if (!current) return null;
+      return {
+        position_mm: current.camera.position.toArray(), target_mm: current.controls.target.toArray(), up: current.camera.up.toArray(),
+        fov_degrees: current.camera.fov, near_mm: current.camera.near, far_mm: current.camera.far,
+      };
+    },
+    setCamera: (pose: { position_mm: readonly number[]; target_mm: readonly number[]; fov_degrees: number; near_mm: number; far_mm: number }) => {
+      const current = runtime.current;
+      if (!current || !current.group.children.length) return false;
+      const values = [...pose.position_mm, ...pose.target_mm, pose.fov_degrees, pose.near_mm, pose.far_mm];
+      if (values.length !== 9 || !values.every((value) => Number.isFinite(value)) || !(pose.near_mm > 0 && pose.far_mm > pose.near_mm)) return false;
+      current.cancelDrag();
+      current.camera.fov = pose.fov_degrees; current.camera.near = pose.near_mm; current.camera.far = pose.far_mm;
+      current.camera.position.set(values[0]!, values[1]!, values[2]!);
+      current.controls.target.set(values[3]!, values[4]!, values[5]!);
+      current.camera.updateProjectionMatrix();
+      current.controls.update();
+      return true;
+    },
+    isInteracting: () => Boolean(runtime.current && !runtime.current.controls.enabled),
+    captureThumbnail: async ({ width, height, background = "stage" }: { width: number; height: number; background?: "stage" | "transparent" | undefined }) => {
+      const current = runtime.current;
+      const w = Math.round(width), h = Math.round(height);
+      if (!current || !current.group.children.length || !current.controls.enabled || !(w > 0 && h > 0 && w <= 4096 && h <= 4096)) return null;
+      const source = current.renderer.domElement;
+      // a scene recording owns the canvas; a lost context reads blank
+      if (source.dataset.sceneRecordingActive === "true" || current.renderer.getContext().isContextLost() || !source.width || !source.height) return null;
+      // the texture lab's photo layer arrives asynchronously: let the tiles its materials asked for install first
+      if ((latest.current.photoDetail ?? 0) > 0) await Promise.all(photoMaterials.current.map((material) => photoDetailFor(String(material.userData.photoOrgan)).catch(() => null)));
+      const scene = current.group.parent;
+      if (runtime.current !== current || !current.controls.enabled || !scene) return null;
+      const output = document.createElement("canvas");
+      output.width = w; output.height = h;
+      const context = output.getContext("2d");
+      if (!context) return null;
+      if (background === "stage") {
+        // .atlas-stage's backdrop (atlas.css), painted as AtlasWitness paints it
+        context.save(); context.translate(w / 2, h / 2); context.scale(w / 2, h / 2);
+        const gradient = context.createRadialGradient(0, 0, 0, 0, 0, Math.SQRT2);
+        gradient.addColorStop(0, "#2b3035"); gradient.addColorStop(0.47, "#181e26"); gradient.addColorStop(1, "#111720");
+        context.fillStyle = gradient; context.fillRect(-1, -1, 2, 2); context.restore();
+      }
+      const overlays = scene.children.filter((child) => child !== current.group && child.visible && child instanceof THREE.Mesh);
+      for (const child of overlays) child.visible = false;
+      try {
+        current.renderer.render(scene, current.camera);
+        const scale = Math.max(w / source.width, h / source.height);
+        const sw = w / scale, sh = h / scale;
+        context.imageSmoothingEnabled = true; context.imageSmoothingQuality = "high";
+        context.drawImage(source, (source.width - sw) / 2, (source.height - sh) / 2, sw, sh, 0, 0, w, h);
+      } finally {
+        for (const child of overlays) child.visible = true;
+      }
+      const encode = (type: string, quality?: number) => new Promise<Blob | null>((resolve) => output.toBlob(resolve, type, quality));
+      const webp = await encode("image/webp", 0.86);
+      return webp?.type === "image/webp" ? webp : await encode("image/png");
+    },
   }), []);
 
   useEffect(() => {

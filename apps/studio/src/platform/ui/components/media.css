@@ -1,0 +1,169 @@
+/* Grid and media card (APPLE_STYLE_SPEC §2.9). Selection rings are concentric with the card: card 14 = thumb 10 + 4. */
+
+.px-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(var(--px-tile-min), 100%), 1fr));
+  gap: 16px 12px;
+  min-width: 0;
+}
+.px-media-grid { outline: none; }
+
+.px-card {
+  --_ratio: 1;
+  position: relative;
+  min-width: 0;
+  padding: 4px;
+  border-radius: var(--px-radius-card);
+  cursor: default;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: background-color var(--px-dur-fast) var(--px-ease-out);
+}
+.px-card__option { display: grid; align-content: start; min-width: 0; outline: none; }
+.px-card[data-ratio="16:10"] { --_ratio: 16 / 10; }
+.px-card[data-ratio="16:9"] { --_ratio: 16 / 9; }
+.px-card[data-ratio="4:3"] { --_ratio: 4 / 3; }
+@media (hover: hover) { .px-card:hover { background: var(--px-fill-quaternary); } }
+.px-card--hover { background: var(--px-fill-quaternary); }
+
+.px-card__thumb {
+  position: relative;
+  aspect-ratio: var(--_ratio);
+  border-radius: var(--px-radius-thumb);
+  background: var(--px-bg-thumb);
+  overflow: hidden;
+  isolation: isolate;
+  transition: box-shadow var(--px-dur-fast) var(--px-ease-out);
+}
+/* a neutral 1 px outline so white renders keep their edge on a white page */
+.px-card__thumb::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px var(--px-image-outline);
+  pointer-events: none;
+}
+.px-card__thumb > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity var(--px-dur-base) var(--px-ease-out);
+}
+.px-card__thumb > img[data-loaded] { opacity: 1; }
+.px-card__shimmer {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, var(--px-skeleton-shimmer), transparent);
+  transform: translateX(-100%);
+  animation: px-shimmer 1.5s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) { .px-card__shimmer { animation: none; opacity: 0; } }
+
+.px-card--selected .px-card__thumb { outline: 3px solid var(--px-system-gray); outline-offset: 1px; }
+.px-media-grid:focus-within .px-card--selected .px-card__thumb { outline-color: var(--px-accent); }
+.px-card__option:focus-visible .px-card__thumb {
+  outline: 3px solid var(--px-accent);
+  outline-offset: 1px;
+  box-shadow: 0 0 0 6px var(--px-focus-halo);
+}
+
+.px-card__error {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 6px;
+  color: var(--px-label-tertiary);
+}
+.px-card__error > span {
+  font: var(--px-fw-regular) var(--px-fs-subheadline)/var(--px-lh-subheadline) var(--px-font-sans);
+  letter-spacing: var(--px-tr-subheadline);
+  color: var(--px-label-secondary);
+}
+
+/* the overlay mirrors the thumbnail box (same inset and aspect ratio) and lets clicks through to the option */
+.px-card__overlay {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  right: 4px;
+  z-index: 2;
+  aspect-ratio: var(--_ratio);
+  border-radius: var(--px-radius-thumb);
+  pointer-events: none;
+}
+
+/* chips over the image: HUD material, always white on dark */
+.px-card__chip, .px-card__action {
+  color-scheme: dark;
+  color: var(--px-label-hud);
+  background: var(--px-mat-hud);
+  -webkit-backdrop-filter: var(--px-mat-hud-filter);
+  backdrop-filter: var(--px-mat-hud-filter);
+}
+.px-card__chip { position: absolute; z-index: 3; display: inline-flex; align-items: center; justify-content: center; }
+.px-card__kind { top: 6px; left: 6px; width: 20px; height: 20px; border-radius: 50%; }
+.px-card__duration {
+  right: 6px;
+  bottom: 6px;
+  padding: 1px 5px;
+  border-radius: var(--px-radius-small);
+  font: var(--px-fw-medium) var(--px-fs-caption)/var(--px-lh-caption) var(--px-font-sans);
+  letter-spacing: var(--px-tr-caption);
+}
+.px-card__badges { position: absolute; left: 6px; bottom: 6px; z-index: 3; display: flex; gap: 4px; max-width: calc(100% - 52px); }
+.px-card__ring { position: static; width: 20px; height: 20px; border-radius: 50%; }
+.px-card__ring .px-ring__track { stroke: rgba(255,255,255,.25); }
+.px-card__ring .px-ring__fill { stroke: #FFFFFF; }
+
+.px-card__actions { position: absolute; top: 6px; right: 6px; z-index: 3; display: flex; gap: 4px; }
+.px-card__action {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: auto;
+  transition: opacity var(--px-dur-fast) var(--px-ease-out);
+}
+.px-card__favorite--on { opacity: 1; }
+@media (hover: hover) { .px-card:hover .px-card__action { opacity: 1; } }
+.px-card--hover .px-card__action { opacity: 1; }
+.px-card__check {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  color: #FFFFFF;
+  background: var(--px-accent);
+  box-shadow: 0 0 0 1.5px #FFFFFF, 0 1px 3px rgba(0,0,0,.3);
+}
+
+.px-card__text { display: grid; gap: 1px; min-width: 0; padding: 6px 4px 2px; }
+.px-card__title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--px-label); }
+.px-card__subtitle {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font: var(--px-fw-regular) var(--px-fs-subheadline)/var(--px-lh-subheadline) var(--px-font-sans);
+  letter-spacing: var(--px-tr-subheadline);
+  color: var(--px-label-secondary);
+}
+
+@media (forced-colors: active) {
+  .px-card--selected .px-card__thumb, .px-card__option:focus-visible .px-card__thumb { outline-color: Highlight; }
+  .px-card__thumb > img { forced-color-adjust: none; }
+  .px-card__chip, .px-card__action { border: 1px solid CanvasText; }
+}

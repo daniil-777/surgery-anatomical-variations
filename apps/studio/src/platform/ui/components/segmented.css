@@ -1,0 +1,105 @@
+/* Segmented control (APPLE_STYLE_SPEC §2.4) */
+
+.px-seg {
+  --_pad: 2px;
+  --_h: var(--px-ctl-h-md);
+  --_radius: var(--px-radius-control);
+  --_thumb-radius: var(--px-radius-control-sm);
+  position: relative;
+  display: inline-grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  flex: none;
+  height: var(--_h);
+  padding: var(--_pad);
+  border-radius: var(--_radius);
+  background: var(--px-fill-tertiary);
+  isolation: isolate;
+  vertical-align: middle;
+}
+.px-seg--large { --_h: var(--px-ctl-h-lg); --_radius: 9px; --_thumb-radius: var(--px-radius-control); }
+.px-seg--toolbar {
+  --_h: var(--px-toolbar-item-h);
+  --_pad: 4px;
+  --_radius: var(--px-radius-capsule);
+  --_thumb-radius: var(--px-radius-capsule);
+  background: var(--px-mat-toolbar-item);
+  -webkit-backdrop-filter: var(--px-mat-toolbar-filter);
+  backdrop-filter: var(--px-mat-toolbar-filter);
+  box-shadow: var(--px-inner-highlight), var(--px-shadow-2);
+}
+.px-seg--full { display: grid; width: 100%; }
+
+.px-seg__thumb {
+  position: absolute;
+  inset-block: var(--_pad);
+  left: var(--_pad);
+  z-index: -1;
+  width: calc((100% - 2 * var(--_pad)) / var(--n));
+  transform: translateX(calc(100% * var(--i)));
+  border-radius: var(--_thumb-radius);
+  background: var(--px-seg-thumb);
+  box-shadow: var(--px-shadow-thumb);
+  transition: transform var(--px-dur-spring-snappy) var(--px-spring-snappy);
+}
+.px-seg--toolbar .px-seg__thumb {
+  background: var(--px-seg-thumb-toolbar);
+  box-shadow: 0 1px 4px light-dark(rgba(0,0,0,.14), transparent), 0 0 0 .5px light-dark(rgba(0,0,0,.08), transparent);
+}
+
+.px-seg__item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-width: 56px;
+  height: 100%;
+  padding: 0 10px;
+  border: 0;
+  border-radius: var(--_thumb-radius);
+  background: transparent;
+  color: var(--px-label);
+  font: var(--px-fw-regular) var(--px-fs-body)/1 var(--px-font-sans);
+  letter-spacing: var(--px-tr-body);
+  white-space: nowrap;
+  cursor: default;
+  outline: none;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: background-color var(--px-dur-fast) var(--px-ease-out);
+}
+.px-seg--icons .px-seg__item { min-width: 40px; padding: 0 8px; }
+.px-seg--toolbar .px-seg__item { padding: 0 12px; }
+.px-seg--toolbar.px-seg--icons .px-seg__item { min-width: 36px; padding: 0 9px; }
+.px-seg__label { overflow: hidden; text-overflow: ellipsis; }
+
+/* 12 px dividers between unselected segments, hidden next to the selection */
+.px-seg__item:not(:first-of-type)::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  top: 50%;
+  width: 1px;
+  height: 12px;
+  margin-top: -6px;
+  background: var(--px-separator);
+  transition: opacity var(--px-dur-fast) var(--px-ease-out);
+}
+.px-seg--toolbar .px-seg__item::before { display: none; }
+.px-seg__item[aria-checked="true"]::before,
+.px-seg__item[aria-checked="true"] + .px-seg__item::before { opacity: 0; }
+
+@media (hover: hover) {
+  .px-seg__item:hover:not([aria-checked="true"], [aria-disabled="true"]) { background: var(--px-fill-quaternary); }
+}
+.px-seg__item:active:not([aria-checked="true"], [aria-disabled="true"]) { background: var(--px-fill-tertiary); }
+.px-seg__item[aria-disabled="true"] { color: var(--px-label-tertiary); }
+/* macOS rings the whole control; selection follows focus, so the focused segment is the selected one */
+.px-seg:has(.px-seg__item:focus-visible) { outline: 2px solid var(--px-focus-ring); outline-offset: 2px; }
+
+@media (forced-colors: active) {
+  .px-seg { border: 1px solid ButtonText; }
+  .px-seg__thumb { display: none; }
+  .px-seg__item[aria-checked="true"] { forced-color-adjust: none; background: Highlight; color: HighlightText; }
+}

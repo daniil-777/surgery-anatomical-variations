@@ -1,0 +1,113 @@
+/* Checkbox and switch (APPLE_STYLE_SPEC §2.8) */
+
+.px-checkbox {
+  position: relative;
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 6px;
+  min-height: 20px;
+  padding-block: 2px;
+  color: var(--px-label);
+  cursor: default;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.px-checkbox__input {
+  appearance: none;
+  -webkit-appearance: none;
+  flex: none;
+  width: 14px;
+  height: 14px;
+  margin: 1px 0 0;
+  border: var(--px-hairline) solid var(--px-border-checkbox);
+  border-radius: var(--px-radius-small);
+  background: var(--px-bg-field) center / 10px 10px no-repeat;
+  box-shadow: 0 .5px 1px light-dark(rgba(0,0,0,.06), rgba(0,0,0,.25));
+  cursor: default;
+  outline: none;
+  transition-property: background-color, border-color;
+  transition-duration: var(--px-dur-fast);
+  transition-timing-function: var(--px-ease-out);
+}
+.px-checkbox__input:checked,
+.px-checkbox__input:indeterminate {
+  border-color: transparent;
+  background-color: var(--px-accent);
+  box-shadow: inset 0 .5px 0 rgba(255,255,255,.18), 0 .5px 1px rgba(0,0,0,.12);
+}
+.px-checkbox__input:checked {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M2.1 5.2 4.2 7.3 7.9 2.8' fill='none' stroke='white' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+.px-checkbox__input:indeterminate {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Crect x='1' y='4' width='8' height='2' rx='1' fill='white'/%3E%3C/svg%3E");
+}
+.px-checkbox__input:focus-visible { outline: 2px solid var(--px-focus-ring); outline-offset: 1px; }
+.px-checkbox:has(.px-checkbox__input:disabled) { opacity: .4; }
+.px-checkbox__text { display: grid; gap: 1px; min-width: 0; }
+.px-checkbox__description, .px-switch__description {
+  font: var(--px-fw-regular) var(--px-fs-subheadline)/var(--px-lh-subheadline) var(--px-font-sans);
+  letter-spacing: var(--px-tr-subheadline);
+  color: var(--px-label-secondary);
+}
+
+.px-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--px-label);
+  cursor: default;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.px-switch__text { display: grid; gap: 1px; min-width: 0; flex: 1; }
+.px-switch__control { position: relative; display: inline-flex; flex: none; }
+.px-switch__input {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: default;
+}
+.px-switch__track {
+  --_w: 38px;
+  --_h: 22px;
+  --_k: 18px;
+  --_inset: 2px;
+  position: relative;
+  display: block;
+  width: var(--_w);
+  height: var(--_h);
+  border-radius: var(--px-radius-capsule);
+  background: var(--px-fill);
+  box-shadow: inset 0 0 0 var(--px-hairline) light-dark(rgba(0,0,0,.08), rgba(255,255,255,.06));
+  transition: background-color var(--px-dur-fast) var(--px-ease-out);
+}
+.px-switch--small .px-switch__track { --_w: 30px; --_h: 18px; --_k: 14px; }
+.px-switch--mini .px-switch__track { --_w: 26px; --_h: 15px; --_k: 11px; }
+.px-switch__knob {
+  position: absolute;
+  top: var(--_inset);
+  left: var(--_inset);
+  width: var(--_k);
+  height: var(--_k);
+  border-radius: 50%;
+  background: #FFFFFF;
+  box-shadow: var(--px-shadow-knob);
+  transition: transform var(--px-dur-spring-snappy) var(--px-spring-snappy);
+}
+.px-switch__input:checked + .px-switch__track { background: var(--px-accent); }
+.px-switch__input:checked + .px-switch__track .px-switch__knob {
+  transform: translateX(calc(var(--_w) - var(--_k) - 2 * var(--_inset)));
+}
+.px-switch__input:focus-visible + .px-switch__track { outline: 2px solid var(--px-focus-ring); outline-offset: 2px; }
+.px-switch:has(.px-switch__input:disabled) { opacity: .4; }
+
+@media (forced-colors: active) {
+  .px-checkbox__input { appearance: auto; -webkit-appearance: auto; }
+  .px-switch__track { border: 1px solid CanvasText; background: Canvas; }
+  .px-switch__input:checked + .px-switch__track { forced-color-adjust: none; background: Highlight; }
+  .px-switch__knob { forced-color-adjust: none; background: CanvasText; }
+}

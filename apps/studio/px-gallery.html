@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en" class="px-shell" data-px-route="app">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23121c23'/%3E%3Cpath d='M4 17h6l3-9 5 17 3-8h7' fill='none' stroke='%23db8f85' stroke-width='2'/%3E%3C/svg%3E" />
+    <title>VISCERA — UI Kit</title>
+    <meta name="description" content="Development gallery of the VISCERA account platform's Apple-style components (not part of the build)." />
+    <script>
+      // APPLE_STYLE_SPEC §1.1 boot: font and appearance attributes before CSS paints, so there is no flash
+      (() => {
+        const d = document.documentElement;
+        const ua = (navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || "";
+        d.dataset.pxFont = /Mac|iPhone|iPad|iPod/i.test(ua) ? "sf" : "inter";
+        try {
+          const p = JSON.parse(localStorage.getItem("viscera.px.appearance.v1") || "{}");
+          d.dataset.pxTheme = p.theme || "system";
+          d.dataset.pxGlass = p.glass || "regular";
+          d.dataset.pxTransparency = p.transparency || "system";
+        } catch {
+          d.dataset.pxTheme = "system";
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="px-gallery-root"></div>
+    <script type="module" src="/src/platform/ui/gallery/main.tsx"></script>
+  </body>
+</html>

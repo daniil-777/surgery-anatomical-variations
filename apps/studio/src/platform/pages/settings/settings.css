@@ -1,0 +1,50 @@
+/* Settings: a centred column of grouped boxes (the kit's FormGroup/FormRow), macOS Settings style. */
+
+.px-settings { gap: 28px; }
+.px-settings-section { display: grid; gap: 10px; min-width: 0; scroll-margin-top: 12px; }
+
+.px-settings-header { display: flex; align-items: center; gap: 16px; padding: 4px 4px 0; }
+.px-settings-header__text { display: grid; gap: 2px; min-width: 0; }
+.px-settings-header__name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font: var(--px-fw-bold) var(--px-fs-title2)/var(--px-lh-title2) var(--px-font-sans);
+  letter-spacing: var(--px-tr-title2);
+}
+.px-settings-header__email { color: var(--px-label-secondary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.px-settings-header__meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+  font: var(--px-fw-regular) var(--px-fs-subheadline)/var(--px-lh-subheadline) var(--px-font-sans);
+  letter-spacing: var(--px-tr-subheadline);
+  color: var(--px-label-secondary);
+}
+
+.px-settings-field { width: min(260px, 46vw); }
+.px-settings-field .px-field__message { justify-content: flex-end; text-align: end; }
+.px-settings-value { color: var(--px-label-secondary); text-align: end; }
+.px-settings-ok { display: inline-flex; align-items: center; gap: 4px; color: var(--px-success-text); }
+.px-settings-method { display: inline-flex; align-items: center; gap: 8px; }
+.px-settings-method__icon { display: inline-grid; place-items: center; width: 18px; color: var(--px-label-secondary); }
+.px-settings-actions { display: flex; justify-content: flex-end; gap: 8px; }
+.px-settings-meter { display: grid; gap: 6px; padding: 12px 12px 10px; }
+.px-settings-note {
+  font: var(--px-fw-regular) var(--px-fs-subheadline)/var(--px-lh-subheadline) var(--px-font-sans);
+  letter-spacing: var(--px-tr-subheadline);
+  color: var(--px-label-secondary);
+}
+.px-settings-warning { color: var(--px-label); }
+.px-settings-sheet-form { display: grid; gap: 14px; min-width: 0; }
+.px-settings-alert-icon { color: var(--px-label-secondary); }
+
+/* narrow windows: rows stack their control under the label */
+@media (max-width: 599px) {
+  .px-settings .px-form-row { flex-wrap: wrap; }
+  .px-settings .px-form-row__control { flex: 1 1 100%; justify-content: flex-start; flex-wrap: wrap; }
+  .px-settings-field { width: 100%; }
+  .px-settings-field .px-field__message { justify-content: flex-start; text-align: start; }
+  .px-settings .px-seg { width: 100%; }
+}
