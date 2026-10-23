@@ -61,6 +61,7 @@ export default defineConfig({
   build: {
     target: "es2022",
     sourcemap: process.env.VISCERA_SOURCEMAP !== "0",
+    copyPublicDir: process.env.VISCERA_COPY_PUBLIC !== "0",
     // three.js and React change rarely: their own files stay cached across releases of the app
     rollupOptions: { output: { manualChunks: { three: ["three"], react: ["react", "react-dom"] } } },
   },

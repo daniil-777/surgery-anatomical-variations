@@ -28,6 +28,7 @@ const views = [
 ] as const;
 const dissections = [
   { id: "full", label: "Full torso", hidden: [] },
+  { id: "laparoscopic", label: "Laparoscopic", hidden: ["right-lung", "left-lung", "heart", "trachea", "bronchi", "diaphragm", "esophagus", "aorta", "vena-cava", "urinary-bladder"] },
   { id: "abdominal", label: "Abdominal", hidden: ["right-lung", "left-lung", "heart", "trachea", "bronchi", "diaphragm"] },
   { id: "deep", label: "Deep anatomy", hidden: ["right-lung", "left-lung", "heart", "trachea", "bronchi", "diaphragm", "liver", "stomach", "colon", "small-intestine"] },
 ] as const;
@@ -52,6 +53,7 @@ export default function WholeSceneStudio({ onBack, textureLab = false }: { onBac
   const [seed, setSeed] = useState("42");
   const [strength, setStrength] = useState(0.65);
   const [severity, setSeverity] = useState(0.35);
+  const [autoVarying, setAutoVarying] = useState(false);
   const [visibility, setVisibility] = useState<Partial<Record<WholeSceneCategory, boolean>>>({ skeleton: false });
   const [breathing, setBreathing] = useState(false);
   const [photoDetail, setPhotoDetail] = useState(textureLab ? 0.6 : 0);   // photo-derived surface detail (photoDetail.ts): the texture lab's layer, 0 = the plain materials
@@ -153,9 +155,20 @@ export default function WholeSceneStudio({ onBack, textureLab = false }: { onBac
     setNotice(`Joint variation · seed ${next}`);
   }
   function restore() {
+    setAutoVarying(false);
     setReferenceState({ colors: {}, plan: null }); setPreviousReferences(null); setShowPreviousReferences(false);
     setVariation(BASELINE_VARIATION); setError(""); setNotice("Original atlas arrangement restored");
   }
+  useEffect(() => {
+    if (!autoVarying || !ready || recording) return;
+    const timer = window.setInterval(() => {
+      const next = crypto.getRandomValues(new Uint32Array(1))[0]!;
+      setSeed(String(next));
+      setVariation(createWholeSceneVariation(next, strength, severity));
+      setNotice(`Endless joint variation · seed ${next}`);
+    }, 2400);
+    return () => window.clearInterval(timer);
+  }, [autoVarying, ready, recording, strength, severity]);
   function changeView(id: typeof views[number][0]) {
     viewport.current?.releaseTool();
     setAutoRotate(false); setView(id); viewport.current?.view(id);
@@ -192,7 +205,7 @@ export default function WholeSceneStudio({ onBack, textureLab = false }: { onBac
   return <div className="whole-scene-studio">
     <header className="whole-header">
       <button className="whole-brand" onClick={onBack} aria-label="Back to organ studio"><Activity size={22} /><span>VISCERA <small>ATLAS</small></span></button>
-      <nav className="anatomy-workspace-tabs" aria-label="Anatomy workspace"><button onClick={onBack}>Organ studio</button><button aria-current="page">Whole scene</button><button onClick={() => { window.location.href = "?mode=fat"; }}>Fat lab</button></nav>
+      <nav className="anatomy-workspace-tabs" aria-label="Anatomy workspace"><button onClick={onBack}>Organ studio</button><button aria-current="page">Whole scene</button><button onClick={() => { window.location.href = "?mode=imports"; }}>Import 3D</button><button onClick={() => { window.location.href = "?mode=fat"; }}>Fat lab</button></nav>
       <DisplaySettings /><VideoRecorderButton /><span className="whole-header-note">A body, in context.</span>
       <button className="whole-button whole-image-button" disabled={!ready || recording} onClick={capture}><Camera size={14} />Save image</button>
       <button className="whole-button whole-record-button" disabled={!ready || exploring} onClick={() => recording ? viewport.current?.stopRecording() : void record()}><Video size={14} />{recording ? "Stop recording" : "Record tour"}</button>
@@ -281,6 +294,7 @@ export default function WholeSceneStudio({ onBack, textureLab = false }: { onBac
           <label className="whole-range"><span>Disease appearance<output>{Math.round(severity * 100)}%</output></span><input aria-label="Disease appearance" type="range" min="0" max="1" step="0.05" value={severity} onChange={event => setSeverity(Number(event.target.value))} /></label>
           <div className="whole-seed-row"><label>Scene seed<input aria-label="Scene seed" type="text" inputMode="numeric" value={seed} onChange={event => setSeed(event.target.value)} /></label><button className="whole-button" disabled={!ready || recording} onClick={() => vary(false)} title="Apply this seed and the selected settings">Replay seed</button></div>
           <button className="whole-joint" disabled={!ready || recording} onClick={() => vary(true)}><Shuffle size={16} /><span>Joint scene variation</span><ChevronRight size={16} /></button>
+          <button className="whole-button" aria-pressed={autoVarying} disabled={!ready || recording} onClick={() => { const next = !autoVarying; setAutoVarying(next); if (next) vary(true); }}>{autoVarying ? <Pause size={13} /> : <Play size={13} />}{autoVarying ? "Pause endless variation" : "Auto-vary scene endlessly"}</button>
           <button className="whole-restore" disabled={!ready || recording} onClick={restore}><RotateCcw size={13} />Restore atlas</button>
           <p className="whole-scope">Disease colours and texture changes are synthetic visual studies. They do not represent a diagnosed patient or a physiological disease simulation.</p>
           {selectedInfo && REFERENCE_ORGAN_IDS[selectedInfo.id] ? <ReferenceMaterialPanel

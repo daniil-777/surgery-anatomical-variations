@@ -102,11 +102,22 @@ interface Runtime {
 }
 const boxData = (box: THREE.Box3) => ({ min: box.min.toArray(), max: box.max.toArray() });
 
-/** The coarse stomach surface has very unequal triangle areas. Weighting each
- * incident face by its corner angle avoids letting its longest triangles flatten
+/** Coarse visceral surfaces have unequal triangle areas. Weighting each
+ * incident face by its corner angle avoids letting longest triangles flatten
  * the shading; source positions and connectivity remain byte-for-byte unchanged. */
+const ANGLE_WEIGHTED_NORMAL_ORGANS = new Set([
+  "stomach",
+  "gallbladder",
+  "spleen",
+  "duodenum",
+  "pancreas",
+  "right-kidney",
+  "left-kidney",
+  "colon",
+  "small-intestine",
+]);
 function updateTissueNormals(geometry: THREE.BufferGeometry, id: string) {
-  if (id !== "stomach") { geometry.computeVertexNormals(); return; }
+  if (!ANGLE_WEIGHTED_NORMAL_ORGANS.has(id)) { geometry.computeVertexNormals(); return; }
   const positions = geometry.getAttribute("position"), index = geometry.index;
   let normals = geometry.getAttribute("normal") as THREE.BufferAttribute | undefined;
   if (!normals || normals.itemSize !== 3 || normals.count !== positions.count) {
