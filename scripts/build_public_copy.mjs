@@ -1,7 +1,7 @@
 // scripts/build_public_copy.mjs — builds the public copy of VISCERA Studio: the browser-only studio plus the API's
 // snapshots it starts from. GitHub Pages serves the result (.github/workflows/pages.yml); the portfolio site's
 // tools/build-anatomy.mjs does the same from outside this repository.
-//   node scripts/build_public_copy.mjs [--out public-copy] [--api http://127.0.0.1:8000] [--keep-specimens] [--api-url https://host]
+//   node scripts/build_public_copy.mjs [--out public-copy] [--api http://127.0.0.1:8000] [--keep-specimens] [--api-url https://host] [--max-bytes 900000000]
 // Steps: (1) ask the running API for the catalogue (plus each template's normalisation), render every template with
 // default controls in tissue and with its source colours, prepare the reference livers' hands-on physics, the physics
 // status and demonstration calibration, the photo analyses of the bundled photographs, and the trained-model status
@@ -12,9 +12,11 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import zlib from 'node:zlib';
-import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { build as viteBuild } from 'vite';
 import { compressGlb } from './compress-glb.mjs';
+import { stagePublicAssets, assertPublicBuildBudget, conflictCopy, PUBLIC_COPY_MAX_BYTES,
+  capturePublicBuildSources, recordPublicAtlasCompression } from './stage_public_assets.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const argv = process.argv.slice(2), opt = {};
@@ -24,9 +26,13 @@ const WORK = fs.mkdtempSync(path.join(os.tmpdir(), 'viscera-public-'));   // bui
 const OUT = path.join(WORK, 'out');
 const STATIC_API = path.join(OUT, 'static', 'api');
 const FINAL_STATIC = path.join(FINAL, 'static', 'api');
-const conflictCopy = (name) => / \d+(\.[\w.]+)?$/.test(name);   // "x 2.json.gz": what iCloud leaves behind
+const MAX_BYTES = opt['max-bytes'] === undefined ? PUBLIC_COPY_MAX_BYTES : Number(opt['max-bytes']);
+if (!Number.isSafeInteger(MAX_BYTES) || MAX_BYTES <= 0 || MAX_BYTES > PUBLIC_COPY_MAX_BYTES) throw new Error(`--max-bytes must be a positive integer no greater than ${PUBLIC_COPY_MAX_BYTES}`);
 const API = (typeof opt.api === 'string' ? opt.api : process.env.VISCERA_API_URL || 'http://127.0.0.1:8000').replace(/\/$/, '');
 const PUB = path.join(ROOT, 'apps/studio/public');
+if (FINAL === ROOT || ROOT.startsWith(FINAL + path.sep) || FINAL === PUB || FINAL.startsWith(PUB + path.sep)) {
+  throw new Error('--out must not replace the source workspace or its public asset library');
+}
 const mb = (n) => (n / 1048576).toFixed(2) + ' MB';
 const t0 = Date.now();
 /** fetch with one retry on a lost connection: the client may pause longer than the server's keep-alive while it
@@ -147,15 +153,28 @@ const apiJson = typeof opt['api-url'] === 'string' ? JSON.stringify({ api: opt['
   : fs.existsSync(previousApiJson) ? fs.readFileSync(previousApiJson, 'utf8')
   : JSON.stringify({ api: null, note: 'Set "api" to the https origin of a hosted VISCERA API (services.web.app) and the public copy uses it for everything; null keeps the browser-only copy.' }, null, 2) + '\n';
 
-// ---- 2. the studio, built for a relative base, without source maps
-const r = spawnSync(process.execPath, ['node_modules/vite/bin/vite.js', 'build', '--config', 'apps/studio/vite.config.ts', '--outDir', OUT, '--emptyOutDir'],
-  { cwd: ROOT, stdio: ['ignore', 'pipe', 'pipe'], encoding: 'utf8', env: { ...process.env, VISCERA_BASE: './', VISCERA_SOURCEMAP: '0' } });
-if (r.status !== 0) { console.error(r.stdout, r.stderr); throw new Error('vite build failed'); }
-console.log(r.stdout.split('\n').filter((l) => /built in/.test(l)).join('\n'));
+// ---- 2. verify a bounded public asset closure before Vite copies anything.
+// Native research maps and sync-conflict exports stay in the untouched local library.
+const stagedPublic = path.join(WORK, 'public');
+const assets = stagePublicAssets({ source: PUB, destination: stagedPublic, maxBytes: MAX_BYTES });
+const sourceSnapshot = capturePublicBuildSources(ROOT);
+console.log(`public assets: ${assets.materials} explicit 512px previews, ${mb(assets.staged_bytes)}; native 4K retained locally`);
+await viteBuild({
+  configFile: path.join(ROOT, 'apps/studio/vite.config.ts'), base: './', publicDir: stagedPublic,
+  build: { outDir: OUT, emptyOutDir: true, sourcemap: false },
+});
+if (JSON.stringify(capturePublicBuildSources(ROOT)) !== JSON.stringify(sourceSnapshot)) throw new Error('browser/build sources changed during compilation; rebuild from a frozen source snapshot');
+fs.writeFileSync(path.join(OUT, 'public-source.json'), JSON.stringify({
+  schema: 'viscera.public-build-source/v1', node: process.version,
+  scope: 'Browser sources, configuration, dependency lock and release tooling; excludes research payloads.',
+  files: sourceSnapshot,
+}, null, 2) + '\n');
 if (fs.readdirSync(path.join(OUT, 'assets')).some((f) => f.endsWith('.map'))) throw new Error('source maps were written');
 fs.writeFileSync(path.join(OUT, 'api.json'), apiJson);
 // the models the browser samplers read (joint flow, shape and disease samplers, the disease renderer's support) travel with the build
-for (const f of ['index.html', 'textures.html', 'models/joint-v2/model.json', 'models/joint-v2/weights.bin', 'models/shape-v2/model.json', 'models/shape-v2/weights.bin', 'models/material-v1/model.json', 'models/material-v1/weights.bin', 'models/physics-v2/model.json', 'models/physics-v2/weights.bin', 'models/disease-recipes-v2/model.json', 'models/disease-recipes-v2/weights.bin', 'models/disease-v2/index.json', 'default-scene.json', 'anatomy-scene/bodyparts3d-torso.glb', 'anatomy-scene/manifest.json', 'body-reference/catalog.json', 'textures/manifest.json'])
+for (const f of ['cutting/liver-reference.json', 'models/cutting-v1/model.json', 'models/cutting-v1/example-observation.json'])
+  if (!fs.existsSync(path.join(OUT, f))) throw new Error(`${f} missing: the browser cutting experiment requires its reference and calibration model`);
+for (const f of ['index.html', 'textures.html', 'tissues.html', 'tissue-materials/catalog.json', 'tissue-materials/distribution.json', 'public-assets.json', 'fat.html', 'fat-lab/references.json', 'fat-lab/reference-omentum.glb', 'models/joint-v2/model.json', 'models/joint-v2/weights.bin', 'models/shape-v2/model.json', 'models/shape-v2/weights.bin', 'models/material-v1/model.json', 'models/material-v1/weights.bin', 'models/physics-v2/model.json', 'models/physics-v2/weights.bin', 'models/text-compiler/tables.json', 'models/disease-recipes-v2/model.json', 'models/disease-recipes-v2/weights.bin', 'models/disease-v2/index.json', 'default-scene.json', 'anatomy-scene/bodyparts3d-torso.glb', 'anatomy-scene/manifest.json', 'body-reference/catalog.json', 'textures/manifest.json'])
   if (!fs.existsSync(path.join(OUT, f))) throw new Error(`${f} missing after the build`);
 fs.mkdirSync(STATIC_API, { recursive: true });
 fs.cpSync(path.dirname(keep), STATIC_API, { recursive: true });
@@ -166,16 +185,18 @@ const c = await compressGlb(glb, tmp);
 fs.renameSync(tmp, glb);
 if (c.bytesOut < 1e6 || c.bytesOut > c.bytesIn) throw new Error(`the compressed atlas is ${c.bytesOut} bytes: not plausible`);
 console.log(`atlas ${mb(c.bytesIn)} → ${mb(c.bytesOut)} (${c.meshes} meshes, ${c.extensions.join(' ')})`);
+recordPublicAtlasCompression(OUT);
 
 // ---- 4. the stamp, then the swap into --out
-let files = 0, bytes = 0;
-const walk = (d) => { for (const e of fs.readdirSync(d, { withFileTypes: true })) { const p = path.join(d, e.name); if (conflictCopy(e.name)) throw new Error(`conflict copy in the build: ${p}`); if (e.isDirectory()) walk(p); else { files++; bytes += fs.statSync(p).size; } } };
-walk(OUT);
+const { files, bytes } = assertPublicBuildBudget(OUT, MAX_BYTES);
 const vite = JSON.parse(fs.readFileSync(path.join(ROOT, 'node_modules/vite/package.json'), 'utf8')).version;
 const unavailable = JSON.parse(fs.readFileSync(path.join(STATIC_API, 'atlas/unavailable.json'), 'utf8')).map((u) => u.id);
 for (const f of ['atlas/catalog.json', 'atlas/models.json', 'atlas/models/joint/history.json', 'atlas/reference-material/examples/colon-1.json', 'physics/status.json', 'physics/demo-observation.json', 'physics/playground/hra-liver-female.learned.json.gz'])
   if (!fs.existsSync(path.join(STATIC_API, f))) throw new Error(`static/api/${f} missing`);
-fs.writeFileSync(path.join(OUT, 'build.json'), JSON.stringify({ builtAt: new Date().toISOString(), vite, specimens, unavailable, atlasBytes: c.bytesOut, files, bytes }, null, 2) + '\n');
+fs.writeFileSync(path.join(OUT, 'build.json'), JSON.stringify({ builtAt: new Date().toISOString(), vite, specimens, unavailable, atlasBytes: c.bytesOut, files, bytes,
+  maxBytes: MAX_BYTES, tissueDistribution: assets.tissue_distribution, publicAssetsReceipt: 'public-assets.json', sourceManifest: 'public-source.json',
+}, null, 2) + '\n');
+assertPublicBuildBudget(OUT, MAX_BYTES); // Include build.json itself before replacing any previous build.
 fs.rmSync(FINAL, { recursive: true, force: true });
 fs.mkdirSync(path.dirname(FINAL), { recursive: true });
 try { fs.renameSync(OUT, FINAL); } catch { fs.cpSync(OUT, FINAL, { recursive: true }); }

@@ -305,8 +305,9 @@ def build_release(
     if output.exists() and any(output.iterdir()):
         raise ValueError("Choose an empty release directory")
     output.mkdir(parents=True, exist_ok=True)
-    project = Path(__file__).resolve().parents[2]
-    renderer_hashes = {p: digest(project / p) for p in RENDERER_PATHS}
+    # Keep portable provenance keys while locating bytes in either wheel or checkout.
+    package = Path(__file__).resolve().parent
+    renderer_hashes = {p: digest(package / Path(p).name) for p in RENDERER_PATHS}
     builder_sha = digest(Path(__file__))
     templates = sorted(list_templates(template_root), key=lambda r: r["template_id"])
     if template_ids:
@@ -500,7 +501,7 @@ def build_release(
         },
     )
     if digest(Path(__file__)) != builder_sha or any(
-        digest(project / p) != sha for p, sha in renderer_hashes.items()
+        digest(package / Path(p).name) != sha for p, sha in renderer_hashes.items()
     ):
         raise ValueError("Renderer/builder source changed during generation; release not frozen")
     release = {

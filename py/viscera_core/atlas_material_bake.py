@@ -12,6 +12,7 @@ from collections import OrderedDict
 from collections.abc import Iterator
 from contextlib import contextmanager
 from dataclasses import dataclass
+from numbers import Real
 from typing import Any, cast
 
 import numpy as np
@@ -22,7 +23,7 @@ from scipy.ndimage import distance_transform_edt
 from .atlas_materials import MaterialRecipe, resolve_material, sample_material
 from .atlas_surface_normals import NORMAL_FRAME_RELATIVE_THRESHOLD
 
-BAKE_VERSION = "atlas-material-bake-2.0.0"
+BAKE_VERSION = "atlas-material-bake-2.0.1"
 _BAKE_LOCK = threading.RLock()
 _UNWRAP_LOCK = threading.Lock()
 _UNWRAP_CACHE: OrderedDict[str, UnwrappedUV] = OrderedDict()
@@ -48,6 +49,84 @@ class UnwrappedUV:
 
 class MaterialBakeBusyError(RuntimeError):
     """An existing CPU bake owns this process's bounded-memory work slot."""
+
+
+class MaterialBakeResolutionError(ValueError):
+    """The requested base-level physical sampling requirement was not met."""
+
+    def __init__(self, surface_sampling: dict[str, Any]) -> None:
+        self.surface_sampling = surface_sampling
+        super().__init__(
+            "Material bake does not meet min_feature_mm: every source face must have "
+            "a texel centre and worst-direction rest spacing must be <= min_feature_mm / 4; "
+            "increase resolution or revise the UV layout"
+        )
+
+
+def _validate_min_feature(value: float | None) -> float | None:
+    if value is None:
+        return None
+    if isinstance(value, bool) or not isinstance(value, Real):
+        raise ValueError("min_feature_mm must be a finite positive number")
+    try:
+        number = float(value)
+    except (OverflowError, ValueError):
+        raise ValueError("min_feature_mm must be a finite positive number") from None
+    if not np.isfinite(number) or number <= 0:
+        raise ValueError("min_feature_mm must be a finite positive number")
+    return number
+
+
+def _surface_sampling_report(
+    rest_area: Any, dr: Any, face_texels: Any, resolution: int, min_feature_mm: float | None
+) -> dict[str, Any]:
+    """Keep physical face coverage separate from atlas occupancy and visual quality."""
+    axis_spacing = np.max(np.linalg.norm(dr, axis=2), axis=1) / resolution
+    # For any unit direction in pixel coordinates, the displacement in rest mm
+    # is bounded by sigma_max(dRest/dUV) / resolution. The max of the two axis
+    # norms alone is not that bound for a skewed chart.
+    directional_spacing = np.linalg.svd(dr, compute_uv=False)[:, 0] / resolution
+    missing = face_texels == 0
+    total = float(rest_area.sum())
+
+    def weighted_quantiles(values: Any) -> list[float]:
+        order = np.argsort(values, kind="stable")
+        cumulative = np.cumsum(rest_area[order])
+        indices = np.searchsorted(cumulative, cumulative[-1] * np.array([0.5, 0.95, 1.0]))
+        return values[order[np.minimum(indices, len(order) - 1)]].tolist()
+
+    covered_area = float(rest_area[~missing].sum())
+    spacing_ok = (
+        None if min_feature_mm is None else bool(directional_spacing.max() <= min_feature_mm / 4)
+    )
+    coverage_ok = not bool(missing.any())
+    return {
+        "version": "rest-surface-sampling-1.0.0",
+        "area_domain": "input rest triangles in mm; source face row order; overlapping faces count separately",
+        "coverage_criterion": "at least one accepted base-level texel centre per source triangle; not continuous area reconstruction accuracy",
+        "rest_surface_area_mm2": total,
+        "rest_area_on_sampled_faces_mm2": covered_area,
+        "rest_area_on_unsampled_faces_mm2": float(rest_area[missing].sum()),
+        "rest_area_fraction_on_sampled_faces": covered_area / total,
+        "source_face_indices_without_texel_center": np.flatnonzero(missing).tolist(),
+        "all_faces_rest_area_weighted_axis_footprint_mm_p50_p95_max": weighted_quantiles(
+            axis_spacing
+        ),
+        "all_faces_rest_area_weighted_directional_spacing_mm_p50_p95_max": weighted_quantiles(
+            directional_spacing
+        ),
+        "quantile_definition": "smallest spacing whose cumulative rest area reaches 50%, 95%, 100%; includes unsampled faces",
+        "feature_sampling_check": {
+            "status": "NOT_REQUESTED"
+            if min_feature_mm is None
+            else ("PASSED" if coverage_ok and spacing_ok else "FAILED"),
+            "min_feature_mm": min_feature_mm,
+            "required_texels_per_feature": 4,
+            "passes_face_coverage": coverage_ok,
+            "passes_directional_spacing": spacing_ok,
+            "scope": "base-level rest-space geometric sampling only; excludes field bandwidth, mip levels, seam continuity, optical accuracy and photorealism",
+        },
+    }
 
 
 @contextmanager
@@ -191,9 +270,26 @@ def bake_maps(
     regions: Any,
     recipe: MaterialRecipe,
     resolution: int = 2048,
+    *,
+    min_feature_mm: float | None = None,
 ) -> dict[str, Any]:
+    """Bake maps; optionally enforce four base-level texels per rest-mm feature.
+
+    The opt-in check is a geometric sampling bound, not a guarantee of retained
+    field contrast, seam-free mipmaps or perceptual realism. The default never
+    rejects solely for missing texel centres; its metadata reports their area.
+    """
     with _bake_slot():
-        return _bake_maps(rest, positions, normals, faces, regions, recipe, resolution)
+        return _bake_maps(
+            rest,
+            positions,
+            normals,
+            faces,
+            regions,
+            recipe,
+            resolution,
+            min_feature_mm=min_feature_mm,
+        )
 
 
 def _bake_maps(
@@ -206,7 +302,10 @@ def _bake_maps(
     resolution: int,
     disease_field: dict[str, Any] | None = None,
     vessel_network: dict[str, Any] | None = None,
+    *,
+    min_feature_mm: float | None = None,
 ) -> dict[str, Any]:
+    min_feature_mm = _validate_min_feature(min_feature_mm)
     if isinstance(resolution, bool) or resolution not in (128, 256, 512, 1024, 2048, 4096):
         raise ValueError("Unsupported material bake resolution")
     rest, positions, normals = [np.asarray(a, dtype=np.float64) for a in (rest, positions, normals)]
@@ -231,6 +330,16 @@ def _bake_maps(
         raise ValueError("Material mesh arrays must be finite")
     if faces.min() < 0 or faces.max() >= len(rest):
         raise ValueError("Material face index is outside the vertex array")
+    rest_area = 0.5 * np.linalg.norm(
+        np.cross(rest[faces[:, 1]] - rest[faces[:, 0]], rest[faces[:, 2]] - rest[faces[:, 0]]),
+        axis=1,
+    )
+    if (
+        not np.isfinite(rest_area).all()
+        or np.any(rest_area <= 0)
+        or not np.isfinite(rest_area.sum())
+    ):
+        raise ValueError("Degenerate or non-finite rest geometry triangle in material export")
     # Source-preserving cleanup retains unused vertices after zero-area faces are
     # removed. Their display normals may legitimately be zero; xatlas drops them.
     used = np.unique(faces)
@@ -252,6 +361,8 @@ def _bake_maps(
     # UV rows hold du,dv; solve [du,dv] @ [dP/du,dP/dv] = edge vectors.
     dp = np.einsum("fij,fjk->fik", inverse, p[triangles[:, 1:]] - p[triangles[:, :1]])
     dr = np.einsum("fij,fjk->fik", inverse, r[triangles[:, 1:]] - r[triangles[:, :1]])
+    if not np.isfinite(dp).all() or not np.isfinite(dr).all():
+        raise ValueError("Non-finite material surface differentials")
     t_sum = np.zeros_like(p)
     b_sum = np.zeros_like(p)
     weights = np.linalg.norm(
@@ -433,6 +544,9 @@ def _bake_maps(
     flush()
     if not covered.any():
         raise ValueError("UV atlas contains no rasterized surface")
+    surface_sampling = _surface_sampling_report(rest_area, dr, face_texels, size, min_feature_mm)
+    if surface_sampling["feature_sampling_check"]["status"] == "FAILED":
+        raise MaterialBakeResolutionError(surface_sampling)
     # Extend colour/roughness/normal into chart gutters for bilinear and mip sampling.
     nearest = distance_transform_edt(~covered, return_distances=False, return_indices=True)
     for target in (base, orm, normal_map):
@@ -448,7 +562,9 @@ def _bake_maps(
         "padding_requested_texels": 8,
         "covered_texels": int(covered.sum()),
         "coverage_fraction": float(covered.mean()),
+        "coverage_fraction_domain": "UV atlas texel occupancy, not rest-surface area",
         "triangles_without_texel_center": int(np.sum(face_texels == 0)),
+        "surface_sampling": surface_sampling,
         "texel_footprint_mm_p50_p95_max": np.percentile(footprints, [50, 95, 100]).tolist(),
         "normal_convention": "glTF tangent-space +Y; explicit TANGENT attribute",
         "geometry_policy": "UV/tangent seam vertex duplication only; triangle positions/winding preserved",
@@ -486,13 +602,23 @@ def _bake_maps(
 
 
 def export_material_glb(
-    result: dict[str, Any], recipe: MaterialRecipe, resolution: int = 2048
+    result: dict[str, Any],
+    recipe: MaterialRecipe,
+    resolution: int = 2048,
+    *,
+    min_feature_mm: float | None = None,
 ) -> bytes:
     with _bake_slot():
-        return _export_material_glb(result, recipe, resolution)
+        return _export_material_glb(result, recipe, resolution, min_feature_mm=min_feature_mm)
 
 
-def _export_material_glb(result: dict[str, Any], recipe: MaterialRecipe, resolution: int) -> bytes:
+def _export_material_glb(
+    result: dict[str, Any],
+    recipe: MaterialRecipe,
+    resolution: int,
+    *,
+    min_feature_mm: float | None = None,
+) -> bytes:
     item = result["scene"]["organs"][0]
     rest, positions, normals = [
         np.asarray(item[k]).reshape(-1, 3) for k in ("rest_positions", "positions", "normals")
@@ -509,6 +635,7 @@ def _export_material_glb(result: dict[str, Any], recipe: MaterialRecipe, resolut
         resolution,
         disease_field=item.get("metadata", {}).get("disease_field"),
         vessel_network=item.get("metadata", {}).get("surface_vessels"),
+        min_feature_mm=min_feature_mm,
     )
     mapping = baked["mapping"]
     mesh = trimesh.Trimesh(

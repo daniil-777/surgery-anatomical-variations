@@ -15,7 +15,7 @@ from pathlib import Path
 from typing import Any
 
 SCHEMA_VERSION = "atlas-semantic-1"
-POLICY_VERSION = "atlas-wording-policy-1.0.0"
+POLICY_VERSION = "atlas-wording-policy-1.0.1"
 INTERPRETATION = "authored_visual_design_not_clinical_inference"
 MAX_TEXT_LENGTH = 4000
 DISEASE_FIELDS = ("severity", "size", "spread", "irregularity", "contrast", "count")
@@ -53,6 +53,18 @@ _UNSUPPORTED = re.compile(r"\b(?:resect\w*|resection|excise\w*|excision|cut\w*|r
 
 def _normalise(text: str) -> str:
     return re.sub(r"\s+", " ", text.lower().replace("’", "'").replace("−", "-").replace("–", "-")).strip()
+
+
+def _shape_comparative(source: str, field: str) -> re.Match[str] | None:
+    directions = {
+        "width": "wider|broader|narrower", "height": "taller|shorter",
+        "depth": "deeper|flatter",
+    }
+    return re.search(
+        r"(?<![\w.])(?:(?P<pct>" + _NUMBER
+        + r")\s*%\s*|(?P<qualifier>slightly|a little)\s+)?(?:"
+        + directions[field] + r"|larger|bigger|smaller)\b", source,
+    )
 
 
 def operation(op: str, field: str | None = None, value: Any = None) -> dict[str, Any]:
@@ -261,6 +273,10 @@ def validate_plan(plan: dict[str, Any], context: dict[str, Any], text: str | Non
         for item in normalised:
             if item["op"] != "preserve" and preserved & _targets(item):
                 raise ValueError("An edit conflicts with an explicit preservation constraint.")
+        if "appearance" in preserved and context.get("appearance", "tissue") != "tissue" and any(x["op"].startswith("material_") for x in normalised):
+            raise ValueError("Material edits require tissue appearance and cannot preserve the current appearance mode.")
+        if "material" in preserved and context.get("material") is not None and any(x["op"] == "appearance_set" and x["value"] != "tissue" for x in normalised):
+            raise ValueError("Source/clay appearance clears the authored material and cannot preserve it.")
         if any(x["op"].startswith("material_") for x in normalised) and any(x["op"] == "appearance_set" and x["value"] != "tissue" for x in normalised):
             raise ValueError("Authored material edits require tissue appearance.")
         if text is not None:
@@ -273,7 +289,7 @@ def validate_plan(plan: dict[str, Any], context: dict[str, Any], text: str | Non
             evidence_error = _learned_domain_guard(normalised, text, context)
             if evidence_error:
                 raise ValueError(evidence_error)
-    except (ValueError, TypeError, KeyError) as exc:
+    except (ValueError, TypeError, KeyError, OverflowError) as exc:
         return _refuse(str(exc))
     return make_plan(normalised, message=plan["message"])
 
@@ -332,7 +348,36 @@ def _learned_domain_guard(operations: list[dict[str, Any]], text: str, context: 
         return "The model omitted part of the requested overall disease appearance edit."
     for item in operations:
         op, field, value = item["op"], item.get("field"), item.get("value")
+        # A grounded clause does not authorize unrelated operations in that
+        # domain. For example, "wetter" must not also change fine detail, and a
+        # requested numeric wetness must not supply an invented lesion size.
+        material_anchors = {
+            "wetness": r"wet|drier|dry|moist|sheen|gloss|matte",
+            "tint": r"tint|warm|cool|redder|less red",
+            "pigment_contrast": r"pigment|mottl",
+            "mottle_scale_mm": r"mottle scale",
+            "fine_detail": r"fine detail",
+            "structure_strength": r"structure strength|tissue grain",
+        }
+        disease_anchors = {
+            "size": r"size|lesion|tumou?r|cyst|nodule|region",
+            "spread": r"spread|widespread|locali[sz]ed",
+            "irregularity": r"irregular|regular",
+            "count": r"count|sites",
+        }
+        if op.startswith("material_") and not re.search(material_anchors[field], evidence_source):
+            return "The model edited a material field that was not requested."
+        if op == "disease_relative" and field in disease_anchors and not re.search(disease_anchors[field], evidence_source):
+            return "The model edited a disease control that was not requested."
+        if op == "appearance_set":
+            requested_modes = set(re.findall(r"\b(tissue|source|clay)\b", evidence_source))
+            if requested_modes != {value}:
+                return "The model changed appearance without the matching explicit mode request."
         relative_percents = percents
+        comparative = _shape_comparative(evidence_source, field) if op == "shape_relative" else None
+        if comparative:
+            relative_percents = ([float(comparative.group("pct")) / 100]
+                                 if comparative.group("pct") else [])
         simple_health = re.search(r"\b(?:healthier|sicker|less diseased|more diseased|less pathological|more pathological|less healthy|more healthy|less sick|unhealthier|worse|improved|improving|recovering)\b", evidence_source)
         if op == "disease_relative" and field in ("severity", "contrast") and simple_health:
             prefix = re.search(r"(" + _NUMBER + r")\s*%\s*$", evidence_source[:simple_health.start()])
@@ -369,6 +414,23 @@ def _learned_domain_guard(operations: list[dict[str, Any]], text: str, context: 
                 positive = {"width": "wider|broader", "height": "taller", "depth": "deeper"}[field]
                 if re.search(r"\b(?:" + negative + r"|smaller)\b", evidence_source) and value >= 0 or re.search(r"\b(?:" + positive + r"|larger|bigger)\b", evidence_source) and value <= 0:
                     return "The model reversed a requested shape direction."
+                # Bind the default to the local comparative, not a qualifier or
+                # percentage belonging to a different clause/field.
+                if comparative:
+                    if comparative.group("pct") and float(comparative.group("pct")) <= 0:
+                        return "A comparative shape request requires a positive percentage magnitude."
+                    magnitude = (abs(float(comparative.group("pct"))) / 100
+                                 if comparative.group("pct") else
+                                 .03 if comparative.group("qualifier") else .05)
+                    if abs(abs(value) - magnitude) > 1e-7:
+                        return "The model changed the declared comparative shape magnitude."
+                else:
+                    signed_change = re.search(
+                        r"\bchange\s+(?:the\s+)?" + re.escape(field)
+                        + r"\s+by\s+(" + _NUMBER + r")\s*%", evidence_source,
+                    )
+                    if signed_change and abs(value - float(signed_change.group(1)) / 100) > 1e-7:
+                        return "The model reversed the requested signed dimension change."
         if op == "control_set" and not re.search(r"\b" + re.escape(field) + r"\b", evidence_source):
             return "The model changed a shape control that was not requested."
         if op == "disease_relative" and field not in ("severity", "contrast"):
@@ -436,8 +498,10 @@ def _learned_domain_guard(operations: list[dict[str, Any]], text: str, context: 
             expected = float(item["value"])
             if not any(abs(n - expected) < 1e-7 or (op == "shape_absolute" and "cm" in source and abs(n * 10 - expected) < 1e-7) for n in numbers):
                 return "The model invented a numeric setting not present in the request."
-            aliases = {"pigment_contrast": "pigment contrast", "mottle_scale_mm": "mottle scale", "fine_detail": "fine detail", "structure_strength": "structure strength", "width": "width|wide", "height": "height|tall", "depth": "depth|deep", "count": "count|sites"}
+            aliases = {"pigment_contrast": "pigment contrast", "mottle_scale_mm": "mottle scale", "fine_detail": "fine detail", "structure_strength": "structure strength", "width": "width|wide", "height": "height|tall", "depth": "depth|deep", "count": "count|sites", "severity": "severity|morphology strength|disease strength|disease intensity"}
             labels = list(re.finditer(r"\b(?:" + aliases.get(field, re.escape(field)) + r")\b", evidence_source))
+            if not labels:
+                return "The model assigned a numeric value to a field that was not named."
             numeric_source = evidence_source
             for i, word in enumerate(("zero", "one", "two", "three", "four", "five", "six", "seven", "eight")):
                 numeric_source = re.sub(r"\b" + word + r"\b", str(i).ljust(len(word)), numeric_source)
@@ -445,8 +509,12 @@ def _learned_domain_guard(operations: list[dict[str, Any]], text: str, context: 
             if labels and numeric_matches:
                 nearest = min(numeric_matches, key=lambda n: min(min(abs(n.end() - label.start()), abs(n.start() - label.end())) for label in labels))
                 actual = float(nearest.group())
-                if op == "shape_absolute" and re.match(r"\s*cm\b", numeric_source[nearest.end():]):
-                    actual *= 10
+                if op == "shape_absolute":
+                    unit = re.match(r"\s*(mm|cm)\b", numeric_source[nearest.end():])
+                    if unit is None:
+                        return "Absolute dimensions require explicit mm or cm units."
+                    if unit.group(1) == "cm":
+                        actual *= 10
                 if abs(actual - expected) > 1e-7:
                     return "The model bound a numeric value to the wrong requested field."
     return None
@@ -655,6 +723,31 @@ def apply_plan(root: str | Path, spec: Any, plan: dict[str, Any], *, text: str |
                 if value != "tissue":
                     material = None
         if geometry:
+            # Shape controls are coupled by bend/twist/taper. Keeping a control
+            # value is not the same as preserving the measured dimension.
+            preserved_dimensions = {
+                x["field"] for x in ops
+                if x["op"] == "preserve" and x["field"] in DIMENSIONS
+            }
+            if preserved_dimensions:
+                if disease is not None:
+                    return {**_refuse("Preserved final dimensions of a diseased surface cannot currently be solved. No edit was applied.", "clarify"), "policy_version": POLICY_VERSION}
+                import numpy as np
+
+                from .atlas import deform_vertices
+
+                template = get_template(root, spec.template_id)
+                extent = np.ptp(deform_vertices(
+                    template.vertices_mm, spec.controls,
+                    template.metadata["control_limits"], template.metadata["normalization_mm"],
+                ), axis=0)
+                geometry.extend(
+                    f"{field} {float(extent[DIMENSIONS.index(field)]):.17g} mm"
+                    for field in sorted(preserved_dimensions)
+                )
+            # A simultaneous appearance change must be present in the interim
+            # validated surface, not only installed after geometry compilation.
+            target["material"] = material
             surface = SurfaceAtlasSpec.model_validate({key: value for key, value in target.items() if key not in ("disease", "renderer_version")})
             result = compile_surface(root, ", ".join(geometry), surface)
             if result["status"] != "accepted":

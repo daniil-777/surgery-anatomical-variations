@@ -239,9 +239,15 @@ class MaterialRecipe(BaseModel):
     @field_validator(*CONTROL_NAMES, mode="before")
     @classmethod
     def strict_finite_controls(cls, value: Any) -> float:
-        if isinstance(value, bool) or not isinstance(value, (int, float)) or not np.isfinite(value):
+        if isinstance(value, bool) or not isinstance(value, (int, float)):
             raise ValueError("Material controls must be finite numeric values")
-        return float(value)
+        try:
+            result = float(value)
+        except OverflowError as error:
+            raise ValueError("Material controls must be finite numeric values") from error
+        if not np.isfinite(result):
+            raise ValueError("Material controls must be finite numeric values")
+        return result
 
 
 @dataclass(frozen=True)

@@ -1,3 +1,4 @@
+import { interfaceTypography } from "./interfaceTypography";
 import { defineConfig, type Plugin } from "vite";
 import react from "@vitejs/plugin-react";
 import { fileURLToPath, URL } from "node:url";
@@ -19,6 +20,16 @@ function texturesPage(): Plugin {
         .replace("</head>", '    <meta name="viscera-mode" content="textures" />\n  </head>');
       if (page === index) throw new Error("textures.html: index.html did not have the expected title and head");
       writeFileSync(resolve(outDir, "textures.html"), page);
+      writeFileSync(resolve(outDir, "tissues.html"), index
+        .replace(/<title>[^<]*<\/title>/, "<title>VISCERA — Layered tissue lab</title>")
+        .replace("</head>", '    <meta name="viscera-mode" content="tissues" />\n  </head>'));
+      writeFileSync(resolve(outDir, "fat.html"), index
+        .replace(/<title>[^<]*<\/title>/, "<title>VISCERA — Adipose lab</title>")
+        .replace("</head>", '    <meta name="viscera-mode" content="fat" />\n  </head>'));
+      writeFileSync(resolve(outDir, "blood.html"), index
+        .replace(/<title>[^<]*<\/title>/, "<title>VISCERA — Blood & fluid lab</title>")
+        .replace("</head>", '    <meta name="viscera-mode" content="blood" />\n  </head>'));
+      writeFileSync(resolve(outDir, "404.html"), index);
     },
   };
 }
@@ -28,6 +39,7 @@ export default defineConfig({
   base: process.env.VISCERA_BASE ?? "/",
   root: fileURLToPath(new URL(".", import.meta.url)),
   plugins: [react(), texturesPage()],
+  css: { postcss: { plugins: [interfaceTypography()] } },
   resolve: {
     alias: {
       "@viscera/ui": fileURLToPath(
@@ -44,7 +56,7 @@ export default defineConfig({
   server: {
     port: 5174,
     strictPort: true,
-    proxy: { "/api": { target: process.env.VISCERA_API_URL ?? "http://127.0.0.1:8000", changeOrigin: true } },
+    proxy: { "^/api/": { target: process.env.VISCERA_API_URL ?? "http://127.0.0.1:8000", changeOrigin: true } },
   },
   build: {
     target: "es2022",

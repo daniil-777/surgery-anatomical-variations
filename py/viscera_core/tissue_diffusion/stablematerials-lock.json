@@ -1,0 +1,83 @@
+{
+  "schema": "viscera.tissue-diffusion-lock/v1",
+  "repository": "gvecchio/StableMaterials",
+  "revision": "4d452731535bd5c74261d6645623a573326f6f36",
+  "selection": "standard LDM text conditioning only; vision and LCM components omitted",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 6360,
+      "sha256": "d01854dd15fbea04e5b1fca8d4fd58b6d3978068aa13fbb503140df53c757c27"
+    },
+    {
+      "path": "model_index.json",
+      "bytes": 590,
+      "sha256": "af03e696dad89cd12c9dc8d6b20ee82ca5b7e3aec4c75cef1ab33270f8f59047"
+    },
+    {
+      "path": "pipeline.py",
+      "bytes": 36317,
+      "sha256": "0e0a5cd721d4abadd2ceb2e46fc3ee876b93e720fb63caf8bb74784ede5a55be"
+    },
+    {
+      "path": "scheduler/scheduler_config.json",
+      "bytes": 583,
+      "sha256": "561ddacec92f3396452fadef7ff45c8936385f2f741e7a67f82f8e5ac956fef7"
+    },
+    {
+      "path": "text_encoder/config.json",
+      "bytes": 651,
+      "sha256": "3acbde0fd99d089550a9ccefa59147ea83a7a82071100ae6f613cc22c50f25de"
+    },
+    {
+      "path": "text_encoder/model.safetensors",
+      "bytes": 494624560,
+      "sha256": "dae0eabbb1fd83756ed9dd893c17ff2f6825c98555a1e1b96154e2df0739b9e2"
+    },
+    {
+      "path": "tokenizer/merges.txt",
+      "bytes": 524619,
+      "sha256": "9fd691f7c8039210e0fced15865466c65820d09b63988b0174bfe25de299051a"
+    },
+    {
+      "path": "tokenizer/special_tokens_map.json",
+      "bytes": 618,
+      "sha256": "21abc4f322cffab753eee2a06eb5456acf0f25e34ac71f83e0b98f57c41b4d44"
+    },
+    {
+      "path": "tokenizer/tokenizer.json",
+      "bytes": 2224109,
+      "sha256": "d2c22662278b8c26ed9ffb46428534fdda1a9f60de2fbec87b2c4377e775d1ac"
+    },
+    {
+      "path": "tokenizer/tokenizer_config.json",
+      "bytes": 735,
+      "sha256": "3943ab5494975cb6df729ed2bf0470d186bc7230d9951d9fd38d40fd1c28394a"
+    },
+    {
+      "path": "tokenizer/vocab.json",
+      "bytes": 862328,
+      "sha256": "5047b556ce86ccaf6aa22b3ffccfc52d391ea4accdab9c2f2407da5b742d4363"
+    },
+    {
+      "path": "unet/config.json",
+      "bytes": 1848,
+      "sha256": "8850c61f9323a4e4b8f1455d5a277cbd67bd926e61a568327e74c5a1b48a78e3"
+    },
+    {
+      "path": "unet/diffusion_pytorch_model.safetensors",
+      "bytes": 3438490176,
+      "sha256": "726f9bc81cab88af34a29a6bd89e9e442ca89612f66d4cf5a252c7b23ba5b334"
+    },
+    {
+      "path": "vae/config.json",
+      "bytes": 682,
+      "sha256": "8de862f0f2d06cb22fe129d055630a9a2aec3fcf630c65578b979cd0a8e3d8f7"
+    },
+    {
+      "path": "vae/diffusion_pytorch_model.safetensors",
+      "bytes": 335479204,
+      "sha256": "dac9dfa16153ea53d01aaa1fe2a031e509e108bc5bad95379e4fa5b3524af623"
+    }
+  ]
+}

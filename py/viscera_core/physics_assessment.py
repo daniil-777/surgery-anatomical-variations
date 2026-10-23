@@ -25,7 +25,7 @@ def _not_run(reason: str) -> dict[str, Any]:
 def _array(value: Any, name: str, *, finite: bool = True) -> FloatArray:
     try:
         array = np.asarray(value, dtype=np.float64)
-    except (TypeError, ValueError) as exc:
+    except (TypeError, ValueError, OverflowError) as exc:
         raise ValueError(f"{name} must be a numeric array") from exc
     if finite and not np.isfinite(array).all():
         raise ValueError(f"{name} must contain finite values")
@@ -330,6 +330,17 @@ def assess_experiment(simulation: dict[str, Any],
     inferred from tool motion. Coordinate frames and camera IDs, when provided,
     must match. Otherwise they remain caller assumptions in the report.
     """
+    # Finite inputs can still overflow during squaring, integration or unit
+    # conversion. Reject that comparison before returning non-JSON-safe metrics.
+    try:
+        with np.errstate(over="raise", invalid="raise", divide="raise"):
+            return _assess_experiment(simulation, reference)
+    except (OverflowError, FloatingPointError) as exc:
+        raise ValueError("Assessment inputs exceed the supported finite numeric range") from exc
+
+
+def _assess_experiment(simulation: dict[str, Any],
+                       reference: dict[str, Any] | None) -> dict[str, Any]:
     sim = _sequence(simulation)
     names = ("force", "impulse", "work", "landmarks", "silhouette", "relaxation", "recovery")
     report: dict[str, Any] = {

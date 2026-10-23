@@ -1,5 +1,7 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
 import * as THREE from "three";
+import { registerSceneRecordingSource } from "./sceneRecording";
+export { getSceneRecordingSource, registerSceneRecordingSource } from "./sceneRecording";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { GLTFExporter } from "three/examples/jsm/exporters/GLTFExporter.js";
 import {
@@ -57,6 +59,7 @@ interface Props {
   onNotice?: (message: string) => void;
 }
 interface Runtime {
+  nativeRecording: ReturnType<typeof registerSceneRecordingSource>;
   renderer: THREE.WebGLRenderer;
   scene: THREE.Scene;
   group: THREE.Group;
@@ -137,8 +140,7 @@ export const AnatomyViewport = forwardRef<ViewportHandle, Props>(
       () => ({
         camera: (p) => runtime.current?.preset(p),
         fit: () => runtime.current?.fit(),
-        screenshot: () =>
-          runtime.current?.renderer.domElement.toDataURL("image/png") ?? "",
+        screenshot: () => { if (runtime.current?.nativeRecording.active) { latest.current.onError?.("Stop scene recording before saving a still image."); return ""; } return runtime.current?.renderer.domElement.toDataURL("image/png") ?? ""; },
         runProbe: () => runtime.current?.probe(),
         resetSimulation: () => runtime.current?.reset(),
         exportGLB: async () => {
@@ -689,17 +691,18 @@ export const AnatomyViewport = forwardRef<ViewportHandle, Props>(
           count = 0;
         }
       };
+      const nativeRecording = registerSceneRecordingSource({ renderer, camera, host: el, label: "Procedural anatomy scene", draw: () => renderer.render(scene, camera), available: () => meshes.size > 0 });
       const resize = new ResizeObserver(() => {
         const w = el.clientWidth,
           h = el.clientHeight;
-        if (!w || !h) return;
+        if (nativeRecording.active || !w || !h) return;
         renderer.setSize(w, h);
         camera.aspect = w / h;
         camera.updateProjectionMatrix();
       });
       resize.observe(el);
       const dispose = () => {
-        disposed = true;
+        disposed = true; nativeRecording.dispose();
         cancelAnimationFrame(raf);
         resize.disconnect();
         controls.dispose();
@@ -722,7 +725,7 @@ export const AnatomyViewport = forwardRef<ViewportHandle, Props>(
         renderer.domElement.remove();
       };
       runtime.current = {
-        renderer,
+        nativeRecording, renderer,
         scene,
         group,
         camera,

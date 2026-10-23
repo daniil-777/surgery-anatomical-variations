@@ -204,8 +204,9 @@ def build_release(
                     "renderer_seed": sub_seed(seed, tid, profile_id, "renderer"),
                 }
             )
-    project = Path(__file__).resolve().parents[2]
-    renderer_hashes = {name: digest(project / name) for name in RENDERER_PATHS}
+    # Keep portable provenance keys while locating bytes in either wheel or checkout.
+    package = Path(__file__).resolve().parent
+    renderer_hashes = {name: digest(package / Path(name).name) for name in RENDERER_PATHS}
     template_hashes = {
         row["template_id"]: digest(template_root / (row["template_id"] + ".npz"))
         for row in templates

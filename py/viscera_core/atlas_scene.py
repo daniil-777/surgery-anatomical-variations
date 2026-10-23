@@ -39,7 +39,6 @@ class AtlasSpec(BaseModel):
         if any(
             isinstance(a, bool)
             or not isinstance(a, (int, float))
-            or not np.isfinite(a)
             or not -1 <= a <= 1
             for a in v.values()
         ):

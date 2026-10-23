@@ -54,7 +54,15 @@ def decode_base64(value: str) -> bytes:
     return raw
 
 
-def decode_photo(raw: bytes) -> tuple[Image.Image, tuple[int, int], list[str]]:
+def decode_photo(
+    raw: bytes, *, full_resolution: bool = False,
+) -> tuple[Image.Image, tuple[int, int], list[str]]:
+    """Decode opaque oriented sRGB pixels; keep full detail only when requested.
+
+    Masks use the returned oriented coordinate system in both modes. The API's
+    default 1024-pixel analysis bound is unchanged; offline detail extraction can
+    retain original resolution under the same 24-megapixel input bound.
+    """
     notices: list[str] = []
     try:
         with Image.open(io.BytesIO(raw), formats=["PNG", "JPEG", "WEBP"]) as opened:
@@ -83,7 +91,8 @@ def decode_photo(raw: bytes) -> tuple[Image.Image, tuple[int, int], list[str]]:
                 notices.append("No colour profile: sRGB is assumed; camera white balance remains in the colour.")
             image = image.convert("RGB")
             original_size = image.size
-            image.thumbnail((ANALYSIS_SIDE, ANALYSIS_SIDE), Image.Resampling.LANCZOS)
+            if not full_resolution:
+                image.thumbnail((ANALYSIS_SIDE, ANALYSIS_SIDE), Image.Resampling.LANCZOS)
             return image.copy(), original_size, notices
     except (UnidentifiedImageError, OSError, SyntaxError, IndexError, EOFError, Image.DecompressionBombError) as exc:
         raise ValueError("The reference image could not be decoded safely") from exc

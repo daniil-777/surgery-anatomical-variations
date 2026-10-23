@@ -18,7 +18,7 @@ MAX_SEGMENTS = 20000
 
 
 def _number(value: Any, minimum: float, maximum: float) -> bool:
-    return isinstance(value, (float, int)) and not isinstance(value, bool) and math.isfinite(value) and minimum <= value <= maximum
+    return isinstance(value, (float, int)) and not isinstance(value, bool) and minimum <= value <= maximum and math.isfinite(value)
 
 
 def _vector(value: Any, bound: float) -> bool:

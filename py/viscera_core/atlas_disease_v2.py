@@ -64,7 +64,6 @@ class DiseaseSpecV2(BaseModel):
             or any(
                 isinstance(x, bool)
                 or not isinstance(x, (float, int))
-                or not np.isfinite(x)
                 or not -1 <= x <= 1
                 for x in value
             )
