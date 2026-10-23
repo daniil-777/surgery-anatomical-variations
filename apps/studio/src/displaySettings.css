@@ -1,0 +1,170 @@
+html .display-fps-badge { display:inline-flex; align-items:center; gap:6px; flex-shrink:0; min-height:38px; padding:6px 10px; border:1px solid #67a68d75; border-radius:7px; background:linear-gradient(160deg,#11242be8,#0b181ef0); color:#dff4ea; font-family:"JetBrains Mono",ui-monospace,monospace; font-size:clamp(10px,calc(11px * var(--ui-text-scale, 1)),14px); font-variant-numeric:tabular-nums; line-height:1.15; white-space:nowrap; box-shadow:inset 0 1px 0 #ffffff14,0 4px 14px #00000038; user-select:none; }
+html .display-fps-dot,.scene-fps-dot { width:7px; height:7px; border-radius:50%; flex:none; background:#4ade80; box-shadow:0 0 8px #4ade80b3; }
+html .display-fps-badge[data-tier=steady] .display-fps-dot,.scene-fps-hud[data-tier=steady] .scene-fps-dot { background:#fbbf24; box-shadow:0 0 8px #fbbf24b3; }
+html .display-fps-badge[data-tier=heavy] .display-fps-dot,.scene-fps-hud[data-tier=heavy] .scene-fps-dot { background:#f87171; box-shadow:0 0 8px #f87171b3; }
+html .display-fps-value { font-weight:700; color:#f0fbf6; letter-spacing:-.02em; }
+html .display-fps-unit { font-size:.86em; font-weight:600; color:#8fd4b8; letter-spacing:.04em; }
+html .display-fps-sep { color:#6c8f83; }
+html .display-fps-ms { font-size:.9em; color:#b3d1c6; }
+html .display-trigger { display:inline-flex; align-items:center; justify-content:center; gap:7px; flex-shrink:0; min-height:44px; padding:8px 10px; border:1px solid #a6d8c1; border-radius:7px; background:#d1eadc; color:#142c25; font-size:12px; font-weight:600; line-height:1.25; white-space:nowrap; cursor:pointer; }
+html .display-trigger:hover { background:#e5f4ec; }
+html .display-trigger .display-trigger-icon { display:inline; font-size:17px; font-weight:700; letter-spacing:-.06em; line-height:1; }
+html .display-trigger .display-trigger-label { display:inline; }
+html .display-trigger .display-trigger-value { display:inline; padding:3px 5px; border:1px solid #6c8d7e; border-radius:4px; color:#142c25; background:#ffffff70; font-size:11px; font-variant-numeric:tabular-nums; line-height:1.15; }
+html .display-dialog { width:min(540px, calc(100vw - 24px)); max-height:calc(100dvh - 24px); overflow:auto; border:1px solid #648579; border-radius:12px; padding:22px; background:#14242b; color:#e4efeb; box-shadow:0 20px 80px #0008; font-size:13px; }
+html .display-dialog::backdrop { background:#050e14b3; }
+html .display-dialog header { display:flex; align-items:flex-start; gap:14px; }
+html .display-dialog h2 { flex:1; font-size:20px; margin:0; line-height:1.3; }
+html .display-dialog p { color:#bfd0ce; line-height:1.6; }
+html .display-dialog button { min-height:40px; border:1px solid #6a8785; border-radius:6px; background:#233e43; color:#e5f1ed; padding:8px 12px; font:inherit; white-space:normal; }
+html .display-dialog header button { display:grid; place-items:center; flex:none; padding:8px; }
+html .display-dialog label:not(.display-check) { display:flex; flex-wrap:wrap; justify-content:space-between; gap:8px; margin:24px 0 10px; font-size:14px; }
+html .display-dialog output { color:#bddfce; }
+html .display-dialog input[type=range] { flex-basis:100%; width:100%; height:28px; accent-color:#a6d8c1; margin:0; }
+html .display-dialog input:disabled { opacity:.45; }
+html .display-dialog .display-check { display:flex; gap:10px; align-items:center; margin-top:26px; line-height:1.5; }
+html .display-check input { width:20px; height:20px; flex:none; accent-color:#a6d8c1; }
+html .display-presets { display:flex; flex-wrap:wrap; gap:8px; }
+html .display-presets button[aria-pressed=true] { background:#c9e3d4; color:#152b25; }
+html .display-dialog .display-help { font-size:12px; }
+html .display-dialog footer { display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-top:26px; }
+html .display-dialog :focus-visible { outline:2px solid #d1f4df; outline-offset:3px; }
+html .display-trigger:focus-visible { outline:2px solid #6ed1ae; outline-offset:3px; box-shadow:0 0 0 2px #142c25; }
+.scene-layout-tools { position:absolute; inset:0; pointer-events:none; z-index:9; }
+.scene-resize-width,.scene-resize-height { position:absolute; pointer-events:auto; touch-action:none; display:flex; align-items:center; justify-content:center; outline-offset:-2px; }
+.scene-resize-width { right:0; top:0; bottom:0; width:10px; cursor:col-resize; }
+.scene-resize-height { bottom:0; left:35%; width:30%; height:12px; cursor:row-resize; }
+.scene-resize-width span { height:42px; width:3px; border-radius:3px; background:#aac7bb80; }
+.scene-resize-height span { width:50px; height:3px; border-radius:3px; background:#aac7bb80; }
+.scene-resize-width:hover,.scene-resize-height:hover,.scene-layout-tools [role=separator]:focus-visible { background:#8eb4a838; }
+.scene-layout-tools .scene-fps-hud { position:absolute; pointer-events:none; right:18px; bottom:calc(50% + 8px); display:flex; flex-direction:column; gap:3px; padding:6px 9px; border:1px solid #76b69d70; border-radius:8px; background:linear-gradient(155deg,#0f232ae8,#09161bf0); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); color:#e4f7ef; font-family:"JetBrains Mono",ui-monospace,monospace; font-size:clamp(10px,calc(11px * var(--ui-text-scale, 1)),13px); font-variant-numeric:tabular-nums; line-height:1.15; box-shadow:0 8px 24px #0000005c,inset 0 1px 0 #ffffff17; user-select:none; }
+.scene-fps-top,.scene-fps-bottom { display:flex; align-items:center; justify-content:space-between; gap:6px; white-space:nowrap; }
+.scene-fps-value { font-weight:700; color:#f2fcf7; font-size:1.08em; letter-spacing:-.02em; }
+.scene-fps-unit { font-size:.82em; font-weight:600; color:#8fd4b8; letter-spacing:.05em; }
+.scene-fps-ms { font-size:.82em; color:#a9c9be; }
+.scene-fps-spark { width:36px; height:10px; color:#5fe0a7; opacity:.92; flex:none; }
+.scene-fps-hud[data-tier=steady] .scene-fps-spark { color:#fbbf24; }
+.scene-fps-hud[data-tier=heavy] .scene-fps-spark { color:#f87171; }
+.atlas-stage .scene-layout-tools .scene-fps-hud { top:24px; right:206px; bottom:auto; }
+.atlas-stage .scene-layout-tools .scene-fullscreen { top:204px; right:28px; }
+.scene-layout-tools .scene-fullscreen { position:absolute; pointer-events:auto; right:18px; top:50%; display:grid; place-items:center; padding:6px; min-height:34px; width:34px; border:1px solid #78928b; border-radius:5px; background:#14272de8; color:#d8e9df; }
+.scene-layout-error { position:absolute; pointer-events:auto; right:18px; top:calc(50% + 42px); max-width:min(280px,85%); padding:12px; border:1px solid #899c84; background:#14252bf2; font-size:12px; line-height:1.5; }
+.scene-layout-error button { margin-left:8px; }
+:is(.atlas-stage,.whole-stage,.tissue-stage,.fat-stage,.workspace,.playground-stage,.physics-viewer):fullscreen { width:100vw; height:100dvh; min-height:0; flex:none; }
+
+/* Shared layout rules have higher specificity than each lab's lazy-loaded styles. */
+html body { min-width:320px; }
+html .atlas-studio,html .studio,html .whole-scene-studio,html .fat-lab,html .tissue-lab { min-width:0; height:100dvh; min-height:0; overflow:auto; grid-template-rows:minmax(64px,max-content) minmax(0,1fr) minmax(30px,max-content); }
+html .atlas-studio { grid-template-columns:238px minmax(280px,1fr) min(var(--ui-controls-width,340px),40vw); }
+html .whole-scene-studio,html .fat-lab,html .tissue-lab { grid-template-columns:minmax(280px,1fr) min(var(--ui-controls-width,340px),45vw); }
+html :is(.atlas-header,.whole-header,.fat-header,.tissue-header,.topbar) { flex-wrap:wrap; gap:10px; padding-block:10px; min-width:0; }
+html :is(.atlas-main,.tissue-panel,.whole-controls,.fat-panel) { min-height:0; min-width:0; }
+html .atlas-main { overflow:auto; }
+html .fat-viewport { min-height:0; }
+html .atlas-prompt-box textarea { min-height:3.3em; height:auto; }
+html :is(.atlas-inspector-tabs,.whole-panel-tabs,.fat-tabs) { height:auto; min-height:51px; flex-wrap:wrap; gap:10px; }
+html :is(.atlas-inspector-tabs,.whole-panel-tabs,.fat-tabs) button { min-height:40px; }
+html :is(.atlas-footer,.whole-footer,.fat-footer,.tissue-footer) { flex-wrap:wrap; height:auto; min-height:30px; gap:6px; padding-block:5px; }
+html :is(.atlas-control-intro,.whole-copy,.tissue-copy,.fat-copy,.physics-help,.atlas-model-dialog p) { overflow-wrap:anywhere; }
+html .physics-footer details p { overflow-wrap:anywhere; }
+html .physics-lab { width:min(1400px,calc(100vw - 24px)); }
+html .physics-header,html .atlas-model-dialog-heading { flex-wrap:wrap; gap:12px; }
+html .physics-header > div:first-child,html .atlas-model-dialog-heading > div:first-child { flex:1; }
+html .physics-layout { grid-template-columns:min(var(--ui-controls-width,340px),40%) minmax(0,1fr); }
+html[data-scene-height=custom] :is(.whole-scene-studio,.fat-lab,.tissue-lab,.studio) { grid-template-rows:minmax(64px,max-content) var(--ui-scene-height) minmax(30px,max-content); }
+html[data-scene-height=custom] .atlas-stage { flex:0 0 var(--ui-scene-height); min-height:var(--ui-scene-height); }
+html[data-scene-height=custom] :is(.playground-stage,.physics-viewer) { height:var(--ui-scene-height); }
+html[data-large-type=true] :is(.atlas-header-fill,.atlas-legacy-link,.whole-header-note,.fat-badge,.tissue-tag,.display-fps-sep,.display-fps-ms) { display:none; }
+html[data-large-type=true] :is(.atlas-stage-heading p,.atlas-orbit-hint,.whole-heading p,.whole-orientation small) { display:none; }
+html[data-large-type=true] :is(.atlas-stage-heading,.whole-heading,.fat-heading,.tissue-heading) { max-width:65%; }
+html[data-large-type=true] :is(.atlas-view-tabs,.whole-view-bar) { flex-wrap:wrap; max-width:90%; }
+@media(min-width:851px) { html .studio:not(.right-collapsed) { grid-template-columns:234px minmax(250px,1fr) min(var(--ui-controls-width,340px),40vw); } html .studio.left-collapsed:not(.right-collapsed) { grid-template-columns:0 minmax(250px,1fr) min(var(--ui-controls-width,340px),40vw); } }
+@media(max-width:1100px) { html .atlas-studio { grid-template-columns:190px minmax(260px,1fr) min(var(--ui-controls-width,340px),35vw); } }
+@media(max-width:980px) and (min-width:701px) { html .atlas-studio { grid-template-columns:minmax(260px,1fr) min(var(--ui-controls-width,340px),45vw); } }
+@media(max-width:900px) { html .tissue-lab,html[data-scene-height=custom] .tissue-lab { grid-template-columns:minmax(0,1fr); grid-template-rows:auto var(--ui-scene-height,65dvh) max-content auto; } html .tissue-stage { min-height:320px; } .tissue-stage .scene-resize-width { display:none; } }
+@media(max-width:760px) { html .whole-scene-studio,html[data-scene-height=custom] .whole-scene-studio { grid-template-columns:minmax(0,1fr); grid-template-rows:auto var(--ui-scene-height,72dvh) max-content auto; } .whole-stage .scene-resize-width { display:none; } }
+@media(max-width:700px) {
+  html .atlas-studio { grid-template-columns:minmax(0,1fr); grid-template-rows:max-content minmax(540px,1fr) minmax(30px,max-content); }
+  html .fat-lab { display:flex; flex-direction:column; height:100dvh; }
+  html .fat-stage { flex:0 0 var(--ui-scene-height,520px); height:var(--ui-scene-height,520px); }
+  html .fat-header,html .fat-panel,html .fat-footer { flex-shrink:0; }
+  html .physics-layout { grid-template-columns:minmax(0,1fr); }
+  html .display-trigger { min-height:44px; padding:8px; }
+  html .display-fps-sep,html .display-fps-ms,.scene-fps-bottom { display:none; }
+  html .atlas-header > .atlas-model-picker { flex:1 0 100%; min-width:0; max-width:100%; }
+  html .atlas-header .atlas-model-picker-trigger { box-sizing:border-box; width:100%; min-width:0; max-width:100%; }
+  html .atlas-header .atlas-model-picker-trigger-copy small { white-space:normal; overflow-wrap:anywhere; line-height:1.2; }
+  .scene-resize-width { display:none; }
+  html .fat-heading,html .tissue-heading { left:18px; right:58px; }
+  html :is(.fat-heading h1,.tissue-heading h1) { font-size:26px; }
+  html :is(.fat-heading p,.tissue-heading p) { max-width:100%; }
+  html .physics-protocols { grid-template-columns:1fr; }
+  html .physics-metrics { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+@media(max-width:600px) {
+  html .studio { grid-template-columns:minmax(0,1fr); grid-template-rows:max-content minmax(320px,1fr) minmax(26px,max-content); }
+  html .studio:not(.left-collapsed) .outliner,html .studio:not(.right-collapsed) .inspector { position:relative; inset:auto; grid-column:1; grid-row:2; align-self:stretch; max-height:100%; }
+  html .studio:not(.left-collapsed) .outliner { justify-self:start; }
+  html .studio:not(.right-collapsed) .inspector { justify-self:end; }
+}
+
+/* The inspection HUD stays separate from orbit controls and remains usable by touch. */
+.whole-camera-entry { margin-bottom:24px; padding:16px 0; border-bottom:1px solid #ffffff20; }
+.whole-camera-entry > button { width:100%; justify-content:center; min-height:44px; white-space:normal; }
+.whole-camera-entry p { font-size:12px; line-height:1.6; color:#b0c1c6; margin:12px 0 0; }
+.whole-exploration { position:absolute; z-index:8; top:18px; left:18px; width:min(340px,calc(100% - 76px)); max-height:calc(100% - 75px); overflow:auto; padding:14px; border:1px solid #75958e80; border-radius:10px; background:#12242ceb; color:#e2ece7; font-size:12px; }
+.whole-exploration-heading { display:flex; align-items:center; gap:10px; }
+.whole-exploration-heading strong { flex:1; font-size:14px; }
+.whole-exploration button { padding:8px; min-height:40px; border:1px solid #718a85; border-radius:5px; background:#263d43; color:inherit; font:inherit; cursor:pointer; }
+.whole-exploration button:focus-visible { outline:2px solid #cae9d8; outline-offset:2px; }
+.whole-exploration p { line-height:1.5; margin:10px 0; }
+.whole-exploration-movement { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px; margin-top:8px; }
+.whole-exploration-movement[aria-label="Look around"] { grid-template-columns:repeat(2,minmax(0,1fr)); }
+.whole-exploring :is(.whole-heading,.whole-view-bar,.whole-orientation,.whole-tool-strip,.whole-selection) { display:none; }
+.whole-exploring .whole-stage-caption { white-space:normal; }
+@media(max-width:760px) { .whole-exploration { top:10px; left:10px; width:min(290px,calc(100% - 64px)); padding:10px; } }
+
+/* Shared workspace navigation must also be styled before the scene chunk loads. */
+html .anatomy-workspace-tabs { display:flex; flex-wrap:wrap; flex-shrink:1; gap:3px; height:auto; padding:3px; background:#080f1570; border:1px solid #ffffff12; border-radius:7px; }
+html .anatomy-workspace-tabs button { border:0; background:none; padding:8px 12px; border-radius:4px; color:#a6b8c3; font-size:11px; white-space:normal; min-height:36px; }
+html .anatomy-workspace-tabs button[aria-current=page] { background:#29393d; color:#d1e8dd; }
+html .api-notice { max-height:35dvh; overflow:auto; }
+html .api-notice > div { flex:1; min-width:0; }
+html .api-notice > button { position:sticky; top:0; min-height:32px; min-width:32px; }
+html .api-notice details { margin-top:6px; }
+html .api-notice summary { cursor:pointer; }
+html .api-notice details p { margin-top:10px; }
+html[data-large-type=true] :is(.tissue-heading p,.fat-heading p) { display:none; }
+html[data-large-type=true] .tissue-caption { position:static; flex-wrap:wrap; padding:12px 20px; }
+html[data-large-type=true] .tissue-stage-actions { position:static; padding:8px 20px; flex-wrap:wrap; }
+html[data-large-type=true] .tissue-stage { display:flex; flex-direction:column; justify-content:flex-end; }
+html[data-large-type=true] :is(.tissue-caption,.tissue-stage-actions) { z-index:2; background:#101417c9; }
+@media(max-width:700px) {
+  html .atlas-stage { min-height:440px; flex-shrink:0; }
+  html .atlas-header > .anatomy-workspace-tabs { height:auto; }
+  html .atlas-header > .anatomy-workspace-tabs button { padding:7px 8px; }
+  html .atlas-show-shape .atlas-inspector,html .atlas-show-library .atlas-library { top:12px; bottom:12px; width:min(90vw,400px); z-index:65; }
+  html[data-large-type=true] :is(.tissue-heading,.fat-heading) { max-width:80%; }
+  html[data-large-type=true] :is(.tissue-heading h1,.fat-heading h1) { font-size:21px; }
+  html[data-large-type=true] .atlas-mobile-tools { top:140px; }
+  html[data-large-type=true] .atlas-stage-bottom { flex-wrap:wrap; }
+}
+@media(max-width:1100px) {
+  html[data-large-type=true] .atlas-stage { display:flex; flex-direction:column; justify-content:flex-end; min-height:540px; }
+  html[data-large-type=true] .atlas-stage-eyebrow { display:none; }
+  html[data-large-type=true] .atlas-stage-heading { top:70px; }
+  html[data-large-type=true] .atlas-dimensions { position:static; order:1; align-items:flex-start; padding:10px 18px; background:#101923c9; }
+  html[data-large-type=true] .atlas-sculpt-toolbar { position:static; order:2; align-self:flex-start; margin:0 18px 10px; }
+  html[data-large-type=true] .atlas-stage-bottom { position:static; order:3; margin:0 18px 18px; }
+  html[data-large-type=true] .atlas-mobile-tools { top:135px; }
+  html[data-large-type=true] .atlas-material-tabs { left:18px; right:auto; }
+}
+html .atlas-model-lanes > div { grid-template-columns:minmax(65px,25%) minmax(0,1fr); }
+html .atlas-model-lanes :is(dt,dd),html .atlas-model-file > span { min-width:0; overflow-wrap:anywhere; }
+html .atlas-model-file > span { flex:1; }
+html .atlas-model-file input { width:100%; min-width:0; }
+html .atlas-model-actions,html .playground-tools { flex-wrap:wrap; }
+html .playground-tools { max-width:100%; }
+html .atlas-model-dialog :is(select,input,button) { max-width:100%; }
+html .atlas-model-dialog button { white-space:normal; }
+@media(max-width:600px) { html[data-large-type=true] .atlas-model-lanes > div { grid-template-columns:minmax(0,1fr); } }

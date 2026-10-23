@@ -13,6 +13,7 @@ import type { AtlasGeneration, AtlasSpec, AtlasTemplate } from "./atlas";
 import type { AtlasDiseaseLibrary, AtlasDiseaseSpec } from "./atlasDisease";
 import { realizeDiseaseLocally } from "./atlasDiseaseLocal";
 import { Pcg64 } from "./numpyRandom";
+import { validateModelArrayLayout, type ModelArraySpec } from "./modelArrayLayout";
 
 export const DISEASE_WEB_FORMAT = "viscera-disease-recipe-model-v1-web";
 export const DISEASE_METHOD = "conditional_vae";
@@ -46,11 +47,37 @@ export interface DiseaseSample {
   latent: number[]; decoded: number[]; values: number[];
 }
 
-const FEATURES = 9;
+// atlas_disease_recipe_dataset.FEATURE_NAMES: decoder column order is semantic.
+const FEATURE_NAMES = ["severity", "size", "spread", "irregularity", "contrast", "count_normalized",
+  "location_x_normalized", "location_y_normalized", "location_z_normalized"] as const;
+const FEATURES = FEATURE_NAMES.length;
 
 export function parseDiseaseModel(meta: DiseaseModelMeta, weights: ArrayBuffer): DiseaseModel {
   if (meta.format !== DISEASE_WEB_FORMAT || meta.method !== DISEASE_METHOD) throw new Error("Unsupported disease model export.");
-  if (weights.byteLength !== meta.float32_values * 4) throw new Error("The disease weights do not match their layout.");
+  if (!meta.config || ![meta.config.latent, meta.config.hidden, meta.config.embedding].every((n) => Number.isSafeInteger(n) && n > 0)
+    || meta.config.hidden < 4) throw new Error("Invalid disease decoder architecture.");
+  if (!Array.isArray(meta.profiles) || !meta.profiles.length
+    || meta.profiles.some((profile) => typeof profile !== "string" || !profile.trim())
+    || new Set(meta.profiles).size !== meta.profiles.length
+    // train_recipe constructs sorted(set(training profile IDs)); export_model preserves that vocabulary.
+    || JSON.stringify(meta.profiles) !== JSON.stringify([...meta.profiles].sort())
+    || JSON.stringify(meta.feature_names) !== JSON.stringify(FEATURE_NAMES)
+    || !meta.profile_organs || typeof meta.profile_organs !== "object" || Array.isArray(meta.profile_organs)
+    || Object.keys(meta.profile_organs).length !== meta.profiles.length
+    || meta.profiles.some((profile) => !Object.hasOwn(meta.profile_organs, profile)
+      || typeof meta.profile_organs[profile] !== "string" || !meta.profile_organs[profile]!.trim())) {
+    throw new Error("Invalid disease recipe model vocabulary");
+  }
+  const profiles = meta.profiles.length, { latent, hidden, embedding } = meta.config;
+  const dimensions: [string, number[]][] = [
+    ["embedding.weight", [profiles, embedding]], ["decoder.0.weight", [hidden, latent + embedding]], ["decoder.0.bias", [hidden]],
+    ["decoder.2.weight", [hidden, hidden]], ["decoder.2.bias", [hidden]], ["decoder.4.weight", [FEATURES, hidden]], ["decoder.4.bias", [FEATURES]],
+    ["support.min", [profiles, FEATURES]], ["support.max", [profiles, FEATURES]],
+  ];
+  const expected: Record<string, ModelArraySpec> = Object.fromEntries(dimensions.map(([name, shape]) => [name, { dtype: "<f4", shape }]));
+  if (!Number.isSafeInteger(meta.float32_values) || !Array.isArray(meta.arrays)
+    || meta.arrays.some((entry) => !entry || !Number.isSafeInteger(entry.offset) || entry.offset < 0)) throw new Error("Invalid disease tensor layout.");
+  validateModelArrayLayout(meta.arrays.map((entry) => ({ ...entry, dtype: "<f4", offset: entry.offset * 4 })), meta.float32_values * 4, weights.byteLength, expected);
   const all = new Float32Array(weights);
   const arrays = new Map<string, Tensor>();
   for (const entry of meta.arrays) {
@@ -58,18 +85,6 @@ export function parseDiseaseModel(meta: DiseaseModelMeta, weights: ArrayBuffer):
     const data = all.subarray(entry.offset, entry.offset + size);
     for (let i = 0; i < data.length; i++) if (!Number.isFinite(data[i])) throw new Error(`Disease weights are not finite: ${entry.name}`);
     arrays.set(entry.name, { data, shape: entry.shape });
-  }
-  // load_recipe_model's checks: a vocabulary without repeats, the decoder's shapes, the support inside [0, 1]
-  const profiles = meta.profiles.length, { latent, hidden, embedding } = meta.config;
-  if (!profiles || new Set(meta.profiles).size !== profiles || meta.feature_names.length !== FEATURES) throw new Error("Invalid disease recipe model vocabulary");
-  const expected: [string, number[]][] = [
-    ["embedding.weight", [profiles, embedding]], ["decoder.0.weight", [hidden, latent + embedding]], ["decoder.0.bias", [hidden]],
-    ["decoder.2.weight", [hidden, hidden]], ["decoder.2.bias", [hidden]], ["decoder.4.weight", [FEATURES, hidden]], ["decoder.4.bias", [FEATURES]],
-    ["support.min", [profiles, FEATURES]], ["support.max", [profiles, FEATURES]],
-  ];
-  for (const [name, shape] of expected) {
-    const t = arrays.get(name);
-    if (!t || t.shape.length !== shape.length || t.shape.some((n, i) => n !== shape[i])) throw new Error(`Malformed disease decoder parameter: ${name}`);
   }
   const low = arrays.get("support.min")!.data, high = arrays.get("support.max")!.data;
   for (let i = 0; i < low.length; i++) if (low[i]! < 0 || high[i]! > 1 || low[i]! > high[i]!) throw new Error("Malformed disease recipe model training support");

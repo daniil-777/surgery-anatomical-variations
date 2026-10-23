@@ -3,10 +3,11 @@
 // pipelines/textures/photo_tiles.py cuts, from the licensed surgical photographs the studio ships (DSAD, CC BY 4.0), one
 // small seamless tile per organ with its lighting flattened, and writes it Gaussianised with its inverse lookup
 // (Heitz & Neyret 2018). Here the tile is laid over the organ in its rest frame by triplanar projection, each
-// projection hex-tiled with random offsets and blended histogram-preservingly (Mikkelsen 2022): no visible repetition,
+// projection hex-tiled with random offsets and Gaussianized blending (Mikkelsen 2022): reduced obvious repetition,
 // nine texture reads and three lookups per fragment, no new geometry. The result divides by the tile's mean, so it
 // modulates the tissue colour the shader already computed (base colour, preset, any transferred reference colour)
-// without shifting it. It attaches outside the contract-locked material field, as the disease layer does, and leaves
+// approximately. Nonlinear lookup, correlated patches and triplanar filtering do not guarantee exact mean or histogram
+// preservation. It attaches outside the contract-locked material field, as the disease layer does, and leaves
 // the output byte-identical at strength 0. It is a viewer layer of this copy: exports do not carry it.
 import * as THREE from "three";
 import { publicUrl } from "./api";
@@ -63,7 +64,7 @@ void photoTriangleGrid(vec2 uv, out float w1, out float w2, out float w3, out iv
 }
 vec2 photoHash(ivec2 p) { return fract(sin(vec2(dot(vec2(p), vec2(127.1, 311.7)), dot(vec2(p), vec2(269.5, 183.3)))) * 43758.5453); }
 // one projection: three randomly offset tiles, blended with their variance preserved, then mapped back through the
-// inverse lookup (histogram-preserving blending); sRGB-encoded out
+// inverse lookup; histogram preservation is approximate for correlated patches. sRGB-encoded out
 vec3 photoSample(vec2 uv, vec2 dx, vec2 dy) {
   float w1, w2, w3; ivec2 v1, v2, v3;
   photoTriangleGrid(uv, w1, w2, w3, v1, v2, v3);
@@ -74,7 +75,7 @@ vec3 photoSample(vec2 uv, vec2 dx, vec2 dy) {
   return vec3(texture(uPhotoLut, vec2(g.r, 0.5)).r, texture(uPhotoLut, vec2(g.g, 0.5)).g, texture(uPhotoLut, vec2(g.b, 0.5)).b);
 }
 vec3 photoSrgbToLinear(vec3 c) { return mix(c / 12.92, pow((c + 0.055) / 1.055, vec3(2.4)), step(0.04045, c)); }
-// triplanar in the organ's rest frame (the same frame the material field uses): mean-one modulation
+// triplanar in the organ's rest frame: modulation normalized by the source tile's mean
 vec3 photoDetail(vec3 restMm) {
   vec3 p = restMm / uPhotoTileMm;
   vec3 dpx = dFdx(p), dpy = dFdy(p);

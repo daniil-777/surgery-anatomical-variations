@@ -16,6 +16,7 @@ import {
 } from "./atlasPhysicsCalibration";
 import type { PhysicsObservation } from "./atlasPhysics";
 import { leastSquaresTrf, pairwiseSum, type RobustLoss } from "./trustRegionReflective";
+import { leastSquaresTrf as preRobustLeastSquaresTrf } from "./__fixtures__/trustRegionReflective.pre-robust";
 
 type Spread = Record<"x" | "parameters" | "intervals" | "fitted" | "stress_nrmse" | "condition_number" | "minimum_sensitivity" | "noise_fraction_estimate" | "sigma_encoded", number>;
 interface Case {
@@ -188,8 +189,9 @@ const PROBLEMS: Record<string, (x: Float64Array) => Float64Array> = {
   exponential_fit_outliers: (x) => Float64Array.from(FIT_T.map((t, i) => x[0]! * Math.exp(-x[1]! * t) + x[2]! - FIT_Y_OUTLIERS[i]!)),
   bounded_quadratic: (x) => Float64Array.from(QUADRATIC_B.map((b, i) => QUADRATIC_A[i]!.reduce((sum, a, j) => sum + a * x[j]!, 0) - b)),
 };
-/** leastSquaresTrf with the loss options absent, as trustRegionReflective.ts at 42b6d27 (before the robust losses)
- *  solved these problems: x, cost and optimality as IEEE-754 bit patterns. */
+/** Historical Node 24.18.0 / darwin-arm64 output of commit 42b6d2709eeea8b552904e55bd15e71f1238b87f.
+ * Math.exp and finite-difference rounding are runtime-dependent. These bits are historical evidence for that
+ * profile; preservation of the old algorithm is checked against its frozen source in every running runtime. */
 const PRE_EXTENSION_BITS = [
   { problem: "rosenbrock", x0: [-1.2, 1], bounds: [-1.5, 1.5], tol: 1e-9, x: ["3ff0000000000000", "3ff0000000000000"], cost: "0000000000000000", optimality: "0000000000000000", nfev: 32, njev: 26, status: 1, calls: 84, activeMask: [0, 0] },
   { problem: "rosenbrock", x0: [0.5, -0.5], bounds: [-0.9, 0.9], tol: 1e-9, x: ["3feccccccccccccc", "3fe9eb851eb839f8"], cost: "3f747ae147ae1485", optimality: "3d9af0400000e00a", nfev: 21, njev: 18, status: 1, calls: 57, activeMask: [1, 0] },
@@ -256,13 +258,27 @@ describe("scipy's least squares with a robust loss in the browser", () => {
     expect(divergent.length).toBe(Object.keys(ROUNDING_DIVERGENT).length);
   });
   it("leaves the default path exactly as it was before the extension", () => {
+    const original = readFileSync(new URL("./__fixtures__/trustRegionReflective.pre-robust.ts", import.meta.url));
+    expect(createHash("sha256").update(original).digest("hex")).toBe("514cfae995825155732f73929bb260a0362fac8e86043ed97ec9164cd5dbf8ce");
     for (const golden of PRE_EXTENSION_BITS) {
+      const settings = { lower: golden.bounds[0]!, upper: golden.bounds[1]!, ftol: golden.tol, xtol: golden.tol, gtol: golden.tol, maxNfev: 60 };
+      let referenceCalls = 0;
+      const reference = preRobustLeastSquaresTrf((x) => { referenceCalls++; return PROBLEMS[golden.problem]!(x); }, golden.x0, settings);
       for (const options of [{}, { loss: "linear" as const }]) {
         let calls = 0;
-        const result = leastSquaresTrf((x) => { calls++; return PROBLEMS[golden.problem]!(x); }, golden.x0, { lower: golden.bounds[0]!, upper: golden.bounds[1]!, ftol: golden.tol, xtol: golden.tol, gtol: golden.tol, maxNfev: 60, ...options });
+        const result = leastSquaresTrf((x) => { calls++; return PROBLEMS[golden.problem]!(x); }, golden.x0, { ...settings, ...options });
         expect([Array.from(result.x, bits), bits(result.cost), bits(result.optimality), result.nfev, result.njev, result.status, calls, result.activeMask])
-          .toEqual([golden.x, golden.cost, golden.optimality, golden.nfev, golden.njev, golden.status, golden.calls, golden.activeMask]);
+          .toEqual([Array.from(reference.x, bits), bits(reference.cost), bits(reference.optimality), reference.nfev, reference.njev, reference.status, referenceCalls, reference.activeMask]);
       }
+    }
+  });
+  it.skipIf(process.version !== "v24.18.0" || process.platform !== "darwin" || process.arch !== "arm64")("replays the historical Node 24.18.0 darwin-arm64 bit profile", () => {
+    for (const golden of PRE_EXTENSION_BITS) {
+      let calls = 0;
+      const result = preRobustLeastSquaresTrf((x) => { calls++; return PROBLEMS[golden.problem]!(x); }, golden.x0,
+        { lower: golden.bounds[0]!, upper: golden.bounds[1]!, ftol: golden.tol, xtol: golden.tol, gtol: golden.tol, maxNfev: 60 });
+      expect([Array.from(result.x, bits), bits(result.cost), bits(result.optimality), result.nfev, result.njev, result.status, calls, result.activeMask])
+        .toEqual([golden.x, golden.cost, golden.optimality, golden.nfev, golden.njev, golden.status, golden.calls, golden.activeMask]);
     }
   });
   it("refuses losses and scales scipy refuses", () => {
@@ -345,7 +361,13 @@ describe("the calibration in the browser against the API's responses", () => {
     expect(pythonStrip("﻿abc​")).toBe("﻿abc​");
     const demo = fixture.cases[0]!.observation as unknown as PhysicsObservation;
     const surrogate = refusal(() => inferObservation(model, { ...demo, provenance: "bench test \ud800 rig" }));
-    expect([surrogate.status, surrogate.message]).toEqual([500, "Request failed (500)."]);
+    expect([surrogate.status, surrogate.message]).toEqual([422, "Input should be a valid string, unable to parse raw data as a unicode string"]);
+    const invalidKey = refusal(() => inferObservation(model, { ...demo, "\udfff": "value" }));
+    expect(invalidKey.detail).toEqual([{ type: "string_unicode", loc: ["body"], msg: "Input should be a valid string, unable to parse raw data as a unicode string", input: "\udfff" }]);
+    const extraValue = refusal(() => inferObservation(model, { ...demo, extra: "\ud800" }));
+    expect(extraValue.detail).toEqual([{ type: "extra_forbidden", loc: ["body", "extra"], msg: "Extra inputs are not permitted", input: "\ud800" }]);
+    const numericValue = refusal(() => inferObservation(model, { ...demo, reference_area_mm2: "\ud800" }));
+    expect(numericValue.detail).toEqual([{ type: "float_type", loc: ["body", "reference_area_mm2"], msg: "Input should be a valid number", input: "\ud800" }]);
     // NaN and Infinity travel as null
     const nan = refusal(() => inferObservation(model, { ...demo, force_n: demo.force_n.map((v, i) => (i === 3 ? NaN : v)) }));
     expect(nan.detail).toEqual([{ type: "float_type", loc: ["body", "force_n", 3], msg: "Input should be a valid number", input: null }]);
@@ -398,7 +420,7 @@ const online = await fetch(`${API}/api/health`, { signal: AbortSignal.timeout(30
 /** One POST; a 503 (the physics lock is held by another preparation) is retried, as the studio retries it. */
 async function post(route: string, body: unknown): Promise<{ status: number; json: unknown }> {
   for (let attempt = 0; ; attempt++) {
-    const response = await fetch(`${API}${route}`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+    const response = await fetch(`${API}${route}`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body), signal: AbortSignal.timeout(30_000) });
     if (response.status === 503 && attempt < 20) { await new Promise((resolve) => setTimeout(resolve, 1500)); continue; }
     const text = await response.text();
     let json: unknown = null;
@@ -410,9 +432,9 @@ async function post(route: string, body: unknown): Promise<{ status: number; jso
 describe.skipIf(!online)("the browser calibration against the API's routes", () => {
   it("answers /api/physics/infer and /api/physics/playground (learned) as the API does", { timeout: 600_000 }, async () => {
     primePhysicsModel(model);
-    const status = await fetch(`${API}/api/physics/status`).then((r) => r.json()) as { status: string; model_id: string; application_policy: unknown };
+    const status = await fetch(`${API}/api/physics/status`, { signal: AbortSignal.timeout(30_000) }).then((r) => r.json()) as { status: string; model_id: string; application_policy: unknown };
     expect([status.status, status.model_id, status.application_policy]).toEqual(["ready", meta.model_sha256, null]);
-    const demo = await fetch(`${API}/api/physics/demo-observation`).then((r) => r.json()) as Record<string, unknown>;
+    const demo = await fetch(`${API}/api/physics/demo-observation`, { signal: AbortSignal.timeout(30_000) }).then((r) => r.json()) as Record<string, unknown>;
     for (const key of ["times_s", "force_n", "displacement_mm", "reference_length_mm", "reference_area_mm2"]) expect(fixture.cases[0]!.observation[key], key).toEqual(demo[key]);
     const generated = await post("/api/atlas/generate", { template_id: fixture.playground_template });
     const spec = (generated.json as { spec: unknown }).spec;
@@ -459,11 +481,11 @@ describe.skipIf(!online)("the browser calibration against the API's routes", () 
         expect([(ours as PhysicsCalibrationError).status, (ours as PhysicsCalibrationError).detail, (ours as Error).message], c.name).toEqual([pg.status, detail, shown(pg.status, detail)]);
       }
     }
-    // a lone surrogate: the API cannot encode it and answers 500
+    // Invalid Unicode is a structured validation refusal; the response escapes the rejected input safely.
     const surrogate = { ...fixture.cases[0]!.observation, provenance: "bench test \ud800 rig" };
-    const crashed = await post("/api/physics/infer", surrogate);
+    const rejected = await post("/api/physics/infer", surrogate);
     const error = await inferObservationLocally(surrogate as unknown as PhysicsObservation).then(() => null, (e: unknown) => e as PhysicsCalibrationError);
-    expect([crashed.status, error?.status, error?.message]).toEqual([500, 500, "Request failed (500)."]);
+    expect([rejected.status, error?.status, error?.message]).toEqual([422, 422, "Input should be a valid string, unable to parse raw data as a unicode string"]);
     console.log(`live /api/physics/infer (${fixture.cases.length} observations): ${fixture.cases.length - refusals} calibrated (${reproduced} reproduce the fixture bit for bit), ${refusals} refused alike; ${[...inferTally.worst].map(([f, v]) => `${f} ${v.toExponential(1)}`).join(", ")}`);
     console.log(`  per class:\n${byClass.report()}`);
     console.log(`live /api/physics/playground (learned + observation): ${applied} applied, cage and every other field equal; ${[...playgroundTally.worst].map(([f, v]) => `${f} ${v.toExponential(1)}`).join(", ")}`);

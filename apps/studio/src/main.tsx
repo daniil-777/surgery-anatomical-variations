@@ -1,6 +1,12 @@
+import { VideoRecorderProvider } from "./VideoRecorderPanel";
+import { DisplayProvider } from "./DisplaySettings";
 import React, { lazy, Suspense } from "react";
 import { createRoot } from "react-dom/client";
 const App = lazy(() => import("./App"));   // the original procedural studio: loaded only with ?mode=legacy
+const FatLab = lazy(() => import("./fat/FatLab"));
+const TissueLab = lazy(() => import("./tissues/TissueLab"));
+const ImportedModelStudio = lazy(() => import("./imports/ImportedModelStudio"));
+const BloodLab = lazy(() => import("./blood/BloodLab"));
 import AtlasStudio from "./AtlasStudio";
 import { loadRuntimeApiConfig } from "./api";
 import "@fontsource/inter/latin-400.css";
@@ -17,8 +23,8 @@ const mode = new URLSearchParams(window.location.search).get("mode")
   ?? document.querySelector<HTMLMetaElement>('meta[name="viscera-mode"]')?.content ?? "";
 createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <Suspense fallback={<div className="atlas-loading" role="status">Loading VISCERA…</div>}>
-      {mode === "legacy" ? <App /> : <AtlasStudio textureLab={mode.startsWith("textures")} />}
-    </Suspense>
+    <DisplayProvider><VideoRecorderProvider><Suspense fallback={<div className="atlas-loading" role="status">Loading VISCERA…</div>}>
+      {mode === "blood" ? <BloodLab /> : mode === "imports" ? <ImportedModelStudio /> : mode === "tissues" ? <TissueLab /> : mode === "fat" ? <FatLab /> : mode === "legacy" ? <App /> : <AtlasStudio textureLab={mode.startsWith("textures")} />}
+    </Suspense></VideoRecorderProvider></DisplayProvider>
   </React.StrictMode>,
 );

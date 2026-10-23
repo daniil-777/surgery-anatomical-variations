@@ -1,3 +1,6 @@
+import { VideoRecorderButton } from "./VideoRecorderPanel";
+import { WhistleMicButton } from "./whistleMic";
+import { DisplaySettings, SceneResizeHandle } from "./DisplaySettings";
 import { apiUrl, publicUrl, reportError, reportReady } from "./api";
 import { ApiNotice } from "./ApiNotice";
 import { MAX_PROJECT_BYTES, parseProject, validateScene } from "./project";
@@ -633,8 +636,10 @@ export default function App() {
       setGenerating(false);
     }
   };
-  const compile = async () => {
-    if (!prompt.trim() || !scene || compiling) return;
+  const compile = async (overrideText?: string) => {
+    const text = (overrideText ?? prompt).trim();
+    if (!text || !scene || compiling) return;
+    if (overrideText !== undefined) setPrompt(overrideText);
     const base = scene;
     const requestId = ++compilationId.current;
     setCompiling(true);
@@ -644,7 +649,7 @@ export default function App() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          text: prompt,
+          text,
           spec: scene.spec ?? {},
           selectedOrganId: selected,
         }),
@@ -786,7 +791,7 @@ export default function App() {
     <div
       className={`studio ${leftOpen ? "" : "left-collapsed"} ${rightOpen ? "" : "right-collapsed"}`}
     >
-      <header className="topbar">
+      <header className="topbar"><DisplaySettings /><VideoRecorderButton />
         <div className="brand">
           <span className="brand-mark">
             <Activity size={20} />
@@ -880,8 +885,8 @@ export default function App() {
         >
           <CircleHelp size={17} />
         </IconButton>
+        <ApiNotice />
       </header>
-      <ApiNotice />
       <aside className="outliner">
         <div className="panel-top">
           <span>SCENE</span>
@@ -1037,7 +1042,7 @@ export default function App() {
           </div>
         </div>
       </aside>
-      <main className="workspace">
+      <main className="workspace"><SceneResizeHandle />
         <div className="viewport-topline">
           <div className="view-title">
             PERSPECTIVE
@@ -1232,6 +1237,15 @@ export default function App() {
               }}
             />
             <span className="prompt-local">Typed spec</span>
+            <WhistleMicButton
+              className="prompt-mic whistle-mic-btn"
+              disabled={compiling || !scene}
+              onTranscript={(liveText) => setPrompt(liveText)}
+              onCommit={(cleanText) => {
+                setPrompt(cleanText);
+                void compile(cleanText);
+              }}
+            />
             <button
               className="prompt-submit"
               aria-label="Interpret request"

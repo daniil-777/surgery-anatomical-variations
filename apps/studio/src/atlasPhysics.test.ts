@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { physicsSurfacePositions, readPhysicsObservation, readPhysicsPlayground, readPhysicsRun, type PhysicsObservation, type PhysicsPlayground, type PhysicsRun } from "./atlasPhysics";
+import { physicsParameterFields, physicsSurfacePositions, readPhysicsStatus, readPhysicsObservation, readPhysicsPlayground, readPhysicsRun, type PhysicsObservation, type PhysicsPlayground, type PhysicsRun } from "./atlasPhysics";
 
 const spec = { template_id: "liver-reference", realized_id: "displayed-organ", seed: 42, controls: {}, appearance: "tissue" as const };
 function run(): PhysicsRun {
@@ -19,6 +19,22 @@ describe("interactive physics response binding", () => {
     const fixture = playground(); expect(readPhysicsPlayground(fixture, expected)).toEqual(fixture);
     fixture.source.realized_id = "stale-liver"; expect(() => readPhysicsPlayground(fixture, expected)).toThrow("provenance");
     const wrongMaterial = playground(); wrongMaterial.learning.source = "manual"; expect(() => readPhysicsPlayground(wrongMaterial, expected)).toThrow();
+  });
+  it.each(physicsParameterFields)("enforces the supported $key range before physics data are applied", field => {
+    for (const value of [field.min - 1, field.max + 1]) {
+      const scene = playground(); scene.parameters[field.key] = value;
+      expect(() => readPhysicsPlayground(scene, expected)).toThrow();
+      const recorded = run(); recorded.parameters[field.key] = value;
+      expect(() => readPhysicsRun(recorded, expected)).toThrow();
+      expect(() => readPhysicsStatus({ status: "ready", defaults: scene.parameters })).toThrow();
+    }
+    for (const value of [field.min, field.max]) {
+      const scene = playground(); scene.parameters[field.key] = value;
+      expect(readPhysicsPlayground(scene, expected)).toBe(scene);
+      const recorded = run(); recorded.parameters[field.key] = value;
+      expect(readPhysicsRun(recorded, expected)).toBe(recorded);
+      expect(readPhysicsStatus({ status: "ready", defaults: scene.parameters }).defaults).toBe(scene.parameters);
+    }
   });
   it("rejects corrupt embedding, tetrahedron indices and nonfinite room gravity", () => {
     const embedding = playground(); embedding.mesh.embedding.weights[0] = 0.4; expect(() => readPhysicsPlayground(embedding, expected)).toThrow();

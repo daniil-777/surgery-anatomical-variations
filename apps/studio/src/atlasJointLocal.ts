@@ -13,6 +13,7 @@ import { decodeRecipe } from "./atlasDiseaseSampler";
 import { ATLAS_MATERIAL_VERSION, type AtlasMaterialPreset, type AtlasMaterialRecipe } from "./atlasMaterial";
 import { CONTROL_NAMES, LOCAL_REALIZER_VERSION } from "./atlasLocal";
 import { Pcg64 } from "./numpyRandom";
+import { validateModelArrayLayout, type ModelArraySpec } from "./modelArrayLayout";
 
 export const JOINT_WEB_FORMAT = "viscera-joint-flow-v2-web";
 export const JOINT_METHOD = "conditional_spline_flow";
@@ -35,7 +36,48 @@ export interface JointModel { meta: JointModelMeta; arrays: Map<string, Tensor> 
 
 export function parseJointModel(meta: JointModelMeta, weights: ArrayBuffer): JointModel {
   if (meta.format !== JOINT_WEB_FORMAT || meta.method !== JOINT_METHOD) throw new Error("Unsupported joint model export.");
-  if (weights.byteLength !== meta.float32_values * 4) throw new Error("The joint weights do not match their layout.");
+  const c = meta.config;
+  for (const [key, lo, hi] of [["hidden", 16, 1024], ["embedding", 4, 128], ["layers", 2, 24], ["bins", 4, 32], ["blocks", 1, 4]] as const) {
+    if (!Number.isInteger(c[key]) || c[key] < lo || c[key] > hi) throw new Error("Invalid joint flow architecture.");
+  }
+  if (!Number.isFinite(c.context_gain) || c.context_gain < 0 || c.context_gain > 1) throw new Error("Invalid joint context gain.");
+  for (const [names, field] of [[meta.templates, "template_id"], [meta.profiles, "profile_id"], [meta.organs, "organ"]] as const) {
+    if (!Array.isArray(names) || !names.length || names.some((name) => typeof name !== "string" || !name)
+      || new Set(names).size !== names.length || !Array.isArray(meta.conditions) || !meta.conditions.length
+      || JSON.stringify(names) !== JSON.stringify([...new Set(meta.conditions.map((row) => row[field]))].sort())) {
+      throw new Error("Invalid joint context vocabulary.");
+    }
+  }
+  if (new Set(meta.conditions.map((row) => JSON.stringify([row.template_id, row.profile_id]))).size !== meta.conditions.length
+    || JSON.stringify(meta.severity_names) !== JSON.stringify(JOINT_SEVERITIES)) throw new Error("Invalid joint condition schema.");
+  const e = c.embedding, h = c.hidden, cd = 2 * e, small = Math.max(8, Math.floor(e / 2));
+  const expected: Record<string, ModelArraySpec> = {};
+  const tensorShape = (name: string, shape: number[]) => { expected[name] = { dtype: "<f4", shape }; };
+  const linearShape = (name: string, out: number, input: number) => {
+    tensorShape(name + ".weight", [out, input]); tensorShape(name + ".bias", [out]);
+  };
+  tensorShape("template_embedding.weight", [meta.templates.length, e]);
+  tensorShape("profile_embedding.weight", [meta.profiles.length, e]);
+  tensorShape("organ_embedding.weight", [meta.organs.length, small]);
+  tensorShape("type_embedding.weight", [2, small]);
+  linearShape("context.0", cd, 2 * e + 2 * small); linearShape("context.2", cd, cd);
+  for (let layer = 0; layer < c.layers; layer++) {
+    const prefix = `couplings.${layer}`;
+    linearShape(prefix + ".input", h, 11 + cd); linearShape(prefix + ".film", 2 * h, cd);
+    linearShape(prefix + ".output", 11 * (3 * c.bins - 1), h);
+    for (let block = 0; block < c.blocks; block++) for (const index of [0, 2]) linearShape(`${prefix}.blocks.${block}.${index}`, h, h);
+  }
+  if (!Number.isSafeInteger(meta.float32_values) || !Array.isArray(meta.arrays)
+    || meta.arrays.some((entry) => !Number.isSafeInteger(entry.offset) || entry.offset < 0)) throw new Error("Invalid joint tensor layout.");
+  validateModelArrayLayout(meta.arrays.map((entry) => ({ ...entry, dtype: "<f4", offset: entry.offset * 4 })), meta.float32_values * 4, weights.byteLength, expected);
+  // Match atlas_joint_v2.coupling_masks, not merely each row's population count.
+  const rng = new Pcg64(9817301), masks: number[][] = [];
+  for (let pair = 0; pair < Math.ceil(c.layers / 2); pair++) {
+    const mask = Array<number>(22).fill(0);
+    for (const index of rng.permutation(22).slice(0, 11)) mask[index] = 1;
+    masks.push(mask, mask.map((bit) => 1 - bit));
+  }
+  if (JSON.stringify(meta.masks) !== JSON.stringify(masks.slice(0, c.layers))) throw new Error("Joint coupling masks differ from architecture.");
   const all = new Float32Array(weights);
   const arrays = new Map<string, Tensor>();
   for (const entry of meta.arrays) {
@@ -44,7 +86,6 @@ export function parseJointModel(meta: JointModelMeta, weights: ArrayBuffer): Joi
     for (let i = 0; i < data.length; i++) if (!Number.isFinite(data[i])) throw new Error(`Joint weights are not finite: ${entry.name}`);
     arrays.set(entry.name, { data, shape: entry.shape });
   }
-  if (meta.masks.length !== meta.config.layers || meta.masks.some((row) => row.length !== 22 || row.reduce((a, b) => a + b, 0) !== 11)) throw new Error("Joint coupling masks are malformed.");
   return { meta, arrays };
 }
 

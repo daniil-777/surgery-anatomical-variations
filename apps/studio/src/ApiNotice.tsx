@@ -2,14 +2,13 @@ import { useState } from "react";
 import { useApiOnline, OFFLINE_MESSAGE } from "./api";
 import "./apiNotice.css";
 
-/** One dismissible line under the header when the API is absent (the public copy): what runs here, what needs the
- *  local studio. Fixed, so it sits the same over each workspace's own layout. */
+/** In-flow header notice: capability details must not cover scene or panel controls. */
 export function ApiNotice() {
   const online = useApiOnline();
   const [closed, setClosed] = useState(false);
   if (online !== false || closed) return null;
   return <div className="api-notice" role="status">
-    <p>{OFFLINE_MESSAGE}</p>
+    <div><p>Browser mode · core tools run locally. Some exports and services need the VISCERA API.</p><details><summary>Available features</summary><p>{OFFLINE_MESSAGE}</p></details></div>
     <button type="button" onClick={() => setClosed(true)} aria-label="Dismiss this notice">×</button>
   </div>;
 }

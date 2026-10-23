@@ -1,0 +1,29 @@
+.blood-model-selector { display:grid; gap:10px; background:#f7f8fb; border:1px solid #d5dce5; border-radius:12px; padding:12px 14px; }
+.blood-model-selector-head { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+.blood-model-select-bar { display:flex; align-items:center; flex-wrap:wrap; gap:10px; font-size:12px; font-weight:700; color:#1f2a3c; letter-spacing:.04em; text-transform:uppercase; }
+.blood-model-select-bar select { text-transform:none; letter-spacing:normal; font-weight:600; font-size:13px; color:#1f2a3c; background:white; border:1.5px solid #8e2942; border-radius:8px; padding:6px 10px; min-width:310px; cursor:pointer; box-shadow:0 1px 3px rgba(142,41,66,.08); }
+.blood-sidebar-model-control { display:grid; gap:6px; padding:10px 12px; border-radius:10px; background:#fbf1f4; border:1px solid #e2bcc6; margin-bottom:4px; }
+.blood-sidebar-model-control label { display:grid; gap:5px; font-size:12px; font-weight:700; color:#6e1d32; }
+.blood-sidebar-model-control select { font-weight:600; font-size:12.5px; color:#1f2a3c; background:white; border:1px solid #b9798a; border-radius:7px; padding:6px 8px; width:100%; }
+.blood-navigation .blood-model-compare-toggle { display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px; font-size:12px; }
+.blood-navigation .blood-model-selector nav, .blood-model-selector nav { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:8px; }
+.blood-navigation .blood-model-card { display:grid; align-content:start; gap:4px; text-align:left; padding:11px 13px; min-height:86px; cursor:pointer; transition:border-color .15s, box-shadow .15s, background .15s; }
+.blood-navigation .blood-model-card:hover { border-color:#b9798a; box-shadow:0 2px 10px rgba(142,41,66,.1); }
+.blood-navigation .blood-model-card:focus-visible { outline:2px solid #8e2942; outline-offset:2px; }
+.blood-model-card strong { display:flex; align-items:center; gap:8px; font-size:13px; color:#1f2a3c; }
+.blood-model-card strong em { font-style:normal; font-size:10px; font-weight:600; letter-spacing:.04em; padding:1px 6px; border-radius:999px; background:#fbe9ee; color:#8e2942; }
+.blood-model-card span { font-size:12px; line-height:1.35; color:#44526a; }
+.blood-model-card small { font-size:11px; color:#7b879a; }
+.blood-navigation .blood-model-card[aria-pressed=true] { background:#8e2942; border-color:#8e2942; }
+.blood-model-card[aria-pressed=true] strong, .blood-model-card[aria-pressed=true] span { color:white; }
+.blood-model-card[aria-pressed=true] small { color:#f3d3dc; }
+.blood-model-card[aria-pressed=true] strong em { background:rgba(255,255,255,.2); color:white; }
+.blood-navigation>p.blood-model-current { margin:0; color:#44526a; font-size:12px; line-height:1.45; }
+.blood-model-current span { color:#7b879a; }
+.blood-model-comparison { overflow-x:auto; border:1px solid #d5dce5; border-radius:10px; background:white; }
+.blood-model-comparison table { width:100%; border-collapse:collapse; font-size:12px; color:#33415a; }
+.blood-model-comparison caption { text-align:left; padding:10px 12px; color:#68758b; font-size:11px; }
+.blood-model-comparison th, .blood-model-comparison td { text-align:left; vertical-align:top; padding:8px 12px; border-top:1px solid #edf0f4; min-width:120px; }
+.blood-model-comparison thead th { color:#68758b; font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:.05em; }
+.blood-model-comparison tr[aria-current=true] { background:#fbf1f4; }
+@media(max-width:850px) { .blood-model-selector nav { grid-template-columns:repeat(2,minmax(0,1fr)); } }

@@ -20,6 +20,7 @@ import { LOCAL_REALIZER_VERSION, resolveMaterial } from "./atlasLocal";
 import { ATLAS_MATERIAL_VERSION, validateAtlasMaterial, type AtlasMaterialPreset, type AtlasMaterialRecipe } from "./atlasMaterial";
 import { fma } from "./fusedMultiplyAdd";
 import { Pcg64 } from "./numpyRandom";
+import { validateModelArrayLayout } from "./modelArrayLayout";
 
 export const MATERIAL_WEB_FORMAT = "viscera-material-prior-v1-web";
 export const MATERIAL_METHOD = "ridge";
@@ -89,6 +90,13 @@ export function parseMaterialModel(meta: MaterialModelMeta, weights: ArrayBuffer
   if (meta.control_names.join() !== MATERIAL_CONTROL_NAMES.join() || meta.condition_names.join() !== MATERIAL_CONDITION_NAMES.join()) throw new Error("Material model feature schema mismatch");
   const n = meta.training_rows, groups = meta.groups.length, anchors = meta.anchors.length, points = meta.anchor_points;
   if (!groups || groups > 255 || new Set(meta.groups).size !== groups || !anchors || !(points >= 2)) throw new Error("Invalid material preprocessing/groups");
+  validateModelArrayLayout(meta.arrays, meta.byte_length, weights.byteLength, {
+    condition_mean: { dtype: "<f8", shape: [CONDITIONS] }, condition_scale: { dtype: "<f8", shape: [CONDITIONS] },
+    ridge_coef: { dtype: "<f8", shape: [groups + CONDITIONS, CONTROLS] },
+    train_controls: { dtype: "<f8", shape: [n, CONTROLS] }, train_conditions: { dtype: "<f8", shape: [n, CONDITIONS] },
+    ridge_residuals: { dtype: "<f8", shape: [n, CONTROLS] }, train_group: { dtype: "u1", shape: [n] },
+    anchor_points: { dtype: "<f8", shape: [anchors, points, 3] },
+  });
   const view = <T extends Float64Array | Uint8Array>(name: string, dtype: string, shape: number[], make: (offset: number, length: number) => T): T => {
     const entry = meta.arrays.find((a) => a.name === name);
     if (!entry || entry.dtype !== dtype || entry.shape.join() !== shape.join()) throw new Error("Material model array schema mismatch");

@@ -1,6 +1,8 @@
 import { reportReady } from "./api";
+import { FatSceneLayerView, type FatSceneOptions } from "./fat/sceneLayerView";
 import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
 import * as THREE from "three";
+import { registerSceneRecordingSource } from "./sceneRecordingSource";
 import { installScenePhotoDetail, photoDetailFor, SCENE_TILE_ORGAN } from "./photoDetail";
 import type { ReferenceColor } from "./atlasMaterial";
 import type { WholeBodyColorPlan } from "./wholeBodyColor";
@@ -15,9 +17,15 @@ import {
   sceneBufferSignature, warpScenePositions, WHOLE_SCENE_CATEGORIES,
   type WholeSceneCategory, type WholeSceneVariation, type WholeSceneView,
 } from "./wholeSceneModel";
+import {
+  SceneNavigationGuard, currentSceneBounds, navigationAngles, navigationDirection, navigationStep,
+  NAVIGATION_CLEARANCE_MM, NAVIGATION_SPEED_MM_S,
+  type WholeSceneNavigationDirection, type WholeSceneNavigationState,
+} from "./wholeSceneNavigation";
 
 export type { WholeSceneView } from "./wholeSceneModel";
 export type { WholeSceneToolMode, WholeSceneToolState } from "./wholeSceneTools";
+export type { WholeSceneNavigationDirection, WholeSceneNavigationState } from "./wholeSceneNavigation";
 export interface WholeSceneOrgan {
   id: string; label: string; category: WholeSceneCategory; color: string;
 }
@@ -39,8 +47,15 @@ export interface WholeSceneViewportHandle {
   pulsePhysics: () => void;
   resetPhysics: () => void;
   captureMetadata: () => Record<string, unknown>;
+  enterExploration: () => void;
+  exitExploration: () => void;
+  resetExploration: () => void;
+  moveExploration: (direction: WholeSceneNavigationDirection, distanceMm?: number) => void;
+  lookExploration: (yawDeltaDeg: number, pitchDeltaDeg: number) => void;
 }
 export interface WholeSceneViewportProps {
+  fatOptions?: FatSceneOptions;
+  onFatStatus?: (status: string) => void;
   referenceColors?: Record<string, ReferenceColor>;
   bodyReferencePlan?: WholeBodyColorPlan | null;
   variation: WholeSceneVariation;
@@ -63,6 +78,7 @@ export interface WholeSceneViewportProps {
   onReady?: (stats: WholeSceneStats) => void;
   onError: (message: string) => void;
   onRecordingChange?: (active: boolean) => void;
+  onNavigationChange?: (state: WholeSceneNavigationState) => void;
 }
 interface Manifest { organs: WholeSceneOrgan[]; [key: string]: unknown }
 interface Part {
@@ -78,7 +94,11 @@ interface Runtime {
   releaseTool: () => void; adjustToolDepth: (deltaMm: number) => void; engageSelectedTool: () => void; syncToolOptions: () => void;
   applyVariation: () => void; applyVisibility: () => void; applySelection: () => void;
   applyReferenceColors: () => void;
+  applyFat: () => void;
   applyPhysics: () => void; pulsePhysics: () => void; resetPhysics: () => void;
+  enterExploration: () => void; exitExploration: () => void; resetExploration: () => void;
+  moveExploration: (direction: WholeSceneNavigationDirection, distanceMm?: number) => void;
+  lookExploration: (yawDeltaDeg: number, pitchDeltaDeg: number) => void;
 }
 const boxData = (box: THREE.Box3) => ({ min: box.min.toArray(), max: box.max.toArray() });
 
@@ -161,6 +181,11 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
     stopRecording: () => runtime.current?.stopRecording(),
     pulsePhysics: () => runtime.current?.pulsePhysics(),
     resetPhysics: () => runtime.current?.resetPhysics(),
+    enterExploration: () => runtime.current?.enterExploration(),
+    exitExploration: () => runtime.current?.exitExploration(),
+    resetExploration: () => runtime.current?.resetExploration(),
+    moveExploration: (direction, distanceMm) => runtime.current?.moveExploration(direction, distanceMm),
+    lookExploration: (yaw, pitch) => runtime.current?.lookExploration(yaw, pitch),
   }), []);
   useEffect(() => {
     const element = host.current;
@@ -184,7 +209,8 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
     renderer.shadowMap.autoUpdate = false; renderer.shadowMap.needsUpdate = true;
     renderer.setClearColor(0x091016, 0);
     const canvas = renderer.domElement;
-    canvas.setAttribute("aria-label", "Full torso anatomical scene. Camera mode: drag to orbit and scroll to zoom. Push or Grasp mode: click a tissue surface to attach, move the pointer, and click again to release; or hold and drag. Use the wheel for depth. Keyboard: Enter engages or releases, arrows move, Page Up and Page Down adjust depth, Escape releases.");
+    const orbitDescription = "Full torso anatomical scene. Camera mode: drag to orbit and scroll to zoom. Push or Grasp mode: click a tissue surface to attach, move the pointer, and click again to release; or hold and drag. Use the wheel for depth. Keyboard: Enter engages or releases, arrows move, Page Up and Page Down adjust depth, Escape releases.";
+    canvas.setAttribute("aria-label", orbitDescription);
     canvas.setAttribute("role", "img");
     element.appendChild(canvas);
     const scene = new THREE.Scene(), assembly = new THREE.Group();
@@ -195,6 +221,10 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
     controls.screenSpacePanning = true; controls.autoRotateSpeed = 0.9;
     const invalidate = (shadows = false) => { renderPending = true; sceneRevision++; if (shadows) renderer.shadowMap.needsUpdate = true; };
     const draw = () => {
+      if (fatLamp.visible && fatLamp.intensity > 0) {
+        fatLamp.position.copy(camera.position); fatLamp.target.position.copy(controls.target);
+        renderer.shadowMap.needsUpdate = true;
+      }
       renderer.render(scene, camera); renderedFrames++; renderedRevision = sceneRevision; renderPending = false;
       if (snapshotAfterDraw) { snapshotAfterDraw = false; snapshot(); }
     };
@@ -204,7 +234,7 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
     scene.environmentIntensity = .4;
     const tissueVolume = createWholeSceneTissueVolume();
     const bowelFrontSide = new URLSearchParams(window.location.search).get("sceneBowelSides") === "front";
-    scene.add(new THREE.HemisphereLight(0xe3e6ef, 0x4b3e3c, 0.36));
+    const hemisphere = new THREE.HemisphereLight(0xe3e6ef, 0x4b3e3c, 0.36); scene.add(hemisphere);
     const key = new THREE.DirectionalLight(0xffefe5, 1.9);
     key.position.set(-490, 470, 680); key.castShadow = true;
     key.shadow.mapSize.set(2048, 2048); key.shadow.normalBias = .2; key.shadow.bias = -.00008;
@@ -212,9 +242,34 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
     scene.add(key, key.target);
     const fill = new THREE.DirectionalLight(0xdce7f5, 0.3); fill.position.set(500, 180, 380); scene.add(fill);
     const rim = new THREE.DirectionalLight(0xe3c8c2, 0.75); rim.position.set(220, 320, -650); scene.add(rim);
+    const fatLamp = new THREE.SpotLight(0xfff5eb, 250000, 0, .72, .55, 2);
+    fatLamp.visible = false; fatLamp.castShadow = true;
+    fatLamp.shadow.mapSize.set(2048, 2048); fatLamp.shadow.camera.near = 2; fatLamp.shadow.camera.far = 4000;
+    fatLamp.shadow.normalBias = .25; fatLamp.shadow.bias = -.00008;
+    scene.add(fatLamp, fatLamp.target);
+    const updateFatLighting = () => {
+      const mode = latest.current.fatOptions?.enabled ? latest.current.fatOptions.lighting ?? "studio" : "studio";
+      // Native PNG/video captures should retain the same opaque backdrop as the
+      // adipose inspection viewport, rather than silently encoding black alpha.
+      renderer.setClearColor(latest.current.fatOptions?.enabled ? 0x111b20 : 0x091016, latest.current.fatOptions?.enabled ? 1 : 0);
+      const surgical = mode === "surgical", grazing = mode === "grazing";
+      // Keep light counts stable while switching inspection modes. Toggling
+      // visibility forced all organ shaders to compile again on the first click.
+      fatLamp.visible = Boolean(latest.current.fatOptions?.enabled);
+      fatLamp.intensity = surgical ? 250000 : 0;
+      key.visible = true; key.intensity = surgical ? 0 : grazing ? 2.5 : 1.9;
+      key.position.set(grazing ? -600 : -490, grazing ? 40 : 470, grazing ? 100 : 680);
+      fill.intensity = surgical ? .03 : grazing ? .12 : .3;
+      rim.intensity = surgical ? 0 : grazing ? .12 : .75;
+      hemisphere.intensity = surgical ? .06 : grazing ? .12 : .36;
+      scene.environmentIntensity = surgical ? .04 : grazing ? .14 : .4;
+      invalidate(true);
+    };
     const parts: Part[] = [];
     const breath = { value: 0 };
     let physics: WholeScenePhysics | null = null, physicsSteps = 0, physicsFailed = false;
+    const fatLayers = new FatSceneLayerView(assembly, () => parts.map(part => ({ id: part.info.id, mesh: part.mesh, rest: part.rest })), latest.current.variation, () => { invalidate(true); snapshotAfterDraw = true; latest.current.onFatStatus?.(fatLayers.snapshot().status); }, message => latest.current.onError(message));
+    const applyFat = () => { updateFatLighting(); if (parts.length) fatLayers.configure(latest.current.fatOptions ?? { enabled: false, seed: 42, thicknessMm: 5, omentum: true, perirenal: true }); };
     let manifest: Manifest | null = null, fitRadius = 400;
     let currentView: WholeSceneView | "orbit" = "front";
     let focusedOrgan: string | null = null;
@@ -222,15 +277,41 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
     let lastImageCapture: { width: number; height: number; materialVersion: string } | null = null;
     const center = new THREE.Vector3(), bounds = new THREE.Box3();
     camera.position.set(0, 0, 1500);
+    let exploring = false, navigationYaw = 0, navigationPitch = 0;
+    let navigationBlockedBy: string | null = null, navigationMessage = "Orbit the atlas or start between-organ inspection.";
+    let savedOrbit: { position: THREE.Vector3; target: THREE.Vector3; up: THREE.Vector3; fov: number; near: number; minDistance: number; maxDistance: number; view: WholeSceneView | "orbit"; focusedOrgan: string | null } | null = null;
+    let entryPose: { position: THREE.Vector3; yaw: number; pitch: number } | null = null;
+    let lookPointer: { id: number; x: number; y: number } | null = null;
+    const navigationKeys = new Set<string>();
+    const navigationGuard = new SceneNavigationGuard(() => parts.map(part => ({ id: part.info.id, visible: part.mesh.visible, geometry: part.mesh.geometry })));
+    const inspectionLight = new THREE.SpotLight(0xffefe5, 500, 600, .68, .45, 2);
+    inspectionLight.visible = false; scene.add(inspectionLight, inspectionLight.target);
+    const navigationSnapshot = (): WholeSceneNavigationState => ({
+      mode: exploring ? "explore" : "orbit", ready, blocked: navigationBlockedBy !== null, blockedBy: navigationBlockedBy,
+      positionMm: camera.position.toArray(), direction: camera.getWorldDirection(new THREE.Vector3()).toArray(),
+      clearanceMm: NAVIGATION_CLEARANCE_MM, speedMmS: NAVIGATION_SPEED_MM_S, message: navigationMessage,
+    });
+    let lastNavigationPublish = -Infinity, navigationPublishPending = false;
+    const publishNavigation = (force = true) => {
+      const now = performance.now();
+      if (alive && (force || now - lastNavigationPublish >= 100)) {
+        lastNavigationPublish = now; navigationPublishPending = false; latest.current.onNavigationChange?.(navigationSnapshot());
+      } else navigationPublishPending = true;
+    };
+    const releaseLookPointer = () => {
+      const pointer = lookPointer; lookPointer = null;
+      if (pointer && canvas.hasPointerCapture(pointer.id)) canvas.releasePointerCapture(pointer.id);
+    };
     let recorder: MediaRecorder | null = null;
     let recording: { kind: "tour" | "interaction"; started: number; duration: number; angle: number; distance: number; elevation: number } | null = null;
     let recordingTimer: ReturnType<typeof setTimeout> | null = null;
     let recordingStream: MediaStream | null = null;
+    const nativeRecording = registerSceneRecordingSource({ renderer, camera, host: element, label: "Whole anatomy scene", draw, available: () => ready && !recorder });
     let lastSnapshot = 0;
     const tools = new WholeSceneTools({ scene, camera, controls, canvas, parts: () => parts, physics: () => physics,
-      options: () => ({ mode: latest.current.toolMode ?? "orbit", radius: latest.current.toolRadiusMm ?? 6, depth: latest.current.toolDepthMm ?? 2,
+      options: () => ({ mode: exploring ? "orbit" : latest.current.toolMode ?? "orbit", radius: latest.current.toolRadiusMm ?? 6, depth: latest.current.toolDepthMm ?? 2,
         continuousPush: latest.current.continuousPush ?? false, pushSpeedMmS: latest.current.pushSpeedMmS ?? 3,
-        running: Boolean(latest.current.physicsRunning) && !physicsFailed, ready: ready && !physicsFailed, selected: latest.current.selectedOrgan ?? null, recording: recording?.kind ?? null }),
+        running: !exploring && Boolean(latest.current.physicsRunning) && !physicsFailed, ready: ready && !physicsFailed, selected: latest.current.selectedOrgan ?? null, recording: recording?.kind ?? null }),
       invalidate, select: id => latest.current.onSelect?.(id), status: state => { if (alive) latest.current.onToolStatus?.(state); },
     });
     const captureMetadata = (): Record<string, unknown> => ({
@@ -238,12 +319,15 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
       ...latest.current.variation,
       referenceColors: latest.current.referenceColors ?? {},
       bodyReferencePlan: latest.current.bodyReferencePlan ?? null,
+      fat: fatLayers.snapshot(),
       coordinateSystem: "+X patient left; +Y superior; +Z anterior; millimetres",
       atlasBounds: boxData(bounds),
-      rendering: { mode: "on-demand", renderPending, sceneRevision, renderedRevision, cameraTransition: Boolean(cameraTransition), materialVersion: WHOLE_SCENE_MATERIAL_VERSION, tissueCoordinates: "undeformed atlas rest millimetres", tissueVolumeSize: 64, bowelSidedness: bowelFrontSide ? "front" : "double", stomachNormalWeighting: "corner-angle", environmentIntensity: scene.environmentIntensity, lastImageCapture, lights: { key: { intensity: key.intensity, position: key.position.toArray() }, fill: { intensity: fill.intensity, position: fill.position.toArray() }, rim: { intensity: rim.intensity, position: rim.position.toArray() } }, shadows: renderer.shadowMap.enabled, shadowMapSize: 2048, shadowNormalBiasMm: key.shadow.normalBias, shadowDepthBias: key.shadow.bias, exposure: renderer.toneMappingExposure },
+      rendering: { mode: "on-demand", renderPending, sceneRevision, renderedRevision, cameraTransition: Boolean(cameraTransition), materialVersion: WHOLE_SCENE_MATERIAL_VERSION, tissueCoordinates: "undeformed atlas rest millimetres", tissueVolumeSize: 64, bowelSidedness: bowelFrontSide ? "front" : "double", stomachNormalWeighting: "corner-angle", environmentIntensity: scene.environmentIntensity, lastImageCapture, lights: { fatCamera: { enabled: fatLamp.visible && fatLamp.intensity > 0, intensity: fatLamp.intensity, position: fatLamp.position.toArray() }, key: { intensity: key.intensity, position: key.position.toArray() }, fill: { intensity: fill.intensity, position: fill.position.toArray() }, rim: { intensity: rim.intensity, position: rim.position.toArray() } }, shadows: renderer.shadowMap.enabled, shadowMapSize: 2048, shadowNormalBiasMm: key.shadow.normalBias, shadowDepthBias: key.shadow.bias, exposure: renderer.toneMappingExposure },
       registration: "BodyParts3D structures retain source registration; HRA heart and lung surfaces are fitted to atlas bounds (see manifest). Every structure then uses one shared invertible variation map.",
       sourceConnections: "Atlas-derived ducts and vessels; coincident points remain coincident. Source endpoint attachment is not inferred or certified.",
-      camera: { view: currentView, focusedOrgan, position: camera.position.toArray(), target: controls.target.toArray(), up: camera.up.toArray(), fov: camera.fov, aspect: camera.aspect },
+      camera: { view: currentView, focusedOrgan, position: camera.position.toArray(), target: controls.target.toArray(), up: camera.up.toArray(), fov: camera.fov, aspect: camera.aspect, navigation: navigationSnapshot() },
+      inspection: { surfaceScope: "visible atlas triangles; excludes generated fat and inferred interior volumes", radiusMm: NAVIGATION_CLEARANCE_MM,
+        cameraLight: { enabled: inspectionLight.visible, intensity: inspectionLight.intensity, positionMm: inspectionLight.position.toArray(), targetMm: inspectionLight.target.position.toArray() } },
       motion: { breathing: latest.current.breathing, phase: breath.value, autoRotate: latest.current.autoRotate, recording: Boolean(recording), recordingKind: recording?.kind ?? null },
       tools: tools.snapshot(),
       physics: physics ? { ...physics.snapshot(), running: Boolean(latest.current.physicsRunning) && !physicsFailed,
@@ -264,10 +348,76 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
       element.dataset.sceneReady = String(ready);
       element.dataset.sceneSnapshot = JSON.stringify(captureMetadata());
     };
+    const applyNavigationPose = () => {
+      const forward = navigationDirection(navigationYaw, navigationPitch);
+      camera.up.set(0, 1, 0); controls.target.copy(camera.position).addScaledVector(forward, 20); camera.lookAt(controls.target);
+      inspectionLight.position.copy(camera.position); inspectionLight.target.position.copy(controls.target);
+      currentView = "orbit"; invalidate(); snapshotAfterDraw = true;
+    };
+    const moveNavigation = (delta: THREE.Vector3) => {
+      if (!exploring || !delta.lengthSq()) return;
+      const limits = bounds.clone().expandByScalar(fitRadius * 14);
+      const result = navigationGuard.move(camera.position, camera.position.clone().add(delta), limits);
+      camera.position.copy(result.position); navigationBlockedBy = result.blockedBy;
+      navigationMessage = result.blocked ? `Camera stopped before ${result.blockedBy}. Turn, retreat, or hide a structure to inspect beyond it.` : "Between-organ inspection. Visible atlas surfaces are guarded; organ interiors are not reconstructed.";
+      applyNavigationPose(); publishNavigation(false);
+    };
+    const lookExploration = (yawDeltaDeg: number, pitchDeltaDeg: number) => {
+      if (!exploring || ![yawDeltaDeg, pitchDeltaDeg].every(Number.isFinite)) return;
+      navigationYaw += THREE.MathUtils.degToRad(THREE.MathUtils.clamp(yawDeltaDeg, -180, 180));
+      navigationPitch = THREE.MathUtils.clamp(navigationPitch + THREE.MathUtils.degToRad(THREE.MathUtils.clamp(pitchDeltaDeg, -180, 180)), -Math.PI / 2 + .01, Math.PI / 2 - .01);
+      applyNavigationPose(); publishNavigation(false);
+    };
+    const moveExploration = (direction: WholeSceneNavigationDirection, distanceMm = 10) => {
+      if (!exploring) return;
+      moveNavigation(navigationStep(direction, navigationDirection(navigationYaw, navigationPitch), Math.min(100, Math.max(0, distanceMm))));
+    };
+    const exitExploration = () => {
+      if (!exploring) return;
+      exploring = false; navigationKeys.clear(); releaseLookPointer(); inspectionLight.visible = false;
+      canvas.setAttribute("aria-label", orbitDescription);
+      if (savedOrbit) {
+        camera.position.copy(savedOrbit.position); camera.up.copy(savedOrbit.up); controls.target.copy(savedOrbit.target);
+        camera.fov = savedOrbit.fov; camera.near = savedOrbit.near; camera.updateProjectionMatrix();
+        currentView = savedOrbit.view; focusedOrgan = savedOrbit.focusedOrgan;
+        controls.minDistance = savedOrbit.minDistance; controls.maxDistance = savedOrbit.maxDistance;
+        const damping = controls.enableDamping; controls.enableDamping = false; controls.update(0); controls.enableDamping = damping;
+      }
+      savedOrbit = null; entryPose = null; navigationBlockedBy = null; navigationMessage = "Returned to the saved orbit view.";
+      tools.syncOptions(); invalidate(); snapshotAfterDraw = true; publishNavigation();
+    };
+    const resetExploration = () => {
+      if (!exploring || !entryPose) return;
+      navigationKeys.clear(); camera.position.copy(entryPose.position); navigationYaw = entryPose.yaw; navigationPitch = entryPose.pitch;
+      navigationBlockedBy = null; navigationMessage = "Inspection entry pose restored.";
+      applyNavigationPose(); publishNavigation();
+    };
+    const enterExploration = () => {
+      if (!ready || recording || exploring) return;
+      tools.release("Instrument released for between-organ camera inspection."); cameraTransition = null;
+      const damping = controls.enableDamping; controls.enableDamping = false; controls.update(0); controls.enableDamping = damping;
+      const overlap = navigationGuard.closest(camera.position);
+      if (overlap && overlap.distanceMm < NAVIGATION_CLEARANCE_MM) {
+        latest.current.onError("The current camera overlaps a visible surface. Fit the whole scene before starting inspection."); return;
+      }
+      savedOrbit = { position: camera.position.clone(), target: controls.target.clone(), up: camera.up.clone(), fov: camera.fov, near: camera.near, minDistance: controls.minDistance, maxDistance: controls.maxDistance, view: currentView, focusedOrgan };
+      const forward = camera.getWorldDirection(new THREE.Vector3()), angles = navigationAngles(forward);
+      navigationYaw = angles.yaw; navigationPitch = angles.pitch; exploring = true; navigationKeys.clear(); focusedOrgan = null;
+      camera.fov = 70; camera.near = .1; camera.updateProjectionMatrix(); inspectionLight.visible = true;
+      canvas.setAttribute("aria-label", "Between-organ inspection camera. Drag to look. W and S move forward and back; A and D strafe; Q and E move down and up. Arrow keys look. Escape returns to the saved orbit view. Visible atlas surfaces are guarded, not reconstructed organ lumens.");
+      controls.enabled = false; controls.autoRotate = false;
+      const maximum = fitRadius * 12, distance = navigationGuard.rayDistance(camera.position, forward, maximum);
+      if (distance < maximum) moveNavigation(forward.multiplyScalar(Math.max(0, distance - 8)));
+      entryPose = { position: camera.position.clone(), yaw: navigationYaw, pitch: navigationPitch };
+      navigationBlockedBy = null; navigationMessage = "Drag to look; W/S forward/back, A/D strafe, Q/E down/up; arrows look; Escape returns to orbit.";
+      applyNavigationPose(); canvas.focus({ preventScroll: true }); publishNavigation();
+    };
     const fit = () => {
       if (!parts.length) return;
+      exitExploration();
       tools.release("Instrument released to fit the scene.");
       cameraTransition = null; focusedOrgan = null; invalidate(true);
+      currentSceneBounds(parts.map(part => part.mesh.geometry), bounds);
       const sphere = bounds.getBoundingSphere(new THREE.Sphere());
       fitRadius = Math.max(sphere.radius, 1); center.copy(sphere.center);
       key.target.position.copy(center);
@@ -287,19 +437,38 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
       controls.minDistance = fitRadius * .25; controls.maxDistance = fitRadius * 12; controls.update(); snapshot();
     };
     const view = (preset: WholeSceneView) => {
+      exitExploration();
       const directions: Record<WholeSceneView, [number, number, number]> = {
-        front: [0, 0, 1], back: [0, 0, -1], left: [1, 0, 0], right: [-1, 0, 0], top: [0, 1, 0.0001], oblique: [.65, .18, 1],
+        front: [0, 0, 1], back: [0, 0, -1], left: [1, 0, 0], right: [-1, 0, 0], top: [0, 1, 0.0001], bottom: [0, -1, 0.0001], oblique: [.65, .18, 1],
       };
       currentView = preset;
       camera.up.set(0, 1, 0);
-      camera.position.copy(controls.target).add(new THREE.Vector3(...directions[preset]).multiplyScalar(fitRadius * 4));
-      fit(); draw(); snapshot();
+      if (focusedOrgan?.startsWith("fat-")) {
+        // Preserve the inspected depot when changing angle; the old view action
+        // always fitted the torso and made small fat structures disappear.
+        // A quick angle click must finish the intended focus, not freeze the
+        // partially animated torso pose. This also preserves close framing
+        // and camera-light falloff when recording immediately after focusing.
+        const destination = cameraTransition?.toTarget ?? controls.target;
+        const position = cameraTransition?.toPosition ?? camera.position;
+        const distance = position.distanceTo(destination);
+        controls.target.copy(destination);
+        cameraTransition = null;
+        camera.position.copy(controls.target).addScaledVector(new THREE.Vector3(...directions[preset]).normalize(), distance);
+        const damping = controls.enableDamping; controls.enableDamping = false; controls.update(0); controls.enableDamping = damping;
+        invalidate(true); draw(); snapshot();
+      } else {
+        camera.position.copy(controls.target).add(new THREE.Vector3(...directions[preset]).multiplyScalar(fitRadius * 4));
+        fit(); draw(); snapshot();
+      }
     };
     const focusOrgan = (id: string) => {
       const part = parts.find(item => item.info.id === id);
-      if (!part || recording) return;
+      const targetBounds = part?.mesh.geometry.boundingBox ?? fatLayers.bounds(id);
+      if (!targetBounds || recording) return;
+      exitExploration();
       tools.release("Instrument released to focus the camera.");
-      const sphere = part.mesh.geometry.boundingBox!.getBoundingSphere(new THREE.Sphere());
+      const sphere = targetBounds.getBoundingSphere(new THREE.Sphere());
       const radius = Math.max(sphere.radius, 22); // Keep surrounding context for very thin ducts.
       const vertical = THREE.MathUtils.degToRad(camera.fov / 2);
       const horizontal = Math.atan(Math.tan(vertical) * camera.aspect);
@@ -324,6 +493,7 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
       });
     };
     const applyVisibility = () => {
+      exitExploration();
       tools.release("Visible anatomy changed; choose a new contact.");
       invalidate(true);
       const hidden = new Set(latest.current.hiddenOrgans ?? []);
@@ -339,6 +509,7 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
     });
     const applyVariation = () => {
       if (!parts.length) return;
+      exitExploration(); navigationGuard.invalidate();
       tools.release("Surface variation changed; choose a new contact.");
       for (const part of parts) {
         const positions = warpScenePositions(part.rest, latest.current.variation);
@@ -350,6 +521,8 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
         part.mesh.material.dispose(); part.mesh.material = tissue.material; attachPhoto(tissue.material, part.info.id);
         part.geometrySignature = sceneBufferSignature(positions); part.materialSignature = tissue.signature;
       }
+      fatLayers.warp(latest.current.variation);
+      currentSceneBounds(parts.map(part => part.mesh.geometry), bounds);
       tools.geometryChanged(true); applyPhysics(); applySelection(); snapshot(); draw();
     };
     const applyReferenceColors = () => {
@@ -362,6 +535,7 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
       applySelection(); snapshot(); draw();
     };
     const syncPhysicsGeometry = (normals: boolean) => {
+      navigationGuard.invalidate();
       invalidate(true);
       for (const part of parts) {
         // Bone is a fixed scaffold; avoid rebuilding its substantial mesh every physics frame.
@@ -378,12 +552,15 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
         // including frames between normal recomputations.
         part.mesh.geometry.computeBoundingBox(); part.mesh.geometry.computeBoundingSphere();
       }
+      fatLayers.sync(normals);
+      currentSceneBounds(parts.map(part => part.mesh.geometry), bounds);
       tools.geometryChanged();
     };
     const applyPhysics = () => {
       if (!parts.length) return;
+      exitExploration();
       tools.release("Physics assignment changed; choose a new contact.");
-      physics = null; physicsFailed = false; physicsSteps = 0;
+      physics = null; fatLayers.bind(null); physicsFailed = false; physicsSteps = 0;
       parts.forEach(part => { part.binding = null; });
       syncPhysicsGeometry(true);
       const materials = latest.current.physicsMaterials;
@@ -396,14 +573,16 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
           parts.forEach((part, i) => { part.binding = bindings[i] ?? null; });
         } catch (error) { latest.current.onError(`Scene physics could not be applied: ${error instanceof Error ? error.message : String(error)}`); }
       }
+      fatLayers.bind(physics);
       tools.syncOptions(); snapshot();
     };
     const pulsePhysics = () => { physics?.pulse(latest.current.selectedOrgan); snapshot(); };
-    const resetPhysics = () => { tools.release("Motion reset; choose a new contact."); physics?.reset(); physicsFailed = false; syncPhysicsGeometry(true); snapshot(); draw(); };
+    const resetPhysics = () => { exitExploration(); tools.release("Motion reset; choose a new contact."); physics?.reset(); physicsFailed = false; syncPhysicsGeometry(true); snapshot(); draw(); };
     const stopRecording = () => { if (recorder && recorder.state !== "inactive") recorder.stop(); };
     const recordScene = (kind: "tour" | "interaction", durationSeconds: number): Promise<Blob> => {
       if (!ready) return Promise.reject(new Error("Wait for the anatomy scene to finish loading."));
-      if (recorder) return Promise.reject(new Error("A scene recording is already in progress."));
+      if (exploring) return Promise.reject(new Error("Return to orbit before starting a camera tour or instrument recording."));
+      if (recorder || nativeRecording.active) return Promise.reject(new Error("A scene recording is already in progress."));
       if (kind === "interaction" && (!physics || !latest.current.physicsRunning || physicsFailed)) return Promise.reject(new Error("Apply and run learned physics before recording instrument interaction."));
       if (typeof MediaRecorder === "undefined" || typeof canvas.captureStream !== "function") return Promise.reject(new Error("This browser does not support canvas video recording. Use the angle views and PNG capture instead."));
       const duration = Math.max(3, Math.min(60, Number.isFinite(durationSeconds) ? durationSeconds : 12)) * 1000;
@@ -451,9 +630,11 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
     };
     const recordTour = (seconds = 12) => recordScene("tour", seconds);
     const recordInteraction = (seconds = 20) => recordScene("interaction", seconds);
-    runtime.current = { fit, focusOrgan, view, captureMetadata, recordTour, stopRecording, applyVariation, applyVisibility, applySelection, applyReferenceColors, applyPhysics, pulsePhysics, resetPhysics,
-      recordInteraction, releaseTool: () => tools.release(), adjustToolDepth: delta => tools.adjustDepth(delta), engageSelectedTool: () => tools.engageSelected(), syncToolOptions: () => { if (latest.current.autoRotate) tools.release("Instrument released for camera rotation."); tools.syncOptions(); snapshot(); },
+    runtime.current = { fit, focusOrgan, view, captureMetadata, recordTour, stopRecording, applyFat, applyVariation, applyVisibility, applySelection, applyReferenceColors, applyPhysics, pulsePhysics, resetPhysics,
+      enterExploration, exitExploration, resetExploration, moveExploration, lookExploration,
+      recordInteraction, releaseTool: () => tools.release(), adjustToolDepth: delta => tools.adjustDepth(delta), engageSelectedTool: () => tools.engageSelected(), syncToolOptions: () => { if (exploring && (latest.current.autoRotate || latest.current.physicsRunning || (latest.current.toolMode ?? "orbit") !== "orbit")) exitExploration(); if (latest.current.autoRotate) tools.release("Instrument released for camera rotation."); tools.syncOptions(); if (exploring) controls.enabled = false; snapshot(); },
       screenshot: () => {
+        if (nativeRecording.active) { latest.current.onError("Stop scene recording before saving a still image."); return ""; }
         const previousSize = renderer.getSize(new THREE.Vector2()), previousRatio = renderer.getPixelRatio();
         const longEdge = Math.min(4096, renderer.capabilities.maxTextureSize);
         const scale = longEdge / Math.max(previousSize.x, previousSize.y);
@@ -471,17 +652,19 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
         }
       } };
     const resize = () => {
+      if (nativeRecording.active) return;
       invalidate();
       const width = Math.max(1, element.clientWidth || 700), height = Math.max(1, element.clientHeight || 800);
       renderer.setSize(width, height); camera.aspect = width / height; camera.updateProjectionMatrix();
-      if (ready && !recording) fit();
+      // Resizing a panel must preserve a user's focused, zoomed or inspection pose.
+      snapshotAfterDraw = true;
     };
     const observer = new ResizeObserver(resize); observer.observe(element); resize();
     const raycaster = new THREE.Raycaster(), pointer = new THREE.Vector2();
     let pointerDown: [number, number] | null = null;
-    const onPointerDown = (event: PointerEvent) => { pointerDown = [event.clientX, event.clientY]; };
+    const onPointerDown = (event: PointerEvent) => { if (!exploring) pointerDown = [event.clientX, event.clientY]; };
     const onPointerUp = (event: PointerEvent) => {
-      if (!pointerDown || Math.hypot(event.clientX - pointerDown[0], event.clientY - pointerDown[1]) > 5) { pointerDown = null; return; }
+      if (exploring || !pointerDown || Math.hypot(event.clientX - pointerDown[0], event.clientY - pointerDown[1]) > 5) { pointerDown = null; return; }
       pointerDown = null;
       const rect = canvas.getBoundingClientRect();
       pointer.set((event.clientX - rect.left) / rect.width * 2 - 1, -(event.clientY - rect.top) / rect.height * 2 + 1);
@@ -495,21 +678,58 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
     // listening only to the RAF update return value misses those camera changes.
     const onControlChange = () => { invalidate(); if (!updatingControls) snapshotAfterDraw = true; };
     const onContextLost = (event: Event) => {
-      event.preventDefault(); tools.release("Graphics context lost; instrument released."); ready = false; physicsFailed = true; stopRecording(); tools.syncOptions(); snapshot();
+      event.preventDefault(); ready = false; physicsFailed = true; exitExploration(); navigationKeys.clear(); releaseLookPointer();
+      tools.release("Graphics context lost; instrument released."); stopRecording(); tools.syncOptions(); snapshot(); publishNavigation();
       latest.current.onError("The browser lost its 3D graphics context. Reload the scene tab to restart it.");
     };
+    const consumeNavigation = (event: Event) => { event.preventDefault(); event.stopImmediatePropagation(); };
+    const onLookStart = (event: PointerEvent) => {
+      if (!exploring || event.button !== 0 || lookPointer) return;
+      consumeNavigation(event); lookPointer = { id: event.pointerId, x: event.clientX, y: event.clientY };
+      canvas.focus({ preventScroll: true }); canvas.setPointerCapture(event.pointerId);
+    };
+    const onLookMove = (event: PointerEvent) => {
+      if (!exploring || lookPointer?.id !== event.pointerId) return;
+      consumeNavigation(event);
+      lookExploration(-(event.clientX - lookPointer.x) * .15, -(event.clientY - lookPointer.y) * .15);
+      lookPointer.x = event.clientX; lookPointer.y = event.clientY;
+    };
+    const onLookEnd = (event: PointerEvent) => {
+      if (lookPointer?.id !== event.pointerId) return;
+      if (exploring) consumeNavigation(event);
+      releaseLookPointer(); publishNavigation();
+    };
+    const movementKeys = new Set(["KeyW", "KeyS", "KeyA", "KeyD", "KeyQ", "KeyE", "ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"]);
+    const onNavigationKey = (event: KeyboardEvent) => {
+      if (!exploring) return;
+      if (event.code === "Escape") { consumeNavigation(event); exitExploration(); return; }
+      if (!movementKeys.has(event.code)) return;
+      consumeNavigation(event); navigationKeys.add(event.code);
+    };
+    const onNavigationKeyUp = (event: KeyboardEvent) => { if (navigationKeys.delete(event.code)) publishNavigation(); };
+    const clearNavigationInput = () => { navigationKeys.clear(); releaseLookPointer(); if (exploring) publishNavigation(); };
+    const onNavigationWheel = (event: WheelEvent) => {
+      if (!exploring) return;
+      consumeNavigation(event); moveExploration(event.deltaY < 0 ? "forward" : "back", Math.min(30, Math.abs(event.deltaY) * .04));
+    };
+    canvas.addEventListener("pointerdown", onLookStart, true); canvas.addEventListener("pointermove", onLookMove, true);
+    canvas.addEventListener("pointerup", onLookEnd, true); canvas.addEventListener("pointercancel", onLookEnd, true); canvas.addEventListener("lostpointercapture", onLookEnd, true);
+    canvas.addEventListener("keydown", onNavigationKey, true); canvas.addEventListener("blur", clearNavigationInput);
+    canvas.addEventListener("wheel", onNavigationWheel, { capture: true, passive: false });
+    window.addEventListener("keyup", onNavigationKeyUp); window.addEventListener("blur", clearNavigationInput);
     canvas.addEventListener("pointerdown", onPointerDown); canvas.addEventListener("pointerup", onPointerUp); canvas.addEventListener("webglcontextlost", onContextLost);
     controls.addEventListener("start", onControlStart); controls.addEventListener("change", onControlChange); controls.addEventListener("end", snapshot);
     let previousTime = performance.now(), lastPhysicsTime = previousTime;
     const animate = (now: number) => {
       if (!alive) return;
       animationFrames++;
+      if (navigationPublishPending) publishNavigation(false);
       const elapsed = Math.max(0, (now - previousTime) / 1000);
       const delta = Math.min(elapsed, .1); previousTime = now;
-      const nextBreath = !physics && latest.current.breathing ? (Math.sin(now / 1000 * Math.PI * 2 / 4.8) + 1) * .5 : 0;
-      if (nextBreath !== breath.value) invalidate(true);
+      const nextBreath = !exploring && !physics && latest.current.breathing ? (Math.sin(now / 1000 * Math.PI * 2 / 4.8) + 1) * .5 : 0;
+      if (nextBreath !== breath.value) { invalidate(true); fatLayers.sync(false, nextBreath); }
       breath.value = nextBreath;
-      if (physics && latest.current.physicsRunning && !physicsFailed) {
+      if (!exploring && physics && latest.current.physicsRunning && !physicsFailed) {
         try {
           // Integrate every display frame; mesh upload cadence must not discard physical time.
           physics.step(elapsed, latest.current.breathing);
@@ -521,6 +741,16 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
         } catch (error) { physicsFailed = true; latest.current.onError(`The physical simulation stopped: ${error instanceof Error ? error.message : String(error)}`); }
       } else lastPhysicsTime = now;
       tools.tick(now, delta);
+      if (exploring) {
+        controls.enabled = false;
+        const forward = navigationDirection(navigationYaw, navigationPitch), movement = new THREE.Vector3();
+        const keys: Record<string, WholeSceneNavigationDirection> = { KeyW: "forward", KeyS: "back", KeyA: "left", KeyD: "right", KeyQ: "down", KeyE: "up" };
+        for (const [key, direction] of Object.entries(keys)) if (navigationKeys.has(key)) movement.add(navigationStep(direction, forward, 1));
+        if (movement.lengthSq()) moveNavigation(movement.normalize().multiplyScalar(NAVIGATION_SPEED_MM_S * delta));
+        const yaw = Number(navigationKeys.has("ArrowLeft")) - Number(navigationKeys.has("ArrowRight"));
+        const pitch = Number(navigationKeys.has("ArrowUp")) - Number(navigationKeys.has("ArrowDown"));
+        if (yaw || pitch) lookExploration(yaw * 55 * delta, pitch * 55 * delta);
+      }
       if (tools.engaged || recording?.kind === "interaction") cameraTransition = null;
       if (cameraTransition) {
         invalidate();
@@ -535,13 +765,13 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
         camera.position.set(controls.target.x + Math.sin(angle) * recording.distance, controls.target.y + recording.elevation, controls.target.z + Math.cos(angle) * recording.distance);
         currentView = "orbit";
       }
-      controls.autoRotate = latest.current.autoRotate && !recording && !cameraTransition && !tools.engaged;
+      controls.autoRotate = !exploring && latest.current.autoRotate && !recording && !cameraTransition && !tools.engaged;
       if (controls.autoRotate) currentView = "orbit";
       updatingControls = true;
-      const controlsChanged = tools.engaged || recording?.kind === "interaction" ? false : controls.update(delta);
+      const controlsChanged = exploring || tools.engaged || recording?.kind === "interaction" ? false : controls.update(delta);
       updatingControls = false;
       if (controlsChanged) invalidate();
-      const activeMotion = Boolean(recording || cameraTransition || latest.current.autoRotate || (!physics && latest.current.breathing) || (physics && latest.current.physicsRunning && !physicsFailed));
+      const activeMotion = Boolean(nativeRecording.active || recording || cameraTransition || (!exploring && (latest.current.autoRotate || (!physics && latest.current.breathing) || (physics && latest.current.physicsRunning && !physicsFailed))));
       if (renderPending || activeMotion) draw();
       if (now - lastSnapshot > 500) { snapshot(); lastSnapshot = now; }
       frame = requestAnimationFrame(animate);
@@ -610,8 +840,8 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
         disposeObject(loaded); loaded = null;
         if (!parts.length) throw new Error("The anatomical atlas contains no renderable surfaces.");
         if (parts.length !== manifest.organs.length) throw new Error("The anatomy manifest and rendered structure count do not match.");
-        applyVariation(); applyVisibility(); fit(); ready = true; tools.syncOptions(); snapshot();
-        latest.current.onReady?.(stats());
+        applyVariation(); applyVisibility(); fit(); ready = true; applyFat(); tools.syncOptions(); snapshot();
+        latest.current.onReady?.(stats()); publishNavigation();
       } catch (error) {
         if (loaded) disposeObject(loaded);
         // Incomplete atlas loads must not leave a plausible-looking partial body.
@@ -625,12 +855,18 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
       alive = false; abort.abort(); cancelAnimationFrame(frame); observer.disconnect();
       if (recordingTimer) clearTimeout(recordingTimer); stopRecording(); recordingStream?.getTracks().forEach(track => track.stop());
       tools.dispose();
+      clearNavigationInput();
+      canvas.removeEventListener("pointerdown", onLookStart, true); canvas.removeEventListener("pointermove", onLookMove, true);
+      canvas.removeEventListener("pointerup", onLookEnd, true); canvas.removeEventListener("pointercancel", onLookEnd, true); canvas.removeEventListener("lostpointercapture", onLookEnd, true);
+      canvas.removeEventListener("keydown", onNavigationKey, true); canvas.removeEventListener("blur", clearNavigationInput); canvas.removeEventListener("wheel", onNavigationWheel, true);
+      window.removeEventListener("keyup", onNavigationKeyUp); window.removeEventListener("blur", clearNavigationInput);
       canvas.removeEventListener("pointerdown", onPointerDown); canvas.removeEventListener("pointerup", onPointerUp); canvas.removeEventListener("webglcontextlost", onContextLost);
       controls.removeEventListener("start", onControlStart); controls.removeEventListener("change", onControlChange); controls.removeEventListener("end", snapshot); controls.dispose();
-      disposeObject(assembly); tissueVolume.dispose(); environment.dispose(); renderer.dispose(); canvas.remove(); runtime.current = null;
+      nativeRecording.dispose(); navigationGuard.invalidate(); fatLayers.dispose(); disposeObject(assembly); tissueVolume.dispose(); environment.dispose(); fatLamp.shadow.dispose(); renderer.dispose(); renderer.forceContextLoss(); canvas.remove(); runtime.current = null;
       delete element.dataset.sceneSnapshot; delete element.dataset.sceneReady;
     };
   }, []);
+  useEffect(() => { runtime.current?.applyFat(); }, [props.fatOptions]);
   useEffect(() => { runtime.current?.applyVariation(); }, [props.variation]);
   useEffect(() => { runtime.current?.applyReferenceColors(); }, [props.referenceColors, props.bodyReferencePlan]);
   useEffect(() => { runtime.current?.applyVisibility(); }, [props.visibility, props.hiddenOrgans]);

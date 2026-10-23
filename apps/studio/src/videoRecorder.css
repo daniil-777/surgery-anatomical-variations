@@ -1,0 +1,89 @@
+html .recorder-toolbar { display:inline-flex; flex-wrap:wrap; align-items:center; gap:4px; flex-shrink:0; }
+html .recorder-trigger { display:inline-flex; align-items:center; justify-content:center; gap:9px; min-height:44px; padding:10px 14px; border:1px solid #b9766c; border-radius:7px; color:#f8e7e2; background:linear-gradient(135deg,#46302f,#2d2327); font:inherit; font-size:12px; font-weight:600; white-space:normal; cursor:pointer; }
+html .recorder-trigger:hover { background:#563b37; border-color:#e0a093; }
+.recorder-dot { width:8px; height:8px; border-radius:50%; background:#f2a393; box-shadow:0 0 0 4px #e6938017; flex:none; }
+.is-active .recorder-dot { background:#ff9c88; animation:record-pulse 1.8s ease-in-out infinite; }
+.is-active .recorder-dot.paused { background:#e5c784; animation:none; }
+html .recorder-warning-icon { color:#f2c680; flex:none; }
+html .recorder-inline-control { display:grid; place-items:center; width:40px; height:44px; border:1px solid #647b79; border-radius:6px; background:#1e3338; color:#e5eeeb; cursor:pointer; }
+html .recorder-stop { color:#ffc0af; border-color:#a26b63; background:#3d292a; }
+@keyframes record-pulse { 50% { box-shadow:0 0 0 5px #f2a39330; } }
+@media(prefers-reduced-motion:reduce) { .is-active .recorder-dot { animation:none; } }
+html .video-recorder-dialog { box-sizing:border-box; width:min(680px,calc(100vw - 24px)); max-height:calc(100dvh - 24px); overflow:auto; margin:auto; padding:0; border:1px solid #597570; border-radius:16px; background:#122129; color:#e7efeb; box-shadow:0 25px 100px #0009; font-family:Inter,sans-serif; font-size:13px; text-align:left; }
+html .video-recorder-dialog::backdrop { background:#040c12bb; }
+html .video-recorder-dialog * { box-sizing:border-box; }
+html .video-recorder-dialog button,html .video-recorder-dialog a { font:inherit; cursor:pointer; }
+html .video-recorder-dialog button { min-height:44px; border:1px solid #647e79; border-radius:7px; padding:9px 13px; color:#e1eeea; background:#233940; white-space:normal; }
+html .video-recorder-dialog button:disabled { cursor:default; opacity:.5; }
+html .video-recorder-dialog :focus-visible,html .recorder-toolbar :focus-visible { outline:3px solid #d7edbd; outline-offset:3px; }
+html .video-recorder-dialog .recorder-heading { display:flex; align-items:center; gap:14px; padding:24px; margin:0; border-bottom:1px solid #3d565c; }
+html .recorder-heading > div:nth-child(2) { flex:1; min-width:0; }
+html .recorder-heading-icon { display:grid; place-items:center; flex:none; width:44px; height:44px; border-radius:12px; background:#c8d9c417; color:#c2dfcf; border:1px solid #a4c4b733; }
+html .recorder-eyebrow { display:block; font-size:9px; letter-spacing:.13em; color:#acc4bb; line-height:1.5; }
+html .recorder-heading h2 { font-size:24px; line-height:1.2; font-weight:500; margin:7px 0 0; color:#eff3ec; }
+html .video-recorder-dialog .recorder-close { flex:none; display:grid; place-items:center; padding:8px; }
+html .recorder-intro { padding:0 24px; margin:20px 0; color:#bfd0cc; font-size:13px; line-height:1.65; }
+html .video-recorder-dialog fieldset { border:0; min-width:0; padding:0 24px; margin:20px 0; }
+html .video-recorder-dialog legend { font-size:13px; font-weight:600; margin-bottom:12px; color:#e1e9e1; padding:0; }
+html .recorder-source-options { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+html .recorder-source-options button { display:flex; align-items:flex-start; gap:10px; padding:15px; text-align:left; min-width:0; }
+html .recorder-source-options svg { flex:none; margin-top:2px; }
+html .recorder-source-options span { min-width:0; }
+html .recorder-source-options strong { display:block; font-size:13px; line-height:1.5; }
+html .recorder-source-options small { display:block; font-size:11px; line-height:1.6; color:#b6c9c4; margin-top:5px; }
+html .recorder-source-options button[aria-pressed=true] { border-color:#b1d1bd; background:#314b47; box-shadow:inset 0 0 0 1px #b1d1bd; }
+html .recorder-note { color:#b4c6c3; font-size:11px; line-height:1.7; overflow-wrap:anywhere; }
+html .video-recorder-dialog > .recorder-note { margin:16px 24px; }
+html .recorder-quality [role=radiogroup] { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:9px; }
+html .recorder-quality label { position:relative; display:flex; flex-direction:column; align-items:flex-start; gap:7px; border:1px solid #526a6e; border-radius:9px; background:#192e36; padding:13px 11px; cursor:pointer; min-width:0; }
+html .recorder-quality input { accent-color:#b9d8bc; width:16px; height:16px; margin:0 0 4px; }
+html .recorder-quality label.selected { border-color:#c4dbba; background:#d1e2c9; color:#1c342d; box-shadow:0 0 0 1px #c4dbba; }
+html .recorder-quality label:focus-within { outline:3px solid #d7edbd; outline-offset:3px; }
+html .recorder-quality strong { font-size:16px; line-height:1.3; }
+html .recorder-quality span { font-size:10px; line-height:1.5; }
+html .recorder-quality small { font-size:10px; line-height:1.5; opacity:.9; }
+html .recorder-options { display:grid; grid-template-columns:1fr 1fr; gap:20px; padding:0 24px; }
+html .recorder-options label,html .recorder-options > div { display:flex; flex-direction:column; gap:8px; font-size:12px; color:#c6d4cd; min-width:0; }
+html .recorder-options select { max-width:100%; min-width:0; min-height:42px; padding:9px; background:#1c333b; border:1px solid #68817d; border-radius:6px; color:#eff4ed; font:inherit; }
+html .recorder-options strong { font-size:14px; font-weight:500; color:#e4eee7; }
+html .recorder-options small { font-size:10px; line-height:1.5; }
+html .recorder-microphone-toggle { display:flex; align-items:center; gap:10px; min-height:44px; font-size:13px; line-height:1.5; cursor:pointer; }
+html .recorder-microphone-toggle input { width:20px; height:20px; margin:0; flex:none; accent-color:#b9d8bc; }
+html .recorder-microphone-toggle svg { flex:none; }
+html .recorder-microphone-settings { display:grid; grid-template-columns:minmax(0,1fr); gap:12px; margin-top:14px; }
+html .recorder-microphone-settings label { display:flex; flex-direction:column; gap:9px; font-size:12px; min-width:0; }
+html .recorder-microphone-settings select { width:100%; min-width:0; max-width:100%; min-height:44px; padding:10px; border:1px solid #68817d; border-radius:6px; color:#eff4ed; background:#1c333b; font:inherit; text-overflow:ellipsis; }
+html .recorder-microphone-settings > button { justify-self:start; max-width:100%; }
+html .recorder-microphone-settings .recorder-note { margin:0; }
+html .recorder-inline-control[aria-pressed=true] { color:#ffcfbd; background:#533a30; border-color:#c4947d; }
+html .video-recorder-dialog footer { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:14px; padding:20px 24px; margin-top:20px; border-top:1px solid #3d565c; }
+html .recorder-actions > span,html .recorder-result footer p { color:#b5c9c1; font-size:11px; line-height:1.6; margin:0; }
+html .recorder-actions > div,html .recorder-downloads { display:flex; flex-wrap:wrap; gap:9px; }
+html .video-recorder-dialog .recorder-primary { display:inline-flex; align-items:center; justify-content:center; gap:9px; min-height:46px; padding:12px 17px; border:1px solid #c5dcbc; border-radius:7px; background:#d1e2c9; color:#1c342d; font-weight:600; text-decoration:none; }
+html .recorder-primary svg { flex:none; }
+html .recorder-message { margin:16px 24px; border:1px solid #ac8a61; border-radius:7px; background:#3a3022; color:#f5dfb8; font-size:12px; padding:13px; line-height:1.65; overflow-wrap:anywhere; }
+html .recorder-progress { display:flex; flex-wrap:wrap; align-items:center; gap:12px; padding:16px; margin:20px 24px; border:1px solid #926d66; border-radius:9px; background:#35282c; }
+html .recorder-progress i { width:8px; height:8px; background:#ffa68f; border-radius:50%; }
+html .recorder-progress i.paused { background:#e5c784; }
+html .recorder-progress > span { margin-left:auto; font-family:"JetBrains Mono",monospace; font-size:20px; }
+html .recorder-progress small { color:#c9bcb9; font-size:11px; }
+html .recorder-ready { display:flex; gap:10px; align-items:center; margin:24px; color:#c8dfbd; }
+html .recorder-ready span { margin-left:auto; padding:5px 8px; border:1px solid #64796b; border-radius:5px; font-size:10px; }
+html .recorder-result video { display:block; background:#080e13; width:calc(100% - 48px); max-height:40dvh; aspect-ratio:16/9; margin:20px 24px; border:1px solid #405c60; border-radius:9px; object-fit:contain; }
+html .recorder-result-stats { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; margin:20px 24px; }
+html .recorder-result-stats dt { font-size:10px; color:#a8c0b7; line-height:1.5; }
+html .recorder-result-stats dd { font-size:13px; margin:6px 0 0; line-height:1.5; overflow-wrap:anywhere; }
+html .recorder-result > .recorder-note,html .recorder-downloads { margin:20px 24px; }
+@media(max-width:700px) {
+  html .recorder-trigger { padding:10px; }
+  html .recorder-quality [role=radiogroup] { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+@media(max-width:420px) {
+  html .video-recorder-dialog .recorder-heading { padding:18px; gap:9px; }
+  html .recorder-heading-icon { display:none; }
+  html .recorder-source-options { grid-template-columns:minmax(0,1fr); }
+  html .recorder-options { grid-template-columns:minmax(0,1fr); }
+  html .recorder-result-stats { grid-template-columns:minmax(0,1fr); }
+}
+html[data-large-type=true] .recorder-quality [role=radiogroup] { grid-template-columns:repeat(2,minmax(0,1fr)); }
+@media(max-width:420px) { html[data-large-type=true] .recorder-quality [role=radiogroup] { grid-template-columns:minmax(0,1fr); } }

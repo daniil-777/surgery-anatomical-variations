@@ -16,6 +16,7 @@ import { realizeSpecLocally } from "./atlasDiseaseLocal";
 import { CONTROL_NAMES, LOCAL_REALIZER_VERSION, deformVertices } from "./atlasLocal";
 import { Pcg64 } from "./numpyRandom";
 import { leastSquaresTrf } from "./trustRegionReflective";
+import { validateModelArrayLayout } from "./modelArrayLayout";
 
 export const SHAPE_WEB_FORMAT = "viscera-atlas-control-model-v1-web";
 export const SHAPE_METHOD = "ridge";
@@ -48,6 +49,13 @@ export function parseShapeModel(meta: ShapeModelMeta, weights: ArrayBuffer): Sha
   if (meta.format !== SHAPE_WEB_FORMAT || meta.method !== SHAPE_METHOD) throw new Error("Unsupported shape model export.");
   if (weights.byteLength !== meta.byte_length) throw new Error("The shape model rows do not match their layout.");
   const n = meta.training_rows.count;
+  if (JSON.stringify(meta.control_names) !== JSON.stringify(CONTROL_NAMES)
+    || JSON.stringify(meta.condition_names) !== JSON.stringify(["extent_x_mm", "extent_y_mm", "extent_z_mm", "surface_area_mm2", "volume_ml", "compactness"])) throw new Error("Shape model feature schema mismatch.");
+  validateModelArrayLayout(meta.arrays, meta.byte_length, weights.byteLength, {
+    controls: { dtype: "<f8", shape: [n, CONTROLS] },
+    conditions: { dtype: "<f8", shape: [n, CONDITIONS] },
+    condition_mask: { dtype: "u1", shape: [n, CONDITIONS] },
+  });
   const array = (name: string, dtype: string, shape: number[]) => {
     const entry = meta.arrays.find((a) => a.name === name);
     if (!entry || entry.dtype !== dtype || entry.shape.join() !== shape.join()) throw new Error(`The shape model lacks ${name}.`);

@@ -1,0 +1,20 @@
+.blood-navigation { padding:16px 28px 0; }
+.blood-navigation nav { display:flex; flex-wrap:wrap; gap:8px; }
+.blood-navigation button { border:1px solid #d5dce5; border-radius:8px; padding:11px 16px; background:white; color:#44526a; font:inherit; font-size:12px; }
+.blood-navigation button[aria-pressed=true] { border-color:#8e2942; background:#8e2942; color:white; }
+.blood-navigation>p { color:#8e2942; font-size:12px; }
+.artery-canvas-host { position:absolute; inset:0; }
+.artery-canvas-host canvas { display:block; }
+.artery-checkbox { display:flex!important; align-items:center; gap:10px; }
+.artery-checkbox input { accent-color:#8e2942; width:18px; height:18px; }
+.artery-analysis { display:grid; grid-template-columns:minmax(280px,1fr) 1fr; gap:30px; padding:26px 28px 0; }
+.artery-analysis h2 { font-size:14px; margin-top:12px; }
+.artery-analysis p { font-size:12px; line-height:1.7; color:#647187; }
+.artery-plot { margin:0; background:white; border:1px solid #e3e6ec; border-radius:12px; padding:18px; }
+.artery-plot figcaption { font-size:12px; font-weight:600; margin-bottom:8px; }
+.artery-plot svg { width:100%; max-height:230px; display:block; }
+.artery-plot text { font:11px Inter,sans-serif; fill:#5a677a; }
+.artery-warning { padding:12px; background:#fff2d9; color:#755112; font-size:12px; line-height:1.6; border-radius:8px; }
+.artery-solver-details { border-top:1px solid #e3e6ec; padding:12px 0; font-size:12px; }
+.artery-solver-details summary { cursor:pointer; color:#526178; }
+@media(max-width:850px) { .blood-navigation { padding:16px 16px 0; } .artery-analysis { grid-template-columns:1fr; padding:24px 16px 0; } }

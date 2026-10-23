@@ -1,5 +1,7 @@
+import { SceneResizeHandle } from "./DisplaySettings";
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
+import { registerSceneRecordingSource } from "./sceneRecordingSource";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
 import type { SceneData } from "@viscera/render";
@@ -92,9 +94,10 @@ export function AtlasPhysicsViewport({ scene: sourceScene, run, frame }: Props) 
       controls.target.copy(center);
       camera.near = radius / 10000; camera.far = radius * 200; camera.updateProjectionMatrix(); controls.update();
     };
+    const nativeRecording = registerSceneRecordingSource({ renderer, camera, host: element, label: "Liver physics playback", draw: () => renderer.render(world, camera) });
     let initialSize = true;
     const resize = new ResizeObserver(() => {
-      if (!element.clientWidth || !element.clientHeight) return;
+      if (nativeRecording.active || !element.clientWidth || !element.clientHeight) return;
       renderer.setSize(element.clientWidth, element.clientHeight); camera.aspect = element.clientWidth / element.clientHeight; camera.updateProjectionMatrix();
       if (initialSize) { fit(); initialSize = false; }
     }); resize.observe(element);
@@ -104,7 +107,7 @@ export function AtlasPhysicsViewport({ scene: sourceScene, run, frame }: Props) 
     const lost = (event: Event) => { event.preventDefault(); setError("Graphics context lost. Reopen the lab to restore the viewer."); };
     renderer.domElement.addEventListener("webglcontextlost", lost);
     return () => {
-      cancelAnimationFrame(animation); resize.disconnect(); controls.dispose(); environment.dispose();
+      nativeRecording.dispose(); cancelAnimationFrame(animation); resize.disconnect(); controls.dispose(); environment.dispose();
       world.traverse(child => { if (child instanceof THREE.Mesh) child.geometry.dispose(); });
       material.dispose(); toolMaterial.dispose(); tipMaterial.dispose(); cutPlaneMaterial.dispose(); renderer.domElement.removeEventListener("webglcontextlost", lost); renderer.dispose(); renderer.domElement.remove(); runtime.current = null;
     };
@@ -124,7 +127,7 @@ export function AtlasPhysicsViewport({ scene: sourceScene, run, frame }: Props) 
   }, [run, frame, sourceScene]);
   useEffect(() => { if (runtime.current) runtime.current.organ.material.wireframe = wireframe; }, [wireframe, run]);
 
-  return <div className="physics-viewer">
+  return <div className="physics-viewer"><SceneResizeHandle panel={false} />
     <div ref={host} className="physics-canvas" data-testid="physics-viewport" />
     <div className="physics-viewer-caption"><span>{run?.protocol === "cut" ? "TETRAHEDRAL CUT SURFACE" : "DISPLAYED LIVER · EMBEDDED SURFACE"}</span><small>{run?.protocol === "cut" ? "Coarse seam · full-width scripted cut-plane marker" : "Rest-space tissue appearance follows deformation"}</small></div>
     <div className="physics-viewer-tools"><button className="atlas-btn" onClick={() => runtime.current?.fit()}>Reset view</button><button className="atlas-btn" aria-pressed={wireframe} onClick={() => setWireframe(!wireframe)}>Wireframe</button></div>

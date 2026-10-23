@@ -1,0 +1,57 @@
+.blood-lab { height:100dvh; overflow:auto; background:#f5f6f8; color:#263043; font-family:Inter,sans-serif; font-size:14px; }
+.blood-header { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:18px 28px; background:white; border-bottom:1px solid #e2e5eb; flex-wrap:wrap; }
+.blood-back,.blood-wordmark,.blood-actions { display:flex; align-items:center; gap:10px; }
+.blood-actions { flex-wrap:wrap; min-width:0; max-width:100%; }
+.blood-back { color:#506076; text-decoration:none; font-size:12px; }
+.blood-wordmark { color:#7b2336; }
+.blood-wordmark strong { color:#263043; margin-left:10px; }
+.blood-badge { padding:5px 8px; background:#f8eaf0; border-radius:6px; font-size:10px; color:#86364a; }
+.blood-heading { display:flex; justify-content:space-between; gap:32px; align-items:center; padding:30px 28px 24px; }
+.blood-kicker { color:#8b4151; font-size:10px; font-weight:600; letter-spacing:.15em; }
+.blood-heading h1 { font-size:26px; letter-spacing:-.035em; margin:8px 0 10px; }
+.blood-heading p { color:#657086; line-height:1.6; }
+.blood-model-note { max-width:270px; border-left:2px solid #b97482; padding-left:16px; font-size:12px; }
+.blood-model-note span { display:block; line-height:1.6; color:#647085; margin-top:8px; }
+.blood-layout { display:grid; grid-template-columns:minmax(0,1fr) var(--ui-controls-width,320px); gap:18px; padding:0 28px; align-items:start; }
+.blood-stage { height:var(--ui-scene-height,clamp(440px,68vh,900px)); min-width:0; background:#111622; border-radius:12px; position:relative; overflow:hidden; }
+.blood-stage canvas { display:block; width:100%; height:100%; touch-action:none; }
+.blood-stage canvas:focus-visible { outline:3px solid #e28da1; outline-offset:-3px; }
+.blood-stage-label,.blood-legend { position:absolute; left:18px; pointer-events:none; color:#bbc4d1; font-size:11px; background:#101725c9; border-radius:6px; padding:8px 10px; max-width:calc(100% - 36px); }
+.blood-stage-label { top:14px; display:flex; gap:8px; align-items:center; }
+.blood-legend { bottom:24px; }
+.blood-dot { display:inline-block; width:6px; height:6px; background:#c9798c; border-radius:50%; }
+.blood-controls { background:white; border:1px solid #e3e6ec; border-radius:12px; padding:20px; min-width:0; }
+.blood-controls h2,.blood-notes h2 { font-size:14px; margin:0 0 12px; font-weight:600; }
+.blood-muted { color:#667187; font-size:11px; line-height:1.6; margin:8px 0 18px; }
+.blood-controls label { display:block; font-size:12px; font-weight:500; margin:16px 0; }
+.blood-controls select { width:100%; margin-top:8px; padding:9px; border-radius:6px; background:#fafbfc; border:1px solid #dce1e9; color:#344053; font:inherit; }
+.blood-controls output { float:right; font-weight:400; color:#6d7686; }
+.blood-controls input[type=range] { width:100%; margin-top:10px; accent-color:#962e49; }
+.blood-constants,.blood-metrics { font-size:11px; }
+.blood-constants>div,.blood-metrics>div { display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; margin:10px 0; }
+.blood-controls dt { color:#647187; }
+.blood-controls dd { margin:0; font-family:"JetBrains Mono",monospace; font-size:11px; }
+.blood-run-buttons { display:flex; gap:8px; margin-top:20px; flex-wrap:wrap; }
+.blood-lab button { cursor:pointer; }
+.blood-run-buttons button,.blood-export,.blood-overlay button { display:inline-flex; align-items:center; justify-content:center; gap:7px; border:1px solid #dce1e9; border-radius:7px; background:white; color:#3c475b; padding:10px 12px; font:inherit; font-size:12px; }
+.blood-run-buttons .blood-primary { background:#8e2942; border-color:#8e2942; color:white; flex:1; }
+.blood-lab button:disabled { opacity:.45; cursor:default; }
+.blood-lab :focus-visible { outline:3px solid #ac4760; outline-offset:3px; }
+.blood-status { color:#895064; font-size:11px; min-height:2.8em; line-height:1.5; margin-bottom:20px; }
+.blood-export { width:100%; }
+.blood-notes { display:grid; grid-template-columns:1fr 1fr; gap:30px; padding:26px 28px 40px; }
+.blood-notes section { border-top:1px solid #dfe3e9; padding-top:20px; }
+.blood-notes p { line-height:1.7; color:#647187; font-size:12px; }
+.blood-notes a { color:#882940; font-size:12px; }
+.blood-overlay { position:absolute; inset:0; display:flex; flex-direction:column; gap:12px; align-items:center; justify-content:center; padding:30px; color:#ced6e3; background:#121a2aee; text-align:center; overflow:auto; }
+.blood-error p { max-width:560px; line-height:1.6; }
+@media(max-width:850px) {
+ .blood-layout { grid-template-columns:1fr; padding:0 16px; }
+ .blood-heading { padding:20px 16px; display:block; }
+ .blood-model-note { max-width:none; margin-top:18px; }
+ .blood-header { padding:16px; }
+ .blood-stage { height:var(--ui-scene-height,460px); }
+ .blood-notes { grid-template-columns:1fr; padding:24px 16px; }
+ .blood-wordmark { flex-wrap:wrap; }
+}
+@media(min-width:851px) { :root[data-large-type=true] .blood-layout { grid-template-columns:minmax(0,1fr) minmax(var(--ui-controls-width,320px),350px); } }

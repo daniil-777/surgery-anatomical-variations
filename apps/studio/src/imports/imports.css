@@ -1,0 +1,76 @@
+.import-studio{height:100dvh;display:grid;grid-template-rows:auto minmax(0,1fr) auto;background:#10191d;color:#e0eae6;font-family:Inter,sans-serif;overflow:hidden}
+.import-studio *{box-sizing:border-box}
+.import-studio button,.import-studio select,.import-studio input,.import-studio textarea{font:inherit}
+.import-studio button,.import-studio select,.import-studio input[type=number],.import-studio textarea{border:1px solid #435b61;border-radius:7px;background:#1c3037;color:#e0eae6}
+.import-studio button{min-height:42px;padding:10px 13px;display:inline-flex;gap:8px;align-items:center;justify-content:center;font-size:12px;line-height:1.5;cursor:pointer}
+.import-studio button:hover:not(:disabled){background:#2b4349;border-color:#86a79c}
+.import-studio button:disabled{opacity:.48;cursor:not-allowed}
+.import-studio button:focus-visible,.import-studio a:focus-visible,.import-studio input:focus-visible,.import-studio textarea:focus-visible,.import-studio select:focus-visible,.import-studio summary:focus-visible{outline:3px solid #d0e1b9;outline-offset:3px}
+.import-studio .import-primary{background:#cbdcba;color:#172d29;border-color:#cbdcba;font-weight:650}
+.import-studio .import-primary:hover:not(:disabled){background:#dcebcf;color:#172d29}
+.import-header{display:flex;gap:24px;align-items:center;flex-wrap:wrap;padding:16px 24px;border-bottom:1px solid #304348;background:#0e171b}
+.import-brand{display:flex;gap:10px;align-items:center;text-decoration:none;color:#e7f1eb;letter-spacing:.12em;font-size:17px;font-weight:600}
+.import-brand small{display:block;font-size:9px;letter-spacing:.22em;color:#94afa7;margin-top:3px}
+.import-header nav{display:flex;gap:18px;align-items:center;flex-wrap:wrap;font-size:12px}
+.import-header nav a{color:#a7bfbb;text-decoration:none;padding:8px 0}
+.import-header nav a[aria-current]{color:#d4e4c8;border-bottom:1px solid #b4cba3}
+.import-header-tools{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-left:auto}
+.import-workspace{display:grid;grid-template-columns:minmax(0,1fr) clamp(270px,var(--ui-controls-width,360px),600px);min-height:0;overflow:auto}
+.import-scene{position:relative;min-width:0;min-height:400px;height:var(--ui-scene-height,100%);background:#101b20}
+.import-viewport{position:absolute;inset:0;overflow:hidden}
+.import-viewport canvas{display:block;touch-action:none}
+.import-scene-title{position:absolute;top:22px;left:24px;right:24px;z-index:2;display:flex;gap:16px;justify-content:space-between;pointer-events:none;color:#9bb5ac;font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.1em}
+.import-scene-title span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.import-scene-title span:last-child{flex-shrink:0}
+.import-empty{position:absolute;inset:60px 24px 40px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;pointer-events:none}
+.import-empty>*{pointer-events:auto}
+.import-scene.is-empty{overflow:auto}
+.import-empty-icon{border:1px solid #52685f;background:#1c302e;padding:20px;border-radius:24px;color:#c1d7b4;margin-bottom:26px}
+.import-empty h1{font-size:clamp(24px,3.6vw,48px);font-weight:450;line-height:1.14;letter-spacing:-.035em;margin:0 0 20px}
+.import-empty p{max-width:410px;font-size:14px;line-height:1.7;color:#afc2bb;margin:0 0 24px}
+.import-empty>span{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.07em;color:#91a9a2;margin-top:18px}
+.import-inspector{border-left:1px solid #304348;background:#142126;min-width:0;overflow:auto;padding:4px 24px 28px}
+.import-inspector section{padding:24px 0;border-bottom:1px solid #304348}
+.import-inspector section:last-child{border:0}
+.import-section-heading{display:flex;justify-content:space-between;gap:10px;color:#a7b996;font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.1em;margin-bottom:12px}
+.import-inspector h2{font-size:20px;line-height:1.2;font-weight:500;letter-spacing:-.025em;margin:0 0 12px}
+.import-inspector p{font-size:12px;line-height:1.65;color:#afc4bd;margin:10px 0}
+.import-inspector .import-fine{font-size:11px;color:#a1b9b1}
+.import-source-actions,.import-generate-actions,.import-export-actions,.import-describe-actions{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 8px}
+.import-source-actions>button,.import-generate-actions>button,.import-export-actions>button{flex:1 1 115px}
+.import-describe-actions>button:first-child{flex:1 1 150px}
+.import-describe-actions>.import-prompt-mic{flex:0 0 42px;width:42px;padding:0}
+.import-describe-actions>.import-prompt-mic.is-listening{border-color:#e25c53;color:#ff9a92;background:#3a1f22}
+.import-inspector fieldset{border:0;padding:0;margin:18px 0 0;min-width:0}
+.import-inspector label{display:block;margin:14px 0;font-size:12px;line-height:1.6;color:#d3e0d9}
+.import-inspector label.import-checkbox-row{display:flex;align-items:flex-start;gap:10px;padding:8px 10px;border:1px solid #304348;border-radius:7px;background:#18282e;cursor:pointer}
+.import-inspector label.import-checkbox-row input[type=checkbox]{margin-top:3px;accent-color:#c7dbb5;flex-shrink:0}
+.import-inspector select,.import-inspector input[type=number],.import-inspector textarea{display:block;width:100%;min-width:0;min-height:42px;padding:10px;margin-top:6px;font-size:12px}
+.import-inspector textarea{resize:vertical;min-height:90px;max-height:350px}
+.import-inspector textarea::placeholder{color:#91aaa1}
+.import-inspector input[type=range]{display:block;width:100%;accent-color:#c7dbb5;margin:9px 0 0}
+.import-inspector output{float:right;color:#c2d7ac;font-family:"JetBrains Mono",monospace;font-size:11px}
+.import-pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.import-studio details{font-size:11px;line-height:1.6;color:#9fb8af;margin-top:14px}
+.import-studio summary{cursor:pointer;color:#c3d6cb;padding:6px 0}
+.import-stats{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0 0}
+.import-stats dt{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#9bb5ac}
+.import-stats dd{font-size:17px;margin:5px 0 0;font-variant-numeric:tabular-nums}
+.import-scene-toolbar{position:absolute;bottom:20px;left:24px;right:24px;display:flex;gap:14px;flex-wrap:wrap;align-items:center;z-index:2;pointer-events:none}
+.import-scene-toolbar>*{pointer-events:auto}
+.import-scene-toolbar button{background:#15262ce8}
+.import-scene-toolbar label{display:flex;align-items:center;gap:7px;font-size:12px;color:#c9d8d1}
+.import-scene-toolbar input{accent-color:#c7dbb5}
+.import-scene-toolbar>span{font-size:10px;color:#94aaa3;margin-left:auto}
+.import-studio .import-error{color:#ffb8ad;overflow-wrap:anywhere}
+.import-notice{padding:10px 12px;border-left:2px solid #bdc48e;background:#29372c}
+.import-status{padding:10px 24px;border-top:1px solid #304348;background:#0e171b;font-size:11px;color:#b9cdc3;max-height:24dvh;overflow:auto;display:flex;gap:12px;justify-content:space-between;align-items:center;flex-wrap:wrap}
+.import-status>span{display:flex;gap:9px;align-items:center;line-height:1.6}
+.import-status svg{flex-shrink:0}
+.import-drop-overlay{position:absolute;inset:8px;display:flex;flex-direction:column;gap:18px;align-items:center;justify-content:center;z-index:20;background:#213a35ed;border:2px dashed #c7dbb5;border-radius:12px;pointer-events:none}
+.import-spinner{animation:import-spin 1s linear infinite}
+@keyframes import-spin{to{transform:rotate(360deg)}}
+@media(max-width:850px){.import-studio{display:block;overflow:auto}.import-header{gap:14px;padding:14px 18px}.import-header-tools{margin-left:0}.import-header nav{order:3;width:100%}.import-workspace{display:block;overflow:visible}.import-scene{height:var(--ui-scene-height,60dvh);min-height:500px}.import-inspector{overflow:visible;border-left:0;border-top:1px solid #304348;padding:4px 22px 24px}.import-empty h1{font-size:30px}.import-empty p{font-size:13px}.import-empty-icon{margin-bottom:18px;padding:16px}.import-status{padding:10px 18px;position:sticky;bottom:0;z-index:4}.import-scene-toolbar>span{display:none}}
+@media(prefers-reduced-motion:reduce){.import-spinner{animation:none}}
+html[data-large-type=true] .import-scene.is-empty{height:auto;min-height:500px}
+html[data-large-type=true] .import-empty{position:relative;inset:auto;min-height:500px;padding:80px 24px 50px}

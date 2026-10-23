@@ -1,0 +1,167 @@
+{
+  "schema": "viscera.artery.carreau-steady-reference/v1",
+  "provenance": {
+    "generator": "scripts/generate_artery_references.py",
+    "generatorSha256": "4052e559f2db3d001b5025c849c5cf20c112be87a2888d8fc4775ea1365d8de4",
+    "mpmathVersion": "1.3.0",
+    "decimalPrecision": 80,
+    "independence": "Direct analytical Bessel / constitutive quadrature; no application solver imports.",
+    "purpose": "Numerical verification fixtures, not patient-specific or experimental blood measurements."
+  },
+  "source": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0124575",
+  "inputs": {
+    "radiusM": 0.003,
+    "pressureGradientPaPerM": 300.0,
+    "mu0PaS": 0.056,
+    "muInfPaS": 0.00345,
+    "lambdaSeconds": 1.902,
+    "a": 1.25,
+    "n": 0.22
+  },
+  "equations": {
+    "viscosity": "mu(gamma)=muInf+(mu0-muInf)*(1+(lambda*gamma)^a)^((n-1)/a)",
+    "steadyStress": "tau(r)=G*r/2=mu(gamma)*gamma; gamma=-du/dr>=0",
+    "velocity": "u(r)=integral(r,R,gamma(s) ds)",
+    "flowRate": "Q=pi*integral(0,R,gamma(r)*r^2 dr)",
+    "quadratureVariableChange": "r=2*tau(gamma)/G; u=2/G*integral(gamma(r),gammaWall,gamma*tauPrime dgamma); Q=8*pi/G^3*integral(0,gammaWall,gamma*tau^2*tauPrime dgamma)",
+    "boundaryConditions": "Rigid straight circular tube; no slip at physical R; symmetry at r=0; fully developed steady flow."
+  },
+  "flowRateM3S": {
+    "value": 2.102134673690784e-06,
+    "decimal": "0.00000210213467369078388826675199838710629807313699"
+  },
+  "meanVelocityMS": {
+    "value": 0.07434780541394594,
+    "decimal": "0.0743478054139459291183646164325631356376055349"
+  },
+  "wallTractionOnSolidPa": {
+    "value": 0.45,
+    "decimal": "0.45"
+  },
+  "wallShearRatePerS": {
+    "value": 104.78556646486295,
+    "decimal": "104.785566464862948165899670098885489992616739"
+  },
+  "radialProfiles": [
+    {
+      "radiusFraction": 0.0,
+      "velocityMS": {
+        "value": 0.1376865002311179,
+        "decimal": "0.137686500231117894376400014568263181093372215"
+      },
+      "shearRatePerS": {
+        "value": 0.0,
+        "decimal": "0.0"
+      },
+      "viscosityPaS": {
+        "value": 0.056,
+        "decimal": "0.056"
+      },
+      "shearStressMagnitudePa": {
+        "value": 0.0,
+        "decimal": "0.0"
+      }
+    },
+    {
+      "radiusFraction": 0.25,
+      "velocityMS": {
+        "value": 0.13353905356968088,
+        "decimal": "0.133539053569680876746098857381168266981986441"
+      },
+      "shearRatePerS": {
+        "value": 15.821258437368044,
+        "decimal": "15.8212584373680435002366056544540372007299766"
+      },
+      "viscosityPaS": {
+        "value": 0.007110685944822668,
+        "decimal": "0.0071106859448226683597649539966199943979083629"
+      },
+      "shearStressMagnitudePa": {
+        "value": 0.1125,
+        "decimal": "0.1125"
+      }
+    },
+    {
+      "radiusFraction": 0.5,
+      "velocityMS": {
+        "value": 0.11127776449697392,
+        "decimal": "0.111277764496973921827176587044247841994972387"
+      },
+      "shearRatePerS": {
+        "value": 44.05426180663438,
+        "decimal": "44.0542618066343817723302110989473345027774815"
+      },
+      "viscosityPaS": {
+        "value": 0.005107337877719607,
+        "decimal": "0.0051073378777196073837951671725130483527872584"
+      },
+      "shearStressMagnitudePa": {
+        "value": 0.225,
+        "decimal": "0.225"
+      }
+    },
+    {
+      "radiusFraction": 0.75,
+      "velocityMS": {
+        "value": 0.06704128529801631,
+        "decimal": "0.0670412852980163087147088335182550227314846721"
+      },
+      "shearRatePerS": {
+        "value": 74.07214160306764,
+        "decimal": "74.0721416030676391103859270549047661244398988"
+      },
+      "viscosityPaS": {
+        "value": 0.004556368868184888,
+        "decimal": "0.00455636886818488726750424047532742868277193594"
+      },
+      "shearStressMagnitudePa": {
+        "value": 0.3375,
+        "decimal": "0.3375"
+      }
+    },
+    {
+      "radiusFraction": 0.9,
+      "velocityMS": {
+        "value": 0.02958267180471716,
+        "decimal": "0.0295826718047171592209629771447896436627062361"
+      },
+      "shearRatePerS": {
+        "value": 92.44312233924855,
+        "decimal": "92.4431223392485517171696627608060786024527681"
+      },
+      "viscosityPaS": {
+        "value": 0.004381072271809768,
+        "decimal": "0.0043810722718097683548624181500787124399064632"
+      },
+      "shearStressMagnitudePa": {
+        "value": 0.405,
+        "decimal": "0.405"
+      }
+    },
+    {
+      "radiusFraction": 1.0,
+      "velocityMS": {
+        "value": 0.0,
+        "decimal": "0.0"
+      },
+      "shearRatePerS": {
+        "value": 104.78556646486295,
+        "decimal": "104.785566464862948165899670098885489992616739"
+      },
+      "viscosityPaS": {
+        "value": 0.004294484585822185,
+        "decimal": "0.0042944845858221850381729720610639282582639894"
+      },
+      "shearStressMagnitudePa": {
+        "value": 0.45,
+        "decimal": "0.45"
+      }
+    }
+  ],
+  "selfChecks": {
+    "independentScipyRadialFlowRelativeError": 4.029394300257357e-16,
+    "independentScipyRadialCentreVelocityRelativeError": 2.0158530842921378e-16,
+    "method": "scipy brentq constitutive inversion at each physical radius, then scipy quad in radius; distinct from mpmath shear-rate-variable integration."
+  },
+  "interpretation": "Independent constitutive inversion and quadrature. No radial grid and no time integration are used. Density does not enter this steady oracle."
+}

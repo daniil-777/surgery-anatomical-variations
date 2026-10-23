@@ -1,0 +1,84 @@
+.liver-lab { --liver-ink:#28354a; --liver-muted:#586780; --liver-accent:#902e48; }
+.liver-heading { align-items:center; }
+.liver-heading h1 { font-size:clamp(24px,2.5vw,38px); letter-spacing:-.035em; }
+.liver-source-note { color:var(--liver-ink); font-size:13px; line-height:1.7; flex-shrink:0; }
+.liver-source-note span { display:block; color:var(--liver-muted); font-size:11px; }
+.liver-workspace { display:grid; grid-template-columns:minmax(0,1fr) var(--ui-controls-width,320px); gap:20px; padding:0 28px; align-items:start; }
+.liver-scene-column { min-width:0; }
+.liver-toolstrip { display:flex; align-items:center; flex-wrap:wrap; gap:6px; padding:8px; background:white; border:1px solid #dce2ea; border-radius:12px 12px 0 0; }
+.liver-lab button { min-height:44px; }
+.liver-toolstrip button,.liver-runbar button,.liver-target-actions button,.liver-reset { display:inline-flex; justify-content:center; align-items:center; gap:8px; border:1px solid #d7deE8; border-radius:8px; padding:10px 14px; background:#fff; color:var(--liver-ink); font:inherit; font-size:12px; cursor:pointer; }
+.liver-toolstrip button[aria-pressed=true] { background:#f8eaf0; border-color:#b5657d; color:#79253e; }
+.liver-toolstrip span { margin-left:8px; color:var(--liver-muted); font-size:11px; line-height:1.6; }
+.liver-stage { position:relative; height:var(--ui-scene-height,clamp(400px,58vh,780px)); min-height:320px; border-radius:0 0 12px 12px; overflow:hidden; }
+.liver-canvas-host { position:absolute; inset:0; width:100%; height:100%; }
+.liver-stage-caption { position:absolute; left:18px; bottom:20px; right:35px; pointer-events:none; font-size:11px; line-height:1.6; color:#eef1f5; text-shadow:0 1px 4px #000; }
+.liver-stage-caption span { display:block; color:#c4cfdb; font-size:10px; }
+.liver-runbar { display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-top:12px; }
+.liver-runbar .blood-primary { background:var(--liver-accent); color:white; border-color:var(--liver-accent); }
+.liver-runbar>span { margin-left:auto; color:var(--liver-muted); font-size:11px; line-height:1.6; }
+.liver-runbar strong { font-variant-numeric:tabular-nums; color:var(--liver-ink); font-size:13px; }
+.liver-runbar label { display:flex; align-items:center; gap:6px; color:var(--liver-muted); font-size:11px; }
+.liver-runbar select { min-height:44px; padding:6px; border:1px solid #d7dee8; border-radius:8px; background:white; color:var(--liver-ink); font:inherit; }
+.liver-feedback { min-height:3.2em; margin:12px 0; padding:12px 14px; border-left:3px solid #ac647a; background:white; color:#485974; font-size:12px; line-height:1.65; }
+.liver-readings { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; }
+.liver-readings>div { min-width:0; background:white; border:1px solid #dce2ea; border-radius:10px; padding:16px 12px; }
+.liver-readings span { display:block; color:var(--liver-muted); font-size:11px; line-height:1.5; }
+.liver-readings strong { display:block; margin-top:8px; font-size:20px; font-weight:500; font-variant-numeric:tabular-nums; color:var(--liver-ink); overflow-wrap:anywhere; }
+.liver-readings small { font-size:11px; color:var(--liver-muted); }
+.liver-phase-readings { display:flex; flex-wrap:wrap; gap:8px 20px; padding:12px 2px 0; color:var(--liver-muted); font-size:11px; line-height:1.7; }
+.liver-phase-readings strong { display:inline-block; color:var(--liver-ink); font-weight:500; font-variant-numeric:tabular-nums; margin-left:5px; }
+.liver-model-status { color:var(--liver-ink); font-size:12px; line-height:1.7; margin:12px 0; }
+.liver-model-status span { display:block; color:var(--liver-muted); font-size:11px; }
+.liver-controls { padding:0 20px; }
+.liver-controls section { padding:20px 0; border-bottom:1px solid #e0e5ed; }
+.liver-controls section:last-child { border-bottom:0; }
+.liver-controls h2 { margin-top:0; }
+.liver-controls .liver-check { display:flex; align-items:flex-start; gap:9px; cursor:pointer; line-height:1.6; }
+.liver-controls .liver-check input { width:18px; height:18px; flex:0 0 18px; margin-top:2px; accent-color:var(--liver-accent); }
+.liver-target-actions { display:flex; gap:8px; flex-wrap:wrap; }
+.liver-target-actions button { flex:1; min-width:100px; }
+.liver-reset { width:100%; }
+.liver-pending { color:#713951; font-size:12px; line-height:1.6; background:#fff1f6; border-radius:8px; padding:10px; }
+.liver-trace { margin:16px 0 0; background:white; border:1px solid #dce2ea; border-radius:10px; padding:16px; }
+.liver-trace figcaption { color:var(--liver-ink); font-size:12px; line-height:1.7; }
+.liver-trace figcaption span { display:block; color:var(--liver-muted); font-size:11px; }
+.liver-trace svg { width:100%; display:block; margin-top:8px; font-size:11px; fill:var(--liver-muted); }
+.liver-model-notes { margin:24px 28px 32px; padding:18px 20px; border:1px solid #dce2ea; border-radius:10px; background:white; color:var(--liver-muted); font-size:12px; line-height:1.8; }
+.liver-model-notes summary { color:var(--liver-ink); cursor:pointer; font-weight:500; }
+.liver-lab button:disabled { opacity:.45; cursor:not-allowed; }
+.liver-lab :is(button,input,select,summary):focus-visible { outline:3px solid #4277ae; outline-offset:3px; }
+.liver-lab .liver-stage:fullscreen { height:100vh; border-radius:0; }
+@media(max-width:1050px) { .liver-source-note { display:none; } .liver-workspace { gap:14px; padding:0 18px; } .liver-readings { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media(max-width:850px) {
+ .liver-workspace { grid-template-columns:minmax(0,1fr); padding:0 16px; }
+ .liver-controls { width:auto; padding:0 18px; }
+ .liver-runbar>span { margin-left:0; }
+ .liver-stage { height:var(--ui-scene-height,450px); }
+ .liver-model-notes { margin:20px 16px; }
+ .liver-toolstrip span { flex-basis:100%; margin:4px 6px; }
+}
+@media(prefers-reduced-motion:reduce) { .liver-lab * { scroll-behavior:auto; } }
+/* Cut preview: in-scene card, marker colour legend and shortcut list. Colours match LIVER_CUT_PREVIEW_COLOURS. */
+.liver-cut-hud { --hud:#ffc570; position:absolute; left:14px; top:14px; max-width:min(360px,calc(100% - 28px)); display:flex; gap:10px; align-items:flex-start; padding:10px 12px; border-radius:10px; background:rgba(14,18,27,.82); border:1px solid rgba(255,255,255,.12); border-left:3px solid var(--hud); color:#eef1f5; backdrop-filter:blur(6px); font-size:12px; line-height:1.45; z-index:2; }
+.liver-cut-hud.is-vessel { --hud:#ff4d63; } .liver-cut-hud.is-deeper { --hud:#ffb347; } .liver-cut-hud.is-tissue { --hud:#8fd3ff; } .liver-cut-hud.is-blocked { --hud:#9aa1ab; }
+.liver-cut-hud-dot { flex:0 0 10px; width:10px; height:10px; margin-top:4px; border-radius:50%; background:var(--hud); box-shadow:0 0 0 3px color-mix(in srgb,var(--hud) 30%,transparent); }
+.liver-cut-hud>div { display:grid; gap:3px; min-width:0; }
+.liver-cut-hud strong { font-size:13px; font-weight:600; }
+.liver-cut-hud span:not(.liver-cut-hud-dot) { color:#c9d2de; }
+.liver-cut-hud small { color:#8f9aab; font-size:10px; }
+.liver-cut-hud button { justify-self:start; margin-top:4px; display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:7px; border:1px solid var(--hud); background:color-mix(in srgb,var(--hud) 18%,transparent); color:white; font:inherit; font-size:12px; cursor:pointer; }
+.liver-cut-hud kbd, .liver-shortcuts kbd { display:inline-block; min-width:16px; padding:0 4px; border-radius:4px; border:1px solid currentColor; font:inherit; font-size:10px; line-height:16px; text-align:center; opacity:.8; }
+.liver-cut-legend { list-style:none; margin:4px 0 0; padding:0; display:grid; grid-template-columns:1fr 1fr; gap:4px 10px; font-size:11px; color:var(--liver-muted); }
+.liver-cut-legend li { display:flex; align-items:center; gap:6px; }
+.liver-cut-legend li::before { content:""; width:10px; height:10px; border-radius:50%; border:2px solid var(--c); }
+.liver-cut-legend .is-vessel { --c:#ff4d63; } .liver-cut-legend .is-deeper { --c:#ffb347; } .liver-cut-legend .is-tissue { --c:#5bb8ee; } .liver-cut-legend .is-blocked { --c:#9aa1ab; }
+.liver-shortcuts { font-size:12px; color:var(--liver-muted); }
+.liver-shortcuts summary { cursor:pointer; color:var(--liver-ink); }
+.liver-shortcuts dl { display:grid; gap:4px; margin:8px 0 0; }
+.liver-shortcuts dl>div { display:grid; grid-template-columns:minmax(96px,auto) 1fr; gap:8px; }
+.liver-shortcuts dt { color:var(--liver-ink); white-space:nowrap; }
+.liver-shortcuts dd { margin:0; }
+.liver-toolstrip button:disabled { opacity:.5; cursor:not-allowed; }
+.liver-pool-jump { min-height:28px !important; padding:4px 10px; border:1px solid #b5657d; border-radius:999px; background:#f8eaf0; color:#79253e; font:inherit; font-size:11px; font-weight:600; cursor:pointer; }
+.liver-pool-jump:hover { background:#f2d9e4; }

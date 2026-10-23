@@ -1,5 +1,6 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
 import * as THREE from "three";
+import { registerSceneRecordingSource } from "./sceneRecordingSource";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
 import type { SceneData } from "@viscera/render";
@@ -43,6 +44,7 @@ interface Props {
   onError: (message: string) => void;
 }
 interface Runtime {
+  nativeRecording: ReturnType<typeof registerSceneRecordingSource>;
   renderer: THREE.WebGLRenderer;
   group: THREE.Group;
   controls: OrbitControls;
@@ -92,7 +94,7 @@ export const AtlasViewport = forwardRef<AtlasViewportHandle, Props>(function Atl
   useImperativeHandle(ref, () => ({
     fit: () => runtime.current?.fit(),
     view: (preset) => runtime.current?.view(preset),
-    screenshot: () => runtime.current?.renderer.domElement.toDataURL("image/png") ?? "",
+    screenshot: () => { if (runtime.current?.nativeRecording.active) { latest.current.onError("Stop scene recording before saving a still image."); return ""; } return runtime.current?.renderer.domElement.toDataURL("image/png") ?? ""; },
     captureMetadata: () => {
       const current = runtime.current;
       if (!current) return {};
@@ -196,8 +198,9 @@ export const AtlasViewport = forwardRef<AtlasViewportHandle, Props>(function Atl
       camera.position.copy(controls.target).add(new THREE.Vector3(...vectors[preset]).normalize().multiplyScalar(fitRadius * 4));
       fit();
     };
+    const nativeRecording = registerSceneRecordingSource({ renderer, camera, host: element, label: "Organ studio", draw: () => renderer.render(scene, camera), available: () => group.children.length > 0 });
     const resize = new ResizeObserver(() => {
-      if (!element.clientWidth || !element.clientHeight) return;
+      if (nativeRecording.active || !element.clientWidth || !element.clientHeight) return;
       renderer.setSize(element.clientWidth, element.clientHeight);
       camera.aspect = element.clientWidth / element.clientHeight;
       camera.updateProjectionMatrix();
@@ -322,10 +325,10 @@ export const AtlasViewport = forwardRef<AtlasViewportHandle, Props>(function Atl
       latest.current.onError("The graphics context was lost. Reload the page to restore the organ viewer.");
     };
     renderer.domElement.addEventListener("webglcontextlost", contextLost);
-    runtime.current = { renderer, group, controls, camera, fit, view, cancelDrag };
+    runtime.current = { renderer, group, controls, camera, fit, view, cancelDrag, nativeRecording };
     animate();
     return () => {
-      disposed = true;
+      disposed = true; nativeRecording.dispose();
       cancelAnimationFrame(frame);
       cancelDrag();
       canvas.removeEventListener("pointerdown", down, true);

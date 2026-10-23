@@ -150,12 +150,6 @@ const isObject = (value: unknown): value is Record<string, unknown> => typeof va
 const isJsonFloat = (value: unknown): value is number => typeof value === "number" && Number.isFinite(value);
 const codePoints = (text: string): number => { let count = 0; for (const _ of text) count++; return count; };
 const LONE_SURROGATE = /[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?<![\uD800-\uDBFF])[\uDC00-\uDFFF]/;
-function hasLoneSurrogate(value: unknown): boolean {
-  if (typeof value === "string") return LONE_SURROGATE.test(value);
-  if (Array.isArray(value)) return value.some(hasLoneSurrogate);
-  if (isObject(value)) return Object.entries(value).some(([key, item]) => LONE_SURROGATE.test(key) || hasLoneSurrogate(item));
-  return false;
-}
 
 /** The value as the API receives it from the studio's JSON.stringify: NaN and ±Infinity become null, undefined
  *  members vanish, −0 becomes 0. */
@@ -192,17 +186,20 @@ export function observationRequestIssues(value: unknown, loc: (string | number)[
   const provenance = value.provenance, at = [...loc, "provenance"];
   if (!present("provenance")) issues.push(missing("provenance"));
   else if (typeof provenance !== "string") issues.push({ type: "string_type", loc: at, msg: "Input should be a valid string", input: provenance });
+  else if (LONE_SURROGATE.test(provenance)) issues.push({ type: "string_unicode", loc: at, msg: "Input should be a valid string, unable to parse raw data as a unicode string", input: provenance });
   else if (codePoints(provenance) < 8) issues.push({ type: "string_too_short", loc: at, msg: "String should have at least 8 characters", input: provenance, ctx: { min_length: 8 } });
   else if (codePoints(provenance) > 2000) issues.push({ type: "string_too_long", loc: at, msg: "String should have at most 2000 characters", input: provenance, ctx: { max_length: 2000 } });
-  for (const key of Object.keys(value)) if (!FIELDS.includes(key) && value[key] !== undefined) issues.push({ type: "extra_forbidden", loc: [...loc, key], msg: "Extra inputs are not permitted", input: value[key] });
+  for (const key of Object.keys(value)) if (!FIELDS.includes(key) && value[key] !== undefined) {
+    if (LONE_SURROGATE.test(key)) issues.push({ type: "string_unicode", loc, msg: "Input should be a valid string, unable to parse raw data as a unicode string", input: key });
+    else issues.push({ type: "extra_forbidden", loc: [...loc, key], msg: "Extra inputs are not permitted", input: value[key] });
+  }
   return issues;
 }
 
-/** The request as the route hands it on: the API answers 500 to any lone UTF-16 surrogate it is sent (it cannot
- *  encode one), 422 with pydantic's issues to a malformed observation. */
+/** The request as the route hands it on: malformed observations produce 422 with pydantic's issues,
+ * including invalid Unicode. The API escapes rejected input in its JSON response. */
 function checkedRequest(value: unknown, loc: (string | number)[]): PhysicsObservation {
   const sent = asSent(value);
-  if (hasLoneSurrogate(sent)) throw new PhysicsCalibrationError(500, "Internal Server Error");
   const issues = observationRequestIssues(sent, loc);
   if (issues.length) throw new PhysicsCalibrationError(422, issues);
   return sent as PhysicsObservation;

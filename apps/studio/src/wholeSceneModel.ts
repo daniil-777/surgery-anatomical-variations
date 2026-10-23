@@ -3,7 +3,7 @@
  * This is a synthetic appearance study, not a patient/disease prediction model. */
 export const WHOLE_SCENE_CATEGORIES = ["digestive", "respiratory", "cardiovascular", "urinary", "skeleton", "connective"] as const;
 export type WholeSceneCategory = typeof WHOLE_SCENE_CATEGORIES[number];
-export type WholeSceneView = "front" | "back" | "left" | "right" | "top" | "oblique";
+export type WholeSceneView = "front" | "back" | "left" | "right" | "top" | "bottom" | "oblique";
 export interface WholeSceneVariation {
   seed: number;
   strength: number;

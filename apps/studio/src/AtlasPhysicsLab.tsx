@@ -1,9 +1,13 @@
+import { VideoRecorderButton } from "./VideoRecorderPanel";
+import { DisplaySettings } from "./DisplaySettings";
 import { apiGet, apiUrl, useApiOnline } from "./api";
 import { useEffect, useRef, useState } from "react";
 import { Activity, ArrowDownToLine, LoaderCircle, Pause, Play, RotateCcw, X } from "lucide-react";
 import { atlasError, type AtlasGeneration } from "./atlas";
 import { AtlasPhysicsViewport } from "./AtlasPhysicsViewport";
 import { AtlasPhysicsPlayground } from "./AtlasPhysicsPlayground";
+import { AtlasCuttingLab } from "./cutting/AtlasCuttingLab";
+import { LaparoscopicScissorsLab } from "./cutting/LaparoscopicScissorsLab";
 import { forceMagnitude, physicsParameterFields, readPhysicsObservation, readPhysicsRun, readPhysicsStatus, type PhysicsObservation, type PhysicsParameters, type PhysicsPlayground, type PhysicsProtocol, type PhysicsRun, type PhysicsSource, type PhysicsStatus } from "./atlasPhysics";
 import "./atlasPhysics.css";
 
@@ -38,7 +42,7 @@ function ForceChart({ run, frame }: { run: PhysicsRun; frame: number }) {
 export function AtlasPhysicsLab({ generation, onClose }: { generation: AtlasGeneration; onClose: () => void }) {
   const dialog = useRef<HTMLDialogElement>(null);
   const [status, setStatus] = useState<PhysicsStatus | null>(null);
-  const [mode, setMode] = useState<"hands" | "recorded">("hands");
+  const [mode, setMode] = useState<"hands" | "recorded" | "cutting" | "scissors">("scissors");
   const online = useApiOnline();   // offline (the public copy), a measurement is calibrated in the browser
   const [playgroundRevision, setPlaygroundRevision] = useState(0);
   const [playgroundData, setPlaygroundData] = useState<PhysicsPlayground | null>(null);
@@ -141,16 +145,23 @@ export function AtlasPhysicsLab({ generation, onClose }: { generation: AtlasGene
   };
   const current = run?.frames[frame];
   const stable = run?.metrics.finite_state && run.metrics.inverted_elements === 0 && run.metrics.minimum_jacobian > 0 && run.metrics.rejected_steps === 0 && (run.metrics.unconverged_steps ?? 0) === 0 && (run.metrics.loaded_contact_gap_frames ?? 0) === 0 && run.metrics.numerical_status !== "NEEDS_REFINEMENT";
-  const activeResult = mode === "hands" ? playgroundData : run;
+  const activeResult = mode === "hands" ? playgroundData : mode === "recorded" ? run : null;
   const recipe = activeResult?.parameters ?? parameters;
   const materialValid = Boolean(status && parameters && (source === "manual" || (status.status === "ready" && !importingObservation && !observationError)));
   const materialFingerprint = JSON.stringify({ source, parameters: source === "manual" ? parameters : null, observation: source === "learned" ? observation : null });
   const materialPending = Boolean(playgroundData && materialFingerprint !== playgroundAppliedFingerprint);
+  const cuttingLearned = source === "learned" && playgroundData?.learning.source === "learned"
+    && materialFingerprint === playgroundAppliedFingerprint ? playgroundData : null;
+  const cuttingBulk = cuttingLearned?.parameters ?? parameters;
+  const cuttingBulkProvenance = cuttingLearned
+    ? `Applied elastic calibration · ${cuttingLearned.learning.observation_provenance ?? "synthetic reference observation"}`
+    : source === "manual" ? "Manual bulk material from Physics Lab settings"
+    : "Uncalibrated Physics Lab material settings. Apply an elastic calibration in Hands-on to use it here.";
   return <dialog ref={dialog} className={`physics-lab ${mode === "hands" ? "physics-hands-on" : ""}`} aria-labelledby="physics-title" aria-describedby="physics-evidence" onClose={() => { cancel(); onClose(); }} onCancel={() => cancel()}>
-    <header className="physics-header"><div><span className="physics-eyebrow"><Activity size={13} /> VISCERA · MECHANICS RESEARCH</span><h2 id="physics-title">Liver physics lab</h2></div><button className="physics-close" aria-label="Close physics lab" onClick={() => dialog.current?.close()}><X size={20} /></button></header>
-    <div className="physics-evidence" id="physics-evidence"><span>SYNTHETIC PROTOTYPE</span><p>Independent AI trained on synthetic force–displacement tests. Uploaded calibration remains unverified; numerical checks do not establish surgical realism.</p></div>
-    <div className="physics-lab-modes" role="group" aria-label="Physics lab mode"><button aria-pressed={mode === "hands"} onClick={() => { cancel(); setMode("hands"); }}>Hands-on</button><button aria-pressed={mode === "recorded"} onClick={() => { cancel(); setMode("recorded"); }}>Recorded experiments</button><p>{mode === "hands" ? "Grab it. Push it. Drop it. Explore the response directly." : "Repeatable tool trajectories, force curves and numerical assessment."}</p></div>
-    <div className="physics-layout">
+    <header className="physics-header"><div><span className="physics-eyebrow"><Activity size={13} /> VISCERA · MECHANICS RESEARCH</span><h2 id="physics-title">Liver physics lab</h2></div><DisplaySettings /><VideoRecorderButton /><button className="physics-close" aria-label="Close physics lab" onClick={() => dialog.current?.close()}><X size={20} /></button></header>
+    <div className="physics-evidence" id="physics-evidence"><span>SYNTHETIC PROTOTYPE</span><p>{mode === "scissors" ? "Interactive scissors use an uncalibrated surface model. Learned material experiments are available in Hands-on and Scalpel & fracture." : "Independent AI trained on synthetic force–displacement tests. Uploaded calibration remains unverified; numerical checks do not establish surgical realism."}</p></div>
+    <div className="physics-lab-modes" role="group" aria-label="Physics lab mode"><button aria-pressed={mode === "scissors"} onClick={() => { cancel(); setMode("scissors"); }}>3D scissors</button><button aria-pressed={mode === "hands"} onClick={() => { cancel(); setMode("hands"); }}>Hands-on</button><button aria-pressed={mode === "cutting"} onClick={() => { cancel(); setMode("cutting"); }}>Scalpel & fracture</button><button aria-pressed={mode === "recorded"} onClick={() => { cancel(); setMode("recorded"); }}>Recorded experiments</button><a className="atlas-btn" href="?mode=blood&flow=liver">Liver bleeding ↗</a><a className="atlas-btn" href="?mode=blood&flow=pool">Blood pool (WebGPU) ↗</a><p>{mode === "scissors" ? "Place the jaws · move and rotate in 3D · close to make an incision" : mode === "hands" ? "Grab it. Push it. Drop it. Explore the response directly." : mode === "cutting" ? "Detailed fixed-plane mechanics · slower than real time" : "Repeatable tool trajectories, force curves and numerical assessment."}</p></div>
+    {mode === "scissors" ? <LaparoscopicScissorsLab /> : mode === "cutting" ? cuttingBulk ? <AtlasCuttingLab parameters={cuttingBulk} bulkLearning={cuttingLearned?.learning} bulkProvenance={cuttingBulkProvenance} /> : <div className="physics-empty" role="status">{error || "Loading material settings…"}</div> : <div className="physics-layout">
       <section className="physics-experiment" aria-label="Physics experiment controls">
         <span className="physics-section-label">{mode === "hands" ? "MATERIAL / PHYSICS NETWORK" : "01 / EXPERIMENT"}</span>
         {mode === "recorded" && <>
@@ -200,8 +211,8 @@ export function AtlasPhysicsLab({ generation, onClose }: { generation: AtlasGene
           <p className="physics-metrics-note">These metrics assess numerical behavior. Realism needs independent force, displacement and surgical-video measurements.</p>
         </> : <div className="physics-empty" role="status"><Activity size={23} /><div><strong>{busy ? "Solving the tool–tissue interaction" : "A repeatable test for soft-tissue behavior"}</strong><p>{busy ? "The server computes deformation, forces and stability metrics. Playback appears when the trajectory is ready." : "Choose a protocol and run an experiment to inspect deformation, tool forces and volume preservation."}</p></div></div>}
       </section>}
-    </div>
-    <footer className="physics-footer"><details open={Boolean(activeResult?.learning.parameter_intervals_90)}><summary>{activeResult ? "Applied parameters & evidence limits" : "Material parameters & evidence limits"}</summary>
+    </div>}
+    {mode !== "cutting" && mode !== "scissors" && <footer className="physics-footer"><details open={Boolean(activeResult?.learning.parameter_intervals_90)}><summary>{activeResult ? "Applied parameters & evidence limits" : "Material parameters & evidence limits"}</summary>
       {recipe && <dl className="physics-parameter-summary">{physicsParameterFields.map(field => <div key={field.key}><dt>{field.label}{activeResult?.learning.source === "learned" && <small>{activeResult.learning.predicted_parameters?.[field.key] === undefined ? "Fixed assumption" : activeResult.learning.observation_origin === "user_supplied_calibration_unverified" ? "Inferred from supplied test" : "Inferred from synthetic test"}</small>}</dt><dd>{number(recipe[field.key], field.step < 1 ? 3 : 0)} {field.unit}{activeResult?.learning.parameter_intervals_90?.[field.key] ? <small>{number(activeResult.learning.parameter_intervals_90[field.key]!.lower, field.step < 1 ? 3 : 0)}–{number(activeResult.learning.parameter_intervals_90[field.key]!.upper, field.step < 1 ? 3 : 0)} · synthetic 90% interval</small> : activeResult?.learning.ensemble_std?.[field.key] !== undefined && <small> ± {number(activeResult.learning.ensemble_std[field.key]!, 3)} ensemble SD</small>}</dd></div>)}</dl>}
       <p>{activeResult?.learning.scope ?? status?.scope ?? "Synthetic system-identification research. No human surgical calibration has been performed."}</p>
       {activeResult?.learning.observation_provenance && <p>Calibration source (unverified): {activeResult.learning.observation_provenance}</p>}
@@ -211,6 +222,6 @@ export function AtlasPhysicsLab({ generation, onClose }: { generation: AtlasGene
       {activeResult?.learning.model_id && <p>Physics model: <code>{activeResult.learning.model_id}</code></p>}
       {activeResult?.limitations.map((item, index) => <p key={index}>{item}</p>)}
       <p>Ensemble spread, when present, measures variation among fitted models; it is not clinical uncertainty. Predefined tools and boundary conditions do not reproduce a complete surgical scene.</p>
-    </details>{mode === "recorded" && <button className="atlas-btn" disabled={!run} onClick={download}><ArrowDownToLine size={15} />Download run JSON</button>}</footer>
+    </details>{mode === "recorded" && <button className="atlas-btn" disabled={!run} onClick={download}><ArrowDownToLine size={15} />Download run JSON</button>}</footer>}
   </dialog>;
 }

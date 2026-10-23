@@ -722,6 +722,34 @@ body {
   opacity: 1;
   color: #91a2ae;
 }
+.prompt-mic {
+  height: 30px;
+  width: 31px;
+  background: #142230;
+  border: 1px solid #3c5468;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #96c7c4;
+  flex-shrink: 0;
+  transition: border-color 0.15s, background-color 0.15s, color 0.15s;
+}
+.prompt-mic:hover:not(:disabled) {
+  border-color: #2fd1c5;
+  color: #d4f7f4;
+  background: #1a2d3d;
+}
+.prompt-mic.is-loading,
+.prompt-mic.is-transcribing {
+  border-color: #d9a441;
+  color: #f1c56d;
+}
+.prompt-mic.is-listening {
+  border-color: #e25c53;
+  color: #ff9a92;
+  background: #e25c5326;
+}
 .text-result {
   position: absolute;
   bottom: 70px;

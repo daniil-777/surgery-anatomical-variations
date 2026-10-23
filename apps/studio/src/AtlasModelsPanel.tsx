@@ -1,3 +1,4 @@
+import { DisplaySettings } from "./DisplaySettings";
 import { apiUrl } from "./api";
 import { useEffect, useRef, useState } from "react";
 import { Check, LoaderCircle, Upload, X } from "lucide-react";
@@ -135,7 +136,7 @@ export function AtlasModelsPanel({ onClose, onLanguageState, onJointState }: { o
     finally { setPendingAction(null); }
   };
   return <dialog className="atlas-model-dialog" ref={dialog} aria-labelledby="atlas-models-title" onClose={onClose} onCancel={event => { if (busy) event.preventDefault(); }}>
-    <div className="atlas-model-dialog-heading"><div><span>COLAB → STUDIO</span><h2 id="atlas-models-title">Trained models</h2></div><button aria-label="Close trained models" disabled={busy} onClick={() => dialog.current?.close()}><X size={18} /></button></div>
+    <div className="atlas-model-dialog-heading"><div><span>COLAB → STUDIO</span><h2 id="atlas-models-title">Trained models</h2></div><DisplaySettings includeAccount={false} /><button aria-label="Close trained models" disabled={busy} onClick={() => dialog.current?.close()}><X size={18} /></button></div>
     <p>Load the weight ZIP from a completed Colab run. Studio verifies its data, decoder and reference geometry before activation. Previous model versions remain stored and can be selected below.</p>
     <div className="atlas-model-source"><span className={importedWeights ? "imported" : ""} />{status ? importedWeights ? "Your imported weights are active" : "Packaged default models" : "Checking model status…"}</div>
     {status && <dl className="atlas-model-lanes">{Object.entries(status.lanes).map(([name, lane]) => <div key={name}><dt>{name}</dt><dd><strong>{friendly[lane.status] ?? lane.status}{lane.method ? ` · ${lane.method}` : ""}</strong><small>{lane.scope}</small></dd></div>)}</dl>}

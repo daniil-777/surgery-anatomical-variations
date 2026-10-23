@@ -113,7 +113,10 @@ const object = (value: unknown): value is Record<string, unknown> => Boolean(val
 const finite = (value: unknown): value is number => typeof value === "number" && Number.isFinite(value);
 const vector = (value: unknown, multiple: number): value is number[] => Array.isArray(value) && value.length > 0 && value.length % multiple === 0 && value.every(finite);
 const indices = (value: unknown, multiple: number, limit: number): value is number[] => vector(value, multiple) && value.every(index => Number.isInteger(index) && index >= 0 && index < limit);
-const parameters = (value: unknown): value is PhysicsParameters => object(value) && physicsParameterFields.every(field => finite(value[field.key]));
+const parameters = (value: unknown): value is PhysicsParameters => object(value) && physicsParameterFields.every(field => {
+  const parameter = value[field.key];
+  return finite(parameter) && parameter >= field.min && parameter <= field.max;
+});
 const learningEvidence = (value: Record<string, unknown>): boolean => {
   if (value.accepted_for_application !== undefined && value.accepted_for_application !== true) return false;
   if (value.application_policy_version !== undefined) {

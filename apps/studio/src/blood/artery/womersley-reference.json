@@ -1,0 +1,337 @@
+{
+  "schema": "viscera.artery.womersley-reference/v1",
+  "provenance": {
+    "generator": "scripts/generate_artery_references.py",
+    "generatorSha256": "4052e559f2db3d001b5025c849c5cf20c112be87a2888d8fc4775ea1365d8de4",
+    "mpmathVersion": "1.3.0",
+    "decimalPrecision": 80,
+    "independence": "Direct analytical Bessel / constitutive quadrature; no application solver imports.",
+    "purpose": "Numerical verification fixtures, not patient-specific or experimental blood measurements."
+  },
+  "sources": [
+    {
+      "title": "Womersley 1955, Journal of Physiology 127:553–563",
+      "url": "https://doi.org/10.1113/jphysiol.1955.sp005276",
+      "fullText": "https://pdodds.w3.uvm.edu/files/papers/others/1955/womersley1955a.pdf",
+      "equationsChecked": "Eqs. 3–9 on p. 554; Eq. 9 velocity solution read directly from original scan."
+    },
+    {
+      "title": "Weddell et al. 2015: density and Newtonian infinite-shear viscosity",
+      "url": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0124575"
+    }
+  ],
+  "inputs": {
+    "radiusM": 0.003,
+    "densityKgM3": 1060.0,
+    "dynamicViscosityPaS": 0.00345,
+    "heartRateBpm": 72.0,
+    "meanPressureGradientPaPerM": 300.0,
+    "harmonicPressureGradientPaPerM": 200.0
+  },
+  "phaseConvention": {
+    "pressureGradient": "G(t)=-dp/dz=G0+G1*cos(omega*t); positive G drives positive axial flow.",
+    "response": "u(r,t)=meanU(r)+Re[harmonicU(r)*exp(i*omega*t)]; same convention for Q and wall traction.",
+    "coefficientInterpretation": "Re(harmonic) is the cosine coefficient; -Im(harmonic) is the sine coefficient. phaseRad<0 indicates lag.",
+    "wallTraction": "Positive axial traction exerted by fluid on the solid wall: tau=-mu*du/dr at r=R. Solid-on-fluid traction has the opposite sign.",
+    "initialization": "Periodic steady state; not the solution immediately after starting from rest."
+  },
+  "equations": {
+    "pde": "rho*du/dt=G(t)+(mu/r)*d/dr(r*du/dr)",
+    "boundaryConditions": "du/dr(0,t)=0; u(R,t)=0; straight, rigid, circular, fully developed, axisymmetric tube.",
+    "alpha": "R*sqrt(rho*omega/mu)",
+    "z": "alpha*exp(3*pi*i/4); z^2=-i*alpha^2",
+    "meanU": "G0*(R^2-r^2)/(4*mu)",
+    "harmonicU": "G1/(i*rho*omega)*(1-J0(z*r/R)/J0(z))",
+    "meanQ": "pi*G0*R^4/(8*mu)",
+    "harmonicQ": "pi*R^2*G1/(i*rho*omega)*(1-2*J1(z)/(z*J0(z)))",
+    "meanWallTraction": "G0*R/2",
+    "harmonicWallTraction": "-mu*G1/(i*rho*omega)*(z/R)*J1(z)/J0(z)",
+    "integratedMomentum": "rho*dQ/dt=pi*R^2*G(t)-2*pi*R*tau(t)"
+  },
+  "derived": {
+    "omegaRadS": {
+      "value": 7.5398223686155035,
+      "decimal": "7.53982236861550377231034411987080692207320656"
+    },
+    "periodSeconds": {
+      "value": 0.8333333333333334,
+      "decimal": "0.833333333333333333333333333333333333333333333"
+    },
+    "womersleyAlpha": {
+      "value": 4.566097670992281,
+      "decimal": "4.56609767099228092830129740736513939467003849"
+    },
+    "kinematicViscosityM2S": {
+      "value": 3.2547169811320753e-06,
+      "decimal": "0.00000325471698113207547169811320754716981132075472"
+    },
+    "meanVelocityMS": {
+      "value": 0.09782608695652174,
+      "decimal": "0.0978260869565217391304347826086956521739130435"
+    },
+    "meanReynoldsNumberUsingDiameter": {
+      "value": 180.34026465028356,
+      "decimal": "180.340264650283553875236294896030245746691871"
+    },
+    "slowestNewtonianStartupDecaySeconds": {
+      "value": 0.47814775610213117,
+      "decimal": "0.478147756102131189219127420424112881207288124"
+    }
+  },
+  "flowRate": {
+    "meanM3S": {
+      "value": 2.765967445008405e-06,
+      "decimal": "0.00000276596744500840491647254471788738840891272523"
+    },
+    "harmonicM3S": {
+      "re": 1.846267963940718e-07,
+      "im": -4.873742225427222e-07,
+      "reDecimal": "0.00000018462679639407181635792678205798896562423468",
+      "imDecimal": "-0.000000487374222542722235114198211990893514871230197",
+      "amplitude": 5.211724155650038e-07,
+      "phaseRad": -1.2086813787746735
+    }
+  },
+  "wallTractionOnSolid": {
+    "meanPa": {
+      "value": 0.45,
+      "decimal": "0.45"
+    },
+    "harmonicPa": {
+      "re": 0.09335332964188577,
+      "im": -0.07828176167108646,
+      "reDecimal": "0.0933533296418857723115799581158611496945983966",
+      "imDecimal": "-0.0782817616710864501357609555925873214246755043",
+      "amplitude": 0.12183135214531343,
+      "phaseRad": -0.6978111339562044
+    }
+  },
+  "radialProfiles": [
+    {
+      "radiusFraction": 0.0,
+      "radiusM": 0.0,
+      "meanVelocityMS": {
+        "value": 0.1956521739130435,
+        "decimal": "0.195652173913043478260869565217391304347826087"
+      },
+      "harmonicVelocityMS": {
+        "re": 0.001672405279141034,
+        "im": -0.02995864717764679,
+        "reDecimal": "0.00167240527914103398154504721928036095604181181",
+        "imDecimal": "-0.0299586471776467907476917293156258825987846668",
+        "amplitude": 0.03000529086898547,
+        "phaseRad": -1.5150304147429567
+      }
+    },
+    {
+      "radiusFraction": 0.25,
+      "radiusM": 0.00075,
+      "meanVelocityMS": {
+        "value": 0.18342391304347827,
+        "decimal": "0.183423913043478260869565217391304347826086957"
+      },
+      "harmonicVelocityMS": {
+        "re": 0.003230768849331731,
+        "im": -0.02928461698704923,
+        "reDecimal": "0.00323076884933173093647068937782151593022817154",
+        "imDecimal": "-0.0292846169870492293811618678511090886599070704",
+        "amplitude": 0.029462292161948032,
+        "phaseRad": -1.4609176036668057
+      }
+    },
+    {
+      "radiusFraction": 0.5,
+      "radiusM": 0.0015,
+      "meanVelocityMS": {
+        "value": 0.14673913043478262,
+        "decimal": "0.146739130434782608695652173913043478260869565"
+      },
+      "harmonicVelocityMS": {
+        "re": 0.007098591764918229,
+        "im": -0.025811760107784493,
+        "reDecimal": "0.00709859176491822895274708984805306741167483398",
+        "imDecimal": "-0.0258117601077844932960500752733874050828358544",
+        "amplitude": 0.026770075922693606,
+        "phaseRad": -1.3024172309690978
+      }
+    },
+    {
+      "radiusFraction": 0.75,
+      "radiusM": 0.00225,
+      "meanVelocityMS": {
+        "value": 0.08559782608695653,
+        "decimal": "0.085597826086956521739130434782608695652173913"
+      },
+      "harmonicVelocityMS": {
+        "re": 0.009377205754996884,
+        "im": -0.01622405601167087,
+        "reDecimal": "0.00937720575499688408777204762314361728832183822",
+        "imDecimal": "-0.0162240560116708686007168492940789795509165124",
+        "amplitude": 0.0187390496354906,
+        "phaseRad": -1.046724187018087
+      }
+    },
+    {
+      "radiusFraction": 0.9,
+      "radiusM": 0.0027,
+      "meanVelocityMS": {
+        "value": 0.03717391304347826,
+        "decimal": "0.0371739130434782608695652173913043478260869565"
+      },
+      "harmonicVelocityMS": {
+        "re": 0.006096569200158343,
+        "im": -0.006919451722801582,
+        "reDecimal": "0.00609656920015834303331855113004902558624406277",
+        "imDecimal": "-0.00691945172280158149280802006041672826266086659",
+        "amplitude": 0.009222091311438047,
+        "phaseRad": -0.8485348802972617
+      }
+    },
+    {
+      "radiusFraction": 1.0,
+      "radiusM": 0.003,
+      "meanVelocityMS": {
+        "value": 0.0,
+        "decimal": "0.0"
+      },
+      "harmonicVelocityMS": {
+        "re": 0.0,
+        "im": 0.0,
+        "reDecimal": "0.0",
+        "imDecimal": "0.0",
+        "amplitude": 0.0,
+        "phaseRad": 0
+      }
+    }
+  ],
+  "phaseSamples": [
+    {
+      "cycleFraction": 0.0,
+      "timeSeconds": 0.0,
+      "pressureGradientPaPerM": 500.0,
+      "flowRateM3S": 2.9505942414024765e-06,
+      "wallTractionOnSolidPa": 0.5433533296418858,
+      "velocityMS": [
+        0.19732457919218452,
+        0.18665468189280998,
+        0.15383772219970085,
+        0.09497503184195341,
+        0.0432704822436366,
+        0.0
+      ]
+    },
+    {
+      "cycleFraction": 0.125,
+      "timeSeconds": 0.10416666666666667,
+      "pressureGradientPaPerM": 441.4213562373095,
+      "flowRateM3S": 3.2411439224628815e-06,
+      "wallTractionOnSolidPa": 0.571364336956975,
+      "velocityMS": [
+        0.21801870560130554,
+        0.20641576286128027,
+        0.1700102634152061,
+        0.10370065188909919,
+        0.04637762970216921,
+        0.0
+      ]
+    },
+    {
+      "cycleFraction": 0.25,
+      "timeSeconds": 0.20833333333333334,
+      "pressureGradientPaPerM": 300.0,
+      "flowRateM3S": 3.253341667551127e-06,
+      "wallTractionOnSolidPa": 0.5282817616710864,
+      "velocityMS": [
+        0.22561082109069028,
+        0.2127085300305275,
+        0.17255089054256711,
+        0.10182188209862739,
+        0.04409336476627984,
+        0.0
+      ]
+    },
+    {
+      "cycleFraction": 0.375,
+      "timeSeconds": 0.3125,
+      "pressureGradientPaPerM": 158.5786437626905,
+      "flowRateM3S": 2.980042203024889e-06,
+      "wallTractionOnSolidPa": 0.4393427920847338,
+      "velocityMS": [
+        0.21565356737375993,
+        0.2018467657376628,
+        0.15997133866750876,
+        0.09043928033321955,
+        0.03775577885535919,
+        0.0
+      ]
+    },
+    {
+      "cycleFraction": 0.5,
+      "timeSeconds": 0.4166666666666667,
+      "pressureGradientPaPerM": 100.0,
+      "flowRateM3S": 2.581340648614333e-06,
+      "wallTractionOnSolidPa": 0.3566466703581142,
+      "velocityMS": [
+        0.19397976863390246,
+        0.18019314419414653,
+        0.13964053866986437,
+        0.07622062033195964,
+        0.031077343843319918,
+        0.0
+      ]
+    },
+    {
+      "cycleFraction": 0.625,
+      "timeSeconds": 0.5208333333333334,
+      "pressureGradientPaPerM": 158.5786437626905,
+      "flowRateM3S": 2.2907909675539283e-06,
+      "wallTractionOnSolidPa": 0.32863566304302505,
+      "velocityMS": [
+        0.1732856422247814,
+        0.16043206322567627,
+        0.12346799745435912,
+        0.06749500028481387,
+        0.027970196384787312,
+        0.0
+      ]
+    },
+    {
+      "cycleFraction": 0.75,
+      "timeSeconds": 0.625,
+      "pressureGradientPaPerM": 300.0,
+      "flowRateM3S": 2.2785932224656825e-06,
+      "wallTractionOnSolidPa": 0.37171823832891354,
+      "velocityMS": [
+        0.1656935267353967,
+        0.15413929605642904,
+        0.12092737032699812,
+        0.06937377007528565,
+        0.03025446132067668,
+        0.0
+      ]
+    },
+    {
+      "cycleFraction": 0.875,
+      "timeSeconds": 0.7291666666666666,
+      "pressureGradientPaPerM": 441.4213562373095,
+      "flowRateM3S": 2.551892686991921e-06,
+      "wallTractionOnSolidPa": 0.46065720791526615,
+      "velocityMS": [
+        0.17565078045232702,
+        0.1650010603492937,
+        0.13350692220205645,
+        0.0807563718406935,
+        0.036592047231597334,
+        0.0
+      ]
+    }
+  ],
+  "selfChecks": {
+    "harmonicFlowClosedFormVsRadialQuadratureRelativeError": 1.9884482875197053e-81,
+    "integratedMomentumRelativeResidual": 0.0,
+    "maximumLocalPdeRelativeResidual": 2.067561275273287e-81,
+    "independentScipyVersion": "1.17.1",
+    "maximumScipyVelocityErrorScaledByHarmonicPrefactor": 2.7944344230472037e-16,
+    "noSlipExact": true
+  }
+}

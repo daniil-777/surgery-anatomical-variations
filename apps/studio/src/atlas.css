@@ -50,10 +50,13 @@
 .atlas-empty-search, .atlas-library-loading { padding: 10px; color: #8794a3; font-size: 11px; line-height: 1.6; }
 .atlas-library-loading { display: flex; align-items: center; gap: 8px; }
 .atlas-main { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
-.atlas-physics-entry { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 28px; border-top: 1px solid var(--atlas-line); background: #101820; }
+.atlas-physics-entry { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px 16px; padding: 12px 28px; border-top: 1px solid var(--atlas-line); background: #101820; }
 .atlas-physics-entry strong { color: #b9d5cd; font-size: 10px; font-weight: 500; }
 .atlas-physics-entry p { margin: 4px 0 0; color: var(--atlas-muted); font-size: 10px; line-height: 1.5; }
-.atlas-physics-entry .atlas-btn { flex-shrink: 0; color: #b9e2d8; border-color: #8bcfc340; }
+.atlas-physics-entry .atlas-btn { flex-shrink: 0; color: #b9e2d8; border-color: #8bcfc340; text-decoration: none; }
+.atlas-physics-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+.atlas-fluid-select-label { display: inline-flex; align-items: center; gap: 7px; font-size: 10px; color: #b9d5cd; }
+.atlas-fluid-select-label select { background: #16212b; color: #e6e5e1; border: 1px solid #8bcfc345; border-radius: 6px; padding: 6px 9px; font: inherit; font-size: 11px; max-width: 280px; }
 .atlas-stage { position: relative; flex: 1; min-height: 270px; overflow: hidden; background: radial-gradient(ellipse at 50% 50%, #2b3035 0%, #181e26 47%, #111720 100%); }
 .atlas-viewport-canvas { position: absolute; inset: 0; overflow: hidden; }
 .atlas-viewport-canvas canvas { display: block; width: 100%; height: 100%; touch-action: none; }
@@ -108,6 +111,10 @@
 .atlas-prompt-box textarea::placeholder { color: #748797; }
 .atlas-prompt-send { height: 31px; width: 33px; display: flex; align-items: center; justify-content: center; border: 1px solid #92b9ac; border-radius: 5px; background: #a4c8bb; color: #1c302b; }
 .atlas-prompt-send:hover { background: #b7ded0; }
+.atlas-prompt-mic { height: 31px; width: 33px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border: 1px solid #41555c; border-radius: 5px; background: #141d25; color: #9ec4b8; transition: border-color .15s, background-color .15s, color .15s, box-shadow .15s; }
+.atlas-prompt-mic:hover:not(:disabled) { border-color: #8bcfc3; background: #1e2d35; color: #cceae0; }
+.atlas-prompt-mic.is-loading, .atlas-prompt-mic.is-transcribing { border-color: #d9a441; color: #f1c56d; background: #d9a44118; }
+.atlas-prompt-mic.is-listening { border-color: #e25c53; color: #ff9a92; background: #e25c5324; box-shadow: 0 0 0 3px #e25c5326; }
 .atlas-text-feedback { display: flex; gap: 5px; min-height: 22px; padding-top: 9px; font-size: 9px; line-height: 1.6; color: #798e98; }
 .atlas-text-feedback > span { display: flex; align-items: flex-start; }
 .atlas-text-feedback > span > svg { margin-top: 1px; }
@@ -374,4 +381,376 @@
   .atlas-header > .anatomy-workspace-tabs button { padding: 4px 12px; font-size: 10px; }
   .atlas-show-library .atlas-library, .atlas-show-shape .atlas-inspector { top: 96px; }
   .atlas-model-picker-popover { top: 104px; max-height: calc(100dvh - 119px); }
+}
+
+/* Surgical Text-to-3D Prompt Examples & Showcase Library */
+.atlas-prompt-area { position: relative; }
+.atlas-prompt-tips-root { margin-bottom: 10px; }
+.atlas-prompt-quick-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.atlas-prompt-showcase-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px solid #82bfb066;
+  background: linear-gradient(125deg, #1d3531, #14242c);
+  color: #d6f2e8;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: border-color 140ms, background 140ms, box-shadow 140ms, transform 120ms;
+}
+.atlas-prompt-showcase-trigger:hover,
+.atlas-prompt-showcase-trigger.is-open {
+  border-color: #9de0ce;
+  background: linear-gradient(125deg, #25453f, #192e38);
+  box-shadow: 0 0 0 3px #8bcfc31c;
+}
+.atlas-prompt-showcase-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: #9ce0cd26;
+  color: #b7f0df;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 9px;
+  font-weight: 600;
+}
+.atlas-prompt-quick-chips-scroll {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow-x: auto;
+  min-width: 0;
+  flex: 1;
+  padding: 2px 0;
+  scrollbar-width: none;
+}
+.atlas-prompt-quick-chips-scroll::-webkit-scrollbar { display: none; }
+.atlas-prompt-quick-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+  padding: 4px 9px;
+  border-radius: 999px;
+  border: 1px solid #ffffff16;
+  background: #152029;
+  color: #a7c0c7;
+  font-size: 9.5px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: border-color 130ms, color 130ms, background-color 130ms;
+}
+.atlas-prompt-quick-chip:hover:not(:disabled) {
+  border-color: #8bcfc366;
+  background: #1b2c35;
+  color: #e2f3ee;
+}
+.atlas-prompt-quick-chip.is-active {
+  border-color: #92d4c299;
+  background: #1f3935;
+  color: #d9f6ec;
+}
+.atlas-prompt-quick-chip:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.atlas-prompt-tips-panel {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: calc(100% + 8px);
+  z-index: 36;
+  display: flex;
+  flex-direction: column;
+  max-height: min(44dvh, 368px);
+  border: 1px solid #76b5a66e;
+  border-radius: 14px;
+  background: linear-gradient(165deg, rgba(16, 26, 34, 0.96), rgba(11, 18, 24, 0.98));
+  backdrop-filter: blur(18px);
+  box-shadow: 0 24px 68px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(155, 222, 204, 0.1) inset;
+  color: #ddeae7;
+  overflow: hidden;
+  animation: atlas-model-picker-enter 150ms ease-out;
+}
+.atlas-prompt-tips-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 18px 11px;
+  border-bottom: 1px solid #ffffff12;
+  background: linear-gradient(90deg, rgba(31, 56, 51, 0.36), rgba(18, 29, 38, 0.2));
+}
+.atlas-prompt-tips-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #8fd4c1;
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+.atlas-prompt-tips-title-block h2 {
+  margin: 4px 0 4px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #eef7f4;
+  letter-spacing: -0.01em;
+}
+.atlas-prompt-tips-title-block p {
+  margin: 0;
+  font-size: 10px;
+  line-height: 1.5;
+  color: #9cb4bc;
+}
+.atlas-prompt-tips-title-block p strong { color: #ccebe1; font-weight: 550; }
+.atlas-prompt-tips-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.atlas-prompt-tips-pin {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 9px;
+  border-radius: 7px;
+  border: 1px solid #ffffff14;
+  background: #ffffff06;
+  color: #b4ccc7;
+  font-size: 9.5px;
+  cursor: pointer;
+  user-select: none;
+}
+.atlas-prompt-tips-pin input {
+  margin: 0;
+  width: 12px;
+  height: 12px;
+  accent-color: #8fd4c1;
+}
+.atlas-prompt-tips-close {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid #ffffff14;
+  border-radius: 7px;
+  background: #ffffff05;
+  color: #a9c0c7;
+  cursor: pointer;
+}
+.atlas-prompt-tips-close:hover {
+  background: #ffffff12;
+  color: #ffffff;
+}
+.atlas-prompt-tips-tabs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 18px;
+  border-bottom: 1px solid #ffffff10;
+  background: #0d151cd9;
+  overflow-x: auto;
+  flex-shrink: 0;
+}
+.atlas-prompt-tips-tabs button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: 7px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: #8fa6b0;
+  font-size: 10px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 120ms, color 120ms, border-color 120ms;
+}
+.atlas-prompt-tips-tabs button:hover {
+  color: #d6eae4;
+  background: #ffffff08;
+}
+.atlas-prompt-tips-tabs button.is-active {
+  color: #d8f5ec;
+  background: #203b36;
+  border-color: #8fd4c155;
+}
+.atlas-prompt-tips-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(285px, 1fr));
+  gap: 10px;
+  padding: 14px 18px 16px;
+  overflow-y: auto;
+  min-height: 0;
+}
+.atlas-prompt-tip-card {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding: 12px 13px;
+  border-radius: 10px;
+  border: 1px solid #ffffff12;
+  background: linear-gradient(180deg, rgba(25, 37, 47, 0.72), rgba(16, 24, 32, 0.85));
+  transition: border-color 140ms, background-color 140ms, transform 140ms;
+}
+.atlas-prompt-tip-card:hover {
+  border-color: #8fd4c159;
+  background: linear-gradient(180deg, rgba(30, 46, 56, 0.84), rgba(18, 29, 38, 0.92));
+}
+.atlas-prompt-tip-card.is-selected {
+  border-color: #95decb99;
+  box-shadow: inset 3px 0 0 #95decb;
+  background: linear-gradient(180deg, rgba(31, 55, 51, 0.65), rgba(17, 29, 35, 0.9));
+}
+.atlas-prompt-tip-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.atlas-prompt-tip-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 7px;
+  border-radius: 5px;
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: #8fd4c11f;
+  color: #a9e5d4;
+  border: 1px solid #8fd4c133;
+}
+.atlas-prompt-tip-badge.cat-pathology { background: #e07a6824; color: #f7b3a6; border-color: #e07a6845; }
+.atlas-prompt-tip-badge.cat-morphometry { background: #6ca8e024; color: #add2f7; border-color: #6ca8e045; }
+.atlas-prompt-tip-badge.cat-optics { background: #d6a85a24; color: #f3d297; border-color: #d6a85a45; }
+.atlas-prompt-tip-badge.cat-recovery { background: #75c99b24; color: #b2ebd0; border-color: #75c99b45; }
+.atlas-prompt-tip-badge.cat-multi-organ { background: #a98eda24; color: #d5c4f7; border-color: #a98eda45; }
+.atlas-prompt-tip-organ {
+  font-size: 9px;
+  font-weight: 600;
+  color: #88a4ae;
+  font-family: "JetBrains Mono", monospace;
+}
+.atlas-prompt-tip-card h3 {
+  margin: 0;
+  font-size: 11.5px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: #ecf5f3;
+}
+.atlas-prompt-tip-summary {
+  margin: 0;
+  font-size: 9.5px;
+  line-height: 1.55;
+  color: #9bb2bc;
+}
+.atlas-prompt-tip-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 1px;
+}
+.atlas-prompt-tip-metric {
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: #0d151c;
+  border: 1px solid #ffffff10;
+  color: #9ec7bc;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 8.5px;
+}
+.atlas-prompt-tip-code {
+  margin-top: auto;
+  padding: 7px 9px;
+  border-radius: 6px;
+  background: #0b1117;
+  border: 1px solid #ffffff0d;
+}
+.atlas-prompt-tip-code code {
+  display: block;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 8.8px;
+  line-height: 1.5;
+  color: #b8d4cc;
+  word-break: break-word;
+}
+.atlas-prompt-tip-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 3px;
+}
+.atlas-prompt-tip-apply {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 29px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  border: 1px solid #8fd4c180;
+  background: linear-gradient(120deg, #274b44, #1d3839);
+  color: #e4f8f1;
+  font-size: 9.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 120ms, border-color 120ms;
+}
+.atlas-prompt-tip-apply:hover:not(:disabled) {
+  border-color: #b0eedc;
+  background: linear-gradient(120deg, #315e55, #254647);
+}
+.atlas-prompt-tip-load {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-height: 29px;
+  padding: 5px 9px;
+  border-radius: 6px;
+  border: 1px solid #ffffff1a;
+  background: #ffffff06;
+  color: #b3c8cf;
+  font-size: 9.5px;
+  cursor: pointer;
+}
+.atlas-prompt-tip-load:hover:not(:disabled) {
+  border-color: #ffffff36;
+  background: #ffffff10;
+  color: #eef6f4;
+}
+.atlas-prompt-tip-apply:disabled,
+.atlas-prompt-tip-load:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+@media (max-width: 700px) {
+  .atlas-prompt-tips-panel {
+    left: 8px;
+    right: 8px;
+    max-height: 62dvh;
+  }
+  .atlas-prompt-tips-header {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .atlas-prompt-tips-grid {
+    grid-template-columns: 1fr;
+  }
 }

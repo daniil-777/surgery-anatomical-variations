@@ -1,8 +1,10 @@
+import { SceneResizeHandle } from "./DisplaySettings";
 import { apiOnline, apiUrl } from "./api";
 import { bundledPlayground } from "./atlasLocal";
 import { useEffect, useRef, useState } from "react";
 import { Circle, Download, Hand, LoaderCircle, Maximize, Move, Pause, Play, RotateCcw, Square, Zap } from "lucide-react";
 import * as THREE from "three";
+import { registerSceneRecordingSource } from "./sceneRecordingSource";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
 import { atlasError, type AtlasGeneration } from "./atlas";
@@ -218,7 +220,7 @@ export function AtlasPhysicsPlayground(props: Props) {
     let hoverAnchor: { indices: [number, number, number]; weights: THREE.Vector3; normal: THREE.Vector3 } | null = null;
     let lastAim = 0; let jawClosure = 0; let instrumentEngaged = false;
     let strike: { time: number; point: THREE.Vector3; axis: THREE.Vector3 } | null = null;
-    const ray = (x: number, y: number) => { const rect = element.getBoundingClientRect(); pointer.set((x - rect.left) / rect.width * 2 - 1, -(y - rect.top) / rect.height * 2 + 1); raycaster.setFromCamera(pointer, camera); };
+    const ray = (x: number, y: number) => { const rect = renderer.domElement.getBoundingClientRect(); pointer.set((x - rect.left) / rect.width * 2 - 1, -(y - rect.top) / rect.height * 2 + 1); raycaster.setFromCamera(pointer, camera); };
     const centerIntersection = () => {
       const center = geometry.boundingBox!.getCenter(new THREE.Vector3()); const projected = center.clone().project(camera);
       raycaster.setFromCamera(new THREE.Vector2(projected.x, projected.y), camera);
@@ -388,8 +390,9 @@ export function AtlasPhysicsPlayground(props: Props) {
     renderer.domElement.addEventListener("lostpointercapture", lostCapture); renderer.domElement.addEventListener("keydown", keydown); renderer.domElement.addEventListener("contextmenu", contextMenu);
     const lost = (event: Event) => { event.preventDefault(); setPaused(true); setError("Graphics context lost. Reset the room by reapplying the material."); };
     renderer.domElement.addEventListener("webglcontextlost", lost);
+    const nativeRecording = registerSceneRecordingSource({ renderer, camera, host: element, label: "Hands-on liver physics", draw: () => renderer.render(world, camera) });
     let initialSize = true;
-    const resize = new ResizeObserver(() => { if (!element.clientWidth || !element.clientHeight) return; renderer.setSize(element.clientWidth, element.clientHeight); camera.aspect = element.clientWidth / element.clientHeight; camera.updateProjectionMatrix(); if (initialSize) { resetView(); initialSize = false; } }); resize.observe(element);
+    const resize = new ResizeObserver(() => { if (nativeRecording.active || !element.clientWidth || !element.clientHeight) return; renderer.setSize(element.clientWidth, element.clientHeight); camera.aspect = element.clientWidth / element.clientHeight; camera.updateProjectionMatrix(); if (initialSize) { resetView(); initialSize = false; } }); resize.observe(element);
     const recordSample = (now: number) => {
       if (!recording.current?.wantsSample(now)) return;
       recording.current.add({ metrics: solver.metrics(), node_positions_mm: Array.from(solver.positionsMm), camera_position_mm: camera.position.toArray(), camera_target_mm: controls.target.toArray(), camera_fov_degrees: camera.getEffectiveFOV(), camera_aspect: camera.aspect, tool: interaction.current.tool, paused: interaction.current.paused, gravity: interaction.current.gravity, contact: solver.interactionState() }, now);
@@ -423,16 +426,17 @@ export function AtlasPhysicsPlayground(props: Props) {
         const state = interaction.current.paused ? "Paused" : clockStalled ? "Numerical hold" : keyboardGrab || (activePointer !== null && activeTool === "grab") ? "Held" : activePointer !== null && activeTool === "push" ? "Pressed" : minY > floorY + 0.75 ? "Airborne" : current.maximum_speed_m_s < 0.025 ? "Resting on floor" : "Settling";
         setBodyState(state);
         const projected = centerHit().project(camera);
+        const canvasRect = renderer.domElement.getBoundingClientRect(), hostRect = element.getBoundingClientRect();
         const visibleInstrument = grasper.group.visible ? grasper : palpator;
         const contact = solver.interactionState();
-        if (diagnostics.current) diagnostics.current.dataset.snapshot = JSON.stringify({ metrics: current, wallTimeS: wallTime, simulationSpeedRatio: ratio, rmsEdgeStrainPct: strain, heightChangePct: changedHeight, bodyState: state, nodePositionsMm: Array.from(solver.positionsMm), sourceCenterScreen: { x: (projected.x + 1) * element.clientWidth / 2, y: (1 - projected.y) * element.clientHeight / 2 }, cameraPosition: camera.position.toArray(), cameraTarget: controls.target.toArray(), cameraFovDegrees: camera.getEffectiveFOV(), cameraAspect: camera.aspect, bodyBoundsInFrame: liverInCameraFrame(camera, geometry.boundingBox!), bodyBoundsMm: { min: geometry.boundingBox!.min.toArray(), max: geometry.boundingBox!.max.toArray() }, tool: interaction.current.tool, paused: interaction.current.paused, gravity: interaction.current.gravity, parameters: prepared.parameters, source: prepared.source,
+        if (diagnostics.current) diagnostics.current.dataset.snapshot = JSON.stringify({ metrics: current, wallTimeS: wallTime, simulationSpeedRatio: ratio, rmsEdgeStrainPct: strain, heightChangePct: changedHeight, bodyState: state, nodePositionsMm: Array.from(solver.positionsMm), sourceCenterScreen: { x: canvasRect.left - hostRect.left + (projected.x + 1) * canvasRect.width / 2, y: canvasRect.top - hostRect.top + (1 - projected.y) * canvasRect.height / 2 }, cameraPosition: camera.position.toArray(), cameraTarget: controls.target.toArray(), cameraFovDegrees: camera.getEffectiveFOV(), cameraAspect: camera.aspect, bodyBoundsInFrame: liverInCameraFrame(camera, geometry.boundingBox!), bodyBoundsMm: { min: geometry.boundingBox!.min.toArray(), max: geometry.boundingBox!.max.toArray() }, tool: interaction.current.tool, paused: interaction.current.paused, gravity: interaction.current.gravity, parameters: prepared.parameters, source: prepared.source,
           instrument: { kind: visibleInstrument === grasper ? "grasper" : "probe", visible: visibleInstrument.group.visible, tipMm: visibleInstrument.group.position.toArray(), axis: instrumentAxis.toArray(), jawClosure, contactRadiusMm: contact.probe?.radiusMm ?? interaction.current.probeRadius, engaged: instrumentEngaged, contactModel: contact.grab ? "compliant_patch" : contact.probe ? "sphere" : strike ? "impulse" : "none" }, contact });
         if (!current.finite_state || current.minimum_jacobian <= 0) { setPaused(true); setError("The solver stopped after a numerical failure. Reset the liver before continuing."); }
         lastMetrics = now; frameCount = 0;
       }
     }; frame = requestAnimationFrame(animate);
     return () => {
-      recording.current?.stop("scene_changed"); updateCapture();
+      nativeRecording.dispose(); recording.current?.stop("scene_changed"); updateCapture();
       cancelAnimationFrame(frame); release(); resize.disconnect(); controls.dispose(); runtime.current = null;
       document.removeEventListener("visibilitychange", visibility);
       renderer.domElement.removeEventListener("pointerdown", down, true); renderer.domElement.removeEventListener("pointermove", move, true); renderer.domElement.removeEventListener("pointerup", up, true); renderer.domElement.removeEventListener("pointercancel", up, true);
@@ -450,7 +454,7 @@ export function AtlasPhysicsPlayground(props: Props) {
 
   return <div className="physics-playground">
     <div className="playground-toolbar"><div className="playground-tools" role="group" aria-label="Hands-on tool">{tools.map(item => <button key={item.id} aria-pressed={tool === item.id} onClick={() => setTool(item.id)}><item.icon size={15} />{item.label}</button>)}</div><span className="playground-live-badge"><i className={paused ? "paused" : ""} />{paused ? "PAUSED" : "LIVE PHYSICS"}</span></div>
-    <div className="playground-stage">
+    <div className="playground-stage"><SceneResizeHandle panel={false} />
       <div ref={host} className="playground-canvas" data-testid="physics-playground-viewport" />
       <div className="playground-room-label"><span>SOFT TISSUE / FREE BODY</span><small>Floor · gravity · direct contact</small></div>
       {prepared && <div className="playground-body-state"><strong>{bodyState}</strong><small>Height change {heightChange > 0 ? "+" : ""}{fmt(heightChange, 1)}%</small></div>}

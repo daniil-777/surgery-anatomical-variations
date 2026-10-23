@@ -58,3 +58,7 @@
   .whole-tool-strip button { min-height: 40px; }
   .whole-stage-instruments .whole-selection { bottom: auto; }
 }
+.whole-fat-heading{margin:22px 0 15px;padding-top:18px;border-top:1px solid #8e794747}.whole-fat-heading>span{font:9px 'JetBrains Mono',monospace;letter-spacing:1.5px;color:#d5bb87}.whole-fat-heading h3{font-size:18px;font-weight:400;line-height:1.4;margin:8px 0}.whole-fat-heading p{font-size:11px;line-height:1.6;color:#9fb4b1}.whole-fat-focus{display:grid;gap:7px;margin:14px 0}.whole-fat-focus button{justify-content:flex-start;min-height:38px;white-space:normal;text-align:left}.whole-fat-fields{display:grid;gap:12px}.whole-fat-fields label,.whole-fat-seed{display:grid;gap:8px;font-size:11px;color:#c1d0c5;margin:10px 0}.whole-fat-fields select,.whole-fat-seed input{width:100%;min-width:0;box-sizing:border-box;padding:10px;background:#1c2b30;color:#e1e7df;border:1px solid #384b4e;border-radius:5px;font:inherit}.whole-fat-seed input{font-family:'JetBrains Mono',monospace}
+.whole-view-bar{width:max-content;max-width:calc(100% - 28px);box-sizing:border-box;flex-wrap:wrap;justify-content:center}
+
+@media(max-width:760px){.whole-orientation{bottom:142px}}
