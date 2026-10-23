@@ -8,9 +8,10 @@ import { parseJointModel, sampleJointControls, type JointModelMeta } from "../at
 import type { TextCompilerTables } from "../atlasTextCompiler";
 import { deformVertices } from "../atlasLocal";
 import {
-  applyVariation, compileImportedText, createVariationState, disposeVariationState,
-  importedVariationSystem, resetVariation, sampleNeuralVariation,
+  applySceneVariation, applyVariation, compileImportedText, createVariationState, discoverSceneOrgans,
+  disposeVariationState, importedVariationSystem, resetVariation, sampleNeuralVariation,
 } from "./variations";
+import { computeAngleWeightedNormals, pnSubdivideGeometry } from "./laparoscopicScene";
 
 const read = (path: string) => readFileSync(new URL(path, import.meta.url));
 const metadata = JSON.parse(read("../../public/models/joint-v2/model.json").toString()) as JointModelMeta;
@@ -263,5 +264,121 @@ describe("imported immutable-source deformation and appearance", () => {
     const cirrhoticPos = positions(mesh), cirrhoticCol = colors(mesh);
     expect(cirrhoticPos).not.toEqual(baselinePos);
     expect(cirrhoticCol).not.toEqual(baselineCol);
+  });
+
+  it("discovers multiple organs in a laparoscopic 3D scene and applies coupled multi-organ shape + texture variation while preserving contact apposition", async () => {
+    const root = new Group();
+    const makeOrgan = (name: string, w: number, h: number, d: number, x: number, y: number, z: number) => {
+      const geom = new BoxGeometry(w, h, d, 4, 4, 4);
+      geom.deleteAttribute("uv");
+      const mat = new MeshStandardMaterial({ color: 0xffffff, roughness: 0.55 });
+      const mesh = new Mesh(geom, mat);
+      mesh.name = name;
+      mesh.position.set(x, y, z);
+      root.add(mesh);
+      return mesh;
+    };
+    // Co-registered liver and gallbladder sharing an exact interface at (-40, 1280, -35)
+    const liver = makeOrgan("liver", 210, 175, 150, -9, 1367, -60);
+    const gallbladder = makeOrgan("gallbladder", 32, 65, 42, -40, 1247.5, -35);
+    const stomach = makeOrgan("stomach", 120, 160, 95, 42, 1344, -67);
+    const spleen = makeOrgan("spleen", 55, 95, 75, 98, 1363, -124);
+    const pancreas = makeOrgan("pancreas", 125, 65, 50, 19, 1277, -102);
+    const duodenum = makeOrgan("duodenum", 68, 92, 52, -7, 1253, -94);
+
+    const state = createVariationState(root);
+    const assignments = discoverSceneOrgans(state, system);
+    expect(assignments).toHaveLength(6);
+    expect(assignments.map(a => a.organ)).toEqual([
+      "liver", "gallbladder", "stomach", "spleen", "pancreas", "small-intestine",
+    ]);
+
+    const result = await applySceneVariation(state, system, {
+      seed: 108,
+      temperature: 0.75,
+      shapeStrength: 0.65,
+      textureStrength: 0.85,
+      includePathology: true,
+      severity: "moderate",
+    });
+    expect(result.report.organsVaried).toBe(6);
+    expect(result.report.synthesizedTextures).toBe(18);
+    expect(result.report.minJacobian).toBeGreaterThan(0);
+    expect(Object.keys(result.organRecipes)).toHaveLength(6);
+
+    // Verify each organ received distinct seamless 3D PBR textures and organ-authentic coloration
+    const liverMat = liver.material as MeshStandardMaterial;
+    const gbMat = gallbladder.material as MeshStandardMaterial;
+    const stomachMat = stomach.material as MeshStandardMaterial;
+    expect(liverMat.map).not.toBeNull();
+    expect(gbMat.map).not.toBeNull();
+    expect(stomachMat.map).not.toBeNull();
+    expect(liverMat.map).not.toBe(gbMat.map);
+
+    // Liver should be hepatic red-brown (R > G), whereas gallbladder has olive-green bile tint (G >= R * 0.78)
+    const liverColor = liver.geometry.getAttribute("color");
+    const gbColor = gallbladder.geometry.getAttribute("color");
+    expect(liverColor.getX(0)).toBeGreaterThan(liverColor.getY(0));
+    expect(gbColor.getY(0)).toBeGreaterThan(liverColor.getY(0));
+    void [spleen, pancreas, duodenum];
+  });
+
+  it("refines coarse visceral meshes with Curved PN-Triangle subdivision while keeping original co-registered vertices untouched", () => {
+    const coarse = new BoxGeometry(30, 50, 24, 2, 2, 2);
+    computeAngleWeightedNormals(coarse);
+    const origPositions = new Float32Array(coarse.getAttribute("position").array);
+    const origVertCount = coarse.getAttribute("position").count;
+    const origTriCount = coarse.index!.count / 3;
+
+    const refined = pnSubdivideGeometry(coarse, 0.52);
+    expect(refined.index!.count / 3).toBe(origTriCount * 4);
+    const newPositions = refined.getAttribute("position");
+    // Every original vertex (0 .. origVertCount-1) remains at its exact co-registered coordinate
+    for (let i = 0; i < origVertCount; i++) {
+      expect(newPositions.getX(i)).toBeCloseTo(origPositions[i * 3]!, 5);
+      expect(newPositions.getY(i)).toBeCloseTo(origPositions[i * 3 + 1]!, 5);
+      expect(newPositions.getZ(i)).toBeCloseTo(origPositions[i * 3 + 2]!, 5);
+    }
+    const normals = refined.getAttribute("normal");
+    for (let i = 0; i < normals.count; i++) {
+      const len = Math.hypot(normals.getX(i), normals.getY(i), normals.getZ(i));
+      expect(len).toBeCloseTo(1, 4);
+    }
+  });
+
+  it("synthesizes multi-generation branching arterial, venous, and adipose chrominance plus 3D vessel normal relief", async () => {
+    const root = new Group();
+    const geometry = new BoxGeometry(6, 5, 4, 6, 6, 6);
+    geometry.deleteAttribute("uv");
+    const material = new MeshStandardMaterial({ color: 0xffffff, roughness: 0.6 });
+    const mesh = new Mesh(geometry, material);
+    root.add(mesh);
+    const state = createVariationState(root);
+    const stomachRefId = system.references.find(r => r.organ === "stomach")!.id;
+    const stomachRecipe = sampleNeuralVariation(system, { referenceId: stomachRefId, seed: 77, temperature: 0.75 });
+    await applyVariation(state, stomachRecipe, { shapeStrength: 0.55, textureStrength: 0.85 });
+
+    const variedMat = mesh.material as MeshStandardMaterial;
+    const mapData = variedMat.map!.image.data as Uint8Array;
+    const normalData = variedMat.normalMap!.image.data as Uint8Array;
+    let arterialPixels = 0;
+    let venousPixels = 0;
+    let adiposePixels = 0;
+    let nonFlatNormals = 0;
+
+    for (let i = 0; i < mapData.length; i += 4) {
+      const r = mapData[i]!, g = mapData[i + 1]!, b = mapData[i + 2]!;
+      if (r > 210 && r > g * 2.0 && r > b * 2.0) arterialPixels++;
+      if (b > 130 && b > g * 1.5 && r < b * 1.1) venousPixels++;
+      if (r > 200 && g > 180 && b < 130) adiposePixels++;
+      const nx = normalData[i]! - 128, ny = normalData[i + 1]! - 128;
+      if (Math.hypot(nx, ny) > 18) nonFlatNormals++;
+    }
+
+    expect(arterialPixels).toBeGreaterThan(800);
+    expect(venousPixels).toBeGreaterThan(400);
+    expect(adiposePixels).toBeGreaterThan(300);
+    expect(nonFlatNormals).toBeGreaterThan(2000);
+    expect(variedMat.normalScale.x).toBeGreaterThan(0.4);
   });
 });

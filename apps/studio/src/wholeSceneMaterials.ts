@@ -191,38 +191,87 @@ export function makeWholeSceneTissueMaterial(part: TissuePart, variation: WholeS
         float tissueBoundary = (1.0 - smoothstep(.045, .18, tissueCells.b)) * tissueStructureFilter;
         float tissueStructure = 0.0;
         float tissueRelief = tissueFine - .5;
+        float sceneArteryMask = 0.0;
+        float sceneVeinMask = 0.0;
+        float sceneFatMask = 0.0;
+        vec3 vascWarp = tissueP + (tissueCloud.gbr - .5) * 16.0;
+        float vascU0 = sin(vascWarp.x * .17 + vascWarp.y * .13 - vascWarp.z * .11);
+        float vascV0 = sin(vascWarp.x * .12 - vascWarp.y * .18 + vascWarp.z * .15);
+        float vascSplit0 = max(vascV0, 0.0);
+        float vascBranch1A = vascU0 - .44 * vascSplit0;
+        float vascBranch1B = vascU0 + .38 * vascSplit0;
+        float vascV1 = cos(vascWarp.x * .26 + vascWarp.y * .22 + vascWarp.z * .19);
+        float vascSplit1 = max(vascV1, 0.0) * step(0.0, vascV0);
+        float vascBranch2A = vascBranch1A - .28 * vascSplit1;
+        float vascBranch2B = vascBranch1B + .25 * vascSplit1;
+        float trunkMask = exp(-vascU0 * vascU0 * 420.0) * smoothstep(.35, -.15, vascV0);
+        float gen1Mask = max(exp(-vascBranch1A * vascBranch1A * 680.0), exp(-vascBranch1B * vascBranch1B * 720.0)) * smoothstep(-.15, .20, vascV0) * .88;
+        float gen2Mask = max(exp(-vascBranch2A * vascBranch2A * 1150.0), exp(-vascBranch2B * vascBranch2B * 1200.0)) * smoothstep(-.05, .25, vascV1) * .72 * tissueFineFilter;
+        float rawArtery = max(trunkMask, max(gen1Mask, gen2Mask)) * tissueStructureFilter;
+        float veinU0 = vascU0 + .12 + .03 * sin(vascWarp.z * .35);
+        float veinBranch1A = veinU0 - .42 * vascSplit0;
+        float veinBranch1B = veinU0 + .40 * vascSplit0;
+        float rawVein = max(
+          exp(-veinU0 * veinU0 * 340.0) * smoothstep(.35, -.15, vascV0),
+          max(exp(-veinBranch1A * veinBranch1A * 560.0), exp(-veinBranch1B * veinBranch1B * 590.0)) * smoothstep(-.15, .20, vascV0) * .86
+        ) * (1.0 - .80 * rawArtery) * tissueStructureFilter;
+        float rawFatHalo = exp(-vascU0 * vascU0 * 32.0) * pow(clamp(1.0 - tissueCells.g * .92, 0.0, 1.0), 1.5) * (1.0 - .92 * max(rawArtery, rawVein));
         #if SCENE_TISSUE_KIND == 0
-          // Fine capsule pigment: small sinusoidal lobular clouds remain subordinate to the organ silhouette.
-          tissueStructure = tissueBoundary * .45;
-          tissueRelief += (tissueCells.g - .55) * .35;
+          // Solid parenchymal capsule (liver, spleen, kidney): smooth wet capsule with subcapsular venules & arterioles
+          tissueStructure = tissueBoundary * .42;
+          sceneArteryMask = rawArtery * .48;
+          sceneVeinMask = rawVein * .64;
+          sceneFatMask = 0.0;
+          tissueRelief += (tissueCells.g - .55) * .28 + (sceneArteryMask + sceneVeinMask) * .55;
         #elif SCENE_TISSUE_KIND == 1
-          // Subpleural lobular reticulation; authored optical detail, not reconstructed alveoli.
-          tissueStructure = tissueBoundary * (.65 + tissueCloud.r*.35);
-          tissueRelief += (tissueCells.g - .55) * .75;
+          // Subpleural lobular reticulation & pleural vessels
+          tissueStructure = tissueBoundary * (.68 + tissueCloud.r*.32);
+          sceneArteryMask = rawArtery * .48;
+          sceneVeinMask = rawVein * .58;
+          tissueRelief += (tissueCells.g - .55) * .75 + (sceneArteryMask + sceneVeinMask) * .55;
         #elif SCENE_TISSUE_KIND == 2
-          // Sparse, irregular subserosal vascular impression, softened beneath a wet capsule.
+          // Hollow visceral serosa (stomach, small intestine, colon, duodenum, gallbladder):
+          // Rich branching vasa recta / gastroepiploic / cystic vascular arcades & perivascular yellow fat lobules
           vec4 tissueStretch = tissueField(tissueP / vec3(uTissueProfile.x*6.5, uTissueProfile.x*3.0, uTissueProfile.x*4.0));
-          tissueStructure = (1.0-smoothstep(.025,.105,tissueStretch.b)) * smoothstep(.36,.6,tissueCloud.r) * tissueStructureFilter;
-          tissueRelief += (tissueCells.a - .5)*.25;
+          tissueStructure = (1.0-smoothstep(.025,.105,tissueStretch.b)) * smoothstep(.32,.62,tissueCloud.r) * tissueStructureFilter;
+          sceneArteryMask = clamp(rawArtery * .90 + tissueStructure * .28, 0.0, .92);
+          sceneVeinMask = clamp(rawVein * .84 * (1.0 - .78 * sceneArteryMask), 0.0, .86);
+          sceneFatMask = clamp((rawFatHalo - .18) * 1.9, 0.0, .74) * tissueStructureFilter;
+          tissueRelief += (tissueCells.a - .5)*.28 + (sceneArteryMask + sceneVeinMask) * 1.15 + sceneFatMask * .75;
         #elif SCENE_TISSUE_KIND == 3
-          tissueStructure = tissueBoundary * .85;
-          tissueRelief += (tissueCells.g - .5) * 1.3;
+          // Pancreas & mesentery: lobulated acinar / adipose domes + interlobular vessels
+          tissueStructure = tissueBoundary * .88;
+          sceneArteryMask = rawArtery * .68;
+          sceneVeinMask = rawVein * .64;
+          sceneFatMask = clamp((rawFatHalo - .14) * 2.2, 0.0, .82) * tissueStructureFilter;
+          tissueRelief += (tissueCells.g - .5) * 1.35 + (sceneArteryMask + sceneVeinMask) * .95;
         #elif SCENE_TISSUE_KIND == 4
+          // Myocardium / diaphragm / muscular wall: coronary & phrenic vessels over muscle fibers
           float tissueFiber = sin(tissueP.x*2.6 + tissueP.z*.38 + tissueCloud.r*6.0);
           tissueStructure = (tissueFiber*.5+.5)*.7*tissueFineFilter;
-          tissueRelief += tissueFiber*.3*tissueFineFilter;
+          sceneArteryMask = rawArtery * .64;
+          sceneVeinMask = rawVein * .58;
+          sceneFatMask = clamp((rawFatHalo - .20) * 1.8, 0.0, .55);
+          tissueRelief += tissueFiber*.3*tissueFineFilter + (sceneArteryMask + sceneVeinMask) * .75;
         #elif SCENE_TISSUE_KIND == 5
+          // Great vessels & ducts: vasa vasorum micro-plexus on adventitia
           tissueStructure = (tissueCells.a*.55 + tissueFine*.45) * .35;
+          sceneArteryMask = rawArtery * .42;
+          sceneVeinMask = rawVein * .38;
+          tissueRelief += (sceneArteryMask + sceneVeinMask) * .45;
         #else
           tissueStructure = tissueCells.g * .2;
           tissueRelief += (tissueCells.a-.5)*.3;
         #endif
         diffuseColor.rgb *= 1.0 + (tissueCloud.r-.5)*uTissueProfile.y*1.7 + (tissueCells.a-.5)*uTissueProfile.y*.35;
         diffuseColor.rgb = mix(diffuseColor.rgb, uTissueUndertone, tissueStructure*uTissueProfile.z);
+        diffuseColor.rgb = mix(diffuseColor.rgb, vec3(.78, .60, .18), sceneFatMask * .68);
+        diffuseColor.rgb = mix(diffuseColor.rgb, vec3(.14, .032, .20), sceneVeinMask * .74);
+        diffuseColor.rgb = mix(diffuseColor.rgb, vec3(.66, .042, .035), sceneArteryMask * .82);
         float tissuePatch = smoothstep(.49,.76,tissueField(tissueP/91.0).r);
         diffuseColor.rgb = mix(diffuseColor.rgb, diffuseColor.rgb*vec3(.70,.37,.41), uTissueDisease*tissuePatch*.65);
-        float tissueHeight = tissueRelief*uTissueProfile.w;`)
-      .replace("#include <roughnessmap_fragment>", "#include <roughnessmap_fragment>\nroughnessFactor = clamp(roughnessFactor + (tissueCloud.r-.5)*.095 + (tissueFine-.5)*.045, .22, .85);")
+        float tissueHeight = tissueRelief*uTissueProfile.w * 1.45;`)
+      .replace("#include <roughnessmap_fragment>", "#include <roughnessmap_fragment>\nroughnessFactor = clamp(roughnessFactor + (tissueCloud.r-.5)*.095 + (tissueFine-.5)*.045 - max(sceneArteryMask, sceneVeinMask)*.16 - sceneFatMask*.08, .20, .85);")
       .replace("#include <normal_fragment_maps>", "#include <normal_fragment_maps>\nnormal = sceneBump(-vViewPosition, normal, tissueHeight, faceDirection);")
       .replace("#include <clearcoat_normal_fragment_maps>", "#include <clearcoat_normal_fragment_maps>\n#ifdef USE_CLEARCOAT\nclearcoatNormal = sceneBump(-vViewPosition, clearcoatNormal, tissueHeight*.4, faceDirection);\n#endif")
       .replace("#include <aomap_fragment>", "#include <aomap_fragment>\nreflectedLight.indirectDiffuse *= .65 + .35 * clamp(vSceneTissueOcclusion, 0.0, 1.0);")

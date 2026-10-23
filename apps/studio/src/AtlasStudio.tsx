@@ -106,9 +106,9 @@ export default function AtlasStudio({ textureLab = false }: { textureLab?: boole
   const [sculptStiffness, setSculptStiffness] = useState(0.45);
   const [sculptReport, setSculptReport] = useState("");
   const [vesselsEnabled, setVesselsEnabled] = useState(true);
-  const [vesselDensity, setVesselDensity] = useState(0.5);
-  const [vesselVisibility, setVesselVisibility] = useState(0.65);
-  const [vesselRadiusScale, setVesselRadiusScale] = useState(1);
+  const [vesselDensity, setVesselDensity] = useState(0.68);
+  const [vesselVisibility, setVesselVisibility] = useState(0.86);
+  const [vesselRadiusScale, setVesselRadiusScale] = useState(1.15);
   const [vesselSeed, setVesselSeed] = useState(42);
   const [error, setError] = useState("");
   const [textMessage, setTextMessage] = useState<{ accepted: boolean; text: string } | null>(null);
@@ -346,7 +346,12 @@ export default function AtlasStudio({ textureLab = false }: { textureLab?: boole
       const surface = result.spec.material ?? (committedSurface.current?.organ === organ?.id ? committedSurface.current : undefined) ?? (organ ? library.materials?.defaults[organ.id] : undefined) ?? null;
       committedSurface.current = surface;
       setSurfaceDraft(surface ? { ...surface } : null);
-      if (!options.preview) setSurfaceSeedText(String(surface?.seed ?? 42));
+      if (!options.preview) {
+        setSurfaceSeedText(String(surface?.seed ?? 42));
+        if (joint || options.sampleSurface || options.learned) {
+          setVesselSeed(surface?.seed ?? result.spec.seed ?? 42);
+        }
+      }
       if (!options.preview) setMobilePanel(null);
       return true;
     } catch (cause) {
