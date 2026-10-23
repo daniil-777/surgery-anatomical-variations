@@ -9,6 +9,9 @@ const out=path.resolve(args.get('--out')??'benchmarks/results/material-v2-visual
 await fs.mkdir(path.join(out,'images'),{recursive:true});
 const catalog=await (await fetch(`${base}/api/atlas/catalog`)).json();
 if(!catalog.materials?.organ_presets)throw new Error('Material catalog unavailable');
+const selected=args.has('--organs')?args.get('--organs').split(','):catalog.organs.map(o=>o.id);
+if(!selected.length||new Set(selected).size!==selected.length||selected.some(id=>!catalog.organs.some(o=>o.id===id)))throw new Error('Unknown or duplicate organ selection');
+const organs=catalog.organs.filter(o=>selected.includes(o.id));
 await fs.writeFile(path.join(out,'manifest.json'),JSON.stringify({status:'INCOMPLETE',started_at:new Date().toISOString(),records:[]},null,2));
 const browser=await chromium.launch({headless:true,args:process.platform==='darwin'?['--use-gl=angle','--use-angle=metal']:[]});
 let page;const errors=[],records=[];const started=Date.now();
@@ -22,7 +25,7 @@ async function capture(organ,spec,geometryHash,label,size,group){
  console.log(JSON.stringify({organ:organ.id,label,size,completed:records.length}));
 }
 try{
- for(const organ of catalog.organs){
+ for(const organ of organs){
   await fresh();const template=organ.templates[0];
   const baseSpec={template_id:template.id,seed:42,controls:Object.fromEntries(catalog.controls.map(c=>[c.key,0])),appearance:'tissue'};
   const response=await fetch(`${base}/api/atlas/generate`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(baseSpec)});
@@ -39,7 +42,9 @@ try{
   }
  }
  const manifest={status:errors.length?'FAIL':'PASS',created_at:new Date().toISOString(),catalog_release:catalog.release,material_version:catalog.materials.version,renderer_version:'atlas-neutral-inspection-material-2.0.0',fixed_shape_seed:42,shape_controls:'zero identity',poses:['oblique'],preset_views:records.filter(r=>r.group==='preset_grid').length,detail_seed_views:records.filter(r=>r.group==='detail_and_seed').length,browser_errors:errors,elapsed_seconds:(Date.now()-started)/1000,scope:'Actual procedural fragment shader; authored appearance, not measured tissue architecture',records};
- if(manifest.preset_views!==48||manifest.detail_seed_views!==8)throw new Error('Incomplete material coverage');
+ const expectedPresets=organs.length*catalog.materials.presets.length,expectedDetail=organs.filter(o=>['liver','pancreas'].includes(o.id)).length*4;
+ if(manifest.preset_views!==expectedPresets||manifest.detail_seed_views!==expectedDetail)throw new Error('Incomplete material coverage');
+ manifest.selected_organs=selected;
  await fs.writeFile(path.join(out,'manifest.json'),JSON.stringify(manifest,null,2));
  if(errors.length)throw new Error(errors.join('\n'));
  console.log(JSON.stringify({status:manifest.status,views:records.length,elapsed_seconds:manifest.elapsed_seconds,out}));

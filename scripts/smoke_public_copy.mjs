@@ -65,6 +65,15 @@ await check('atlas', '', 'atlas', async (page) => {
   // every sampler that runs in the browser, pressed once: the joint flow (atlasJointLocal.ts), the trained shape model
   // (atlasShapeSampler.ts), a disease profile and its variation (atlasDiseaseLocal.ts), the joint flow with that disease,
   // the trained material sampler (atlasMaterialSampler.ts)
+  // a text command (atlasTextCompiler.ts): a dimension request runs the compiler's solver on the bundled reference,
+  // then the studio generates the result; the displayed bounding size must become 260.0 mm wide
+  await page.waitForSelector('textarea[aria-label="Describe an anatomy variation"]');
+  await page.type('textarea[aria-label="Describe an anatomy variation"]', 'liver width 260 mm');
+  await page.evaluate(() => document.querySelector('form.atlas-prompt-box')?.requestSubmit());
+  await flag(page, shown('.atlas-text-feedback', /width 260 mm/));
+  if (await page.$('.atlas-text-feedback.unsupported')) throw new Error(`text command refused: ${await page.$eval('.atlas-text-feedback', (e) => e.textContent)}`);
+  const width = await page.evaluate(() => Number(document.body.innerText.match(/(\d+\.\d) × (\d+\.\d) × (\d+\.\d)/)?.[1] ?? NaN));
+  if (Math.abs(width - 260) > 0.05) throw new Error(`text command applied, but the liver is ${width} mm wide`);
   await flag(page, enabled('Joint flow variation'));
   if (!await button(page, 'Joint flow variation')) throw new Error('joint flow button unavailable');
   await flag(page, shown('.atlas-model-status', /Joint flow variation applied/));
@@ -97,7 +106,7 @@ await check('atlas', '', 'atlas', async (page) => {
   if (!await button(page, 'Sample surface')) throw new Error('surface sample button unavailable');
   await flag(page, `${sliders} !== ${JSON.stringify(before)} || window.__viscera.errors.length > 0`);
   await flag(page, shown('#atlas-surface-panel .atlas-recipe-state', /Preview matches this surface/));
-  return `joint flow, learned shape, disease ${profile}, joint flow with it and a surface sampled`;
+  return `text command (width 260 mm), joint flow, learned shape, disease ${profile}, joint flow with it and a surface sampled`;
 });
 await check('physics', '', 'atlas', async (page) => {
   // the physics lab calibrates a measurement of your own in the browser (atlasPhysicsCalibration.ts): the demonstration
@@ -118,8 +127,8 @@ await check('physics', '', 'atlas', async (page) => {
   await flag(page, shown('.physics-calibration-name', /Loaded/));
   await flag(page, enabled('Apply material'));
   if (!await button(page, 'Apply material')) throw new Error('apply material button unavailable');
-  await flag(page, `(${stiffness}) !== ${JSON.stringify(before)} && /\\d/.test(${stiffness}) || window.__viscera.errors.length > 0 || !!document.querySelector('.physics-error')`);
-  const error = await page.evaluate(() => document.querySelector('.physics-error')?.textContent ?? '');
+  await flag(page, `(${stiffness}) !== ${JSON.stringify(before)} && /\\d/.test(${stiffness}) || window.__viscera.errors.length > 0 || !!document.querySelector('.physics-error, .playground-error')`);
+  const error = await page.evaluate(() => document.querySelector('.physics-error, .playground-error')?.textContent ?? '');
   if (error) throw new Error(`calibration refused: ${error}`);
   const after = await page.evaluate(stiffness);
   return `measurement calibrated in the browser: stiffness ${before} → ${after}`;

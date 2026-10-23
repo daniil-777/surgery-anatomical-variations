@@ -1,0 +1,3 @@
+# Optional offline development tool only. Not a Studio/runtime dependency.
+# Gmsh: GPL-2.0-or-later with its linking exception; see docs/cutting-remeshing.md.
+gmsh==4.15.2
