@@ -1,0 +1,215 @@
+{
+  "schema": "viscera.fat-surgical-reference.v1",
+  "source": "DRENDS: A Dataset for Depth in Robotic Endoscopy with Dynamic Scenarios",
+  "authors": [
+    "Gerardo Loza",
+    "Mattia Magro",
+    "Benjamin Calm\u00e9",
+    "Junlei Hu",
+    "Dominic Jones",
+    "Elena De Momi",
+    "Sharib Ali",
+    "Pietro Valdastri"
+  ],
+  "source_url": "https://zenodo.org/records/17598453",
+  "source_doi": "10.5281/zenodo.17598453",
+  "paper_url": "https://www.nature.com/articles/s41597-026-07775-2",
+  "license_spdx": "CC-BY-4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "license_authority": "Publisher Data Availability statement explicitly licenses the DRENDS dataset CC BY 4.0.",
+  "sequence": "Seq01_Colon_Med",
+  "domain": "ex vivo porcine surgical manipulation",
+  "source_frame_index_zero_based": 0,
+  "capture_elapsed_seconds": 0,
+  "units": "mm",
+  "unit_authority": "Existing review reads HDF5 xyz.attrs.units; upstream loader divides stored XYZ by 1000 for metres. Original dataset README unit conflict is recorded in pilot review-qa.json.",
+  "source_npz_path": "viscera/artifacts/ground-truth/drends-pilot/review/frame-00000.npz",
+  "source_npz_sha256": "02fb236b6c864f83e9646d49a1bddfd84faff7e4530c580cd9d024b491c40b9e",
+  "source_hdf5_sha256": "1f559dc3e85a4bef52d3565885056fc144d3eac29556fadb11b1075098b8fab6",
+  "source_image_sha256": "f7e613384751b567d0e0fdb4644273097e3d00f12f10ff9b45af9304c0c4a9b3",
+  "source_workspace_mask_sha256": "4a18b930e3807ddf1eb92c593a408951ab0686909ec9de3a3ba13909a0d08942",
+  "transform": "None: source native sensor XYZ preserved in millimetres. Keep finite positive depth sensor gate and source workspace mask. No smoothing, reconstruction, registration, tissue segmentation or RGB point coloring.",
+  "point_count": 117007,
+  "plot_stride": 4,
+  "plot_point_count": 29252,
+  "bounds_mm": [
+    [
+      -269.0,
+      -235.5,
+      328.0
+    ],
+    [
+      202.0,
+      69.75,
+      576.0
+    ]
+  ],
+  "frames_inspected_numerically": [
+    {
+      "frame_id": 0,
+      "valid_sensor_points": 291518,
+      "workspace_points": 117007,
+      "workspace_bounds_mm": [
+        [
+          -269.0,
+          -235.5,
+          328.0
+        ],
+        [
+          202.0,
+          69.75,
+          576.0
+        ]
+      ],
+      "timestamps_seconds": [
+        1761037278.3551486,
+        1761037278.3528547,
+        1761037278.35858
+      ]
+    },
+    {
+      "frame_id": 10,
+      "valid_sensor_points": 293584,
+      "workspace_points": 117041,
+      "workspace_bounds_mm": [
+        [
+          -268.0,
+          -235.5,
+          397.5
+        ],
+        [
+          204.25,
+          69.75,
+          573.0
+        ]
+      ],
+      "timestamps_seconds": [
+        1761037348.8407586,
+        1761037348.8568962,
+        1761037348.8289096
+      ]
+    },
+    {
+      "frame_id": 20,
+      "valid_sensor_points": 292366,
+      "workspace_points": 117075,
+      "workspace_bounds_mm": [
+        [
+          -268.0,
+          -235.5,
+          318.25
+        ],
+        [
+          202.25,
+          69.75,
+          576.0
+        ]
+      ],
+      "timestamps_seconds": [
+        1761037410.0136678,
+        1761037410.0178843,
+        1761037409.9899058
+      ]
+    },
+    {
+      "frame_id": 30,
+      "valid_sensor_points": 290736,
+      "workspace_points": 116964,
+      "workspace_bounds_mm": [
+        [
+          -271.0,
+          -233.5,
+          331.75
+        ],
+        [
+          202.25,
+          70.5,
+          586.5
+        ]
+      ],
+      "timestamps_seconds": [
+        1761037614.6959,
+        1761037614.6884084,
+        1761037614.694293
+      ]
+    },
+    {
+      "frame_id": 40,
+      "valid_sensor_points": 291822,
+      "workspace_points": 116863,
+      "workspace_bounds_mm": [
+        [
+          -269.5,
+          -232.75,
+          368.25
+        ],
+        [
+          206.25,
+          70.25,
+          577.5
+        ]
+      ],
+      "timestamps_seconds": [
+        1761037655.0586188,
+        1761037655.062294,
+        1761037655.067788
+      ]
+    },
+    {
+      "frame_id": 49,
+      "valid_sensor_points": 293034,
+      "workspace_points": 117025,
+      "workspace_bounds_mm": [
+        [
+          -270.0,
+          -234.0,
+          371.5
+        ],
+        [
+          202.0,
+          70.25,
+          580.0
+        ]
+      ],
+      "timestamps_seconds": [
+        1761037784.0029113,
+        1761037783.9908361,
+        1761037783.9965773
+      ]
+    }
+  ],
+  "rgb_point_registration_validated": false,
+  "fat_segmentation_available": false,
+  "calibrated_albedo_available": false,
+  "force_measurement_available": false,
+  "whole_organ_mesh": false,
+  "used_for_training": false,
+  "visual_observation": "Source RGB shows pale lobulated tissue and branching vessels over/around bowel with grasping tools. Adipose-looking is a visual interpretation, not an expert annotation. Native cloud includes tools and background; the source workspace mask does not identify fat.",
+  "interpretation": "Real measured surgical-scene surface samples support independent context review. They do not establish generated fat shape error, force accuracy, or human adipose material properties.",
+  "new_download_bytes": 0,
+  "files": [
+    {
+      "name": "drends-frame-00000-native-workspace-mm.ply",
+      "bytes": 1404347,
+      "sha256": "0f46639d539502807ca44998071512d07b828f750dfc00b2c5352eb908889d67"
+    },
+    {
+      "name": "drends-native-cloud.png",
+      "bytes": 1943718,
+      "sha256": "0c72af019db4e9fc662197a295c8e9ba3c7320e2d9091bf3656fb9e7fe553182"
+    },
+    {
+      "name": "drends-frame-00000-left.png",
+      "bytes": 3506725,
+      "sha256": "f7e613384751b567d0e0fdb4644273097e3d00f12f10ff9b45af9304c0c4a9b3"
+    }
+  ],
+  "source_units_direct_header_check": {
+    "path": "viscera/artifacts/ground-truth/drends-pilot/Seq01_Colon_Med/point_clouds.hdf5",
+    "storage_type": "float16",
+    "embedded_text": "Values stored in millimetres (float16).",
+    "units_value": "mm",
+    "verified_on": "2026-10-18",
+    "millimetres_word_byte_offset": 2206
+  }
+}

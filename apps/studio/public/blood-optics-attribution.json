@@ -1,0 +1,129 @@
+{
+  "schema": "viscera.blood-optics-attribution/v1",
+  "modelId": "bosschaart-oxy45-d65-two-stream-v1",
+  "title": "Fixed-condition spectral blood slab transport lookup",
+  "derivedDataLicense": {
+    "identifier": "CC-BY-SA-4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "scope": "Derived spectral-to-linear-sRGB transport lookup data in opticsLut.generated.ts; retain source attribution and changes when sharing/adapting the data."
+  },
+  "sources": [
+    {
+      "authors": "Nienke Bosschaart, Gerda J. Edelman, Maurice C. G. Aalders, Ton G. van Leeuwen, Dirk J. Faber",
+      "title": "A literature review and novel theoretical approach on the optical properties of whole blood",
+      "year": 2014,
+      "doi": "10.1007/s10103-013-1446-7",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3953607/",
+      "data": "Appendix: oxygenated (>98%) compiled absorption and oxygenated Kramers-Kronig/Percus-Yevick calculated scattering and anisotropy, hematocrit 45%; wavelengths 360–830 nm.",
+      "license": "CC-BY-4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "changes": "Selected columns/range from corrected article XML; coefficients converted from mm^-1 to m^-1; linear interpolation to 1 nm. Compiled absorption is already flattened; the correction is not applied twice.",
+      "sourceXmlSha256": "00cfdd11ae45bda9c351ce61768092177bd3522cd4a5e3e8106153f3d6c150a2",
+      "derivedCsvSha256": "8cd2cdc4576967b7e64ff502f7ab951d0017191d8659cb6fe92f6db47cfd13cc",
+      "correction": {
+        "doi": "10.1007/s10103-021-03361-7",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9172854/",
+        "issueYear": 2022,
+        "onlineYear": 2021,
+        "description": "Corrected negative exponential and intracellular-absorption subscripts in absorption flattening Eq. 3."
+      }
+    },
+    {
+      "authors": "International Commission on Illumination (CIE)",
+      "title": "Colour-matching functions of CIE 1931 standard colorimetric observer",
+      "year": 2019,
+      "doi": "10.25039/CIE.DS.xvudnb9b",
+      "url": "https://cie.co.at/datatable/cie-1931-colour-matching-functions-2-degree-observer",
+      "license": "CC-BY-SA-4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "sha256": "fa663e3535a7e0763a745993a1f0a192eb0275ac46ad2d1befd7626841e713c1",
+      "changes": "Raw table retained; used at 1 nm to integrate modeled spectral transport, convert XYZ to linear sRGB, and normalize D65 white."
+    },
+    {
+      "authors": "International Commission on Illumination (CIE)",
+      "title": "CIE standard illuminant D65",
+      "year": 2019,
+      "doi": "10.25039/CIE.DS.hjfjmt59",
+      "url": "https://cie.co.at/datatable/cie-standard-illuminant-d65",
+      "license": "CC-BY-SA-4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "sha256": "e76f210bffff3d552ef7113025da5f325d5dfec200dd4b878b1a2f3a507032cb",
+      "changes": "Raw table retained; used as the fixed spectral illuminant for integration over 360–830 nm."
+    }
+  ],
+  "method": {
+    "closure": "Two opposite ordinate directions with cosine 1/sqrt(3); isotropic transport approximation using reduced scattering mu_s*(1-g).",
+    "boundary": "Homogeneous plane-parallel slab; incident forward flux at front and no incoming reverse flux at back; no Fresnel/interface reflections in the LUT.",
+    "color": "D65 and CIE 1931 2 degree observer, 1 nm trapezoidal integration, linear sRGB; clamp negative channels and normalize R/T pairs above unity.",
+    "lookup": "512 logarithmically spaced thickness entries, 0–0.05 m, 1 micrometre log scale, interpolation in transformed thickness.",
+    "dataChanges": "Coefficients transformed to spectral reduced-scattering transport; derived RGB channels projected to nonnegative R,T and R+T<=1. This is a model-derived lookup, not measured reflectance."
+  },
+  "limitations": [
+    "Fixed oxygenated endpoint and hematocrit 45%; not patient-specific material identification.",
+    "D65 and standard observer do not represent a measured surgical light or camera.",
+    "Two-stream reduced-scattering closure is an approximation, especially for thin films, strongly absorbing wavelengths, and angular effects.",
+    "Total slab transmittance includes approximate diffuse transport; it is not sharp unscattered camera-ray transmission.",
+    "Screen-space aggregate particle thickness is not a reconstructed refracted multilayer optical path.",
+    "No spectral Monte Carlo validation, measured phantom validation, photorealism equivalence, or clinical validation has been completed."
+  ],
+  "sourceDataLocation": "blood/optics/data",
+  "generator": "scripts/generate_blood_optics.py",
+  "documentation": "blood/OPTICS.md",
+  "experimentalAppearance": {
+    "schema": "viscera.blood-appearance-attribution/v1",
+    "modelId": "bosschaart-oxygenation45-d65-two-stream-experimental-v1",
+    "title": "Experimental spectral oxygenation and thickness response",
+    "derivedDataLicense": {
+      "identifier": "CC-BY-SA-4.0",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "scope": "bloodAppearanceLut.generated.ts derived data; original blood selected columns CC-BY-4.0; CIE data CC-BY-SA-4.0, as attributed in the parent sources."
+    },
+    "source": {
+      "parentSources": "sources[0..2] above",
+      "table": "Corrected Bosschaart appendix Taba, Hct 45%; compiled absorption oxy/deoxy columns 1/2; calculated mu_s oxy/deoxy columns 5/6; calculated g oxy/deoxy columns 7/8; wavelength column 0 (zero indexed).",
+      "sourceXmlSha256": "00cfdd11ae45bda9c351ce61768092177bd3522cd4a5e3e8106153f3d6c150a2",
+      "selectedCsv": "blood/optics/data/bosschaart2014-oxygenation-visible.csv",
+      "selectedCsvSha256": "02de197cfed5381f6d597fa7e9af1bc6c87393df9000702a7c184a1e301447d5"
+    },
+    "changes": [
+      "Extracted 360–830 nm oxy/deoxy whole-blood endpoint coefficients; source precision retained in CSV.",
+      "Interpolate wavelength coefficients to 1 nm, convert mm^-1 to m^-1, calculate reduced scattering mu_s*(1-g).",
+      "Linearly interpolate endpoint mu_a and reduced scattering by model oxygenation fraction, then solve each wavelength with the stated two-direction slab approximation. Do not reapply absorption flattening.",
+      "Integrate using attributed D65/CIE 1931 data; convert to linear sRGB with explicit passive gamut projection.",
+      "Store 65 oxygenation by 512 thickness entries as little-endian float32, interpolated in actual oxygenation fraction and log1p thickness."
+    ],
+    "assumptions": {
+      "hematocritFraction": 0.45,
+      "oxygenationRange": [
+        0,
+        1
+      ],
+      "oxygenatedSourceEndpoint": ">98%; model fraction 1 is this endpoint, not a measured exact 100% spectrum",
+      "illustrativeDefaults": {
+        "artery": 0.98,
+        "vein": 0.75
+      },
+      "illuminant": "D65",
+      "observer": "CIE 1931 2 degree",
+      "thicknessRangeM": [
+        0,
+        0.05
+      ]
+    },
+    "limitations": [
+      "Intermediate whole-blood endpoint absorption mixing does not recompute nonlinear intracellular absorption flattening.",
+      "Reduced-scattering interpolation is a modeling approximation, not measured intermediate-saturation scattering.",
+      "Two-stream closure, total diffuse transmission and RGB substrate composition do not reproduce full angular spectral transport.",
+      "No patient-specific identification, measured camera/light calibration, photorealism equivalence or clinical validation."
+    ],
+    "validation": {
+      "spectralProbes": 261632,
+      "maxAbsoluteRgbInterpolationError": 0.00040740059375821147,
+      "independentReference": "blood/optics/appearance-matrix-oracle.json (25 matrix-exponential/layer-adding spectral cases)",
+      "storedBytes": 798720,
+      "storedSha256": "1987057835d1c1ba303e4ffbb023cc7ede629091b7756c12cbf57c30b4e59046"
+    },
+    "generator": "scripts/generate_blood_appearance_optics.py",
+    "documentation": "blood/EXPERIMENT_APPEARANCE.md"
+  }
+}

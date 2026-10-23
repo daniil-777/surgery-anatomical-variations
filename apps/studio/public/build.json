@@ -1,0 +1,19 @@
+{
+  "builtAt": "2026-10-23T14:15:26.991Z",
+  "vite": "6.4.4",
+  "specimens": 24,
+  "unavailable": [],
+  "atlasBytes": 4976008,
+  "files": 1275,
+  "bytes": 305164732,
+  "maxBytes": 900000000,
+  "tissueDistribution": {
+    "kind": "public-preview",
+    "native_available": false,
+    "preview_resolution": 512,
+    "source_catalog_sha256": "478d4c9bfe00661b94f1ada04af5b2468f41441ca4658e13bd6d64b7202b6f31",
+    "note": "This public release includes verified 512×512 authored previews. Native 4096×4096 maps remain in the local library and are not served by this release."
+  },
+  "publicAssetsReceipt": "public-assets.json",
+  "sourceManifest": "public-source.json"
+}

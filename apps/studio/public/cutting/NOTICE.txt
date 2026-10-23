@@ -1,0 +1,29 @@
+SOURCE GEOMETRY
+Browne, Kristen (2024), 3D Reference Organ for Liver, Female v1.2.
+https://doi.org/10.48539/HBM599.GZLD.639
+License: CC-BY-4.0
+https://creativecommons.org/licenses/by/4.0/
+Source asset SHA-256: 05d2bc01718e7a7421101e46a77e6c079b6abef7eac0b730fda4e9fa0920c738
+
+MODIFICATIONS
+Prepared a fixed lobe section, split source skin at that plane, and embedded it
+in a remeshed enclosing tetrahedral support cage with paired cohesive nodes.
+The source skin coordinates, colors and connectivity were retained during
+remeshing. The source section cap was re-embedded into the new tetrahedra.
+Added a separate compact contact tessellation within the same tetrahedra;
+rendered cap, continuous surface validator and mechanical degrees of freedom
+are unchanged by contact compaction.
+
+The selected reference is liver-reference.json, SHA-256
+5289378fc753cc6f046d587f7933eefbdcd4b642e1d4fb0c3c38592c83d2f0d0.
+The earlier coarse reference remains in original-coarse-reference.json.
+Source attribution, diagnostics and compaction provenance are also in JSON.
+
+OFFLINE TOOL
+Gmsh 4.15.2, https://gmsh.info/, was used as a separate offline meshing tool.
+No Gmsh binaries or source are included in this asset directory or web runtime.
+
+SCOPE
+This is an experimental prepared-interface simulation with a synthetic cohesive
+calibration model. Numerical qualification is bounded to the tested geometry
+and paths; it is not validation of patient-specific or clinical cutting behavior.

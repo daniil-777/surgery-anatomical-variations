@@ -1,0 +1,53 @@
+{
+  "id": "hra-omentum-female-v1.0",
+  "title": "3D reference organ for omentum, Female v1.0",
+  "creator": "Heidi Schlehlein",
+  "publisher": "Human Reference Atlas / HuBMAP",
+  "year": 2026,
+  "doi": "https://doi.org/10.48539/HBM636.GWRW.698",
+  "source_url": "https://purl.humanatlas.io/ref-organ/omentum-female/v1.0",
+  "asset_url": "https://cdn.humanatlas.io/digital-objects/ref-organ/omentum-female/v1.0/assets/3d-vh-f-omentum.glb",
+  "license": "CC-BY-4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "credit": "Heidi Schlehlein (2026). 3D reference organ for omentum, Female v1.0. Human Reference Atlas / HuBMAP. DOI: 10.48539/HBM636.GWRW.698. Licensed CC BY 4.0.",
+  "original_repository_download_date": "2026-10-06",
+  "copied_to_fat_lab_date": "2026-10-18",
+  "modifications": "None. GLB bytes copied unchanged from the existing attributed repository reference archive. Display centering, camera, and lighting do not alter this source file.",
+  "bytes": 5931032,
+  "sha256": "692622d5ab89014630ea6952dcb9849bb5c4ad6243d1792e2cb3efe94ef42d98",
+  "ontology_id": "UBERON:0003688",
+  "mesh_count": 1,
+  "vertex_count": 197648,
+  "triangle_count": 98824,
+  "image_count": 0,
+  "texture_count": 0,
+  "uv_attribute_present": false,
+  "coordinates": {
+    "units": "metres (glTF convention)",
+    "source_axis_convention": "glTF right-handed, +Y up; anatomical patient orientation not inferred here",
+    "root_scale": 1.43089783,
+    "root_translation_m": [
+      0.05618905,
+      -0.400635332,
+      0.206699386
+    ],
+    "world_bounds_min_m": [
+      -0.13286080642065337,
+      0.06404708417460847,
+      -0.05010822180476629
+    ],
+    "world_bounds_max_m": [
+      0.11517243630006399,
+      0.25497519861552653,
+      0.0656206955585171
+    ],
+    "world_extent_mm": [
+      248.03324272071737,
+      190.92811444091805,
+      115.72891736328339
+    ]
+  },
+  "intended_use": "Gross anatomical reference comparison. This is an illustrated atlas model, not a surgical 3D scan, a population model, a 4K material, or a mechanically calibrated mesh.",
+  "original_local_source": "reports/anatomy-references-2026-10-06/hra/models/3d-vh-f-omentum.glb",
+  "original_attribution": "reports/anatomy-references-2026-10-06/hra/ATTRIBUTION.md"
+}

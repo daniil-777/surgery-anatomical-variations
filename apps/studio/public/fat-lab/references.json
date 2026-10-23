@@ -1,0 +1,53 @@
+[
+  {
+    "id": "dsad-colon-fat",
+    "title": "Human surgical fat beside the colon",
+    "url": "https://doi.org/10.1038/s41597-022-01719-2",
+    "image": "/body-reference/dsad-21-5.png",
+    "license": "CC BY 4.0 in repository; publication also states non-commercial use (rights ambiguity)",
+    "kind": "surgical",
+    "note": "Surgery 21, frame 5. Connected yellow-orange lobules, wet highlights, pale septa and vessels beside exposed bowel. Fat appearance is our visual observation; DSAD supplies a colon mask, not a fat annotation. Original image unchanged. Dataset rights ambiguity: repository CC BY 4.0 conflicts with publication non-commercial wording. Used here for local visual comparison; not training data."
+  },
+  {
+    "id": "dsad-membranes",
+    "title": "Human surgical membranes and surrounding fat",
+    "url": "https://huggingface.co/datasets/nct-tso/dsad",
+    "image": "/body-reference/dsad-22-6.png",
+    "license": "CC BY 4.0 in repository; publication also states non-commercial use (rights ambiguity)",
+    "kind": "surgical",
+    "note": "Surgery 22, frame 6. Observe glistening translucent connective sheets and exposed tissue; the supplied semantic mask is pancreas. Camera color includes lighting and blood and is not calibrated albedo. Original image unchanged. Dataset rights ambiguity: repository CC BY 4.0 conflicts with publication non-commercial wording. Used here for local visual comparison; not training data."
+  },
+  {
+    "id": "drends-surgical-3d",
+    "title": "Measured surgical 3D: porcine colon scene",
+    "url": "https://doi.org/10.5281/zenodo.17598453",
+    "image": "/fat-lab/drends-native-cloud.png",
+    "license": "CC BY 4.0 \u00b7 Loza et al., DRENDS; VISCERA diagnostic plot",
+    "kind": "model",
+    "note": "Seq01_Colon_Med, frame 0, ex vivo porcine surgical manipulation. Three native ToF point-cloud views in mm beside unchanged RGB. Source workspace includes tools/background; no fat mask or validated RGB registration. Color represents sensor depth, not albedo. Pale lobulated tissue is a visual observation. Full attribution and source-frame metadata: fat-lab/drends-reference.attribution.json."
+  },
+  {
+    "id": "hra-omentum",
+    "title": "Open anatomical 3D reference: greater omentum",
+    "url": "https://purl.humanatlas.io/ref-organ/omentum-female/v1.0",
+    "license": "CC BY 4.0 \u00b7 Heidi Schlehlein, Human Reference Atlas / HuBMAP, 2026",
+    "kind": "model",
+    "note": "Female reference omentum, DOI 10.48539/HBM636.GWRW.698. Available locally alongside the male reference. Useful for gross placement, not a 4K surgical material or calibrated mechanical model."
+  },
+  {
+    "id": "human-lobular-anatomy",
+    "title": "Human fat lobules, connective septa and stroma",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6560121/",
+    "license": "CC BY 4.0 \u00b7 Est\u00e8ve et al., Nature Communications, 2019",
+    "kind": "anatomy",
+    "note": "Primary microscopy evidence for a connected lobular tissue with collagen-rich boundaries. Visceral and subcutaneous depots differ. Microscopy staining colors must not become surgical base colors."
+  },
+  {
+    "id": "human-adipose-rheology",
+    "title": "Human adipose rheology at 37 \u00b0C",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7876417/",
+    "license": "Linked research reference; figures are not redistributed",
+    "kind": "mechanics",
+    "note": "Juliar et al., 2020: human abdominal/omental samples from bariatric surgery, frozen/thawed, 0.1% oscillatory shear. Dynamic stiffness depends on frequency and depot. These measurements do not validate large-deformation surgical simulation."
+  }
+]
