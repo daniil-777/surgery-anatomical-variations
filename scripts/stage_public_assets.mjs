@@ -130,10 +130,10 @@ export function stagePublicAssets({ source, destination, maxBytes = PUBLIC_COPY_
     }
     const seen = new Set(), materials = [], sourceManifests = [];
     for (const entry of catalog.value.materials) {
-      if (typeof entry.id !== 'string' || !/^[a-z][a-z0-9_]*$/.test(entry.id) || seen.has(entry.id)) throw new Error('invalid or duplicate tissue id');
+      if (typeof entry.id !== 'string' || !/^[a-z][a-z0-9_-]*$/.test(entry.id) || seen.has(entry.id)) throw new Error('invalid or duplicate tissue id');
       seen.add(entry.id);
-      const preview = relativePath(entry.preview), native = relativePath(entry.manifest);
-      if (preview === native || !preview.startsWith(`${entry.id}/preview/`) || !native.startsWith(`${entry.id}/native/`)) {
+      const preview = relativePath(entry.preview), native = entry.manifest === null ? null : relativePath(entry.manifest);
+      if (preview === native || !preview.startsWith(`${entry.id}/preview/`) || (native !== null && !native.startsWith(`${entry.id}/native/`))) {
         throw new Error(`incorrect native/preview manifest locations: ${entry.id}`);
       }
       const manifestRelative = `tissue-materials/${preview}`, manifest = readMetadata(root, manifestRelative);

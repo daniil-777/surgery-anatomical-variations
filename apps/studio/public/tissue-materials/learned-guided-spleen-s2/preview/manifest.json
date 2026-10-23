@@ -1,0 +1,366 @@
+{
+  "schema": "viscera.tissue-materials/v1",
+  "generator": "viscera.tissue-lora/v1",
+  "label": "Spleen capsule \u00b7 learned",
+  "resolution": [
+    512,
+    512
+  ],
+  "physical_size_mm": [
+    51.2,
+    51.2
+  ],
+  "pixel_size_mm": 0.1,
+  "recipe": {
+    "organ": "spleen",
+    "seed": "2",
+    "tile_size_mm": 51.2,
+    "wetness": 0.6,
+    "vessel_opacity": 0,
+    "fascia_opacity": 0,
+    "adipose_opacity": 0,
+    "condition": null
+  },
+  "channels": {
+    "substrate": {
+      "file": "substrate.png",
+      "color_space": "srgb",
+      "bit_depth": 8,
+      "role": "learned appearance; illumination-flattened observed RGB distribution, not measured albedo",
+      "sha256": "4f1151984d691455fcf17589b3f490fdb900b99bc8d5c57139fed71eaba0b1e0",
+      "bytes": 284229
+    },
+    "base_color": {
+      "file": "base_color.png",
+      "color_space": "srgb",
+      "bit_depth": 8,
+      "role": "same as substrate; no semantic layers are separable",
+      "sha256": "4f1151984d691455fcf17589b3f490fdb900b99bc8d5c57139fed71eaba0b1e0",
+      "bytes": 284229
+    },
+    "normal": {
+      "file": "normal.png",
+      "color_space": "linear",
+      "bit_depth": 8,
+      "convention": "OpenGL +Y",
+      "role": "derived from luminance band-pass height at authored mm amplitude",
+      "sha256": "88449fd6d45d5f702ffadda42a1803872d4cd51a2477d55da04811caac8eee98",
+      "bytes": 198868
+    },
+    "roughness": {
+      "file": "roughness.png",
+      "color_space": "linear",
+      "bit_depth": 8,
+      "role": "authored organ roughness 0.38 with bounded luminance-detail modulation; not measured",
+      "sha256": "085d97bb1dc98cfbf5bc472be8056ff40c54b2ba10b2e6b78d9d4d6189b3dcdd",
+      "bytes": 172849
+    },
+    "height": {
+      "file": "height.png",
+      "color_space": "linear",
+      "bit_depth": 16,
+      "unit": "mm",
+      "decode_range": [
+        -0.0375,
+        0.0375
+      ],
+      "role": "luminance band-pass; authored amplitude; darker = lower; not measured",
+      "sha256": "82448730058343cc449314682eee90ec3293071d9b7224e08947b07120892196",
+      "bytes": 454199
+    },
+    "thickness": {
+      "file": "thickness.png",
+      "color_space": "linear",
+      "bit_depth": 16,
+      "unit": "mm",
+      "decode_range": [
+        0,
+        6
+      ],
+      "role": "constant authored 1 mm placeholder",
+      "sha256": "a355861690eb349e02ccdcd8645479683d2e230ba07a5ca9629d2c4b6ea1f83b",
+      "bytes": 1639
+    },
+    "transition": {
+      "file": "transition.png",
+      "color_space": "linear",
+      "bit_depth": 8,
+      "sha256": "2afd645b9a7eceaacd54305daef32eb4494961aa6e175224be10a7601c7b2c72",
+      "bytes": 350
+    },
+    "metallic": {
+      "file": "metallic.png",
+      "color_space": "linear",
+      "bit_depth": 8,
+      "role": "dielectric tissue; zero",
+      "sha256": "2afd645b9a7eceaacd54305daef32eb4494961aa6e175224be10a7601c7b2c72",
+      "bytes": 350
+    }
+  },
+  "layers": [
+    {
+      "id": "vessels",
+      "file": "overlays/vessels.png",
+      "opacity": 0,
+      "alpha": "straight, linear coverage",
+      "color_space": "srgb",
+      "bit_depth": 8,
+      "role": "empty authored overlay; generated features are inseparable in substrate",
+      "sha256": "4c312008f165654ec6b557c1a12414b81ac083ef3d2ac8548ea636e2f42957ef",
+      "bytes": 1110
+    },
+    {
+      "id": "fascia",
+      "file": "overlays/fascia.png",
+      "opacity": 0,
+      "alpha": "straight, linear coverage",
+      "color_space": "srgb",
+      "bit_depth": 8,
+      "role": "empty authored overlay; generated features are inseparable in substrate",
+      "sha256": "4c312008f165654ec6b557c1a12414b81ac083ef3d2ac8548ea636e2f42957ef",
+      "bytes": 1110
+    },
+    {
+      "id": "adipose",
+      "file": "overlays/adipose.png",
+      "opacity": 0,
+      "alpha": "straight, linear coverage",
+      "color_space": "srgb",
+      "bit_depth": 8,
+      "role": "empty authored overlay; generated features are inseparable in substrate",
+      "sha256": "4c312008f165654ec6b557c1a12414b81ac083ef3d2ac8548ea636e2f42957ef",
+      "bytes": 1110
+    },
+    {
+      "id": "wet_film",
+      "file": "overlays/wet_film.png",
+      "opacity": 0.6,
+      "alpha": "straight, linear coverage",
+      "color_space": "srgb",
+      "bit_depth": 8,
+      "role": "clearcoat_coverage",
+      "meaning": "uniform authored wet coat (coverage 1, opacity = recipe wetness); not a learned or measured film",
+      "sha256": "4c7eea742fee4f6c51ccc9917e47f58191dcfb8b3d47a4e457a43daddf56507d",
+      "bytes": 2212
+    }
+  ],
+  "composition": {
+    "space": "linear RGB",
+    "opacity_semantics": "area coverage"
+  },
+  "provenance": {
+    "schema": "viscera.tissue-lora-sample/v1",
+    "executed": true,
+    "sample": {
+      "schema": "viscera.tissue-lora-sample/v1",
+      "family": "spleen",
+      "condition": null,
+      "prompt": "spleen capsule surface, spleen capsule surface texture, vscrtex close-up",
+      "negative_prompt": "blurry, text, watermark, surgical instrument, border, cartoon, illustration",
+      "seed": "2",
+      "native_size": 512,
+      "size": 512,
+      "steps": 25,
+      "guidance": 7.0,
+      "scheduler": "dpmpp-2m",
+      "scheduler_config": {
+        "num_train_timesteps": 1000,
+        "beta_start": 0.00085,
+        "beta_end": 0.012,
+        "beta_schedule": "scaled_linear",
+        "trained_betas": null,
+        "solver_order": 2,
+        "prediction_type": "epsilon",
+        "thresholding": false,
+        "dynamic_thresholding_ratio": 0.995,
+        "sample_max_value": 1.0,
+        "algorithm_type": "dpmsolver++",
+        "solver_type": "midpoint",
+        "lower_order_final": true,
+        "euler_at_final": false,
+        "use_karras_sigmas": false,
+        "use_exponential_sigmas": false,
+        "use_beta_sigmas": false,
+        "use_lu_lambdas": false,
+        "use_flow_sigmas": false,
+        "flow_shift": 1.0,
+        "final_sigmas_type": "zero",
+        "lambda_min_clipped": "-inf",
+        "variance_type": null,
+        "timestep_spacing": "linspace",
+        "steps_offset": 1,
+        "rescale_betas_zero_snr": false,
+        "use_dynamic_shifting": false,
+        "time_shift_type": "exponential",
+        "_use_default_values": [
+          "lambda_min_clipped",
+          "use_flow_sigmas",
+          "lower_order_final",
+          "solver_order",
+          "rescale_betas_zero_snr",
+          "sample_max_value",
+          "solver_type",
+          "thresholding",
+          "timestep_spacing",
+          "use_dynamic_shifting",
+          "dynamic_thresholding_ratio",
+          "algorithm_type",
+          "prediction_type",
+          "flow_shift",
+          "time_shift_type",
+          "use_exponential_sigmas",
+          "variance_type",
+          "final_sigmas_type",
+          "euler_at_final",
+          "use_lu_lambdas",
+          "use_beta_sigmas"
+        ],
+        "skip_prk_steps": true,
+        "set_alpha_to_one": false,
+        "_class_name": "DPMSolverMultistepScheduler",
+        "_diffusers_version": "0.6.0",
+        "clip_sample": false
+      },
+      "batch": {
+        "size": 1,
+        "index": 0
+      },
+      "device": "mps",
+      "precision": "fp16",
+      "seamless": "circular padding in all padded UNet/VAE convolutions",
+      "seam_ratio": 1.0752246379852295,
+      "lora_sha256": "de5360168c2948e7d15a33741f18ac02f5ae409848ef359dc866642185c8af5a",
+      "hires": null,
+      "guide": {
+        "mode": "authored",
+        "strength": 0.6,
+        "generator": "tissue-materials-0.2.1",
+        "recipe": {
+          "organ": "spleen",
+          "seed": 2,
+          "tile_size_mm": 51.2,
+          "vessel_opacity": 0.7,
+          "fascia_opacity": 0.12,
+          "adipose_opacity": 0.0,
+          "wetness": 0.8,
+          "detail": 1.0,
+          "transition_organ": null,
+          "transition_width": 0.16
+        },
+        "tile_mm": 51.2,
+        "channel": "base_color",
+        "guide_sha256": "3cd364e70058b8ce10965c7994452c965aed99df4373534e4c7102ce1bec1709"
+      },
+      "postprocess": {
+        "mode": "clean-colour",
+        "policy": "tile-clean-v11",
+        "steps": [
+          "artifacts",
+          "colour"
+        ],
+        "artifacts": {
+          "glint_px": 789,
+          "halo_px": 127,
+          "speck_px": 27,
+          "purple_px": 311,
+          "masked_fraction": 0.008922576904296875,
+          "local_sheen_area": 0.06674957275390625,
+          "local_sheen_excess_p99": 0.009266113862395287,
+          "second_pass_masked_fraction": 0.0
+        },
+        "colour": {
+          "before_mean": [
+            24.445747775987787,
+            26.76334029752715,
+            -0.16112203937618272
+          ],
+          "after_mean": [
+            26.193196011611416,
+            19.46601950491493,
+            3.0920392144078988
+          ],
+          "target_mean": [
+            26.64090026704821,
+            17.672122093288426,
+            3.796353264596048
+          ]
+        },
+        "raw_sha256": "fd8810d33bb9561ab38ef2d437539d909d77edbacb2639224bf9ed8ac82eaba9",
+        "source_sample": "/private/tmp/viscera-tissue-lora-inference-2026-10-22/guided-clean/spleen-seed2"
+      },
+      "training_profile": "noncommercial-research",
+      "rights": [
+        "noncommercial-research"
+      ],
+      "run_id": "tissue-lora-fae7a339f17e4888",
+      "caption_style": "v2",
+      "tile_sha256": "b25534198d1c88580ab4f64bd0a40998f203e498f6156909c9ed08c43ceb4683",
+      "seconds": 23.5,
+      "created": "2026-10-22T06:11:32.948124+00:00",
+      "meaning": "learned appearance sample (illumination-flattened observed RGB distribution); not measured albedo, not patient anatomy",
+      "previous_postprocess": {
+        "mode": "clean-colour",
+        "policy": "tile-clean-v9",
+        "steps": [
+          "artifacts",
+          "colour"
+        ]
+      }
+    },
+    "native_resolution": [
+      512,
+      512
+    ],
+    "training_profile": "noncommercial-research",
+    "training_rights": [
+      "noncommercial-research"
+    ],
+    "run_id": "tissue-lora-fae7a339f17e4888",
+    "scale_policy": "authored 10.0 px/mm working scale; source frames are uncalibrated",
+    "rights": {
+      "licence_spdx": "CC-BY-4.0",
+      "training_profile": "noncommercial-research",
+      "licence_conflict": "Repository CC-BY-4.0; paper Usage Notes says non-commercial usage",
+      "attribution": "Carstens et al., Scientific Data 10, 3 (2023), DSAD, CC BY 4.0"
+    },
+    "luminal": false
+  },
+  "diagnostics": {
+    "base_color": {
+      "min": 0.13725490868091583,
+      "max": 0.529411792755127,
+      "mean": 0.2598845958709717,
+      "std": 0.07363252341747284,
+      "seam_mean_abs": 0.004645373672246933,
+      "interior_neighbor_mean_abs": 0.0043203746899962425,
+      "seam_to_neighbor_ratio": 1.075224757194519
+    },
+    "height": {
+      "min": 0.0,
+      "max": 1.0,
+      "mean": 0.4980033338069916,
+      "std": 0.18807315826416016,
+      "seam_mean_abs": 0.03178577125072479,
+      "interior_neighbor_mean_abs": 0.030217420309782028,
+      "seam_to_neighbor_ratio": 1.051902174949646
+    },
+    "roughness": {
+      "min": 0.3200002908706665,
+      "max": 0.4399999976158142,
+      "mean": 0.3595142066478729,
+      "std": 0.030998405069112778,
+      "seam_mean_abs": 0.028606921434402466,
+      "interior_neighbor_mean_abs": 0.026859164237976074,
+      "seam_to_neighbor_ratio": 1.0650712251663208
+    }
+  },
+  "limitations": [
+    "Learned from illumination-flattened surgical RGB; base colour is not measured albedo",
+    "Native learned detail is 512\u00b2 at about 10 px/mm; larger maps add no measured detail",
+    "Height, normal and roughness are derived or authored, not measured",
+    "No vessel/fascia/adipose layer separation; overlays are empty",
+    "No subsurface scattering recovery; wet coat is a rendering approximation",
+    "Not clinically qualified; no surgeon review"
+  ],
+  "qualification": "learned appearance pilot; visual and held-out review required"
+}

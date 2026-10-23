@@ -1,0 +1,270 @@
+{
+  "schema": "viscera.tissue-materials/v1",
+  "generator": "tissue-materials-0.2.1",
+  "label": "Gastric mucosa",
+  "recipe": {
+    "organ": "gastric_mucosa",
+    "seed": 42,
+    "tile_size_mm": 80.0,
+    "vessel_opacity": 0.7,
+    "fascia_opacity": 0.025,
+    "adipose_opacity": 0.0,
+    "wetness": 0.8,
+    "detail": 1.0,
+    "transition_organ": null,
+    "transition_width": 0.16
+  },
+  "resolution": [
+    512,
+    512
+  ],
+  "physical_size_mm": [
+    80.0,
+    80.0
+  ],
+  "pixel_size_mm": 0.15625,
+  "uv": {
+    "origin": "upper-left pixel center",
+    "wrap": "repeat",
+    "u": "right",
+    "v": "down",
+    "normal_derivative": "normalize(-dh/du_mm,+dh/dv_down_mm,1)",
+    "normal_tangent_y": "toward PNG top; conventional OpenGL +Y with TextureLoader flipY=true"
+  },
+  "channels": {
+    "substrate": {
+      "file": "substrate.png",
+      "color_space": "srgb",
+      "bit_depth": 8,
+      "role": "unlit substrate before color overlays",
+      "sha256": "503fdb3588d7ecf143e48e4b4445f7fe47571bb2868808e05020b4810c4b5ba6",
+      "bytes": 297418
+    },
+    "base_color": {
+      "file": "base_color.png",
+      "color_space": "srgb",
+      "bit_depth": 8,
+      "role": "unlit composite diffuse reflectance approximation",
+      "sha256": "f384aef4889a0678e947ff3d372f175b64e9876959648ac55fe501aa81a1a34f",
+      "bytes": 303835
+    },
+    "normal": {
+      "file": "normal.png",
+      "color_space": "linear",
+      "bit_depth": 8,
+      "convention": "OpenGL +Y",
+      "role": "tangent normal from physical height derivatives",
+      "sha256": "144efd525da74b6df15411c4c9184bd141f292f18b9f00039d8765120ed94df3",
+      "bytes": 200710
+    },
+    "substrate_normal": {
+      "file": "substrate_normal.png",
+      "color_space": "linear",
+      "bit_depth": 8,
+      "convention": "OpenGL +Y",
+      "role": "tangent normal before all overlay relief; for editable layer composition",
+      "sha256": "e659fc3d3f2fc6d1e44c6185a037ef5e5b978c64bd2cdc2e5de7e6d3fc31a01e",
+      "bytes": 199990
+    },
+    "layer_relief": {
+      "file": "layer_relief.png",
+      "color_space": "linear",
+      "bit_depth": 8,
+      "unit": "mm",
+      "packing": [
+        "vessels",
+        "adipose",
+        "fascia"
+      ],
+      "decode_scale_mm": [
+        0.035,
+        0.45,
+        0.035
+      ],
+      "decode_offset_mm": [
+        0,
+        0,
+        0
+      ],
+      "role": "RGB independent layer heights, coverage included, global opacity excluded",
+      "sha256": "20acf48d118145f3b9e0329febe8880464a2fd0de61a8a83a787353bc14caaa7",
+      "bytes": 257656
+    },
+    "roughness": {
+      "file": "roughness.png",
+      "color_space": "linear",
+      "bit_depth": 8,
+      "role": "perceptual roughness",
+      "sha256": "99e2a6382d08093fcd09b08c61b19c8d75e7603097eade2c5a8fec8bf6786c3e",
+      "bytes": 46830
+    },
+    "substrate_roughness": {
+      "file": "substrate_roughness.png",
+      "color_space": "linear",
+      "bit_depth": 8,
+      "role": "dry substrate perceptual roughness before fascia and wet-film controls",
+      "sha256": "c2abe521950c5932d282179c778be2efd580a123df1ae5df6ada240b4d53c0e5",
+      "bytes": 73041
+    },
+    "height": {
+      "file": "height.png",
+      "color_space": "linear",
+      "bit_depth": 16,
+      "unit": "mm",
+      "decode_range": [
+        -2.0,
+        2.0
+      ],
+      "sha256": "b4164ff99df85bd81640eb2ffe2017ff15e3375244bb456ba386c706627d8609",
+      "bytes": 405837
+    },
+    "thickness": {
+      "file": "thickness.png",
+      "color_space": "linear",
+      "bit_depth": 16,
+      "unit": "mm",
+      "decode_range": [
+        0.0,
+        6.0
+      ],
+      "role": "uncalibrated subsurface path-length proxy; not measured anatomy",
+      "sha256": "31040b3aacdcd2d3e0188e04e92ef4e5999cb128622ad4edc8ad0ea3185959b5",
+      "bytes": 410783
+    },
+    "transition": {
+      "file": "transition.png",
+      "color_space": "linear",
+      "bit_depth": 8,
+      "role": "secondary surface family blending weight",
+      "sha256": "5a982afe56c5e0e3ac1ae63970ee8b450d8eb87caf424aa87326b1637e49a05e",
+      "bytes": 362
+    }
+  },
+  "layers": [
+    {
+      "id": "vessels",
+      "file": "overlays/vessels.png",
+      "opacity": 0.7,
+      "color_space": "srgb",
+      "alpha": "straight, linear coverage",
+      "bit_depth": 8,
+      "role": "color_overlay",
+      "sha256": "fe4fbe1619b3f236681a9235b71e5ca176b33f7156a924afa105be9b41cf8fb6",
+      "bytes": 303284
+    },
+    {
+      "id": "adipose",
+      "file": "overlays/adipose.png",
+      "opacity": 0.0,
+      "color_space": "srgb",
+      "alpha": "straight, linear coverage",
+      "bit_depth": 8,
+      "role": "color_overlay",
+      "sha256": "8c563e25c39c5f593caefdaf0acc1b9e4f2046dc8e92edb0d7ea67ea94c4667e",
+      "bytes": 425074
+    },
+    {
+      "id": "fascia",
+      "file": "overlays/fascia.png",
+      "opacity": 0.025,
+      "color_space": "srgb",
+      "alpha": "straight, linear coverage",
+      "bit_depth": 8,
+      "role": "color_overlay",
+      "sha256": "c741478082b03f7d410ddae07dcf1e459c76b1ce7272c3abb3ecc2e75db426f0",
+      "bytes": 86374
+    },
+    {
+      "id": "wet_film",
+      "file": "overlays/wet_film.png",
+      "opacity": 0.8,
+      "color_space": "srgb",
+      "alpha": "straight, linear coverage",
+      "bit_depth": 8,
+      "role": "clearcoat_coverage",
+      "sha256": "0e6dc0c2ea0ff1d683b1b50924c4a5217dbbe9964e92c2eb9116393c3b8afe08",
+      "bytes": 112051
+    }
+  ],
+  "composition": {
+    "space": "linear RGB",
+    "order": [
+      "substrate",
+      "vessels",
+      "adipose",
+      "fascia"
+    ],
+    "formula": "out = base * (1 - alpha * opacity) + decode_srgb(layer_rgb) * alpha * opacity",
+    "wet_film": "clearcoat coverage only; never composite white highlights into albedo",
+    "alpha_is_not": "physical transmission or optical tissue depth",
+    "editable_relief": "Decode RGB layer_relief to mm; multiply by global layer opacity; add physical central-difference slopes to substrate_normal slopes before normalization. Do not add to already-combined normal.",
+    "editable_roughness": "clamp((substrate_roughness + 0.10 * fascia_alpha * fascia_opacity) * (1 - 0.57 * wet_film_alpha * wetness), 0.075, 0.85); apply once"
+  },
+  "render_defaults": {
+    "metalness": 0.0,
+    "ior": 1.38,
+    "clearcoat": 0.8,
+    "clearcoat_roughness": 0.11
+  },
+  "measurement": {
+    "field_ranges": {
+      "height_mm": [
+        -0.1061391532421112,
+        0.09563582390546799
+      ],
+      "thickness_mm": [
+        1.3025524616241455,
+        1.7246456146240234
+      ],
+      "roughness": [
+        0.20027537643909454,
+        0.239382803440094
+      ]
+    },
+    "normal_unit_length_error_float32": 1.1920928955078125e-07,
+    "height_clipped": false
+  },
+  "provenance": {
+    "method": "deterministic procedural research baseline",
+    "training_datasets": [],
+    "trained_weights": null,
+    "patient_specific": false,
+    "clinically_validated": false,
+    "parameters": "art-directed uncalibrated priors, not measurements",
+    "seed_encoding": "uint64 integer; JSON consumers must preserve >2^53 seeds as decimal strings",
+    "seed_decimal": "42",
+    "network_raster_resolution": 2048,
+    "vascular_graph": "Smooth continuous trunks with tangent-matched lateral branches, variable radius taper and authored depth-softening; seed XOR stable SHA256 organ-family salt; no patient graph or anatomical correspondence",
+    "appearance": "Independent warm, pale and cool chromatic fields; relief and wet-film highlights separated from color. Qualitative reference observation, no photographic albedo fitting.",
+    "physical_scale": "User-selected tile millimeters; pattern dimensions are authored approximations, not morphometry",
+    "microstructure": "periodic analytic multiscale fields sampled at output resolution",
+    "software": {
+      "python": "3.11.16",
+      "numpy": "2.4.6",
+      "scipy": "1.17.1",
+      "pillow": "12.3.0"
+    },
+    "source_sha256": {
+      "__init__.py": "d3131f73800bd8596d1ad2cc5fd04fccd493ca5a90648c9b4873663e2649f742",
+      "appearance.py": "fb7f0ca6012de7a807760d231b180637dbd88abddf63af1735eb5607b671fb93",
+      "export.py": "e341723e7dbd11466fd96d726e04f033a9ac36698833017cb2b6090862bb9ef3",
+      "field.py": "b4c993db5649d3f2f3c38a80eca4e4615bc7db5780003e37bd9cfe2994d91435",
+      "recipe.py": "0b4a168f11953f15be99fb19d8e1a506911c1c0be80b94eb26799fb3da5bca52",
+      "vascular.py": "805bd301f0a11feb65b4662fa78bc5568455e18603c2e8c9abe9f64a99419f49"
+    }
+  },
+  "limitations": [
+    "Surface appearance tiles do not reconstruct anatomy, organ interiors, mechanics, perfusion, cutting or pathology.",
+    "A 4096 map describes pixel count, not photorealism, clinical accuracy or patient fidelity.",
+    "Subsurface thickness is an artistic rendering proxy; no measured absorption or scattering coefficients.",
+    "Vessel topology and transitions are illustrative; no patient-specific vascular adjacency or anatomical correspondence.",
+    "Mucosa profiles approximate mesoscopic appearance; folds, villi geometry and histology require separate validated models.",
+    "RGB compositing is a controllable appearance baseline, not spectral multilayer light transport.",
+    "Morphology masks and physical feature frequencies are heuristic, with no surgeon evaluation."
+  ],
+  "technical_sources": [
+    "https://registry.khronos.org/glTF/specs/2.0/glTF-2.0.html",
+    "https://pbr-book.org/4ed/Radiometry%2C_Spectra%2C_and_Color/Surface_Reflection",
+    "https://pbr-book.org/3ed-2018/Light_Transport_II_Volume_Rendering/Subsurface_Scattering_Using_the_Diffusion_Equation"
+  ]
+}

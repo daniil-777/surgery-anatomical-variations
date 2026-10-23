@@ -1,0 +1,2029 @@
+{
+  "schema": "viscera.public-tissue-distribution/v1",
+  "kind": "public-preview",
+  "native_available": false,
+  "preview_resolution": 512,
+  "source_catalog_sha256": "478d4c9bfe00661b94f1ada04af5b2468f41441ca4658e13bd6d64b7202b6f31",
+  "note": "This public release includes verified 512×512 authored previews. Native 4096×4096 maps remain in the local library and are not served by this release.",
+  "public_catalog_sha256": "ab6c9a7b9fc8d8b8ff04cfc030419d6c2c451fabed0dedd5c02797e23c9c2bdb",
+  "materials": [
+    {
+      "id": "liver",
+      "preview": "liver/preview/manifest.json",
+      "sha256": "3d17752a59cb5887ae46e94ee039034e3fccc8a4e2506ce302338c0b57b9ba52",
+      "omitted_native_manifest": "liver/native/manifest.json"
+    },
+    {
+      "id": "kidney",
+      "preview": "kidney/preview/manifest.json",
+      "sha256": "60ee963b5761144ae820b73395aeace134222a5f283cb550b1e0ff35c948edb2",
+      "omitted_native_manifest": "kidney/native/manifest.json"
+    },
+    {
+      "id": "heart",
+      "preview": "heart/preview/manifest.json",
+      "sha256": "e46fce35ad8e9d60ca88df933dd1a58dbbc82de84554e7425defea949fcae165",
+      "omitted_native_manifest": "heart/native/manifest.json"
+    },
+    {
+      "id": "lung",
+      "preview": "lung/preview/manifest.json",
+      "sha256": "60d7c81be14a787ab8ffc0ec1a1ebbe364c861a725c74a474f48b8a11afb26d7",
+      "omitted_native_manifest": "lung/native/manifest.json"
+    },
+    {
+      "id": "spleen",
+      "preview": "spleen/preview/manifest.json",
+      "sha256": "9249258208264a8ed2890b4abc43f9fec8adbf2bd9fa1481ceed3dc98381a824",
+      "omitted_native_manifest": "spleen/native/manifest.json"
+    },
+    {
+      "id": "stomach",
+      "preview": "stomach/preview/manifest.json",
+      "sha256": "f53d042c7db6cf0a6dec7454aca3234be00b3cea15cc3589acb3f9af3542b313",
+      "omitted_native_manifest": "stomach/native/manifest.json"
+    },
+    {
+      "id": "small_bowel",
+      "preview": "small_bowel/preview/manifest.json",
+      "sha256": "39330044832d87354c746faa08d65172bac07a2795ed5055774fe60eed7cd693",
+      "omitted_native_manifest": "small_bowel/native/manifest.json"
+    },
+    {
+      "id": "large_bowel",
+      "preview": "large_bowel/preview/manifest.json",
+      "sha256": "9e553bd3cb892ccbbc5386aa47c044c9f0ae2f44547bcba96775ce9996f10251",
+      "omitted_native_manifest": "large_bowel/native/manifest.json"
+    },
+    {
+      "id": "pancreas",
+      "preview": "pancreas/preview/manifest.json",
+      "sha256": "c3a5a9177617dc072482d8ae1758de3d0838e7b99c61657ee66c4cd1aea77d63",
+      "omitted_native_manifest": "pancreas/native/manifest.json"
+    },
+    {
+      "id": "gallbladder",
+      "preview": "gallbladder/preview/manifest.json",
+      "sha256": "fe54f37aef4f313954ccc9d91dd9b90fae65776781feee22534d14cafbeffe8a",
+      "omitted_native_manifest": "gallbladder/native/manifest.json"
+    },
+    {
+      "id": "bladder",
+      "preview": "bladder/preview/manifest.json",
+      "sha256": "d058d5f1c2dd8274f1413a2b0bcb0d883bab9accfa0a7f2abe545f380b4b8f08",
+      "omitted_native_manifest": "bladder/native/manifest.json"
+    },
+    {
+      "id": "uterus",
+      "preview": "uterus/preview/manifest.json",
+      "sha256": "7a9fb8d5ce0e0954bb096c6319fd3e09eab8da7e289b6068dde53d5f57469288",
+      "omitted_native_manifest": "uterus/native/manifest.json"
+    },
+    {
+      "id": "muscle",
+      "preview": "muscle/preview/manifest.json",
+      "sha256": "d029932f907bb6926513b8787b112b1c97ab2262bd4051e7d5c03df487598895",
+      "omitted_native_manifest": "muscle/native/manifest.json"
+    },
+    {
+      "id": "fascia",
+      "preview": "fascia/preview/manifest.json",
+      "sha256": "57e226ab5071d5c1d2e994bf08ba5eb39f55fb6c1e60f22d61c7ec5077d08dae",
+      "omitted_native_manifest": "fascia/native/manifest.json"
+    },
+    {
+      "id": "peritoneum",
+      "preview": "peritoneum/preview/manifest.json",
+      "sha256": "83520ac1c967257883cdc88734eff879996737831100cd8eb62711f37614a58b",
+      "omitted_native_manifest": "peritoneum/native/manifest.json"
+    },
+    {
+      "id": "mesentery",
+      "preview": "mesentery/preview/manifest.json",
+      "sha256": "47c138e86c85b90ecf929c62c4ee2214696419d0eef1a8f8b5d7dd3e34ecbb95",
+      "omitted_native_manifest": "mesentery/native/manifest.json"
+    },
+    {
+      "id": "gastric_mucosa",
+      "preview": "gastric_mucosa/preview/manifest.json",
+      "sha256": "2bcf85248e4e38ecd561267f18d6323c4ec898c093c14a25265fae009b2b7ee0",
+      "omitted_native_manifest": "gastric_mucosa/native/manifest.json"
+    },
+    {
+      "id": "intestinal_mucosa",
+      "preview": "intestinal_mucosa/preview/manifest.json",
+      "sha256": "a1d10f7b82428a4d350aa59de3724d025e613eb786a2f9d7bbec6092c42831bb",
+      "omitted_native_manifest": "intestinal_mucosa/native/manifest.json"
+    },
+    {
+      "id": "colonic_mucosa",
+      "preview": "colonic_mucosa/preview/manifest.json",
+      "sha256": "e33cdeea58657824a21c115f175cb8cad09f3578696cff88cfefef4c63449082",
+      "omitted_native_manifest": "colonic_mucosa/native/manifest.json"
+    },
+    {
+      "id": "liver_peritoneum",
+      "preview": "liver_peritoneum/preview/manifest.json",
+      "sha256": "7276c8bf02debe709fed5a042bc9ccbc1be2735c93a4dfdfc11f75989fae0974",
+      "omitted_native_manifest": "liver_peritoneum/native/manifest.json"
+    },
+    {
+      "id": "pancreas_mesentery",
+      "preview": "pancreas_mesentery/preview/manifest.json",
+      "sha256": "aadfa8ca16572545a107c93b257d7c3499ef47f1a7f30a0da795bc6b0c906e89",
+      "omitted_native_manifest": "pancreas_mesentery/native/manifest.json"
+    }
+  ],
+  "files": [
+    {
+      "path": "tissue-materials/liver/preview/manifest.json",
+      "bytes": 9592,
+      "sha256": "3d17752a59cb5887ae46e94ee039034e3fccc8a4e2506ce302338c0b57b9ba52",
+      "kind": "tissue-preview-manifest"
+    },
+    {
+      "path": "tissue-materials/liver/preview/substrate.png",
+      "bytes": 303088,
+      "sha256": "c7a133143f425bf0138eba60dc9939f3960048e54a0913c561aa7c29f8a48901",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/liver/preview/base_color.png",
+      "bytes": 310810,
+      "sha256": "006760eb3d6db154e07769bbfcfc4466e264e5722d76de79f5312fd9ccf6b461",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/liver/preview/normal.png",
+      "bytes": 78977,
+      "sha256": "a3421d76e99616c94434b3c6687cee45dd982b99f8eedcf0e2a618d59eda4064",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/liver/preview/substrate_normal.png",
+      "bytes": 77627,
+      "sha256": "ff4ec2336e021ca6da1ac445ce1c4c3fb171fbf0592bdc8a9c7d103e3b73ea1c",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/liver/preview/layer_relief.png",
+      "bytes": 257110,
+      "sha256": "fc06c771d014f733fdda5145ec1a7bddf6b0032dedf313cc5b4f722d271f9696",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/liver/preview/roughness.png",
+      "bytes": 46674,
+      "sha256": "47583154bc9a80df05fdb948da2fbe4a3ce349502d3862d02f6fa7b9cc0290ae",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/liver/preview/substrate_roughness.png",
+      "bytes": 72869,
+      "sha256": "5e13481672c97114e4b836b6ba36d9af0df7c265840421cd50efe55bf2dbca81",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/liver/preview/height.png",
+      "bytes": 287466,
+      "sha256": "1ac3366afa8ec072b19b9c2a397fd23ed0387d5ba813ee20ff814534ab3439d5",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/liver/preview/thickness.png",
+      "bytes": 432031,
+      "sha256": "03034dd8470cefe95ee8329bdf6c197ce3a7900d48beff45fdd988fdef71e69d",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/liver/preview/transition.png",
+      "bytes": 362,
+      "sha256": "5a982afe56c5e0e3ac1ae63970ee8b450d8eb87caf424aa87326b1637e49a05e",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/liver/preview/overlays/vessels.png",
+      "bytes": 301576,
+      "sha256": "2bd256721b88fcf1c2a2018c80e64416b76405a4517b5fce1c713d009c255c36",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/liver/preview/overlays/adipose.png",
+      "bytes": 425074,
+      "sha256": "8c563e25c39c5f593caefdaf0acc1b9e4f2046dc8e92edb0d7ea67ea94c4667e",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/liver/preview/overlays/fascia.png",
+      "bytes": 86374,
+      "sha256": "c741478082b03f7d410ddae07dcf1e459c76b1ce7272c3abb3ecc2e75db426f0",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/liver/preview/overlays/wet_film.png",
+      "bytes": 112051,
+      "sha256": "0e6dc0c2ea0ff1d683b1b50924c4a5217dbbe9964e92c2eb9116393c3b8afe08",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/kidney/preview/manifest.json",
+      "bytes": 9596,
+      "sha256": "60ee963b5761144ae820b73395aeace134222a5f283cb550b1e0ff35c948edb2",
+      "kind": "tissue-preview-manifest"
+    },
+    {
+      "path": "tissue-materials/kidney/preview/substrate.png",
+      "bytes": 307359,
+      "sha256": "ea672f670b52847be915b2ad1c3e114d4a2efff76b1f865d6a55464f7889ed84",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/kidney/preview/base_color.png",
+      "bytes": 314497,
+      "sha256": "922089d3102065f756672d4ddda46c52c436cd8efe5ba588503e9a63436a14a7",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/kidney/preview/normal.png",
+      "bytes": 83407,
+      "sha256": "dcd9a071ab4a7dcd092e2aa8541c23c5a7c4851653d0d8f791580ac367aa0f5c",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/kidney/preview/substrate_normal.png",
+      "bytes": 81373,
+      "sha256": "a38af92158f2b63c2eb61a11bd82234dd755bcdf9299d94afea06add83454c1c",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/kidney/preview/layer_relief.png",
+      "bytes": 259953,
+      "sha256": "a6e37ba4de8588406c5531af9a1460191a910f11f2436b773bf6dc07dedf0173",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/kidney/preview/roughness.png",
+      "bytes": 47252,
+      "sha256": "e1f231d66be567fbc2f4d7c88727bc28c447ebe304c97c92d5adbf12ca78babc",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/kidney/preview/substrate_roughness.png",
+      "bytes": 73124,
+      "sha256": "c5d9b0466e4193f2e835220e1dfce46b90b81f14c56883246a18537108550324",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/kidney/preview/height.png",
+      "bytes": 281964,
+      "sha256": "7c24914fa4d9aea8b59dd746634b35d801f5a9d9f3a73337fe9ec9cb30a0ebce",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/kidney/preview/thickness.png",
+      "bytes": 419766,
+      "sha256": "72fed667419feeb8ef06a9bda7fde3115728ba0dcf7e99397edcb76f3d2d9cc1",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/kidney/preview/transition.png",
+      "bytes": 362,
+      "sha256": "5a982afe56c5e0e3ac1ae63970ee8b450d8eb87caf424aa87326b1637e49a05e",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/kidney/preview/overlays/vessels.png",
+      "bytes": 315324,
+      "sha256": "c36f3dff219867f3aa895947c3f7bb89b92a8c670c05c6c8c1127a0969f95428",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/kidney/preview/overlays/adipose.png",
+      "bytes": 425074,
+      "sha256": "8c563e25c39c5f593caefdaf0acc1b9e4f2046dc8e92edb0d7ea67ea94c4667e",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/kidney/preview/overlays/fascia.png",
+      "bytes": 86374,
+      "sha256": "c741478082b03f7d410ddae07dcf1e459c76b1ce7272c3abb3ecc2e75db426f0",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/kidney/preview/overlays/wet_film.png",
+      "bytes": 112051,
+      "sha256": "0e6dc0c2ea0ff1d683b1b50924c4a5217dbbe9964e92c2eb9116393c3b8afe08",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/heart/preview/manifest.json",
+      "bytes": 9594,
+      "sha256": "e46fce35ad8e9d60ca88df933dd1a58dbbc82de84554e7425defea949fcae165",
+      "kind": "tissue-preview-manifest"
+    },
+    {
+      "path": "tissue-materials/heart/preview/substrate.png",
+      "bytes": 326208,
+      "sha256": "e4749eb82d943c13c84cffe31a3de98c896f43cb85821ccd852ffc6090e8a29b",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/heart/preview/base_color.png",
+      "bytes": 350166,
+      "sha256": "c7536da0851069d68de97a33bb52fd051e1df76c45addb055f07f525a0315f31",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/heart/preview/normal.png",
+      "bytes": 215115,
+      "sha256": "5ef9d799e2ac78dfea69fd412cdd1a9f7c943298dd4d07c45604601183139a4c",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/heart/preview/substrate_normal.png",
+      "bytes": 212214,
+      "sha256": "31583d250ad5e72f775d45f772e4986df61b6e158aa965b27402a6574e0c5a1c",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/heart/preview/layer_relief.png",
+      "bytes": 266292,
+      "sha256": "c2e365c368ca0a6888c8973b4e179c3153bdb3fe1e527e6bb9c5c65285018f8c",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/heart/preview/roughness.png",
+      "bytes": 46915,
+      "sha256": "14ec93c673e976c7c44ab094a4365eb0537aba2f94671796dbefdd8c6810ef0b",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/heart/preview/substrate_roughness.png",
+      "bytes": 72994,
+      "sha256": "14ce04bc755339734c56432654235ac707a5400802b689911de97ead751bc2c6",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/heart/preview/height.png",
+      "bytes": 371775,
+      "sha256": "96b3d963495e8fbe40817f27ed7166a8368f0f818f1a945b1e20077bdb9a2844",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/heart/preview/thickness.png",
+      "bytes": 434079,
+      "sha256": "de35bb8d76ec89f0ea2ff67b43605bda405c9e895fced5c4c4d557c6cb774ede",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/heart/preview/transition.png",
+      "bytes": 362,
+      "sha256": "5a982afe56c5e0e3ac1ae63970ee8b450d8eb87caf424aa87326b1637e49a05e",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/heart/preview/overlays/vessels.png",
+      "bytes": 339501,
+      "sha256": "c42b965be092682d891d6c9165e2c72c697ba292771e91a268840a8a73a813e1",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/heart/preview/overlays/adipose.png",
+      "bytes": 425074,
+      "sha256": "8c563e25c39c5f593caefdaf0acc1b9e4f2046dc8e92edb0d7ea67ea94c4667e",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/heart/preview/overlays/fascia.png",
+      "bytes": 86374,
+      "sha256": "c741478082b03f7d410ddae07dcf1e459c76b1ce7272c3abb3ecc2e75db426f0",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/heart/preview/overlays/wet_film.png",
+      "bytes": 112051,
+      "sha256": "0e6dc0c2ea0ff1d683b1b50924c4a5217dbbe9964e92c2eb9116393c3b8afe08",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/lung/preview/manifest.json",
+      "bytes": 9588,
+      "sha256": "60d7c81be14a787ab8ffc0ec1a1ebbe364c861a725c74a474f48b8a11afb26d7",
+      "kind": "tissue-preview-manifest"
+    },
+    {
+      "path": "tissue-materials/lung/preview/substrate.png",
+      "bytes": 348877,
+      "sha256": "1064ad4ae5305cbde5738ef465c9ff67dbbf2ac9acd92b23061bbcbd27ef598c",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/lung/preview/base_color.png",
+      "bytes": 359836,
+      "sha256": "b8be71f85091a10a483afca0a2c6bb9cb64f43b29e68bceb1e97d046db41e6e1",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/lung/preview/normal.png",
+      "bytes": 159967,
+      "sha256": "701dfa4860d60092aac07d56d280f604e9cf87b1a9f0ccc193155308a47cccd4",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/lung/preview/substrate_normal.png",
+      "bytes": 158833,
+      "sha256": "c610592ee083aee89c239e558aadf2ca0785cdf1898b0b57d01a2d645cc89ffc",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/lung/preview/layer_relief.png",
+      "bytes": 257633,
+      "sha256": "7c40872d51d7a3f8cdf569d2fb78b38767860b00fd034564053e7db86e9b5679",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/lung/preview/roughness.png",
+      "bytes": 46685,
+      "sha256": "7d0d454574eda139a66e1a9a91d307f6266c9a8a8702dd127414592a6b3b5ea2",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/lung/preview/substrate_roughness.png",
+      "bytes": 72857,
+      "sha256": "e5b214880123fa67173764caa64aff9b59547f7b342e818b3acfda66d3434eb1",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/lung/preview/height.png",
+      "bytes": 338216,
+      "sha256": "46b4736f3ab1fb2c97cacf2b1fd64b60489454a3d3010b9149ccd21e1f128ae2",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/lung/preview/thickness.png",
+      "bytes": 398981,
+      "sha256": "56b38957913820d79e99d91a8c8bdd631c718d49cfe617105628efdc72ee9fef",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/lung/preview/transition.png",
+      "bytes": 362,
+      "sha256": "5a982afe56c5e0e3ac1ae63970ee8b450d8eb87caf424aa87326b1637e49a05e",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/lung/preview/overlays/vessels.png",
+      "bytes": 360252,
+      "sha256": "0653b8ed80ea2bce66ac33764babca33d5ff658cc3f822a729a9c485df6a5e6a",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/lung/preview/overlays/adipose.png",
+      "bytes": 425074,
+      "sha256": "8c563e25c39c5f593caefdaf0acc1b9e4f2046dc8e92edb0d7ea67ea94c4667e",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/lung/preview/overlays/fascia.png",
+      "bytes": 86374,
+      "sha256": "c741478082b03f7d410ddae07dcf1e459c76b1ce7272c3abb3ecc2e75db426f0",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/lung/preview/overlays/wet_film.png",
+      "bytes": 112051,
+      "sha256": "0e6dc0c2ea0ff1d683b1b50924c4a5217dbbe9964e92c2eb9116393c3b8afe08",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/spleen/preview/manifest.json",
+      "bytes": 9594,
+      "sha256": "9249258208264a8ed2890b4abc43f9fec8adbf2bd9fa1481ceed3dc98381a824",
+      "kind": "tissue-preview-manifest"
+    },
+    {
+      "path": "tissue-materials/spleen/preview/substrate.png",
+      "bytes": 309900,
+      "sha256": "128d92e4fa17b86143dfd5268006f6fdf517930cce0fdefbf04da01223b063b3",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/spleen/preview/base_color.png",
+      "bytes": 316422,
+      "sha256": "6e12765b05a1b63c23f0540e2f469fffe3b390c0e3d862a035999a60db50766c",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/spleen/preview/normal.png",
+      "bytes": 90118,
+      "sha256": "612d42998ecf892bd4d04867a2aef13c27945d8047b0c3bdbd38a0bba796a05b",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/spleen/preview/substrate_normal.png",
+      "bytes": 88666,
+      "sha256": "a6c38542513123254152ffd92bf5399c63ed4e6fb25ab2a27d7abe5f44984210",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/spleen/preview/layer_relief.png",
+      "bytes": 255541,
+      "sha256": "6929b874ac32e9d6f1437b792059ddadd5011a0be6f6e31d350368d525465282",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/spleen/preview/roughness.png",
+      "bytes": 46630,
+      "sha256": "c13336907dab6ea31e756f7d535d97e0972dec66ef35818b740182a6f60b0bc7",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/spleen/preview/substrate_roughness.png",
+      "bytes": 72808,
+      "sha256": "ff75741b39cced158e7fc88098351d7768ae22ccda296b2b20e6cb889ecf2223",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/spleen/preview/height.png",
+      "bytes": 298039,
+      "sha256": "22f736e115ca073cc0e2704ef7379f948f71b048fb7c6848bcad21ac2ccb5418",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/spleen/preview/thickness.png",
+      "bytes": 429680,
+      "sha256": "12785aaaf0853e4b3822686e83c0382860a6c9aa4c32b51074809c137c2d46ea",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/spleen/preview/transition.png",
+      "bytes": 362,
+      "sha256": "5a982afe56c5e0e3ac1ae63970ee8b450d8eb87caf424aa87326b1637e49a05e",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/spleen/preview/overlays/vessels.png",
+      "bytes": 308989,
+      "sha256": "e8bc0266386adfb74a2cff4976bb91d7c97f70133458ae4415e25eb87c7133eb",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/spleen/preview/overlays/adipose.png",
+      "bytes": 425074,
+      "sha256": "8c563e25c39c5f593caefdaf0acc1b9e4f2046dc8e92edb0d7ea67ea94c4667e",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/spleen/preview/overlays/fascia.png",
+      "bytes": 86374,
+      "sha256": "c741478082b03f7d410ddae07dcf1e459c76b1ce7272c3abb3ecc2e75db426f0",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/spleen/preview/overlays/wet_film.png",
+      "bytes": 112051,
+      "sha256": "0e6dc0c2ea0ff1d683b1b50924c4a5217dbbe9964e92c2eb9116393c3b8afe08",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/stomach/preview/manifest.json",
+      "bytes": 9592,
+      "sha256": "f53d042c7db6cf0a6dec7454aca3234be00b3cea15cc3589acb3f9af3542b313",
+      "kind": "tissue-preview-manifest"
+    },
+    {
+      "path": "tissue-materials/stomach/preview/substrate.png",
+      "bytes": 286408,
+      "sha256": "60945df0d8f306daf4ff501d8f616003ecb31681b6fe428aa2da9ed9ef96aef9",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/stomach/preview/base_color.png",
+      "bytes": 304732,
+      "sha256": "862d1111fef7e87bb28b0d66e9a4b450f6d15b03d3bc95d9685c23924374afc7",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/stomach/preview/normal.png",
+      "bytes": 127593,
+      "sha256": "0a37887a934b367a6c193e92ebffc1d823711d09b1766e8fc4daf30a0fe777ea",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/stomach/preview/substrate_normal.png",
+      "bytes": 122641,
+      "sha256": "1eb03c9eca4c6575bb86f856cdabf5bc2c82a4bba52c0d66b62a3e3924c95cbd",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/stomach/preview/layer_relief.png",
+      "bytes": 266012,
+      "sha256": "e3a3878e7d2884bc9d29582160d617699e4118563ac92fb9ce92dd9487689617",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/stomach/preview/roughness.png",
+      "bytes": 47083,
+      "sha256": "e6b50c50bbb598dd3f140cc9afdabf0df2a1697c41c5173a52751fe1b4a07e69",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/stomach/preview/substrate_roughness.png",
+      "bytes": 73041,
+      "sha256": "c2abe521950c5932d282179c778be2efd580a123df1ae5df6ada240b4d53c0e5",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/stomach/preview/height.png",
+      "bytes": 330185,
+      "sha256": "14fdb464b9da9dbe9c8f23a09c2c9d835b704811e221009e01a4869d94e334cb",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/stomach/preview/thickness.png",
+      "bytes": 419766,
+      "sha256": "72fed667419feeb8ef06a9bda7fde3115728ba0dcf7e99397edcb76f3d2d9cc1",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/stomach/preview/transition.png",
+      "bytes": 362,
+      "sha256": "5a982afe56c5e0e3ac1ae63970ee8b450d8eb87caf424aa87326b1637e49a05e",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/stomach/preview/overlays/vessels.png",
+      "bytes": 302789,
+      "sha256": "4431b1dfa1888046968cd869aa162ad4763bdb5c985bac724e3aee1327e1525d",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/stomach/preview/overlays/adipose.png",
+      "bytes": 425074,
+      "sha256": "8c563e25c39c5f593caefdaf0acc1b9e4f2046dc8e92edb0d7ea67ea94c4667e",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/stomach/preview/overlays/fascia.png",
+      "bytes": 86374,
+      "sha256": "c741478082b03f7d410ddae07dcf1e459c76b1ce7272c3abb3ecc2e75db426f0",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/stomach/preview/overlays/wet_film.png",
+      "bytes": 112051,
+      "sha256": "0e6dc0c2ea0ff1d683b1b50924c4a5217dbbe9964e92c2eb9116393c3b8afe08",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/small_bowel/preview/manifest.json",
+      "bytes": 9600,
+      "sha256": "39330044832d87354c746faa08d65172bac07a2795ed5055774fe60eed7cd693",
+      "kind": "tissue-preview-manifest"
+    },
+    {
+      "path": "tissue-materials/small_bowel/preview/substrate.png",
+      "bytes": 288035,
+      "sha256": "34c58a996250747fc6c037aa5c357a8c71d766c1e4039cc335f9379ea4b62f6c",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/small_bowel/preview/base_color.png",
+      "bytes": 306781,
+      "sha256": "9baebf2ea6675e60151eaeba47b76fcc5d1e8e79c0411ea91820d45a96462e25",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/small_bowel/preview/normal.png",
+      "bytes": 108482,
+      "sha256": "c6c759b170809a3083b68fa3999aa53f13c09226657c12f481f9ffa8fe0116db",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/small_bowel/preview/substrate_normal.png",
+      "bytes": 104558,
+      "sha256": "af6702b16c7ec36405f28adceeaf6a590c3e5c45389b049b92a385e065aba62f",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/small_bowel/preview/layer_relief.png",
+      "bytes": 265033,
+      "sha256": "a15660a26ab3f13468551de97085626d663c718041f7d08cad85be376f938176",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/small_bowel/preview/roughness.png",
+      "bytes": 47397,
+      "sha256": "8276e56033ff7020df453078a4995292262e84621d266224170e322e9b61f7c4",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/small_bowel/preview/substrate_roughness.png",
+      "bytes": 73124,
+      "sha256": "c5d9b0466e4193f2e835220e1dfce46b90b81f14c56883246a18537108550324",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/small_bowel/preview/height.png",
+      "bytes": 312478,
+      "sha256": "a080e08ba889b6747181bebfa07826363b2dc873d38f19281acbd59437fe6e14",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/small_bowel/preview/thickness.png",
+      "bytes": 380968,
+      "sha256": "5be8b824b6336b6db1ab6ca91c13078ff50f9eef039cef29589be56065c8663c",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/small_bowel/preview/transition.png",
+      "bytes": 362,
+      "sha256": "5a982afe56c5e0e3ac1ae63970ee8b450d8eb87caf424aa87326b1637e49a05e",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/small_bowel/preview/overlays/vessels.png",
+      "bytes": 313131,
+      "sha256": "b99d6ac2e12dfa3a4726086be49653f62481abce1f06e9e8d7b71713c277086f",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/small_bowel/preview/overlays/adipose.png",
+      "bytes": 425074,
+      "sha256": "8c563e25c39c5f593caefdaf0acc1b9e4f2046dc8e92edb0d7ea67ea94c4667e",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/small_bowel/preview/overlays/fascia.png",
+      "bytes": 86374,
+      "sha256": "c741478082b03f7d410ddae07dcf1e459c76b1ce7272c3abb3ecc2e75db426f0",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/small_bowel/preview/overlays/wet_film.png",
+      "bytes": 112051,
+      "sha256": "0e6dc0c2ea0ff1d683b1b50924c4a5217dbbe9964e92c2eb9116393c3b8afe08",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/large_bowel/preview/manifest.json",
+      "bytes": 9598,
+      "sha256": "9e553bd3cb892ccbbc5386aa47c044c9f0ae2f44547bcba96775ce9996f10251",
+      "kind": "tissue-preview-manifest"
+    },
+    {
+      "path": "tissue-materials/large_bowel/preview/substrate.png",
+      "bytes": 286789,
+      "sha256": "ccddd8257ad6bc76d1fafeedecf02663e545158dbc0cb69a71ee27ee76b7d729",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/large_bowel/preview/base_color.png",
+      "bytes": 305455,
+      "sha256": "7c60557e38d77e28887e70cc4128fffb3903ace7bd354a6a156b348f6cc29e0d",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/large_bowel/preview/normal.png",
+      "bytes": 144794,
+      "sha256": "2edfaf736e4d692e975e0951cd8e06a6fa05498bd2aaeebbd17f2874933b1328",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/large_bowel/preview/substrate_normal.png",
+      "bytes": 140047,
+      "sha256": "22a3e88b85a004693d26cad0d731b813436bfc670a1c08d08786d7781fae7224",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/large_bowel/preview/layer_relief.png",
+      "bytes": 266467,
+      "sha256": "25f04deb191cf568c3d9c65f0873eb790850fbdce6132eff3cf8af494ec37310",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/large_bowel/preview/roughness.png",
+      "bytes": 46812,
+      "sha256": "9549e2630a708827916298baa6d59f4af926fd6e2e6e1d415b50303caaf7e2a7",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/large_bowel/preview/substrate_roughness.png",
+      "bytes": 72869,
+      "sha256": "5e13481672c97114e4b836b6ba36d9af0df7c265840421cd50efe55bf2dbca81",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/large_bowel/preview/height.png",
+      "bytes": 344283,
+      "sha256": "11c4948b6b6873cee03ff4a0cee34f891d6f82bf1f43e01cf8c1a4e927510794",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/large_bowel/preview/thickness.png",
+      "bytes": 407290,
+      "sha256": "dee780b973d381233a70e96f1e40fe3c0a411dfbc47711398d8083efc94189a0",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/large_bowel/preview/transition.png",
+      "bytes": 362,
+      "sha256": "5a982afe56c5e0e3ac1ae63970ee8b450d8eb87caf424aa87326b1637e49a05e",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/large_bowel/preview/overlays/vessels.png",
+      "bytes": 301524,
+      "sha256": "e23f4c8dff344c4cdf44b8ef5ba01436ba935168936d3c87a694adfae20c8c74",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/large_bowel/preview/overlays/adipose.png",
+      "bytes": 425074,
+      "sha256": "8c563e25c39c5f593caefdaf0acc1b9e4f2046dc8e92edb0d7ea67ea94c4667e",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/large_bowel/preview/overlays/fascia.png",
+      "bytes": 86374,
+      "sha256": "c741478082b03f7d410ddae07dcf1e459c76b1ce7272c3abb3ecc2e75db426f0",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/large_bowel/preview/overlays/wet_film.png",
+      "bytes": 112051,
+      "sha256": "0e6dc0c2ea0ff1d683b1b50924c4a5217dbbe9964e92c2eb9116393c3b8afe08",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/pancreas/preview/manifest.json",
+      "bytes": 9594,
+      "sha256": "c3a5a9177617dc072482d8ae1758de3d0838e7b99c61657ee66c4cd1aea77d63",
+      "kind": "tissue-preview-manifest"
+    },
+    {
+      "path": "tissue-materials/pancreas/preview/substrate.png",
+      "bytes": 320702,
+      "sha256": "887751b4277619189e71e461732b2670f644a30a644d90d1e9a8d3604804556c",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/pancreas/preview/base_color.png",
+      "bytes": 333114,
+      "sha256": "815b4086ba4d5fd4a6e34c24dc47c6303c5d418415569dea8503fa31f244dac9",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/pancreas/preview/normal.png",
+      "bytes": 269486,
+      "sha256": "cbeff1d811f0f02794c26f4b7e1d4f19d2f6c6981d04daf704aa47c7527915a6",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/pancreas/preview/substrate_normal.png",
+      "bytes": 269006,
+      "sha256": "ea484eb81e341a2b844e4c0cc91bc17a0fe0cbb52e57206aaee2241bbf4fddff",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/pancreas/preview/layer_relief.png",
+      "bytes": 260727,
+      "sha256": "44882fa293d8dc40b76462a572f56e53c9dd3d8546760f79192cd42ccd73c2c2",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/pancreas/preview/roughness.png",
+      "bytes": 47106,
+      "sha256": "254f059e76640fe34c2e449b4f5e5b9c0b2e28dcd94b010fece3c1f6bbc152dd",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/pancreas/preview/substrate_roughness.png",
+      "bytes": 73096,
+      "sha256": "f14f90d32aadc601c839324c9dbe92810ab42d635c03be9bcee772afedbe09b5",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/pancreas/preview/height.png",
+      "bytes": 395624,
+      "sha256": "212e662e22440683a02493b2ee98f399fdc8210713ab940b3f079f39c43565a3",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/pancreas/preview/thickness.png",
+      "bytes": 427412,
+      "sha256": "a5d750b428b7c7424f7f79dc2bda1ff0dc47bf1457fb643b882ae09a06923a58",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/pancreas/preview/transition.png",
+      "bytes": 362,
+      "sha256": "5a982afe56c5e0e3ac1ae63970ee8b450d8eb87caf424aa87326b1637e49a05e",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/pancreas/preview/overlays/vessels.png",
+      "bytes": 322597,
+      "sha256": "f6f641efe6de51c64633ec5ac8681a38fc0f6a1eaf18f763dcd99c7157b281d9",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/pancreas/preview/overlays/adipose.png",
+      "bytes": 425074,
+      "sha256": "8c563e25c39c5f593caefdaf0acc1b9e4f2046dc8e92edb0d7ea67ea94c4667e",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/pancreas/preview/overlays/fascia.png",
+      "bytes": 86374,
+      "sha256": "c741478082b03f7d410ddae07dcf1e459c76b1ce7272c3abb3ecc2e75db426f0",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/pancreas/preview/overlays/wet_film.png",
+      "bytes": 112051,
+      "sha256": "0e6dc0c2ea0ff1d683b1b50924c4a5217dbbe9964e92c2eb9116393c3b8afe08",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/gallbladder/preview/manifest.json",
+      "bytes": 9598,
+      "sha256": "fe54f37aef4f313954ccc9d91dd9b90fae65776781feee22534d14cafbeffe8a",
+      "kind": "tissue-preview-manifest"
+    },
+    {
+      "path": "tissue-materials/gallbladder/preview/substrate.png",
+      "bytes": 288022,
+      "sha256": "44a4ebab7029efe0aadf48bd082b8702c1ec8d23acd6588cf769b16f4f856762",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/gallbladder/preview/base_color.png",
+      "bytes": 308852,
+      "sha256": "4ca0e2b7e2c89172541f1bbc1e40606c967f7e3b04cf4da15e00cc43518bc92a",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/gallbladder/preview/normal.png",
+      "bytes": 100206,
+      "sha256": "6f4d405e8684957e026b4a36a4720d83866c4588a0b5a2500f00c5881678c52e",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/gallbladder/preview/substrate_normal.png",
+      "bytes": 95408,
+      "sha256": "30cbcf175e8d1867a82a98f5a49474930b508dfe4843de999937856e94ee3963",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/gallbladder/preview/layer_relief.png",
+      "bytes": 265021,
+      "sha256": "db3658e838ddcde6f96db488de79a27de6f096cc4b3218795e783e79648a8b43",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/gallbladder/preview/roughness.png",
+      "bytes": 47964,
+      "sha256": "5fbd1b997b6ab74cb17b05e20296fd909e0c7b14b38232fa1987ba11e5721cf7",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/gallbladder/preview/substrate_roughness.png",
+      "bytes": 72981,
+      "sha256": "1ff793415ea157feab45ece5de46be6d9e1f206fe7f4204c3bb7395b9b138cef",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/gallbladder/preview/height.png",
+      "bytes": 302335,
+      "sha256": "3c733cc4ea4f49b7aa8529ce781c777cf8323621062122d1f16d3cd43c6f250b",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/gallbladder/preview/thickness.png",
+      "bytes": 369577,
+      "sha256": "177e249bd66976d331b567accc557c1e5476608c4a0a22600608978934e1baee",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/gallbladder/preview/transition.png",
+      "bytes": 362,
+      "sha256": "5a982afe56c5e0e3ac1ae63970ee8b450d8eb87caf424aa87326b1637e49a05e",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/gallbladder/preview/overlays/vessels.png",
+      "bytes": 303898,
+      "sha256": "db8d245a00a7e8ee5209315ffd027043f2b6e85efaa5ffe1f032c7c2db2c4c34",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/gallbladder/preview/overlays/adipose.png",
+      "bytes": 425074,
+      "sha256": "8c563e25c39c5f593caefdaf0acc1b9e4f2046dc8e92edb0d7ea67ea94c4667e",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/gallbladder/preview/overlays/fascia.png",
+      "bytes": 86374,
+      "sha256": "c741478082b03f7d410ddae07dcf1e459c76b1ce7272c3abb3ecc2e75db426f0",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/gallbladder/preview/overlays/wet_film.png",
+      "bytes": 112051,
+      "sha256": "0e6dc0c2ea0ff1d683b1b50924c4a5217dbbe9964e92c2eb9116393c3b8afe08",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/bladder/preview/manifest.json",
+      "bytes": 9592,
+      "sha256": "d058d5f1c2dd8274f1413a2b0bcb0d883bab9accfa0a7f2abe545f380b4b8f08",
+      "kind": "tissue-preview-manifest"
+    },
+    {
+      "path": "tissue-materials/bladder/preview/substrate.png",
+      "bytes": 288732,
+      "sha256": "4d3164cfb43362d4062a3d999cd61e5dac99e1650451bb5d5ad3a568db63370c",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/bladder/preview/base_color.png",
+      "bytes": 303596,
+      "sha256": "f791c9ecf3f94e15d4ed3c105691179f50c11ca7a1c814efd4eeda64c8779641",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/bladder/preview/normal.png",
+      "bytes": 109457,
+      "sha256": "992168ac3a1efed5c93f674f293800a5b93a504157cb5b51c643f99045df3203",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/bladder/preview/substrate_normal.png",
+      "bytes": 104558,
+      "sha256": "af6702b16c7ec36405f28adceeaf6a590c3e5c45389b049b92a385e065aba62f",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/bladder/preview/layer_relief.png",
+      "bytes": 264349,
+      "sha256": "22a1259d8557352d7c70a70851ce6517e86b292f38555d226ed41589b56f3eff",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/bladder/preview/roughness.png",
+      "bytes": 46915,
+      "sha256": "14ec93c673e976c7c44ab094a4365eb0537aba2f94671796dbefdd8c6810ef0b",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/bladder/preview/substrate_roughness.png",
+      "bytes": 72994,
+      "sha256": "14ce04bc755339734c56432654235ac707a5400802b689911de97ead751bc2c6",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/bladder/preview/height.png",
+      "bytes": 312995,
+      "sha256": "9f32fb5985dcd8070d6cc0eeb435baedda595dc37c0c70d9eac02b3aec1a3184",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/bladder/preview/thickness.png",
+      "bytes": 407290,
+      "sha256": "dee780b973d381233a70e96f1e40fe3c0a411dfbc47711398d8083efc94189a0",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/bladder/preview/transition.png",
+      "bytes": 362,
+      "sha256": "5a982afe56c5e0e3ac1ae63970ee8b450d8eb87caf424aa87326b1637e49a05e",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/bladder/preview/overlays/vessels.png",
+      "bytes": 297861,
+      "sha256": "463f1d9c5f3555edf59de244007b21fe2cef78d6fb92fe3e1b96ee07e90f90cf",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/bladder/preview/overlays/adipose.png",
+      "bytes": 425074,
+      "sha256": "8c563e25c39c5f593caefdaf0acc1b9e4f2046dc8e92edb0d7ea67ea94c4667e",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/bladder/preview/overlays/fascia.png",
+      "bytes": 86374,
+      "sha256": "c741478082b03f7d410ddae07dcf1e459c76b1ce7272c3abb3ecc2e75db426f0",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/bladder/preview/overlays/wet_film.png",
+      "bytes": 112051,
+      "sha256": "0e6dc0c2ea0ff1d683b1b50924c4a5217dbbe9964e92c2eb9116393c3b8afe08",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/uterus/preview/manifest.json",
+      "bytes": 9591,
+      "sha256": "7a9fb8d5ce0e0954bb096c6319fd3e09eab8da7e289b6068dde53d5f57469288",
+      "kind": "tissue-preview-manifest"
+    },
+    {
+      "path": "tissue-materials/uterus/preview/substrate.png",
+      "bytes": 326471,
+      "sha256": "80887f656d99ab6c3f29950f40e060a8eade2f011ea738cd97921147a8fb6c8f",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/uterus/preview/base_color.png",
+      "bytes": 343658,
+      "sha256": "375f21778ff2c7c1849a0a07e371c2af00d858ceb7a438d334912eb75de0d432",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/uterus/preview/normal.png",
+      "bytes": 175861,
+      "sha256": "7e463bbd4c57107f73157a6a357e9e30c6cca110cd89d46bfd1edb36d5fee1d9",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/uterus/preview/substrate_normal.png",
+      "bytes": 172907,
+      "sha256": "1aef21249b5156d12bbafd2972251c2667c71211810508bb5d237356e2245974",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/uterus/preview/layer_relief.png",
+      "bytes": 266454,
+      "sha256": "2a8b812b7f76b4127e121c1f2d49f6982252a0a15e4dafa353e1c9b4f509aea2",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/uterus/preview/roughness.png",
+      "bytes": 46953,
+      "sha256": "31e1248dd896d0eef5c602bd717e931425cdfce382827e7e672529041587d886",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/uterus/preview/substrate_roughness.png",
+      "bytes": 73031,
+      "sha256": "678f3b598a2151a6eb1afc4fb6f3a4a8229de6e3dafed36ce1d349834b4152a6",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/uterus/preview/height.png",
+      "bytes": 355532,
+      "sha256": "edb9db3196104f17a53188c7eb59dd6407857c512e6ae5ceae7ae5f21763bdc6",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/uterus/preview/thickness.png",
+      "bytes": 429680,
+      "sha256": "12785aaaf0853e4b3822686e83c0382860a6c9aa4c32b51074809c137c2d46ea",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/uterus/preview/transition.png",
+      "bytes": 362,
+      "sha256": "5a982afe56c5e0e3ac1ae63970ee8b450d8eb87caf424aa87326b1637e49a05e",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/uterus/preview/overlays/vessels.png",
+      "bytes": 346431,
+      "sha256": "3652081382daeadb3a56d02a3bcdb1a7955917cf919e781173a807d08f72c28f",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/uterus/preview/overlays/adipose.png",
+      "bytes": 425074,
+      "sha256": "8c563e25c39c5f593caefdaf0acc1b9e4f2046dc8e92edb0d7ea67ea94c4667e",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/uterus/preview/overlays/fascia.png",
+      "bytes": 86374,
+      "sha256": "c741478082b03f7d410ddae07dcf1e459c76b1ce7272c3abb3ecc2e75db426f0",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/uterus/preview/overlays/wet_film.png",
+      "bytes": 112051,
+      "sha256": "0e6dc0c2ea0ff1d683b1b50924c4a5217dbbe9964e92c2eb9116393c3b8afe08",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/muscle/preview/manifest.json",
+      "bytes": 9600,
+      "sha256": "d029932f907bb6926513b8787b112b1c97ab2262bd4051e7d5c03df487598895",
+      "kind": "tissue-preview-manifest"
+    },
+    {
+      "path": "tissue-materials/muscle/preview/substrate.png",
+      "bytes": 327437,
+      "sha256": "d8967ff61cd702ee393b6ac6862b1ae1ef8b399d68a23b584a2755626dc3b76e",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/muscle/preview/base_color.png",
+      "bytes": 348185,
+      "sha256": "93cff16d0a0a3b6a7c1756b9184849f7750184749eea9680a92188082a2a724b",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/muscle/preview/normal.png",
+      "bytes": 233974,
+      "sha256": "5ff908edc02ef2d37d1730feafb2902660fa28bcb5019c3177d8d783694185d3",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/muscle/preview/substrate_normal.png",
+      "bytes": 232847,
+      "sha256": "c91f07db29a1b44a2ecf4e0d88e3b7fe8f8d894541d1fbd6f26787f7a36bf107",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/muscle/preview/layer_relief.png",
+      "bytes": 261824,
+      "sha256": "3138431ebcba0d2be5e8405cd96ae5f51b50765974c8e8e4ecfdb4f404fdf9dc",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/muscle/preview/roughness.png",
+      "bytes": 47114,
+      "sha256": "01f017720efd3eea2cc906e0f0aba18c3b145fc4612bb58fbc142bb21731bf36",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/muscle/preview/substrate_roughness.png",
+      "bytes": 72968,
+      "sha256": "cf718093fe26b699beaee73632cc3e7bd6a611e102783589070ccbd35c7a5627",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/muscle/preview/height.png",
+      "bytes": 378426,
+      "sha256": "1cce71641e8e18a30698dfcd16a6b0ec990cb19e427ed449be1cb3763b4f4c9b",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/muscle/preview/thickness.png",
+      "bytes": 425077,
+      "sha256": "d83028745452e8bf91f0e85678dd511c3d4db31a595b8f4a8f28d27b3a0ce403",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/muscle/preview/transition.png",
+      "bytes": 362,
+      "sha256": "5a982afe56c5e0e3ac1ae63970ee8b450d8eb87caf424aa87326b1637e49a05e",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/muscle/preview/overlays/vessels.png",
+      "bytes": 335279,
+      "sha256": "c251734d528d896d4d70b1b38b5f4def975e5b7d6445c306d9940064034fcaed",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/muscle/preview/overlays/adipose.png",
+      "bytes": 425074,
+      "sha256": "8c563e25c39c5f593caefdaf0acc1b9e4f2046dc8e92edb0d7ea67ea94c4667e",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/muscle/preview/overlays/fascia.png",
+      "bytes": 86374,
+      "sha256": "c741478082b03f7d410ddae07dcf1e459c76b1ce7272c3abb3ecc2e75db426f0",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/muscle/preview/overlays/wet_film.png",
+      "bytes": 112051,
+      "sha256": "0e6dc0c2ea0ff1d683b1b50924c4a5217dbbe9964e92c2eb9116393c3b8afe08",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/fascia/preview/manifest.json",
+      "bytes": 9595,
+      "sha256": "57e226ab5071d5c1d2e994bf08ba5eb39f55fb6c1e60f22d61c7ec5077d08dae",
+      "kind": "tissue-preview-manifest"
+    },
+    {
+      "path": "tissue-materials/fascia/preview/substrate.png",
+      "bytes": 247254,
+      "sha256": "25826f4e838961c330ae59c5fa3f6db4d69c9c9102ffaacab293f3028687bbc2",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/fascia/preview/base_color.png",
+      "bytes": 255079,
+      "sha256": "f27cdaa9fdf9af5e46a71c2ed4604de2d3a3443c0bf441925ca6ca462060d413",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/fascia/preview/normal.png",
+      "bytes": 153591,
+      "sha256": "c4edf70f2c7d8467799522022eae68a7c3e0d71f9c5ecd06c9ac6a65510f66ec",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/fascia/preview/substrate_normal.png",
+      "bytes": 152450,
+      "sha256": "08c791290802c498c1038bd45c585b807f03e78e57b66ccc2a995b4fc00dc399",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/fascia/preview/layer_relief.png",
+      "bytes": 255464,
+      "sha256": "75d02132bde34e6f05802ba007d1f8015d2d7485ba3ab1dd0ce5488983996d70",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/fascia/preview/roughness.png",
+      "bytes": 46990,
+      "sha256": "1bd2025ae915114a1327916cfde1a2afe9f9630e54095f5c0915d930078cd19b",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/fascia/preview/substrate_roughness.png",
+      "bytes": 72998,
+      "sha256": "ebdb7ca8ba9848038a68ad8337ae308df9bf91766fae77378818cd9e43029c51",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/fascia/preview/height.png",
+      "bytes": 341014,
+      "sha256": "1c938a9a156f97f7748ea5b57bef6b6b345bb35c1865282745965c71e5eb26fa",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/fascia/preview/thickness.png",
+      "bytes": 353253,
+      "sha256": "74fab60831a13b48d140d7a09f1c4b14351bc7fa5a3a7ea9e05a36ad88f43bde",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/fascia/preview/transition.png",
+      "bytes": 362,
+      "sha256": "5a982afe56c5e0e3ac1ae63970ee8b450d8eb87caf424aa87326b1637e49a05e",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/fascia/preview/overlays/vessels.png",
+      "bytes": 261397,
+      "sha256": "d91220504d1788e91975954eb697a53dae65740e35cfbc16971c45325441e141",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/fascia/preview/overlays/adipose.png",
+      "bytes": 425074,
+      "sha256": "8c563e25c39c5f593caefdaf0acc1b9e4f2046dc8e92edb0d7ea67ea94c4667e",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/fascia/preview/overlays/fascia.png",
+      "bytes": 86374,
+      "sha256": "c741478082b03f7d410ddae07dcf1e459c76b1ce7272c3abb3ecc2e75db426f0",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/fascia/preview/overlays/wet_film.png",
+      "bytes": 112051,
+      "sha256": "0e6dc0c2ea0ff1d683b1b50924c4a5217dbbe9964e92c2eb9116393c3b8afe08",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/peritoneum/preview/manifest.json",
+      "bytes": 9601,
+      "sha256": "83520ac1c967257883cdc88734eff879996737831100cd8eb62711f37614a58b",
+      "kind": "tissue-preview-manifest"
+    },
+    {
+      "path": "tissue-materials/peritoneum/preview/substrate.png",
+      "bytes": 247225,
+      "sha256": "d21d9aa6500dbff6a68b05156c5b5ef254e503b9be31fe355ff45d3a242847ae",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/peritoneum/preview/base_color.png",
+      "bytes": 264428,
+      "sha256": "681714b0178b440330879181be538bbe09da58fa910c16d6dabe0334d761b579",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/peritoneum/preview/normal.png",
+      "bytes": 109550,
+      "sha256": "f1791ff100ee5207139d6f0dbb140dd10e8aa51e0f4e9bf52cb5ad5a3c2ce3a2",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/peritoneum/preview/substrate_normal.png",
+      "bytes": 103928,
+      "sha256": "406d4eeb385bcdc1d71a14d755a338d0a48135fbf67740b9416fa403b8fe91e2",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/peritoneum/preview/layer_relief.png",
+      "bytes": 263357,
+      "sha256": "34467fc2ac6046c7cec1bb11346df55414f4522a625109d1270ed3ee7a180de6",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/peritoneum/preview/roughness.png",
+      "bytes": 47634,
+      "sha256": "901bfd519f2123f5c1b23ff9703ff5c0283dbbc7b383d9080c52800eb8711204",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/peritoneum/preview/substrate_roughness.png",
+      "bytes": 73022,
+      "sha256": "9966b4c418b984eb21b29b60d0670b34ba4373415188a882186b2ae63742dd6f",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/peritoneum/preview/height.png",
+      "bytes": 298492,
+      "sha256": "780c62f9457b6f82228a329ee654122eae6ef021014ae3872706207f4c5dd20c",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/peritoneum/preview/thickness.png",
+      "bytes": 338109,
+      "sha256": "ef911542d673f41f9bab88fcb04e7241c4978ec90733950fbd8711b705b243fa",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/peritoneum/preview/transition.png",
+      "bytes": 362,
+      "sha256": "5a982afe56c5e0e3ac1ae63970ee8b450d8eb87caf424aa87326b1637e49a05e",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/peritoneum/preview/overlays/vessels.png",
+      "bytes": 263428,
+      "sha256": "790b559aa2466ff664b81d24ff2c1c71f990a27c65a87f30be8c3014da378749",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/peritoneum/preview/overlays/adipose.png",
+      "bytes": 425074,
+      "sha256": "8c563e25c39c5f593caefdaf0acc1b9e4f2046dc8e92edb0d7ea67ea94c4667e",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/peritoneum/preview/overlays/fascia.png",
+      "bytes": 86374,
+      "sha256": "c741478082b03f7d410ddae07dcf1e459c76b1ce7272c3abb3ecc2e75db426f0",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/peritoneum/preview/overlays/wet_film.png",
+      "bytes": 112051,
+      "sha256": "0e6dc0c2ea0ff1d683b1b50924c4a5217dbbe9964e92c2eb9116393c3b8afe08",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/mesentery/preview/manifest.json",
+      "bytes": 9608,
+      "sha256": "47c138e86c85b90ecf929c62c4ee2214696419d0eef1a8f8b5d7dd3e34ecbb95",
+      "kind": "tissue-preview-manifest"
+    },
+    {
+      "path": "tissue-materials/mesentery/preview/substrate.png",
+      "bytes": 248735,
+      "sha256": "6fd0b1e3b48fa42ad5df4f0a872a61fef84f41887041895ee909108ad1b8f91a",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/mesentery/preview/base_color.png",
+      "bytes": 272485,
+      "sha256": "ff8db3f8ae2f3142838677cc108296ad2a350e4ab6379302d95a510f100bfdad",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/mesentery/preview/normal.png",
+      "bytes": 165535,
+      "sha256": "e3a9adb68e1d9b27e1f46c6d385361bded27f58e3d34f533873a71886464bfc8",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/mesentery/preview/substrate_normal.png",
+      "bytes": 160759,
+      "sha256": "45d779b03bf271edbfbb8f427fd47fcd153e219c4f88def69edd4b732a27240c",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/mesentery/preview/layer_relief.png",
+      "bytes": 265366,
+      "sha256": "e55dd13561fddcd018a77c1255d73a640d1b1b4fd4aee964feb20ba311a06b54",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/mesentery/preview/roughness.png",
+      "bytes": 46915,
+      "sha256": "14ec93c673e976c7c44ab094a4365eb0537aba2f94671796dbefdd8c6810ef0b",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/mesentery/preview/substrate_roughness.png",
+      "bytes": 72994,
+      "sha256": "14ce04bc755339734c56432654235ac707a5400802b689911de97ead751bc2c6",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/mesentery/preview/height.png",
+      "bytes": 346624,
+      "sha256": "f8bf6100bae55c6fb510e3261d45e6b614ed193cab5c81cbeba5cda3ed51711d",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/mesentery/preview/thickness.png",
+      "bytes": 377228,
+      "sha256": "b8b77c0e12ce1b1d9e7399327e94d47dfe2ca29f7405b448f467e114e1406efb",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/mesentery/preview/transition.png",
+      "bytes": 362,
+      "sha256": "5a982afe56c5e0e3ac1ae63970ee8b450d8eb87caf424aa87326b1637e49a05e",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/mesentery/preview/overlays/vessels.png",
+      "bytes": 274006,
+      "sha256": "c6caeba7d067104e20621acc066a0c7b3f686ca4cb73babdfcfca2418103a0ef",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/mesentery/preview/overlays/adipose.png",
+      "bytes": 425074,
+      "sha256": "8c563e25c39c5f593caefdaf0acc1b9e4f2046dc8e92edb0d7ea67ea94c4667e",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/mesentery/preview/overlays/fascia.png",
+      "bytes": 86374,
+      "sha256": "c741478082b03f7d410ddae07dcf1e459c76b1ce7272c3abb3ecc2e75db426f0",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/mesentery/preview/overlays/wet_film.png",
+      "bytes": 112051,
+      "sha256": "0e6dc0c2ea0ff1d683b1b50924c4a5217dbbe9964e92c2eb9116393c3b8afe08",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/gastric_mucosa/preview/manifest.json",
+      "bytes": 9600,
+      "sha256": "2bcf85248e4e38ecd561267f18d6323c4ec898c093c14a25265fae009b2b7ee0",
+      "kind": "tissue-preview-manifest"
+    },
+    {
+      "path": "tissue-materials/gastric_mucosa/preview/substrate.png",
+      "bytes": 297418,
+      "sha256": "503fdb3588d7ecf143e48e4b4445f7fe47571bb2868808e05020b4810c4b5ba6",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/gastric_mucosa/preview/base_color.png",
+      "bytes": 303835,
+      "sha256": "f384aef4889a0678e947ff3d372f175b64e9876959648ac55fe501aa81a1a34f",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/gastric_mucosa/preview/normal.png",
+      "bytes": 200710,
+      "sha256": "144efd525da74b6df15411c4c9184bd141f292f18b9f00039d8765120ed94df3",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/gastric_mucosa/preview/substrate_normal.png",
+      "bytes": 199990,
+      "sha256": "e659fc3d3f2fc6d1e44c6185a037ef5e5b978c64bd2cdc2e5de7e6d3fc31a01e",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/gastric_mucosa/preview/layer_relief.png",
+      "bytes": 257656,
+      "sha256": "20acf48d118145f3b9e0329febe8880464a2fd0de61a8a83a787353bc14caaa7",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/gastric_mucosa/preview/roughness.png",
+      "bytes": 46830,
+      "sha256": "99e2a6382d08093fcd09b08c61b19c8d75e7603097eade2c5a8fec8bf6786c3e",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/gastric_mucosa/preview/substrate_roughness.png",
+      "bytes": 73041,
+      "sha256": "c2abe521950c5932d282179c778be2efd580a123df1ae5df6ada240b4d53c0e5",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/gastric_mucosa/preview/height.png",
+      "bytes": 405837,
+      "sha256": "b4164ff99df85bd81640eb2ffe2017ff15e3375244bb456ba386c706627d8609",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/gastric_mucosa/preview/thickness.png",
+      "bytes": 410783,
+      "sha256": "31040b3aacdcd2d3e0188e04e92ef4e5999cb128622ad4edc8ad0ea3185959b5",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/gastric_mucosa/preview/transition.png",
+      "bytes": 362,
+      "sha256": "5a982afe56c5e0e3ac1ae63970ee8b450d8eb87caf424aa87326b1637e49a05e",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/gastric_mucosa/preview/overlays/vessels.png",
+      "bytes": 303284,
+      "sha256": "fe4fbe1619b3f236681a9235b71e5ca176b33f7156a924afa105be9b41cf8fb6",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/gastric_mucosa/preview/overlays/adipose.png",
+      "bytes": 425074,
+      "sha256": "8c563e25c39c5f593caefdaf0acc1b9e4f2046dc8e92edb0d7ea67ea94c4667e",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/gastric_mucosa/preview/overlays/fascia.png",
+      "bytes": 86374,
+      "sha256": "c741478082b03f7d410ddae07dcf1e459c76b1ce7272c3abb3ecc2e75db426f0",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/gastric_mucosa/preview/overlays/wet_film.png",
+      "bytes": 112051,
+      "sha256": "0e6dc0c2ea0ff1d683b1b50924c4a5217dbbe9964e92c2eb9116393c3b8afe08",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/intestinal_mucosa/preview/manifest.json",
+      "bytes": 9614,
+      "sha256": "a1d10f7b82428a4d350aa59de3724d025e613eb786a2f9d7bbec6092c42831bb",
+      "kind": "tissue-preview-manifest"
+    },
+    {
+      "path": "tissue-materials/intestinal_mucosa/preview/substrate.png",
+      "bytes": 314381,
+      "sha256": "40e7fd9a1613bbea260cbac287f4de6a7a7013e528c53f148515b22cf2d12f15",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/intestinal_mucosa/preview/base_color.png",
+      "bytes": 321450,
+      "sha256": "22ef9c56cf48d14b6d2ca528e8457bffe71833edefc75fc74774506a98d28ee4",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/intestinal_mucosa/preview/normal.png",
+      "bytes": 305549,
+      "sha256": "d00c48da78003e4260e9affcf37e1372ac72445422ebd800a15cd1c98f878795",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/intestinal_mucosa/preview/substrate_normal.png",
+      "bytes": 305278,
+      "sha256": "d8350d91e465a369b4815aaa99e362d3192990c7d2d7ec745ce64d01a647da08",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/intestinal_mucosa/preview/layer_relief.png",
+      "bytes": 259397,
+      "sha256": "437852ccc3315b4a336499de50163b0411b609cb8bb3eec593bd06aafc3c1885",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/intestinal_mucosa/preview/roughness.png",
+      "bytes": 46556,
+      "sha256": "48df54268c73d4538863fcf87e35aef1358bd8ac5ba6a9dda074d3499c3b3408",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/intestinal_mucosa/preview/substrate_roughness.png",
+      "bytes": 72857,
+      "sha256": "e5b214880123fa67173764caa64aff9b59547f7b342e818b3acfda66d3434eb1",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/intestinal_mucosa/preview/height.png",
+      "bytes": 394730,
+      "sha256": "f8a85a6e80d2f82f53c2d41d22f1ef21738adf35f9bb961a98e999fcb618e386",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/intestinal_mucosa/preview/thickness.png",
+      "bytes": 383808,
+      "sha256": "e2dc48f79b2efc11040251681d4dd7cefd7202060224ae760bd879f68568c19a",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/intestinal_mucosa/preview/transition.png",
+      "bytes": 362,
+      "sha256": "5a982afe56c5e0e3ac1ae63970ee8b450d8eb87caf424aa87326b1637e49a05e",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/intestinal_mucosa/preview/overlays/vessels.png",
+      "bytes": 319948,
+      "sha256": "1c7f497c058595f5fc800d7cf966c39bd71eaf3e90fea6289e41d412f69b8290",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/intestinal_mucosa/preview/overlays/adipose.png",
+      "bytes": 425074,
+      "sha256": "8c563e25c39c5f593caefdaf0acc1b9e4f2046dc8e92edb0d7ea67ea94c4667e",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/intestinal_mucosa/preview/overlays/fascia.png",
+      "bytes": 86374,
+      "sha256": "c741478082b03f7d410ddae07dcf1e459c76b1ce7272c3abb3ecc2e75db426f0",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/intestinal_mucosa/preview/overlays/wet_film.png",
+      "bytes": 112051,
+      "sha256": "0e6dc0c2ea0ff1d683b1b50924c4a5217dbbe9964e92c2eb9116393c3b8afe08",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/colonic_mucosa/preview/manifest.json",
+      "bytes": 9602,
+      "sha256": "e33cdeea58657824a21c115f175cb8cad09f3578696cff88cfefef4c63449082",
+      "kind": "tissue-preview-manifest"
+    },
+    {
+      "path": "tissue-materials/colonic_mucosa/preview/substrate.png",
+      "bytes": 296782,
+      "sha256": "7162fbb1536defe094c12f1c14b331f2fdee1999989caa0073851d14debc57ba",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/colonic_mucosa/preview/base_color.png",
+      "bytes": 307149,
+      "sha256": "b11823a04ac7b5aa4e4703e8707318b6ec35fb38d7999c0c8448d11d8724c5a6",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/colonic_mucosa/preview/normal.png",
+      "bytes": 114044,
+      "sha256": "8736773fb857cbf71429de3a394b3d4ced395757e58993350df9b9bb5a45c902",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/colonic_mucosa/preview/substrate_normal.png",
+      "bytes": 109117,
+      "sha256": "0d18b78f96a0b946e8d4f2abbcd11415a16b770299b6116c4007de52c49de851",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/colonic_mucosa/preview/layer_relief.png",
+      "bytes": 264840,
+      "sha256": "1d12d9dfa4e5f62ae521d88174c3c4b813a7f1455c676b0ad6afd604e9fd2346",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/colonic_mucosa/preview/roughness.png",
+      "bytes": 46830,
+      "sha256": "99e2a6382d08093fcd09b08c61b19c8d75e7603097eade2c5a8fec8bf6786c3e",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/colonic_mucosa/preview/substrate_roughness.png",
+      "bytes": 73041,
+      "sha256": "c2abe521950c5932d282179c778be2efd580a123df1ae5df6ada240b4d53c0e5",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/colonic_mucosa/preview/height.png",
+      "bytes": 358132,
+      "sha256": "84798d2b5e6a9e91adb1932fa0c542e910e865606eb88ce4ee6207a20fd6b776",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/colonic_mucosa/preview/thickness.png",
+      "bytes": 389669,
+      "sha256": "95e8cccda154aeafc3b217001c77d839158244843922db1a54ef839bed1df680",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/colonic_mucosa/preview/transition.png",
+      "bytes": 362,
+      "sha256": "5a982afe56c5e0e3ac1ae63970ee8b450d8eb87caf424aa87326b1637e49a05e",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/colonic_mucosa/preview/overlays/vessels.png",
+      "bytes": 306933,
+      "sha256": "d09840b25697b91301c93eefc81aa5a1b50f7a225fe74fc3ac82ca64abd6f9f3",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/colonic_mucosa/preview/overlays/adipose.png",
+      "bytes": 425074,
+      "sha256": "8c563e25c39c5f593caefdaf0acc1b9e4f2046dc8e92edb0d7ea67ea94c4667e",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/colonic_mucosa/preview/overlays/fascia.png",
+      "bytes": 86374,
+      "sha256": "c741478082b03f7d410ddae07dcf1e459c76b1ce7272c3abb3ecc2e75db426f0",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/colonic_mucosa/preview/overlays/wet_film.png",
+      "bytes": 112051,
+      "sha256": "0e6dc0c2ea0ff1d683b1b50924c4a5217dbbe9964e92c2eb9116393c3b8afe08",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/liver_peritoneum/preview/manifest.json",
+      "bytes": 9598,
+      "sha256": "7276c8bf02debe709fed5a042bc9ccbc1be2735c93a4dfdfc11f75989fae0974",
+      "kind": "tissue-preview-manifest"
+    },
+    {
+      "path": "tissue-materials/liver_peritoneum/preview/substrate.png",
+      "bytes": 321908,
+      "sha256": "b9608e5b62c405f800e69327db7004e7020fac3da4323b71b7c8a72110e4ae44",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/liver_peritoneum/preview/base_color.png",
+      "bytes": 359824,
+      "sha256": "d929c2c3a5327ecfbdf1ddf412b283c3970673b2bdef18f2247f26f67929b588",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/liver_peritoneum/preview/normal.png",
+      "bytes": 133415,
+      "sha256": "baedf26a1470f254bf4b230cd6c013fc04ec469a5b711921641a4b24f13e0c6d",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/liver_peritoneum/preview/substrate_normal.png",
+      "bytes": 93130,
+      "sha256": "b7cc2d36536f4c5549bd07c8e689cd609df2f02d4706204cfc6e64b99c1d6081",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/liver_peritoneum/preview/layer_relief.png",
+      "bytes": 259785,
+      "sha256": "5d63159e4e3c30bd02a4e9ae6e7082b6fb0988b6edb200356d043142c2b0f23a",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/liver_peritoneum/preview/roughness.png",
+      "bytes": 51769,
+      "sha256": "ad14438a661b87418587cb3f27d7b51ffcc15496255227a60b648396a727e583",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/liver_peritoneum/preview/substrate_roughness.png",
+      "bytes": 79338,
+      "sha256": "fa3534f7f939216a1263dee3b540663b5f34732a4f444229da5a61b586de1787",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/liver_peritoneum/preview/height.png",
+      "bytes": 356990,
+      "sha256": "2a8b6159c024b0750fba38a3cef48c7133b48f25ef5b599e8b9ac5a6459594c0",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/liver_peritoneum/preview/thickness.png",
+      "bytes": 451265,
+      "sha256": "a01201f3d78d8a46a81ea2fdf2abaebd54cabac2ae6fe7649f0ce480b98e8038",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/liver_peritoneum/preview/transition.png",
+      "bytes": 18039,
+      "sha256": "f5869582bed0220a91b22064dd230bedccc4faff2ca760590f505181fc9d40cf",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/liver_peritoneum/preview/overlays/vessels.png",
+      "bytes": 325160,
+      "sha256": "4b86cdc7d21ad020d32500e8c7c16381534934a094a771aeb3508d38390583fb",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/liver_peritoneum/preview/overlays/adipose.png",
+      "bytes": 425074,
+      "sha256": "8c563e25c39c5f593caefdaf0acc1b9e4f2046dc8e92edb0d7ea67ea94c4667e",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/liver_peritoneum/preview/overlays/fascia.png",
+      "bytes": 86374,
+      "sha256": "c741478082b03f7d410ddae07dcf1e459c76b1ce7272c3abb3ecc2e75db426f0",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/liver_peritoneum/preview/overlays/wet_film.png",
+      "bytes": 112051,
+      "sha256": "0e6dc0c2ea0ff1d683b1b50924c4a5217dbbe9964e92c2eb9116393c3b8afe08",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/pancreas_mesentery/preview/manifest.json",
+      "bytes": 9605,
+      "sha256": "aadfa8ca16572545a107c93b257d7c3499ef47f1a7f30a0da795bc6b0c906e89",
+      "kind": "tissue-preview-manifest"
+    },
+    {
+      "path": "tissue-materials/pancreas_mesentery/preview/substrate.png",
+      "bytes": 304520,
+      "sha256": "952d87ed9a090cb7a7560d7a8211c6df4a31f7a843e33cb3e8adc51936ed10fd",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/pancreas_mesentery/preview/base_color.png",
+      "bytes": 329222,
+      "sha256": "7022cad8f06e7c0cfd0d76c166fd7b3197e99e4a3551919afc2f379d31a69f60",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/pancreas_mesentery/preview/normal.png",
+      "bytes": 248398,
+      "sha256": "af5202df30af8f8bb96050e6690a564d67a59cbb7123915d0b2490be91c9ee13",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/pancreas_mesentery/preview/substrate_normal.png",
+      "bytes": 232098,
+      "sha256": "3f0723a73b938689f76ef53171e1f5d714624b2f6ab9a4f82f4a671a4c5aaefd",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/pancreas_mesentery/preview/layer_relief.png",
+      "bytes": 264797,
+      "sha256": "7c213e8b9a3b585ed9196187dbf8b5464c273c4bb7893428a01736ac33977d83",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/pancreas_mesentery/preview/roughness.png",
+      "bytes": 52656,
+      "sha256": "263d297c3fd595231d8a1d13758ead813689a3df174d307e6dde1f0978d23fb6",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/pancreas_mesentery/preview/substrate_roughness.png",
+      "bytes": 81129,
+      "sha256": "6c2bc5b1bfeee5378d825b4c98bcd151e8d4ffbaeeb6066cb8e8f6cd50b7d9e1",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/pancreas_mesentery/preview/height.png",
+      "bytes": 404163,
+      "sha256": "3da70f1812f211b56f1cc9a8385b0448a8e9eecdd28814ee7ac7859bdbaac5e5",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/pancreas_mesentery/preview/thickness.png",
+      "bytes": 454607,
+      "sha256": "635c8eb46ac26aa02562bdbaee8c68142f9ac8c507bac5777ff7a238fb226cf0",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/pancreas_mesentery/preview/transition.png",
+      "bytes": 18039,
+      "sha256": "f5869582bed0220a91b22064dd230bedccc4faff2ca760590f505181fc9d40cf",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/pancreas_mesentery/preview/overlays/vessels.png",
+      "bytes": 312222,
+      "sha256": "5d9f71c2887b45f424d660f499dbef2e6d5cc88c7767ea2efefefc7e869919c2",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/pancreas_mesentery/preview/overlays/adipose.png",
+      "bytes": 425074,
+      "sha256": "8c563e25c39c5f593caefdaf0acc1b9e4f2046dc8e92edb0d7ea67ea94c4667e",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/pancreas_mesentery/preview/overlays/fascia.png",
+      "bytes": 86374,
+      "sha256": "c741478082b03f7d410ddae07dcf1e459c76b1ce7272c3abb3ecc2e75db426f0",
+      "kind": "tissue-preview-map"
+    },
+    {
+      "path": "tissue-materials/pancreas_mesentery/preview/overlays/wet_film.png",
+      "bytes": 112051,
+      "sha256": "0e6dc0c2ea0ff1d683b1b50924c4a5217dbbe9964e92c2eb9116393c3b8afe08",
+      "kind": "tissue-preview-map"
+    }
+  ]
+}

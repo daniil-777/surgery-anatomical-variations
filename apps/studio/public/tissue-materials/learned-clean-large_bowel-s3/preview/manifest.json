@@ -1,0 +1,343 @@
+{
+  "schema": "viscera.tissue-materials/v1",
+  "generator": "viscera.tissue-lora/v1",
+  "label": "Large bowel serosa \u00b7 learned",
+  "resolution": [
+    512,
+    512
+  ],
+  "physical_size_mm": [
+    51.2,
+    51.2
+  ],
+  "pixel_size_mm": 0.1,
+  "recipe": {
+    "organ": "large_bowel",
+    "seed": "3",
+    "tile_size_mm": 51.2,
+    "wetness": 0.6,
+    "vessel_opacity": 0,
+    "fascia_opacity": 0,
+    "adipose_opacity": 0,
+    "condition": null
+  },
+  "channels": {
+    "substrate": {
+      "file": "substrate.png",
+      "color_space": "srgb",
+      "bit_depth": 8,
+      "role": "learned appearance; illumination-flattened observed RGB distribution, not measured albedo",
+      "sha256": "b73bcf8e229695ccd64f5c50ad18ce3d051c3b9b2bdf25527abaa8391de741b2",
+      "bytes": 321457
+    },
+    "base_color": {
+      "file": "base_color.png",
+      "color_space": "srgb",
+      "bit_depth": 8,
+      "role": "same as substrate; no semantic layers are separable",
+      "sha256": "b73bcf8e229695ccd64f5c50ad18ce3d051c3b9b2bdf25527abaa8391de741b2",
+      "bytes": 321457
+    },
+    "normal": {
+      "file": "normal.png",
+      "color_space": "linear",
+      "bit_depth": 8,
+      "convention": "OpenGL +Y",
+      "role": "derived from luminance band-pass height at authored mm amplitude",
+      "sha256": "659164fb0c08413cfc12a597dc1e5cc2466c8784fc5178148675e9b72988ab49",
+      "bytes": 223853
+    },
+    "roughness": {
+      "file": "roughness.png",
+      "color_space": "linear",
+      "bit_depth": 8,
+      "role": "authored organ roughness 0.36 with bounded luminance-detail modulation; not measured",
+      "sha256": "4bec1d8f29a05c3f97d9e875b48b56bd1a318b88e24e23befa45a5e79b64307a",
+      "bytes": 165545
+    },
+    "height": {
+      "file": "height.png",
+      "color_space": "linear",
+      "bit_depth": 16,
+      "unit": "mm",
+      "decode_range": [
+        -0.08,
+        0.08
+      ],
+      "role": "luminance band-pass; authored amplitude; darker = lower; not measured",
+      "sha256": "08eb5ca00c4675c60660e4f328a5a5e6c2500ebf16d21a96bc535dd0dcf00324",
+      "bytes": 449995
+    },
+    "thickness": {
+      "file": "thickness.png",
+      "color_space": "linear",
+      "bit_depth": 16,
+      "unit": "mm",
+      "decode_range": [
+        0,
+        6
+      ],
+      "role": "constant authored 1 mm placeholder",
+      "sha256": "a355861690eb349e02ccdcd8645479683d2e230ba07a5ca9629d2c4b6ea1f83b",
+      "bytes": 1639
+    },
+    "transition": {
+      "file": "transition.png",
+      "color_space": "linear",
+      "bit_depth": 8,
+      "sha256": "2afd645b9a7eceaacd54305daef32eb4494961aa6e175224be10a7601c7b2c72",
+      "bytes": 350
+    },
+    "metallic": {
+      "file": "metallic.png",
+      "color_space": "linear",
+      "bit_depth": 8,
+      "role": "dielectric tissue; zero",
+      "sha256": "2afd645b9a7eceaacd54305daef32eb4494961aa6e175224be10a7601c7b2c72",
+      "bytes": 350
+    }
+  },
+  "layers": [
+    {
+      "id": "vessels",
+      "file": "overlays/vessels.png",
+      "opacity": 0,
+      "alpha": "straight, linear coverage",
+      "color_space": "srgb",
+      "bit_depth": 8,
+      "role": "empty authored overlay; generated features are inseparable in substrate",
+      "sha256": "4c312008f165654ec6b557c1a12414b81ac083ef3d2ac8548ea636e2f42957ef",
+      "bytes": 1110
+    },
+    {
+      "id": "fascia",
+      "file": "overlays/fascia.png",
+      "opacity": 0,
+      "alpha": "straight, linear coverage",
+      "color_space": "srgb",
+      "bit_depth": 8,
+      "role": "empty authored overlay; generated features are inseparable in substrate",
+      "sha256": "4c312008f165654ec6b557c1a12414b81ac083ef3d2ac8548ea636e2f42957ef",
+      "bytes": 1110
+    },
+    {
+      "id": "adipose",
+      "file": "overlays/adipose.png",
+      "opacity": 0,
+      "alpha": "straight, linear coverage",
+      "color_space": "srgb",
+      "bit_depth": 8,
+      "role": "empty authored overlay; generated features are inseparable in substrate",
+      "sha256": "4c312008f165654ec6b557c1a12414b81ac083ef3d2ac8548ea636e2f42957ef",
+      "bytes": 1110
+    },
+    {
+      "id": "wet_film",
+      "file": "overlays/wet_film.png",
+      "opacity": 0.6,
+      "alpha": "straight, linear coverage",
+      "color_space": "srgb",
+      "bit_depth": 8,
+      "role": "clearcoat_coverage",
+      "meaning": "uniform authored wet coat (coverage 1, opacity = recipe wetness); not a learned or measured film",
+      "sha256": "4c7eea742fee4f6c51ccc9917e47f58191dcfb8b3d47a4e457a43daddf56507d",
+      "bytes": 2212
+    }
+  ],
+  "composition": {
+    "space": "linear RGB",
+    "opacity_semantics": "area coverage"
+  },
+  "provenance": {
+    "schema": "viscera.tissue-lora-sample/v1",
+    "executed": true,
+    "sample": {
+      "schema": "viscera.tissue-lora-sample/v1",
+      "family": "large_bowel",
+      "condition": null,
+      "prompt": "colon serosa surface, colon serosa surface texture, vscrtex close-up",
+      "negative_prompt": "blurry, text, watermark, surgical instrument, border, cartoon, illustration",
+      "seed": "3",
+      "native_size": 512,
+      "size": 512,
+      "steps": 30,
+      "guidance": 7.0,
+      "scheduler": "DPMSolverMultistepScheduler",
+      "scheduler_config": {
+        "num_train_timesteps": 1000,
+        "beta_start": 0.00085,
+        "beta_end": 0.012,
+        "beta_schedule": "scaled_linear",
+        "trained_betas": null,
+        "solver_order": 2,
+        "prediction_type": "epsilon",
+        "thresholding": false,
+        "dynamic_thresholding_ratio": 0.995,
+        "sample_max_value": 1.0,
+        "algorithm_type": "dpmsolver++",
+        "solver_type": "midpoint",
+        "lower_order_final": true,
+        "euler_at_final": false,
+        "use_karras_sigmas": false,
+        "use_exponential_sigmas": false,
+        "use_beta_sigmas": false,
+        "use_lu_lambdas": false,
+        "use_flow_sigmas": false,
+        "flow_shift": 1.0,
+        "final_sigmas_type": "zero",
+        "lambda_min_clipped": "-inf",
+        "variance_type": null,
+        "timestep_spacing": "linspace",
+        "steps_offset": 1,
+        "rescale_betas_zero_snr": false,
+        "use_dynamic_shifting": false,
+        "time_shift_type": "exponential",
+        "_use_default_values": [
+          "euler_at_final",
+          "dynamic_thresholding_ratio",
+          "use_beta_sigmas",
+          "lower_order_final",
+          "rescale_betas_zero_snr",
+          "timestep_spacing",
+          "solver_type",
+          "thresholding",
+          "sample_max_value",
+          "final_sigmas_type",
+          "time_shift_type",
+          "algorithm_type",
+          "lambda_min_clipped",
+          "use_karras_sigmas",
+          "use_flow_sigmas",
+          "use_exponential_sigmas",
+          "use_dynamic_shifting",
+          "prediction_type",
+          "variance_type",
+          "solver_order",
+          "use_lu_lambdas",
+          "flow_shift"
+        ],
+        "skip_prk_steps": true,
+        "set_alpha_to_one": false,
+        "_class_name": "DPMSolverMultistepScheduler",
+        "_diffusers_version": "0.6.0",
+        "clip_sample": false
+      },
+      "device": "mps",
+      "precision": "fp16",
+      "seamless": "circular padding in all padded UNet/VAE convolutions",
+      "seam_ratio": 0.8923318386077881,
+      "lora_sha256": "de5360168c2948e7d15a33741f18ac02f5ae409848ef359dc866642185c8af5a",
+      "hires": null,
+      "training_profile": "noncommercial-research",
+      "rights": [
+        "noncommercial-research"
+      ],
+      "run_id": "tissue-lora-fae7a339f17e4888",
+      "caption_style": "v2",
+      "tile_sha256": "21667b27ad5d701779fd6b35eb0c1175fa4f5efcab26da525d4b20312471f862",
+      "seconds": 29.32,
+      "created": "2026-10-22T04:59:53.357827+00:00",
+      "meaning": "learned appearance sample (illumination-flattened observed RGB distribution); not measured albedo, not patient anatomy",
+      "postprocess": {
+        "mode": "clean-colour",
+        "policy": "tile-clean-v11",
+        "steps": [
+          "artifacts",
+          "colour"
+        ],
+        "artifacts": {
+          "glint_px": 1490,
+          "halo_px": 214,
+          "speck_px": 25,
+          "purple_px": 687,
+          "masked_fraction": 0.020313262939453125,
+          "local_sheen_area": 0.11899566650390625,
+          "local_sheen_excess_p99": 0.03640817478299141,
+          "second_pass_masked_fraction": 0.000286102294921875
+        },
+        "colour": {
+          "before_mean": [
+            44.259382753706696,
+            30.253154176177926,
+            11.361324407614411
+          ],
+          "after_mean": [
+            45.45172723282647,
+            26.224267580153665,
+            13.44581864450632
+          ],
+          "target_mean": [
+            45.756705285379105,
+            25.23177377144834,
+            14.048005160473794
+          ]
+        },
+        "raw_sha256": "51f2b9beb6b22a5ac11309f17f7b4d76af745e1041d2a5d62ac257a83a025c4c",
+        "source_sample": "/private/tmp/viscera-tissue-lora-inference-2026-10-22/ext-clean/large_bowel-seed3"
+      },
+      "previous_postprocess": {
+        "mode": "clean-colour",
+        "policy": "tile-clean-v9",
+        "steps": [
+          "artifacts",
+          "colour"
+        ]
+      }
+    },
+    "native_resolution": [
+      512,
+      512
+    ],
+    "training_profile": "noncommercial-research",
+    "training_rights": [
+      "noncommercial-research"
+    ],
+    "run_id": "tissue-lora-fae7a339f17e4888",
+    "scale_policy": "authored 10.0 px/mm working scale; source frames are uncalibrated",
+    "rights": {
+      "licence_spdx": "CC-BY-4.0",
+      "training_profile": "noncommercial-research",
+      "licence_conflict": "Repository CC-BY-4.0; paper Usage Notes says non-commercial usage",
+      "attribution": "Carstens et al., Scientific Data 10, 3 (2023), DSAD, CC BY 4.0"
+    },
+    "luminal": false
+  },
+  "diagnostics": {
+    "base_color": {
+      "min": 0.15294118225574493,
+      "max": 0.7882353067398071,
+      "mean": 0.43202486634254456,
+      "std": 0.13028526306152344,
+      "seam_mean_abs": 0.006175959948450327,
+      "interior_neighbor_mean_abs": 0.006921146064996719,
+      "seam_to_neighbor_ratio": 0.8923319578170776
+    },
+    "height": {
+      "min": 0.0,
+      "max": 1.0,
+      "mean": 0.501315712928772,
+      "std": 0.19168652594089508,
+      "seam_mean_abs": 0.022809863090515137,
+      "interior_neighbor_mean_abs": 0.02503948286175728,
+      "seam_to_neighbor_ratio": 0.9109558463096619
+    },
+    "roughness": {
+      "min": 0.3000001609325409,
+      "max": 0.42000001668930054,
+      "mean": 0.33981651067733765,
+      "std": 0.030996544286608696,
+      "seam_mean_abs": 0.02303220145404339,
+      "interior_neighbor_mean_abs": 0.025491442531347275,
+      "seam_to_neighbor_ratio": 0.903526782989502
+    }
+  },
+  "limitations": [
+    "Learned from illumination-flattened surgical RGB; base colour is not measured albedo",
+    "Native learned detail is 512\u00b2 at about 10 px/mm; larger maps add no measured detail",
+    "Height, normal and roughness are derived or authored, not measured",
+    "No vessel/fascia/adipose layer separation; overlays are empty",
+    "No subsurface scattering recovery; wet coat is a rendering approximation",
+    "Not clinically qualified; no surgeon review"
+  ],
+  "qualification": "learned appearance pilot; visual and held-out review required"
+}

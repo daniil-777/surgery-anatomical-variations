@@ -1,0 +1,29 @@
+{
+  "base_color": {
+    "min": 0.14509804546833038,
+    "max": 0.9019607901573181,
+    "mean": 0.5593053698539734,
+    "std": 0.16761073470115662,
+    "seam_mean_abs": 0.0034556277096271515,
+    "interior_neighbor_mean_abs": 0.00328315538354218,
+    "seam_to_neighbor_ratio": 1.052532434463501
+  },
+  "height": {
+    "min": 0.0,
+    "max": 1.0,
+    "mean": 0.5056421756744385,
+    "std": 0.18567271530628204,
+    "seam_mean_abs": 0.02328524738550186,
+    "interior_neighbor_mean_abs": 0.021310022100806236,
+    "seam_to_neighbor_ratio": 1.0926899909973145
+  },
+  "roughness": {
+    "min": 0.3799999952316284,
+    "max": 0.5,
+    "mean": 0.41524738073349,
+    "std": 0.030331501737236977,
+    "seam_mean_abs": 0.024630818516016006,
+    "interior_neighbor_mean_abs": 0.02193319983780384,
+    "seam_to_neighbor_ratio": 1.1229925155639648
+  }
+}

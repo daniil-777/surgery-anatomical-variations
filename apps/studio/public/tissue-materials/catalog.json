@@ -1,0 +1,848 @@
+{
+  "schema": "viscera.tissue-catalog/v1",
+  "materials": [
+    {
+      "id": "liver",
+      "label": "Liver capsule",
+      "manifest": null,
+      "preview": "liver/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ]
+    },
+    {
+      "id": "kidney",
+      "label": "Kidney capsule",
+      "manifest": null,
+      "preview": "kidney/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ]
+    },
+    {
+      "id": "heart",
+      "label": "Heart / epicardium",
+      "manifest": null,
+      "preview": "heart/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ]
+    },
+    {
+      "id": "lung",
+      "label": "Lung pleura",
+      "manifest": null,
+      "preview": "lung/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ]
+    },
+    {
+      "id": "spleen",
+      "label": "Spleen capsule",
+      "manifest": null,
+      "preview": "spleen/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ]
+    },
+    {
+      "id": "stomach",
+      "label": "Stomach serosa",
+      "manifest": null,
+      "preview": "stomach/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ]
+    },
+    {
+      "id": "small_bowel",
+      "label": "Small bowel serosa",
+      "manifest": null,
+      "preview": "small_bowel/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ]
+    },
+    {
+      "id": "large_bowel",
+      "label": "Large bowel serosa",
+      "manifest": null,
+      "preview": "large_bowel/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ]
+    },
+    {
+      "id": "pancreas",
+      "label": "Pancreas lobules",
+      "manifest": null,
+      "preview": "pancreas/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ]
+    },
+    {
+      "id": "gallbladder",
+      "label": "Gallbladder serosa",
+      "manifest": null,
+      "preview": "gallbladder/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ]
+    },
+    {
+      "id": "bladder",
+      "label": "Bladder serosa",
+      "manifest": null,
+      "preview": "bladder/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ]
+    },
+    {
+      "id": "uterus",
+      "label": "Uterine serosa",
+      "manifest": null,
+      "preview": "uterus/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ]
+    },
+    {
+      "id": "muscle",
+      "label": "Exposed skeletal muscle",
+      "manifest": null,
+      "preview": "muscle/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ]
+    },
+    {
+      "id": "fascia",
+      "label": "Connective fascia",
+      "manifest": null,
+      "preview": "fascia/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ]
+    },
+    {
+      "id": "peritoneum",
+      "label": "Peritoneal membrane",
+      "manifest": null,
+      "preview": "peritoneum/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ]
+    },
+    {
+      "id": "mesentery",
+      "label": "Mesenteric connective tissue",
+      "manifest": null,
+      "preview": "mesentery/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ]
+    },
+    {
+      "id": "gastric_mucosa",
+      "label": "Gastric mucosa",
+      "manifest": null,
+      "preview": "gastric_mucosa/preview/manifest.json",
+      "luminal": true,
+      "available_resolutions": [
+        512
+      ]
+    },
+    {
+      "id": "intestinal_mucosa",
+      "label": "Small intestinal mucosa",
+      "manifest": null,
+      "preview": "intestinal_mucosa/preview/manifest.json",
+      "luminal": true,
+      "available_resolutions": [
+        512
+      ]
+    },
+    {
+      "id": "colonic_mucosa",
+      "label": "Colonic mucosa",
+      "manifest": null,
+      "preview": "colonic_mucosa/preview/manifest.json",
+      "luminal": true,
+      "available_resolutions": [
+        512
+      ]
+    },
+    {
+      "id": "liver_peritoneum",
+      "label": "Liver → peritoneum · transition study",
+      "manifest": null,
+      "preview": "liver_peritoneum/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ]
+    },
+    {
+      "id": "pancreas_mesentery",
+      "label": "Pancreas → mesentery · transition study",
+      "manifest": null,
+      "preview": "pancreas_mesentery/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ]
+    },
+    {
+      "id": "learned-clean-large_bowel-s1",
+      "label": "Large bowel serosa · learned clean · seed 1",
+      "manifest": null,
+      "preview": "learned-clean-large_bowel-s1/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ],
+      "family": "large_bowel",
+      "group": "Learned · clean",
+      "thumbnail": "learned-clean-large_bowel-s1/preview/thumbnail.png"
+    },
+    {
+      "id": "learned-clean-large_bowel-s2",
+      "label": "Large bowel serosa · learned clean · seed 2",
+      "manifest": null,
+      "preview": "learned-clean-large_bowel-s2/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ],
+      "family": "large_bowel",
+      "group": "Learned · clean",
+      "thumbnail": "learned-clean-large_bowel-s2/preview/thumbnail.png"
+    },
+    {
+      "id": "learned-clean-large_bowel-s3",
+      "label": "Large bowel serosa · learned clean · seed 3",
+      "manifest": null,
+      "preview": "learned-clean-large_bowel-s3/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ],
+      "family": "large_bowel",
+      "group": "Learned · clean",
+      "thumbnail": "learned-clean-large_bowel-s3/preview/thumbnail.png"
+    },
+    {
+      "id": "learned-clean-large_bowel-s4",
+      "label": "Large bowel serosa · learned clean · seed 4",
+      "manifest": null,
+      "preview": "learned-clean-large_bowel-s4/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ],
+      "family": "large_bowel",
+      "group": "Learned · clean",
+      "thumbnail": "learned-clean-large_bowel-s4/preview/thumbnail.png"
+    },
+    {
+      "id": "learned-clean-liver-s1",
+      "label": "Liver capsule · learned clean · seed 1",
+      "manifest": null,
+      "preview": "learned-clean-liver-s1/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ],
+      "family": "liver",
+      "group": "Learned · clean",
+      "thumbnail": "learned-clean-liver-s1/preview/thumbnail.png"
+    },
+    {
+      "id": "learned-clean-liver-s2",
+      "label": "Liver capsule · learned clean · seed 2",
+      "manifest": null,
+      "preview": "learned-clean-liver-s2/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ],
+      "family": "liver",
+      "group": "Learned · clean",
+      "thumbnail": "learned-clean-liver-s2/preview/thumbnail.png"
+    },
+    {
+      "id": "learned-clean-liver-s3",
+      "label": "Liver capsule · learned clean · seed 3",
+      "manifest": null,
+      "preview": "learned-clean-liver-s3/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ],
+      "family": "liver",
+      "group": "Learned · clean",
+      "thumbnail": "learned-clean-liver-s3/preview/thumbnail.png"
+    },
+    {
+      "id": "learned-clean-liver-s4",
+      "label": "Liver capsule · learned clean · seed 4",
+      "manifest": null,
+      "preview": "learned-clean-liver-s4/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ],
+      "family": "liver",
+      "group": "Learned · clean",
+      "thumbnail": "learned-clean-liver-s4/preview/thumbnail.png"
+    },
+    {
+      "id": "learned-clean-pancreas-s1",
+      "label": "Pancreas lobules · learned clean · seed 1",
+      "manifest": null,
+      "preview": "learned-clean-pancreas-s1/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ],
+      "family": "pancreas",
+      "group": "Learned · clean",
+      "thumbnail": "learned-clean-pancreas-s1/preview/thumbnail.png"
+    },
+    {
+      "id": "learned-clean-pancreas-s2",
+      "label": "Pancreas lobules · learned clean · seed 2",
+      "manifest": null,
+      "preview": "learned-clean-pancreas-s2/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ],
+      "family": "pancreas",
+      "group": "Learned · clean",
+      "thumbnail": "learned-clean-pancreas-s2/preview/thumbnail.png"
+    },
+    {
+      "id": "learned-clean-pancreas-s3",
+      "label": "Pancreas lobules · learned clean · seed 3",
+      "manifest": null,
+      "preview": "learned-clean-pancreas-s3/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ],
+      "family": "pancreas",
+      "group": "Learned · clean",
+      "thumbnail": "learned-clean-pancreas-s3/preview/thumbnail.png"
+    },
+    {
+      "id": "learned-clean-pancreas-s4",
+      "label": "Pancreas lobules · learned clean · seed 4",
+      "manifest": null,
+      "preview": "learned-clean-pancreas-s4/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ],
+      "family": "pancreas",
+      "group": "Learned · clean",
+      "thumbnail": "learned-clean-pancreas-s4/preview/thumbnail.png"
+    },
+    {
+      "id": "learned-clean-small_bowel-s1",
+      "label": "Small bowel serosa · learned clean · seed 1",
+      "manifest": null,
+      "preview": "learned-clean-small_bowel-s1/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ],
+      "family": "small_bowel",
+      "group": "Learned · clean",
+      "thumbnail": "learned-clean-small_bowel-s1/preview/thumbnail.png"
+    },
+    {
+      "id": "learned-clean-small_bowel-s2",
+      "label": "Small bowel serosa · learned clean · seed 2",
+      "manifest": null,
+      "preview": "learned-clean-small_bowel-s2/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ],
+      "family": "small_bowel",
+      "group": "Learned · clean",
+      "thumbnail": "learned-clean-small_bowel-s2/preview/thumbnail.png"
+    },
+    {
+      "id": "learned-clean-small_bowel-s3",
+      "label": "Small bowel serosa · learned clean · seed 3",
+      "manifest": null,
+      "preview": "learned-clean-small_bowel-s3/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ],
+      "family": "small_bowel",
+      "group": "Learned · clean",
+      "thumbnail": "learned-clean-small_bowel-s3/preview/thumbnail.png"
+    },
+    {
+      "id": "learned-clean-small_bowel-s4",
+      "label": "Small bowel serosa · learned clean · seed 4",
+      "manifest": null,
+      "preview": "learned-clean-small_bowel-s4/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ],
+      "family": "small_bowel",
+      "group": "Learned · clean",
+      "thumbnail": "learned-clean-small_bowel-s4/preview/thumbnail.png"
+    },
+    {
+      "id": "learned-clean-spleen-s1",
+      "label": "Spleen capsule · learned clean · seed 1",
+      "manifest": null,
+      "preview": "learned-clean-spleen-s1/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ],
+      "family": "spleen",
+      "group": "Learned · clean",
+      "thumbnail": "learned-clean-spleen-s1/preview/thumbnail.png"
+    },
+    {
+      "id": "learned-clean-spleen-s2",
+      "label": "Spleen capsule · learned clean · seed 2",
+      "manifest": null,
+      "preview": "learned-clean-spleen-s2/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ],
+      "family": "spleen",
+      "group": "Learned · clean",
+      "thumbnail": "learned-clean-spleen-s2/preview/thumbnail.png"
+    },
+    {
+      "id": "learned-clean-spleen-s3",
+      "label": "Spleen capsule · learned clean · seed 3",
+      "manifest": null,
+      "preview": "learned-clean-spleen-s3/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ],
+      "family": "spleen",
+      "group": "Learned · clean",
+      "thumbnail": "learned-clean-spleen-s3/preview/thumbnail.png"
+    },
+    {
+      "id": "learned-clean-spleen-s4",
+      "label": "Spleen capsule · learned clean · seed 4",
+      "manifest": null,
+      "preview": "learned-clean-spleen-s4/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ],
+      "family": "spleen",
+      "group": "Learned · clean",
+      "thumbnail": "learned-clean-spleen-s4/preview/thumbnail.png"
+    },
+    {
+      "id": "learned-clean-stomach-s1",
+      "label": "Stomach serosa · learned clean · seed 1",
+      "manifest": null,
+      "preview": "learned-clean-stomach-s1/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ],
+      "family": "stomach",
+      "group": "Learned · clean",
+      "thumbnail": "learned-clean-stomach-s1/preview/thumbnail.png"
+    },
+    {
+      "id": "learned-clean-stomach-s2",
+      "label": "Stomach serosa · learned clean · seed 2",
+      "manifest": null,
+      "preview": "learned-clean-stomach-s2/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ],
+      "family": "stomach",
+      "group": "Learned · clean",
+      "thumbnail": "learned-clean-stomach-s2/preview/thumbnail.png"
+    },
+    {
+      "id": "learned-clean-stomach-s3",
+      "label": "Stomach serosa · learned clean · seed 3",
+      "manifest": null,
+      "preview": "learned-clean-stomach-s3/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ],
+      "family": "stomach",
+      "group": "Learned · clean",
+      "thumbnail": "learned-clean-stomach-s3/preview/thumbnail.png"
+    },
+    {
+      "id": "learned-clean-stomach-s4",
+      "label": "Stomach serosa · learned clean · seed 4",
+      "manifest": null,
+      "preview": "learned-clean-stomach-s4/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ],
+      "family": "stomach",
+      "group": "Learned · clean",
+      "thumbnail": "learned-clean-stomach-s4/preview/thumbnail.png"
+    },
+    {
+      "id": "learned-guided-large_bowel-s1",
+      "label": "Large bowel serosa · learned guided · seed 1",
+      "manifest": null,
+      "preview": "learned-guided-large_bowel-s1/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ],
+      "family": "large_bowel",
+      "group": "Learned · guided",
+      "thumbnail": "learned-guided-large_bowel-s1/preview/thumbnail.png"
+    },
+    {
+      "id": "learned-guided-large_bowel-s2",
+      "label": "Large bowel serosa · learned guided · seed 2",
+      "manifest": null,
+      "preview": "learned-guided-large_bowel-s2/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ],
+      "family": "large_bowel",
+      "group": "Learned · guided",
+      "thumbnail": "learned-guided-large_bowel-s2/preview/thumbnail.png"
+    },
+    {
+      "id": "learned-guided-large_bowel-s3",
+      "label": "Large bowel serosa · learned guided · seed 3",
+      "manifest": null,
+      "preview": "learned-guided-large_bowel-s3/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ],
+      "family": "large_bowel",
+      "group": "Learned · guided",
+      "thumbnail": "learned-guided-large_bowel-s3/preview/thumbnail.png"
+    },
+    {
+      "id": "learned-guided-large_bowel-s4",
+      "label": "Large bowel serosa · learned guided · seed 4",
+      "manifest": null,
+      "preview": "learned-guided-large_bowel-s4/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ],
+      "family": "large_bowel",
+      "group": "Learned · guided",
+      "thumbnail": "learned-guided-large_bowel-s4/preview/thumbnail.png"
+    },
+    {
+      "id": "learned-guided-liver-s1",
+      "label": "Liver capsule · learned guided · seed 1",
+      "manifest": null,
+      "preview": "learned-guided-liver-s1/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ],
+      "family": "liver",
+      "group": "Learned · guided",
+      "thumbnail": "learned-guided-liver-s1/preview/thumbnail.png"
+    },
+    {
+      "id": "learned-guided-liver-s2",
+      "label": "Liver capsule · learned guided · seed 2",
+      "manifest": null,
+      "preview": "learned-guided-liver-s2/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ],
+      "family": "liver",
+      "group": "Learned · guided",
+      "thumbnail": "learned-guided-liver-s2/preview/thumbnail.png"
+    },
+    {
+      "id": "learned-guided-liver-s3",
+      "label": "Liver capsule · learned guided · seed 3",
+      "manifest": null,
+      "preview": "learned-guided-liver-s3/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ],
+      "family": "liver",
+      "group": "Learned · guided",
+      "thumbnail": "learned-guided-liver-s3/preview/thumbnail.png"
+    },
+    {
+      "id": "learned-guided-liver-s4",
+      "label": "Liver capsule · learned guided · seed 4",
+      "manifest": null,
+      "preview": "learned-guided-liver-s4/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ],
+      "family": "liver",
+      "group": "Learned · guided",
+      "thumbnail": "learned-guided-liver-s4/preview/thumbnail.png"
+    },
+    {
+      "id": "learned-guided-pancreas-s1",
+      "label": "Pancreas lobules · learned guided · seed 1",
+      "manifest": null,
+      "preview": "learned-guided-pancreas-s1/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ],
+      "family": "pancreas",
+      "group": "Learned · guided",
+      "thumbnail": "learned-guided-pancreas-s1/preview/thumbnail.png"
+    },
+    {
+      "id": "learned-guided-pancreas-s2",
+      "label": "Pancreas lobules · learned guided · seed 2",
+      "manifest": null,
+      "preview": "learned-guided-pancreas-s2/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ],
+      "family": "pancreas",
+      "group": "Learned · guided",
+      "thumbnail": "learned-guided-pancreas-s2/preview/thumbnail.png"
+    },
+    {
+      "id": "learned-guided-pancreas-s3",
+      "label": "Pancreas lobules · learned guided · seed 3",
+      "manifest": null,
+      "preview": "learned-guided-pancreas-s3/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ],
+      "family": "pancreas",
+      "group": "Learned · guided",
+      "thumbnail": "learned-guided-pancreas-s3/preview/thumbnail.png"
+    },
+    {
+      "id": "learned-guided-pancreas-s4",
+      "label": "Pancreas lobules · learned guided · seed 4",
+      "manifest": null,
+      "preview": "learned-guided-pancreas-s4/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ],
+      "family": "pancreas",
+      "group": "Learned · guided",
+      "thumbnail": "learned-guided-pancreas-s4/preview/thumbnail.png"
+    },
+    {
+      "id": "learned-guided-small_bowel-s1",
+      "label": "Small bowel serosa · learned guided · seed 1",
+      "manifest": null,
+      "preview": "learned-guided-small_bowel-s1/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ],
+      "family": "small_bowel",
+      "group": "Learned · guided",
+      "thumbnail": "learned-guided-small_bowel-s1/preview/thumbnail.png"
+    },
+    {
+      "id": "learned-guided-small_bowel-s2",
+      "label": "Small bowel serosa · learned guided · seed 2",
+      "manifest": null,
+      "preview": "learned-guided-small_bowel-s2/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ],
+      "family": "small_bowel",
+      "group": "Learned · guided",
+      "thumbnail": "learned-guided-small_bowel-s2/preview/thumbnail.png"
+    },
+    {
+      "id": "learned-guided-small_bowel-s3",
+      "label": "Small bowel serosa · learned guided · seed 3",
+      "manifest": null,
+      "preview": "learned-guided-small_bowel-s3/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ],
+      "family": "small_bowel",
+      "group": "Learned · guided",
+      "thumbnail": "learned-guided-small_bowel-s3/preview/thumbnail.png"
+    },
+    {
+      "id": "learned-guided-small_bowel-s4",
+      "label": "Small bowel serosa · learned guided · seed 4",
+      "manifest": null,
+      "preview": "learned-guided-small_bowel-s4/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ],
+      "family": "small_bowel",
+      "group": "Learned · guided",
+      "thumbnail": "learned-guided-small_bowel-s4/preview/thumbnail.png"
+    },
+    {
+      "id": "learned-guided-spleen-s1",
+      "label": "Spleen capsule · learned guided · seed 1",
+      "manifest": null,
+      "preview": "learned-guided-spleen-s1/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ],
+      "family": "spleen",
+      "group": "Learned · guided",
+      "thumbnail": "learned-guided-spleen-s1/preview/thumbnail.png"
+    },
+    {
+      "id": "learned-guided-spleen-s2",
+      "label": "Spleen capsule · learned guided · seed 2",
+      "manifest": null,
+      "preview": "learned-guided-spleen-s2/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ],
+      "family": "spleen",
+      "group": "Learned · guided",
+      "thumbnail": "learned-guided-spleen-s2/preview/thumbnail.png"
+    },
+    {
+      "id": "learned-guided-spleen-s3",
+      "label": "Spleen capsule · learned guided · seed 3",
+      "manifest": null,
+      "preview": "learned-guided-spleen-s3/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ],
+      "family": "spleen",
+      "group": "Learned · guided",
+      "thumbnail": "learned-guided-spleen-s3/preview/thumbnail.png"
+    },
+    {
+      "id": "learned-guided-spleen-s4",
+      "label": "Spleen capsule · learned guided · seed 4",
+      "manifest": null,
+      "preview": "learned-guided-spleen-s4/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ],
+      "family": "spleen",
+      "group": "Learned · guided",
+      "thumbnail": "learned-guided-spleen-s4/preview/thumbnail.png"
+    },
+    {
+      "id": "learned-guided-stomach-s1",
+      "label": "Stomach serosa · learned guided · seed 1",
+      "manifest": null,
+      "preview": "learned-guided-stomach-s1/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ],
+      "family": "stomach",
+      "group": "Learned · guided",
+      "thumbnail": "learned-guided-stomach-s1/preview/thumbnail.png"
+    },
+    {
+      "id": "learned-guided-stomach-s2",
+      "label": "Stomach serosa · learned guided · seed 2",
+      "manifest": null,
+      "preview": "learned-guided-stomach-s2/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ],
+      "family": "stomach",
+      "group": "Learned · guided",
+      "thumbnail": "learned-guided-stomach-s2/preview/thumbnail.png"
+    },
+    {
+      "id": "learned-guided-stomach-s3",
+      "label": "Stomach serosa · learned guided · seed 3",
+      "manifest": null,
+      "preview": "learned-guided-stomach-s3/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ],
+      "family": "stomach",
+      "group": "Learned · guided",
+      "thumbnail": "learned-guided-stomach-s3/preview/thumbnail.png"
+    },
+    {
+      "id": "learned-guided-stomach-s4",
+      "label": "Stomach serosa · learned guided · seed 4",
+      "manifest": null,
+      "preview": "learned-guided-stomach-s4/preview/manifest.json",
+      "luminal": false,
+      "available_resolutions": [
+        512
+      ],
+      "family": "stomach",
+      "group": "Learned · guided",
+      "thumbnail": "learned-guided-stomach-s4/preview/thumbnail.png"
+    }
+  ],
+  "qualification": "procedural-research-baseline",
+  "generator": "tissue-materials-0.2.1",
+  "distribution": {
+    "kind": "public-preview",
+    "native_available": false,
+    "preview_resolution": 512,
+    "source_catalog_sha256": "478d4c9bfe00661b94f1ada04af5b2468f41441ca4658e13bd6d64b7202b6f31",
+    "note": "This public release includes verified 512×512 authored previews. Native 4096×4096 maps remain in the local library and are not served by this release."
+  }
+}
