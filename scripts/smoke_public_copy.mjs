@@ -118,6 +118,8 @@ await check('physics', '', 'atlas', async (page) => {
   fs.writeFileSync(file, JSON.stringify(measurement));
   await flag(page, enabled('Physics lab'));
   if (!await button(page, 'Physics lab')) throw new Error('physics lab button unavailable');
+  await flag(page, enabled('Hands-on'));
+  await button(page, 'Hands-on');
   const stiffness = "[...document.querySelectorAll('div')].find((d) => d.querySelector(':scope > span')?.textContent === 'Material stiffness')?.querySelector('strong')?.textContent ?? ''";
   await flag(page, `/\\d/.test(${stiffness}) || window.__viscera.errors.length > 0`);
   const before = await page.evaluate(stiffness);
