@@ -1,3 +1,4 @@
+import { OPERATIVE_REGIONS, type OperativeRegion } from "./operativeView";
 import { VideoRecorderButton } from "./VideoRecorderPanel";
 import { DisplaySettings, SceneResizeHandle } from "./DisplaySettings";
 import { publicUrl } from "./api";
@@ -92,9 +93,11 @@ export default function WholeSceneStudio({ onBack, textureLab = false }: { onBac
   const ready = Boolean(stats) && navigation?.ready !== false;
   const selectedInfo = stats?.organs.find(organ => organ.id === selected);
   const instrumentsReady = Boolean(!exploring && physicsMaterials && physicsRunning && !physicsLoading && toolStatus?.ready && recordingKind !== "tour");
-  function enterExploration() {
+  function enterExploration(region?: OperativeRegion) {
+    setAutoVarying(false);
     viewport.current?.releaseTool(); setToolMode("orbit"); setAutoRotate(false); setBreathing(false); setPhysicsRunning(false);
-    requestAnimationFrame(() => viewport.current?.enterExploration());
+    if (region) { setHiddenOrgans([...dissections.find(item=>item.id==="abdominal")!.hidden]); setDissection("abdominal"); setFatOptions(current => ({...current, enabled: true, lighting: "surgical"})); }
+    requestAnimationFrame(() => viewport.current?.enterExploration(region));
     if (window.matchMedia("(max-width: 760px)").matches) sceneStage.current?.scrollIntoView({ block: "start", behavior: "instant" });
   }
   function chooseTool(mode: WholeSceneToolMode) {
@@ -218,6 +221,7 @@ export default function WholeSceneStudio({ onBack, textureLab = false }: { onBac
       {exploring && <section className="whole-exploration" aria-label="Interior camera controls">
         <div className="whole-exploration-heading"><strong>Between-organ inspection</strong><button type="button" aria-label={cameraControlsExpanded ? "Collapse camera controls" : "Expand camera controls"} aria-expanded={cameraControlsExpanded} onClick={() => setCameraControlsExpanded(value => !value)}>{cameraControlsExpanded ? "−" : "+"}</button><button type="button" aria-label="Exit interior exploration" onClick={() => viewport.current?.exitExploration()}><X size={16} /></button></div>
         <div hidden={!cameraControlsExpanded}><p>Drag to look · WASD / Q E to move · arrow keys to look · Escape to exit</p>
+        <div className="whole-operative-stations" role="group" aria-label="Regional inspection views">{OPERATIVE_REGIONS.map(region => <button key={region.id} onClick={() => enterExploration(region.id)} title={region.description}>{region.label}</button>)}</div>
         <div className="whole-exploration-movement" role="group" aria-label="Move camera">{([['forward','Forward'],['back','Back'],['left','Left'],['right','Right'],['up','Up'],['down','Down']] as const).map(([direction,label]) => <button key={direction} type="button" aria-label={`Move camera ${label.toLowerCase()}`} onClick={() => viewport.current?.moveExploration(direction)}>{label}</button>)}</div>
         <div className="whole-exploration-movement" role="group" aria-label="Look around">{([['left',10,0],['right',-10,0],['up',0,10],['down',0,-10]] as const).map(([label,yaw,pitch]) => <button key={label} type="button" aria-label={`Look ${label}`} onClick={() => viewport.current?.lookExploration(yaw,pitch)}>Look {label}</button>)}</div>
         <p role="status">{navigation?.blocked ? `Movement stopped near ${navigation.blockedBy ?? 'a surface'}. Turn or move away.` : navigation?.message}</p>
@@ -259,7 +263,7 @@ export default function WholeSceneStudio({ onBack, textureLab = false }: { onBac
           setReferenceState(previousReferences); setPreviousReferences(null); setShowPreviousReferences(false); setNotice("Previous reference colours restored");
         }} /></div>
         {panel === "scene" ? <>
-          <div className="whole-camera-entry"><button className="whole-button" disabled={!ready || recording} aria-pressed={exploring} onClick={() => exploring ? viewport.current?.exitExploration() : enterExploration()}>{exploring ? 'Return to orbit' : 'Explore between organs'}</button><p>Camera-mounted light and surface collision checks. Choose a dissection to expose deeper spaces. This inspects the atlas between surfaces; organ interiors are not reconstructed. Motion and tools pause during inspection.</p></div>
+          <div className="whole-camera-entry"><strong>Inside the abdomen</strong><p>Choose an entry view, then guide the scope with drag-to-look and small forward or sideways steps.</p><div className="whole-operative-stations">{OPERATIVE_REGIONS.map(region => <button key={region.id} disabled={!ready || recording} onClick={() => enterExploration(region.id)} title={region.description}>{region.label}</button>)}</div><button className="whole-button" disabled={!ready || recording} aria-pressed={exploring} onClick={() => exploring ? viewport.current?.exitExploration() : enterExploration()}>{exploring ? 'Return to orbit' : 'Explore between organs'}</button><p>Regional entries show a camera-lit field with fat and an illustrative peritoneal wall. Each entry is a separate view. Move between visible surfaces; organ lumens are not reconstructed. Motion and tools pause during inspection.</p></div>
           <div className="whole-section-label">01 <span>THE ASSEMBLY</span></div>
           <h2>One coordinated specimen</h2><p className="whole-copy">Explore the organs together, with the airways, vessels and ducts that connect them.</p>
           <div className="whole-dissection" aria-label="Dissection presets">{dissections.map(preset => <button key={preset.id} disabled={!ready || recording} aria-pressed={dissection === preset.id} onClick={() => selectDissection(preset.id)}>{preset.label}</button>)}</div>

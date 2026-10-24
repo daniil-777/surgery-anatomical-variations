@@ -18,6 +18,7 @@ const DIR = path.resolve(positional[0] || 'public-copy');
 const PORT = +(opt.port || 8123);
 const T = +(opt.budget || 300000);
 const OUTDIR = opt.out || fs.mkdtempSync(path.join(os.tmpdir(), 'viscera-smoke-'));
+fs.mkdirSync(OUTDIR, { recursive: true });
 const CHROME = [opt.chrome, process.env.CHROME, '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', '/usr/bin/google-chrome', '/usr/bin/google-chrome-stable', '/usr/bin/chromium-browser', '/usr/bin/chromium']
   .find((p) => p && fs.existsSync(p));
 if (!CHROME) { console.error('no Chrome found: pass --chrome PATH or set $CHROME'); process.exit(2); }
@@ -135,7 +136,16 @@ await check('physics', '', 'atlas', async (page) => {
   const after = await page.evaluate(stiffness);
   return `measurement calibrated in the browser: stiffness ${before} → ${after}`;
 });
-await check('scene', '?mode=scene', 'scene', async () => 'whole scene ready');
+await check('scene', '?mode=scene', 'scene', async (page) => {
+  await flag(page, enabled('Under the liver'));
+  if (!await button(page, 'Under the liver')) throw new Error('operative entry unavailable');
+  await flag(page, `(() => { const value = document.querySelector('[data-scene-snapshot]')?.dataset.sceneSnapshot; if (!value) return false; const s=JSON.parse(value); return s.camera.navigation.mode==='explore' && s.fat.status==='ready' && !s.rendering.renderPending; })()`);
+  const state=await page.evaluate(()=>JSON.parse(document.querySelector('[data-scene-snapshot]').dataset.sceneSnapshot));
+  if (!state.inspection.cameraLight.enabled || !state.fat.layers.length) throw new Error('operative field lacks camera light or fat layers');
+  await page.click('button[aria-label="Exit interior exploration"]');
+  await flag(page, `JSON.parse(document.querySelector('[data-scene-snapshot]').dataset.sceneSnapshot).camera.navigation.mode==='orbit'`);
+  return 'whole scene, operative entry, surrounding fat and return to orbit';
+});
 await check('legacy', '?mode=legacy', 'legacy', async () => 'procedural studio ready');
 await check('textures', 'textures.html', 'textures', async () => { await new Promise((r) => setTimeout(r, 2500)); return 'texture lab ready with its tiles'; });
 

@@ -31,6 +31,7 @@ export class FatSceneLayerView {
   private state="disabled";
   constructor(private parent:THREE.Object3D,private source:()=>Source[],variation:WholeSceneVariation,private changed:()=>void,private failed:(message:string)=>void){this.variation=variation;this.group.name="Experimental adipose layers";parent.add(this.group);}
   snapshot(){return {enabled:this.options.enabled,status:this.state,options:this.options,layers:this.layers.map(l=>({id:l.id,visible:l.mesh.visible,vertices:l.rest.length/3,metadata:l.mesh.geometry.userData,regionTextureResolution:l.regionMap?.image.width??0})),diagnostics:this.diagnostics,motion:"Shared atlas warp / interpolated scene motion; no fat contact solve",textureResolution:this.maps?.resolution??0};}
+  navigationSurfaces(){return this.layers.map(layer=>({id:layer.id,visible:this.group.visible&&layer.mesh.visible,geometry:layer.mesh.geometry}));}
   bounds(id:string){const layer=this.layers.find(item=>item.id===id);return layer?.mesh.geometry.boundingBox?.clone()??null;}
   configure(options:FatSceneOptions){
     this.options=options;this.group.visible=options.enabled;

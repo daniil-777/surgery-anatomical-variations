@@ -792,7 +792,7 @@ export default function AtlasStudio({ textureLab = false }: { textureLab?: boole
         <AtlasPromptTips
           selectedOrganId={selectedOrgan?.id ?? "liver"}
           selectedOrganLabel={selectedOrgan?.label ?? "Liver"}
-          selectedTemplateId={draft?.template_id}
+          {...(draft?.template_id ? { selectedTemplateId: draft.template_id } : {})}
           currentPrompt={prompt}
           disabled={!draft || modelSwitching || Boolean(busy)}
           onSelectPrompt={selectPromptTip}

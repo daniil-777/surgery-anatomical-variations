@@ -1,9 +1,10 @@
 import * as THREE from "three";
+import { buildVascularTable } from "./imports/tissueDetail";
 import { validateReferenceColor, type ReferenceColor } from "./atlasMaterial";
 import { referenceBaseColor, REFERENCE_ORGAN_IDS } from "./referenceColor";
 import { sceneRandom, wholeSceneTissue, type WholeSceneCategory, type WholeSceneVariation } from "./wholeSceneModel";
 
-export const WHOLE_SCENE_MATERIAL_VERSION = "organ-tissue-optics-2.1.0";
+export const WHOLE_SCENE_MATERIAL_VERSION = "organ-tissue-optics-2.2.0";
 interface TissuePart { id: string; category: WholeSceneCategory; color: string }
 interface TissueProfile {
   name: string; color: string; undertone: string; type: number;
@@ -20,7 +21,7 @@ const profiles: Record<string, TissueProfile> = {
   "small-intestine": { name: "intestinal serosa", color: "#bd9387", undertone: "#885854", type: 2, roughness: .4, wetness: .19, detailMm: 4.8, pigment: .12, structure: .22, reliefMm: .022 },
   colon: { name: "colonic serosa", color: "#ae8077", undertone: "#714947", type: 2, roughness: .43, wetness: .16, detailMm: 5.5, pigment: .16, structure: .25, reliefMm: .025 },
   duodenum: { name: "duodenal serosa", color: "#b68779", undertone: "#82504c", type: 2, roughness: .4, wetness: .19, detailMm: 4.5, pigment: .13, structure: .22, reliefMm: .022 },
-  gallbladder: { name: "biliary serosa", color: "#738354", undertone: "#46523a", type: 2, roughness: .32, wetness: .27, detailMm: 4.2, pigment: .18, structure: .22, reliefMm: .018 },
+  gallbladder: { name: "biliary serosa", color: "#9d9e80", undertone: "#746e51", type: 2, roughness: .32, wetness: .27, detailMm: 4.2, pigment: .18, structure: .22, reliefMm: .018 },
   pancreas: { name: "pancreatic lobulation", color: "#bfa083", undertone: "#88705b", type: 3, roughness: .55, wetness: .08, detailMm: 3.5, pigment: .22, structure: .3, reliefMm: .052 },
   heart: { name: "epicardium / myocardial direction", color: "#914e4a", undertone: "#572a30", type: 4, roughness: .41, wetness: .22, detailMm: 3.2, pigment: .18, structure: .065, reliefMm: .009 },
   diaphragm: { name: "diaphragmatic fibers", color: "#9c6b61", undertone: "#614541", type: 4, roughness: .48, wetness: .08, detailMm: 2.7, pigment: .16, structure: .24, reliefMm: .025 },
@@ -35,7 +36,7 @@ const profiles: Record<string, TissueProfile> = {
 function profileFor(part: TissuePart): TissueProfile {
   const exact = profiles[part.id];
   if (exact) return exact;
-  if (part.id === "mesentery") return { name: "mesenteric connective membrane / fat", color: "#b9a182", undertone: "#91765b", type: 3, roughness: .52, wetness: .09, detailMm: 4.2, pigment: .13, structure: .17, reliefMm: .027 };
+  if (part.id === "mesentery") return { name: "mesenteric connective membrane / fat", color: "#bba06c", undertone: "#947653", type: 7, roughness: .48, wetness: .14, detailMm: 4.2, pigment: .10, structure: .08, reliefMm: .012 };
   if (part.id.endsWith("-artery") || part.id === "celiac-trunk") return profiles.aorta!;
   if (part.id.endsWith("-vein")) return profiles["vena-cava"]!;
   if (part.category === "skeleton") return { name: "cortical bone", color: "#c6b496", undertone: "#92846d", type: 6, roughness: .66, wetness: .015, detailMm: 1.2, pigment: .1, structure: .08, reliefMm: .018 };
@@ -95,6 +96,12 @@ export function createWholeSceneTissueVolume(): THREE.Data3DTexture {
   texture.minFilter = THREE.LinearFilter; texture.magFilter = THREE.LinearFilter;
   texture.wrapS = THREE.RepeatWrapping; texture.wrapT = THREE.RepeatWrapping; texture.wrapR = THREE.RepeatWrapping;
   texture.unpackAlignment = 1; texture.needsUpdate = true;
+  const tree = buildVascularTable(763, 512), vascularBytes = new Uint8Array(512*512*4);
+  for(let i=0;i<512*512;i++) vascularBytes.set([Math.round(tree.arteryMask[i]!*255),Math.round(tree.veinMask[i]!*255),0,255],i*4);
+  const vascular = new THREE.DataTexture(vascularBytes,512,512);
+  vascular.wrapS=vascular.wrapT=THREE.RepeatWrapping;vascular.magFilter=THREE.LinearFilter;vascular.minFilter=THREE.LinearMipmapLinearFilter;
+  vascular.generateMipmaps=true;vascular.needsUpdate=true;
+  texture.userData.vascularTexture=vascular;texture.addEventListener("dispose",()=>vascular.dispose());
   return texture;
 }
 
@@ -122,6 +129,7 @@ const tissueGLSL = `
 varying vec3 vSceneRest;
 varying float vSceneTissueOcclusion;
 uniform highp sampler3D uSceneTissueVolume;
+uniform sampler2D uSceneVascular;
 uniform float uTissueSeed;
 uniform float uTissueDisease;
 uniform float uTissueSelected;
@@ -168,6 +176,7 @@ export function makeWholeSceneTissueMaterial(part: TissuePart, variation: WholeS
     shader.uniforms.uSceneBreath = breath;
     shader.uniforms.uTissueSelected = material.userData.selectionUniform as THREE.IUniform<number>;
     shader.uniforms.uSceneTissueVolume = { value: volume };
+    shader.uniforms.uSceneVascular = { value: volume.userData.vascularTexture };
     shader.uniforms.uTissueSeed = { value: tissue.seed };
     shader.uniforms.uTissueDisease = { value: tissue.disease };
     shader.uniforms.uTissueUndertone = { value: undertone };
@@ -194,33 +203,23 @@ export function makeWholeSceneTissueMaterial(part: TissuePart, variation: WholeS
         float sceneArteryMask = 0.0;
         float sceneVeinMask = 0.0;
         float sceneFatMask = 0.0;
-        vec3 vascWarp = tissueP + (tissueCloud.gbr - .5) * 16.0;
-        float vascU0 = sin(vascWarp.x * .17 + vascWarp.y * .13 - vascWarp.z * .11);
-        float vascV0 = sin(vascWarp.x * .12 - vascWarp.y * .18 + vascWarp.z * .15);
-        float vascSplit0 = max(vascV0, 0.0);
-        float vascBranch1A = vascU0 - .44 * vascSplit0;
-        float vascBranch1B = vascU0 + .38 * vascSplit0;
-        float vascV1 = cos(vascWarp.x * .26 + vascWarp.y * .22 + vascWarp.z * .19);
-        float vascSplit1 = max(vascV1, 0.0) * step(0.0, vascV0);
-        float vascBranch2A = vascBranch1A - .28 * vascSplit1;
-        float vascBranch2B = vascBranch1B + .25 * vascSplit1;
-        float trunkMask = exp(-vascU0 * vascU0 * 420.0) * smoothstep(.35, -.15, vascV0);
-        float gen1Mask = max(exp(-vascBranch1A * vascBranch1A * 680.0), exp(-vascBranch1B * vascBranch1B * 720.0)) * smoothstep(-.15, .20, vascV0) * .88;
-        float gen2Mask = max(exp(-vascBranch2A * vascBranch2A * 1150.0), exp(-vascBranch2B * vascBranch2B * 1200.0)) * smoothstep(-.05, .25, vascV1) * .72 * tissueFineFilter;
-        float rawArtery = max(trunkMask, max(gen1Mask, gen2Mask)) * tissueStructureFilter;
-        float veinU0 = vascU0 + .12 + .03 * sin(vascWarp.z * .35);
-        float veinBranch1A = veinU0 - .42 * vascSplit0;
-        float veinBranch1B = veinU0 + .40 * vascSplit0;
-        float rawVein = max(
-          exp(-veinU0 * veinU0 * 340.0) * smoothstep(.35, -.15, vascV0),
-          max(exp(-veinBranch1A * veinBranch1A * 560.0), exp(-veinBranch1B * veinBranch1B * 590.0)) * smoothstep(-.15, .20, vascV0) * .86
-        ) * (1.0 - .80 * rawArtery) * tissueStructureFilter;
-        float rawFatHalo = exp(-vascU0 * vascU0 * 32.0) * pow(clamp(1.0 - tissueCells.g * .92, 0.0, 1.0), 1.5) * (1.0 - .92 * max(rawArtery, rawVein));
+        // Rest-frame triplanar vascular trees. Connected tapered branches replace
+        // intersecting sinusoidal contours; blend axes to avoid projection streaks.
+        vec3 vascularNormal = abs(normalize(cross(dFdx(vSceneRest), dFdy(vSceneRest))));
+        vec3 vascularWeights = pow(vascularNormal, vec3(6.0));
+        vascularWeights /= max(.0001, vascularWeights.x + vascularWeights.y + vascularWeights.z);
+        vec3 vascularP = tissueP / 145.0;
+        vec2 vascular = texture2D(uSceneVascular, vascularP.yz).rg * vascularWeights.x
+          + texture2D(uSceneVascular, vascularP.xz + vec2(.31,.17)).rg * vascularWeights.y
+          + texture2D(uSceneVascular, vascularP.xy + vec2(.63,.42)).rg * vascularWeights.z;
+        float rawArtery = vascular.r * tissueStructureFilter;
+        float rawVein = vascular.g * tissueStructureFilter;
+        float rawFatHalo = max(rawArtery, rawVein) * .12;
         #if SCENE_TISSUE_KIND == 0
           // Solid parenchymal capsule (liver, spleen, kidney): smooth wet capsule with subcapsular venules & arterioles
-          tissueStructure = tissueBoundary * .42;
-          sceneArteryMask = rawArtery * .48;
-          sceneVeinMask = rawVein * .64;
+          tissueStructure = tissueBoundary * .08;
+          sceneArteryMask = rawArtery * .18;
+          sceneVeinMask = rawVein * .20;
           sceneFatMask = 0.0;
           tissueRelief += (tissueCells.g - .55) * .28 + (sceneArteryMask + sceneVeinMask) * .55;
         #elif SCENE_TISSUE_KIND == 1
@@ -233,10 +232,10 @@ export function makeWholeSceneTissueMaterial(part: TissuePart, variation: WholeS
           // Hollow visceral serosa (stomach, small intestine, colon, duodenum, gallbladder):
           // Rich branching vasa recta / gastroepiploic / cystic vascular arcades & perivascular yellow fat lobules
           vec4 tissueStretch = tissueField(tissueP / vec3(uTissueProfile.x*6.5, uTissueProfile.x*3.0, uTissueProfile.x*4.0));
-          tissueStructure = (1.0-smoothstep(.025,.105,tissueStretch.b)) * smoothstep(.32,.62,tissueCloud.r) * tissueStructureFilter;
-          sceneArteryMask = clamp(rawArtery * .90 + tissueStructure * .28, 0.0, .92);
-          sceneVeinMask = clamp(rawVein * .84 * (1.0 - .78 * sceneArteryMask), 0.0, .86);
-          sceneFatMask = clamp((rawFatHalo - .18) * 1.9, 0.0, .74) * tissueStructureFilter;
+          tissueStructure = .16 * (1.0-smoothstep(.025,.105,tissueStretch.b)) * smoothstep(.32,.62,tissueCloud.r) * tissueStructureFilter;
+          sceneArteryMask = rawArtery * .72;
+          sceneVeinMask = rawVein * .55;
+          sceneFatMask = 0.0;
           tissueRelief += (tissueCells.a - .5)*.28 + (sceneArteryMask + sceneVeinMask) * 1.15 + sceneFatMask * .75;
         #elif SCENE_TISSUE_KIND == 3
           // Pancreas & mesentery: lobulated acinar / adipose domes + interlobular vessels
@@ -245,6 +244,12 @@ export function makeWholeSceneTissueMaterial(part: TissuePart, variation: WholeS
           sceneVeinMask = rawVein * .64;
           sceneFatMask = clamp((rawFatHalo - .14) * 2.2, 0.0, .82) * tissueStructureFilter;
           tissueRelief += (tissueCells.g - .5) * 1.35 + (sceneArteryMask + sceneVeinMask) * .95;
+        #elif SCENE_TISSUE_KIND == 7
+          // Thin mesenteric tissue is not the pancreas' polygonal acinar surface.
+          tissueStructure = 0.0;
+          sceneArteryMask = rawArtery * .72;
+          sceneVeinMask = rawVein * .55;
+          tissueRelief += (tissueCells.a - .5) * .18;
         #elif SCENE_TISSUE_KIND == 4
           // Myocardium / diaphragm / muscular wall: coronary & phrenic vessels over muscle fibers
           float tissueFiber = sin(tissueP.x*2.6 + tissueP.z*.38 + tissueCloud.r*6.0);
@@ -266,11 +271,11 @@ export function makeWholeSceneTissueMaterial(part: TissuePart, variation: WholeS
         diffuseColor.rgb *= 1.0 + (tissueCloud.r-.5)*uTissueProfile.y*1.7 + (tissueCells.a-.5)*uTissueProfile.y*.35;
         diffuseColor.rgb = mix(diffuseColor.rgb, uTissueUndertone, tissueStructure*uTissueProfile.z);
         diffuseColor.rgb = mix(diffuseColor.rgb, vec3(.78, .60, .18), sceneFatMask * .68);
-        diffuseColor.rgb = mix(diffuseColor.rgb, vec3(.14, .032, .20), sceneVeinMask * .74);
-        diffuseColor.rgb = mix(diffuseColor.rgb, vec3(.66, .042, .035), sceneArteryMask * .82);
+        diffuseColor.rgb = mix(diffuseColor.rgb, diffuseColor.rgb * vec3(.52, .33, .40), sceneVeinMask * .68);
+        diffuseColor.rgb = mix(diffuseColor.rgb, diffuseColor.rgb * vec3(.72, .25, .23), sceneArteryMask * .72);
         float tissuePatch = smoothstep(.49,.76,tissueField(tissueP/91.0).r);
         diffuseColor.rgb = mix(diffuseColor.rgb, diffuseColor.rgb*vec3(.70,.37,.41), uTissueDisease*tissuePatch*.65);
-        float tissueHeight = tissueRelief*uTissueProfile.w * 1.45;`)
+        float tissueHeight = tissueRelief*uTissueProfile.w * .65;`)
       .replace("#include <roughnessmap_fragment>", "#include <roughnessmap_fragment>\nroughnessFactor = clamp(roughnessFactor + (tissueCloud.r-.5)*.095 + (tissueFine-.5)*.045 - max(sceneArteryMask, sceneVeinMask)*.16 - sceneFatMask*.08, .20, .85);")
       .replace("#include <normal_fragment_maps>", "#include <normal_fragment_maps>\nnormal = sceneBump(-vViewPosition, normal, tissueHeight, faceDirection);")
       .replace("#include <clearcoat_normal_fragment_maps>", "#include <clearcoat_normal_fragment_maps>\n#ifdef USE_CLEARCOAT\nclearcoatNormal = sceneBump(-vViewPosition, clearcoatNormal, tissueHeight*.4, faceDirection);\n#endif")

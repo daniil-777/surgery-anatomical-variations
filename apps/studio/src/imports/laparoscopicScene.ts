@@ -1,9 +1,11 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { MeshoptDecoder } from "three/examples/jsm/libs/meshopt_decoder.module.js";
+import { mergeVertices } from "three/examples/jsm/utils/BufferGeometryUtils.js";
 import { publicUrl } from "../api";
 import { inspectImportedRoot, type ImportedModel } from "./importModel";
 import { ImportResources, checkAbort } from "./importResources";
+import { tubularStructure } from "./tissueDetail";
 
 export type LaparoscopicScenePresetId = "full-laparoscopy" | "hepatobiliary";
 
@@ -19,15 +21,16 @@ export interface LaparoscopicScenePreset {
 export const LAPAROSCOPIC_SCENE_PRESETS: readonly LaparoscopicScenePreset[] = [
   {
     id: "full-laparoscopy",
-    label: "Full laparoscopic abdomen (12 co-registered organs)",
-    shortLabel: "Laparoscopic abdomen (12 organs)",
+    label: "Full laparoscopic abdomen (24 co-registered structures)",
+    shortLabel: "Laparoscopic abdomen (24 structures)",
     filename: "laparoscopic-abdominal-scene.glb",
-    description: "Co-registered human liver, gallbladder, biliary tree, portal vein, stomach, duodenum, pancreas, spleen, colon, small intestine, and bilateral kidneys in shared anatomical apposition.",
+    description: "Co-registered human liver, gallbladder, biliary tree, portal vein, hepatic artery, stomach, duodenum, pancreas, spleen, colon, small intestine, bilateral kidneys, mesentery, and separate abdominal arterial and venous trees in shared anatomical apposition.",
     organIds: [
       "liver",
       "gallbladder",
       "hepatic-duct",
       "portal-vein",
+      "hepatic-artery",
       "stomach",
       "duodenum",
       "pancreas",
@@ -36,23 +39,37 @@ export const LAPAROSCOPIC_SCENE_PRESETS: readonly LaparoscopicScenePreset[] = [
       "small-intestine",
       "right-kidney",
       "left-kidney",
+      "mesentery",
+      "aorta",
+      "vena-cava",
+      "celiac-trunk",
+      "splenic-artery",
+      "superior-mesenteric-artery",
+      "inferior-mesenteric-artery",
+      "right-renal-artery",
+      "left-renal-artery",
+      "right-renal-vein",
+      "left-renal-vein",
     ],
   },
   {
     id: "hepatobiliary",
-    label: "Hepatobiliary & foregut laparoscopy (8 co-registered organs)",
-    shortLabel: "Hepatobiliary & foregut (8 organs)",
+    label: "Hepatobiliary & foregut laparoscopy (11 co-registered structures)",
+    shortLabel: "Hepatobiliary & foregut (11 structures)",
     filename: "laparoscopic-hepatobiliary-scene.glb",
-    description: "Upper-abdominal surgical field (Calot’s triangle, subhepatic space & lesser sac): liver, gallbladder, extrahepatic biliary tree, portal pedicle, stomach, duodenum, pancreas, and spleen.",
+    description: "Upper-abdominal surgical field (Calot’s triangle, subhepatic space & lesser sac): liver, gallbladder, extrahepatic biliary tree, portal vein, hepatic artery, stomach, duodenum, pancreas, and spleen.",
     organIds: [
       "liver",
       "gallbladder",
       "hepatic-duct",
       "portal-vein",
+      "hepatic-artery",
       "stomach",
       "duodenum",
       "pancreas",
       "spleen",
+      "celiac-trunk",
+      "splenic-artery",
     ],
   },
 ] as const;
@@ -65,9 +82,12 @@ const ORGAN_SUBDIVISION_PASSES: Record<string, number> = {
   "right-kidney": 2,
   "left-kidney": 2,
   "stomach": 1,
-  "pancreas": 1,
+  "pancreas": 2,
+  "small-intestine": 2,
+  "colon": 1,
   "hepatic-duct": 1,
   "portal-vein": 1,
+  "hepatic-artery": 1,
 };
 
 interface OrganOpticsSpec {
@@ -80,9 +100,11 @@ interface OrganOpticsSpec {
 }
 
 const BASELINE_SEROSAL_OPTICS: Record<string, OrganOpticsSpec> = {
+  "mesentery": { color: 0xbca183, sheenColor: 0xe7c6a2, roughness: 0.42, clearcoat: 0.28, clearcoatRoughness: 0.24, sheen: 0.30 },
   "liver": { color: 0x71322e, sheenColor: 0x9c423c, roughness: 0.33, clearcoat: 0.34, clearcoatRoughness: 0.21, sheen: 0.22 },
   "gallbladder": { color: 0x5c7546, sheenColor: 0x7e9c5a, roughness: 0.31, clearcoat: 0.42, clearcoatRoughness: 0.18, sheen: 0.26 },
   "hepatic-duct": { color: 0x728452, sheenColor: 0x94a86e, roughness: 0.34, clearcoat: 0.36, clearcoatRoughness: 0.20, sheen: 0.24 },
+  "hepatic-artery": { color: 0x91483c, sheenColor: 0xbf7565, roughness: 0.38, clearcoat: 0.30, clearcoatRoughness: 0.23, sheen: 0.22 },
   "portal-vein": { color: 0x5c445c, sheenColor: 0x82587a, roughness: 0.36, clearcoat: 0.32, clearcoatRoughness: 0.22, sheen: 0.24 },
   "stomach": { color: 0xc27f75, sheenColor: 0xe39c90, roughness: 0.36, clearcoat: 0.34, clearcoatRoughness: 0.21, sheen: 0.28 },
   "duodenum": { color: 0xc6897d, sheenColor: 0xe6a496, roughness: 0.37, clearcoat: 0.33, clearcoatRoughness: 0.21, sheen: 0.28 },
@@ -151,7 +173,7 @@ export function computeAngleWeightedNormals(geometry: THREE.BufferGeometry): voi
 /** Volume-preserving Taubin lambda/mu surface fairing (Taubin 1995) over welded 3D vertex
  * neighborhoods. Eliminates CT slice rings and flat boolean facets on the hepatic dome while
  * preserving macroscopic organ volume and co-registered visceral boundaries. */
-function fairSurfaceConcavityOutliers(geometry: THREE.BufferGeometry, passes = 6): void {
+export function fairSurfaceConcavityOutliers(geometry: THREE.BufferGeometry, passes = 6): void {
   const posAttr = geometry.getAttribute("position");
   if (!posAttr || posAttr.itemSize !== 3 || passes <= 0) return;
   const vCount = posAttr.count;
@@ -230,10 +252,10 @@ function fairSurfaceConcavityOutliers(geometry: THREE.BufferGeometry, passes = 6
   posAttr.needsUpdate = true;
 }
 
-/** Contact-guarded Curved PN-Triangle 1->4 smooth surface subdivision (Vlachos et al.).
+/** Curved PN-Triangle 1->4 smooth surface subdivision (Vlachos et al.).
  * Retains every original co-registered vertex position exactly while projecting edge midpoints
  * onto cubic Bezier patches with bounded curvature so low-poly atlas organs become silky-smooth
- * without disturbing sub-millimeter anatomical contact interfaces. */
+ * with bounded edge offsets. This is not an anatomical contact guarantee. */
 export function pnSubdivideGeometry(source: THREE.BufferGeometry, alpha = 0.52): THREE.BufferGeometry {
   const posAttr = source.getAttribute("position");
   if (!posAttr || posAttr.itemSize !== 3) return source.clone();
@@ -359,6 +381,37 @@ function widenGeometryAttributes(geometry: THREE.BufferGeometry): THREE.BufferGe
   return clone;
 }
 
+/** Restrict long torso vessels to the abdominal field. Intersect crossing
+ * triangles with the bounds instead of exposing the thoracic aortic arch. */
+export function clipVesselToAbdomen(source: THREE.BufferGeometry, minY: number, maxY: number): THREE.BufferGeometry {
+  const position = source.getAttribute("position"), index = source.getIndex();
+  const output: number[] = [];
+  const clip = (polygon: THREE.Vector3[], plane: number, above: boolean) => {
+    const result: THREE.Vector3[] = [];
+    for (let i = 0; i < polygon.length; i++) {
+      const a = polygon[i]!, b = polygon[(i + 1) % polygon.length]!;
+      const insideA = above ? a.y >= plane : a.y <= plane;
+      const insideB = above ? b.y >= plane : b.y <= plane;
+      if (insideA) result.push(a);
+      if (insideA !== insideB) result.push(a.clone().lerp(b, (plane - a.y) / (b.y - a.y)));
+    }
+    return result;
+  };
+  for (let face = 0; face < (index?.count ?? position.count); face += 3) {
+    let polygon = [0, 1, 2].map(corner => new THREE.Vector3().fromBufferAttribute(position, index ? index.getX(face + corner) : face + corner));
+    polygon = clip(clip(polygon, minY, true), maxY, false);
+    for (let i = 1; i + 1 < polygon.length; i++) {
+      output.push(...polygon[0]!.toArray(), ...polygon[i]!.toArray(), ...polygon[i + 1]!.toArray());
+    }
+  }
+  const raw = new THREE.BufferGeometry();
+  raw.setAttribute("position", new THREE.Float32BufferAttribute(output, 3));
+  const result = mergeVertices(raw, 1e-5); raw.dispose();
+  computeAngleWeightedNormals(result);
+  result.computeBoundingBox(); result.computeBoundingSphere();
+  return result;
+}
+
 /** Load a co-registered multi-organ laparoscopic 3D scene directly from the bundled BodyParts3D
  * human torso atlas, applying curved PN-triangle refinement to low-poly visceral organs so all
  * structures lay in natural sub-millimeter anatomical apposition with smooth surgical contours. */
@@ -372,7 +425,7 @@ export async function loadLaparoscopicSceneModel(
   signal?.addEventListener("abort", abort, { once: true });
   try {
     checkAbort(signal);
-    const response = await fetch(publicUrl("anatomy-scene/bodyparts3d-torso.glb"), { signal });
+    const response = await fetch(publicUrl("anatomy-scene/bodyparts3d-torso.glb"), signal ? { signal } : undefined);
     if (!response.ok) throw new Error("The bundled co-registered anatomical atlas could not be loaded.");
     const buffer = await response.arrayBuffer();
     checkAbort(signal);
@@ -388,7 +441,7 @@ export async function loadLaparoscopicSceneModel(
       extracted.set(rawId, widened);
     });
 
-    // Combine cystic-duct + hepatic-duct into unified extrahepatic biliary tree, and hepatic-artery + portal-vein if present
+    // Combine the biliary ducts, retaining the artery and vein as separate structures.
     const cystic = extracted.get("cystic-duct");
     const hepaticDuct = extracted.get("hepatic-duct");
     if (cystic && hepaticDuct) {
@@ -398,16 +451,18 @@ export async function loadLaparoscopicSceneModel(
       extracted.set("hepatic-duct", mergedBiliary);
       extracted.delete("cystic-duct");
     }
-    const hepaticArtery = extracted.get("hepatic-artery");
-    const portalVein = extracted.get("portal-vein");
-    if (hepaticArtery && portalVein) {
-      const mergedPortal = mergeTwoGeometries(portalVein, hepaticArtery);
-      portalVein.dispose();
-      hepaticArtery.dispose();
-      extracted.set("portal-vein", mergedPortal);
-      extracted.delete("hepatic-artery");
+    const abdominalBounds = new THREE.Box3();
+    for (const id of preset.organIds) {
+      if (tubularStructure(id) || id === "mesentery") continue;
+      const geometry = extracted.get(id);
+      if (geometry) { geometry.computeBoundingBox(); abdominalBounds.union(geometry.boundingBox!); }
     }
-
+    if (!abdominalBounds.isEmpty()) for (const id of ["aorta", "vena-cava"]) {
+      const geometry = extracted.get(id);
+      if (!geometry || !preset.organIds.includes(id)) continue;
+      extracted.set(id, clipVesselToAbdomen(geometry, abdominalBounds.min.y, abdominalBounds.max.y));
+      geometry.dispose();
+    }
     const root = new THREE.Group();
     root.name = preset.filename;
     const wantedSet = new Set(preset.organIds);
@@ -431,8 +486,16 @@ export async function loadLaparoscopicSceneModel(
         finalGeom.computeBoundingBox();
         finalGeom.computeBoundingSphere();
       }
+      // Smooth curvature left by the atlas triangles before applying pathology.
+      if (["liver", "stomach", "small-intestine", "colon", "gallbladder", "pancreas"].includes(organId)) {
+        fairSurfaceConcavityOutliers(finalGeom, organId === "liver" ? 10 : 5);
+        computeAngleWeightedNormals(finalGeom);
+        finalGeom.computeBoundingBox(); finalGeom.computeBoundingSphere();
+      }
       resources.own(finalGeom);
-      const optics = BASELINE_SEROSAL_OPTICS[organId] ?? {
+      const structure = tubularStructure(organId);
+      const optics = BASELINE_SEROSAL_OPTICS[organId] ??
+        (structure === "artery" ? BASELINE_SEROSAL_OPTICS["hepatic-artery"] : structure === "vein" ? BASELINE_SEROSAL_OPTICS["portal-vein"] : undefined) ?? {
         color: 0xb58a80,
         sheenColor: 0xd9a89e,
         roughness: 0.32,
@@ -449,7 +512,7 @@ export async function loadLaparoscopicSceneModel(
         reflectivity: 0.58,
         clearcoat: optics.clearcoat,
         clearcoatRoughness: optics.clearcoatRoughness,
-        sheen: optics.sheen,
+        sheen: 0,
         sheenRoughness: 0.42,
         sheenColor: new THREE.Color(optics.sheenColor),
         side: THREE.DoubleSide,
@@ -468,8 +531,8 @@ export async function loadLaparoscopicSceneModel(
     resources.own(root);
     const stats = inspectImportedRoot(root);
     const warnings = [
-      `Co-registered BodyParts3D human abdominal laparoscopy scene (${preset.organIds.length} organs in shared native millimeter frame, CC BY 4.0).`,
-      "Sub-millimeter hepatobiliary, gastroduodenal, pancreaticobiliary and colonic contact interfaces are preserved across variations.",
+      `Co-registered BodyParts3D human abdominal laparoscopy scene (${root.children.length} structures in shared native millimeter frame, CC BY 4.0).`,
+      "Native atlas placement is retained; sampled contact damping does not certify anatomical contacts after variation.",
     ];
     let disposed = false;
     return {

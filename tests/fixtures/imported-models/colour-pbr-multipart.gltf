@@ -1,0 +1,217 @@
+{
+  "asset": {
+    "version": "2.0",
+    "generator": "VISCERA authored import QA fixture v1"
+  },
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "Interchange QA",
+      "nodes": [
+        0
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "name": "fixture-root",
+      "children": [
+        1,
+        2
+      ],
+      "translation": [
+        0.2,
+        0.1,
+        -0.15
+      ],
+      "rotation": [
+        0,
+        0.14943813247359922,
+        0,
+        0.9887710779360422
+      ]
+    },
+    {
+      "name": "left-cube",
+      "mesh": 0,
+      "translation": [
+        -1.4,
+        0,
+        0
+      ],
+      "scale": [
+        0.6,
+        0.85,
+        0.6
+      ]
+    },
+    {
+      "name": "right-cube",
+      "mesh": 1,
+      "translation": [
+        1.4,
+        0.2,
+        0
+      ],
+      "scale": [
+        0.7,
+        0.55,
+        0.8
+      ]
+    }
+  ],
+  "meshes": [
+    {
+      "name": "shared-left",
+      "primitives": [
+        {
+          "attributes": {
+            "POSITION": 0,
+            "NORMAL": 1,
+            "TEXCOORD_0": 2,
+            "COLOR_0": 3
+          },
+          "indices": 4,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "shared-right",
+      "primitives": [
+        {
+          "attributes": {
+            "POSITION": 0,
+            "NORMAL": 1,
+            "TEXCOORD_0": 2,
+            "COLOR_0": 3
+          },
+          "indices": 4,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "materials": [
+    {
+      "name": "Reference PBR colour",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.8,
+          0.9,
+          1,
+          1
+        ],
+        "baseColorTexture": {
+          "index": 0
+        },
+        "metallicFactor": 0.15,
+        "roughnessFactor": 0.55
+      },
+      "doubleSided": false,
+      "alphaMode": "OPAQUE"
+    }
+  ],
+  "textures": [
+    {
+      "source": 0,
+      "sampler": 0
+    }
+  ],
+  "samplers": [
+    {
+      "magFilter": 9728,
+      "minFilter": 9728,
+      "wrapS": 10497,
+      "wrapT": 10497
+    }
+  ],
+  "images": [
+    {
+      "uri": "quadrants.png",
+      "mimeType": "image/png"
+    }
+  ],
+  "buffers": [
+    {
+      "uri": "colour-pbr-multipart.bin",
+      "byteLength": 1224
+    }
+  ],
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteOffset": 0,
+      "byteLength": 288,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteOffset": 288,
+      "byteLength": 288,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteOffset": 576,
+      "byteLength": 192,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteOffset": 768,
+      "byteLength": 384,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteOffset": 1152,
+      "byteLength": 72,
+      "target": 34963
+    }
+  ],
+  "accessors": [
+    {
+      "bufferView": 0,
+      "componentType": 5126,
+      "count": 24,
+      "type": "VEC3",
+      "min": [
+        -1,
+        -1,
+        -1
+      ],
+      "max": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 24,
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 24,
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 3,
+      "componentType": 5126,
+      "count": 24,
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 4,
+      "componentType": 5123,
+      "count": 36,
+      "type": "SCALAR"
+    }
+  ]
+}

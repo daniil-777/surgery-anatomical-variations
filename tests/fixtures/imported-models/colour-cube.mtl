@@ -1,0 +1,7 @@
+newmtl PaintedPBRFallback
+Kd 0.8 0.9 1.0
+Ks 0.1 0.1 0.1
+Ns 24
+d 1.0
+illum 2
+map_Kd quadrants.png

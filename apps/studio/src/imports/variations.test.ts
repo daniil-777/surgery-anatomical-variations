@@ -1,8 +1,8 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it, vi } from "vitest";
 import {
-  BoxGeometry, BufferAttribute, BufferGeometry, Group, Matrix3, Mesh, MeshStandardMaterial,
-  Texture, Vector3,
+  BoxGeometry, SphereGeometry, BufferAttribute, BufferGeometry, Group, Matrix3, Mesh, MeshStandardMaterial,
+  Texture, Vector3, type DataTexture,
 } from "three";
 import { parseJointModel, sampleJointControls, type JointModelMeta } from "../atlasJointLocal";
 import type { TextCompilerTables } from "../atlasTextCompiler";
@@ -11,7 +11,7 @@ import {
   applySceneVariation, applyVariation, compileImportedText, createVariationState, discoverSceneOrgans,
   disposeVariationState, importedVariationSystem, resetVariation, sampleNeuralVariation,
 } from "./variations";
-import { computeAngleWeightedNormals, pnSubdivideGeometry } from "./laparoscopicScene";
+import { clipVesselToAbdomen, computeAngleWeightedNormals, pnSubdivideGeometry } from "./laparoscopicScene";
 
 const read = (path: string) => readFileSync(new URL(path, import.meta.url));
 const metadata = JSON.parse(read("../../public/models/joint-v2/model.json").toString()) as JointModelMeta;
@@ -82,6 +82,71 @@ describe("imported recipe sampling and text scope", () => {
 });
 
 describe("imported immutable-source deformation and appearance", () => {
+  it("rebuilds original-UV tangents after surface pathology changes the normals", async () => {
+    const root=new Group(),geometry=new SphereGeometry(2,40,30);geometry.computeTangents();
+    const mesh=new Mesh(geometry,new MeshStandardMaterial());root.add(mesh);const state=createVariationState(root);
+    const sampled=sampleNeuralVariation(system,{referenceId:system.references.find(r=>r.organ==='liver')!.id,seed:42,temperature:.5,profileId:'liver-cirrhosis',severity:'severe'});
+    await applyVariation(state,sampled,{shapeStrength:.8,textureStrength:0,synthesizeSeamlessTextures:false});
+    const normal=mesh.geometry.getAttribute('normal'),tangent=mesh.geometry.getAttribute('tangent');
+    const n=new Vector3(),t=new Vector3();
+    for(let i=0;i<normal.count;i++) {
+      n.fromBufferAttribute(normal,i);t.fromBufferAttribute(tangent,i);
+      expect(Math.abs(n.dot(t))).toBeLessThan(1e-5);
+    }
+    disposeVariationState(state);
+  });
+
+  it("keeps sampled coincident contact vertices together during different local organ variations", async () => {
+    const root=new Group();
+    const a=new Mesh(new BoxGeometry(2,2,2,6,6,6),new MeshStandardMaterial());a.name='liver';a.position.x=-1;
+    const b=new Mesh(a.geometry.clone(),new MeshStandardMaterial());b.name='stomach';b.position.x=1;root.add(a,b);
+    const state=createVariationState(root),pa=state.meshes[0]!.centered,pb=state.meshes[1]!.centered;
+    const pairs:[number,number][]=[];
+    for(let i=0;i<pa.length/3;i++)for(let j=0;j<pb.length/3;j++) {
+      if(Math.hypot(pa[i*3]!-pb[j*3]!,pa[i*3+1]!-pb[j*3+1]!,pa[i*3+2]!-pb[j*3+2]!)<1e-8)pairs.push([i,j]);
+    }
+    expect(pairs.length).toBeGreaterThan(20);
+    await applySceneVariation(state,system,{seed:43,temperature:.7,shapeStrength:.8,textureStrength:0});
+    const va=new Vector3(),vb=new Vector3();
+    for(const [i,j] of pairs) {
+      va.fromBufferAttribute(a.geometry.getAttribute('position'),i).applyMatrix4(a.matrixWorld);
+      vb.fromBufferAttribute(b.geometry.getAttribute('position'),j).applyMatrix4(b.matrixWorld);
+      expect(va.distanceTo(vb)).toBeLessThan(1e-6);
+    }
+    disposeVariationState(state);
+  });
+  it("clips torso vessels at the abdominal boundary without changing the source or leaving crossing vertices", () => {
+    const source = new BoxGeometry(2, 8, 2);
+    const before = Array.from(source.getAttribute("position").array);
+    const clipped = clipVesselToAbdomen(source, -1.25, 2.25);
+    expect(clipped.boundingBox!.min.y).toBeCloseTo(-1.25);
+    expect(clipped.boundingBox!.max.y).toBeCloseTo(2.25);
+    expect(clipped.getAttribute("position").count).toBeGreaterThan(0);
+    expect(Array.from(clipped.getAttribute("normal").array).every(Number.isFinite)).toBe(true);
+    expect(Array.from(source.getAttribute("position").array)).toEqual(before);
+    source.dispose(); clipped.dispose();
+  });
+  it("keeps arteries and veins distinct, shares detail maps, and excludes organ pathology from vessels", async () => {
+    const root = new Group();
+    for (const [i, name] of ["hepatic-artery", "right-renal-artery", "portal-vein", "left-renal-vein"].entries()) {
+      const mesh = new Mesh(new BoxGeometry(0.2, 2, 0.2), new MeshStandardMaterial());
+      mesh.name = name; mesh.position.x = i; root.add(mesh);
+    }
+    const state = createVariationState(root);
+    const result = await applySceneVariation(state, system, {
+      seed: 42, temperature: 0.7, shapeStrength: 0.5, textureStrength: 0.85,
+      synthesizeSeamlessTextures: true, randomPathology: true,
+    });
+    const materials = root.children.map(node => (node as Mesh).material as MeshStandardMaterial);
+    expect(result.synthesizedTextures).toBe(6);
+    expect(materials[0]!.map).toBe(materials[1]!.map);
+    expect(materials[2]!.map).toBe(materials[3]!.map);
+    expect(result.organReports.every(report => report.profileId === null)).toBe(true);
+    expect(result.organReports.map(report => report.organ)).toEqual(["heart", "heart", "spleen", "spleen"]);
+    expect(root.children[0]!.name).toBe("hepatic-artery");
+    expect(() => JSON.stringify(result)).not.toThrow();
+    disposeVariationState(state);
+  });
   it("replays seed42→43→42 exactly and preserves topology, UV, textures, alpha and source bytes", async () => {
     const f = fixture(), originalPositions = positions(f.mesh), originalColors = colors(f.mesh);
     const index = Array.from(f.geometry.index!.array), uv = Array.from(f.geometry.getAttribute("uv").array);
@@ -301,6 +366,7 @@ describe("imported immutable-source deformation and appearance", () => {
       includePathology: true,
       severity: "moderate",
     });
+    expect(() => JSON.stringify(result)).not.toThrow();
     expect(result.report.organsVaried).toBe(6);
     expect(result.report.synthesizedTextures).toBe(18);
     expect(result.report.minJacobian).toBeGreaterThan(0);
@@ -359,26 +425,31 @@ describe("imported immutable-source deformation and appearance", () => {
     await applyVariation(state, stomachRecipe, { shapeStrength: 0.55, textureStrength: 0.85 });
 
     const variedMat = mesh.material as MeshStandardMaterial;
-    const mapData = variedMat.map!.image.data as Uint8Array;
-    const normalData = variedMat.normalMap!.image.data as Uint8Array;
+    const mapData = (variedMat.map as DataTexture).image.data as Uint8Array;
+    const normalData = (variedMat.normalMap as DataTexture).image.data as Uint8Array;
     let arterialPixels = 0;
     let venousPixels = 0;
     let adiposePixels = 0;
-    let nonFlatNormals = 0;
+    let nonFlatNormals = 0, strongNormals = 0;
 
     for (let i = 0; i < mapData.length; i += 4) {
       const r = mapData[i]!, g = mapData[i + 1]!, b = mapData[i + 2]!;
-      if (r > 210 && r > g * 2.0 && r > b * 2.0) arterialPixels++;
-      if (b > 130 && b > g * 1.5 && r < b * 1.1) venousPixels++;
-      if (r > 200 && g > 180 && b < 130) adiposePixels++;
+      if (r > g * 1.12 && r > b * 1.08) arterialPixels++;
+      if (b > g * 1.06 && r > g * 1.07) venousPixels++;
+      if (r > g * 1.02 && g > b * 1.10) adiposePixels++;
       const nx = normalData[i]! - 128, ny = normalData[i + 1]! - 128;
-      if (Math.hypot(nx, ny) > 18) nonFlatNormals++;
+      if (Math.hypot(nx, ny) > 2) nonFlatNormals++;
+      if (Math.hypot(nx, ny) > 18) strongNormals++;
     }
 
-    expect(arterialPixels).toBeGreaterThan(800);
-    expect(venousPixels).toBeGreaterThan(400);
-    expect(adiposePixels).toBeGreaterThan(300);
-    expect(nonFlatNormals).toBeGreaterThan(2000);
-    expect(variedMat.normalScale.x).toBeGreaterThan(0.4);
+    expect((variedMat.map as DataTexture).image.width).toBe(512);
+    expect(arterialPixels).toBeGreaterThan(100);
+    expect(arterialPixels + venousPixels).toBeLessThan(mapData.length / 4 * 0.25);
+    expect(venousPixels).toBeGreaterThan(80);
+    expect(adiposePixels).toBeGreaterThan(80);
+    expect(nonFlatNormals).toBeGreaterThan(30);
+    expect(strongNormals).toBeLessThan(normalData.length / 4 * 0.01);
+    expect(variedMat.normalScale.x).toBeGreaterThan(0.1);
+    expect(variedMat.normalScale.x).toBeLessThan(0.5);
   });
 });

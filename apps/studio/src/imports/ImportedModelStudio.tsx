@@ -1,3 +1,4 @@
+import { OPERATIVE_REGIONS } from "../operativeView";
 import { useEffect, useRef, useState } from "react";
 import {
   ArrowDownToLine, Box, Check, FolderOpen, Focus, Layers, LoaderCircle,
@@ -15,6 +16,7 @@ import {
   resetVariation, sampleNeuralVariation,
   type MultiOrganSceneVariationReport, type SceneOrganAssignment,
 } from "./variations";
+import { tubularStructure } from "./tissueDetail";
 import "./imports.css";
 
 type System = Awaited<ReturnType<typeof loadImportedVariationSystem>>;
@@ -228,7 +230,7 @@ export default function ImportedModelStudio() {
       setRevision(value => value + 1);
       setAutoRotate(false);
       setNotice(
-        `Loaded ${model.filename}: ${discovered.length} co-registered human laparoscopic organs with ${updatedStats.textures} seamless 3D PBR tissue maps.`,
+        `Loaded ${model.filename}: ${discovered.length} co-registered anatomical structures with ${updatedStats.textures} seamless 3D PBR tissue maps.`,
       );
     } catch (cause) {
       if (state) disposeVariationState(state);
@@ -382,7 +384,7 @@ export default function ImportedModelStudio() {
     <main className="import-workspace">
       <section className={`import-scene${session ? "" : " is-empty"}`} aria-label="Imported model scene" data-import-revision={revision}>
         <div className="import-scene-title">
-          <span>{session ? `${session.model.filename}${isMultiOrganScene ? ` · ${organAssignments.length} ORGANS` : ""}` : "YOUR MODEL OR LAPAROSCOPIC SCENE, NEW POSSIBILITIES"}</span>
+          <span>{session ? `${session.model.filename}${isMultiOrganScene ? ` · ${organAssignments.length} STRUCTURES` : ""}` : "YOUR MODEL OR LAPAROSCOPIC SCENE, NEW POSSIBILITIES"}</span>
           <span>{autoVary ? `AUTO-VARYING #${autoVaryCount} · SEED ${seed}` : applied ? `VARIATION · SEED ${seed}` : "ORIGINAL"}</span>
         </div>
         <ImportedViewport ref={viewport} object={session?.model.root ?? null} revision={revision} autoRotate={autoRotate} onError={setError} />
@@ -392,7 +394,7 @@ export default function ImportedModelStudio() {
           <p>Upload one or more 3D organ meshes (GLB, glTF, OBJ, STL), or open the co-registered human laparoscopic multi-organ 3D scene to vary shapes and seamless 3D textures endlessly.</p>
           <div className="import-empty-actions">
             <button className="import-primary" disabled={Boolean(busy)} onClick={() => files.current?.click()}><Upload size={17} />Upload 3D model / scene</button>
-            <button disabled={Boolean(busy)} onClick={() => void loadLaparoscopicPreset("full-laparoscopy")}><Layers size={17} />Load laparoscopic 3D scene (12 organs)</button>
+            <button disabled={Boolean(busy)} onClick={() => void loadLaparoscopicPreset("full-laparoscopy")}><Layers size={17} />Load laparoscopic 3D scene (24 structures)</button>
           </div>
           <span>GLB · glTF · OBJ · STL · Multi-Organ Laparoscopy</span>
         </div>}
@@ -400,6 +402,7 @@ export default function ImportedModelStudio() {
           <button disabled={Boolean(busy)} onClick={() => viewport.current?.fit()}><Focus size={16} />Fit</button>
           <div className="import-camera-presets" role="group" aria-label="Surgical camera views">
             <button type="button" disabled={Boolean(busy)} onClick={() => setCameraView("anterior")}>Anterior</button>
+            {isMultiOrganScene && OPERATIVE_REGIONS.map(region => <button key={region.id} type="button" disabled={Boolean(busy)} onClick={() => {setAutoRotate(false);viewport.current?.inspect(region.id);}} title={region.description}>Scope: {region.label}</button>)}
             <button type="button" disabled={Boolean(busy)} onClick={() => setCameraView("subhepatic")} title="30° subhepatic laparoscope view into Calot’s triangle and gallbladder fossa">30° Subhepatic</button>
             <button type="button" disabled={Boolean(busy)} onClick={() => setCameraView("hepatobiliary")}>Hepatobiliary (R)</button>
             <button type="button" disabled={Boolean(busy)} onClick={() => setCameraView("foregut")}>Foregut &amp; Spleen (L)</button>
@@ -414,7 +417,7 @@ export default function ImportedModelStudio() {
       <aside className="import-inspector" aria-label="Import and variation controls">
         <section>
           <div className="import-section-heading"><span>01 / SOURCE</span><FolderOpen size={17} /></div>
-          <h2>{session ? (isMultiOrganScene ? `Multi-organ scene (${organAssignments.length} organs)` : "Model loaded") : "Start with a model or 3D scene"}</h2>
+          <h2>{session ? (isMultiOrganScene ? `Multi-organ scene (${organAssignments.length} structures)` : "Model loaded") : "Start with a model or 3D scene"}</h2>
           <p>Select a single 3D model, multiple 3D organ files at once, or a multi-organ laparoscopic scene.</p>
           <input ref={files} aria-label="3D model files" type="file" multiple accept=".glb,.gltf,.obj,.stl,.bin,.mtl,.png,.jpg,.jpeg" hidden onChange={event => { const selected = Array.from(event.target.files ?? []); event.target.value = ""; void importFiles(selected); }} />
           <input ref={node => { folder.current = node; node?.setAttribute("webkitdirectory", ""); }} aria-label="3D model folder" type="file" multiple hidden onChange={event => { const selected = Array.from(event.target.files ?? []); event.target.value = ""; void importFiles(selected); }} />
@@ -424,7 +427,7 @@ export default function ImportedModelStudio() {
           </div>
           <div className="import-preset-box" aria-label="Co-registered laparoscopic 3D scene presets">
             <strong><Layers size={14} />Co-registered human laparoscopic 3D scenes</strong>
-            <p className="import-fine">True co-registered BodyParts3D abdominal organs in sub-millimeter anatomical apposition (Curved PN-Triangle refined):</p>
+            <p className="import-fine">BodyParts3D abdominal structures in their shared atlas coordinates, with refined surfaces:</p>
             <div className="import-preset-actions">
               {LAPAROSCOPIC_SCENE_PRESETS.map(preset => (
                 <button
@@ -459,7 +462,8 @@ export default function ImportedModelStudio() {
               </div>
               <div className="import-organ-list">
                 {organAssignments.map(slot => {
-                  const slotProfiles = system.profiles.filter(p => p.organ === slot.organ);
+                  const supportStructure = Boolean(tubularStructure(slot.name)) || /mesentery/i.test(slot.name);
+                  const slotProfiles = supportStructure ? [] : system.profiles.filter(p => p.organ === slot.organ);
                   return (
                     <div className="import-organ-card" key={slot.slotId}>
                       <div className="import-organ-card-top">
@@ -470,17 +474,17 @@ export default function ImportedModelStudio() {
                         <select
                           aria-label={`Reference for ${slot.name}`}
                           value={slot.referenceId}
-                          disabled={Boolean(busy)}
+                          disabled={Boolean(busy) || supportStructure}
                           onChange={event => updateOrganAssignment(slot.slotId, { referenceId: event.target.value })}
                         >
-                          {system.references.map(ref => (
+                          {supportStructure ? <option value={slot.referenceId}>{/mesentery/i.test(slot.name) ? "Connective tissue" : "Vessel / duct wall"}</option> : system.references.map(ref => (
                             <option key={ref.id} value={ref.id}>{ref.label}</option>
                           ))}
                         </select>
                         <select
                           aria-label={`Pathology for ${slot.name}`}
                           value={slot.profileId ?? ""}
-                          disabled={Boolean(busy)}
+                          disabled={Boolean(busy) || supportStructure}
                           onChange={event => updateOrganAssignment(slot.slotId, { profileId: event.target.value || null })}
                         >
                           <option value="">Healthy baseline</option>
@@ -560,7 +564,7 @@ export default function ImportedModelStudio() {
             </div>
           </div>
 
-          <details><summary>How multi-organ scene variations work</summary><p>The 22-DOF Joint Flow v2 samples coupled 3D shape, tissue material and optional pathology controls for every organ in the scene. A shared co-registered diffeomorphism combined with inter-organ contact-clearance feathering ensures all organs stay in natural anatomical apposition without colliding or drifting apart.</p>{applied?.report.warnings.map((message, index) => <p key={index}>{message}</p>)}</details>
+          <details><summary>How multi-organ scene variations work</summary><p>The trained flow proposes shape, surface and optional disease variations for each organ. Nearby surfaces share their overall movement, with local changes reduced near sampled contacts. The results are illustrative anatomical variations; contact damping does not guarantee collision-free geometry.</p>{applied?.report.warnings.map((message, index) => <p key={index}>{message}</p>)}</details>
         </section>
         <section>
           <div className="import-section-heading"><span>03 / DESCRIBE</span></div><h2>Text-guided edits</h2>

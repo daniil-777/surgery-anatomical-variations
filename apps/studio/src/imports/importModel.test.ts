@@ -35,6 +35,19 @@ beforeEach(() => {
 afterEach(() => { expect(fetchSpy).not.toHaveBeenCalled(); vi.unstubAllGlobals(); });
 
 describe("actual static interchange fixtures", () => {
+  it("opens co-registered files as one scene only when explicitly enabled, retaining source transforms", async () => {
+    const files = [file("colour-pbr-multipart.glb"), file("cube-binary.stl")];
+    await expect(loadImportedModel(files)).rejects.toThrow("exactly one");
+    const model = await loadImportedModel(files, undefined, { allowMultiModelScene: true });
+    expect(model.stats.meshes).toBe(3);
+    expect(model.source.files).toHaveLength(2);
+    const left = model.root.getObjectByName("left-cube")!;
+    expect(left.position.toArray()).toEqual([-1.4, 0, 0]);
+    expect(left.parent!.position.toArray()).toEqual([.2, .1, -.15]);
+    const bitmap = bitmaps.at(-1)!;
+    model.dispose(); model.dispose();
+    expect(bitmap.close).toHaveBeenCalledOnce();
+  });
   it.each(["colour-pbr-multipart.glb", "colour-pbr-multipart.gltf"])("preserves PBR/UV/RGBA/hierarchy in %s without network", async name => {
     const model = await loadImportedModel(name.endsWith(".glb") ? [file(name)] : gltfFiles());
     expect(model.stats).toMatchObject({ meshes: 2, vertices: 48, triangles: 24, materials: 1, textures: 1 });

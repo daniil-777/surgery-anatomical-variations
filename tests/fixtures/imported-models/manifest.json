@@ -1,0 +1,61 @@
+{
+  "schema": "viscera.authored-import-fixtures/v1",
+  "source": "Original mathematical cube and 2\u00d72 colour image authored for tests; no external model data.",
+  "generator": "generate.py",
+  "generator_sha256": "ec0ac199c11dfe6a53fbfa7fd8d54173910a50f966ef105220177847f1448877",
+  "expected": {
+    "gltf_meshes": 2,
+    "gltf_vertices_per_mesh": 24,
+    "gltf_triangles_per_mesh": 12,
+    "shared_materials": 1,
+    "texture_dimensions": [
+      2,
+      2
+    ],
+    "vertex_colour_components": 4,
+    "hierarchy_nodes": 3,
+    "stl_triangles": 12
+  },
+  "files": [
+    {
+      "path": "colour-cube.mtl",
+      "bytes": 97,
+      "sha256": "4b9d49a77c0f46f4aabd695373eeca13aedfef9a1786953e919c536114f91402"
+    },
+    {
+      "path": "colour-cube.obj",
+      "bytes": 1002,
+      "sha256": "8aa737d7c2800aa62a446f988d14e8dd6dba94844c65d722a7857f6f3196fe14"
+    },
+    {
+      "path": "colour-pbr-multipart.bin",
+      "bytes": 1224,
+      "sha256": "cb80f9dc231d5e62939d35d606295398de11dadbaba5f4d05265215b0b99b528"
+    },
+    {
+      "path": "colour-pbr-multipart.glb",
+      "bytes": 3212,
+      "sha256": "0fb87efde3dee7cd8e6e0b26c09961cfd88afc1cc406831db2cce87056371d6d"
+    },
+    {
+      "path": "colour-pbr-multipart.gltf",
+      "bytes": 3489,
+      "sha256": "c787f66414f7f60f91fab8b4127f0e8966acfea848d46870d74152a4ba6d75c9"
+    },
+    {
+      "path": "cube-ascii.stl",
+      "bytes": 1495,
+      "sha256": "785db231db9744d84c85149309ac2e9436afcfb7d5fa82ef26dc053d8d82c5f7"
+    },
+    {
+      "path": "cube-binary.stl",
+      "bytes": 684,
+      "sha256": "73743364e2b4313c784d5ac9d3efe92c5220f087f428b20047be17faa6e10b1e"
+    },
+    {
+      "path": "quadrants.png",
+      "bytes": 84,
+      "sha256": "25cadc10ddf866a7834609fa76033253429419950b9fe7e3360c59533789a96f"
+    }
+  ]
+}

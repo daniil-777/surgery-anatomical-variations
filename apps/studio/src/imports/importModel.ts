@@ -190,128 +190,37 @@ function loadStl(entry: SelectedFile, resources: ImportResources, warnings: stri
   return root;
 }
 
-export interface LoadImportedModelOptions {
-  allowMultiModelScene?: boolean;
-}
-
-const CANONICAL_LAPAROSCOPIC_OFFSETS: Record<string, [number, number, number]> = {
-  liver: [-32, 48, 16],
-  gallbladder: [-45, 2, 44],
-  stomach: [38, 28, 28],
-  duodenum: [-16, -38, 20],
-  pancreas: [12, -28, 8],
-  spleen: [86, 18, -16],
-  colon: [0, -140, 22],
-  "large-intestine": [0, -140, 22],
-  "small-intestine": [8, -155, 38],
-  "right-kidney": [-58, -50, -22],
-  "left-kidney": [62, -34, -28],
-  kidney: [-58, -50, -22],
-};
-
-function arrangeOverlappingSubmodels(children: THREE.Object3D[]): boolean {
-  if (children.length < 2) return false;
-  const boxes = children.map(child => {
-    child.updateMatrixWorld(true);
-    return new THREE.Box3().setFromObject(child);
-  });
-  const centers = boxes.map(box => box.getCenter(new THREE.Vector3()));
-  const radii = boxes.map(box => Math.max(box.getSize(new THREE.Vector3()).length() * 0.5, 1e-4));
-  let overlappingPairs = 0;
-  for (let i = 0; i < children.length; i++) {
-    for (let j = i + 1; j < children.length; j++) {
-      const dist = centers[i]!.distanceTo(centers[j]!);
-      if (dist < Math.min(radii[i]!, radii[j]!) * 0.35) overlappingPairs++;
-    }
-  }
-  if (overlappingPairs === 0) return false;
-  const meanRadius = radii.reduce((a, b) => a + b, 0) / radii.length;
-  const scaleUnit = meanRadius / 55;
-  children.forEach((child, idx) => {
-    const lower = child.name.toLowerCase();
-    let offset: [number, number, number] | null = null;
-    for (const [key, vec] of Object.entries(CANONICAL_LAPAROSCOPIC_OFFSETS)) {
-      if (lower.includes(key)) { offset = vec; break; }
-    }
-    if (!offset) {
-      const angle = (idx / children.length) * Math.PI * 2;
-      offset = [Math.cos(angle) * 65, Math.sin(angle) * 45, (idx % 2 === 0 ? 12 : -12)];
-    }
-    const c = centers[idx]!;
-    child.position.set(
-      child.position.x - c.x + offset[0] * scaleUnit,
-      child.position.y - c.y + offset[1] * scaleUnit,
-      child.position.z - c.z + offset[2] * scaleUnit,
-    );
-    child.updateMatrixWorld(true);
-  });
-  return true;
-}
-
-export async function loadImportedModel(
-  files: readonly File[],
-  signal?: AbortSignal,
-  options?: LoadImportedModelOptions,
-): Promise<ImportedModel> {
+export async function loadImportedModel(files: readonly File[], signal?: AbortSignal, options: { allowMultiModelScene?: boolean } = {}): Promise<ImportedModel> {
   const resources = new ImportResources(), selected = new LocalFiles();
   const abort = () => resources.dispose();
   signal?.addEventListener("abort", abort, { once: true });
   try {
     checkAbort(signal); await selected.read(files, signal);
     const candidates = selected.entries.filter(entry => /\.(glb|gltf|obj|stl)$/i.test(entry.path));
-    if (!candidates.length || (!options?.allowMultiModelScene && candidates.length !== 1)) {
-      throw new Error("Select exactly one GLB, glTF, OBJ or STL model, together with its dependency files.");
-    }
+    if (!candidates.length || (candidates.length !== 1 && !options.allowMultiModelScene)) throw new Error("Select exactly one GLB, glTF, OBJ or STL model, together with its dependency files.");
+    const entry = candidates[0]!, format = entry.path.split(".").at(-1)!.toLowerCase() as ImportedModel["format"];
     const warnings: string[] = [];
-    let root: THREE.Group;
-    let filename: string;
-    let format: ImportedModel["format"];
-
-    if (candidates.length === 1) {
-      const entry = candidates[0]!;
-      format = entry.path.split(".").at(-1)!.toLowerCase() as ImportedModel["format"];
-      filename = entry.file.name;
-      root = format === "glb" || format === "gltf"
-        ? await loadGltf(entry, selected, resources, warnings, signal)
-        : format === "obj"
-          ? await loadObj(entry, selected, resources, warnings, signal)
-          : loadStl(entry, resources, warnings);
-    } else {
-      root = new THREE.Group();
-      format = candidates[0]!.path.split(".").at(-1)!.toLowerCase() as ImportedModel["format"];
-      filename = `multi-organ-scene-${candidates.length}-models.glb`;
-      root.name = filename;
-      const loadedChildren: THREE.Object3D[] = [];
-      for (const entry of candidates) {
-        checkAbort(signal);
-        const subFormat = entry.path.split(".").at(-1)!.toLowerCase() as ImportedModel["format"];
-        const subWarnings: string[] = [];
-        const subRoot = subFormat === "glb" || subFormat === "gltf"
-          ? await loadGltf(entry, selected, resources, subWarnings, signal)
-          : subFormat === "obj"
-            ? await loadObj(entry, selected, resources, subWarnings, signal)
-            : loadStl(entry, resources, subWarnings);
-        const stem = entry.file.name.replace(/\.[^.]+$/, "");
-        subRoot.name = stem;
-        subRoot.traverse(node => {
-          if (node instanceof THREE.Mesh && (!node.name || node.name === entry.file.name)) {
-            node.name = stem;
-          }
-        });
-        root.add(subRoot);
-        loadedChildren.push(subRoot);
+    const load = async (item: SelectedFile) => {
+      const kind = item.path.split(".").at(-1)!.toLowerCase();
+      const object = kind === "glb" || kind === "gltf" ? await loadGltf(item, selected, resources, warnings, signal)
+        : kind === "obj" ? await loadObj(item, selected, resources, warnings, signal) : loadStl(item, resources, warnings);
+      resources.own(object); checkAbort(signal);
+      return object;
+    };
+    const root = candidates.length === 1 ? await load(entry) : new THREE.Group();
+    if (candidates.length > 1) {
+      for (const item of candidates) {
+        const object = await load(item);
+        object.name = item.file.name.replace(/\.[^.]+$/, "");
+        object.traverse(node => { if (node instanceof THREE.Mesh && !node.name) node.name = object.name; });
+        root.add(object);
       }
-      if (arrangeOverlappingSubmodels(loadedChildren)) {
-        warnings.push(`Arranged ${candidates.length} centered organ models into a co-registered laparoscopic abdominal layout.`);
-      } else {
-        warnings.push(`Combined ${candidates.length} co-registered 3D organ models in their shared coordinate frame.`);
-      }
+      warnings.push("Files retain their source coordinates. Use co-registered meshes to preserve anatomical alignment.");
     }
-
     resources.own(root); checkAbort(signal);
     const stats = inspectImportedRoot(root), source = await sourceIdentity(selected.entries); checkAbort(signal);
     let disposed = false;
-    const model: ImportedModel = { root, filename, format, stats, warnings, source,
+    const model: ImportedModel = { root, filename: candidates.length === 1 ? entry.file.name : `${candidates.length}-organ-scene.glb`, format: candidates.length === 1 ? format : "glb", stats, warnings, source,
       dispose() { if (disposed) return; disposed = true; resources.dispose(); root.removeFromParent(); } };
     return model;
   } catch (error) { resources.dispose(); throw error; }
@@ -337,7 +246,26 @@ export async function exportImportedModelGLB(model: ImportedModel): Promise<Blob
         material = original.clone(); material.userData = {}; materials.set(original, material);
         for (const [key, value] of Object.entries(material)) if (value instanceof THREE.Texture) {
           let texture = textures.get(value);
-          if (!texture) { texture = value.clone(); texture.userData = {}; textures.set(value, texture); }
+          if (!texture) {
+            // GLTFExporter's metallic/roughness packer uses drawImage, which
+            // cannot consume DataTexture's raw {data,width,height} image.
+            // Convert only the export copy; keep live GPU maps and their owner.
+            if (value instanceof THREE.DataTexture) {
+              const image = value.image;
+              if (value.format !== THREE.RGBAFormat || value.type !== THREE.UnsignedByteType || !(image.data instanceof Uint8Array)) {
+                throw new Error("GLB export requires unsigned-byte RGBA generated textures.");
+              }
+              const canvas = document.createElement("canvas");
+              canvas.width = image.width; canvas.height = image.height;
+              const context = canvas.getContext("2d");
+              if (!context) throw new Error("Could not prepare the generated texture for GLB export.");
+              const pixels = context.createImageData(image.width, image.height);
+              pixels.data.set(image.data); context.putImageData(pixels, 0, 0);
+              texture = new THREE.Texture().copy(value);
+              texture.source = new THREE.Source(canvas);
+            } else texture = value.clone();
+            texture.userData = {}; textures.set(value, texture);
+          }
           (material as unknown as Record<string, unknown>)[key] = texture;
         }
         return material;

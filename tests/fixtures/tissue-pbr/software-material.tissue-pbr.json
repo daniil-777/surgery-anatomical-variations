@@ -1,0 +1,120 @@
+{
+  "schema": "viscera.tissue-pbr-bundle/v1",
+  "manifest": {
+    "schema": "viscera.tissue-materials/v1",
+    "resolution": [
+      16,
+      16
+    ],
+    "recipe": {
+      "organ": "liver",
+      "seed": "18446744073709551615",
+      "tile_size_mm": 80,
+      "wetness": 0,
+      "vessel_opacity": 0,
+      "fascia_opacity": 0,
+      "adipose_opacity": 0
+    },
+    "channels": {
+      "substrate": {
+        "file": "substrate.png",
+        "color_space": "srgb",
+        "sha256": "98de6520f8879a3a4596048ae08912a29ef7d30769176cb15c1473e2f1d05416",
+        "bytes": 79
+      },
+      "normal": {
+        "file": "normal.png",
+        "color_space": "linear",
+        "sha256": "d5e5c65b39a7cf7b49a7c3cf0c8aab0dc3d209783b2ec06f24394be51f3be27c",
+        "bytes": 79
+      },
+      "roughness": {
+        "file": "roughness.png",
+        "color_space": "linear",
+        "sha256": "834493662b002e606a61f097a6cf7defbfa991b6c9b550ba1582fbbfd059ce6f",
+        "bytes": 72
+      }
+    },
+    "layers": [
+      {
+        "file": "vessels.png",
+        "color_space": "linear",
+        "sha256": "5601a9991e6c8e7e4628265fa722b15528fab92681ba115e6e3785518a63ec34",
+        "bytes": 84,
+        "id": "vessels",
+        "opacity": 0,
+        "role": "software test fixture"
+      },
+      {
+        "file": "fascia.png",
+        "color_space": "linear",
+        "sha256": "917ca465978d9b965901bddfa8d6e16968a38518cb7c804bfb54834287cc641a",
+        "bytes": 84,
+        "id": "fascia",
+        "opacity": 0,
+        "role": "software test fixture"
+      },
+      {
+        "file": "adipose.png",
+        "color_space": "linear",
+        "sha256": "56b4593c1833e07f2936359c8a236fa1d6ed3c16b2dbf998783aaff39ad38760",
+        "bytes": 84,
+        "id": "adipose",
+        "opacity": 0,
+        "role": "software test fixture"
+      },
+      {
+        "file": "wet_film.png",
+        "color_space": "linear",
+        "sha256": "1e62ec5b106dab85d2dce19f55261a84c778ae53aafe343a3f6bd9cb2b7e1cd4",
+        "bytes": 79,
+        "id": "wet_film",
+        "opacity": 1,
+        "role": "software test fixture"
+      }
+    ],
+    "provenance": {
+      "executed": true,
+      "native_resolution": [
+        16,
+        16
+      ],
+      "model_id": "software-test-fixture-no-learned-model",
+      "source_type": "deterministic-software-test-fixture",
+      "fixture": true,
+      "clinically_validated": false,
+      "patient_specific": false,
+      "description": "Constant known PNG pixels produced by Python stdlib zlib; tests decoding and colour semantics only. No AI training or realism evidence."
+    }
+  },
+  "files": [
+    {
+      "file": "substrate.png",
+      "pngBase64": "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAAFklEQVR4nGNYYmZAEmIY1TCqYfhqAADe6QoQG6xoEAAAAABJRU5ErkJggg=="
+    },
+    {
+      "file": "normal.png",
+      "pngBase64": "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAAFklEQVR4nGNoaPhPEmIY1TCqYfhqAAAp4v8QINP5vwAAAABJRU5ErkJggg=="
+    },
+    {
+      "file": "roughness.png",
+      "pngBase64": "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAAAAAA6mKC9AAAAD0lEQVR4nGNoQAMMI1sAAAUMgAFaSOXNAAAAAElFTkSuQmCC"
+    },
+    {
+      "file": "vessels.png",
+      "pngBase64": "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAG0lEQVR4nGOIkhNhoARTpHnUgFEDRg0YTAYAAADDjAFnTxQVAAAAAElFTkSuQmCC"
+    },
+    {
+      "file": "fascia.png",
+      "pngBase64": "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAG0lEQVR4nGM4sWUaAyWYIs2jBowaMGrAYDIAAA46Eh88MjCaAAAAAElFTkSuQmCC"
+    },
+    {
+      "file": "adipose.png",
+      "pngBase64": "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAG0lEQVR4nGO4s6+CgRJMkeZRA0YNGDVgMBkAAEA6Eh/oVzieAAAAAElFTkSuQmCC"
+    },
+    {
+      "file": "wet_film.png",
+      "pngBase64": "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAFklEQVR4nGP4TyFgGDVg1IBRA4aLAQBdePwur/3haQAAAABJRU5ErkJggg=="
+    }
+  ]
+}

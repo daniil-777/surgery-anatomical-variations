@@ -15,6 +15,8 @@ import { ATLAS_MATERIAL_VERSION, MATERIAL_CONTROLS, validateAtlasMaterial, type 
 import type { AtlasDiseaseSpec } from "../atlasDisease";
 import { Pcg64 } from "../numpyRandom";
 import { computeAngleWeightedNormals } from "./laparoscopicScene";
+import { buildSurfacePhenotype } from "./surfacePhenotypes";
+import { configureTissueOptics, periodicTissueNoise, buildVascularTable, TISSUE_MAP_SIZE, tissueUv, tubularStructure, updateTissueTangents } from "./tissueDetail";
 
 export interface ImportedReference {
   id: string; label: string; organ: string; limits: number[]; normalizationMm: number;
@@ -341,25 +343,16 @@ interface PeriodicWorleyTable {
   hash: Float32Array;
 }
 
-interface PeriodicVascularTable {
-  arteryMask: Float32Array;
-  veinMask: Float32Array;
-  vesselHeight: Float32Array;
-  adiposeHalo: Float32Array;
-  fasciaWave: Float32Array;
-}
-
-const WORLEY_TABLE_SIDE = 256;
+const WORLEY_TABLE_SIDE = TISSUE_MAP_SIZE;
 let cachedWorleyTables: {
   grid6: PeriodicWorleyTable;
   grid11: PeriodicWorleyTable;
   grid23: PeriodicWorleyTable;
   grid47: PeriodicWorleyTable;
 } | null = null;
-let cachedVascularTable: PeriodicVascularTable | null = null;
 
 /** Evaluate a 2D toroidally periodic Worley/Voronoi cellular field on [0,1)^2 once per grid frequency
- * and store the 256×256 periodic lattice for O(1) toroidal phase-shifted lookups. */
+ * and store the 512×512 periodic lattice for O(1) toroidal phase-shifted lookups. */
 function buildPeriodicWorleyTable(gridN: number, seed: number): PeriodicWorleyTable {
   const rng = new Pcg64(seed);
   const fx = new Float64Array(gridN * gridN);
@@ -385,10 +378,10 @@ function buildPeriodicWorleyTable(gridN: number, seed: number): PeriodicWorleyTa
       const gx = (px / side) * gridN;
       const ix = Math.floor(gx);
       let d1 = Infinity, d2 = Infinity, bestHash = 0.5;
-      for (let dy = -1; dy <= 1; dy++) {
+      for (let dy = -2; dy <= 2; dy++) {
         const cy = (iy + dy + gridN) % gridN;
         const offsetY = (iy + dy) - cy;
-        for (let dx = -1; dx <= 1; dx++) {
+        for (let dx = -2; dx <= 2; dx++) {
           const cx = (ix + dx + gridN) % gridN;
           const offsetX = (ix + dx) - cx;
           const idx = cy * gridN + cx;
@@ -425,243 +418,20 @@ function getPeriodicWorleyTables() {
   return cachedWorleyTables;
 }
 
-/** Synthesize a toroidally periodic 256×256 4-generation Murray's-Law bifurcating vascular tree
- * (paired oxygenated arterial trunks + companion deoxygenated venae comitantes + perivascular fat cuff
- * + cylindrical 3D vessel elevation + anisotropic collagenous fascia waves) via fast bounding-box splatting. */
-function buildPeriodicVascularTable(): PeriodicVascularTable {
-  const side = WORLEY_TABLE_SIDE;
-  const mask = side - 1;
-  const total = side * side;
-  const arteryMask = new Float32Array(total);
-  const veinMask = new Float32Array(total);
-  const vesselHeight = new Float32Array(total);
-  const adiposeHalo = new Float32Array(total);
-  const fasciaWave = new Float32Array(total);
-
-  const rng = new Pcg64(7919);
-
-  const pointToSegmentDist2 = (
-    px: number, py: number,
-    ax: number, ay: number,
-    bx: number, by: number,
-  ): number => {
-    const abx = bx - ax, aby = by - ay;
-    const len2 = abx * abx + aby * aby;
-    if (len2 < 1e-12) return (px - ax) ** 2 + (py - ay) ** 2;
-    const t = clamp(((px - ax) * abx + (py - ay) * aby) / len2, 0, 1);
-    const qx = ax + t * abx, qy = ay + t * aby;
-    return (px - qx) ** 2 + (py - qy) ** 2;
-  };
-
-  const splatSegment = (
-    axPx: number, ayPx: number,
-    bxPx: number, byPx: number,
-    rArtPx: number, rVeinPx: number,
-    vOffX: number, vOffY: number,
-    gen: number, weight: number,
-  ) => {
-    const vax = axPx + vOffX, vay = ayPx + vOffY;
-    const vbx = bxPx + vOffX * 0.92, vby = byPx + vOffY * 0.92;
-    const rFatPx = gen === 0 ? rArtPx * 5.6 : gen === 1 ? rArtPx * 4.4 : rArtPx * 3.0;
-    const pad = Math.ceil(Math.max(rFatPx, rVeinPx + Math.hypot(vOffX, vOffY)) + 1.5);
-    const minX = Math.floor(Math.min(axPx, bxPx, vax, vbx) - pad);
-    const maxX = Math.ceil(Math.max(axPx, bxPx, vax, vbx) + pad);
-    const minY = Math.floor(Math.min(ayPx, byPx, vay, vby) - pad);
-    const maxY = Math.ceil(Math.max(ayPx, byPx, vay, vby) + pad);
-    const rArt2 = rArtPx * rArtPx;
-    const rVein2 = rVeinPx * rVeinPx;
-    const rFat2 = rFatPx * rFatPx;
-
-    for (let iy = minY; iy <= maxY; iy++) {
-      const wy = (iy & mask) << 8;
-      const py = iy + 0.5;
-      for (let ix = minX; ix <= maxX; ix++) {
-        const idx = wy | (ix & mask);
-        const px = ix + 0.5;
-        const d2Art = pointToSegmentDist2(px, py, axPx, ayPx, bxPx, byPx);
-        if (d2Art < rArt2) {
-          const u2 = d2Art / rArt2;
-          const m = (1 - u2) * (1 - u2) * weight;
-          const h = Math.sqrt(Math.max(0, 1 - u2)) * weight;
-          if (m > arteryMask[idx]!) arteryMask[idx] = m;
-          if (h > vesselHeight[idx]!) vesselHeight[idx] = h;
-        }
-        if (gen <= 2 && d2Art < rFat2) {
-          const uf2 = d2Art / rFat2;
-          const fatEnv = (1 - uf2) * (gen === 0 ? 1.0 : gen === 1 ? 0.85 : 0.55);
-          if (fatEnv > adiposeHalo[idx]!) adiposeHalo[idx] = fatEnv;
-        }
-        const d2Vein = pointToSegmentDist2(px, py, vax, vay, vbx, vby);
-        if (d2Vein < rVein2) {
-          const uv2 = d2Vein / rVein2;
-          const mv = (1 - uv2) * (1 - uv2) * weight * 0.94;
-          const hv = Math.sqrt(Math.max(0, 1 - uv2)) * weight * 0.84;
-          if (mv > veinMask[idx]!) veinMask[idx] = mv;
-          if (hv > vesselHeight[idx]!) vesselHeight[idx] = hv;
-        }
-      }
-    }
-  };
-
-  const spawnBranch = (
-    x0: number, y0: number,
-    theta: number, length: number,
-    rArtPx: number, gen: number,
-  ) => {
-    const steps = 8;
-    const stepLen = (length * side) / steps;
-    const tortFreq = (1.4 + 0.6 * gen) * Math.PI;
-    const tortPhase = rng.nextDouble() * Math.PI * 2;
-    const tortAmp = 0.20 + 0.05 * gen;
-    const weight = gen === 0 ? 1.0 : gen === 1 ? 0.88 : gen === 2 ? 0.74 : 0.58;
-    const rVeinPx = rArtPx * 1.24;
-    const sideSign = rng.nextDouble() < 0.5 ? 1 : -1;
-
-    let cx = x0 * side;
-    let cy = y0 * side;
-    let endTheta = theta;
-
-    for (let s = 0; s < steps; s++) {
-      const t0 = s / steps;
-      const t1 = (s + 1) / steps;
-      const tMid = 0.5 * (t0 + t1);
-      const localTheta = theta + tortAmp * Math.sin(tortFreq * tMid + tortPhase);
-      endTheta = localTheta;
-      const nx = cx + Math.cos(localTheta) * stepLen;
-      const ny = cy + Math.sin(localTheta) * stepLen;
-      const tap0 = 1 - 0.16 * tMid;
-      const perpX = -Math.sin(localTheta) * sideSign;
-      const perpY = Math.cos(localTheta) * sideSign;
-      const companionDist = (rArtPx + rVeinPx) * 0.92 * (0.84 + 0.28 * Math.cos(tortFreq * 0.7 * tMid));
-      splatSegment(
-        cx, cy, nx, ny,
-        rArtPx * tap0, rVeinPx * tap0,
-        perpX * companionDist, perpY * companionDist,
-        gen, weight,
-      );
-      cx = nx;
-      cy = ny;
-    }
-
-    if (gen < 3) {
-      const nextX = (cx / side) % 1;
-      const nextY = (cy / side) % 1;
-      // Murray's Law asymmetric physiological bifurcation (r0^3 = r1^3 + r2^3)
-      const split1 = (0.32 + 0.20 * rng.nextDouble()) * sideSign;
-      const split2 = -(0.46 + 0.24 * rng.nextDouble()) * sideSign;
-      spawnBranch(nextX, nextY, endTheta + split1, length * (0.76 + 0.08 * rng.nextDouble()), rArtPx * 0.83, gen + 1);
-      spawnBranch(nextX, nextY, endTheta + split2, length * (0.66 + 0.10 * rng.nextDouble()), rArtPx * 0.74, gen + 1);
-    }
-  };
-
-  // Seed 8 well-distributed root vascular pedicles across the periodic unit torus
-  const rootAnchors: [number, number, number][] = [
-    [0.12, 0.18, 0.42],
-    [0.62, 0.14, 1.18],
-    [0.24, 0.64, -0.55],
-    [0.78, 0.58, 2.35],
-    [0.44, 0.38, -1.42],
-    [0.88, 0.86, -2.45],
-    [0.16, 0.88, 0.85],
-    [0.52, 0.82, -0.95],
-  ];
-  for (const [rx, ry, rTheta] of rootAnchors) {
-    const jx = (rx + 0.06 * (rng.nextDouble() - 0.5) + 1) % 1;
-    const jy = (ry + 0.06 * (rng.nextDouble() - 0.5) + 1) % 1;
-    const jTheta = rTheta + 0.25 * (rng.nextDouble() - 0.5);
-    spawnBranch(jx, jy, jTheta, 0.28 + 0.04 * rng.nextDouble(), 2.85, 0);
-  }
-
-  // Synthesize periodic anisotropic collagenous fascia / serosal fiber wave
-  const tau = Math.PI * 2;
-  for (let py = 0; py < side; py++) {
-    const v = (py / side) * tau;
-    const row = py << 8;
-    for (let px = 0; px < side; px++) {
-      const u = (px / side) * tau;
-      const w1 = Math.sin(3 * u + 2 * v + 0.7 * Math.sin(2 * u - v));
-      const w2 = Math.cos(5 * u - 4 * v + 0.6 * Math.cos(u + 3 * v));
-      fasciaWave[row | px] = Math.pow(clamp(0.5 + 0.32 * w1 + 0.18 * w2, 0, 1), 3.0);
-    }
-  }
-
-  return { arteryMask, veinMask, vesselHeight, adiposeHalo, fasciaWave };
-}
-
-function getPeriodicVascularTable(): PeriodicVascularTable {
-  if (!cachedVascularTable) {
-    cachedVascularTable = buildPeriodicVascularTable();
-  }
-  return cachedVascularTable;
-}
-
 /** Organ-specific optical absorption & serosal chromaticity curve so each abdominal organ
  * in a laparoscopic multi-organ scene renders with its authentic surgical color. */
-function computeOrganTargetLinear(organ: string, rawLin: number, channel: number): number {
-  const c = clamp(rawLin, 0.002, 0.98);
-  switch (organ) {
-    case "gallbladder":
-      // Olive / bile-green translucent serosa with warm subserosal capillary undertone
-      if (channel === 0) return Math.pow(c, 1.24) * 0.38;
-      if (channel === 1) return Math.pow(c, 1.05) * 0.58;
-      return Math.pow(c, 1.18) * 0.36;
-    case "stomach":
-      // Well-perfused coral / rose-salmon gastric serosa
-      if (channel === 0) return Math.pow(c, 1.03) * 0.78;
-      if (channel === 1) return Math.pow(c, 1.18) * 0.44;
-      return Math.pow(c, 1.22) * 0.39;
-    case "small-intestine":
-      // Warm oxygenated rosy-salmon jejunoileal & duodenal serosa
-      if (channel === 0) return Math.pow(c, 1.02) * 0.80;
-      if (channel === 1) return Math.pow(c, 1.16) * 0.47;
-      return Math.pow(c, 1.20) * 0.41;
-    case "large-intestine":
-      // Pinkish-taupe colonic wall & haustra (distinct from small bowel)
-      if (channel === 0) return Math.pow(c, 1.05) * 0.72;
-      if (channel === 1) return Math.pow(c, 1.12) * 0.52;
-      return Math.pow(c, 1.15) * 0.48;
-    case "pancreas":
-      // Creamy golden-buff lobulated acinar gland
-      if (channel === 0) return Math.pow(c, 1.01) * 0.85;
-      if (channel === 1) return Math.pow(c, 1.06) * 0.68;
-      return Math.pow(c, 1.22) * 0.43;
-    case "spleen":
-      // Deep violaceous plum-burgundy splenic capsule
-      if (channel === 0) return Math.pow(c, 1.18) * 0.42;
-      if (channel === 1) return Math.pow(c, 1.48) * 0.21;
-      return Math.pow(c, 1.20) * 0.39;
-    case "kidney":
-      // Warm reddish-chestnut renal cortex capsule
-      if (channel === 0) return Math.pow(c, 1.12) * 0.62;
-      if (channel === 1) return Math.pow(c, 1.34) * 0.34;
-      return Math.pow(c, 1.36) * 0.32;
-    case "heart":
-      // Oxygenated myocardial crimson
-      if (channel === 0) return Math.pow(c, 1.10) * 0.66;
-      if (channel === 1) return Math.pow(c, 1.38) * 0.32;
-      return Math.pow(c, 1.38) * 0.32;
-    case "lung":
-      // Aerated rose-pink pleural surface
-      if (channel === 0) return Math.pow(c, 1.04) * 0.76;
-      if (channel === 1) return Math.pow(c, 1.12) * 0.56;
-      return Math.pow(c, 1.10) * 0.58;
-    case "urinary-bladder":
-    case "brain":
-      if (channel === 0) return Math.pow(c, 1.05) * 0.76;
-      if (channel === 1) return Math.pow(c, 1.10) * 0.60;
-      return Math.pow(c, 1.12) * 0.54;
-    case "liver":
-    default:
-      // Deep hepatic crimson-mahogany parenchymal absorption
-      return Math.pow(c, channel === 0 ? 1.15 : 1.44) * (channel === 0 ? 0.55 : channel === 1 ? 0.25 : 0.23);
-  }
+function computeOrganTargetLinear(organ: string, value: number, channel: number): number {
+  const palette: Record<string, [number, number, number]> = {
+    liver: [.49,.245,.235], gallbladder: [.60,.61,.51], stomach: [.67,.43,.39],
+    "small-intestine": [.68,.43,.38], "large-intestine": [.65,.46,.42],
+    pancreas: [.68,.56,.39], spleen: [.38,.18,.25], kidney: [.46,.25,.21],
+    heart: [.48,.22,.22], lung: [.63,.42,.44], brain: [.67,.59,.53],
+  };
+  return srgbToLinear((palette[organ] ?? palette.liver!)[channel]!) * (.9 + .2 * clamp(value,0,1));
 }
 
-/** Continuous 3D rest-space anatomical micro-structure, sub-serosal vascular arcades & perivascular adipose [modR, modG, modB].
- * Zero-allocation trig evaluation in normalized organ coordinates (nx, ny, nz in [-1, 1]) that adds
- * organ-authentic macroscopic surgical landmarks (cystic arterial arborization, vasa recta arcades,
- * mesenteric/gastroepiploic golden-yellow fat pads, colonic teniae & haustral clefts, pancreatic acinar lobulation,
- * renal stellate venules, and hepatic portal-venous perfusion). */
+/** Coarse rest-space tissue modulation. Connected vessels are supplied by the
+ * PBR field, independently of mesh density; do not add sinusoidal vessel bands. */
 function evaluateOrganMicroStructure3D(
   organ: string,
   nx: number,
@@ -669,108 +439,89 @@ function evaluateOrganMicroStructure3D(
   nz: number,
   phase: number,
 ): [number, number, number] {
-  // Warped 3D coordinates for tortuous macroscopic vascular trunks & secondary bifurcating arcades
+  // Slowly warped tissue coordinates.
   const wx = nx + 0.18 * Math.sin(ny * 4.5 + nz * 3.8 + phase);
   const wy = ny + 0.18 * Math.cos(nx * 4.2 - nz * 4.6 - phase * 0.6);
   const wz = nz + 0.16 * Math.sin(nx * 3.9 + ny * 4.8 + phase * 0.4);
 
   const s1 = Math.sin(wx * 8.5 + wy * 6.8 - wz * 5.6 + phase);
   const s2 = Math.cos(wx * 16.4 - wy * 13.8 + wz * 11.2 - phase * 0.7);
-  const s3 = Math.sin(wx * 27.0 + wy * 22.5 + wz * 18.0 + phase * 1.3);
-
-  // Multi-generation 3D arterial filaments (oxygenated crimson) & companion venous threads (ruby-violet)
-  const macroArtery = Math.exp(-Math.abs(s1) * 16.0) * (0.65 + 0.35 * Math.cos(wx * 5.0 - wy * 4.0));
-  const branchArtery = Math.exp(-Math.abs(s1 * 0.55 + s2 * 0.45) * 18.0);
-  const fineArteriole = Math.exp(-Math.abs(s2 * 0.60 + s3 * 0.40) * 20.0) * 0.65;
-  const artSignal = clamp(Math.max(macroArtery, branchArtery * 0.85, fineArteriole), 0, 1);
-
-  const vWave = Math.sin(wx * 9.2 - wy * 7.6 + wz * 6.1 + phase + 0.42);
-  const veinSignal = clamp(Math.exp(-Math.abs(vWave * 0.68 + s2 * 0.32) * 17.0) * (1 - 0.75 * artSignal), 0, 1);
 
   // Perivascular & mesenteric adipose lobule zones (clustered near major vascular trunks)
-  const fatPocket = Math.exp(-Math.abs(s1) * 4.8) * Math.pow(clamp(0.5 + 0.5 * Math.sin(wx * 12.0 + phase) * Math.cos(wy * 12.0 - phase), 0, 1), 2.2) * (1 - 0.85 * Math.max(artSignal, veinSignal));
+  const fatPocket = Math.exp(-Math.abs(s1) * 4.8) * Math.pow(clamp(0.5 + 0.5 * Math.sin(wx * 12.0 + phase) * Math.cos(wy * 12.0 - phase), 0, 1), 2.2);
 
   switch (organ) {
     case "gallbladder": {
-      // Sub-serosal cystic artery arborization (vivid crimson over translucent olive-green serosa),
-      // deep cystic veins, and Calot's infundibular golden adipose cuff near the neck
       const fundusDepth = 0.92 + 0.12 * clamp(ny * 0.5 + 0.5, 0, 1);
       const neckFat = clamp((-ny - 0.25) * 1.8, 0, 1) * fatPocket * 0.55;
       return [
-        fundusDepth * (1 + 0.72 * artSignal - 0.14 * veinSignal + 0.85 * neckFat),
-        fundusDepth * (1 - 0.36 * artSignal - 0.30 * veinSignal + 0.42 * neckFat),
-        fundusDepth * (1 - 0.38 * artSignal + 0.12 * veinSignal - 0.28 * neckFat),
+        fundusDepth * (1 + 0.85 * neckFat),
+        fundusDepth * (1 + 0.42 * neckFat),
+        fundusDepth * (1 - 0.28 * neckFat),
       ];
     }
     case "stomach": {
-      // Gastric lesser & greater curvature gastroepiploic vascular arcades + omental golden fat border
       const curvatureZone = clamp(Math.abs(nx) * 0.75 + 0.20, 0, 1);
       const omentalFat = clamp((Math.abs(nx) - 0.42) * 2.2, 0, 1) * fatPocket * 0.68;
       return [
-        1 + 0.12 * curvatureZone + 0.36 * artSignal - 0.18 * veinSignal + 0.28 * omentalFat,
-        1 - 0.06 * curvatureZone - 0.32 * artSignal - 0.34 * veinSignal + 0.46 * omentalFat,
-        1 - 0.08 * curvatureZone - 0.34 * artSignal + 0.08 * veinSignal - 0.35 * omentalFat,
+        1 + 0.12 * curvatureZone + 0.28 * omentalFat,
+        1 - 0.06 * curvatureZone + 0.46 * omentalFat,
+        1 - 0.08 * curvatureZone - 0.35 * omentalFat,
       ];
     }
     case "small-intestine": {
-      // Mesenteric vasa recta arterial & venous arcades, peristaltic circular rings, and mesenteric yellow fat border
       const ring = 0.94 + 0.09 * Math.sin(wx * 14.0 + wy * 12.0 + wz * 10.0 + phase);
       const mesentericFat = clamp((0.45 - Math.abs(nz)) * 1.9, 0, 1) * fatPocket * 0.65;
       return [
-        ring * (1 + 0.38 * artSignal - 0.18 * veinSignal + 0.26 * mesentericFat),
-        ring * (1 - 0.34 * artSignal - 0.35 * veinSignal + 0.44 * mesentericFat),
-        ring * (1 - 0.36 * artSignal + 0.10 * veinSignal - 0.34 * mesentericFat),
+        ring * (1 + 0.26 * mesentericFat),
+        ring * (1 + 0.44 * mesentericFat),
+        ring * (1 - 0.34 * mesentericFat),
       ];
     }
     case "large-intestine": {
-      // Colonic haustral clefts, longitudinal pearly teniae coli band, appendices epiploicae yellow fat tags, & vasa longa
       const haustra = 0.91 + 0.13 * Math.cos(wx * 11.0 + wy * 9.5 + phase * 0.5);
       const teniaBand = Math.exp(-((nz - 0.22) * (nz - 0.22)) * 11.0) * 0.16;
       const epiploicFat = Math.exp(-((nz - 0.18) * (nz - 0.18)) * 5.5) * fatPocket * 0.78;
       return [
-        haustra + teniaBand + 0.34 * artSignal - 0.16 * veinSignal + 0.32 * epiploicFat,
-        haustra + teniaBand * 0.96 - 0.30 * artSignal - 0.32 * veinSignal + 0.48 * epiploicFat,
-        haustra + teniaBand * 0.90 - 0.32 * artSignal + 0.08 * veinSignal - 0.36 * epiploicFat,
+        haustra + teniaBand + 0.32 * epiploicFat,
+        haustra + teniaBand * 0.96 + 0.48 * epiploicFat,
+        haustra + teniaBand * 0.90 - 0.36 * epiploicFat,
       ];
     }
     case "pancreas": {
-      // Macroscopic pancreatic acinar lobulation with interlobular septa & pancreaticoduodenal arcade vessels
       const lobule = Math.sin(wx * 15.5 + phase) * Math.sin(wy * 15.5 - phase) * Math.cos(wz * 15.5);
       const cleft = Math.exp(-Math.abs(lobule) * 8.5);
       return [
-        1 + 0.10 * (1 - cleft) - 0.12 * cleft + 0.26 * artSignal - 0.16 * veinSignal,
-        1 + 0.08 * (1 - cleft) - 0.20 * cleft - 0.32 * artSignal - 0.30 * veinSignal,
-        1 + 0.04 * (1 - cleft) - 0.24 * cleft - 0.34 * artSignal + 0.06 * veinSignal,
+        1 + 0.10 * (1 - cleft) - 0.12 * cleft,
+        1 + 0.08 * (1 - cleft) - 0.20 * cleft,
+        1 + 0.04 * (1 - cleft) - 0.24 * cleft,
       ];
     }
     case "spleen": {
-      // Fibroelastic splenic capsule with trabecular arteries, hilar venous congestion & capsular sheen
       const hilar = 0.91 + 0.12 * clamp(nx * 0.5 + 0.5, 0, 1);
       return [
-        hilar * (1 + 0.28 * artSignal - 0.12 * veinSignal),
-        hilar * 0.95 * (1 - 0.28 * artSignal - 0.24 * veinSignal),
-        hilar * 1.04 * (1 - 0.24 * artSignal + 0.18 * veinSignal),
+        hilar * (1),
+        hilar * 0.95 * (1),
+        hilar * 1.04 * (1),
       ];
     }
     case "kidney": {
-      // Renal cortical stellate venules (venae stellatae), subcapsular arterioles & perirenal hilar fat
       const cortex = 0.92 + 0.12 * clamp(Math.abs(nx), 0, 1);
       const hilarFat = clamp((0.38 - Math.abs(nx)) * 2.4, 0, 1) * fatPocket * 0.62;
       return [
-        cortex * (1 + 0.32 * artSignal - 0.14 * veinSignal + 0.35 * hilarFat),
-        cortex * (1 - 0.28 * artSignal - 0.28 * veinSignal + 0.52 * hilarFat),
-        cortex * (1 - 0.30 * artSignal + 0.14 * veinSignal - 0.25 * hilarFat),
+        cortex * (1 + 0.35 * hilarFat),
+        cortex * (1 + 0.52 * hilarFat),
+        cortex * (1 - 0.25 * hilarFat),
       ];
     }
     case "liver":
     default: {
-      // Glissonian capsule portal-venous perfusion gradient, subcapsular venules/arterioles & lobular mottling
       const visceralWarmth = 0.94 + 0.09 * clamp(ny * 0.4 + nz * 0.4 + 0.3, 0, 1);
       const lobuleMottle = 0.96 + 0.06 * (s1 * s2);
       return [
-        visceralWarmth * lobuleMottle * (1 + 0.30 * artSignal - 0.14 * veinSignal),
-        visceralWarmth * lobuleMottle * (1 - 0.26 * artSignal - 0.26 * veinSignal),
-        visceralWarmth * lobuleMottle * (1 - 0.28 * artSignal + 0.16 * veinSignal),
+        visceralWarmth * lobuleMottle * (1),
+        visceralWarmth * lobuleMottle * (1),
+        visceralWarmth * lobuleMottle * (1),
       ];
     }
   }
@@ -778,7 +529,7 @@ function evaluateOrganMicroStructure3D(
 
 /** Smooth, bounded 3D physiological surface relief (in normalized organ units) along the outward normal.
  * Adds organ-authentic 3D surgical contours (colonic haustra & epiploic bosses, intestinal peristaltic waves,
- * pancreatic acinar cobbling, subserosal vascular arcade ridges) on free peritoneal surfaces. */
+ * pancreatic lobulation) on free peritoneal surfaces; vascular relief uses the PBR field. */
 function evaluateOrganPhysiologicalRelief(
   organ: string,
   nx: number,
@@ -786,47 +537,41 @@ function evaluateOrganPhysiologicalRelief(
   nz: number,
   phase: number,
 ): number {
-  const s1 = Math.sin(nx * 8.5 + ny * 6.8 - nz * 5.6 + phase);
-  const vesselRidge = Math.exp(-Math.abs(s1) * 14.0) * 0.0045;
   switch (organ) {
     case "large-intestine": {
       // Colonic haustral sacculations + semilunar clefts + epiploic fat bosses
       const haustralWave = Math.cos(nx * 10.5 + ny * 9.0 + phase * 0.5);
       const haustra = (haustralWave > 0 ? Math.pow(haustralWave, 0.75) : -0.65 * Math.pow(-haustralWave, 1.4)) * 0.018;
-      return haustra + vesselRidge;
+      return haustra;
     }
     case "small-intestine": {
       // Gentle circular peristaltic contraction rings + mesenteric vasa recta ridges
       const peristalsis = Math.sin(nx * 13.5 + ny * 11.5 + nz * 9.5 + phase) * 0.011;
-      return peristalsis + vesselRidge * 1.2;
+      return peristalsis;
     }
     case "pancreas": {
       // Macroscopic acinar lobular cobbling
       const acinar = Math.abs(Math.sin(nx * 14.0 + phase) * Math.cos(ny * 14.0 - phase) * Math.sin(nz * 14.0)) * 0.016;
-      return (acinar - 0.005) + vesselRidge;
+      return acinar - 0.005;
     }
     case "stomach": {
       // Antral peristaltic wave + gastroepiploic vascular arcade relief
       const antral = Math.sin(nx * 6.5 + ny * 5.5 + phase) * 0.008;
-      return antral + vesselRidge * 1.3;
-    }
-    case "gallbladder": {
-      // Tortuous cystic artery subserosal relief
-      return vesselRidge * 1.5;
+      return antral;
     }
     default:
-      return vesselRidge * 0.75;
+      return 0;
   }
 }
 
-/** Synthesize 3 toroidally seamless 256×256 PBR textures (BaseColor sRGB, tangent Normal, glTF Roughness)
- * combining a 4-generation Murray's-Law bifurcating vascular tree (paired oxygenated crimson arteries +
- * deoxygenated ruby-violet veins), perivascular golden-yellow adipose lobules, collagenous fascia, and
+/** Synthesize 3 toroidally seamless 512×512 PBR textures (BaseColor sRGB, tangent Normal, glTF Roughness)
+ * combining seeded five-level branching arterial and venous trees, perivascular golden-yellow adipose lobules, collagenous fascia, and
  * periodic Worley parenchymal lobules. */
 function bakeSeamlessImportedPbrMaps(
   materialRecipe: AtlasMaterialRecipe,
   diseaseProfile: ImportedDiseaseProfile | null | undefined,
   textureStrength: number,
+  tubular = false,
 ): SeamlessImportedPbrBundle {
   const side = WORLEY_TABLE_SIDE;
   const mask = side - 1;
@@ -860,23 +605,20 @@ function bakeSeamlessImportedPbrMaps(
 
   const tables = getPeriodicWorleyTables();
   const { grid6, grid11, grid23, grid47 } = tables;
-  const vasc = getPeriodicVascularTable();
-  const isNodularOrFibrotic = diseaseProfile?.pattern === "nodular" || diseaseProfile?.pattern === "fibrotic";
-  const isSteatotic = Boolean(diseaseProfile?.id?.includes("steatotic"));
+  const vasc = buildVascularTable(baseSeed);
   const isLobularOrgan = materialRecipe.organ === "pancreas" || materialRecipe.organ === "lung";
   const isHollowSerosa = materialRecipe.organ === "gallbladder" || materialRecipe.organ === "stomach" ||
     materialRecipe.organ === "small-intestine" || materialRecipe.organ === "large-intestine";
 
   // Organ-specific histological prominence weights for arteries, companion veins, perivascular fat & fascia
-  const arteryWeight = isHollowSerosa ? 0.96
+  const arteryWeight = (materialRecipe.organ === "liver" || materialRecipe.organ === "spleen") ? 0.14 : isHollowSerosa ? 0.66
     : (materialRecipe.organ === "heart" || materialRecipe.organ === "kidney" || materialRecipe.organ === "brain") ? 0.90
     : materialRecipe.organ === "pancreas" ? 0.82
     : 0.78;
-  const veinWeight = (materialRecipe.organ === "kidney" || materialRecipe.organ === "spleen" || materialRecipe.organ === "liver") ? 0.92
-    : isHollowSerosa ? 0.88
+  const veinWeight = (materialRecipe.organ === "liver" || materialRecipe.organ === "spleen") ? 0.18 : (materialRecipe.organ === "kidney" || materialRecipe.organ === "spleen" || materialRecipe.organ === "liver") ? 0.92
+    : isHollowSerosa ? 0.58
     : 0.80;
-  const adiposeWeight = isSteatotic ? 0.85
-    : materialRecipe.organ === "large-intestine" ? 0.88
+  const adiposeWeight = materialRecipe.organ === "large-intestine" ? 0.88
     : (materialRecipe.organ === "small-intestine" || materialRecipe.organ === "stomach") ? 0.80
     : (materialRecipe.organ === "pancreas" || materialRecipe.organ === "heart") ? 0.72
     : (materialRecipe.organ === "gallbladder" || materialRecipe.organ === "kidney") ? 0.58
@@ -894,13 +636,13 @@ function bakeSeamlessImportedPbrMaps(
   const uRoughBase = (baseline.uniforms as Record<string, unknown>).uAtlasRoughnessBase as number;
 
   for (let py = 0; py < side; py++) {
-    const r1 = ((py + oy1) & mask) << 8;
-    const r2 = ((py + oy2) & mask) << 8;
-    const r3 = ((py + oy3) & mask) << 8;
-    const rM = ((py + oyM) & mask) << 8;
+    const r1 = ((py + oy1) & mask) * side;
+    const r2 = ((py + oy2) & mask) * side;
+    const r3 = ((py + oy3) & mask) * side;
+    const rM = ((py + oyM) & mask) * side;
     const vy1 = (py + oyV1) & mask;
     const vy2 = ((py * 2) + oyV2) & mask;
-    const rowOffset = py << 8;
+    const rowOffset = py * side;
     for (let px = 0; px < side; px++) {
       const idx = rowOffset | px;
       const i1 = r1 | ((px + ox1) & mask);
@@ -912,16 +654,16 @@ function bakeSeamlessImportedPbrMaps(
       const edge3 = grid47.edge[i3]!, h3 = grid47.hash[i3]!;
 
       // Domain-warp vascular lookup coordinates slightly using cellular phase for organic serpiginous variation
-      const warpPx = Math.round((h1 - 0.5) * 3.0);
+      const warpPx = Math.round(side * 0.004 * Math.sin(px / side * Math.PI * 4 + 0.6 * Math.sin(py / side * Math.PI * 2)));
       const vx1 = (px + oxV1 + warpPx) & mask;
       const vx2 = ((px * 2) + oxV2 - warpPx) & mask;
-      const iV1 = flipVasc ? ((vx1 << 8) | vy1) : ((vy1 << 8) | vx1);
-      const iV2 = flipVasc ? ((vy2 << 8) | vx2) : ((vx2 << 8) | vy2);
+      const iV1 = flipVasc ? ((vx1 * side) | vy1) : ((vy1 * side) | vx1);
+      const iV2 = flipVasc ? ((vy2 * side) | vx2) : ((vx2 * side) | vy2);
 
       // Combine macro arcade (1x) + fine arborizing subserosal plexus (2x)
-      const artRaw = Math.max(vasc.arteryMask[iV1]!, vasc.arteryMask[iV2]! * 0.72);
-      const veinRaw = Math.max(vasc.veinMask[iV1]!, vasc.veinMask[iV2]! * 0.70) * (1 - 0.78 * artRaw);
-      const vHeight = Math.max(vasc.vesselHeight[iV1]!, vasc.vesselHeight[iV2]! * 0.62);
+      const artRaw = Math.max(vasc.arteryMask[iV1]!, vasc.arteryMask[iV2]! * 0.24);
+      const veinRaw = Math.max(vasc.veinMask[iV1]!, vasc.veinMask[iV2]! * 0.22) * (1 - 0.78 * artRaw);
+      const vHeight = Math.max(vasc.vesselHeight[iV1]!, vasc.vesselHeight[iV2]! * 0.20);
       const fatHalo = vasc.adiposeHalo[iV1]!;
       const fasciaVal = vasc.fasciaWave[iV1]!;
 
@@ -929,25 +671,25 @@ function bakeSeamlessImportedPbrMaps(
       const lobuleDome2 = clamp(1 - d2 * 1.2, 0, 1);
       const septum1 = Math.exp(-edge1 * (isHollowSerosa ? 13.5 : 9.5));
       const septum2 = Math.exp(-edge2 * (isHollowSerosa ? 15.0 : 11.0));
-      const centralVenule = isHollowSerosa ? 0 : Math.exp(-d1 * d1 * 28.0);
+      const centralVenule = 0; // Histological lobules are not visible capsule pores.
       const microPore = Math.exp(-edge3 * 14.0);
 
       let macroDome = 0;
       let macroSeptum = 0;
-      if (isNodularOrFibrotic || isLobularOrgan) {
+      if (isLobularOrgan) {
         const iM = rM | ((px + oxM) & mask);
         const md1 = grid6.d1[iM]!, medge = grid6.edge[iM]!;
-        const macroWeight = isNodularOrFibrotic ? 1.0 : 0.68;
+        const macroWeight = 0.38;
         macroDome = macroWeight * Math.pow(clamp(1 - md1 * 1.08, 0, 1), 1.35);
         macroSeptum = macroWeight * Math.exp(-medge * 8.0);
       }
 
-      const artMask = clamp(artRaw * arteryWeight * vascAmp, 0, 0.96);
-      const vnMask = clamp((veinRaw * veinWeight + 0.38 * centralVenule) * vascAmp * (1 - 0.80 * artMask), 0, 0.92);
+      const artMask = tubular ? 0 : clamp(artRaw * arteryWeight * vascAmp, 0, 0.96);
+      const vnMask = tubular ? 0 : clamp((veinRaw * veinWeight + 0.38 * centralVenule) * vascAmp * (1 - 0.80 * artMask), 0, 0.92);
       // Rounded Worley adipose globules clustered inside the perivascular fat halo (outside the vessel lumens)
       const vesselExclusion = clamp(1 - 1.65 * Math.max(artMask, vnMask), 0, 1);
       const fatCluster = fatHalo * Math.pow(lobuleDome1, 0.82) * (0.74 + 0.26 * lobuleDome2) * vesselExclusion;
-      const fatMask = clamp((fatCluster - 0.07) * 3.1 * adiposeWeight * vascAmp, 0, 0.92) * vesselExclusion;
+      const fatMask = tubular ? 0 : clamp((fatCluster - 0.07) * 3.1 * adiposeWeight * vascAmp, 0, 0.92) * vesselExclusion;
       const fMask = clamp(fasciaVal * (1 - Math.max(artMask, vnMask, fatMask)) * 0.24 * detailAmp, 0, 0.38);
 
       pixelArtery[idx] = artMask;
@@ -955,18 +697,20 @@ function bakeSeamlessImportedPbrMaps(
       pixelFat[idx] = fatMask;
       pixelFascia[idx] = fMask;
 
-      const cellTint = (h1 - 0.5) * 0.16 + (h2 - 0.5) * 0.10 + (h3 - 0.5) * 0.06;
+      const broadNoise = periodicTissueNoise(px / side, py / side, 13, baseSeed) - .5;
+      const fineNoise = periodicTissueNoise(px / side, py / side, 97, baseSeed + 13) - .5;
+      const cellTint = broadNoise * .12 + fineNoise * .025;
       const dome = (isHollowSerosa ? 0.30 : 0.55) * lobuleDome1 + 0.32 * lobuleDome2 + 0.45 * macroDome;
       const septa = clamp(0.65 * septum1 + 0.35 * septum2 + 0.85 * macroSeptum, 0, 1);
 
-      septumMask[idx] = clamp(septa + 0.40 * centralVenule, 0, 1);
-      lobuleDetail[idx] = clamp(1 + detailAmp * (cellTint + 0.18 * (dome - 0.45) - 0.22 * septa - 0.16 * centralVenule), 0.62, 1.38);
+      septumMask[idx] = clamp(septa + 0.0 * centralVenule, 0, 1);
+      lobuleDetail[idx] = clamp(1 + detailAmp * (cellTint + 0.025 * (dome - 0.45) - 0.008 * septa - 0.16 * centralVenule), 0.62, 1.38);
       // Combine parenchymal lobule domes, septal trenches, 3D cylindrical vessel elevation & convex fat globules
       // Subcapsular organs (healthy liver, spleen, kidney) show vessels through a smooth translucent capsule
-      const subcapsularSmooth = (materialRecipe.organ === "liver" || materialRecipe.organ === "spleen" || materialRecipe.organ === "kidney") && !isNodularOrFibrotic;
-      const vReliefScale = subcapsularSmooth ? 0.14 : 1.0;
-      lobuleHeight[idx] = detailAmp * ((isHollowSerosa ? 0.10 : subcapsularSmooth ? 0.08 : 0.20) * dome - (subcapsularSmooth ? 0.06 : 0.18) * septa - 0.06 * centralVenule - 0.02 * microPore)
-        + vascAmp * vReliefScale * (0.34 * vHeight + 0.22 * fatMask + 0.06 * fMask);
+      const subcapsularSmooth = (materialRecipe.organ === "liver" || materialRecipe.organ === "spleen" || materialRecipe.organ === "kidney");
+      const vReliefScale = tubular ? 0 : subcapsularSmooth ? 0.14 : 1.0;
+      lobuleHeight[idx] = .025 * fineNoise + .015 * broadNoise + detailAmp * ((isHollowSerosa ? 0.10 : subcapsularSmooth ? 0.08 : 0.20) * dome - (subcapsularSmooth ? 0.0005 : 0.004) * septa - 0.06 * centralVenule - 0.003 * microPore)
+        + vascAmp * vReliefScale * (0.10 * vHeight + 0.12 * fatMask + 0.025 * fMask);
     }
   }
 
@@ -976,12 +720,11 @@ function bakeSeamlessImportedPbrMaps(
   const diseaseLinear = diseaseProfile ? diseaseProfile.srgb.map(srgbToLinear) as [number, number, number] : null;
   let sumR = 0, sumG = 0, sumB = 0, sumWeight = 0;
 
-  // Multi-spectral physiological chrominance targets in linear texture carrier space:
-  // Because Three.js multiplies mapLinear * vertexColor, setting R >> G,B on arteries and R,G >> B on fat
-  // produces vivid crimson arteries, ruby-violet veins, and golden-yellow fat lobules on every organ!
-  const artCarrierLin: [number, number, number] = [0.98, 0.038, 0.032];
-  const veinCarrierLin: [number, number, number] = [0.16, 0.034, 0.44];
-  const fatCarrierLin: [number, number, number] = [0.96, 0.84, 0.11];
+  // Muted linear-space carriers retain red-brown arteries, plum veins and
+  // warm fat after multiplication by the underlying organ color.
+  const artCarrierLin: [number, number, number] = [0.56, 0.060, 0.048];
+  const veinCarrierLin: [number, number, number] = [0.21, 0.065, 0.16];
+  const fatCarrierLin: [number, number, number] = [0.86, 0.68, 0.26];
   const fasciaCarrierLin: [number, number, number] = [0.82, 0.80, 0.76];
 
   for (let i = 0; i < total; i++) {
@@ -996,8 +739,8 @@ function bakeSeamlessImportedPbrMaps(
     sumWeight += subWeight;
 
     for (let k = 0; k < 3; k++) {
-      let lin = uBase[k]! * (1 - 0.42 * sMask) + uSepta[k]! * (0.42 * sMask);
-      if (diseaseLinear && isNodularOrFibrotic) {
+      let lin = uBase[k]! * (1 - 0.008 * sMask) + uSepta[k]! * (0.008 * sMask);
+      if (diseaseLinear && isLobularOrgan) {
         lin = lin * (1 - 0.28 * sMask) + diseaseLinear[k]! * (0.28 * sMask);
       }
       // Substrate carrier in linear space (~0.45..0.62)
@@ -1021,7 +764,7 @@ function bakeSeamlessImportedPbrMaps(
 
     // Glistening wet endothelium over vessels & moist adipose lobules (lower roughness = sharper specular glints)
     const vWet = Math.max(art, vn);
-    const rVal = clamp(0.74 + (uRoughBase - 0.34) * 0.45 + 0.20 * sMask - 0.28 * vWet - 0.12 * fat - (mod - 1) * 0.22, 0.22, 0.98);
+    const rVal = clamp(0.74 + (uRoughBase - 0.34) * 0.45 + 0.035 * sMask - 0.16 * vWet - 0.12 * fat - (mod - 1) * 1.8, 0.22, 0.98);
     const rByte = Math.round(rVal * 255);
     roughData[i4] = 255;
     roughData[i4 + 1] = rByte;
@@ -1029,16 +772,16 @@ function bakeSeamlessImportedPbrMaps(
     roughData[i4 + 3] = 255;
   }
 
-  const normalSlope = (5.4 + 3.8 * materialRecipe.fine_detail + 3.2 * materialRecipe.structure_strength + (isNodularOrFibrotic ? 3.2 : 0)) * (0.58 + 0.42 * textureStrength);
+  const normalSlope = (2.0 + 1.4 * materialRecipe.fine_detail + 1.2 * materialRecipe.structure_strength) * (0.58 + 0.42 * textureStrength);
   for (let py = 0; py < side; py++) {
     const pyPrev = (py + side - 1) & mask, pyNext = (py + 1) & mask;
     for (let px = 0; px < side; px++) {
       const pxPrev = (px + side - 1) & mask, pxNext = (px + 1) & mask;
-      const idx = (py << 8) | px, i4 = idx * 4;
-      const hL = lobuleHeight[(py << 8) | pxPrev]!;
-      const hR = lobuleHeight[(py << 8) | pxNext]!;
-      const hD = lobuleHeight[(pyPrev << 8) | px]!;
-      const hU = lobuleHeight[(pyNext << 8) | px]!;
+      const idx = (py * side) | px, i4 = idx * 4;
+      const hL = lobuleHeight[(py * side) | pxPrev]!;
+      const hR = lobuleHeight[(py * side) | pxNext]!;
+      const hD = lobuleHeight[(pyPrev * side) | px]!;
+      const hU = lobuleHeight[(pyNext * side) | px]!;
       let nx = -(hR - hL) * normalSlope;
       let ny = -(hU - hD) * normalSlope;
       let nz = 1.0;
@@ -1058,6 +801,7 @@ function bakeSeamlessImportedPbrMaps(
     tex.magFilter = LinearFilter;
     tex.minFilter = LinearMipmapLinearFilter;
     tex.generateMipmaps = true;
+    tex.anisotropy = 4;
     tex.needsUpdate = true;
     return tex;
   };
@@ -1071,130 +815,6 @@ function bakeSeamlessImportedPbrMaps(
       Math.max(0.12, sumG / Math.max(1, sumWeight)),
       Math.max(0.12, sumB / Math.max(1, sumWeight)),
     ],
-  };
-}
-
-interface ImportedDiseaseSite {
-  cx: number; cy: number; cz: number;
-  dx: number; dy: number; dz: number;
-  radius: number; amplitude: number;
-  phase: number;
-}
-interface ImportedDiseaseField {
-  sites: ImportedDiseaseSite[];
-  steps: number;
-  globalScale: [number, number, number];
-  targetLinear: [number, number, number];
-  colorStrength: number;
-}
-
-/** Deterministic 3D pathology site placement in centered rest space for Joint Flow v2 disease recipes.
- * Uses smooth outward surface normals and broad organic multi-octave envelopes (never circular craters). */
-function buildImportedDiseaseField(
-  state: ImportedVariationState,
-  disease: AtlasDiseaseSpec,
-  profile: ImportedDiseaseProfile,
-  shapeStrength: number,
-  textureStrength: number,
-): ImportedDiseaseField {
-  const firstMesh = state.meshes[0]!;
-  const coords = firstMesh.centered;
-  const sourceNormal = firstMesh.geometry?.getAttribute?.("normal") ?? null;
-  const vertexCount = coords.length / 3;
-  const lo: [number, number, number] = [Infinity, Infinity, Infinity];
-  const hi: [number, number, number] = [-Infinity, -Infinity, -Infinity];
-  for (let i = 0; i < coords.length; i += 3) {
-    for (let k = 0; k < 3; k++) {
-      const val = coords[i + k]!;
-      if (val < lo[k]!) lo[k] = val;
-      if (val > hi[k]!) hi[k] = val;
-    }
-  }
-  const extent = [hi[0] - lo[0], hi[1] - lo[1], hi[2] - lo[2]] as const;
-  const diagonal = Math.max(Math.hypot(extent[0], extent[1], extent[2]), 1e-6);
-  const target = [
-    (lo[0] + hi[0]) * 0.5 + disease.location[0] * extent[0] * 0.5,
-    (lo[1] + hi[1]) * 0.5 + disease.location[1] * extent[1] * 0.5,
-    (lo[2] + hi[2]) * 0.5 + disease.location[2] * extent[2] * 0.5,
-  ] as const;
-
-  let firstIdx = 0, bestDist2 = Infinity;
-  for (let i = 0; i < vertexCount; i++) {
-    const d2 = (coords[i * 3]! - target[0]) ** 2 + (coords[i * 3 + 1]! - target[1]) ** 2 + (coords[i * 3 + 2]! - target[2]) ** 2;
-    if (d2 < bestDist2) { bestDist2 = d2; firstIdx = i; }
-  }
-
-  const rng = new Pcg64(disease.seed);
-  // Broad anatomical support radius prevents small circular pockmarks/craters on smooth organ capsules
-  const minAnatomicalRadius = diagonal * (profile.amp < 0 ? 0.16 : 0.11);
-  const radius = Math.max(diagonal * (profile.rMin + profile.rRange * disease.size), minAnatomicalRadius);
-  const count = Math.min(profile.maxSites, Math.max(1, Math.round(disease.count * profile.mult)));
-  const anchors = [firstIdx];
-  const isDensePattern = profile.pattern === "nodular" || profile.pattern === "multifocal" || profile.pattern === "fibrotic";
-  const reach = diagonal * (isDensePattern ? 0.55 + 0.45 * disease.spread : 0.25 + 0.75 * disease.spread);
-  const separation = radius * (isDensePattern ? 0.48 : 0.82);
-  const stride = Math.max(1, Math.floor(vertexCount / 768));
-  const pool: number[] = [];
-  for (let i = 0; i < vertexCount; i += stride) pool.push(i);
-  const distBetween = (a: number, b: number) => Math.hypot(
-    coords[a * 3]! - coords[b * 3]!,
-    coords[a * 3 + 1]! - coords[b * 3 + 1]!,
-    coords[a * 3 + 2]! - coords[b * 3 + 2]!,
-  );
-  for (const idx of rng.permutation(pool)) {
-    if (anchors.length >= count) break;
-    if (distBetween(idx, firstIdx) <= reach && anchors.every(a => distBetween(a, idx) > separation)) {
-      anchors.push(idx);
-    }
-  }
-
-  const sign = Math.sign(profile.amp) || 1;
-  const steps = Math.max(1, profile.steps);
-  // Cap inward negative displacement gently so fibrotic/retracted profiles produce broad capsular flattening, never holes
-  const maxStepRatio = (sign < 0 ? 0.065 : 0.18) / steps;
-  const shapeFactor = shapeStrength > 0 ? (0.52 + 0.68 * shapeStrength) : 0;
-  const severityFactor = 0.48 + 0.52 * disease.severity;
-  const sites: ImportedDiseaseSite[] = anchors.map((idx, sIdx) => {
-    const cx = coords[idx * 3]!, cy = coords[idx * 3 + 1]!, cz = coords[idx * 3 + 2]!;
-    const outLen = Math.max(Math.hypot(cx, cy, cz), 1e-12);
-    let nx = cx / outLen, ny = cy / outLen, nz = cz / outLen;
-    if (sourceNormal && idx < sourceNormal.count) {
-      const snx = sourceNormal.getX(idx), sny = sourceNormal.getY(idx), snz = sourceNormal.getZ(idx);
-      const sLen = Math.hypot(snx, sny, snz);
-      if (sLen > 1e-6) {
-        // Blend smooth surface normal with outward radial vector for stable normal-directed contour
-        const dotSign = (snx * nx + sny * ny + snz * nz) >= 0 ? 1 : -1;
-        nx = 0.65 * (snx / sLen) * dotSign + 0.35 * nx;
-        ny = 0.65 * (sny / sLen) * dotSign + 0.35 * ny;
-        nz = 0.65 * (snz / sLen) * dotSign + 0.35 * nz;
-        const nLen = Math.max(Math.hypot(nx, ny, nz), 1e-12);
-        nx /= nLen; ny /= nLen; nz /= nLen;
-      }
-    }
-    const dx = nx * sign, dy = ny * sign, dz = nz * sign;
-    const siteRadius = radius * (0.82 + 0.38 * rng.nextDouble());
-    const rawAmp = Math.abs(profile.amp) * (sign < 0 ? 0.55 : 1.25);
-    const ratio = Math.min(rawAmp / steps, maxStepRatio) * severityFactor * shapeFactor * (1 - 0.25 * disease.irregularity * rng.nextDouble());
-    return {
-      cx, cy, cz, dx, dy, dz,
-      radius: siteRadius,
-      amplitude: siteRadius * ratio,
-      phase: sIdx * 1.73 + rng.nextDouble() * Math.PI * 2,
-    };
-  });
-
-  const globalScale: [number, number, number] = [
-    Math.exp(profile.logScale[0] * severityFactor * shapeFactor),
-    Math.exp(profile.logScale[1] * severityFactor * shapeFactor),
-    Math.exp(profile.logScale[2] * severityFactor * shapeFactor),
-  ];
-
-  return {
-    sites,
-    steps,
-    globalScale,
-    targetLinear: profile.srgb.map(srgbToLinear) as [number, number, number],
-    colorStrength: clamp(severityFactor * (0.55 + 0.45 * disease.contrast) * (0.55 + 0.45 * textureStrength), 0, 0.94),
   };
 }
 
@@ -1238,10 +858,7 @@ export async function applyVariation(state: ImportedVariationState, recipe: Impo
       throw new Error("The imported transforms changed. Reset the model before creating another variation state.");
   const controls = Object.fromEntries(CONTROL_NAMES.map(name => [name, recipe.controls[name]! * options.shapeStrength]));
   const c = CONTROL_NAMES.map((name, index) => controls[name]! * reference.limits[index]!);
-  const diseaseField = recipe.disease && recipe.diseaseProfile && (options.shapeStrength > 0 || options.textureStrength > 0)
-    ? buildImportedDiseaseField(state, recipe.disease, recipe.diseaseProfile, options.shapeStrength, options.textureStrength)
-    : null;
-  const hasDiseaseShape = Boolean(diseaseField && options.shapeStrength > 0 && diseaseField.sites.some(s => s.amplitude !== 0));
+  const hasDiseaseShape = Boolean(recipe.disease && recipe.diseaseProfile && recipe.disease.severity > 0 && options.shapeStrength > 0);
   const shaping = c.some(value => value !== 0) || hasDiseaseShape, texturing = options.textureStrength > 0;
   const geometries: BufferGeometry[] = [], materials: Material[] = [], textures: Texture[] = [];
   const pending: { rest: MeshRest; geometry: BufferGeometry; material: Material | Material[] }[] = [];
@@ -1256,6 +873,8 @@ export async function applyVariation(state: ImportedVariationState, recipe: Impo
   try {
     for (const rest of state.meshes) {
       check();
+      const diseaseField = recipe.disease && recipe.diseaseProfile
+        ? buildSurfacePhenotype(rest.centered, rest.geometry, rest.world, recipe.disease, recipe.diseaseProfile, options.shapeStrength, options.textureStrength) : null;
       const geometry = rest.geometry.clone(); geometries.push(geometry);
       const position = rest.geometry.getAttribute("position");
       const count = position.count;
@@ -1303,20 +922,9 @@ export async function applyVariation(state: ImportedVariationState, recipe: Impo
           const [gx, gy, gz] = diseaseField.globalScale;
           for (let i = 0; i < stagePoints.length; i += 3) {
             let px = stagePoints[i]!, py = stagePoints[i + 1]!, pz = stagePoints[i + 2]!;
-            for (const site of diseaseField.sites) {
-              const r2 = site.radius * site.radius;
-              const invR = 1 / Math.max(site.radius, 1e-6);
-              for (let step = 0; step < diseaseField.steps; step++) {
-                const dx = px - site.cx, dy = py - site.cy, dz = pz - site.cz;
-                const aniso = 1 + 0.24 * Math.sin(dx * invR * 4.2 + site.phase) * Math.cos(dy * invR * 3.8 - dz * invR * 3.5 - site.phase);
-                const d2 = (dx * dx + dy * dy + dz * dz) * aniso;
-                if (d2 >= r2) break;
-                const w = 1 - d2 / r2, w3 = w * w * w;
-                px += w3 * site.amplitude * site.dx;
-                py += w3 * site.amplitude * site.dy;
-                pz += w3 * site.amplitude * site.dz;
-              }
-            }
+            px += diseaseField.displacement[start * 3 + i]!;
+            py += diseaseField.displacement[start * 3 + i + 1]!;
+            pz += diseaseField.displacement[start * 3 + i + 2]!;
             stagePoints[i] = px * gx;
             stagePoints[i + 1] = py * gy;
             stagePoints[i + 2] = pz * gz;
@@ -1332,14 +940,8 @@ export async function applyVariation(state: ImportedVariationState, recipe: Impo
           if (![v.x, v.y, v.z].every(Number.isFinite)) throw new Error("Variation produced non-finite coordinates.");
           v.toArray(positions, offset);
           if (uvs) {
-            // Smooth C^infinity branch-cut-free 3D rest-space + gentle normal UV coordinates (isotropic across all 3D orientations)
-            const nxRest = rx / state.normalization, nyRest = ry / state.normalization, nzRest = rz / state.normalization;
-            const snx = sourceNormal ? sourceNormal.getX(index) : 0;
-            const sny = sourceNormal ? sourceNormal.getY(index) : 0;
-            const snz = sourceNormal ? sourceNormal.getZ(index) : 0;
-            const uvFreq = (reference.organ === "liver" || reference.organ === "pancreas" || reference.organ === "spleen" || reference.organ === "kidney") ? 2.1 : 1.55;
-            uvs[index * 2] = uvFreq * (1.28 * nxRest + 0.16 * nyRest - 0.62 * nzRest) + 0.05 * snx - 0.03 * snz;
-            uvs[index * 2 + 1] = uvFreq * (-0.22 * nxRest + 1.28 * nyRest + 0.54 * nzRest) + 0.05 * sny + 0.03 * snz;
+            const [u, vv] = tissueUv(reference.organ, rx / state.normalization, ry / state.normalization, rz / state.normalization);
+            uvs[index * 2] = u; uvs[index * 2 + 1] = vv;
           }
           if (shaping) {
             const jacobian = derivative(rx, ry, rz, c, state.normalization);
@@ -1358,39 +960,25 @@ export async function applyVariation(state: ImportedVariationState, recipe: Impo
             }
           }
           if (colors && field) {
-            let diseaseMask = 0;
-            let rimMask = 0;
-            if (diseaseField && diseaseField.colorStrength > 0) {
-              for (const site of diseaseField.sites) {
-                const dx = rx - site.cx, dy = ry - site.cy, dz = rz - site.cz;
-                const rNorm2 = (dx * dx + dy * dy + dz * dz) / (site.radius * site.radius);
-                if (rNorm2 < 1) {
-                  const support = 1 - rNorm2;
-                  const dome = support * support;
-                  diseaseMask = Math.max(diseaseMask, dome);
-                  rimMask = Math.max(rimMask, 4 * rNorm2 * support);
-                }
-              }
-              diseaseMask *= diseaseField.colorStrength;
-              rimMask *= diseaseField.colorStrength;
-            }
+            const diseaseMask = diseaseField?.mask[index] ?? 0;
+            const rimMask = diseaseField?.rim[index] ?? 0;
             if (synthesizeSeamless && seamlessBundle) {
-              const contrastMix = 0.55 + 0.45 * options.textureStrength;
-              const isNodular = recipe.diseaseProfile?.pattern === "nodular" || recipe.diseaseProfile?.pattern === "fibrotic";
+              const contrastMix = 0.10 + 0.12 * options.textureStrength;
+              const isNodular = recipe.diseaseProfile?.pattern === "nodular" || ["fibrotic", "fibrosis"].includes(recipe.diseaseProfile?.pattern ?? "");
               const nxRest = rx / state.normalization, nyRest = ry / state.normalization, nzRest = rz / state.normalization;
               const organPhase = ((recipe.material.seed & 0xffff) / 65535) * Math.PI * 2;
               const microMod = evaluateOrganMicroStructure3D(reference.organ, nxRest, nyRest, nzRest, organPhase);
               for (let channel = 0; channel < 3; channel++) {
                 const baseLin = base[channel]!;
                 const sampleLin = field.rgbLinear[local + channel]!;
-                // Deep hemoglobin optical absorption curve so high-key studio lighting renders rich surgical visceral color
+                // Intact external capsule palette, with restrained recipe variation.
                 const rawLin = clamp(baseLin + contrastMix * (sampleLin - baseLin), 0.002, 0.98);
                 let targetLin = computeOrganTargetLinear(reference.organ, rawLin, channel) * microMod[channel]!;
                 if (diseaseMask > 0 && diseaseField) {
-                  const dLin = Math.pow(clamp(diseaseField.targetLinear[channel]!, 0.005, 0.98), 1.12) * 0.62;
+                  const dLin = diseaseField.targetLinear[channel]!;
                   targetLin = targetLin * (1 - diseaseMask) + dLin * diseaseMask;
                   if (isNodular && rimMask > 0) {
-                    // Darker fibrotic inter-nodular septa trench ring around regenerative nodules
+                    // Very subtle inter-nodular shading from the same surface support.
                     targetLin *= (1 - 0.32 * rimMask);
                   }
                 }
@@ -1420,27 +1008,11 @@ export async function applyVariation(state: ImportedVariationState, recipe: Impo
         else geometry.computeVertexNormals();
         if (tangent && !hasDiseaseShape) geometry.setAttribute("tangent", new BufferAttribute(tangent, 4));
       }
+      if (hasDiseaseShape && !uvs && geometry.getAttribute("uv")) updateTissueTangents(geometry);
       if (uvs) {
         geometry.setAttribute("uv", new BufferAttribute(uvs, 2));
         if (!geometry.getAttribute("normal")) geometry.computeVertexNormals();
-        const normAttr = geometry.getAttribute("normal");
-        if (normAttr && (!tangent || hasDiseaseShape)) {
-          const synthTangents = new Float32Array(count * 4);
-          for (let vi = 0; vi < count; vi++) {
-            const nx = normAttr.getX(vi), ny = normAttr.getY(vi), nz = normAttr.getZ(vi);
-            // Smooth orthonormal tangent basis perpendicular to vertex normal (prevents dFdx(vUv) screen-space streaks)
-            let rxAxis = 0.8, ryAxis = 0.6, rzAxis = 0.0;
-            if (Math.abs(nx * rxAxis + ny * ryAxis) > 0.9) { rxAxis = 0.0; ryAxis = 0.8; rzAxis = 0.6; }
-            const dot = nx * rxAxis + ny * ryAxis + nz * rzAxis;
-            let tx = rxAxis - dot * nx, ty = ryAxis - dot * ny, tz = rzAxis - dot * nz;
-            const inv = 1 / Math.max(1e-8, Math.hypot(tx, ty, tz));
-            synthTangents[vi * 4] = tx * inv;
-            synthTangents[vi * 4 + 1] = ty * inv;
-            synthTangents[vi * 4 + 2] = tz * inv;
-            synthTangents[vi * 4 + 3] = 1;
-          }
-          geometry.setAttribute("tangent", new BufferAttribute(synthTangents, 4));
-        }
+        updateTissueTangents(geometry);
       }
       if (colors) geometry.setAttribute("color", new BufferAttribute(colors, colorSize));
       geometry.computeBoundingBox(); geometry.computeBoundingSphere();
@@ -1469,33 +1041,14 @@ export async function applyVariation(state: ImportedVariationState, recipe: Impo
           const std = material as Material & {
             color?: Color; roughness?: number; metalness?: number;
             map?: Texture | null; normalMap?: Texture | null; roughnessMap?: Texture | null;
-            normalScale?: Vector2; envMapIntensity?: number;
+            normalScale?: Vector2; envMapIntensity?: number; sheen?: number; clearcoat?: number; clearcoatRoughness?: number;
           };
           if (synthesizeSeamless && seamlessBundle) {
             if (std.color instanceof Color) std.color.setRGB(1, 1, 1);
             std.map = seamlessBundle.map;
             std.normalMap = seamlessBundle.normalMap;
             std.roughnessMap = seamlessBundle.roughnessMap;
-            if (std.normalScale instanceof Vector2) {
-              const isNodularOrFibrotic = recipe.diseaseProfile?.pattern === "nodular" || recipe.diseaseProfile?.pattern === "fibrotic";
-              const isHollowOrLobular = reference.organ === "pancreas" || reference.organ === "large-intestine" ||
-                reference.organ === "stomach" || reference.organ === "small-intestine" || reference.organ === "gallbladder";
-              const nScale = isNodularOrFibrotic
-                ? 0.68 + 0.58 * options.textureStrength
-                : reference.organ === "liver"
-                  ? 0.04 + 0.04 * options.textureStrength
-                  : isHollowOrLobular
-                    ? 0.44 + 0.36 * options.textureStrength
-                    : 0.18 + 0.14 * options.textureStrength;
-              std.normalScale.set(nScale, nScale);
-            }
-            if (typeof std.metalness === "number") std.metalness = 0;
-            if (typeof std.roughness === "number") {
-              std.roughness = clamp(0.28 + 0.42 * (roughnessSum / count), 0.24, 0.72);
-            }
-            if (typeof std.envMapIntensity === "number") {
-              std.envMapIntensity = clamp(0.38 + 0.34 * recipe.material.wetness, 0.25, 0.78);
-            }
+            configureTissueOptics(material, reference.organ, recipe.material.wetness, roughnessSum / count);
           } else if (typeof std.roughness === "number") {
             std.roughness = clamp(std.roughness + options.textureStrength * (roughnessSum / count - roughnessBase), 0, 1);
           }
@@ -1527,10 +1080,11 @@ export async function applyVariation(state: ImportedVariationState, recipe: Impo
           : "Text edits use bounded deterministic rules; the uploaded mesh was not encoded or anatomically validated.",
         ...(texturing
           ? anySeamlessSynthesized
-            ? ["Seamless 3D rest-space PBR textures (BaseColor, Normal, Roughness) and continuous 3D vertex colors were synthesized for this surface."]
+            ? ["Rest-space projected PBR textures and surface-bound vertex colors were synthesized. Planar texture projection can stretch on steep faces."]
             : ["Appearance modulation is stored in vertex colors; detail is limited by source mesh density. Original texture maps remain attached."]
           : []),
         "Normalized reference coordinates are design coordinates, not calibrated physical dimensions of the upload.",
+        "Reported Jacobians cover the analytic warp only; surface pathology is checked for collapsed triangles, not self-intersections.",
       ],
     };
   } catch (error) {
@@ -1568,7 +1122,7 @@ export interface MultiOrganSceneVariationOptions extends VariationOptions {
 export interface MultiOrganSceneVariationReport extends VariationReport {
   organsVaried: number;
   organRecipes: Record<string, ImportedVariationRecipe>;
-  report: MultiOrganSceneVariationReport;
+  report: Omit<MultiOrganSceneVariationReport, "report">;
   organReports: {
     slotId: string;
     name: string;
@@ -1610,6 +1164,8 @@ function matchReferenceByName(system: ImportedVariationSystem, rawName: string):
     system.references.find(ref => ref.organ === organFallback) ??
     null;
 
+  if (tubularStructure(rawName) === "artery") return findRef("hra-heart-female", "heart");
+  if (tubularStructure(rawName) === "vein") return findRef("hra-spleen-female", "spleen");
   if (lower.includes("liver") || lower.includes("hep") && !lower.includes("duct") && !lower.includes("art")) {
     return findRef("hra-liver-female", "liver");
   }
@@ -1787,7 +1343,7 @@ const sceneClearanceCache = new WeakMap<ImportedVariationState, Float32Array[]>(
 
 /** Compute per-vertex inter-organ clearance weight w_clear in [0, 1] using a fast 3D spatial hash.
  * Vertices in intimate anatomical contact (d <= 3.5 mm) with an adjacent organ get w_clear = 0
- * so both organs move 100% locked together under the shared scene diffeomorphism (zero collision or gap opening).
+ * so local changes are damped. This sampled heuristic is not a collision guarantee.
  * Free peritoneal surfaces (d >= 18 mm) get w_clear = 1 for full local morphological and pathology expression. */
 function getInterOrganClearanceWeights(state: ImportedVariationState): Float32Array[] {
   const cached = sceneClearanceCache.get(state);
@@ -1826,9 +1382,9 @@ function getInterOrganClearanceWeights(state: ImportedVariationState): Float32Ar
       const x = rest.centered[3 * i]!, y = rest.centered[3 * i + 1]!, z = rest.centered[3 * i + 2]!;
       const gx = Math.floor(x * invCell), gy = Math.floor(y * invCell), gz = Math.floor(z * invCell);
       let minD2 = freeThreshold * freeThreshold;
-      for (let dz = -1; dz <= 1; dz++) {
-        for (let dy = -1; dy <= 1; dy++) {
-          for (let dx = -1; dx <= 1; dx++) {
+      for (let dz = -2; dz <= 2; dz++) {
+        for (let dy = -2; dy <= 2; dy++) {
+          for (let dx = -2; dx <= 2; dx++) {
             const bucket = grid.get(`${gx + dx},${gy + dy},${gz + dz}`);
             if (!bucket) continue;
             for (let b = 0; b < bucket.length; b++) {
@@ -1851,23 +1407,6 @@ function getInterOrganClearanceWeights(state: ImportedVariationState): Float32Ar
   return weights;
 }
 
-function buildOrganLocalDiseaseField(
-  centeredCoords: Float64Array,
-  geometry: BufferGeometry,
-  disease: AtlasDiseaseSpec,
-  profile: ImportedDiseaseProfile,
-  shapeStrength: number,
-  textureStrength: number,
-): ImportedDiseaseField {
-  const fakeMeshRest = { centered: centeredCoords, geometry } as MeshRest;
-  const fakeState = { meshes: [fakeMeshRest] } as unknown as ImportedVariationState;
-  const field = buildImportedDiseaseField(fakeState, disease, profile, shapeStrength * 0.52, textureStrength);
-  return field;
-}
-
-/** Apply coupled multi-organ 22-DOF Joint Variational Flow v2 shape, seamless 3D PBR textures,
- * and optional pathology across an entire multi-organ laparoscopic 3D scene while preserving
- * co-registered anatomical apposition at all inter-organ contact interfaces. */
 export async function applySceneVariation(
   state: ImportedVariationState,
   system: ImportedVariationSystem,
@@ -1899,8 +1438,10 @@ export async function applySceneVariation(
   // 1. Sample a 22-DOF Joint Variational Flow v2 recipe for each organ slot in the scene
   const slotData = activeAssignments.map((slot, slotIdx) => {
     const organSeed = ((options.seed >>> 0) + Math.imul(slotIdx + 1, 997)) >>> 0;
-    let activeProfileId = slot.profileId;
-    if (!activeProfileId && sampleRandomPathology) {
+    const tubular = tubularStructure(slot.name);
+    const supportStructure = Boolean(tubular) || /mesentery/i.test(slot.name);
+    let activeProfileId = supportStructure ? null : slot.profileId;
+    if (!supportStructure && !activeProfileId && sampleRandomPathology) {
       const candidates = system.profiles.filter(p => p.organ === slot.organ);
       if (candidates.length && pathRng.nextDouble() < 0.45) {
         activeProfileId = candidates[Math.floor(pathRng.nextDouble() * candidates.length)]!.id;
@@ -1912,7 +1453,7 @@ export async function applySceneVariation(
       temperature: options.temperature,
       ...(activeProfileId ? { profileId: activeProfileId, severity: options.severity ?? "auto" } : {}),
     });
-    return { slot, organSeed, activeProfileId: activeProfileId ?? null, recipe };
+    return { slot, organSeed, activeProfileId: activeProfileId ?? null, recipe, tubular };
   });
 
   // 2. Compute the shared co-registered scene diffeomorphism controls (vertex-weighted across all organs)
@@ -1934,6 +1475,7 @@ export async function applySceneVariation(
   const sharedC = CONTROL_NAMES.map((name, idx) => sharedControls[name]! * sharedLimits[idx]!);
 
   const geometries: BufferGeometry[] = [], materials: Material[] = [], textures: Texture[] = [];
+  const tubularBundles = new Map<string, SeamlessImportedPbrBundle>();
   const pending: { rest: MeshRest; geometry: BufferGeometry; material: Material | Material[] }[] = [];
   const organReports: MultiOrganSceneVariationReport["organReports"] = [];
   let sceneMinJacobian = Infinity, sceneMaxJacobian = -Infinity, totalTriangles = 0;
@@ -1944,10 +1486,12 @@ export async function applySceneVariation(
   try {
     for (const item of slotData) {
       check();
-      const { slot, organSeed, activeProfileId, recipe } = item;
+      const { slot, organSeed, activeProfileId, recipe, tubular } = item;
+      const tubularColor = tubular ? new Color(tubular === "artery" ? 0x91483c : tubular === "vein" ? 0x694451 : 0x8a8960).toArray() : /mesentery/i.test(slot.name) ? new Color(0xb89b62).toArray() : null;
       const reference = recipe.reference;
+      const supportStructure = Boolean(tubular) || /mesentery/i.test(slot.name);
       const localControls = Object.fromEntries(
-        CONTROL_NAMES.map(name => [name, (recipe.controls[name]! * options.shapeStrength - sharedControls[name]!) * 0.28]),
+        CONTROL_NAMES.map(name => [name, supportStructure ? 0 : (recipe.controls[name]! * options.shapeStrength - sharedControls[name]!) * 0.28]),
       );
       const hasLocalShape = CONTROL_NAMES.some(name => Math.abs(localControls[name]!) > 1e-6);
 
@@ -1986,8 +1530,12 @@ export async function applySceneVariation(
           anySeamlessSynthesized = true;
           if (sourceHasTextureMap) anySourceMapsReplaced = true;
           if (!seamlessBundle) {
-            seamlessBundle = bakeSeamlessImportedPbrMaps(recipe.material, recipe.diseaseProfile, options.textureStrength);
-            textures.push(seamlessBundle.map, seamlessBundle.normalMap, seamlessBundle.roughnessMap);
+            seamlessBundle = tubular ? tubularBundles.get(tubular) ?? null : null;
+            if (!seamlessBundle) {
+              seamlessBundle = bakeSeamlessImportedPbrMaps(recipe.material, recipe.diseaseProfile, options.textureStrength, Boolean(tubular));
+              textures.push(seamlessBundle.map, seamlessBundle.normalMap, seamlessBundle.roughnessMap);
+              if (tubular) tubularBundles.set(tubular, seamlessBundle);
+            }
           }
         }
 
@@ -2002,9 +1550,9 @@ export async function applySceneVariation(
         }
 
         const diseaseField = recipe.disease && recipe.diseaseProfile && (options.shapeStrength > 0 || options.textureStrength > 0)
-          ? buildOrganLocalDiseaseField(localCentered, rest.geometry, recipe.disease, recipe.diseaseProfile, options.shapeStrength, options.textureStrength)
+          ? buildSurfacePhenotype(localCentered, rest.geometry, rest.world, recipe.disease, recipe.diseaseProfile, options.shapeStrength * .75, options.textureStrength)
           : null;
-        const hasDiseaseShape = Boolean(diseaseField && options.shapeStrength > 0 && diseaseField.sites.some(s => s.amplitude !== 0));
+        const hasDiseaseShape = Boolean(diseaseField && recipe.disease!.severity > 0 && options.shapeStrength > 0);
         const shaping = sharedC.some(val => val !== 0) || hasLocalShape || hasDiseaseShape;
         const organPhase = ((organSeed & 0xffff) / 65535) * Math.PI * 2;
 
@@ -2035,20 +1583,9 @@ export async function applySceneVariation(
               const [gx, gy, gz] = diseaseField.globalScale;
               for (let i = 0; i < stageLocal.length; i += 3) {
                 let px = stageLocal[i]!, py = stageLocal[i + 1]!, pz = stageLocal[i + 2]!;
-                for (const site of diseaseField.sites) {
-                  const r2 = site.radius * site.radius;
-                  const invR = 1 / Math.max(site.radius, 1e-6);
-                  for (let step = 0; step < diseaseField.steps; step++) {
-                    const dx = px - site.cx, dy = py - site.cy, dz = pz - site.cz;
-                    const aniso = 1 + 0.24 * Math.sin(dx * invR * 4.2 + site.phase) * Math.cos(dy * invR * 3.8 - dz * invR * 3.5 - site.phase);
-                    const d2 = (dx * dx + dy * dy + dz * dz) * aniso;
-                    if (d2 >= r2) break;
-                    const w = 1 - d2 / r2, w3 = w * w * w;
-                    px += w3 * site.amplitude * site.dx;
-                    py += w3 * site.amplitude * site.dy;
-                    pz += w3 * site.amplitude * site.dz;
-                  }
-                }
+                px += diseaseField.displacement[start * 3 + i]!;
+                py += diseaseField.displacement[start * 3 + i + 1]!;
+                pz += diseaseField.displacement[start * 3 + i + 2]!;
                 stageLocal[i] = px * gx;
                 stageLocal[i + 1] = py * gy;
                 stageLocal[i + 2] = pz * gz;
@@ -2079,13 +1616,14 @@ export async function applySceneVariation(
               wy += wClear * (localDeformed[local + 1]! - lry);
               wz += wClear * (localDeformed[local + 2]! - lrz);
             }
-            if (shaping && wClear > 0 && sourceNormal) {
+            if (shaping && !supportStructure && wClear > 0 && sourceNormal) {
               const physRelief = evaluateOrganPhysiologicalRelief(reference.organ, nxRest, nyRest, nzRest, organPhase)
                 * localNorm * options.shapeStrength * 0.45 * wClear;
               if (Math.abs(physRelief) > 1e-7) {
-                wx += sourceNormal.getX(index) * physRelief;
-                wy += sourceNormal.getY(index) * physRelief;
-                wz += sourceNormal.getZ(index) * physRelief;
+                n.fromBufferAttribute(sourceNormal, index).applyMatrix3(worldNormal).normalize();
+                wx += n.x * physRelief;
+                wy += n.y * physRelief;
+                wz += n.z * physRelief;
               }
             }
             v.set(wx, wy, wz).add(state.center).applyMatrix4(rest.inverse);
@@ -2093,12 +1631,8 @@ export async function applySceneVariation(
             v.toArray(positions, offset);
 
             if (uvs) {
-              const snx = sourceNormal ? sourceNormal.getX(index) : 0;
-              const sny = sourceNormal ? sourceNormal.getY(index) : 0;
-              const snz = sourceNormal ? sourceNormal.getZ(index) : 0;
-              const uvFreq = (reference.organ === "liver" || reference.organ === "pancreas" || reference.organ === "spleen" || reference.organ === "kidney") ? 2.1 : 1.55;
-              uvs[index * 2] = uvFreq * (1.28 * nxRest + 0.16 * nyRest - 0.62 * nzRest) + 0.05 * snx - 0.03 * snz;
-              uvs[index * 2 + 1] = uvFreq * (-0.22 * nxRest + 1.28 * nyRest + 0.54 * nzRest) + 0.05 * sny + 0.03 * snz;
+              const [u, vv] = tissueUv(reference.organ, nxRest, nyRest, nzRest);
+              uvs[index * 2] = u; uvs[index * 2 + 1] = vv;
             }
             if (shaping) {
               const jacobian = derivative(rx, ry, rz, sharedC, state.normalization);
@@ -2119,24 +1653,11 @@ export async function applySceneVariation(
               }
             }
             if (colors && field) {
-              let diseaseMask = 0;
-              let rimMask = 0;
-              if (diseaseField && diseaseField.colorStrength > 0) {
-                for (const site of diseaseField.sites) {
-                  const dx = lrx - site.cx, dy = lry - site.cy, dz = lrz - site.cz;
-                  const rNorm2 = (dx * dx + dy * dy + dz * dz) / (site.radius * site.radius);
-                  if (rNorm2 < 1) {
-                    const support = 1 - rNorm2;
-                    diseaseMask = Math.max(diseaseMask, support * support);
-                    rimMask = Math.max(rimMask, 4 * rNorm2 * support);
-                  }
-                }
-                diseaseMask *= diseaseField.colorStrength;
-                rimMask *= diseaseField.colorStrength;
-              }
+              const diseaseMask = diseaseField?.mask[index] ?? 0;
+              const rimMask = diseaseField?.rim[index] ?? 0;
               if (synthesizeSeamless && seamlessBundle) {
-                const contrastMix = 0.55 + 0.45 * options.textureStrength;
-                const isNodular = recipe.diseaseProfile?.pattern === "nodular" || recipe.diseaseProfile?.pattern === "fibrotic";
+                const contrastMix = 0.10 + 0.12 * options.textureStrength;
+                const isNodular = recipe.diseaseProfile?.pattern === "nodular" || ["fibrotic", "fibrosis"].includes(recipe.diseaseProfile?.pattern ?? "");
                 const microMod = evaluateOrganMicroStructure3D(reference.organ, nxRest, nyRest, nzRest, organPhase);
                 // Peritoneal sulcus ambient occlusion where adjacent co-registered organs meet in apposition
                 const sulcusOcclusion = 0.80 + 0.20 * (0.30 + 0.70 * wClear);
@@ -2144,9 +1665,9 @@ export async function applySceneVariation(
                   const baseLin = base[channel]!;
                   const sampleLin = field.rgbLinear[local + channel]!;
                   const rawLin = clamp(baseLin + contrastMix * (sampleLin - baseLin), 0.002, 0.98);
-                  let targetLin = computeOrganTargetLinear(reference.organ, rawLin, channel) * microMod[channel]! * sulcusOcclusion;
+                  let targetLin = (tubularColor ? tubularColor[channel]! * (0.96 + 0.04 * microMod[channel]!) : computeOrganTargetLinear(reference.organ, rawLin, channel) * microMod[channel]!) * sulcusOcclusion;
                   if (diseaseMask > 0 && diseaseField) {
-                    const dLin = Math.pow(clamp(diseaseField.targetLinear[channel]!, 0.005, 0.98), 1.12) * 0.62;
+                    const dLin = diseaseField.targetLinear[channel]!;
                     targetLin = targetLin * (1 - diseaseMask) + dLin * diseaseMask;
                     if (isNodular && rimMask > 0) {
                       targetLin *= (1 - 0.32 * rimMask);
@@ -2173,36 +1694,35 @@ export async function applySceneVariation(
 
         if (shaping) {
           geometry.setAttribute("position", new BufferAttribute(positions, 3));
-          if (normal && !hasDiseaseShape && !hasLocalShape) geometry.setAttribute("normal", new BufferAttribute(normal, 3));
+          if (normal && supportStructure && !hasDiseaseShape && !hasLocalShape) geometry.setAttribute("normal", new BufferAttribute(normal, 3));
           else computeAngleWeightedNormals(geometry);
-          if (tangent && !hasDiseaseShape && !hasLocalShape) geometry.setAttribute("tangent", new BufferAttribute(tangent, 4));
+          if (tangent && supportStructure && !hasDiseaseShape && !hasLocalShape) geometry.setAttribute("tangent", new BufferAttribute(tangent, 4));
         }
+        if (shaping && !uvs && geometry.getAttribute("uv")) updateTissueTangents(geometry);
         if (uvs) {
           geometry.setAttribute("uv", new BufferAttribute(uvs, 2));
           if (!geometry.getAttribute("normal")) computeAngleWeightedNormals(geometry);
-          const normAttr = geometry.getAttribute("normal");
-          if (normAttr && (!tangent || hasDiseaseShape || hasLocalShape)) {
-            const synthTangents = new Float32Array(count * 4);
-            for (let vi = 0; vi < count; vi++) {
-              const nx = normAttr.getX(vi), ny = normAttr.getY(vi), nz = normAttr.getZ(vi);
-              let rxAxis = 0.8, ryAxis = 0.6, rzAxis = 0.0;
-              if (Math.abs(nx * rxAxis + ny * ryAxis) > 0.9) { rxAxis = 0.0; ryAxis = 0.8; rzAxis = 0.6; }
-              const dot = nx * rxAxis + ny * ryAxis + nz * rzAxis;
-              let tx = rxAxis - dot * nx, ty = ryAxis - dot * ny, tz = rzAxis - dot * nz;
-              const inv = 1 / Math.max(1e-8, Math.hypot(tx, ty, tz));
-              synthTangents[vi * 4] = tx * inv;
-              synthTangents[vi * 4 + 1] = ty * inv;
-              synthTangents[vi * 4 + 2] = tz * inv;
-              synthTangents[vi * 4 + 3] = 1;
-            }
-            geometry.setAttribute("tangent", new BufferAttribute(synthTangents, 4));
-          }
+          updateTissueTangents(geometry);
         }
         if (colors) geometry.setAttribute("color", new BufferAttribute(colors, colorSize));
         geometry.computeBoundingBox();
         geometry.computeBoundingSphere();
         const indices = geometry.index;
         slotTriangles += Math.floor((indices?.count ?? count) / 3);
+        if (shaping) {
+          const before = rest.geometry.getAttribute("position"), after = geometry.getAttribute("position");
+          const a = new Vector3(), b = new Vector3(), c = new Vector3();
+          const area = (attribute: typeof before, face: number) => {
+            a.fromBufferAttribute(attribute, indices ? indices.getX(face) : face);
+            b.fromBufferAttribute(attribute, indices ? indices.getX(face + 1) : face + 1);
+            c.fromBufferAttribute(attribute, indices ? indices.getX(face + 2) : face + 2);
+            return b.sub(a).cross(c.sub(a)).lengthSq();
+          };
+          for (let face = 0; face + 2 < (indices?.count ?? count); face += 3) {
+            const oldArea = area(before, face), newArea = area(after, face);
+            if (!Number.isFinite(newArea) || (oldArea > 0 && newArea <= oldArea * 1e-12)) throw new Error("Variation collapsed a source triangle.");
+          }
+        }
 
         const cloneMaterial = (source: Material): Material => {
           const material = source.clone();
@@ -2212,7 +1732,7 @@ export async function applySceneVariation(
             const std = material as Material & {
               color?: Color; roughness?: number; metalness?: number;
               map?: Texture | null; normalMap?: Texture | null; roughnessMap?: Texture | null;
-              normalScale?: Vector2; envMapIntensity?: number;
+              normalScale?: Vector2; envMapIntensity?: number; sheen?: number;
               clearcoat?: number; clearcoatRoughness?: number;
             };
             if (synthesizeSeamless && seamlessBundle) {
@@ -2220,41 +1740,7 @@ export async function applySceneVariation(
               std.map = seamlessBundle.map;
               std.normalMap = seamlessBundle.normalMap;
               std.roughnessMap = seamlessBundle.roughnessMap;
-              if (std.normalScale instanceof Vector2) {
-                const isNodularOrFibrotic = recipe.diseaseProfile?.pattern === "nodular" || recipe.diseaseProfile?.pattern === "fibrotic";
-                const isHollowOrLobular = reference.organ === "pancreas" || reference.organ === "large-intestine" ||
-                  reference.organ === "stomach" || reference.organ === "small-intestine" || reference.organ === "gallbladder";
-                const nScale = isNodularOrFibrotic
-                  ? 0.58 + 0.52 * options.textureStrength
-                  : reference.organ === "liver"
-                    ? 0.04 + 0.04 * options.textureStrength
-                    : isHollowOrLobular
-                      ? 0.38 + 0.28 * options.textureStrength
-                      : 0.16 + 0.14 * options.textureStrength;
-                std.normalScale.set(nScale, nScale);
-              }
-              if (typeof std.metalness === "number") std.metalness = 0;
-              if (typeof std.roughness === "number") {
-                const isSmoothGlisson = reference.organ === "liver" && !(recipe.diseaseProfile?.pattern === "nodular" || recipe.diseaseProfile?.pattern === "fibrotic");
-                std.roughness = isSmoothGlisson
-                  ? clamp(0.24 + 0.26 * (roughnessSum / count), 0.22, 0.44)
-                  : clamp(0.32 + 0.34 * (roughnessSum / count), 0.28, 0.68);
-              }
-              if (typeof std.envMapIntensity === "number") {
-                std.envMapIntensity = clamp(0.30 + 0.24 * recipe.material.wetness, 0.22, 0.58);
-              }
-              if (typeof std.clearcoat === "number") {
-                const isSmoothGlisson = reference.organ === "liver" && !(recipe.diseaseProfile?.pattern === "nodular" || recipe.diseaseProfile?.pattern === "fibrotic");
-                std.clearcoat = isSmoothGlisson
-                  ? clamp(0.36 + 0.20 * recipe.material.wetness, 0.32, 0.54)
-                  : clamp(0.22 + 0.26 * recipe.material.wetness, 0.16, 0.52);
-              }
-              if (typeof std.clearcoatRoughness === "number") {
-                const isSmoothGlisson = reference.organ === "liver" && !(recipe.diseaseProfile?.pattern === "nodular" || recipe.diseaseProfile?.pattern === "fibrotic");
-                std.clearcoatRoughness = isSmoothGlisson
-                  ? clamp(0.18 - 0.06 * recipe.material.wetness, 0.12, 0.20)
-                  : clamp(0.26 - 0.10 * recipe.material.wetness, 0.16, 0.30);
-              }
+              configureTissueOptics(material, reference.organ, recipe.material.wetness, roughnessSum / count, Boolean(tubular));
             } else if (typeof std.roughness === "number") {
               std.roughness = clamp(std.roughness + options.textureStrength * (roughnessSum / count - roughnessBase), 0, 1);
             }
@@ -2319,14 +1805,16 @@ export async function applySceneVariation(
       provenance: { ...firstRecipe.provenance, seed: options.seed },
       organsVaried: organReports.length,
       organRecipes,
-      report: null as unknown as MultiOrganSceneVariationReport,
+      report: null as unknown as Omit<MultiOrganSceneVariationReport, "report">,
       organReports,
       warnings: [
         `Multi-organ coupled variation applied across ${organReports.length} co-registered organs (shared diffeomorphism + contact-guarded organ morphology & 3D PBR tissue synthesis).`,
-        "Adjacent organ contact clearances are locked to the shared spatial warp so hepatobiliary, gastroduodenal, pancreatic and colonic interfaces stay in natural apposition.",
+        "Sampled near-contact regions damp local changes; inter-organ collisions and self-intersections are not tested.",
+        "Reported Jacobians cover the shared analytic warp only, not the surface pathology or local residual.",
       ],
     };
-    resultObj.report = resultObj;
+    const { report: _report, ...summary } = resultObj;
+    resultObj.report = summary;
     return resultObj;
   } catch (error) {
     for (const geometry of geometries) geometry.dispose();

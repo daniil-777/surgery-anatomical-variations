@@ -62,3 +62,6 @@
 .whole-view-bar{width:max-content;max-width:calc(100% - 28px);box-sizing:border-box;flex-wrap:wrap;justify-content:center}
 
 @media(max-width:760px){.whole-orientation{bottom:142px}}
+.whole-operative-stations { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
+.whole-operative-stations button { border: 1px solid #536961; border-radius: 6px; padding: 8px 10px; background: #172a27; color: #e7eee8; font: inherit; font-size: 12px; cursor: pointer; }
+.whole-operative-stations button:hover { background: #2c4740; }
