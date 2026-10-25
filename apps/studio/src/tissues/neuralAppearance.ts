@@ -1,3 +1,4 @@
+import { EXEMPLAR_SCHEMA, parseExemplarModel, createExemplarSampler, type ExemplarAppearanceModel } from "./exemplarAppearance";
 import { validateModelArrayLayout, type ModelArraySpec } from "../modelArrayLayout";
 import { createSpatialSampler, parseSpatialAppearanceModel, SPATIAL_APPEARANCE_SCHEMA, type SpatialAppearanceModel } from "./neuralAppearanceConv";
 export { SPATIAL_APPEARANCE_SCHEMA } from "./neuralAppearanceConv";
@@ -38,7 +39,7 @@ export interface AppearanceArtifact {
 interface DenseLayer { weights: Float32Array; bias: Float32Array; inputs: number; outputs: number }
 type FourierEncoding = { kind: "axial"; frequencies: number[] } | { kind: "directional"; vectors: [number, number][] };
 export interface FourierAppearanceModel { kind: "fourier"; artifact: AppearanceArtifact; layers: DenseLayer[]; modelId: string; encoding: FourierEncoding }
-export type AppearanceModel = FourierAppearanceModel | SpatialAppearanceModel;
+export type AppearanceModel = FourierAppearanceModel | SpatialAppearanceModel | ExemplarAppearanceModel;
 const f32 = Math.fround;
 const fail = (message: string): never => { throw new Error(`Tissue model: ${message}`); };
 const integer = (n: unknown, lo: number, hi: number): n is number => Number.isSafeInteger(n) && (n as number) >= lo && (n as number) <= hi;
@@ -99,6 +100,7 @@ export async function parseAppearanceModel(source: string): Promise<AppearanceMo
   let raw: unknown;
   try { raw = JSON.parse(source); } catch { return fail("invalid JSON file"); }
   if (!raw || typeof raw !== "object" || Array.isArray(raw)) fail("expected an object");
+  if ((raw as { schema?: unknown }).schema === EXEMPLAR_SCHEMA) return parseExemplarModel(raw, source, sha256);
   if ((raw as { schema?: unknown }).schema === SPATIAL_APPEARANCE_SCHEMA) return parseSpatialAppearanceModel(raw, source, { sha256, appearanceLatent });
   const artifact = raw as AppearanceArtifact, a = artifact.architecture, w = artifact.weights;
   const encoding = validateFourierEncoding(artifact), directional = encoding.kind === "directional";
@@ -180,6 +182,7 @@ export function decodeAppearance(model: AppearanceModel, latent: ArrayLike<numbe
 
 /** Reuse scratch buffers and the invariant latent/condition projection across a bake. */
 function createAppearanceSampler(model: AppearanceModel, latent: ArrayLike<number>, condition: number) {
+  if (model.kind === "exemplar") return createExemplarSampler(model, latent, condition);
   if (model.kind === "spatial") return createSpatialSampler(model, latent, condition);
   const a = model.artifact.architecture;
   if (latent.length !== a.latent_dim || !Array.from(latent).every(Number.isFinite) || !integer(condition, 0, a.condition_labels.length - 1)) fail("invalid decoder input");
@@ -232,7 +235,7 @@ function createAppearanceSampler(model: AppearanceModel, latent: ArrayLike<numbe
 export function validateBakeResolution(model: AppearanceModel, resolution: number): void {
   if (!integer(resolution, 16, MAX_BAKE_RESOLUTION) || (resolution & (resolution - 1)) !== 0) fail("browser bake resolution must be a power of two from 16 to 512");
   // Spatial work is bounded once at import; larger bakes only resample native128.
-  if (model.kind === "spatial") return;
+  if (model.kind === "spatial" || model.kind === "exemplar") return;
   const operations = model.layers.reduce((total, layer) => total + layer.inputs * layer.outputs, 0) * resolution * resolution;
   if (operations > 9e9) fail("this decoder is too large for the selected browser bake; choose a smaller resolution or export maps from Colab");
 }

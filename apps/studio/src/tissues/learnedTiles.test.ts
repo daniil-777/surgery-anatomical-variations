@@ -1,5 +1,4 @@
 import { describe, expect, it, vi } from "vitest";
-import { materialAssets } from "./assets";
 import { BROWSER_GENERATOR_HEALTH, generateBrowserTileBundle } from "./browserTileGenerator";
 import { DEFAULT_COLAB_APPEARANCE_MODELS, DEFAULT_COLAB_PBR_BUNDLES, selectBestColabAppearanceModel, selectBestColabPbrBundle } from "./colabModels";
 import { validateEntry, type TissueEntry } from "./contracts";
@@ -72,19 +71,14 @@ describe("local generator client", () => {
     controller.abort();
     await expect(pending).rejects.toThrow(/aborted/);
   });
-  it("synthesizes a valid 10-channel PBR bundle in browser fallback mode and selects the best Colab models", async () => {
-    expect(validateHealth(BROWSER_GENERATOR_HEALTH).run_id).toBe("browser-lora-synth-v1");
-    const raw = await generateBrowserTileBundle({ family: "liver", mode: "guided", seed: "77" });
-    const parsed = JSON.parse(raw);
-    expect(parsed.schema).toBe("viscera.tissue-pbr-bundle/v1");
-    expect(parsed.manifest.recipe.organ).toBe("liver");
-    expect(parsed.manifest.recipe.seed).toBe("77");
-    expect(materialAssets(parsed.manifest).length).toBeGreaterThanOrEqual(9);
-    expect(parsed.files.length).toBe(10);
-
-    expect(selectBestColabAppearanceModel(DEFAULT_COLAB_APPEARANCE_MODELS, "liver")?.id).toBe("spatial-v3-laparoscopic");
-    expect(selectBestColabAppearanceModel(DEFAULT_COLAB_APPEARANCE_MODELS, "colonic_mucosa")?.id).toBe("directional-v2-detail");
+  it("limits browser generation to fitted tissues and supported modes", async () => {
+    expect(validateHealth(BROWSER_GENERATOR_HEALTH).run_id).toBe("browser-exemplar-v1");
+    await expect(generateBrowserTileBundle({ family: "kidney", mode: "clean", seed: "42" })).rejects.toThrow("No fitted");
+    await expect(generateBrowserTileBundle({ family: "liver", mode: "guided", seed: "42" })).rejects.toThrow("clean appearance");
+    await expect(generateBrowserTileBundle({ family: "liver", mode: "clean", seed: "18446744073709551616" })).rejects.toThrow("64-bit");
+    expect(selectBestColabAppearanceModel(DEFAULT_COLAB_APPEARANCE_MODELS, "liver")?.id).toBe("exemplar-liver");
+    expect(selectBestColabAppearanceModel(DEFAULT_COLAB_APPEARANCE_MODELS, "colonic_mucosa")).toBeUndefined();
     expect(selectBestColabPbrBundle(DEFAULT_COLAB_PBR_BUNDLES, "liver")?.id).toBe("stablematerials-liver43-refined");
-    expect(selectBestColabPbrBundle(DEFAULT_COLAB_PBR_BUNDLES, "stomach")?.id).toBe("lora-guided-stomach-s1");
+    expect(selectBestColabPbrBundle(DEFAULT_COLAB_PBR_BUNDLES, "stomach")).toBeUndefined();
   });
 });

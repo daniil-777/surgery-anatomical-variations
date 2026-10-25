@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { publicUrl } from "../api";
 import { DEFAULT_COLAB_APPEARANCE_MODELS, discoverColabCatalog, selectBestColabAppearanceModel, type ColabAppearanceModelEntry } from "./colabModels";
-import { MAX_MODEL_FILE_BYTES, parseAppearanceModel, type AppearanceModel } from "./neuralAppearance";
+import { MAX_MODEL_FILE_BYTES, parseAppearanceModel, sha256, type AppearanceModel } from "./neuralAppearance";
 import { bakeAppearanceInWorker, type AppearanceBake } from "./neuralAppearanceClient";
 import { readStoredAppearance, removeStoredAppearance, storeAppearance } from "./appearanceStorage";
 import { newMaterialSeed } from "./materialVariation";
@@ -21,7 +21,7 @@ interface Props { region: string; suspended?: boolean; onChange: (appearance: Ne
 
 export function NeuralAppearancePanel({ region, suspended = false, onChange }: Props) {
   const [model, setModel] = useState<AppearanceModel>(), [source, setSource] = useState("");
-  const [seed, setSeed] = useState("42"), [condition, setCondition] = useState(0), [resolution, setResolution] = useState(256);
+  const [seed, setSeed] = useState("42"), [condition, setCondition] = useState(0), [resolution, setResolution] = useState(512);
   const [enabled, setEnabled] = useState(true), [status, setStatus] = useState(""), [error, setError] = useState("");
   const [bake, setBake] = useState<AppearanceBake>(), [appearance, setAppearance] = useState<NeuralSurfaceAppearance>();
   const [busy, setBusy] = useState(false), [retry, setRetry] = useState(0);
@@ -48,6 +48,10 @@ export function NeuralAppearancePanel({ region, suspended = false, onChange }: P
     void readStoredAppearance().then(async stored => {
       if (!stored) return;
       const loaded = await parseAppearanceModel(stored);
+      if (loaded.kind !== "exemplar" && (loaded.artifact.provenance.training_status === "fixture_trained" || Number(loaded.artifact.provenance.training_steps) < 32)) {
+        if (mounted.current && revision.current === version) setStatus("An early test model was saved here. The authored tissue is restored; choose a current generative model for detailed variations.");
+        return;
+      }
       if (mounted.current && revision.current === version) { setModel(loaded); setSource(stored); setStatus("Restored verified model from this browser."); }
     }).catch(() => { /* Browser storage is optional; importing still works for this session. */ });
     return () => { mounted.current = false; catalogController.abort(); operation.current?.abort(); };
@@ -73,7 +77,7 @@ export function NeuralAppearancePanel({ region, suspended = false, onChange }: P
         texture.minFilter = THREE.LinearMipmapLinearFilter; texture.magFilter = THREE.LinearFilter; texture.needsUpdate = true;
         setBake(result); setAppearance({ texture, region, seed, condition: labels[selectedCondition]!, modelId: result.modelId,
           resolution, evidence: String(model.artifact.provenance.training_status) });
-        const detail = model.kind === "spatial" ? `, sampled from ${model.artifact.architecture.native_resolution.join(" × ")} native output` : "";
+        const detail = (model.kind === "spatial" || model.kind === "exemplar") ? `, sampled from ${model.artifact.architecture.native_resolution.join(" × ")} native output` : "";
         setStatus(`Applied ${resolution}² learned RGB${detail} in ${(result.durationMs / 1000).toFixed(1)} s. Surface relief remains authored.`);
       }).catch(reason => {
         if (!controller.signal.aborted) { setError(reason instanceof Error ? reason.message : String(reason)); setStatus(""); }
@@ -92,12 +96,13 @@ export function NeuralAppearancePanel({ region, suspended = false, onChange }: P
       if (!mounted.current || version !== revision.current) return;
       setColabModels(catalog.appearance_models);
       const chosen = selectBestColabAppearanceModel(catalog.appearance_models, region, preferredId);
-      if (!chosen) throw new Error("No generative models were found.");
+      if (!chosen) throw new Error("No recommended appearance model covers this tissue yet. The authored material stays active.");
       setSelectedColabId(chosen.id);
       setStatus(`Loading ${appearanceModelLabel(chosen)}…`);
       const response = await fetch(publicUrl(chosen.path), { cache: "no-store" });
       if (!response.ok) throw new Error(`Generative model unavailable: HTTP ${response.status}`);
       const text = await response.text();
+      if ((chosen.bytes !== undefined && new TextEncoder().encode(text).length !== chosen.bytes) || (chosen.sha256 && await sha256(new TextEncoder().encode(text)) !== chosen.sha256)) throw new Error("Generative model download failed integrity verification.");
       const loaded = await parseAppearanceModel(text);
       if (!mounted.current || version !== revision.current) return;
       const regionIdx = loaded.artifact.architecture.condition_regions.indexOf(region);
@@ -105,7 +110,7 @@ export function NeuralAppearancePanel({ region, suspended = false, onChange }: P
       setSource(text);
       setEnabled(true);
       setCondition(regionIdx >= 0 ? regionIdx : 0);
-      setStatus(`Loaded best generative model: ${appearanceModelLabel(chosen)}.`);
+      setStatus(`Loaded generative model: ${appearanceModelLabel(chosen)}.`);
       try { await storeAppearance(text); }
       catch { /* Browser storage is optional. */ }
     } catch (reason) {
@@ -155,7 +160,7 @@ export function NeuralAppearancePanel({ region, suspended = false, onChange }: P
     <label className="tissue-field">Import generative model<input type="file" aria-label="Import generative tissue model" accept=".json,application/json" onChange={event => { void importFile(event.target.files?.[0]); event.target.value = ""; }} /></label>
     <p className="tissue-copy">Import the notebook’s .tissue-model.json export. Inference stays in this browser and generates a texture fixed to the tissue surface.</p>
     {model && <>
-      <p className="tissue-copy">{model.artifact.provenance.training_status === "fixture_trained" ? "Contract-test weights · not real tissue training" : "Experimental model · real-data research training"}<br />{Number(model.artifact.provenance.training_steps).toLocaleString()} optimizer steps · {String(model.artifact.provenance.training_native_patch_size)}² training patches</p>
+      <p className="tissue-copy">{model.kind === "exemplar" ? "Detailed variations fitted to four learned tissue exemplars" : model.artifact.provenance.training_status === "fixture_trained" ? "Contract-test weights · not real tissue training" : "Experimental model · real-data research training"}<br />{model.kind === "exemplar" ? "512² source detail · color distribution preserved · authored surface relief" : `${Number(model.artifact.provenance.training_steps).toLocaleString()} optimizer steps · ${String(model.artifact.provenance.training_native_patch_size)}² training patches`}</p>
       {model.kind === "spatial" && <p className="tissue-copy">Native detail: {model.artifact.architecture.native_resolution.join(" × ")}. Larger texture sizes interpolate this output.</p>}
       {!matching.length ? <p className="tissue-copy" role="status">This model does not cover {region.replaceAll("_", " ")}. The authored material stays active.</p> : <>
         <label className="tissue-field">Learned tissue condition<select aria-label="Learned tissue condition" value={selectedCondition} onChange={event => setCondition(Number(event.target.value))}>{matching.map(index => <option key={index} value={index}>{modelMessage(labels[index]!)}</option>)}</select></label>

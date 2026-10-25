@@ -12,6 +12,7 @@ export const MODEL_NAMES = {
   appearance1: "Generative Model 10",
   pbr: "Generative Model 11",
   tiles: "Generative Model 12",
+  exemplar: "Generative Model 13",
 } as const;
 
 export const jointModelName = (generation: 1 | 2) => generation === 2 ? MODEL_NAMES.joint2 : MODEL_NAMES.joint1;
@@ -24,6 +25,7 @@ const appearanceNames: Readonly<Record<string, string>> = {
 
 /** Never echo a catalog's arbitrary model label, including catalogs from older deployments. */
 export function appearanceModelLabel(entry: { id: string }): string {
+  if (/^exemplar-(liver|spleen|stomach|small_bowel|large_bowel|pancreas)$/.test(entry.id)) return `${MODEL_NAMES.exemplar} · ${entry.id.slice(9).replaceAll("_", " ")}`;
   return Object.hasOwn(appearanceNames, entry.id) ? appearanceNames[entry.id]! : "Imported generative model";
 }
 

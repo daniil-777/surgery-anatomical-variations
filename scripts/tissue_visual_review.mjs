@@ -234,14 +234,16 @@ try {
   if (process.env.TISSUE_REVIEW_MODEL) {
     const modelPath = path.resolve(process.env.TISSUE_REVIEW_MODEL), bytes = await readFile(modelPath), artifact = JSON.parse(bytes.toString());
     if (!Array.isArray(artifact.architecture?.condition_regions)) throw new Error("Diagnostic model has no condition-region vocabulary");
-    const spatial = artifact.schema === "viscera.tissue-appearance-decoder/v3";
-    reviewAppearance = { modelId: hash(bytes), regions: artifact.architecture.condition_regions, resolution: 256,
-      nativeResolution: spatial ? artifact.architecture.native_resolution : null,
+    const spatial = artifact.schema === "viscera.tissue-appearance-decoder/v3", exemplar = artifact.schema === "viscera.tissue-exemplar/v1";
+    const resolution = exemplar ? 512 : 256;
+    reviewAppearance = { modelId: hash(bytes), regions: artifact.architecture.condition_regions, resolution,
+      nativeResolution: spatial || exemplar ? artifact.architecture.native_resolution : null,
       outputSampling: spatial ? "periodic-bilinear-pixel-centers" : "direct-coordinate-inference" };
     report.implementationSha256[modelPath] = hash(bytes);
-    report.appearanceModel = { ...reviewAppearance, artifactSchema: artifact.schema, file: modelPath, seed: "42", conditionLabels: artifact.architecture.condition_labels, conditionSpecies: artifact.architecture.condition_species, provenance: artifact.provenance, meaning: "Experimental observed RGB diagnostic; a 256² bake replaces substrate color only on supported regions. For spatial v3, this explicitly resamples a learned native 128² grid. Other regions retain authored RGB. Larger output textures, 4096² material maps and 3840×2160 video do not add learned source detail or establish recovered albedo." };
-    await page.getByLabel("Import Colab tissue model").setInputFiles(modelPath);
+    report.appearanceModel = { ...reviewAppearance, artifactSchema: artifact.schema, file: modelPath, seed: "42", conditionLabels: artifact.architecture.condition_labels, conditionSpecies: artifact.architecture.condition_species, provenance: artifact.provenance, meaning: "Observed RGB diagnostic at the recorded bake resolution; substrate color is replaced only on supported regions. Exemplar models retain 512² source detail; spatial v3 resamples native128 output. Other regions retain authored RGB. 4K maps and video do not add learned detail or establish recovered albedo." };
+    await page.getByLabel("Import generative tissue model").setInputFiles(modelPath);
     await page.getByRole("button", { name: "Remove imported model", exact: true }).waitFor({ state: "visible", timeout: 60000 });
+    await page.getByLabel("Learned RGB resolution").selectOption(String(resolution));
     await ready(page);
   }
   if (phase !== "video" && phase !== "codecs") {
@@ -435,7 +437,7 @@ try {
       if (variationCase) {
         const before = await state(page), samples = [];
         await page.getByRole("checkbox", { name: "Enable material variation", exact: true }).check();
-        for (const [label, value] of [["Colour variation", ".6"], ["Roughness variation", ".55"], ["Pigment warmth", ".15"], ["Pigment depth", ".1"]]) await page.getByLabel(label, { exact: true }).fill(value);
+        for (const [label, value] of [["Colour variation", "0.6"], ["Roughness variation", "0.55"], ["Pigment warmth", "0.15"], ["Pigment depth", "0.1"]]) await page.getByLabel(label, { exact: true }).fill(value);
         for (const [index, seed] of ["42", "43", "42"].entries()) {
           await page.getByLabel("Material variation seed", { exact: true }).fill(seed); await page.getByLabel("Material variation seed", { exact: true }).press("Enter"); await settled(page);
           const snapshot = await state(page);

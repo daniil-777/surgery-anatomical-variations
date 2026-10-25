@@ -37,6 +37,11 @@ export interface TissueColabCatalog {
 }
 
 export const DEFAULT_COLAB_APPEARANCE_MODELS: readonly ColabAppearanceModelEntry[] = [
+  ...["liver", "spleen", "stomach", "small_bowel", "large_bowel", "pancreas"].map(region => ({
+    id: `exemplar-${region}`, label: MODEL_NAMES.exemplar, path: `tissue-models/exemplar-${region}.tissue-model.json`,
+    schema: "viscera.tissue-exemplar/v1", model_type: "pca-histogram-preserving-exemplar", training_status: "exemplar_fitted",
+    training_steps: 0, patch_size: 512, regions: [region], conditions: [`human:laparoscopic_exterior:${region}`], rank: 0, recommended: true,
+  })),
   {
     id: "spatial-v3-laparoscopic",
     label: MODEL_NAMES.appearance3,
@@ -56,7 +61,7 @@ export const DEFAULT_COLAB_APPEARANCE_MODELS: readonly ColabAppearanceModelEntry
       "human:laparoscopic_exterior:stomach",
     ],
     rank: 1,
-    recommended: true,
+    recommended: false,
   },
   {
     id: "directional-v2-detail",
@@ -97,54 +102,7 @@ export const DEFAULT_COLAB_PBR_BUNDLES: readonly ColabPbrBundleEntry[] = [
     resolution: [512, 512],
     rank: 1,
   },
-  {
-    id: "lora-guided-liver-s1",
-    label: `${MODEL_NAMES.tiles} · Liver · 512 × 512`,
-    path: "tissue-materials/learned-guided-liver-s1/preview/liver-seed1.tissue-pbr.json",
-    organ: "liver",
-    resolution: [512, 512],
-    rank: 2,
-  },
-  {
-    id: "lora-guided-stomach-s1",
-    label: `${MODEL_NAMES.tiles} · Stomach · 512 × 512`,
-    path: "tissue-materials/learned-guided-stomach-s1/preview/stomach-seed1.tissue-pbr.json",
-    organ: "stomach",
-    resolution: [512, 512],
-    rank: 1,
-  },
-  {
-    id: "lora-guided-pancreas-s1",
-    label: `${MODEL_NAMES.tiles} · Pancreas · 512 × 512`,
-    path: "tissue-materials/learned-guided-pancreas-s1/preview/pancreas-seed1.tissue-pbr.json",
-    organ: "pancreas",
-    resolution: [512, 512],
-    rank: 1,
-  },
-  {
-    id: "lora-guided-small_bowel-s1",
-    label: `${MODEL_NAMES.tiles} · Small Bowel · 512 × 512`,
-    path: "tissue-materials/learned-guided-small_bowel-s1/preview/small_bowel-seed1.tissue-pbr.json",
-    organ: "small_bowel",
-    resolution: [512, 512],
-    rank: 1,
-  },
-  {
-    id: "lora-guided-large_bowel-s1",
-    label: `${MODEL_NAMES.tiles} · Large Bowel · 512 × 512`,
-    path: "tissue-materials/learned-guided-large_bowel-s1/preview/large_bowel-seed1.tissue-pbr.json",
-    organ: "large_bowel",
-    resolution: [512, 512],
-    rank: 1,
-  },
-  {
-    id: "lora-guided-spleen-s1",
-    label: `${MODEL_NAMES.tiles} · Spleen · 512 × 512`,
-    path: "tissue-materials/learned-guided-spleen-s1/preview/spleen-seed1.tissue-pbr.json",
-    organ: "spleen",
-    resolution: [512, 512],
-    rank: 1,
-  },
+
 ];
 
 export async function discoverColabCatalog(signal?: AbortSignal): Promise<TissueColabCatalog> {
@@ -186,8 +144,7 @@ export function selectBestColabAppearanceModel(
     if (explicit) return explicit;
   }
   const sorted = [...models].sort((a, b) => a.rank - b.rank);
-  const matchingRegion = sorted.find(m => m.regions.includes(region));
-  return matchingRegion ?? sorted[0];
+  return sorted.find(m => m.recommended === true && m.regions.includes(region));
 }
 
 export function selectBestColabPbrBundle(
@@ -196,5 +153,5 @@ export function selectBestColabPbrBundle(
 ): ColabPbrBundleEntry | undefined {
   if (!bundles.length) return undefined;
   const sorted = [...bundles].sort((a, b) => a.rank - b.rank);
-  return sorted.find(b => b.organ === organ) ?? sorted[0];
+  return sorted.find(b => b.organ === organ);
 }

@@ -1,10 +1,130 @@
 {
   "schema": "viscera.tissue-colab-catalog/v1",
-  "best_appearance_model_id": "spatial-v3-laparoscopic",
+  "best_appearance_model_id": "exemplar-liver",
   "appearance_models": [
     {
+      "id": "exemplar-liver",
+      "label": "Generative Model 13",
+      "path": "tissue-models/exemplar-liver.tissue-model.json",
+      "schema": "viscera.tissue-exemplar/v1",
+      "model_type": "pca-histogram-preserving-exemplar",
+      "training_status": "exemplar_fitted",
+      "training_steps": 0,
+      "patch_size": 512,
+      "regions": [
+        "liver"
+      ],
+      "conditions": [
+        "human:laparoscopic_exterior:liver"
+      ],
+      "rank": 0,
+      "recommended": true,
+      "sha256": "1208dc606d89280ab65c5b90992f01b7065ecc82cb13c412b2fca13c4e659d38",
+      "bytes": 4277604
+    },
+    {
+      "id": "exemplar-spleen",
+      "label": "Generative Model 13",
+      "path": "tissue-models/exemplar-spleen.tissue-model.json",
+      "schema": "viscera.tissue-exemplar/v1",
+      "model_type": "pca-histogram-preserving-exemplar",
+      "training_status": "exemplar_fitted",
+      "training_steps": 0,
+      "patch_size": 512,
+      "regions": [
+        "spleen"
+      ],
+      "conditions": [
+        "human:laparoscopic_exterior:spleen"
+      ],
+      "rank": 0,
+      "recommended": true,
+      "sha256": "f359748b4b1b350507f99580dae073e0dd4bdfe05ff57250e42d8273bbaba376",
+      "bytes": 4277842
+    },
+    {
+      "id": "exemplar-stomach",
+      "label": "Generative Model 13",
+      "path": "tissue-models/exemplar-stomach.tissue-model.json",
+      "schema": "viscera.tissue-exemplar/v1",
+      "model_type": "pca-histogram-preserving-exemplar",
+      "training_status": "exemplar_fitted",
+      "training_steps": 0,
+      "patch_size": 512,
+      "regions": [
+        "stomach"
+      ],
+      "conditions": [
+        "human:laparoscopic_exterior:stomach"
+      ],
+      "rank": 0,
+      "recommended": true,
+      "sha256": "095c2400a6ee29fa433f0aefc8121d37d6d92b44ef84b3369ee70982056418ca",
+      "bytes": 4276748
+    },
+    {
+      "id": "exemplar-small_bowel",
+      "label": "Generative Model 13",
+      "path": "tissue-models/exemplar-small_bowel.tissue-model.json",
+      "schema": "viscera.tissue-exemplar/v1",
+      "model_type": "pca-histogram-preserving-exemplar",
+      "training_status": "exemplar_fitted",
+      "training_steps": 0,
+      "patch_size": 512,
+      "regions": [
+        "small_bowel"
+      ],
+      "conditions": [
+        "human:laparoscopic_exterior:small_bowel"
+      ],
+      "rank": 0,
+      "recommended": true,
+      "sha256": "206b0f884783f6453a1728473a8eda1fd675704e973f64cbbb24568dab4555b4",
+      "bytes": 4276884
+    },
+    {
+      "id": "exemplar-large_bowel",
+      "label": "Generative Model 13",
+      "path": "tissue-models/exemplar-large_bowel.tissue-model.json",
+      "schema": "viscera.tissue-exemplar/v1",
+      "model_type": "pca-histogram-preserving-exemplar",
+      "training_status": "exemplar_fitted",
+      "training_steps": 0,
+      "patch_size": 512,
+      "regions": [
+        "large_bowel"
+      ],
+      "conditions": [
+        "human:laparoscopic_exterior:large_bowel"
+      ],
+      "rank": 0,
+      "recommended": true,
+      "sha256": "b2cce53834d6ed7cf939bdf5159a2a6f894726c6dcad9d1c19322965b0cf3804",
+      "bytes": 4276874
+    },
+    {
+      "id": "exemplar-pancreas",
+      "label": "Generative Model 13",
+      "path": "tissue-models/exemplar-pancreas.tissue-model.json",
+      "schema": "viscera.tissue-exemplar/v1",
+      "model_type": "pca-histogram-preserving-exemplar",
+      "training_status": "exemplar_fitted",
+      "training_steps": 0,
+      "patch_size": 512,
+      "regions": [
+        "pancreas"
+      ],
+      "conditions": [
+        "human:laparoscopic_exterior:pancreas"
+      ],
+      "rank": 0,
+      "recommended": true,
+      "sha256": "76679eff5e48f2cb32baaed3fca9ac6d4c34ac87beda310b7c39378158593057",
+      "bytes": 4276427
+    },
+    {
       "id": "spatial-v3-laparoscopic",
-      "label": "Spatial CVAE-GAN v3 \u00b7 6 Laparoscopic Organs (Real Data \u00b7 Best)",
+      "label": "Spatial CVAE-GAN v3 · 6 Laparoscopic Organs (Real Data · Best)",
       "path": "tissue-models/spatial-v3-laparoscopic.tissue-model.json",
       "schema": "viscera.tissue-appearance-decoder/v3",
       "model_type": "masked-rgb-spatial-cvae-gan-v1",
@@ -27,14 +147,14 @@
         "human:laparoscopic_exterior:spleen",
         "human:laparoscopic_exterior:stomach"
       ],
-      "rank": 1,
-      "recommended": true,
+      "rank": 10,
+      "recommended": false,
       "sha256": "4ee421462d413b6f5983e13440d36461e18fe6e6e40ad4a2e25abb4d0fdca64d",
       "bytes": 515959
     },
     {
       "id": "directional-v2-detail",
-      "label": "Directional Fourier CVAE-GAN v2 \u00b7 Mucosa & Liver (128\u00b2 Detail)",
+      "label": "Directional Fourier CVAE-GAN v2 · Mucosa & Liver (128² Detail)",
       "path": "tissue-models/directional-v2-detail.tissue-model.json",
       "schema": "viscera.tissue-appearance-decoder/v2",
       "model_type": "masked-rgb-directional-cvae-gan-v1",
@@ -49,14 +169,14 @@
         "synthetic:colonic_mucosa",
         "synthetic:liver"
       ],
-      "rank": 2,
+      "rank": 10,
       "recommended": false,
       "sha256": "64ab4393549e8a8741bcf6277b6905622b712db08fa2aaf4227ed8a99bc68b6a",
       "bytes": 389575
     },
     {
       "id": "periodic-v1-baseline",
-      "label": "Periodic Fourier CVAE v1 \u00b7 Mucosa & Liver (Baseline)",
+      "label": "Periodic Fourier CVAE v1 · Mucosa & Liver (Baseline)",
       "path": "tissue-models/periodic-v1-baseline.tissue-model.json",
       "schema": "viscera.tissue-appearance-decoder/v1",
       "model_type": "masked-rgb-periodic-cvae-v1",
@@ -71,7 +191,7 @@
         "synthetic:colonic_mucosa",
         "synthetic:liver"
       ],
-      "rank": 3,
+      "rank": 10,
       "recommended": false,
       "sha256": "efc4bd343fa60970923d471ff2a6024b4291eda3fc06d4e55d2361191191f3e6",
       "bytes": 10222
@@ -80,7 +200,7 @@
   "pbr_bundles": [
     {
       "id": "stablematerials-liver43-refined",
-      "label": "StableMaterials PBR \u00b7 Liver Seed 43 (Refined 512\u00b2)",
+      "label": "StableMaterials PBR · Liver Seed 43 (Refined 512²)",
       "path": "tissue-models/liver-seed43-refined.tissue-pbr.json",
       "organ": "liver",
       "resolution": [
@@ -93,7 +213,7 @@
     },
     {
       "id": "lora-guided-liver-s1",
-      "label": "SD1.5 Tissue LoRA \u00b7 Guided Liver Seed 1 (512\u00b2)",
+      "label": "SD1.5 Tissue LoRA · Guided Liver Seed 1 (512²)",
       "path": "tissue-materials/learned-guided-liver-s1/preview/liver-seed1.tissue-pbr.json",
       "organ": "liver",
       "resolution": [
@@ -104,7 +224,7 @@
     },
     {
       "id": "lora-guided-stomach-s1",
-      "label": "SD1.5 Tissue LoRA \u00b7 Guided Stomach Seed 1 (512\u00b2)",
+      "label": "SD1.5 Tissue LoRA · Guided Stomach Seed 1 (512²)",
       "path": "tissue-materials/learned-guided-stomach-s1/preview/stomach-seed1.tissue-pbr.json",
       "organ": "stomach",
       "resolution": [
@@ -115,7 +235,7 @@
     },
     {
       "id": "lora-guided-pancreas-s1",
-      "label": "SD1.5 Tissue LoRA \u00b7 Guided Pancreas Seed 1 (512\u00b2)",
+      "label": "SD1.5 Tissue LoRA · Guided Pancreas Seed 1 (512²)",
       "path": "tissue-materials/learned-guided-pancreas-s1/preview/pancreas-seed1.tissue-pbr.json",
       "organ": "pancreas",
       "resolution": [
@@ -126,7 +246,7 @@
     },
     {
       "id": "lora-guided-small_bowel-s1",
-      "label": "SD1.5 Tissue LoRA \u00b7 Guided Small Bowel Seed 1 (512\u00b2)",
+      "label": "SD1.5 Tissue LoRA · Guided Small Bowel Seed 1 (512²)",
       "path": "tissue-materials/learned-guided-small_bowel-s1/preview/small_bowel-seed1.tissue-pbr.json",
       "organ": "small_bowel",
       "resolution": [
@@ -137,7 +257,7 @@
     },
     {
       "id": "lora-guided-large_bowel-s1",
-      "label": "SD1.5 Tissue LoRA \u00b7 Guided Large Bowel Seed 1 (512\u00b2)",
+      "label": "SD1.5 Tissue LoRA · Guided Large Bowel Seed 1 (512²)",
       "path": "tissue-materials/learned-guided-large_bowel-s1/preview/large_bowel-seed1.tissue-pbr.json",
       "organ": "large_bowel",
       "resolution": [
@@ -148,7 +268,7 @@
     },
     {
       "id": "lora-guided-spleen-s1",
-      "label": "SD1.5 Tissue LoRA \u00b7 Guided Spleen Seed 1 (512\u00b2)",
+      "label": "SD1.5 Tissue LoRA · Guided Spleen Seed 1 (512²)",
       "path": "tissue-materials/learned-guided-spleen-s1/preview/spleen-seed1.tissue-pbr.json",
       "organ": "spleen",
       "resolution": [

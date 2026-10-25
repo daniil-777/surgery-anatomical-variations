@@ -178,7 +178,8 @@ export function LearnedTilesPanel({
           if (!controller.signal.aborted && message.includes("stopped answering")) {
             setBrowserFallback(true);
             setHealth(BROWSER_GENERATOR_HEALTH);
-            source = await generateBrowserTileBundle({ family: targetFamily, mode }, controller.signal);
+            setMode("clean");
+            source = await generateBrowserTileBundle({ family: targetFamily, mode: "clean" }, controller.signal);
           } else {
             throw reason;
           }
@@ -207,7 +208,7 @@ export function LearnedTilesPanel({
         <div className="tissue-learned-grid">
           {group.entries.map(entry => <button key={entry.id} type="button" className="tissue-learned-tile" disabled={disabled} aria-pressed={entry.id === selectedId}
             aria-label={`Show ${modelMessage(entry.label)}`} title={modelMessage(entry.label)} onClick={() => onSelect(entry.id)}>
-            <img src={publicUrl(`tissue-materials/${entry.thumbnail ?? entry.preview.replace("manifest.json", "base_color.png")}`)} alt="" loading="lazy" width={64} height={64} />
+            <img src={publicUrl(`tissue-materials/${entry.preview.replace("manifest.json", "base_color.png")}`)} alt="" loading="lazy" width={64} height={64} />
             <span>{modelMessage(shortLearnedLabel(entry))}</span>
           </button>)}
         </div>
@@ -283,8 +284,9 @@ export function LearnedTilesPanel({
     )}
     <div className="tissue-generator">
       {!health ? <>
+        <button type="button" className="tissue-wide tissue-variation-primary" disabled={connecting || disabled} onClick={() => { setBrowserFallback(true); setHealth(BROWSER_GENERATOR_HEALTH); setTargetFamily(family && BROWSER_GENERATOR_HEALTH.families.includes(family) ? family : "liver"); setMode("clean"); setStatus("Browser generator ready · 512² source detail."); }}>Use browser generator</button>
         <button type="button" className="tissue-wide" disabled={connecting || disabled} onClick={() => void connect()}>{connecting ? "Connecting…" : "Connect to local generator"}</button>
-        <p className="tissue-variation-help">Connect to your configured local generator, or use the built-in browser generator automatically when it is unavailable.</p>
+        <p className="tissue-variation-help">Generate detailed variations here in your browser, or connect your local generator for additional modes.</p>
       </> : <>
         <dl className="tissue-pbr-provenance tissue-generator-status">
           <div><dt>Generator</dt><dd>{browserFallback ? "Built-in tile generator" : MODEL_NAMES.tiles}</dd></div>

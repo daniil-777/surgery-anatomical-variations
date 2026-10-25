@@ -35,7 +35,9 @@ describe("portable learned RGB decoder", () => {
   });
 
   it("bakes reproducible row batches at pixel centers without changing the model", async () => {
-    const model = await parseAppearanceModel(source), latent = await appearanceLatent("42", 4), before = model.layers.map(layer => [...layer.weights]);
+    const model = await parseAppearanceModel(source);
+    if (model.kind !== "fourier") throw new Error("Expected Fourier fixture");
+    const latent = await appearanceLatent("42", 4), before = model.layers.map(layer => [...layer.weights]);
     const all = new Uint8Array(16 * 16 * 4), split = new Uint8Array(all.length);
     validateBakeResolution(model, 16);
     bakeAppearanceRows(model, latent, 1, 16, 0, 16, all);

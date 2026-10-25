@@ -1,0 +1,492 @@
+{
+  "schema_version": 1,
+  "reviewed_on": "2026-10-19",
+  "scope": "Primary-source survey of surgical appearance, geometry and internal anatomy. Broad but not exhaustive. Public access is not evidence of unrestricted training or redistribution.",
+  "datasets": [
+    {
+      "id": "hyperkvasir",
+      "name": "HyperKvasir",
+      "species": "human",
+      "modality": "GI endoscopy RGB, masks, videos",
+      "access_review": "direct",
+      "license": "CC-BY-4.0",
+      "source_urls": [
+        "https://datasets.simula.no/hyper-kvasir/",
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC7455694/"
+      ],
+      "potential_use": "Mucosa, polyps, wet highlights, GI color variation; 110079 total images, 10662 labeled images, 1000 segmented images, 374 videos reported in paper.",
+      "limitations": "No per-pixel albedo, roughness, thickness or scattering labels; internal luminal tissue cannot substitute for exterior serosa. Remove picture-in-picture overlays and split by procedure where available. See paper count/version differences.",
+      "training_status": "not-trained",
+      "download_status": "catalogued-not-acquired"
+    },
+    {
+      "id": "heiporspectral",
+      "name": "HeiPorSPECTRAL",
+      "species": "porcine-in-vivo",
+      "modality": "HSI, reconstructed RGB, organ masks, metadata",
+      "access_review": "direct",
+      "license": "CC-BY-4.0",
+      "source_urls": [
+        "https://spectralverse-heidelberg.org/HeiPorSPECTRAL/",
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC10290660/"
+      ],
+      "potential_use": "20 organ/tissue classes across 11 animals; calibrated spectral distributions and per-organ reflectance priors.",
+      "limitations": "640x480 spatial resolution, 500-1000nm bands, no complete BRDF/BSSRDF. RGB reconstructed from spectral bands. Official site says 5756 cubes while article abstract says 5758. Full archive 844GiB; initial two-image sample is not statistically representative.",
+      "training_status": "not-trained",
+      "download_status": "catalogued-not-acquired"
+    },
+    {
+      "id": "visible-human",
+      "name": "NLM Visible Human Project",
+      "species": "human-cadaver",
+      "modality": "Cryosection color, CT, MRI",
+      "access_review": "direct",
+      "license": "public-domain",
+      "source_urls": [
+        "https://www.nlm.nih.gov/research/visible/visible_human.html",
+        "https://data.lhncbc.nlm.nih.gov/public/Visible-Human/Sample-Data/index.html"
+      ],
+      "potential_use": "Internal cut-surface anatomy, fat-organ boundaries and cross-section registration.",
+      "limitations": "Two cadavers; freezing, sectioning and lack of perfusion shift appearance. Not a living organ-surface or deformation benchmark.",
+      "training_status": "not-trained",
+      "download_status": "catalogued-not-acquired"
+    },
+    {
+      "id": "dsad",
+      "name": "Dresden Surgical Anatomy Dataset",
+      "species": "human-in-vivo",
+      "modality": "Robot-assisted laparoscopy RGB and segmentation",
+      "access_review": "direct-license-conflict",
+      "license": "CC-BY-4.0 metadata; article adds non-commercial wording",
+      "source_urls": [
+        "https://api.figshare.com/v2/articles/21702600",
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC9837071/",
+        "https://huggingface.co/datasets/nct-tso/dsad"
+      ],
+      "potential_use": "13195 images from 32 surgeries, 11 anatomical structures including vessels; masks suitable for organ patches and boundary analysis.",
+      "limitations": "One clinical procedure/site cohort. Article usage note conflicts with CC BY metadata; commercial reuse remains unresolved. Original archive 20884637683 bytes, supplied MD5 18e3514b651c572c9e421fe26cf5adbc. Existing selected reference PNGs in Studio; no new copy automatically acquired.",
+      "training_status": "not-trained",
+      "download_status": "catalogued-not-acquired"
+    },
+    {
+      "id": "cholecseg8k",
+      "name": "CholecSeg8k",
+      "species": "human-in-vivo",
+      "modality": "Laparoscopic RGB, semantic segmentation",
+      "access_review": "provider-account-or-terms",
+      "license": "CC-BY-NC-SA-4.0",
+      "source_urls": [
+        "https://arxiv.org/abs/2012.12453",
+        "https://www.kaggle.com/datasets/newslab/cholecseg8k"
+      ],
+      "potential_use": "8080 frames, 13 classes; liver, gallbladder, connective tissue and blood visibility.",
+      "limitations": "Small Cholec80 subset, adjacent frames strongly correlated. Noncommercial/share-alike restrictions; honor source-video split and dataset overlap.",
+      "training_status": "not-trained",
+      "download_status": "catalogued-not-acquired"
+    },
+    {
+      "id": "endoscapes",
+      "name": "Endoscapes2023",
+      "species": "human-in-vivo",
+      "modality": "Laparoscopic RGB, segmentations, detection and CVS annotations",
+      "access_review": "direct-noncommercial",
+      "license": "CC-BY-NC-SA-4.0",
+      "source_urls": [
+        "https://github.com/CAMMA-public/Endoscapes"
+      ],
+      "potential_use": "Dissection-region context, cystic plate/artery/duct and hepatocystic transition boundaries.",
+      "limitations": "Public Seg50 is 493 segmented frames from 50 videos; broader segmentation release remains private. Cross-dataset overlap with Cholec80/T50 must be removed; research-only source tier.",
+      "training_status": "not-trained",
+      "download_status": "catalogued-not-acquired"
+    },
+    {
+      "id": "heisurf",
+      "name": "HeiSurF",
+      "species": "human-in-vivo",
+      "modality": "Cholecystectomy video and full-scene segmentation",
+      "access_review": "gated-or-terms-unverified",
+      "license": "dataset-specific terms; not verified",
+      "source_urls": [
+        "https://www.synapse.org/Synapse:syn25101790/files/",
+        "https://fis.tu-dresden.de/portal/en/datasets/heichole-surgical-workflow-analysis-and-full-scene-segmentation-heisurf%289a4fdda4-a408-4c7c-a4bc-c5b6bcca5eb3%29.html"
+      ],
+      "potential_use": "Surgical tissue context and scene segmentation.",
+      "limitations": "Synapse access conditions and underlying data license must be reviewed in an authorized account; no automated fetch or inferred permission.",
+      "training_status": "not-trained",
+      "download_status": "catalogued-not-acquired"
+    },
+    {
+      "id": "scared",
+      "name": "SCARED",
+      "species": "porcine-ex-vivo",
+      "modality": "Stereo RGB, calibration, structured-light geometry",
+      "access_review": "gated",
+      "license": "challenge/data agreement; not verified",
+      "source_urls": [
+        "https://endovissub2019-scared.grand-challenge.org/",
+        "https://arxiv.org/abs/2101.01133"
+      ],
+      "potential_use": "Stereo/depth validation and geometry/appearance separation.",
+      "limitations": "Measured keyframes and propagated estimates must remain distinct. Cadaver tissue, sparse geometric measurements, restricted access; no third-party mirrors used.",
+      "training_status": "not-trained",
+      "download_status": "catalogued-not-acquired"
+    },
+    {
+      "id": "stereomis",
+      "name": "StereoMIS",
+      "species": "porcine-in-vivo",
+      "modality": "Stereo videos, kinematics, automatic tool masks",
+      "access_review": "direct-noncommercial",
+      "license": "CC-BY-NC-SA-4.0",
+      "source_urls": [
+        "https://zenodo.org/records/8154924"
+      ],
+      "potential_use": "Three animals, 11 surgical sequences for motion, lighting and tool occlusion tests.",
+      "limitations": "11.2GB compressed; masks are automatic and kinematics are not perfect deformation ground truth. Porcine-to-human domain shift; no automatic production training.",
+      "training_status": "not-trained",
+      "download_status": "catalogued-not-acquired"
+    },
+    {
+      "id": "endonerf",
+      "name": "EndoNeRF sample data",
+      "species": "surgical-tissue-species-unverified",
+      "modality": "RGB, estimated stereo depth, manual tool masks, LLFF format",
+      "access_review": "download-link-license-unresolved",
+      "license": "not verified for source data",
+      "source_urls": [
+        "https://github.com/med-air/EndoNeRF",
+        "https://med-air.github.io/EndoNeRF/"
+      ],
+      "potential_use": "Two sample cases for dynamic view synthesis, cutting and pulling tissue.",
+      "limitations": "Authors evaluate photometric errors due to geometric ground-truth collection difficulty. Identity camera poses used in single-view setting. Code license must not be substituted for data rights; secondary NC-SA claims unverified in inspected primary README.",
+      "training_status": "not-trained",
+      "download_status": "catalogued-not-acquired"
+    },
+    {
+      "id": "hamlyn",
+      "name": "Hamlyn Laparoscopic/Endoscopic Video Datasets",
+      "species": "mixed-human-and-porcine-check-sequence",
+      "modality": "Laparoscopic/endoscopic videos",
+      "access_review": "terms-unverified",
+      "license": "not verified",
+      "source_urls": [
+        "https://hamlyn.doc.ic.ac.uk/vision/"
+      ],
+      "potential_use": "Tissue motion, specularities, breathing, occlusion and stereo baseline testing.",
+      "limitations": "Official page fetch timed out during review; retain per-sequence species, calibration and rights rather than treating collection as homogeneous.",
+      "training_status": "not-trained",
+      "download_status": "catalogued-not-acquired"
+    },
+    {
+      "id": "surgt",
+      "name": "SurgT",
+      "species": "mixed-check-sequence",
+      "modality": "Stereo videos and soft-tissue tracking annotations",
+      "access_review": "challenge-terms",
+      "license": "challenge/data agreement; not verified",
+      "source_urls": [
+        "https://surgt.grand-challenge.org/Rules/",
+        "https://arxiv.org/abs/2302.03022"
+      ],
+      "potential_use": "Temporal tissue consistency benchmark.",
+      "limitations": "Challenge rules prohibit annotated surgical training and reserve validation ground truth for evaluation. Benchmark rules are not a general dataset license. Official data page returned 403; no bypass.",
+      "training_status": "not-trained",
+      "download_status": "catalogued-not-acquired"
+    },
+    {
+      "id": "servct",
+      "name": "SERV-CT",
+      "species": "porcine-ex-vivo",
+      "modality": "Stereo endoscopy with CT-derived reference disparity",
+      "access_review": "provider-license-review",
+      "license": "not verified",
+      "source_urls": [
+        "https://discovery.ucl.ac.uk/10141456/1/1-s2.0-S1361841521003479-main.pdf"
+      ],
+      "potential_use": "Geometry/depth checks around texture-poor tissue and specular surfaces.",
+      "limitations": "Two ex-vivo porcine torsos in source paper. CT registration and reference uncertainty matter; cannot prove living tissue appearance.",
+      "training_status": "not-trained",
+      "download_status": "catalogued-not-acquired"
+    },
+    {
+      "id": "c3vd",
+      "name": "C3VD / C3VDv2",
+      "species": "physical-phantom",
+      "modality": "Clinical colonoscope RGB with registered geometry",
+      "access_review": "direct-provider",
+      "license": "v2 CC-BY-4.0; verify v1 independently",
+      "source_urls": [
+        "https://durrlab.github.io/C3VD/",
+        "https://durrlab.github.io/C3VDv2/",
+        "https://www.nature.com/articles/s41597-026-07471-1"
+      ],
+      "potential_use": "Depth, normals, flow, camera pose and surface coverage benchmarks with known models.",
+      "limitations": "Phantom material is not human mucosa. V2 deformation sequences are explicitly simplified and lack realistic insufflation/peristalsis.",
+      "training_status": "not-trained",
+      "download_status": "catalogued-not-acquired"
+    },
+    {
+      "id": "kvasir-instrument",
+      "name": "Kvasir-Instrument",
+      "species": "human-in-vivo",
+      "modality": "GI RGB images, instrument masks and boxes",
+      "access_review": "direct-noncommercial",
+      "license": "research/education only; commercial written permission required",
+      "source_urls": [
+        "https://datasets.simula.no/kvasir-instrument/"
+      ],
+      "potential_use": "590 images for excluding instrument contamination from tissue appearance statistics.",
+      "limitations": "720x576 to 1280x1024, JPEG; masks label instruments, not complete anatomy. Restrictions distinct from HyperKvasir.",
+      "training_status": "not-trained",
+      "download_status": "catalogued-not-acquired"
+    },
+    {
+      "id": "kvasir-seg",
+      "name": "Kvasir-SEG",
+      "species": "human-in-vivo",
+      "modality": "GI RGB and polyp masks",
+      "access_review": "terms-review",
+      "license": "verify specific release terms",
+      "source_urls": [
+        "https://datasets.simula.no/kvasir-seg/",
+        "https://arxiv.org/abs/1911.07069"
+      ],
+      "potential_use": "Polyp and mucosal boundary reference.",
+      "limitations": "Overlaps HyperKvasir segmented record; do not count as independent evaluation cohort or duplicate data.",
+      "training_status": "not-trained",
+      "download_status": "catalogued-not-acquired"
+    },
+    {
+      "id": "d4d",
+      "name": "Dresden 4D (D4D)",
+      "species": "porcine-cadaver",
+      "modality": "Stereo videos, structured-light point clouds and derived depth",
+      "access_review": "provider-license-review",
+      "license": "not verified",
+      "source_urls": [
+        "https://arxiv.org/html/2603.02985v1",
+        "https://doi.org/10.25532/OPARA-1033",
+        "https://reubendocea.github.io/d4d/"
+      ],
+      "potential_use": "Non-rigid abdominal scene reconstruction, tool interactions and temporal geometry validation.",
+      "limitations": "Six sessions, 98 curated recordings, >300000 frames, 369 measured point clouds reported by authors. Distinguish measured geometry from stereo-derived estimates; no human material ground truth.",
+      "training_status": "not-trained",
+      "download_status": "catalogued-not-acquired"
+    },
+    {
+      "id": "stir",
+      "name": "STIR",
+      "species": "surgical-specimen-check-release",
+      "modality": "Stereo visible/infrared tissue tracking",
+      "access_review": "provider-license-review",
+      "license": "verify Zenodo record terms",
+      "source_urls": [
+        "https://stir-challenge.github.io/",
+        "https://zenodo.org/records/14803158",
+        "https://arxiv.org/abs/2503.24306"
+      ],
+      "potential_use": "Visible tissue tracking with infrared tattoos as hidden reference.",
+      "limitations": "Tracking reference does not measure optical material parameters; challenge versions and source subjects must remain distinct.",
+      "training_status": "not-trained",
+      "download_status": "catalogued-not-acquired"
+    },
+    {
+      "id": "endovis",
+      "name": "EndoVis / Open-CAS index",
+      "species": "mixed",
+      "modality": "Collection of surgical vision challenges",
+      "access_review": "per-dataset-access",
+      "license": "no umbrella license",
+      "source_urls": [
+        "https://opencas.dkfz.de/endovis/datasetspublications/",
+        "https://opencas.dkfz.de/endovis/"
+      ],
+      "potential_use": "Discovery of robotic segmentation, kidney, fetoscopy, cataract, tool, colonoscopy and workflow datasets.",
+      "limitations": "Index is not a single downloadable dataset. Each challenge has its own access/terms; registration may require signed rules.",
+      "training_status": "not-trained",
+      "download_status": "catalogued-not-acquired"
+    },
+    {
+      "id": "phakir",
+      "name": "PhaKIR",
+      "species": "human-in-vivo",
+      "modality": "Cholecystectomy video, phase/keypoint/tool labels",
+      "access_review": "direct-noncommercial",
+      "license": "CC-BY-NC-SA",
+      "source_urls": [
+        "https://phakir.re-mic.de/",
+        "https://zenodo.org/records/15740620"
+      ],
+      "potential_use": "Procedure and instrument context to filter tissue reference clips.",
+      "limitations": "Tool/workflow annotations do not give intrinsic tissue appearance or physical properties.",
+      "training_status": "not-trained",
+      "download_status": "catalogued-not-acquired"
+    },
+    {
+      "id": "imed2026",
+      "name": "iMED 2026",
+      "species": "surgical-specimen-check-release",
+      "modality": "Multi-endoscope videos",
+      "access_review": "challenge-access-review",
+      "license": "not verified",
+      "source_urls": [
+        "https://imed-challenge.github.io/"
+      ],
+      "potential_use": "Multi-view pose and novel-view evaluation.",
+      "limitations": "Version-specific participation/data terms required. Metrics for rendering do not establish surgical fidelity.",
+      "training_status": "not-trained",
+      "download_status": "catalogued-not-acquired"
+    }
+  ],
+  "assets": [
+    {
+      "id": "heiporspectral-example",
+      "dataset_id": "heiporspectral",
+      "filename": "HeiPorSPECTRAL_example.zip",
+      "url": "https://extra.spectralverse-heidelberg.org/HeiPorSPECTRAL/HeiPorSPECTRAL_example.zip",
+      "access": "direct",
+      "format": "zip",
+      "expected_bytes": 363938948,
+      "max_bytes": 419430400,
+      "max_uncompressed_bytes": 3355443200,
+      "max_members": 200000,
+      "allowed_hosts": [
+        "extra.spectralverse-heidelberg.org"
+      ],
+      "checksums": {},
+      "license": "CC-BY-4.0",
+      "license_sources": [
+        "https://spectralverse-heidelberg.org/HeiPorSPECTRAL/"
+      ],
+      "citation": "Studier-Fischer et al. HeiPorSPECTRAL. Scientific Data 10,414 (2023). doi:10.1038/s41597-023-02315-8",
+      "allowed_purposes": [
+        "commercial-compatible",
+        "noncommercial-research"
+      ]
+    },
+    {
+      "id": "visible-human-female-sample",
+      "dataset_id": "visible-human",
+      "filename": "visible-female-five-slices.zip",
+      "url": "https://data.lhncbc.nlm.nih.gov/public/Visible-Human/Sample-Data/Five%20slices%20from%20the%20visible%20Female.zip",
+      "access": "direct",
+      "format": "zip",
+      "expected_bytes": 16400864,
+      "max_bytes": 33554432,
+      "max_uncompressed_bytes": 268435456,
+      "max_members": 200000,
+      "allowed_hosts": [
+        "data.lhncbc.nlm.nih.gov"
+      ],
+      "checksums": {},
+      "license": "public-domain",
+      "license_sources": [
+        "https://www.nlm.nih.gov/research/visible/visible_human.html"
+      ],
+      "citation": "U.S. National Library of Medicine, Visible Human Project; female sample cryosections.",
+      "allowed_purposes": [
+        "commercial-compatible",
+        "noncommercial-research"
+      ]
+    },
+    {
+      "id": "visible-human-male-sample",
+      "dataset_id": "visible-human",
+      "filename": "visible-male-six-slices.zip",
+      "url": "https://data.lhncbc.nlm.nih.gov/public/Visible-Human/Sample-Data/Six%20slices%20from%20the%20Visible%20Male.zip",
+      "access": "direct",
+      "format": "zip",
+      "expected_bytes": 18944108,
+      "max_bytes": 33554432,
+      "max_uncompressed_bytes": 268435456,
+      "max_members": 200000,
+      "allowed_hosts": [
+        "data.lhncbc.nlm.nih.gov"
+      ],
+      "checksums": {},
+      "license": "public-domain",
+      "license_sources": [
+        "https://www.nlm.nih.gov/research/visible/visible_human.html"
+      ],
+      "citation": "U.S. National Library of Medicine, Visible Human Project; male sample cryosections.",
+      "allowed_purposes": [
+        "commercial-compatible",
+        "noncommercial-research"
+      ]
+    },
+    {
+      "id": "hyperkvasir-segmented",
+      "dataset_id": "hyperkvasir",
+      "filename": "hyper-kvasir-segmented-images.zip",
+      "url": "https://datasets.simula.no/downloads/hyper-kvasir/hyper-kvasir-segmented-images.zip",
+      "access": "direct",
+      "format": "zip",
+      "expected_bytes": null,
+      "max_bytes": 104857600,
+      "max_uncompressed_bytes": 838860800,
+      "max_members": 200000,
+      "allowed_hosts": [
+        "datasets.simula.no"
+      ],
+      "checksums": {},
+      "license": "CC-BY-4.0",
+      "license_sources": [
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC7455694/"
+      ],
+      "citation": "Borgli et al. HyperKvasir. Scientific Data 7,283 (2020). doi:10.1038/s41597-020-00622-y",
+      "allowed_purposes": [
+        "commercial-compatible",
+        "noncommercial-research"
+      ]
+    },
+    {
+      "id": "hyperkvasir-labeled",
+      "dataset_id": "hyperkvasir",
+      "filename": "hyper-kvasir-labeled-images.zip",
+      "url": "https://datasets.simula.no/downloads/hyper-kvasir/hyper-kvasir-labeled-images.zip",
+      "access": "direct",
+      "format": "zip",
+      "expected_bytes": null,
+      "max_bytes": 5368709120,
+      "max_uncompressed_bytes": 12884901888,
+      "max_members": 200000,
+      "allowed_hosts": [
+        "datasets.simula.no"
+      ],
+      "checksums": {},
+      "license": "CC-BY-4.0",
+      "license_sources": [
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC7455694/"
+      ],
+      "citation": "Borgli et al. HyperKvasir. Scientific Data 7,283 (2020). doi:10.1038/s41597-020-00622-y",
+      "allowed_purposes": [
+        "commercial-compatible",
+        "noncommercial-research"
+      ]
+    },
+    {
+      "id": "kvasir-instrument",
+      "dataset_id": "kvasir-instrument",
+      "filename": "kvasir-instrument.zip",
+      "url": "https://datasets.simula.no/downloads/kvasir-instrument.zip",
+      "access": "direct",
+      "format": "zip",
+      "expected_bytes": null,
+      "max_bytes": 268435456,
+      "max_uncompressed_bytes": 2147483648,
+      "max_members": 200000,
+      "allowed_hosts": [
+        "datasets.simula.no"
+      ],
+      "checksums": {},
+      "license": "research-education-only",
+      "license_sources": [
+        "https://datasets.simula.no/kvasir-instrument/"
+      ],
+      "citation": "Jha et al. Kvasir-Instrument. MMM 2021. doi:10.1007/978-3-030-67835-7_19",
+      "allowed_purposes": [
+        "noncommercial-research"
+      ]
+    }
+  ]
+}

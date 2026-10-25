@@ -149,7 +149,7 @@ export function stagePublicAssets({ source, destination, maxBytes = PUBLIC_COPY_
         if (!asset.endsWith('.png')) throw new Error(`non-PNG tissue asset: ${asset}`);
         copy(path.posix.join('tissue-materials', path.posix.dirname(preview), asset), declaration, 'tissue-preview-map', 512);
       }
-      materials.push({ ...entry, manifest: null, available_resolutions: [512] });
+      materials.push({ ...entry, ...(entry.thumbnail ? { thumbnail: path.posix.join(path.posix.dirname(preview), m.channels.base_color.file) } : {}), manifest: null, available_resolutions: [512] });
       sourceManifests.push({ id: entry.id, preview, sha256: manifest.sha256, omitted_native_manifest: native });
     }
     const distribution = {

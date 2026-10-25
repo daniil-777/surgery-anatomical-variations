@@ -1,0 +1,282 @@
+{
+  "schema": "viscera.tissue-appearance-decoder/v1",
+  "model_type": "masked-rgb-periodic-cvae-v1",
+  "architecture": {
+    "latent_dim": 4,
+    "hidden_width": 12,
+    "hidden_layers": 3,
+    "frequencies": [
+      1,
+      2
+    ],
+    "condition_labels": [
+      "synthetic:colonic_mucosa",
+      "synthetic:liver"
+    ],
+    "condition_regions": [
+      "colonic_mucosa",
+      "liver"
+    ],
+    "condition_species": [
+      "synthetic",
+      "synthetic"
+    ],
+    "input_order": "latent,condition_one_hot,uv_fourier",
+    "activation": "silu",
+    "output_activation": "sigmoid",
+    "fourier_order": "frequency-major:sin(2pi*f*u),cos(2pi*f*u),sin(2pi*f*v),cos(2pi*f*v)",
+    "uv": "u right, v down; periodic unit square; bake at pixel centers"
+  },
+  "weights": {
+    "encoding": "base64-f32le",
+    "sha256": "3f8e4aef60f6a90739cd095ec0a22c465ca2683eefc7e843c4529641b5766c81",
+    "byte_length": 2124,
+    "data_base64": "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",
+    "tensors": [
+      {
+        "name": "layers.0.weight",
+        "shape": [
+          12,
+          14
+        ],
+        "offset_bytes": 0,
+        "length_bytes": 672
+      },
+      {
+        "name": "layers.0.bias",
+        "shape": [
+          12
+        ],
+        "offset_bytes": 672,
+        "length_bytes": 48
+      },
+      {
+        "name": "layers.1.weight",
+        "shape": [
+          12,
+          12
+        ],
+        "offset_bytes": 720,
+        "length_bytes": 576
+      },
+      {
+        "name": "layers.1.bias",
+        "shape": [
+          12
+        ],
+        "offset_bytes": 1296,
+        "length_bytes": 48
+      },
+      {
+        "name": "layers.2.weight",
+        "shape": [
+          12,
+          12
+        ],
+        "offset_bytes": 1344,
+        "length_bytes": 576
+      },
+      {
+        "name": "layers.2.bias",
+        "shape": [
+          12
+        ],
+        "offset_bytes": 1920,
+        "length_bytes": 48
+      },
+      {
+        "name": "layers.3.weight",
+        "shape": [
+          3,
+          12
+        ],
+        "offset_bytes": 1968,
+        "length_bytes": 144
+      },
+      {
+        "name": "layers.3.bias",
+        "shape": [
+          3
+        ],
+        "offset_bytes": 2112,
+        "length_bytes": 12
+      }
+    ]
+  },
+  "output": {
+    "kind": "observed_rgb_appearance",
+    "color_space": "srgb",
+    "channels": [
+      "r",
+      "g",
+      "b"
+    ],
+    "binding": "fixed-rest-uv",
+    "pbr_ground_truth": false,
+    "clinically_validated": false
+  },
+  "provenance": {
+    "training_steps": 4,
+    "training_status": "fixture_trained",
+    "qualification": "engineering_unqualified",
+    "training_native_patch_size": 16,
+    "dataset_manifest_sha256": "aa552f40c03305cab517d2ca62b7c0370aacb9e25ddcdce23a2b994a72c523ca",
+    "split_manifest_sha256": "52fdc73a73e8200aeb05c123ef3e0c1433522af1895c662705cd8e045f59f676",
+    "config_sha256": "be36e0d3bb292777ff28b869d35f66624fa80bc1aa34d054840936c625e54f82",
+    "source_sha256": {
+      "__init__.py": "93da77dad86eb11405d5b3305b8fbf5f8aad2022df7649f0c6298c23b3718328",
+      "artifact.py": "df2d3e15b468f61f81e1110383ef81caaf4f948259eeb8790795b57e2b4e33fb",
+      "checkpoint.py": "2eb8a4e5e5f89b9e7247aba51c5f39ef6b24a3a8f78065b9773a0f35856b4256",
+      "config.py": "2c42f8e2abec37cda1e2f5127667746445390b7ca0ce1309c3657013d2351b31",
+      "data.py": "de226f6cb0c44827170cc8b36dd134110b4246cafdebff033c74e373889bb88a",
+      "fixture.py": "63f5929aadc0d3ef964ab117ef0aacdf0db0de2afcaaa151d0e7801f7e381aeb",
+      "model.py": "7e355117241f9b33717b78412524b1dfd204ba107d3249cff76fbc6fafb0c392",
+      "trainer.py": "6f0c1c9adffdeacad7d5a5b6a2dcfff347f6642539909d3a4ffa5e8267168159"
+    },
+    "checkpoint_manifest_sha256": "6d367143e565ad6167729a45a03dc55d1e7dc8fa6c937d8cd3252483d08a70e7",
+    "environment": {
+      "cuda": null,
+      "determinism": "same runtime/device only; CPU exact resume tested separately",
+      "device": "cpu",
+      "gpu": null,
+      "machine": "arm64",
+      "numpy": "2.4.6",
+      "pillow": "12.3.0",
+      "platform": "Darwin",
+      "python": "3.11.16",
+      "safetensors": "0.8.0",
+      "torch": "2.14.1"
+    },
+    "dataset_summary": {
+      "conditions": [
+        "synthetic:colonic_mucosa",
+        "synthetic:liver"
+      ],
+      "group_levels": [
+        "synthetic_fixture"
+      ],
+      "manifest_sha256": "aa552f40c03305cab517d2ca62b7c0370aacb9e25ddcdce23a2b994a72c523ca",
+      "patient_disjoint_claim": false,
+      "provided_mask_samples": 16,
+      "split_sha256": "52fdc73a73e8200aeb05c123ef3e0c1433522af1895c662705cd8e045f59f676",
+      "splits": {
+        "test": {
+          "groups": 4,
+          "samples": 4
+        },
+        "train": {
+          "groups": 8,
+          "samples": 8
+        },
+        "val": {
+          "groups": 4,
+          "samples": 4
+        }
+      }
+    },
+    "validation": {
+      "split": "val",
+      "evaluated_samples": 4,
+      "available_samples": 4,
+      "evaluated_groups": 4,
+      "per_condition": {
+        "synthetic:colonic_mucosa": {
+          "masked_mse": 0.05590404383838177,
+          "baseline_mse": 0.0016244683065451682,
+          "kl": 0.0015854164958000183
+        },
+        "synthetic:liver": {
+          "masked_mse": 0.05923902243375778,
+          "baseline_mse": 0.0016167470603249967,
+          "kl": 0.001881241798400879
+        }
+      },
+      "macro_masked_mse": 0.057571533136069775,
+      "macro_baseline_mse": 0.0016206076834350824,
+      "posterior_mu_variance": 0.00033616871223784983,
+      "posterior_mean_logvar": 0.021557828411459923,
+      "mean_kl": 0.0017333291471004486,
+      "prior_rgb_std": {
+        "synthetic:colonic_mucosa": 0.002044198801741004,
+        "synthetic:liver": 0.0019814770203083754
+      },
+      "interpretation": "posterior reconstruction and collapse diagnostics; not prior sample realism or PBR accuracy",
+      "qualification": "engineering_unqualified",
+      "beats_train_mean_baseline": false
+    },
+    "licence_note": "training-source permissions still govern use; this file grants no additional rights"
+  },
+  "seed_algorithm": "sha256-box-muller-f32-v1",
+  "seed_reference": {
+    "seed": "18446744073709551615",
+    "latent": [
+      -1.5970323085784912,
+      0.31084614992141724,
+      -0.16076666116714478,
+      2.6118476390838623
+    ]
+  },
+  "reference": {
+    "latent": [
+      -1.5970323085784912,
+      0.31084614992141724,
+      -0.16076666116714478,
+      2.6118476390838623
+    ],
+    "condition_index": 1,
+    "uv": [
+      [
+        0.0,
+        0.0
+      ],
+      [
+        0.1234000027179718,
+        0.9876000285148621
+      ],
+      [
+        0.25,
+        0.75
+      ],
+      [
+        0.5,
+        0.5
+      ],
+      [
+        1.0,
+        1.0
+      ]
+    ],
+    "rgb": [
+      [
+        0.43733686208724976,
+        0.5186669230461121,
+        0.5022130012512207
+      ],
+      [
+        0.43448585271835327,
+        0.5192667841911316,
+        0.5028320550918579
+      ],
+      [
+        0.4430294632911682,
+        0.5203892588615417,
+        0.49690869450569153
+      ],
+      [
+        0.4355472922325134,
+        0.5163975954055786,
+        0.5050151944160461
+      ],
+      [
+        0.43733689188957214,
+        0.5186669230461121,
+        0.5022130012512207
+      ]
+    ]
+  },
+  "export_validation": {
+    "numpy_vs_torch_max_absolute_error": 5.960464477539063e-08,
+    "tolerance": 2e-05,
+    "gpu_execution_claim": false
+  }
+}
