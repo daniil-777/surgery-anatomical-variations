@@ -62,7 +62,14 @@ test("laparoscope fibers and HDR optics follow the camera without moving tissue 
   const file=await download,png=await readFile((await file.path())!);
   expect(png.subarray(1,4).toString()).toBe('PNG');expect(Math.max(png.readUInt32BE(16),png.readUInt32BE(20))).toBe(4096);
   if(process.env.OPTICS_CAPTURE_OUTPUT)await file.saveAs(process.env.OPTICS_CAPTURE_OUTPUT);
-  const restored=await read();expect(restored.rendering.optics.glareResolution).toEqual(before.rendering.optics.glareResolution);
+  // The backend-status banner can resize the live page during a cold load.
+  // Export must restore the CURRENT drawing buffer, not an earlier layout.
+  await expect.poll(async()=>page.evaluate(()=>{
+    const canvas=document.querySelector('.whole-scene-canvas canvas') as HTMLCanvasElement;
+    const snapshot=(window as any).__visceraSceneSnapshot();
+    return {actual:snapshot.rendering.optics.glareResolution,expected:[Math.ceil(canvas.width/2),Math.ceil(canvas.height/2)]};
+  }).then(value=>JSON.stringify(value.actual)===JSON.stringify(value.expected))).toBe(true);
+  const restored=await read();expect(Math.max(...restored.rendering.optics.glareResolution)).toBeLessThan(2048);
   expect(errors).toEqual([]);
 });
 
@@ -126,6 +133,7 @@ test("the enclosed cavity can be inspected and the same camera retained for inst
   const read=()=>page.evaluate(()=> (window as any).__visceraSceneSnapshot());
   await page.getByRole('button',{name:'Apply learned textures',exact:true}).click();
   await page.getByRole('button',{name:'Apply learned physics to all organs',exact:true}).click();
+  await expect.poll(async()=>(await read()).physics?.running).toBe(true);
   await page.getByRole('button',{name:'Explore cavity',exact:true}).click();
   await expect.poll(async()=>(await read()).camera.navigation.mode).toBe('explore');
   for(let i=0;i<12;i++)await page.getByRole('button',{name:'Look left',exact:true}).click();
