@@ -15,6 +15,7 @@ test('RGBD camera policy trains, evaluates and replays without altering anatomy'
  await lab(page).getByRole('button',{name:'Train camera policy',exact:true}).click();
  await expect.poll(async()=>(await read(page))?.phase,{timeout:150000}).toBe('ready');
  const trained=await read(page),after=await scene(page);
+ await expect(lab(page)).toContainText("Planned route completes the inspection goal");
  expect(trained.policy.training.updates).toBeGreaterThan(0);expect(trained.map.nodes).toBeGreaterThan(3);expect(trained.policy.training.holdoutStarts.length).toBeGreaterThan(0);
  expect(after.camera.position).toEqual(before.camera.position);expect(after.organs.map((o:any)=>[o.geometrySignature,o.materialSignature])).toEqual(before.organs.map((o:any)=>[o.geometrySignature,o.materialSignature]));
  await page.screenshot({path:info.outputPath('trained-lab.png')});
