@@ -2,9 +2,10 @@ import { expect,test } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 
 test("unforced resting physics avoids redundant mesh uploads and wakes on palpation",async({page})=>{
-  await page.goto("/?mode=scene&scene=virtamed");await expect(page.locator('[data-scene-ready="true"]')).toBeVisible();
+  await page.goto("?mode=scene&scene=virtamed");await expect(page.locator('[data-scene-ready="true"]')).toBeVisible();
   const read=()=>page.locator('[data-scene-snapshot]').getAttribute('data-scene-snapshot').then(s=>JSON.parse(s!));
   await page.getByRole('button',{name:'Apply learned physics to all organs',exact:true}).click();
+  await expect.poll(async()=>(await read()).physics?.running).toBe(true);
   await page.getByRole('checkbox',{name:/Breathing/}).uncheck();await page.getByRole('button',{name:'Reset motion',exact:true}).click();
   await page.waitForTimeout(700);const a=await read();await page.waitForTimeout(1100);const b=await read();
   expect(b.physics.time_s).toBeGreaterThan(a.physics.time_s);expect(b.rendering.geometryUploads).toBe(a.rendering.geometryUploads);
@@ -16,7 +17,7 @@ test("unforced resting physics avoids redundant mesh uploads and wakes on palpat
 
 test("white scene, verified learned maps, material-only switch and fixed-wall physics",async({page})=>{
   const errors:string[]=[];page.on("pageerror",e=>errors.push(e.message));
-  await page.goto("/?mode=scene&scene=virtamed");await expect(page.locator('[data-scene-ready="true"]')).toBeVisible();
+  await page.goto("?mode=scene&scene=virtamed");await expect(page.locator('[data-scene-ready="true"]')).toBeVisible();
   const read=()=>page.locator('[data-scene-snapshot]').getAttribute('data-scene-snapshot').then(s=>JSON.parse(s!));
   const white=await read();expect(white.organs).toHaveLength(12);expect(white.surfaceMode).toBe("white");
   await page.getByRole("button",{name:"Apply learned textures",exact:true}).click();await expect.poll(async()=>(await read()).surfaceMode).toBe("learned-tissue");
@@ -33,7 +34,7 @@ test("white scene, verified learned maps, material-only switch and fixed-wall ph
   expect((await read()).physics.running).toBe(true);expect(errors).toEqual([]);
 });
 test("Import 3D opens and exports the complete white scene",async({page})=>{
-  await page.goto("/?mode=imports");await page.getByRole("button",{name:"VirtaMed scene",exact:true}).click();
+  await page.goto("?mode=imports");await page.getByRole("button",{name:"VirtaMed scene",exact:true}).click();
   await expect(page.getByRole("link",{name:"Open scene texture & physics lab ↗",exact:true})).toBeVisible({timeout:90000});
   const download=page.waitForEvent("download");await page.getByRole("button",{name:"Export GLB",exact:true}).click();
   const file=await download,bytes=await readFile((await file.path())!);expect(bytes.readUInt32LE(0)).toBe(0x46546c67);
@@ -42,11 +43,11 @@ test("Import 3D opens and exports the complete white scene",async({page})=>{
 });
 test("a corrupted scene is rejected atomically",async({page})=>{
   await page.route("**/anatomy-scene/virtamed-scene.glb",route=>route.fulfill({status:200,contentType:"model/gltf-binary",body:Buffer.from("corrupt")}));
-  await page.goto("/?mode=scene&scene=virtamed");await expect(page.getByRole("alert")).toContainText("integrity check",{timeout:90000});
+  await page.goto("?mode=scene&scene=virtamed");await expect(page.getByRole("alert")).toContainText("integrity check",{timeout:90000});
   await expect(page.locator('[data-scene-ready="true"]')).toHaveCount(0);
 });
 test("scene controls fit a narrow screen",async({page})=>{
-  await page.setViewportSize({width:390,height:844});await page.goto("/?mode=scene&scene=virtamed");await expect(page.locator('[data-scene-ready="true"]')).toBeVisible();
+  await page.setViewportSize({width:390,height:844});await page.goto("?mode=scene&scene=virtamed");await expect(page.locator('[data-scene-ready="true"]')).toBeVisible();
   await page.getByRole("button",{name:"Apply learned textures",exact:true}).click();
   expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBeLessThanOrEqual(392);
 });
