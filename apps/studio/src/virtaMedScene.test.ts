@@ -1,3 +1,5 @@
+import { BILIARY_JUNCTION } from "./virtaMedBiliary";
+import { ATLAS_VESSEL_VERSION, evaluateVesselAnchor } from "./atlasVessels";
 import { SceneSurfaceContact, barycentricSurfacePoint } from "./wholeSceneContact";
 import { VIRTAMED_AUTHORED_PHYSICS_JOINTS } from "./virtaMedPhysicsJoints";
 import { VIRTAMED_TISSUE_RESPONSE } from "./sceneTissueResponse";
@@ -21,6 +23,27 @@ describe("video-field reconstruction",()=>{
     expect(doc.meshes).toHaveLength(12);expect(doc.images??[]).toHaveLength(0);
     for(const node of doc.nodes.filter((n:{mesh?:number})=>n.mesh!==undefined)){const mesh=doc.meshes[node.mesh],source=root.getObjectByName(node.name) as THREE.Mesh,p=source.geometry.getAttribute("position"),accessor=doc.accessors[mesh.primitives[0].attributes.POSITION],view=doc.bufferViews[accessor.bufferView];
       expect(accessor.count).toBe(p.count);for(let i=0;i<p.count*3;i+=37)expect(buffer.readFloatLE(binaryStart+(view.byteOffset??0)+(accessor.byteOffset??0)+i*4)).toBe(p.array[i]);
+      const vessels=node.extras?.surfaceVessels;
+      if(["cystic-duct","hepatic-duct","cystic-artery"].includes(node.name)){expect(vessels).toBeUndefined();continue;}
+      expect(vessels.version).toBe(ATLAS_VESSEL_VERSION);expect(vessels.settings.fairing_passes).toBe(20);
+      expect(vessels.statistics.max_junction_murray_relative_error).toBeLessThan(1e-10);
+      expect(vessels.segments.length).toBeGreaterThan(100);
+      // Every shipped vessel endpoint is attached to this exact exported mesh.
+      for(const segment of vessels.segments)for(const end of ["a","b"]){
+        const point=evaluateVesselAnchor(segment[`${end}_anchor`],p.array,source.geometry.index!.array);
+        for(let k=0;k<3;k++)expect(point[k]).toBeCloseTo(segment[`${end}_mm`][k],5);
+      }
+    }
+  });
+  it("buries duct and artery continuations in their authored host surfaces",()=>{
+    for(const [host,point] of [["liver",[-8,56,-31]],["liver",[-8,29,-33]],["gallbladder",[-48,-10,-9]],["duodenum",[37,-57,-27]]] as const){
+      const mesh=root.getObjectByName(host) as THREE.Mesh,ray=new THREE.Raycaster();
+      for(const direction of [[.311,.523,.794],[-.5,.7,.4],[-.8,-.3,.5]]){
+        ray.set(new THREE.Vector3(...point),new THREE.Vector3(...direction).normalize());
+        const distances=ray.intersectObject(mesh,false).map(h=>h.distance).filter((d,i,a)=>!i||Math.abs(d-a[i-1]!)>.001);
+        expect(distances.length%2,`${host}: ${point}`).toBe(1);
+        expect(distances[0]).toBeGreaterThan(.3);
+      }
     }
   });
   it("has 12 named finite surfaces in one coordinate frame and a neutral white baseline",()=>{
@@ -87,16 +110,16 @@ describe("video-field reconstruction",()=>{
     for(const id of ["baseline","gallbladder-cholecystitis","gallbladder-distension","liver-cirrhosis","liver-metastases","liver-steatotic-enlargement"]){for(const m of root.children as THREE.Mesh[]){const p=m.geometry.getAttribute("position");for(let i=0;i<p.count;i+=31){const f=virtaMedDiseaseField(p.getX(i),p.getY(i),p.getZ(i),id,1);expect(Math.hypot(f.dx,f.dy,f.dz)).toBeLessThan(20);expect(Number.isFinite(f.mask)).toBe(true);}}}
   });
 
-  it("retains the overlapping biliary junction during gallbladder traction without proximity adhesion",()=>{
+  it("retains the registered continuous biliary junction during gallbladder traction without proximity adhesion",()=>{
     const organs=(root.children as THREE.Mesh[]).map(mesh=>({id:mesh.name,category:VIRTAMED_ORGANS.find(info=>info.id===mesh.name)!.category,bounds:{min:mesh.geometry.boundingBox!.min.toArray(),max:mesh.geometry.boundingBox!.max.toArray()}}));
     const joined=new WholeScenePhysics(organs,readLearnedSceneMaterials(materialsJson),VIRTAMED_TISSUE_RESPONSE,[...graph.edges,...VIRTAMED_AUTHORED_PHYSICS_JOINTS]);
-    const unjoined=new WholeScenePhysics(organs,readLearnedSceneMaterials(materialsJson),VIRTAMED_TISSUE_RESPONSE,graph.edges);
+    const unjoined=new WholeScenePhysics(organs,readLearnedSceneMaterials(materialsJson),VIRTAMED_TISSUE_RESPONSE,[...graph.edges.filter(e=>e.id!=="cystic-duct~hepatic-duct"),...VIRTAMED_AUTHORED_PHYSICS_JOINTS]);
     const mesh=(id:string)=>root.getObjectByName(id) as THREE.Mesh;
     const positions=(id:string)=>mesh(id).geometry.getAttribute("position").array as Float32Array;
     const indices=(id:string)=>mesh(id).geometry.index!.array as Uint16Array|Uint32Array;
     const cystic=positions("cystic-duct"),hepatic=positions("hepatic-duct"),gb=positions("gallbladder");
     const hepaticSurface=new SceneSurfaceContact("hepatic-duct",hepatic,indices("hepatic-duct"));
-    const center=VIRTAMED_AUTHORED_PHYSICS_JOINTS[0]!.centerlinePointMm;
+    const center=BILIARY_JUNCTION;
     let witness:{vertex:number;hit:NonNullable<ReturnType<SceneSurfaceContact["closestPoint"]>>}|null=null;
     for(let i=0;i<cystic.length;i+=3){const point:[number,number,number]=[cystic[i]!,cystic[i+1]!,cystic[i+2]!];if(Math.hypot(...point.map((x,a)=>x-center[a]!))>6)continue;const hit=hepaticSurface.closestPoint(point)!;if(!witness||hit.distanceMm<witness.hit.distanceMm)witness={vertex:i/3,hit};}
     expect(witness).not.toBeNull();const selected=witness!,restGap=selected.hit.distanceMm;expect(restGap).toBeLessThan(.15);
@@ -110,8 +133,8 @@ describe("video-field reconstruction",()=>{
     expect(joined.samplePoint(center,"hepatic-duct")).toEqual(joined.samplePoint(center,"cystic-duct"));
     expect(Math.hypot(...joined.samplePoint(center,"hepatic-duct").map((value,axis)=>value-center[axis]!))).toBeGreaterThan(.1);
     expect(joined.snapshot().attachment_components!.some(component=>component.includes("gallbladder")&&component.includes("hepatic-duct"))).toBe(true);
-    expect(joined.snapshot().attachment_components!.find(component=>component.includes("cystic-artery"))).toEqual(["cystic-artery"]);
-    if(process.env.VIRTAMED_BILIARY_JUNCTION_OUTPUT)writeFileSync(process.env.VIRTAMED_BILIARY_JUNCTION_OUTPUT,JSON.stringify({restGapMm:restGap,joinedGapMm:joinedGap,unjoinedGapMm:unjoinedGap,graspTargetDisplacementMm:10,heldTimeS:1.2,scope:"Actual rest-matched surface witnesses; authored junction continuity, not welded lumen or organ-organ contact validation."},null,2));
+    expect(joined.snapshot().attachment_components!.find(component=>component.includes("cystic-artery"))).toContain("gallbladder");
+    if(process.env.VIRTAMED_BILIARY_JUNCTION_OUTPUT)writeFileSync(process.env.VIRTAMED_BILIARY_JUNCTION_OUTPUT,JSON.stringify({restGapMm:restGap,joinedGapMm:joinedGap,unjoinedGapMm:unjoinedGap,graspTargetDisplacementMm:10,heldTimeS:1.2,scope:"Actual rest-matched surface witnesses; authored junction continuity, continuous external envelope; no resolved lumen or organ-organ collision validation."},null,2));
   });
   it("uses independently fitted material estimates including the deformable cavity lining",()=>{
     const source=readLearnedSceneMaterials(materialsJson);expect(source.materials).toHaveLength(12);expect(new Set(source.materials.map(m=>m.young_pa)).size).toBe(12);

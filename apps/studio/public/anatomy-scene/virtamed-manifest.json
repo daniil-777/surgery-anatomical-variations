@@ -73,10 +73,10 @@
       "color": "#b9917d"
     }
   ],
-  "version": "viscera.video-field/3",
+  "version": "viscera.video-field/4",
   "filename": "virtamed-scene.glb",
-  "sha256": "e0778985a61547fff92d0359adeb17e72ae5f87e2d7d51bb870b72e222c74b2a",
-  "bytes": 4553248,
+  "sha256": "2d71c6585a10d8d831a1322c8722a9542190cf12b4ba8a2b72c3bb25e07e0892",
+  "bytes": 13746192,
   "source": "Full.mp4, intact hepatocystic field 00:08–00:15; user-provided visual reference",
   "construction": "Independently authored connected surfaces; no source simulator geometry, textures or logos",
   "scale": "Assumed millimetres; monocular video does not determine absolute scale",

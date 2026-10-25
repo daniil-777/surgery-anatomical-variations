@@ -31,7 +31,7 @@ try {
     const a=await snapshot();await click('Replay seed');const b=await snapshot();
     if(a.organs.some((p,i)=>p.geometrySignature!==b.organs[i].geometrySignature||p.materialSignature!==b.organs[i].materialSignature))throw new Error('Seed replay drift');
     if(a.severity<.75)throw new Error('High-severity review was not applied');
-    if(a.videoReconstruction.interfaces.edges.length!==4||!a.videoReconstruction.interfaces.covers.length)throw new Error('Missing tissue transition fields');
+    if(a.videoReconstruction.interfaces.edges.length!==5||!a.videoReconstruction.interfaces.covers.length)throw new Error('Missing tissue transition fields');
     for(const [angle,dx,dy] of [['left',65,12],['right',-125,-20]]){
       await page.mouse.move(box.x+box.width*.65,box.y+box.height*.48);await page.mouse.down();await page.mouse.move(box.x+box.width*.65+dx,box.y+box.height*.48+dy,{steps:18});await page.mouse.up();await page.waitForTimeout(550);await capture(`05-${condition}-${angle}`);
     }

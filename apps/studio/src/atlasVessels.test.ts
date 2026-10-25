@@ -16,6 +16,21 @@ function lineNetwork(): AtlasVesselNetwork {
 }
 
 describe("Surface vascular design", () => {
+  it("reduces grid-shaped bends without changing branch topology or detaching endpoints",()=>{
+    const organ=sphere(),options={organId:"liver",seed:42},original=createAtlasVesselNetwork(organ,options),smooth=createAtlasVesselNetwork(organ,{...options,fairingPasses:20});
+    const bending=(network:AtlasVesselNetwork)=>{
+      const incoming=new Map(network.segments.map(s=>[s.b_mm.join(","),s])),outgoing=new Map<string,typeof network.segments>();
+      for(const s of network.segments){const key=s.a_mm.join(",");outgoing.set(key,[...(outgoing.get(key)??[]),s]);}
+      let sum=0,count=0;for(const [key,children] of outgoing){const parent=incoming.get(key);if(!parent||children.length!==1)continue;
+        const a=new THREE.Vector3(...parent.b_mm).sub(new THREE.Vector3(...parent.a_mm)).normalize(),child=children[0]!,b=new THREE.Vector3(...child.b_mm).sub(new THREE.Vector3(...child.a_mm)).normalize();sum+=1-a.dot(b);count++;
+      }return sum/count;
+    };
+    expect(bending(smooth)).toBeLessThan(bending(original)*.8);
+    expect(smooth.statistics.branches).toBe(original.statistics.branches);expect(smooth.statistics.terminals).toBe(original.statistics.terminals);
+    expect(smooth.statistics.max_junction_murray_relative_error).toBeLessThan(1e-10);
+    for(const segment of smooth.segments)for(const end of ["a","b"] as const){const point=evaluateVesselAnchor(segment[`${end}_anchor`],organ.positions,organ.indices);for(let k=0;k<3;k++)expect(point[k]).toBeCloseTo(segment[`${end}_mm`][k]!,5);}
+    expect(()=>createAtlasVesselNetwork(organ,{...options,fairingPasses:100})).toThrow("settings");
+  });
   it("generates deterministic connected, tapered branches attached to actual triangles", () => {
     const organ = sphere();
     const network = createAtlasVesselNetwork(organ, { organId: "liver", seed: 42 });
@@ -75,9 +90,9 @@ describe("Layered vessel appearance and GPU culling", () => {
     network.settings.visibility = 0;
     expect(sampleAtlasVessels([5, 0, 0], [0, 0, 1], network).heightMm).toBe(0);
   });
-  it("retains every overlapping candidate instead of truncating dense junctions", () => {
+  it.each([40,64])("retains every overlapping candidate with grid resolution %i", (resolution) => {
     const network = lineNetwork(); network.segments = Array.from({ length: 300 }, () => structuredClone(network.segments[0]!));
-    const grid = createAtlasVesselGrid(network);
+    const grid = createAtlasVesselGrid(network,resolution);
     expect(grid.maxCellSegments).toBe(300);
     const cell = new THREE.Vector3(5, 0, 0).sub(grid.origin).divideScalar(grid.cellSize).floor();
     const index = cell.x + grid.dimensions.x * (cell.y + grid.dimensions.y * cell.z);

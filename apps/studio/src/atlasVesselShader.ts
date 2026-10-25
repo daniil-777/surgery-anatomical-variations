@@ -15,7 +15,8 @@ export interface AtlasVesselGrid {
 }
 /** Conservative segment AABBs retain every field with non-negligible support.
  * Lists have variable length, so dense junctions never silently lose branches. */
-export function createAtlasVesselGrid(network: AtlasVesselNetwork): AtlasVesselGrid {
+export function createAtlasVesselGrid(network: AtlasVesselNetwork, resolution=40): AtlasVesselGrid {
+  if(!Number.isInteger(resolution)||resolution<16||resolution>96)throw new Error("Vessel grid resolution must be between 16 and 96.");
   const bounds = new THREE.Box3();
   for (const s of network.segments) {
     const support = 2 * (Math.max(s.radius_a_mm, s.radius_b_mm) * 2.3 + 0.7 * s.depth_mm);
@@ -26,7 +27,7 @@ export function createAtlasVesselGrid(network: AtlasVesselNetwork): AtlasVesselG
   }
   if (bounds.isEmpty()) bounds.set(new THREE.Vector3(-1, -1, -1), new THREE.Vector3(1, 1, 1));
   const size = bounds.getSize(new THREE.Vector3());
-  const cellSize = Math.max(size.x, size.y, size.z, 1) / 40;
+  const cellSize = Math.max(size.x, size.y, size.z, 1) / resolution;
   const dimensions = size.clone().divideScalar(cellSize).ceil().max(new THREE.Vector3(1, 1, 1));
   const count = dimensions.x * dimensions.y * dimensions.z;
   const cells = Array.from({ length: count }, () => [] as number[]);
@@ -124,9 +125,9 @@ vec3 atlasVesselPerturbNormal(vec3 surfacePosition, vec3 surfaceNormal, vec3 res
 
 /** Install after the authored tissue material. Rest-space sampling advects with
  * arbitrary vertex edits, with no floating overlay meshes or frame-time rebuilds. */
-export function installAtlasVessels(geometry: THREE.BufferGeometry, material: THREE.MeshPhysicalMaterial, network: AtlasVesselNetwork): AtlasVesselShaderHandle {
+export function installAtlasVessels(geometry: THREE.BufferGeometry, material: THREE.MeshPhysicalMaterial, network: AtlasVesselNetwork, gridResolution=40): AtlasVesselShaderHandle {
   if (!geometry.hasAttribute("atlasRestPosition")) geometry.setAttribute("atlasRestPosition", geometry.getAttribute("position").clone());
-  const grid = createAtlasVesselGrid(network);
+  const grid = createAtlasVesselGrid(network,gridResolution);
   const headers = dataTexture(grid.headers), candidates = dataTexture(grid.candidates), segments = dataTexture(grid.segments);
   const visibility = { value: network.settings.visibility };
   const uniforms = {

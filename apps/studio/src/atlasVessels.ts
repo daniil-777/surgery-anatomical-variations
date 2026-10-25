@@ -9,6 +9,8 @@ export interface AtlasVesselOptions {
   density?: number;
   visibility?: number;
   radiusScale?: number;
+  /** Additional surface-constrained fairing for regularly tessellated lofts. */
+  fairingPasses?: number;
 }
 export const DEFAULT_ATLAS_VESSEL_OPTIONS = { density: 0.45, visibility: 0.72, radiusScale: 1 } as const;
 export interface AtlasVesselAnchor { triangle: number; weights: VesselVec3 }
@@ -29,7 +31,7 @@ export interface AtlasVesselNetwork {
   seed: number;
   organ_id: string;
   provenance: "procedural-surface-design-not-patient-vasculature";
-  settings: { density: number; visibility: number; radius_scale: number };
+  settings: { density: number; visibility: number; radius_scale: number; fairing_passes?: number };
   segments: AtlasVesselSegment[];
   statistics: { terminals: number; branches: number; connected_components: number; length_mm: number; murray_exponent: 3;
     fine_terminals?: number; min_radius_mm?: number; max_radius_mm?: number; max_junction_murray_relative_error?: number };
@@ -156,7 +158,9 @@ export function createAtlasVesselNetwork(organ: OrganMesh, options: AtlasVesselO
   const density = options.density ?? DEFAULT_ATLAS_VESSEL_OPTIONS.density;
   const visibility = options.visibility ?? DEFAULT_ATLAS_VESSEL_OPTIONS.visibility;
   const radiusScale = options.radiusScale ?? DEFAULT_ATLAS_VESSEL_OPTIONS.radiusScale;
+  const fairingPasses = options.fairingPasses ?? 0;
   if (![density, visibility, radiusScale].every(Number.isFinite) || density < 0 || density > 1 || visibility < 0 || visibility > 1 || radiusScale < 0.4 || radiusScale > 2.5 ||
+      !Number.isInteger(fairingPasses) || fairingPasses < 0 || fairingPasses > 32 ||
       !Number.isInteger(options.seed) || options.seed < 0 || options.seed > 0xffffffff)
     throw new Error("Surface vessel settings are outside their supported ranges.");
   const arrays = organ as unknown as { rest_positions?: number[] };
@@ -168,6 +172,7 @@ export function createAtlasVesselNetwork(organ: OrganMesh, options: AtlasVesselO
     provenance: "procedural-surface-design-not-patient-vasculature", settings: { density, visibility, radius_scale: radiusScale }, segments: [],
     statistics: { terminals: 0, branches: 0, connected_components: 0, length_mm: 0, murray_exponent: 3 } };
   if (!density || positions.length < 12) return result;
+  if (fairingPasses) result.settings.fairing_passes = fairingPasses;
   const graph = surfaceGraph(positions, organ.indices), random = randomGenerator(options.seed);
   const n = graph.positions.length;
   const bounds = new THREE.Box3().setFromArray(positions), extent = bounds.getSize(new THREE.Vector3());
@@ -359,10 +364,36 @@ export function createAtlasVesselNetwork(organ: OrganMesh, options: AtlasVesselO
       const target = new THREE.Vector3(...p.point).addScaledVector(side, amount).toArray() as VesselVec3;
       smoothed.set(id, projectLocal(target, [id, ...graph.adjacency[id]!], graph, positions, organ.indices));
     }
+    // Regular loft grids otherwise imprint visible stair-step corridors. Fair
+    // degree-two runs without moving terminals or bifurcations. An expanded
+    // local patch allows the path to cross grid edges, never the organ interior.
+    const fairingPatches = new Map<number, number[]>();
+    if (fairingPasses) for (const id of nodes) {
+      if (parent[id]! < 0 || children[id]!.length !== 1) continue;
+      const patch = new Set<number>([id]);
+      for (let ring=0;ring<3;ring++) for (const near of [...patch]) for (const next of graph.adjacency[near]!) patch.add(next);
+      fairingPatches.set(id,[...patch]);
+    }
+    for (let iteration=0;iteration<fairingPasses;iteration++) {
+      const next = new Map(smoothed);
+      for (const [id,patch] of fairingPatches) {
+        const p=smoothed.get(id)!.point,a=smoothed.get(parent[id]!)!.point,b=smoothed.get(children[id]![0]!)!.point;
+        const target=p.map((v,k)=>.2*v+.4*(a[k]!+b[k]!)) as VesselVec3;
+        next.set(id,projectLocal(target,patch,graph,positions,organ.indices));
+      }
+      for (const [id,value] of next) smoothed.set(id,value);
+    }
     const maxDistance = nodes.reduce((maximum, id) => Math.max(maximum, dist[id]!), 0);
     const terminalRadius = profile.radius * scale * radiusScale;
     // Keep palette identity stable while density changes the topology.
     const kind: 0 | 1 = (options.seed + result.statistics.connected_components) % 3 === 0 ? 1 : 0;
+    const tangentAt=(id:number)=>{
+      const point=new THREE.Vector3(...smoothed.get(id)!.point),tangent=new THREE.Vector3();
+      if(parent[id]!>=0)tangent.copy(point).sub(new THREE.Vector3(...smoothed.get(parent[id]!)!.point)).normalize();
+      const dominant=[...children[id]!].sort((a,b)=>flow[b]!-flow[a]!)[0];
+      if(dominant!==undefined)tangent.add(new THREE.Vector3(...smoothed.get(dominant)!.point).sub(point).normalize());
+      return tangent.normalize();
+    };
     for (const id of nodes) {
       const p = parent[id]!;
       if (p < 0) continue;
@@ -374,11 +405,26 @@ export function createAtlasVesselNetwork(organ: OrganMesh, options: AtlasVesselO
       const radius = terminalRadius * Math.cbrt(flow[id]!);
       const isTerminal = children[id]!.length === 0;
       const depth = profile.depth * (0.8 + 0.35 * Math.sin(dist[id]! / (31 * scale) + phase) ** 2);
-      result.segments.push({ a_mm: a.point, b_mm: b.point, normal,
-        radius_a_mm: radius * (1 + 0.12 * (1 - dist[p]! / Math.max(maxDistance, 1))),
-        radius_b_mm: isTerminal ? radius * 0.06 : radius * (1 + 0.12 * (1 - dist[id]! / Math.max(maxDistance, 1))),
-        depth_mm: depth, kind, a_anchor: a.anchor, b_anchor: b.anchor });
-      result.statistics.length_mm += distance(a.point, b.point);
+      const ra=radius*(1+.12*(1-dist[p]!/Math.max(maxDistance,1))),rb=isTerminal?radius*.06:radius*(1+.12*(1-dist[id]!/Math.max(maxDistance,1)));
+      const samples:{surface:Projected;t:number}[]=[{surface:a,t:0}];
+      if(fairingPasses){
+        const axis=new THREE.Vector3(...b.point).sub(new THREE.Vector3(...a.point)),length=axis.length(),ta=tangentAt(p),tb=tangentAt(id);
+        axis.normalize();
+        // Round only perceptible bends, keeping straight runs inexpensive.
+        // All daughters share the node tangent, yielding a rounded bifurcation.
+        if(length>.4&&Math.min(axis.dot(ta),axis.dot(tb))<.985){
+          const curve=new THREE.CubicBezierCurve3(new THREE.Vector3(...a.point),new THREE.Vector3(...a.point).addScaledVector(ta,length*.32),new THREE.Vector3(...b.point).addScaledVector(tb,-length*.32),new THREE.Vector3(...b.point));
+          const patch=[...(fairingPatches.get(p)??[p,...graph.adjacency[p]!]),...(fairingPatches.get(id)??[id,...graph.adjacency[id]!])];
+          for(const t of [1/3,2/3])samples.push({surface:projectLocal(curve.getPoint(t).toArray() as VesselVec3,patch,graph,positions,organ.indices),t});
+        }
+      }
+      samples.push({surface:b,t:1});
+      for(let j=1;j<samples.length;j++){
+        const from=samples[j-1]!,to=samples[j]!,n=new THREE.Vector3(...from.surface.normal).add(new THREE.Vector3(...to.surface.normal));
+        result.segments.push({a_mm:from.surface.point,b_mm:to.surface.point,normal:n.lengthSq()>.01?n.normalize().toArray() as VesselVec3:normal,
+          radius_a_mm:from.t===0?ra:ra+(rb-ra)*from.t,radius_b_mm:to.t===1?rb:ra+(rb-ra)*to.t,depth_mm:depth,kind,a_anchor:from.surface.anchor,b_anchor:to.surface.anchor});
+        result.statistics.length_mm+=distance(from.surface.point,to.surface.point);
+      }
     }
     result.statistics.terminals += nodes.filter(id => !children[id]!.length).length;
     result.statistics.fine_terminals = (result.statistics.fine_terminals ?? 0) + nodes.filter(id => !children[id]!.length && terminalDemand[id]! < 1).length;

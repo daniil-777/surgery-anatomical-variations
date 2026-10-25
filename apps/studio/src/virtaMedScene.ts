@@ -4,10 +4,11 @@ import { mergeVertices } from "three/examples/jsm/utils/BufferGeometryUtils.js";
 import type { WholeSceneCategory, WholeSceneVariation } from "./wholeSceneModel";
 import { warpScenePositions } from "./wholeSceneModel";
 import { sampleNeuralVariation, type ImportedVariationSystem, type ImportedVariationRecipe } from "./imports/variations";
-import { anatomicalNoise, attachDuct, cranialAttachment, detailCapsule, drapedFat, hepaticAttachment, joinedFat } from "./virtaMedSurfaceDetail";
+import { anatomicalNoise, cranialAttachment, detailCapsule, drapedFat, hepaticAttachment, joinedFat } from "./virtaMedSurfaceDetail";
+import { createBiliaryEnvelope, registerBiliaryNeck } from "./virtaMedBiliary";
 import { createAbdominalCavityGeometry } from "./abdominalCavity";
 
-export const VIRTAMED_VERSION = "viscera.video-field/3";
+export const VIRTAMED_VERSION = "viscera.video-field/4";
 /** Authored reconstruction of the visible 00:08–00:15 field, not source simulator assets.
  * Hidden surfaces and millimetre scale are estimates. No logo/video pixels are bundled. */
 export const VIRTAMED_ORGANS: { id: string; label: string; category: WholeSceneCategory; color: string }[] = [
@@ -80,7 +81,7 @@ function loft(points: V3[], radius: (t:number,a:number)=>number, segments=100, s
   }}
   const g=new THREE.BufferGeometry();g.setAttribute("position",new THREE.Float32BufferAttribute(p,3));g.setAttribute("uv",new THREE.Float32BufferAttribute(uv,2));g.setIndex(indices);g.computeVertexNormals();return g;
 }
-const cap=(t:number)=>Math.pow(Math.max(0,Math.sin(Math.PI*t)),.24);
+const cap=(t:number)=>t<=0||t>=1?0:Math.pow(Math.sin(Math.PI*t),.24);
 export function createVirtaMedScene() {
   const root=new THREE.Group();root.name="VirtaMed scene";
   root.userData={sceneVersion:VIRTAMED_VERSION,source:"User-provided Full.mp4, intact field 00:08–00:15",geometryEvidence:"Visible silhouettes reconstructed by hand; hidden surfaces and physical scale inferred",units:"mm (assumed)",scenePreset:"virtamed"};
@@ -96,16 +97,19 @@ export function createVirtaMedScene() {
     return r*(1+.035*Math.cos(a*3+t*5)*Math.sin(Math.PI*t));
   },112,64,.94);
   detailCapsule(geometries.gallbladder,"gallbladder");
-  geometries["cystic-duct"]=loft([[-40,-12,-18],[-30,-18,-14],[-12,-21,-10],[-2,-24,-16]],t=>2.9-.35*Math.sin(t*Math.PI),56,64,1);
-  attachDuct(geometries.gallbladder,geometries["cystic-duct"]);
-  geometries["hepatic-duct"]=loft([[-8,51,-30],[-5,-10,-21],[-2,-24,-16],[9,-53,-29]],t=>cap(t)*3.6,64,24,1);
-  geometries["cystic-artery"]=loft([[-4,-37,-26],[-14,-24,-13],[-37,-8,-15],[-53,1,-2]],t=>cap(t)*(1.4-.4*t),64,20,1);
+  Object.assign(geometries,createBiliaryEnvelope());
+  registerBiliaryNeck(geometries.gallbladder,geometries["cystic-duct"]!);
+  // Hidden proximal continuation and a distal insertion inside the neck replace
+  // the free red rod. These endpoints are authored, not recovered from video.
+  geometries["cystic-artery"]=loft([[-8,29,-33],[-12,2,-27],[-23,-12,-25],[-38,-8,-19],[-48,-10,-9]],t=>cap(t)*(1.35-.35*t),88,24,1);
   geometries.colon=loft([[-156,-72,-2],[-91,-63,13],[-30,-44,22],[36,-30,25],[95,-16,11],[159,-15,-9]],(t,a)=>{
     const fold=Math.exp(-1*(Math.sin(t*28+Math.sin(t*13)*.7+a*.24)/.24)**2)*(1+.45*Math.sin(a*2+t*9));
     return cap(t)*(20+14*Math.exp(-1*((t-.69)/.22)**2)-1.05*fold+.65*Math.sin(t*39+a*2))*(1+.035*Math.cos(3*a+t*3));
   },200,64,.86);
   geometries["small-intestine"]=loft([[-162,-108,35],[-95,-102,54],[-14,-92,57],[63,-91,43],[141,-97,27]],(t,a)=>cap(t)*(21+.75*Math.sin(t*32+Math.sin(t*17)+a*.4)-.7*Math.exp(-1*(Math.sin(t*49+a*.3)/.24)**2))*(1+.035*Math.cos(4*a+t*4)),180,56,.88);
-  geometries.duodenum=loft([[22,-34,-35],[38,-53,-24],[16,-70,-17],[-15,-69,-22]],t=>cap(t)*13,72,40,1);
+  // The short U previously ended in two conspicuous capped stumps. Continue
+  // both limbs behind the field, with a smooth C-shaped visible middle.
+  geometries.duodenum=loft([[8,18,-58],[22,-18,-43],[39,-43,-27],[40,-61,-25],[16,-76,-29],[-25,-72,-36],[-70,-55,-54],[-107,-32,-73]],t=>cap(t)*12,144,48,1);
   for(const id of ["colon","small-intestine","duodenum"])detailCapsule(geometries[id]!,"bowel");
   const fat:{c:V3;r:V3}[]=[{c:[-22,2,-10],r:[45,29,10]}];
   for(let i=0;i<10;i++){const t=i/9;fat.push({c:[-53+76*t,-12-7*Math.sin(t*7),-1+3*Math.cos(t*5)],r:[14,15,6]});}

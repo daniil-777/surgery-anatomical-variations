@@ -8,7 +8,8 @@ beforeAll(()=>{parts=createVirtaMedScene().root.children.map(o=>{const m=o as TH
 afterAll(()=>parts.forEach(p=>p.geometry.dispose()));
 describe("registered PBR tissue interfaces",()=>{
   it("has matching zero-distance roots on both real surfaces, with finite rest fields",()=>{
-    expect(graph.edges).toHaveLength(4);
+    expect(graph.edges).toHaveLength(5);
+    expect(graph.edges.some(e=>e.id==="cystic-duct~hepatic-duct")).toBe(true);
     for(const edge of graph.edges)for(const id of [edge.a,edge.b]){const part=parts.find(p=>p.id===id)!,p=part.geometry.getAttribute("position"),field=graph.fields.get(id)!.find(f=>f.edge.id===edge.id)!;
       expect(Array.from(field.distance).every(d=>Number.isFinite(d)&&d>=0)).toBe(true);
       for(const point of edge.roots){let found=0;for(let i=0;i<p.count;i++)if(p.getX(i)===Math.fround(point[0]!)&&p.getY(i)===Math.fround(point[1]!)&&p.getZ(i)===Math.fround(point[2]!)){expect(field.distance[i]).toBe(0);found++;}expect(found).toBeGreaterThan(0);}

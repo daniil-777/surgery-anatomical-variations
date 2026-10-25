@@ -1,7 +1,8 @@
+import { applyVirtaMedVessels } from "./virtaMedVesselNetwork";
 import { loadOperativeAppearance, type OperativeAppearance } from "./operativeAppearance";
 import { LaparoscopeLighting } from "./laparoscopeLighting";
 import { LaparoscopeOptics } from "./laparoscopeOptics";
-import { VIRTAMED_SURFACE_VERSION } from "./virtaMedVasculature";
+import { VIRTAMED_SURFACE_VERSION } from "./virtaMedMaterials";
 import { buildVirtaMedInterfaces, interfaceSnapshot, reconcileInterfaceNormals, type InterfaceGraph } from "./virtaMedInterfaces";
 import { loadVirtaMedAsset } from "./virtaMedAsset";
 import { sampleVirtaMedVariation, warpVirtaMedPositions, type VirtaMedVariation } from "./virtaMedScene";
@@ -548,9 +549,11 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
       triangles: parts.reduce((sum, part) => sum + (part.mesh.geometry.index?.count ?? part.rest.length / 3) / 3, 0),
       bounds: boxData(bounds),
     });
-    const sceneMaterial = (info: WholeSceneOrgan) => isVirtaMed
+    const sceneMaterial = (info: WholeSceneOrgan, geometry?: THREE.BufferGeometry, source?: THREE.Object3D["userData"]) => { const tissue = isVirtaMed
       ? makeVirtaMedMaterial(info.id, latest.current.whiteSurface ?? true, vmTiles, tissueVolume, vmSample, vmInterfaces?.fields.get(info.id), vmOperative, latest.current.operativeResidue ?? .5)
       : makeWholeSceneTissueMaterial(info, latest.current.variation, breath, tissueVolume, { bowelFrontSide, reference: latest.current.referenceColors?.[info.id] });
+      if(isVirtaMed&&geometry)applyVirtaMedVessels(geometry,tissue.material,source?.surfaceVessels,latest.current.whiteSurface??true);
+      return tissue; };
     const applyVariation = () => {
       if (!parts.length) return;
       exitExploration(); navigationGuard.invalidate();
@@ -562,7 +565,7 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
         const attribute = part.mesh.geometry.getAttribute("position") as THREE.BufferAttribute;
         (attribute.array as Float32Array).set(positions); attribute.needsUpdate = true;
         updateTissueNormals(part.mesh.geometry, part.info.id); updateSceneBounds(part.mesh.geometry);
-        const tissue = sceneMaterial(part.info);
+        const tissue = sceneMaterial(part.info,part.mesh.geometry,part.mesh.userData);
         part.mesh.material.dispose(); part.mesh.material = tissue.material; attachPhoto(tissue.material, part.info.id);
         part.geometrySignature = sceneBufferSignature(positions); part.materialSignature = tissue.signature;
       }
@@ -573,7 +576,7 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
     const applyReferenceColors = () => {
       // Material-only mutation: leave deformed buffers, camera and solver history intact.
       for (const part of parts) {
-        const tissue = sceneMaterial(part.info);
+        const tissue = sceneMaterial(part.info,part.mesh.geometry,part.mesh.userData);
         if (part.materialSignature === tissue.signature) { tissue.material.dispose(); continue; }
         part.mesh.material.dispose(); part.mesh.material = tissue.material; attachPhoto(tissue.material, part.info.id); part.materialSignature = tissue.signature;
       }
@@ -886,7 +889,7 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
           const occlusion = sourceOcclusion ?? new THREE.BufferAttribute(new Float32Array(positions.count).fill(1), 1);
           geometry.setAttribute("sceneTissueOcclusion", occlusion);
           geometry.computeBoundingBox(); geometry.computeBoundingSphere();
-          const tissue = sceneMaterial(info);
+          const tissue = sceneMaterial(info,geometry,object.userData);
           const mesh = new THREE.Mesh(geometry, tissue.material); mesh.name = info.id; mesh.userData = {...object.userData,organId:info.id}; attachPhoto(tissue.material, info.id);
           const opaqueTissue = isVirtaMed ? true : info.category !== "skeleton" && info.category !== "connective";
           mesh.castShadow = opaqueTissue; mesh.receiveShadow = opaqueTissue;

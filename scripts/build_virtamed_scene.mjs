@@ -13,6 +13,8 @@ try {
   const {GLTFExporter}=await import('three/examples/jsm/exporters/GLTFExporter.js');
   globalThis.FileReader=class {readAsArrayBuffer(blob){blob.arrayBuffer().then(result=>{this.result=result;this.onloadend?.();});}};
   const {root:scene,manifest}=createVirtaMedScene();
+  await build({entryPoints:[path.join(root,'apps/studio/src/virtaMedVesselNetwork.ts')],outfile:path.join(temp,'vessels.mjs'),bundle:true,format:'esm',platform:'node',packages:'external',logLevel:'silent'});
+  const {generateVirtaMedVessels}=await import(pathToFileURL(path.join(temp,'vessels.mjs')).href);generateVirtaMedVessels(scene);
   const {Scene}=await import('three');const container=new Scene();container.name=scene.name;container.userData=scene.userData;for(const child of scene.children)container.add(child.clone());
   const glb=await new GLTFExporter().parseAsync(container,{binary:true});
   const bytes=Buffer.from(glb),sha256=createHash('sha256').update(bytes).digest('hex');

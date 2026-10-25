@@ -88,7 +88,10 @@ test("white scene, verified learned maps, material-only switch and supported-wal
   await page.getByRole("button",{name:"Apply learned textures",exact:true}).click();await expect.poll(async()=>(await read()).surfaceMode).toBe("learned-tissue");
   const tissue=await read();expect(tissue.organs.map((p:any)=>p.geometrySignature)).toEqual(white.organs.map((p:any)=>p.geometrySignature));
   expect(tissue.organs.filter((p:any)=>p.appearance?.sha256)).toHaveLength(4);expect(tissue.inspection.cameraLight.enabled).toBe(true);
-  expect(tissue.videoReconstruction.interfaces.edges).toHaveLength(4);expect(tissue.videoReconstruction.interfaces.covers.length).toBeGreaterThan(0);
+  const vascular=tissue.organs.filter((p:any)=>p.appearance?.surfaceVessels);
+  expect(vascular).toHaveLength(9);
+  for(const part of vascular){expect(part.appearance.surfaceVessels.source).toBe('shared-organ-surface-network/1');expect(part.appearance.surfaceVessels.branches).toBeGreaterThan(8);}
+  expect(tissue.videoReconstruction.interfaces.edges).toHaveLength(5);expect(tissue.videoReconstruction.interfaces.covers.length).toBeGreaterThan(0);
   const band=tissue.organs.find((p:any)=>p.id==='falciform-ligament').materialSignature;
   await page.getByRole('textbox',{name:'Scene seed',exact:true}).fill('319');await page.getByRole('combobox',{name:'Disease variation',exact:true}).selectOption('liver-cirrhosis');await page.getByRole('button',{name:'Replay seed',exact:true}).click();
   const varied=await read();expect(varied.organs.find((p:any)=>p.id==='falciform-ligament').materialSignature).not.toBe(band);
