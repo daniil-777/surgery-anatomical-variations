@@ -68,15 +68,15 @@
     },
     {
       "id": "abdominal-wall",
-      "label": "Posterior cavity support (inferred)",
+      "label": "Abdominal cavity lining (inferred)",
       "category": "connective",
-      "color": "#663b35"
+      "color": "#b9917d"
     }
   ],
-  "version": "viscera.video-field/2",
+  "version": "viscera.video-field/3",
   "filename": "virtamed-scene.glb",
-  "sha256": "ba6aea527f3af0401444fa9bdfd80cdf089e6fc923786d77a24787bae4401627",
-  "bytes": 4508832,
+  "sha256": "e0778985a61547fff92d0359adeb17e72ae5f87e2d7d51bb870b72e222c74b2a",
+  "bytes": 4553248,
   "source": "Full.mp4, intact hepatocystic field 00:08–00:15; user-provided visual reference",
   "construction": "Independently authored connected surfaces; no source simulator geometry, textures or logos",
   "scale": "Assumed millimetres; monocular video does not determine absolute scale",

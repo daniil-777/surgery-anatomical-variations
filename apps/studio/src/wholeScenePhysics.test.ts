@@ -198,3 +198,91 @@ describe("localized learned-material tool loading", () => {
     expect(stalled.toolSnapshot()!.limitCount).toBeGreaterThan(0);
   });
 });
+
+describe("registered anatomical contact topology", () => {
+  // Coincident, independently labelled sheets deliberately stress the previous
+  // spatial-only field: proximity alone must not turn them into a glued solid.
+  const bodies: ScenePhysicsOrgan[] = ["liver", "membrane", "bowel", "abdominal-wall"].map(id => ({ id, category: "digestive", bounds: { min: [-60, -60, -25], max: [60, 60, 55] } }));
+  const materials: LearnedSceneMaterials = { ...source(), materials: bodies.map(body => ({ ...source().materials[0]!, id: body.id })) };
+  const edges = [{ a: "liver", b: "membrane" }];
+  const anchor = [0, 0, 30];
+  const make = () => new WholeScenePhysics(bodies, materials, {}, edges);
+  function contact(solver: WholeScenePhysics, id = "liver", mode: "push" | "grasp" = "push", depth = 4) {
+    solver.beginToolContact({ mode, organId: id, restPointMm: anchor, normal: [0, 0, 1], targetPointMm: [0, 0, 30 - depth], radiusMm: 6 });
+  }
+  it("does not directly drag unjoined organs at the identical spatial coordinate", () => {
+    const solver = make(); contact(solver); advance(solver, .8);
+    expect(solver.samplePoint(anchor, "liver")[2]).toBeLessThan(29);
+    expect(solver.samplePoint(anchor, "membrane")).toEqual(solver.samplePoint(anchor, "liver"));
+    expect(solver.samplePoint(anchor, "bowel")).toEqual(anchor);
+    expect(solver.samplePoint(anchor, "abdominal-wall")).toEqual(anchor);
+    expect(solver.snapshot().organs.find(o => o.id === "bowel")!.displacement_mm).toEqual([0, 0, 0]);
+    const rest = new Float32Array([...anchor, 3, 0, 30]), liver = new Float32Array(6), membrane = new Float32Array(6), bowel = new Float32Array(6);
+    solver.deform(rest, liver, solver.bind(rest, "liver")); solver.deform(rest, membrane, solver.bind(rest, "membrane")); solver.deform(rest, bowel, solver.bind(rest, "bowel"));
+    expect(liver).toEqual(membrane); expect(bowel).toEqual(rest);
+    expect(solver.snapshot().attachment_components).toEqual([["liver", "membrane"], ["bowel"], ["abdominal-wall"]]);
+  });
+  it("supports contact on every soft structure, including the wall, without hidden nearest-neighbor joins", () => {
+    for (const body of bodies) {
+      const solver = make(); contact(solver, body.id); advance(solver, .5);
+      expect(solver.toolSnapshot()!.organId).toBe(body.id);
+      expect(solver.toolSnapshot()!.normalForceN).toBeGreaterThan(.01);
+      expect(solver.toolSnapshot()!.displacementMm[2]).toBeLessThan(-.5);
+      expect(solver.samplePoint(anchor, body.id)[2]).toBeCloseTo(solver.toolSnapshot()!.actualSurfacePointMm[2]!, 10);
+      expect(solver.snapshot().finite).toBe(true);
+      const independent = body.id === "bowel" ? "abdominal-wall" : "bowel";
+      expect(solver.samplePoint(anchor, independent)).toEqual(anchor);
+    }
+  });
+  it("uses barycentric attachment continuity through a chain but never through mere proximity", () => {
+    const solver = new WholeScenePhysics(bodies, materials, {}, [{ a: "liver", b: "membrane" }, { a: "membrane", b: "bowel" }]);
+    const vertices: [number[], number[], number[]] = [[-8, -8, 30], [8, -8, 30], [0, 8, 30]], barycentric = [.25, .25, .5];
+    solver.beginToolContact({ mode: "grasp", organId: "liver", restPointMm: anchor, normal: [0, 0, 1], targetPointMm: [3, 0, 34], radiusMm: 6, attachment: { verticesMm: vertices, barycentric } });
+    advance(solver, .7);
+    const rest = new Float32Array(vertices.flat()), reference = new Float32Array(9);
+    solver.deform(rest, reference, solver.bind(rest, "liver"));
+    for (const id of ["membrane", "bowel"]) { const displayed = new Float32Array(9); solver.deform(rest, displayed, solver.bind(rest, id)); expect(displayed).toEqual(reference); }
+    const rendered = [0, 1, 2].map(a => barycentric.reduce((sum, weight, i) => sum + weight * reference[i * 3 + a]!, 0));
+    rendered.forEach((coordinate, axis) => expect(coordinate).toBeCloseTo(solver.toolSnapshot()!.actualSurfacePointMm[axis]!, 5));
+    expect(solver.samplePoint(anchor, "abdominal-wall")).toEqual(anchor);
+  });
+  it("keeps release continuous and dissipates modal energy at every temporal substep", () => {
+    for (const mode of ["push", "grasp"] as const) {
+      const solver = make(); contact(solver, "liver", mode); advance(solver, 1.2);
+      const held = solver.samplePoint(anchor, "liver"), heldEnergy = solver.snapshot().stored_energy_j;
+      solver.releaseToolContact();
+      expect(solver.samplePoint(anchor, "liver")).toEqual(held);
+      expect(solver.snapshot().stored_energy_j).toBe(heldEnergy);
+      let energy = heldEnergy, previous = held, largestStepMm = 0;
+      for (let frame = 0; frame < 600; frame++) {
+        solver.step(1 / 120, false);
+        const snapshot = solver.snapshot(), current = solver.samplePoint(anchor, "liver");
+        expect(snapshot.stored_energy_j).toBeLessThanOrEqual(energy + 1e-12);
+        largestStepMm = Math.max(largestStepMm, Math.hypot(...current.map((value, axis) => value - previous[axis]!)));
+        energy = snapshot.stored_energy_j; previous = current;
+        expect(snapshot.displacement_gradient_bound).toBeLessThanOrEqual(.4500001);
+        expect(snapshot.tool!.normalForceN).toBe(0);
+      }
+      expect(largestStepMm).toBeLessThan(.4);
+      expect(energy).toBeLessThan(heldEnergy * 1e-6);
+      expect(Math.hypot(...previous.map((value, axis) => value - anchor[axis]!))).toBeLessThan(.005);
+    }
+  });
+  it("replays anatomy-isolated response across alternating render intervals and release", () => {
+    const fine = make(), batched = make(); contact(fine, "abdominal-wall", "grasp"); contact(batched, "abdominal-wall", "grasp");
+    for (let frame = 0; frame < 100; frame++) {
+      const substeps = [1, 2, 9, 12][frame % 4]!;
+      if (frame === 35) { fine.releaseToolContact(); batched.releaseToolContact(); }
+      batched.step(substeps / 120, false); for (let i = 0; i < substeps; i++) fine.step(1 / 120, false);
+      expect(batched.toolSnapshot()).toEqual(fine.toolSnapshot());
+      expect(batched.snapshot().stored_energy_j).toBe(fine.snapshot().stored_energy_j);
+      for (const organ of bodies) expect(batched.samplePoint(anchor, organ.id)).toEqual(fine.samplePoint(anchor, organ.id));
+    }
+  });
+  it("rejects broken topology and unknown binding ownership", () => {
+    expect(() => new WholeScenePhysics(bodies, materials, {}, [{ a: "liver", b: "unknown" }])).toThrow(/attachment/);
+    expect(() => new WholeScenePhysics(bodies, materials, {}, [{ a: "liver", b: "liver" }])).toThrow(/attachment/);
+    expect(() => make().bind(new Float32Array(3), "unknown")).toThrow(/binding/);
+    expect(() => make().samplePoint(anchor, "unknown")).toThrow(/binding/);
+  });
+});

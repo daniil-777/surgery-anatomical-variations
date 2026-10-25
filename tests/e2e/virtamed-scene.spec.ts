@@ -80,7 +80,7 @@ test("unforced resting physics avoids redundant mesh uploads and wakes on palpat
   await expect.poll(async()=>(await read()).physics.peak_displacement_mm).toBeGreaterThan(.01);
 });
 
-test("white scene, verified learned maps, material-only switch and fixed-wall physics",async({page})=>{
+test("white scene, verified learned maps, material-only switch and supported-wall physics",async({page})=>{
   const errors:string[]=[];page.on("pageerror",e=>errors.push(e.message));
   await page.goto("?mode=scene&scene=virtamed");await expect(page.locator('[data-scene-ready="true"]')).toBeVisible();
   const read=()=>page.locator('[data-scene-snapshot]').getAttribute('data-scene-snapshot').then(s=>JSON.parse(s!));
@@ -94,7 +94,7 @@ test("white scene, verified learned maps, material-only switch and fixed-wall ph
   const varied=await read();expect(varied.organs.find((p:any)=>p.id==='falciform-ligament').materialSignature).not.toBe(band);
   await page.getByRole('button',{name:'Replay seed',exact:true}).click();expect((await read()).organs.map((p:any)=>[p.geometrySignature,p.materialSignature])).toEqual(varied.organs.map((p:any)=>[p.geometrySignature,p.materialSignature]));
   await page.getByRole("button",{name:"Apply learned physics to all organs",exact:true}).click();await expect.poll(async()=>(await read()).physics?.running).toBe(true);
-  const physics=await read();expect(physics.physics.organs).toHaveLength(11);expect(physics.physics.organs.map((p:any)=>p.id)).not.toContain("abdominal-wall");
+  const physics=await read();expect(physics.physics.organs).toHaveLength(12);expect(physics.physics.organs.map((p:any)=>p.id)).toContain("abdominal-wall");
   await page.getByRole("button",{name:"White geometry",exact:true}).click();await expect.poll(async()=>(await read()).surfaceMode).toBe("white");
   expect((await read()).physics.running).toBe(true);expect(errors).toEqual([]);
 });
@@ -115,4 +115,40 @@ test("scene controls fit a narrow screen",async({page})=>{
   await page.setViewportSize({width:390,height:844});await page.goto("?mode=scene&scene=virtamed");await expect(page.locator('[data-scene-ready="true"]')).toBeVisible();
   await page.getByRole("button",{name:"Apply learned textures",exact:true}).click();
   expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBeLessThanOrEqual(392);
+});
+
+test("the enclosed cavity can be inspected and the same camera retained for instruments",async({page})=>{
+  const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error'&&/WebGL|Shader|THREE/.test(m.text()))errors.push(m.text());});
+  await page.goto('?mode=scene&scene=virtamed');await expect(page.locator('[data-scene-ready="true"]')).toBeVisible();
+  const read=()=>page.evaluate(()=> (window as any).__visceraSceneSnapshot());
+  await page.getByRole('button',{name:'Apply learned textures',exact:true}).click();
+  await page.getByRole('button',{name:'Apply learned physics to all organs',exact:true}).click();
+  await page.getByRole('button',{name:'Explore cavity',exact:true}).click();
+  await expect.poll(async()=>(await read()).camera.navigation.mode).toBe('explore');
+  for(let i=0;i<12;i++)await page.getByRole('button',{name:'Look left',exact:true}).click();
+  const interior=await read();expect(interior.rendering.optics.active).toBe(true);
+  await page.getByRole('button',{name:'Use this view for instruments',exact:true}).click();
+  await expect.poll(async()=>(await read()).camera.navigation.mode).toBe('orbit');
+  const retained=await read();for(const field of ["position","target"])expect(Math.hypot(...retained.camera[field].map((v:number,i:number)=>v-interior.camera[field][i]))).toBeLessThan(1e-8);
+  expect(retained.rendering.optics.active).toBe(true);expect(retained.physics.running).toBe(true);
+  expect(retained.physics.organs.find((o:any)=>o.id==='abdominal-wall')).toBeTruthy();
+  await expect(page.getByRole('button',{name:'Push',exact:true})).toBeEnabled();
+  expect(retained.inspection.cameraLight.intensity).toBe(interior.inspection.cameraLight.intensity);
+  expect(retained.inspection.cameraLight.intensity).toBeGreaterThan(0);
+  expect(retained.inspection.cameraLight.intensity).toBeLessThan(155000);
+  // Returning from another inspection must restore the close camera's light,
+  // rather than brightening it to the distant video-view preset.
+  await page.getByRole('button',{name:'Explore cavity',exact:true}).click();
+  await expect.poll(async()=>(await read()).camera.navigation.mode).toBe('explore');
+  await page.getByRole('button',{name:'Look right',exact:true}).click();
+  await expect.poll(async()=>(await read()).camera.navigation.direction).not.toEqual(retained.camera.navigation.direction);
+  await page.getByRole('button',{name:'Return to orbit',exact:true}).click();
+  await expect.poll(async()=>(await read()).camera.navigation.mode).toBe('orbit');
+  await expect.poll(async()=>(await read()).rendering.laparoscope.totalIntensity).toBe(retained.inspection.cameraLight.intensity);
+  const restored=await read();
+  for(const field of ["position","target","up"])expect(Math.hypot(...restored.camera[field].map((v:number,i:number)=>v-retained.camera[field][i]))).toBeLessThan(1e-8);
+  expect(restored.camera.fov).toBe(retained.camera.fov);
+  expect(restored.inspection.cameraLight.intensity).toBe(retained.inspection.cameraLight.intensity);
+  expect(restored.rendering.optics.active).toBe(true);
+  expect(errors).toEqual([]);
 });

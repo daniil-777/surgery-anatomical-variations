@@ -21,6 +21,13 @@ const queryGuard = Reflect.get(WholeSceneTools.prototype, "collision") as (
 ) => GuardWitness;
 
 describe("whole-scene visible instrument guard coverage", () => {
+  it("rejects the recorded camera-inside-handle pose before any tissue query",()=>{
+    const pose=new THREE.Vector3(67.12,-89.7566,57.3324),axis=new THREE.Vector3(-.697254,.287798,.656512).normalize();
+    const harness={c:{options:()=>({mode:"grasp",radius:3}),camera:{position:new THREE.Vector3(-109.3586,-16.811,225.1229)},parts:()=>[]},jawClosure:1,contact:null};
+    const guard=queryGuard.call(harness,pose,pose,new THREE.Vector3(0,0,1),axis,{},true,null);
+    expect(guard.blocked).toBe(true);expect(guard.organId).toBe("camera");expect(guard.kind).toBe("handle");expect(guard.clearanceMm).toBeLessThan(0);
+  });
+
   for (const fixture of [
     { mode: "push" as const, instrument: "probe" as const, meshName: "probe-distal-neck", sheetZ: 20 },
     { mode: "grasp" as const, instrument: "grasper" as const, meshName: "distal-clevis-tube", sheetZ: 24 },
@@ -54,7 +61,7 @@ describe("whole-scene visible instrument guard coverage", () => {
         };
         const surface = new SceneSurfaceContact(obstacle.info.id, positions, indices);
         const harness = {
-          c: { options: () => ({ mode: fixture.mode, radius: 6 }), parts: () => [obstacle] },
+          c: { options: () => ({ mode: fixture.mode, radius: 6 }), parts: () => [obstacle], camera: { position: new THREE.Vector3(1000,1000,1000) } },
           jawClosure: 1, partSurface: () => surface,
           patches: new Map(), currentPatchSize: 0, contact: null,
         };
@@ -101,6 +108,30 @@ describe("instrument input continuity", () => {
     const key = (key: string) => canvas.dispatchEvent(Object.assign(new Event("keydown", { cancelable: true }), { key, shiftKey: false }));
     return { controller, canvas, physics, pointer, key, options, cleanup: () => { controller.dispose(); geometry.dispose(); material.dispose(); vi.unstubAllGlobals(); } };
   }
+  it("rechecks the first actual pose after re-engaging unchanged tissue", () => {
+    const h = harness("push");
+    try {
+      h.controller.tick(0, 1 / 60);
+      const revision = Reflect.get(h.controller, "revision");
+      expect(Reflect.get(h.controller, "guardRevision")).toBe(revision);
+      h.controller.release(); h.physics.releaseToolContact.mockClear();
+      h.controller.engageSelected();
+      expect(h.controller.engaged).toBe(true);
+      expect(Reflect.get(h.controller, "revision")).toBe(revision);
+      // The initial approach passed. A new actual-pose obstruction must still
+      // release the instrument before drawing, without waiting for a mesh update.
+      const actualCheck = vi.spyOn(h.controller as unknown as { collision: (...args: unknown[]) => unknown }, "collision").mockReturnValue({
+        blocked: true, organId: "camera", kind: "handle", clearanceMm: -.2, time: 0, reason: "actual pose obstruction fixture", conservative: true,
+      });
+      h.controller.tick(1000 / 60, 1 / 60);
+      expect(actualCheck).toHaveBeenCalledTimes(1);
+      expect((actualCheck.mock.calls[0]![0] as THREE.Vector3).toArray()).toEqual(h.controller.snapshot().visualTipMm);
+      expect(h.controller.engaged).toBe(false);
+      expect(h.controller.snapshot().instrumentVisible).toBe(false);
+      expect(h.controller.snapshot().guard).toMatchObject({ blocked: true, organId: "camera", kind: "handle" });
+      expect(h.physics.releaseToolContact).toHaveBeenCalledTimes(1);
+    } finally { h.cleanup(); }
+  });
   for (const hz of [20, 60]) it(`advances a stationary held push at the selected speed at ${hz} Hz and stops on release`, () => {
     const h = harness("push", true);
     try {
@@ -168,6 +199,22 @@ describe("instrument input continuity", () => {
       expect(h.physics.moveToolTarget).not.toHaveBeenCalled();
     } finally { h.cleanup(); }
   });
+  for (const mode of ["push", "grasp"] as const) it(`preserves a latched ${mode} target when returning from a sidebar control`, () => {
+    const h = harness(mode);
+    try {
+      h.controller.release(); h.pointer("pointerdown", 100, 100, "mouse"); h.pointer("pointerup", 100, 100, "mouse");
+      expect(h.controller.snapshot().latched).toBe(true);
+      h.pointer("pointerleave", 201, 100, "mouse"); h.controller.adjustDepth(2);
+      const contact = Reflect.get(h.controller, "contact"), target = contact.target.clone();
+      h.physics.moveToolTarget.mockClear(); h.physics.slideToolContact.mockClear();
+      h.pointer("pointermove", 155, 105, "mouse");
+      expect(contact.target.distanceTo(target)).toBeLessThan(1e-8);
+      expect(h.physics.moveToolTarget).not.toHaveBeenCalled(); expect(h.physics.slideToolContact).not.toHaveBeenCalled();
+      contact.lastSlide = -Infinity; h.pointer("pointermove", 160, 105, "mouse");
+      expect(contact.target.distanceTo(target)).toBeGreaterThan(.5);
+      expect(h.controller.engaged).toBe(true);
+    } finally { h.cleanup(); }
+  });
   for (const mode of ["push", "grasp"] as const) it(`transfers a keyboard ${mode} to a pointer without releasing or jumping`, () => {
     const h = harness(mode);
     try {
@@ -220,18 +267,19 @@ describe("instrument input continuity", () => {
       } finally { h.cleanup(); }
     });
   }
-  it("engages along the viewing ray when an oblique shaft is blocked, without bypassing the guard", () => {
+  it("tries a guarded lateral approach when the first shaft direction is blocked", () => {
     const h = harness("grasp");
     try {
       h.controller.release();
       const collision = vi.spyOn(h.controller as unknown as { collision: (...args: unknown[]) => unknown }, "collision").mockImplementation((...args) => {
         const axis = args[3] as THREE.Vector3;
-        return { blocked: Math.abs(axis.x) > .1 || Math.abs(axis.y) > .1, organId: "neighbour", kind: "shaft", clearanceMm: -.2, time: 0, reason: "oblique shaft crosses neighbour", conservative: false };
+        return { blocked: Math.abs(axis.x) > .3 || Math.abs(axis.y) > .1, organId: "neighbour", kind: "shaft", clearanceMm: -.2, time: 0, reason: "oblique shaft crosses neighbour", conservative: false };
       });
       h.controller.engageSelected();
       expect(h.controller.engaged).toBe(true);
       expect(collision).toHaveBeenCalledTimes(2);
-      expect(Reflect.get(h.controller, "contact").axis.toArray()).toEqual([0, 0, 1]);
+      expect(Reflect.get(h.controller, "contact").axis.x).toBeGreaterThan(.1);
+      expect(Reflect.get(h.controller, "contact").axis.x).toBeLessThan(.3);
       h.controller.release();
       collision.mockReturnValue({ blocked: true, organId: "neighbour", kind: "shaft", clearanceMm: -.2, time: 0, reason: "all approaches blocked", conservative: false });
       h.controller.engageSelected();

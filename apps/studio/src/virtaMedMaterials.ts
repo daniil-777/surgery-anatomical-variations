@@ -57,13 +57,15 @@ export function makeVirtaMedMaterial(id:string,white:boolean,tiles:VirtaMedTiles
   const operativeLevel=operativeStrength(operativeAmount);
   const info=VIRTAMED_ORGANS.find(x=>x.id===id)!,tile=tiles?.[bundles[id]!],tissueIndex=(name:string)=>VIRTAMED_ORGANS.findIndex(o=>o.id===name);
   const material=white?whiteVirtaMedMaterial():new THREE.MeshPhysicalMaterial({color:info.color,metalness:0,roughness:.35,ior:1.37,clearcoat:.48,clearcoatRoughness:.19,specularIntensity:.6,envMapIntensity:.25,side:THREE.DoubleSide});
+  // Inward shell is visible from the cavity; its exterior is culled for orbit inspection.
+  if(id==="abdominal-wall"){material.side=THREE.FrontSide;material.shadowSide=THREE.FrontSide;material.envMapIntensity=0;}
   material.userData.selectionUniform={value:0};
   material.userData.appearance={operative: {version:OPERATIVE_APPEARANCE_VERSION,amount:white?0:operativeLevel,model:operative?.model??null,sha256:operative?.sha256??null,optics:OPERATIVE_BLOOD_PROVENANCE,coordinates:"shared undeformed surface",transport:"static attached appearance; no fluid solver"},mode:white?"white geometry":tile?"verified learned RGB; derived normal and assumed roughness":"authored tissue optics",bundle:tile?.bundle??null,sha256:tile?.sha256??null,resolution:tile?512:null,interfaces:fields.map(f=>({id:f.edge.id,...interfaceVariation(f.edge,sample)}))};
   const disease=sample?.variation.baseline?"baseline":sample?.disease??"baseline",severity=sample?.variation.baseline?0:sample?.variation.severity??0;
   const kind=disease==="liver-steatotic-enlargement"?1:disease==="liver-cirrhosis"?2:disease==="liver-metastases"?3:disease==="gallbladder-cholecystitis"?4:disease==="gallbladder-distension"?5:0;
   const palette=VIRTAMED_ORGANS.map(o=>new THREE.Color(o.color)),optics:THREE.Vector4[]=[],patterns:THREE.Vector4[]=[];
-  for(const organ of VIRTAMED_ORGANS){const recipe=tissueRecipe(organ.id,sample),wall=organ.id==="abdominal-wall",rough=wall?.7:organ.id==="liver"?.29:.35;
-    optics.push(new THREE.Vector4(THREE.MathUtils.clamp(.85*rough+.15*(1-recipe.wetness),.26,.7),wall?.04:.65+.28*recipe.wetness,.11+.08*(1-recipe.wetness),THREE.MathUtils.clamp(recipe.pigment_contrast,.6,1.5)));
+  for(const organ of VIRTAMED_ORGANS){const recipe=tissueRecipe(organ.id,sample),wall=organ.id==="abdominal-wall",rough=wall?.48:organ.id==="liver"?.29:.35;
+    optics.push(new THREE.Vector4(THREE.MathUtils.clamp(.85*rough+.15*(1-recipe.wetness),.26,.7),wall?.28:.65+.28*recipe.wetness,.11+.08*(1-recipe.wetness),THREE.MathUtils.clamp(recipe.pigment_contrast,.6,1.5)));
     patterns.push(new THREE.Vector4(recipe.tint,recipe.fine_detail,0,0));
   }
   const edgeRecipes=fields.map(f=>({edge:f.edge.id,a:tissueRecipe(f.edge.a,sample),b:tissueRecipe(f.edge.b,sample),...interfaceVariation(f.edge,sample)}));
@@ -105,6 +107,18 @@ export function makeVirtaMedMaterial(id:string,white:boolean,tiles:VirtaMedTiles
         if(organ==8){rgb*=vec3(1.04,.98,.78)*(.85+.3*cloud.g);rgb=mix(rgb,rgb*vec3(1.05,.91,.82),(1.-smoothstep(.035,.2,cloud.b))*.22);}
         float fibers=texture(uVmVolume,fract(p/vec3(4.,42.,5.))).r;
         if(organ==9||organ==10)rgb*=.94+.12*fibers;
+        // Peritoneum covers irregular subperitoneal fat and pale fascial strands.
+        // Shared 3-D rest coordinates keep these layers attached during deformation.
+        float wallFat=0.;
+        if(organ==11){
+          vec4 broad=texture(uVmVolume,fract(p/vec3(115.,92.,105.)));
+          wallFat=smoothstep(.28,.69,broad.g+.13*(cloud.g-.5));
+          float fascia=smoothstep(.56,.8,broad.r+.16*fibers)*(1.-wallFat*.7);
+          rgb=mix(vec3(.53,.30,.24),vec3(.58,.37,.18),wallFat*.65);
+          rgb=mix(rgb,vec3(.65,.47,.38),fascia*.5);
+          rgb*=.90+.16*cloud.r+.06*fine.r*fade;
+          roughness=mix(.47,.39,wallFat)+.06*(1.-cloud.a);
+        }
         if(organ==1){float mottle=smoothstep(.15,.85,cloud.r+(fine.a-.5)*.2);rgb=mix(vec3(.3712,.3515,.4233),vec3(.5149,.4678,.4072),mottle*.8)*(.93+.14*fine.r);rgb*=.97+.06*fine.a*fade;}
         rgb*=vec3(1.+pattern.x*.08,1.+pattern.x*.025,1.-pattern.x*.035);
         float mask=1.;vec3 diseaseColor=vec3(0.);
@@ -117,15 +131,15 @@ export function makeVirtaMedMaterial(id:string,white:boolean,tiles:VirtaMedTiles
         if(organ==1&&uVmDisease>=4)rgb=mix(rgb,uVmDisease==4?vec3(.4125,.1384,.1170):vec3(.4287,.3916,.2159),uVmSeverity*.65);
         // Vessels sit below the capsule: distinct arterial/venous color and a
         // wider low-contrast halo, applied AFTER organ pigmentation and disease.
-        float vesselStrength=organ==1?.48:organ==8?.55:(organ==9||organ==10)?.58:.78;
-        if(organ!=0&&organ!=11){
+        float vesselStrength=organ==11?.42:organ==1?.48:organ==8?.55:(organ==9||organ==10)?.58:.78;
+        if(organ!=0){
           float congestion=organ==1&&uVmDisease==4?1.+uVmSeverity*.6:1.;
           rgb*=mix(vec3(1.),vec3(1.,.78,.76),vascular.b*.2*congestion);
           rgb=mix(rgb,rgb*vec3(.52,.13,.18),clamp(vascular.r*vesselStrength*congestion,0.,.9));
           rgb=mix(rgb,rgb*vec3(.42,.22,.34),clamp(vascular.g*vesselStrength*.85*congestion,0.,.85));
         }
         float relief=organ==8?.038:organ==1?.009:(organ==9||organ==10)?.012:.016;
-        float height=organ==11?0.:(fine.r*relief+cloud.r*(organ==8?.06:.035)+cloud.a*(organ==0?.025:organ==1?.03:.06))*(.6+.8*pattern.y)*fade+(organ==0?0.:vascular.a*.018);
+        float height=organ==11?(cloud.r*.012+fine.r*.003+cloud.a*.006)*fade:(fine.r*relief+cloud.r*(organ==8?.06:.035)+cloud.a*(organ==0?.025:organ==1?.03:.06))*(.6+.8*pattern.y)*fade+(organ==0?0.:vascular.a*.018);
         if(organ==9||organ==10)height+=fibers*.045*fade;
         // A spatially varying wet film breaks up a uniform plastic highlight.
         float film=clamp(.38+.62*cloud.a+.18*(fine.a-.5)*fade,0.,1.);

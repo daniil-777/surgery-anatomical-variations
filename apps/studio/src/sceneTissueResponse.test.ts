@@ -67,3 +67,23 @@ describe("tissue-specific scene response",()=>{
     expect(()=>new WholeScenePhysics(organs,materials,{unknown:profile.liver})).toThrow();
   });
 });
+
+describe("supported cavity lining", () => {
+  it("keeps the enclosing boundary still under breathing while allowing a recoverable local indentation", () => {
+    const id = "abdominal-wall";
+    const wallOrgans: ScenePhysicsOrgan[] = [{ id, category: "connective", bounds: { min: [-300, -300, -250], max: [300, 300, 250] } }];
+    const wallMaterials: LearnedSceneMaterials = { ...materials, materials: [{ ...materials.materials[0]!, id, young_pa: 17500 }] };
+    const solver = new WholeScenePhysics(wallOrgans, wallMaterials, { [id]: { strainStiffening: 36, localDampingRatio: 1.05, supportRadiusRatio: .3, fixedGlobalSupport: true } }, []);
+    for (let i = 0; i < 240; i++) solver.step(1 / 60, true);
+    expect(solver.snapshot().displacement_mm).toBe(0);
+    const anchor = [0, 0, 200];
+    solver.beginToolContact({ mode: "push", organId: id, restPointMm: anchor, normal: [0, 0, -1], targetPointMm: [0, 0, 204], radiusMm: 6 });
+    advance(solver, .8);
+    expect(solver.toolSnapshot()!.normalForceN).toBeGreaterThan(.1);
+    expect(solver.toolSnapshot()!.displacementMm[2]).toBeGreaterThan(.5);
+    expect(solver.snapshot().organs[0]!.displacement_mm).toEqual([0, 0, 0]);
+    expect(solver.samplePoint([100, 0, 200], id)).toEqual([100, 0, 200]);
+    solver.releaseToolContact(); advance(solver, 8);
+    expect(solver.snapshot().displacement_mm).toBeLessThan(.003);
+  });
+});

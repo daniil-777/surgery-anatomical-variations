@@ -35,24 +35,51 @@ export function detailCapsule(geometry:THREE.BufferGeometry,kind:"liver"|"bowel"
 export function surfaceFor(id:string,geometry:THREE.BufferGeometry) {
   return new SceneSurfaceContact(id,geometry.getAttribute("position").array as Float32Array,geometry.index!.array as Uint16Array|Uint32Array);
 }
-/** Insert an attachment into its actual host triangle, splitting the triangle
- * (and both incident faces for an edge hit). This avoids a jagged nearest-vertex
- * boundary and gives both tissues exactly the same stored rest coordinate. */
-function registerSurfacePoint(geometry:THREE.BufferGeometry,point:number[]):V3 {
+/** Insert an attachment into its host surface. Feature classification uses a
+ * physical distance tolerance bounded by Float32 storage precision, not a fixed
+ * barycentric threshold: a narrow host triangle can otherwise produce a child
+ * whose altitude is smaller than one coordinate ULP. Such a sliver can reverse
+ * its discrete normal under harmless smooth deformation after quantization.
+ * Edge snaps split every incident face, including duplicated UV-seam edges. */
+export function registerSurfacePoint(geometry:THREE.BufferGeometry,point:number[]):V3 {
   const hit=surfaceFor("host",geometry).closestPoint(point);if(!hit)throw new Error("Attachment has no host surface.");
   const p=geometry.getAttribute("position"),uv=geometry.getAttribute("uv"),ids=hit.vertexIndices;
-  for(let i=0;i<3;i++)if(hit.barycentric[i]!>1-1e-6){const v=ids[i]!;return [p.getX(v),p.getY(v),p.getZ(v)];}
-  const added=p.count,positions=new Float32Array(p.array.length+3);positions.set(p.array);positions.set(hit.pointMm,p.array.length);
-  const result:V3=[positions[added*3]!,positions[added*3+1]!,positions[added*3+2]!];
-  geometry.setAttribute("position",new THREE.BufferAttribute(positions,3));
-  const tex=new Float32Array(uv.array.length+2);tex.set(uv.array);for(let i=0;i<3;i++){tex[added*2]!+=uv.getX(ids[i]!)*hit.barycentric[i]!;tex[added*2+1]!+=uv.getY(ids[i]!)*hit.barycentric[i]!;}geometry.setAttribute("uv",new THREE.BufferAttribute(tex,2));
-  const edge=hit.barycentric.findIndex(v=>v<1e-6),index=geometry.index!,out:number[]=[];
+  const vertices=ids.map(id=>new THREE.Vector3().fromBufferAttribute(p,id)),location=new THREE.Vector3(...hit.pointMm);
+  const maximumEdge=Math.max(...vertices.map((v,i)=>v.distanceTo(vertices[(i+1)%3]!)));
+  const ulp=(value:number)=>Math.max(2**-149,2**(Math.floor(Math.log2(Math.abs(value)||Number.MIN_VALUE))-23));
+  const storageUlp=Math.max(...vertices.flatMap(v=>v.toArray()).map(ulp));
+  const tolerance=Math.max(16*storageUlp,maximumEdge*1e-6);
+  const record=(result:V3,feature:"vertex"|"edge"|"interior")=>{
+    const stats=geometry.userData.attachmentRegistration??{method:"Float32-aware geometric feature snapping",vertexSnaps:0,edgeSnaps:0,interiorInsertions:0,maxDisplacementMm:0,maxToleranceMm:0};
+    stats[feature==="vertex"?"vertexSnaps":feature==="edge"?"edgeSnaps":"interiorInsertions"]++;
+    stats.maxDisplacementMm=Math.max(stats.maxDisplacementMm,Math.hypot(...result.map((v,i)=>v-hit.pointMm[i]!)));
+    stats.maxToleranceMm=Math.max(stats.maxToleranceMm,tolerance);geometry.userData.attachmentRegistration=stats;return result;
+  };
+  for(let i=0;i<3;i++)if(location.distanceTo(vertices[i]!)<=tolerance)return record(vertices[i]!.toArray() as V3,"vertex");
+  let edge=-1,nearest=Infinity,edgeT=0;
+  for(let i=0;i<3;i++){
+    const a=vertices[i]!,b=vertices[(i+1)%3]!,direction=b.clone().sub(a),lengthSq=direction.lengthSq();
+    if(!lengthSq)continue;
+    const t=THREE.MathUtils.clamp(location.clone().sub(a).dot(direction)/lengthSq,0,1),projected=a.clone().addScaledVector(direction,t),distance=location.distanceTo(projected);
+    if(distance<=tolerance&&distance<nearest){edge=i;nearest=distance;edgeT=t;}
+  }
+  if(edge>=0){location.copy(vertices[edge]!).lerp(vertices[(edge+1)%3]!,edgeT);
+    for(let i=0;i<3;i++)if(location.distanceTo(vertices[i]!)<=tolerance)return record(vertices[i]!.toArray() as V3,"vertex");
+  }
+  const result:V3=location.toArray().map(Math.fround) as V3,positions=Array.from(p.array),tex=Array.from(uv.array),out:number[]=[],index=geometry.index!;
+  const addedByUv=new Map<string,number>();
+  const insert=(u:number,v:number)=>{const key=[Math.fround(u),Math.fround(v)].join(",");let added=addedByUv.get(key);if(added===undefined){added=positions.length/3;positions.push(...result);tex.push(u,v);addedByUv.set(key,added);}return added;};
+  const samePosition=(a:number,b:number)=>p.getX(a)===p.getX(b)&&p.getY(a)===p.getY(b)&&p.getZ(a)===p.getZ(b);
+  const added=edge<0?insert(ids.reduce((sum,id,i)=>sum+uv.getX(id)*hit.barycentric[i]!,0),ids.reduce((sum,id,i)=>sum+uv.getY(id)*hit.barycentric[i]!,0)):-1;
   for(let f=0;f<index.count;f+=3){const triangle=[index.getX(f),index.getX(f+1),index.getX(f+2)];
-    if(edge>=0){const e0=ids[(edge+1)%3]!,e1=ids[(edge+2)%3]!;let split=false;
-      for(let k=0;k<3;k++){const a=triangle[k]!,b=triangle[(k+1)%3]!,c=triangle[(k+2)%3]!;if((a===e0&&b===e1)||(a===e1&&b===e0)){out.push(a,added,c,added,b,c);split=true;break;}}if(!split)out.push(...triangle);
+    if(edge>=0){const e0=ids[edge]!,e1=ids[(edge+1)%3]!;let split=false;
+      for(let k=0;k<3;k++){const a=triangle[k]!,b=triangle[(k+1)%3]!,c=triangle[(k+2)%3]!,forward=samePosition(a,e0)&&samePosition(b,e1),reverse=samePosition(a,e1)&&samePosition(b,e0);
+        if(forward||reverse){const t=forward?edgeT:1-edgeT,added=insert(THREE.MathUtils.lerp(uv.getX(a),uv.getX(b),t),THREE.MathUtils.lerp(uv.getY(a),uv.getY(b),t));out.push(a,added,c,added,b,c);split=true;break;}
+      }if(!split)out.push(...triangle);
     }else if(f/3===hit.triangleIndex){const [a,b,c]=triangle as V3;out.push(a,b,added,b,c,added,c,a,added);}else out.push(...triangle);
   }
-  geometry.setIndex(out);return result;
+  geometry.setAttribute("position",new THREE.Float32BufferAttribute(positions,3));geometry.setAttribute("uv",new THREE.Float32BufferAttribute(tex,2));
+  geometry.setIndex(out);return record(result,edge>=0?"edge":"interior");
 }
 
 /** A sheet with a varying thickness and a closed edge; no inflated tube caps. */

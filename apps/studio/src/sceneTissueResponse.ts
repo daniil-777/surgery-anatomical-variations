@@ -7,9 +7,12 @@ export interface SceneTissueResponse {
   strainStiffening: number;
   localDampingRatio: number;
   supportRadiusRatio: number;
+  /** Fixed coarse boundary; local contact can still indent the supported tissue. */
+  fixedGlobalSupport?: boolean;
 }
 const response = (strainStiffening: number, localDampingRatio: number, supportRadiusRatio: number): SceneTissueResponse => ({ strainStiffening, localDampingRatio, supportRadiusRatio });
 export const VIRTAMED_TISSUE_RESPONSE: Record<string, SceneTissueResponse> = {
+  "abdominal-wall": { ...response(36, 1.05, .3), fixedGlobalSupport: true },
   liver: response(14, .9, .9), gallbladder: response(24, .95, .75),
   "cystic-duct": response(32, .9, .65), "hepatic-duct": response(32, .9, .65), "cystic-artery": response(40, .9, .6),
   colon: response(18, .95, .9), "small-intestine": response(18, .95, .9), duodenum: response(18, .95, .9),

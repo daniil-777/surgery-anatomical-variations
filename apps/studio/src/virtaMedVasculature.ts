@@ -1,6 +1,6 @@
 import * as THREE from "three";
 
-export const VIRTAMED_SURFACE_VERSION = "serosal-microstructure/2";
+export const VIRTAMED_SURFACE_VERSION = "serosal-microstructure/3";
 type Point = [number, number];
 export interface VascularBranch {
   parent: number | null;

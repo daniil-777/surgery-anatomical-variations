@@ -158,8 +158,8 @@ await check('virtamed', '?mode=scene&scene=virtamed', 'scene', async (page) => {
   await button(page,'Apply learned physics to all organs');
   await flag(page, `JSON.parse(document.querySelector('[data-scene-snapshot]').dataset.sceneSnapshot).physics?.running===true`);
   const physical=await read();
-  if(!physical.physics.finite||physical.physics.organs.length!==11||physical.physics.organs.some(o=>o.id==='abdominal-wall'))throw new Error('Video-field mechanics failed');
-  return '12-part white GLB, verified learned textures, 11 dynamic tissues and fixed cavity support';
+  if(!physical.physics.finite||physical.physics.organs.length!==12||!physical.physics.organs.some(o=>o.id==='abdominal-wall'))throw new Error('Video-field mechanics failed');
+  return '12-part white GLB, verified learned textures, 12 dynamic tissues and supported cavity lining';
 });
 await check('legacy', '?mode=legacy', 'legacy', async () => 'procedural studio ready');
 await check('textures', 'textures.html', 'textures', async () => { await new Promise((r) => setTimeout(r, 2500)); return 'texture lab ready with its tiles'; });

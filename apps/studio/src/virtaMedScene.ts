@@ -5,8 +5,9 @@ import type { WholeSceneCategory, WholeSceneVariation } from "./wholeSceneModel"
 import { warpScenePositions } from "./wholeSceneModel";
 import { sampleNeuralVariation, type ImportedVariationSystem, type ImportedVariationRecipe } from "./imports/variations";
 import { anatomicalNoise, attachDuct, cranialAttachment, detailCapsule, drapedFat, hepaticAttachment, joinedFat } from "./virtaMedSurfaceDetail";
+import { createAbdominalCavityGeometry } from "./abdominalCavity";
 
-export const VIRTAMED_VERSION = "viscera.video-field/2";
+export const VIRTAMED_VERSION = "viscera.video-field/3";
 /** Authored reconstruction of the visible 00:08–00:15 field, not source simulator assets.
  * Hidden surfaces and millimetre scale are estimates. No logo/video pixels are bundled. */
 export const VIRTAMED_ORGANS: { id: string; label: string; category: WholeSceneCategory; color: string }[] = [
@@ -21,7 +22,7 @@ export const VIRTAMED_ORGANS: { id: string; label: string; category: WholeSceneC
   { id: "hepatocystic-fat", label: "Connected fatty apron", category: "connective", color: "#ce9871" },
   { id: "hepatoduodenal-ligament", label: "Hepatocystic membrane", category: "connective", color: "#c9ad99" },
   { id: "falciform-ligament", label: "Cranial ligament sheet", category: "connective", color: "#dbc2a3" },
-  { id: "abdominal-wall", label: "Posterior cavity support (inferred)", category: "connective", color: "#663b35" },
+  { id: "abdominal-wall", label: "Abdominal cavity lining (inferred)", category: "connective", color: "#b9917d" },
 ];
 type V3 = [number, number, number];
 const vec = (p: V3) => new THREE.Vector3(...p);
@@ -116,11 +117,8 @@ export function createVirtaMedScene() {
   geometries["hepatoduodenal-ligament"]=hepaticAttachment(geometries.liver,geometries.gallbladder);
   geometries["falciform-ligament"]=cranialAttachment(geometries.liver);
   geometries.liver.computeVertexNormals();
-  const wall=new THREE.SphereGeometry(1,112,64,0,Math.PI*2,0,Math.PI/2);
-  // Inward-facing bowl with an open anterior rim, beyond the operative frame.
-  const wp=wall.getAttribute("position");for(let i=0;i<wp.count;i++){const x=wp.getX(i),y=wp.getZ(i),depth=wp.getY(i);wp.setXYZ(i,x*260,y*235,-125+170*(1-depth)+2*Math.sin(x*17)*Math.sin(y*19));}
-  wall.computeVertexNormals();geometries["abdominal-wall"]=wall;
-  for(const info of VIRTAMED_ORGANS){const geometry=geometries[info.id]!;geometry.computeBoundingBox();geometry.computeBoundingSphere();const mesh=new THREE.Mesh(geometry,whiteVirtaMedMaterial());mesh.name=info.id;mesh.userData={id:info.id,organId:info.id,scenePreset:"virtamed",label:info.label,...geometry.userData};root.add(mesh);}
+  geometries["abdominal-wall"]=createAbdominalCavityGeometry();
+  for(const info of VIRTAMED_ORGANS){const geometry=geometries[info.id]!;geometry.computeBoundingBox();geometry.computeBoundingSphere();const material=whiteVirtaMedMaterial();if(info.id==="abdominal-wall")material.side=THREE.FrontSide;const mesh=new THREE.Mesh(geometry,material);mesh.name=info.id;mesh.userData={id:info.id,organId:info.id,scenePreset:"virtamed",label:info.label,...geometry.userData};root.add(mesh);}
   return {root,manifest:{organs:VIRTAMED_ORGANS,version:VIRTAMED_VERSION}};
 }
 export function whiteVirtaMedMaterial() {return new THREE.MeshPhysicalMaterial({color:0xeeeae3,roughness:.68,metalness:0,clearcoat:.08,side:THREE.DoubleSide});}
