@@ -295,7 +295,7 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
     let physics: WholeScenePhysics | null = null, physicsSteps = 0, physicsFailed = false;
     let geometryUploads = 0, surfaceCpuMs = 0, solverCpuMs = 0;
     let wasPhysicsMoving = false;
-    const fatLayers = new FatSceneLayerView(assembly, () => parts.map(part => ({ id: part.info.id, mesh: part.mesh, rest: part.rest })), latest.current.variation, () => { invalidate(true); snapshotAfterDraw = true; latest.current.onFatStatus?.(fatLayers.snapshot().status); }, message => latest.current.onError(message));
+    const fatLayers = new FatSceneLayerView(assembly, () => parts.map(part => ({ id: part.info.id, mesh: part.mesh, rest: part.rest })), latest.current.variation, () => { cameraPlanner?.invalidate("Generated surrounding tissue changed. Capture a fresh camera map."); navigationGuard?.invalidate(); invalidate(true); snapshotAfterDraw = true; latest.current.onFatStatus?.(fatLayers.snapshot().status); }, message => latest.current.onError(message));
     const applyFat = () => {
       cameraPlanner?.invalidate("Surrounding tissue changed. Capture a fresh camera map."); updateFatLighting(); if (parts.length) fatLayers.configure(latest.current.fatOptions ?? { enabled: false, seed: 42, thicknessMm: 5, omentum: true, perirenal: true }); };
     let manifest: Manifest | null = null, fitRadius = 400;

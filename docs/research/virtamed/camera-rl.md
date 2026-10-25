@@ -57,11 +57,17 @@ Every sampled view must identify its pose, camera intrinsics, near/far planes, i
 
 The compact policy inputs are the graph node and task progress. Images supply measurements used to evaluate each view and reward transitions. Inference consults the captured graph and learned Q values; it does not run a trained segmentation or depth-estimation network.
 
+The depth/semantic pass must include **all rendered opaque, depth-bearing scene meshes**, including meshes outside the named anatomy list. Known target meshes receive one-based landmark IDs; an unknown mesh receives ID 0 and still writes depth, so unlabelled fat can hide a labelled organ. A parts-only depth pass would incorrectly credit anatomy visible through an unregistered occluder.
+
+The implemented proxy includes a mesh when a visible material has both `depthTest` and `depthWrite` enabled; fully transparent zero-opacity material does not contribute. It excludes non-depth-bearing overlays. At sampling time it respects ancestor visibility, current world matrices and object/camera layers, matching which supported opaque surfaces can be rendered into RGB. The retained depth-bearing geometry is treated as opaque: general alpha-tested/transmissive materials, mixed material groups, custom vertex deformation, skinning and instancing are not established by this proxy contract.
+
+Asynchronously generated surrounding fat must also invalidate the captured map and navigation cache when generation completes, not only when its controls are changed. Otherwise a map sampled before completion could later be replayed against different occlusion or geometry. The default VirtaMed baseline already contains its authored hepatocystic fat as a named scene part; the additional `FatSceneLayerView` feature is disabled there. The original baseline measurements below therefore remain applicable, while the expanded occlusion contract fixes the general extra-mesh case.
+
 | Data | Origin | Use and limitation |
 | --- | --- | --- |
 | RGB pixels | Offscreen rendering of current scene materials and lighting | Brightness, dark/saturated fractions, contrast and texture evidence. Record whether capture includes the final optics/postprocessing stage. |
-| Linear depth | Renderer depth pass or a documented geometric depth sensor | Working distance, invalid pixels and near-surface occupancy. Simulator ground truth is not clinical depth estimation. |
-| Anatomical identity or target mask | Known scene mesh IDs or a simulator ID pass | Visible target coverage, framing and anatomical survey progress. This is privileged map information, not image recognition. |
+| Linear depth | Depth proxy containing all supported rendered depth-bearing meshes | Working distance, invalid pixels and near-surface occupancy. Unknown anatomy still occludes. Simulator ground truth is not clinical depth estimation. |
+| Anatomical identity or target mask | Known scene mesh IDs in the same occluded depth pass; unknown meshes have ID 0 | Visible target coverage, framing and anatomical survey progress. This is privileged map information, not image recognition. |
 | Camera pose and virtual port | Simulator state | Node transitions and scope constraint. Real equipment would need calibrated tracking/kinematics. |
 | Guarded transitions | Current visible geometry | Restricts local motion according to the implemented lens guard. Does not represent complete physical safety. |
 | Inspection mask | Episode memory | Records which defined anatomical targets or sectors have met the inspection criterion. |
@@ -198,6 +204,19 @@ Five reserved starting nodes were `[3, 9, 12, 14, 19]`, with 22 other episode st
 The selected replay from node 0 followed `[0, 13]`, one 25 mm insertion-axis move, and ended with both reachable landmarks credited. Playback completed with zero blocked moves. Capture preserved the live camera and camera-light snapshot; organ geometry/material signatures remained unchanged after capture and after replay. The recorded browser/shader error list was empty. Exported sampled-node surface distances ranged from 37.53 to 92.47 mm. Those endpoint measurements are distinct from the planner state's configured 2 mm guard and do not measure the minimum over every point on a continuous route.
 
 This is one small local task and one seed. It shows functioning RGB-D capture, genuine value updates, baseline comparison, export and bounded playback. It does not establish consistent superiority over baselines, obstacle-avoidance performance in a difficult workspace, reliability across repeated runs, disease variants, user-defined viewpoints or surgeon-rated camera quality. In particular, this fixture rejected no graph edges and replayed a short axial movement; dedicated obstructed-edge, stale-map, cancellation and alternative-view tests remain separate evidence.
+
+## Additional mesh-occlusion regression
+
+The separate real-GPU receipt `/tmp/viscera-camera-rl/gpu-occlusion.json` tests a labelled red target at 60 mm and an unlabelled green occluder at 30 mm. The 64 × 48 render has 3,072 pixels. Its recorded center depth, center RGB, target-pixel count and inspection mask are:
+
+| Configuration | Linear depth | RGB | Labelled target pixels | Inspection mask |
+| --- | ---: | --- | ---: | ---: |
+| Unknown occluder visible | 30.002 mm | Green `[0,255,0]` | 0 | 0 |
+| Occluder hidden / target exposed | 60.003 mm | Red `[255,0,0]` | 3,072 | 1 |
+| Occluder on a camera-disabled layer | 60.003 mm | Red `[255,0,0]` | 3,072 | 1 |
+| Occluder layer enabled again | 30.002 mm | Green `[0,255,0]` | 0 | 0 |
+
+The receipt's error list is empty. This verifies that a supported unknown mesh blocks both the RGB target and its privileged semantic credit, and that visibility/layer changes agree between the passes. Two additional unit regressions cover unknown depth-bearing occluders and exclusion of non-depth-bearing overlays. This is a focused opaque-mesh sensor regression; it does not validate arbitrary translucent assets or replace route-planning and surgical-view evaluation.
 
 ## Use in surgical education and research
 

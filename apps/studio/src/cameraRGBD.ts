@@ -69,6 +69,11 @@ function hierarchyVisible(object: THREE.Object3D) {
   return true;
 }
 
+function depthBearing(mesh: THREE.Mesh) {
+  const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+  return materials.some(material => material.visible && material.depthTest && material.depthWrite && (!material.transparent || material.opacity > 0));
+}
+
 /** Captures actual shaded scene RGB plus a separate depth/map-ID proxy pass.
  * Proxy meshes share current geometry but never modify source materials. The
  * parent supplies camera-mounted illumination and restores it after sampling.
@@ -86,8 +91,14 @@ export class CameraRGBDSampler {
     if (targets.length > 6 || new Set(targets.map(target => target.id)).size !== targets.length) throw new Error("Camera observations support up to six distinct landmarks.");
     this.rgbTarget.texture.colorSpace = THREE.SRGBColorSpace;
     this.depthTarget.texture.colorSpace = THREE.NoColorSpace;
-    for (const surface of surfaces) {
-      const id = targets.findIndex(target => target.id === surface.id) + 1;
+    // Semantic labels belong only to known anatomy. Unlabelled depth-bearing
+    // scene meshes (including generated fat) still occlude that anatomy.
+    const known = new Map(surfaces.map(surface => [surface.mesh, surface.id]));
+    const sources = new Set(surfaces.map(surface => surface.mesh));
+    scene.traverse(object => { if (object instanceof THREE.Mesh) sources.add(object); });
+    for (const source of sources) {
+      if (!depthBearing(source)) continue;
+      const surface = { mesh: source }, id = targets.findIndex(target => target.id === known.get(source)) + 1;
       const material = new THREE.ShaderMaterial({
         side: Array.isArray(surface.mesh.material) ? surface.mesh.material[0]?.side ?? THREE.DoubleSide : surface.mesh.material.side,
         depthTest: true, depthWrite: true, blending: THREE.NoBlending, toneMapped: false,
@@ -113,7 +124,7 @@ export class CameraRGBDSampler {
       capture.aspect = width / height; capture.updateProjectionMatrix(); capture.updateMatrixWorld(true);
       this.scene.updateMatrixWorld(true);
       for (const { source, mesh } of this.proxyMeshes) {
-        mesh.geometry = source.geometry; mesh.visible = hierarchyVisible(source); mesh.matrix.copy(source.matrixWorld);
+        mesh.geometry = source.geometry; mesh.visible = hierarchyVisible(source) && depthBearing(source); mesh.matrix.copy(source.matrixWorld); mesh.layers.mask = source.layers.mask;
         mesh.material.uniforms.cameraNear!.value = capture.near; mesh.material.uniforms.cameraFar!.value = capture.far;
       }
       const r = this.renderer;
