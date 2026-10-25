@@ -3,6 +3,9 @@ import { BrainCircuit, Download, Play, Pause, Route, ScanEye, Square, Upload, X 
 import type { WholeSceneViewportHandle } from "./WholeSceneViewport";
 import type { CameraTrainingScene, CameraPlannerState } from "./cameraPlannerScene";
 import { rolloutCameraPolicy, validateCameraPolicy, CAMERA_REWARD_WEIGHTS, type CameraPolicy, type CameraPolicyMode, type CameraRollout, type CameraTrainingProgress } from "./cameraRL";
+import { bindDefaultCameraPolicy, readDefaultCameraPolicy, DEFAULT_CAMERA_POLICY_URL, type DefaultCameraPolicy } from "./cameraDefaultPolicy";
+import { publicUrl } from "./api";
+import { conditionCameraGoal, assessCameraGoal } from "./cameraGoalPolicy";
 import "./cameraPlanningLab.css";
 
 const tasks = [
@@ -37,19 +40,31 @@ function Curve({ policy }: { policy: CameraPolicy }) {
   return <svg className="camera-learning-curve" viewBox="0 0 280 65" role="img" aria-label="Training episode return curve"><line x1="0" x2="280" y1="60" y2="60" stroke="#48635f" /><polyline fill="none" stroke="#a7e8cc" strokeWidth="2" points={values.map((v, i) => `${i / Math.max(1, values.length - 1) * 280},${59 - (v - min) / (max - min) * 54}`).join(" ")} /></svg>;
 }
 
-export function CameraPlanningLab({ viewport, ready, disabled, planner, onPrepare, onFreeze }: {
+export function CameraPlanningLab({ viewport, ready, disabled, planner, onPrepare, onFreeze, onPrepareGoal }: {
   viewport: RefObject<WholeSceneViewportHandle | null>; ready: boolean; disabled: boolean; planner: CameraPlannerState | null;
-  onPrepare: () => void; onFreeze: () => void;
+  onPrepare: () => void; onFreeze: () => void; onPrepareGoal: () => void;
 }) {
   const [open, setOpen] = useState(false), [task, setTask] = useState("hepatobiliary"), [seed, setSeed] = useState("42"), [episodes, setEpisodes] = useState(3000);
   const [priority, setPriority] = useState<"coverage" | "steady">("coverage"), [phase, setPhase] = useState("idle"), [message, setMessage] = useState("");
   const [scene, setScene] = useState<CameraTrainingScene | null>(null), [policy, setPolicy] = useState<CameraPolicy | null>(null);
   const [progress, setProgress] = useState<CameraTrainingProgress | null>(null), [node, setNode] = useState(0), [mode, setMode] = useState<CameraPolicyMode>("learned");
   const [rollout, setRollout] = useState<CameraRollout | null>(null), [trainingMs, setTrainingMs] = useState(0), [inferenceMs, setInferenceMs] = useState(0);
+  const [defaultPolicy, setDefaultPolicy] = useState<DefaultCameraPolicy | null>(null), [defaultError, setDefaultError] = useState(""), [reloadDefault, setReloadDefault] = useState(0);
+  const [continuous, setContinuous] = useState(true), [origin, setOrigin] = useState<"trained" | "pretrained" | "imported" | "goal">("trained"), [replayStart, setReplayStart] = useState(0);
+  const [goalAudit, setGoalAudit] = useState<ReturnType<typeof assessCameraGoal> | null>(null), [jobEpisodes, setJobEpisodes] = useState(3000);
   const activeWorker = useRef<Worker | null>(null), captureAbort = useRef<AbortController | null>(null), generation = useRef(0), input = useRef<HTMLInputElement>(null);
   const pendingRevision = useRef<number | null>(null), latestScene = useRef(scene); latestScene.current = scene;
   const busy = phase === "capturing" || phase === "training", stale = Boolean(scene && planner && scene.revision !== planner.revision);
   const playing = planner?.phase === "playing" || planner?.phase === "paused";
+  useEffect(() => {
+    const controller = new AbortController(); setDefaultError("");
+    void fetch(publicUrl(DEFAULT_CAMERA_POLICY_URL), { signal: controller.signal }).then(async response => {
+      if (!response.ok) throw new Error("The pretrained camera weights could not be loaded.");
+      const value = readDefaultCameraPolicy(await response.json());
+      if (!controller.signal.aborted) setDefaultPolicy(value);
+    }).catch(error => { if (!controller.signal.aborted) setDefaultError(error instanceof Error ? error.message : "Pretrained policy unavailable."); });
+    return () => controller.abort();
+  }, [reloadDefault]);
   const cancel = () => {
     ++generation.current; pendingRevision.current = null; captureAbort.current?.abort(); captureAbort.current = null; activeWorker.current?.terminate(); activeWorker.current = null;
     viewport.current?.stopCameraPath(); setPhase("idle"); setProgress(null); setMessage("Operation cancelled. A completed prior policy remains available if its scene still matches.");
@@ -59,26 +74,52 @@ export function CameraPlanningLab({ viewport, ready, disabled, planner, onPrepar
   useEffect(() => { const escape = (event: KeyboardEvent) => { if (event.code === "Escape" && busy) { event.preventDefault(); cancel(); } }; window.addEventListener("keydown", escape); return () => window.removeEventListener("keydown", escape); });
   useEffect(() => {
     const diagnostics = window as unknown as { __visceraCameraLabSnapshot?: () => unknown };
-    const getter = () => ({ open, phase, message, stale, trainingMs, inferenceMs, planner, progress,
+    const getter = () => ({ open, phase, message, stale, trainingMs, inferenceMs, planner, progress, origin, replayStart, continuous, goalAudit, goal: scene?.goal,
+      defaultPolicy: defaultPolicy ? { ready: true, episodes: defaultPolicy.policy.config.episodes, updates: defaultPolicy.policy.training.updates, weightsSha256: defaultPolicy.provenance.weightsSha256 } : { ready: false, error: defaultError },
       map: scene ? { fingerprint: scene.graph.fingerprint, revision: scene.revision, nodes: scene.graph.nodes.length, edges: scene.graph.edges.reduce((n, edges) => n + edges.length, 0), captureMs: scene.captureMs, graphMs: scene.graphMs, captureTimesMs: scene.captureTimesMs, blockedEdges: scene.blockedEdges, targets: scene.graph.targets, attainableMask: scene.graph.nodes.reduce((m, n) => m | n.visibleMask, 0), observation: scene.graph.observation } : null,
       policy: policy ? { version: policy.version, config: policy.config, training: policy.training, evaluation: policy.evaluation } : null, rollout });
     diagnostics.__visceraCameraLabSnapshot = getter;
     return () => { if (diagnostics.__visceraCameraLabSnapshot === getter) delete diagnostics.__visceraCameraLabSnapshot; };
-  }, [open, phase, message, stale, trainingMs, inferenceMs, planner, progress, scene, policy, rollout]);
+  }, [open, phase, message, stale, trainingMs, inferenceMs, planner, progress, scene, policy, rollout, defaultPolicy, defaultError, origin, replayStart, continuous, goalAudit]);
 
-  async function train() {
+  async function demonstrate() {
+    if (!defaultPolicy || !ready || disabled || busy || playing) return;
+    const id = ++generation.current, controller = new AbortController(); captureAbort.current = controller; pendingRevision.current = null;
+    setOpen(true); setPhase("capturing"); setMessage(""); setProgress(null); onPrepare();
+    try {
+      await new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
+      if (id !== generation.current) return;
+      pendingRevision.current = (viewport.current!.captureMetadata().cameraPlanner as CameraPlannerState).revision;
+      const nextScene = await viewport.current!.captureCameraMap(defaultPolicy.graph.targets.map(t => t.id), controller.signal);
+      if (id !== generation.current) return;
+      const began = performance.now(), nextPolicy = bindDefaultCameraPolicy(defaultPolicy, nextScene);
+      const nextRollout = rolloutCameraPolicy(nextScene.graph, nextPolicy, defaultPolicy.demonstrationStart);
+      setInferenceMs(performance.now() - began); setTrainingMs(0); setScene(nextScene); setPolicy(nextPolicy); setRollout(nextRollout);
+      setReplayStart(defaultPolicy.demonstrationStart); setOrigin("pretrained"); setGoalAudit(null); setNode(defaultPolicy.demonstrationStart); setMode("learned"); setTask("hepatobiliary"); setPhase("ready");
+      viewport.current!.playCameraPath(nextScene, nextRollout.route, { loop: continuous });
+      setMessage("Pretrained weights loaded. Fresh RGBD and collision checks passed; no new training was needed.");
+      // On narrow screens the controls are below the scene: bring the moving
+      // first-person view (with its own stop controls) back into view.
+      if (window.matchMedia("(max-width: 760px)").matches) document.querySelector(".whole-stage")?.scrollIntoView({ block: "start", behavior: "smooth" });
+    } catch (error) { if (id === generation.current) { setPhase("idle"); setMessage(error instanceof Error ? error.message : "The demonstration could not start."); } }
+    finally { if (id === generation.current) { pendingRevision.current = null; captureAbort.current = null; } }
+  }
+
+  async function train(organ?: string) {
     if (!ready || disabled || busy) return;
     const parsed = Number(seed);
     if (!/^\d+$/.test(seed) || !Number.isSafeInteger(parsed) || parsed > 4294967295) { setMessage("Use a whole-number training seed from 0 to 4,294,967,295."); return; }
     pendingRevision.current = null;
     const id = ++generation.current, controller = new AbortController(); captureAbort.current = controller;
-    setPhase("capturing"); setMessage(""); setProgress(null); onFreeze();
+    setPhase("capturing"); setMessage(""); setProgress(null); setJobEpisodes(organ ? 10000 : episodes);
+    if (organ) { viewport.current?.stopCameraPath(); onPrepareGoal(); } else onFreeze();
     try {
       // Allow React to commit paused motion/material state before freezing a map.
       await new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
       if (id !== generation.current) return;
       pendingRevision.current = (viewport.current!.captureMetadata().cameraPlanner as CameraPlannerState).revision;
-      const nextScene = await viewport.current!.captureCameraMap(tasks.find(t => t.id === task)!.targets, controller.signal);
+      const captured = await viewport.current!.captureCameraMap(organ ? [organ] : tasks.find(t => t.id === task)!.targets, controller.signal, organ ? { approachTarget: organ } : undefined);
+      const nextScene = organ ? conditionCameraGoal(captured, organ) : captured;
       if (id !== generation.current) return;
       captureAbort.current = null;
       const goalMask = nextScene.graph.nodes.reduce((mask, view) => mask | view.visibleMask, 0);
@@ -93,21 +134,31 @@ export function CameraPlanningLab({ viewport, ready, disabled, planner, onPrepar
         if (event.data.type === "complete") {
           try {
             const nextPolicy = validateCameraPolicy(nextScene.graph, event.data.policy);
+            const audit = organ ? assessCameraGoal(nextScene, nextPolicy) : null;
+            if (audit && !audit.accepted) throw new Error("The learned organ path did not pass all-start arrival and route-efficiency checks. Adjust the camera view and train again.");
             const began = performance.now(), nextRollout = rolloutCameraPolicy(nextScene.graph, nextPolicy);
             setInferenceMs(performance.now() - began); setTrainingMs(event.data.trainingMs); setScene(nextScene); setPolicy(nextPolicy); setRollout(nextRollout); setNode(0); setMode("learned"); setPhase("ready");
+            setOrigin(organ ? "goal" : "trained"); setGoalAudit(audit); setReplayStart(0);
             setMessage(nextPolicy.training.updates ? "Policy trained and evaluated on reserved starting viewpoints. Inspect the comparisons before replay." : "The selected reachable landmarks are already framed at every start. No motion learning was needed; choose another view or task for a movement exercise.");
+            if (organ) {
+              if (nextRollout.steps) {
+                viewport.current!.playCameraPath(nextScene, nextRollout.route);
+                if (window.matchMedia("(max-width: 760px)").matches) document.querySelector(".whole-stage")?.scrollIntoView({ block: "start", behavior: "smooth" });
+              }
+              setMessage(nextRollout.steps ? `Going to ${nextScene.goal!.label}. Learned with 10,000 episodes; all ${audit!.starts} starting viewpoints pass arrival checks.` : `${nextScene.goal!.label} is already well framed at this scope position.`);
+            }
           } catch (error) { setPhase("idle"); setMessage(error instanceof Error ? error.message : "The policy failed validation."); }
           finally { pendingRevision.current = null; worker.terminate(); activeWorker.current = null; }
         }
       };
       // Pixel images remain in the lab/export; worker receives their shared
       // feature contract and view identities, avoiding repeated image copies.
-      worker.postMessage({ graph: { ...nextScene.graph, nodes: nextScene.graph.nodes.map(({ rgb: _rgb, depth: _depth, ...view }) => view) }, config: { seed: parsed, episodes, goalMask, priority } });
+      worker.postMessage({ graph: { ...nextScene.graph, nodes: nextScene.graph.nodes.map(({ rgb: _rgb, depth: _depth, ...view }) => view) }, config: { seed: parsed, episodes: organ ? 10000 : episodes, goalMask, priority: organ ? "steady" : priority } });
     } catch (error) { if (id === generation.current) { pendingRevision.current = null; captureAbort.current = null; setPhase("idle"); setMessage(error instanceof Error ? error.message : "Camera training failed."); } }
   }
   function replay() {
     if (!scene || !policy || stale || busy) return;
-    try { ++generation.current; onFreeze(); const began = performance.now(), result = rolloutCameraPolicy(scene.graph, policy, scene.graph.startNode, mode); setInferenceMs(performance.now() - began); setRollout(result); viewport.current!.playCameraPath(scene, result.route); }
+    try { ++generation.current; onFreeze(); const began = performance.now(), result = rolloutCameraPolicy(scene.graph, policy, replayStart, mode); setInferenceMs(performance.now() - began); setRollout(result); viewport.current!.playCameraPath(scene, result.route, { loop: origin === "pretrained" && continuous }); }
     catch (error) { setMessage(error instanceof Error ? error.message : "The path could not start."); }
   }
   async function importPolicy(file?: File) {
@@ -118,12 +169,22 @@ export function CameraPlanningLab({ viewport, ready, disabled, planner, onPrepar
       const contents = await file.text();
       if (id !== generation.current || latestScene.current?.graph.fingerprint !== fingerprint || (viewport.current?.captureMetadata().cameraPlanner as CameraPlannerState | undefined)?.revision !== revision || activeWorker.current || captureAbort.current) return;
       const value = JSON.parse(contents), next = validateCameraPolicy(scene.graph, value.policy ?? value);
-      setPolicy(next); setRollout(rolloutCameraPolicy(scene.graph, next)); setPhase("ready"); setMessage("Imported policy matches this captured scene and passed validation.");
+      setPolicy(next); setRollout(rolloutCameraPolicy(scene.graph, next)); setOrigin("imported"); setGoalAudit(null); setReplayStart(0); setPhase("ready"); setMessage("Imported policy matches this captured scene and passed validation.");
     } catch (error) { if (id === generation.current) setMessage(error instanceof Error ? error.message : "Policy import failed."); }
   }
   const trainedPriority = policy?.config.priority ?? priority, weights = CAMERA_REWARD_WEIGHTS[trainedPriority];
   return <section className={`camera-planning-lab ${open ? "is-open" : ""}`} aria-label="Camera planning lab">
     <button type="button" className="camera-lab-launch" aria-expanded={open} disabled={!ready || disabled} onClick={() => setOpen(value => !value)}><span className="camera-lab-icon"><ScanEye size={22} /></span><span><strong>Camera planning lab</strong><small>Train scope paths with RGB + depth</small></span><BrainCircuit size={18} /></button>
+    <div className="camera-default-card">
+      <span className="camera-default-badge">{defaultPolicy ? "PRETRAINED / READY" : defaultError ? "WEIGHTS UNAVAILABLE" : "LOADING LEARNED WEIGHTS"}</span>
+      <p>{defaultPolicy ? `${defaultPolicy.policy.config.episodes.toLocaleString()} training episodes · fixed-pivot scope motion` : defaultError || "Loading the saved inspection policy…"}</p>
+      <button className="camera-default-start" disabled={!ready || disabled || busy || playing || !defaultPolicy} onClick={() => void demonstrate()}><Play size={16} />Start camera demonstration</button>
+      {defaultError && <button onClick={() => setReloadDefault(value => value + 1)}>Retry loading weights</button>}
+      <label className="camera-loop-toggle"><input type="checkbox" checked={continuous} disabled={busy || playing} onChange={event => setContinuous(event.target.checked)} />Continuous inspection loop</label>
+      <small>Learned inspection + guarded return. Runs until you stop it.</small>
+      <div className="camera-goal-actions" aria-label="Organ camera destinations"><button disabled={!ready || disabled || busy} onClick={() => { setOpen(true); void train("liver"); }}><Route size={14} />Go to liver</button><button disabled={!ready || disabled || busy} onClick={() => { setOpen(true); void train("gallbladder"); }}><Route size={14} />Go to gallbladder</button></div>
+      <small>Learn an approach from your current position, then hold the organ view.</small>
+    </div>
     {open && <div className="camera-lab-content">
       <div className="camera-lab-title"><span>RL / VIRTUAL SCOPE PRACTICE</span><button aria-label="Close camera planning lab" onClick={() => { cancel(); setOpen(false); }}><X size={16} /></button></div>
       <p>Practice camera-system planning around visible anatomy. The virtual 0° scope pivots about one inferred entry point and keeps a level horizon.</p>
@@ -132,10 +193,11 @@ export function CameraPlanningLab({ viewport, ready, disabled, planner, onPrepar
       <div className="camera-lab-pair"><label>Seed<input aria-label="Camera training seed" inputMode="numeric" value={seed} disabled={busy} onChange={e => setSeed(e.target.value)} /></label><label>Episodes<select aria-label="Camera training episodes" value={episodes} disabled={busy} onChange={e => setEpisodes(Number(e.target.value))}>{[1000, 3000, 6000].map(n => <option key={n}>{n}</option>)}</select></label></div>
       <label>Reward priority<select aria-label="Camera reward priority" value={priority} disabled={busy} onChange={e => setPriority(e.target.value as typeof priority)}><option value="coverage">Inspect landmarks</option><option value="steady">Steady scope motion</option></select></label>
       <div className="camera-lab-actions"><button className="camera-train" disabled={busy || disabled || playing} onClick={() => void train()}><BrainCircuit size={16} />{busy ? phase === "capturing" ? "Capturing RGBD…" : "Learning policy…" : "Train camera policy"}</button>{busy && <button onClick={cancel}><Square size={14} />Cancel training</button>}</div>
-      {busy && <progress aria-label="Camera training progress" max={phase === "capturing" ? planner?.total ?? 27 : episodes} value={phase === "capturing" ? planner?.captured ?? 0 : progress?.episode ?? 0} />}
-      <p role="status" className={stale ? "camera-lab-stale" : ""}>{busy ? (phase === "capturing" ? planner?.message : "Learning and evaluating the camera policy…") : stale ? "Scene changed — recapture before using this policy." : message || planner?.message || "Prepare the operative camera, then train a policy."}</p>
+      {busy && <progress aria-label="Camera training progress" max={phase === "capturing" ? planner?.total ?? 27 : jobEpisodes} value={phase === "capturing" ? planner?.captured ?? 0 : progress?.episode ?? 0} />}
+      <p role="status" className={stale ? "camera-lab-stale" : ""}>{busy ? (phase === "capturing" ? planner?.message : "Learning and evaluating the camera policy…") : stale && phase === "ready" ? "Scene changed — recapture before using this policy." : message || planner?.message || "Prepare the operative camera, then train a policy."}</p>
       {scene && policy && <>
-        <div className="camera-lab-metrics"><span><strong>{scene.graph.nodes.length}</strong> RGBD views</span><span><strong>{(trainingMs / 1000).toFixed(2)}s</strong> worker training</span><span><strong>{inferenceMs.toFixed(1)}ms</strong> route inference</span></div>
+        {scene.goal && <p>Target: {scene.goal.label} · planned working depth {scene.goal.depthMm.toFixed(0)} mm · target fills {Math.round(scene.goal.areaFraction * 100)}% of the image. {goalAudit && `${goalAudit.starts} / ${goalAudit.starts} starting views reach the goal; longest route ${(goalAudit.maxStretch).toFixed(2)}× the shortest-distance baseline.`}</p>}
+        <div className="camera-lab-metrics"><span><strong>{scene.graph.nodes.length}</strong> RGBD views</span><span><strong>{origin === "pretrained" ? "Loaded" : `${(trainingMs / 1000).toFixed(2)}s`}</strong>{origin === "pretrained" ? "pretrained weights" : "worker training"}</span><span><strong>{inferenceMs.toFixed(1)}ms</strong> route inference</span></div>
         <label>Observation view<select aria-label="Camera observation view" value={node} onChange={e => setNode(Number(e.target.value))}>{scene.graph.nodes.map(view => <option key={view.id} value={view.id}>View {view.id + 1} · depth {view.features.depthMedian.toFixed(0)} mm</option>)}</select></label>
         <Observation scene={scene} node={node} />
         <div className="camera-targets" aria-label="Camera landmark coverage">{scene.graph.targets.map((target, i) => <span key={target.id} className={(policy.config.goalMask & 1 << i) ? "reachable" : "unavailable"}>{(policy.config.goalMask & 1 << i) ? "●" : "○"} {target.label}{!(policy.config.goalMask & 1 << i) && " · not well framed"}</span>)}</div>

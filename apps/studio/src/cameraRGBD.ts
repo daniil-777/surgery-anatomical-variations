@@ -16,6 +16,8 @@ export interface CameraRGBDSample {
   targetPixels: number[];
   /** Maximum absolute normalized centroid coordinate; Infinity = absent. */
   targetCenterErrors: number[];
+  /** Mean optical depth for visible target pixels; zero when absent. */
+  targetDepths: number[];
   width: number;
   height: number;
 }
@@ -160,18 +162,19 @@ export class CameraRGBDSampler {
       if (captureError !== undefined) throw captureError;
       const failed = readResults.find(result => result.status === "rejected"); if (failed?.status === "rejected") throw failed.reason;
       if (signal?.aborted || this.disposed) throw abortError();
-      const rgb = new Array<number>(count * 3), depth = new Array<number>(count), targetPixels = this.targets.map(() => 0), xSum = this.targets.map(() => 0), ySum = this.targets.map(() => 0);
+      const rgb = new Array<number>(count * 3), depth = new Array<number>(count), targetPixels = this.targets.map(() => 0), xSum = this.targets.map(() => 0), ySum = this.targets.map(() => 0), depthSum = this.targets.map(() => 0);
       for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) {
         const i = y * width + x, source = (height - 1 - y) * width + x, offset = source * 4;
         rgb[3 * i] = rgbBytes[offset]!; rgb[3 * i + 1] = rgbBytes[offset + 1]!; rgb[3 * i + 2] = rgbBytes[offset + 2]!;
         depth[i] = decodeCameraDepth(depthBytes[offset]!, depthBytes[offset + 1]!, capture.near, capture.far);
         const id = depthBytes[offset + 2]! - 1;
-        if (depth[i]! > 0 && id >= 0 && id < this.targets.length) { targetPixels[id]!++; xSum[id]! += x + .5; ySum[id]! += y + .5; }
+        if (depth[i]! > 0 && id >= 0 && id < this.targets.length) { targetPixels[id]!++; xSum[id]! += x + .5; ySum[id]! += y + .5; depthSum[id]! += depth[i]!; }
       }
       let visibleMask = 0;
       const targetCenterErrors = targetPixels.map((pixels, i) => pixels ? Math.max(Math.abs(2 * xSum[i]! / pixels / width - 1), Math.abs(2 * ySum[i]! / pixels / height - 1)) : Infinity);
       targetPixels.forEach((pixels, i) => { if (pixels >= 7 && targetCenterErrors[i]! < .6) visibleMask |= 1 << i; });
-      return { ...analyzeCameraRGBD(rgb, depth, width, height), visibleMask, rgb, depth, targetPixels, targetCenterErrors, width, height };
+      const targetDepths = targetPixels.map((pixels, i) => pixels ? depthSum[i]! / pixels : 0);
+      return { ...analyzeCameraRGBD(rgb, depth, width, height), visibleMask, rgb, depth, targetPixels, targetCenterErrors, targetDepths, width, height };
     } finally {
       this.busy = false; if (this.disposed) this.release();
     }

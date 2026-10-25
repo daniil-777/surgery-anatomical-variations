@@ -10,6 +10,83 @@ async function train(page:Page){await lab(page).getByRole('button',{name:'Train 
 function watchErrors(page:Page){const errors:string[]=[];page.on('pageerror',error=>errors.push(error.message));page.on('console',message=>{if(message.type()==='error'&&/Shader|WebGL|THREE/.test(message.text()))errors.push(message.text());});return errors;}
 const anatomy=(snapshot:any)=>snapshot.organs.map((organ:any)=>[organ.geometrySignature,organ.materialSignature]);
 async function study(page:Page){const pending=page.waitForEvent('download');await lab(page).getByRole('button',{name:'Export study',exact:true}).click();const download=await pending;return JSON.parse(await readFile((await download.path())!,'utf8'));}
+async function monitorMotion(page:Page){await page.evaluate(()=>{
+ const w=window as any;w.__cameraMotionFrames=[];
+ const record=()=>{const s=w.__visceraSceneSnapshot?.()?.cameraPlanner;if(s?.phase==='playing')w.__cameraMotionFrames.push({elapsed:s.elapsedSeconds,position:s.positionMm,direction:s.direction,port:s.port,lap:s.lap});w.__cameraMotionRaf=requestAnimationFrame(record);};record();
+});}
+async function finishMotion(page:Page){const frames=await page.evaluate(()=>{const w=window as any;cancelAnimationFrame(w.__cameraMotionRaf);return w.__cameraMotionFrames as {elapsed:number,position:number[],direction:number[],port:number[],lap:number}[];});
+ let peakSpeed=0,peakAngularSpeed=0,maxPivotError=0;
+ for(let i=1;i<frames.length;i++){const a=frames[i-1]!,b=frames[i]!,dt=b.elapsed-a.elapsed;if(dt<=0)continue;
+  peakSpeed=Math.max(peakSpeed,Math.hypot(...b.position.map((v,j)=>v-a.position[j]!))/dt);
+  const cosine=Math.max(-1,Math.min(1,b.direction.reduce((sum,v,j)=>sum+v*a.direction[j]!,0)));peakAngularSpeed=Math.max(peakAngularSpeed,Math.acos(cosine)/dt*180/Math.PI);
+  const radial=b.position.map((v,j)=>v-b.port[j]!),length=Math.hypot(...radial);maxPivotError=Math.max(maxPivotError,Math.hypot(...radial.map((v,j)=>v/length-b.direction[j]!)));
+ }
+ expect(frames.length).toBeGreaterThan(20);expect(peakSpeed).toBeLessThanOrEqual(24.01);expect(peakAngularSpeed).toBeLessThanOrEqual(18.01);expect(maxPivotError).toBeLessThan(1e-8);
+ return {frames,peakSpeed,peakAngularSpeed,maxPivotError};
+}
+
+test('pretrained demonstration starts without training and loops continuously with pause and stop',async({page},info)=>{
+ const errors=watchErrors(page);await page.goto('?mode=scene&scene=virtamed');await expect(page.locator('[data-scene-ready=true]')).toBeVisible();
+ await expect(lab(page).getByRole('button',{name:'Start camera demonstration',exact:true})).toBeEnabled();
+ const before=await scene(page);await monitorMotion(page);await lab(page).getByRole('button',{name:'Start camera demonstration',exact:true}).click();
+ await expect.poll(async()=>(await read(page))?.origin,{timeout:45000}).toBe('pretrained');
+ const started=await read(page);expect(started.trainingMs).toBe(0);expect(started.policy.config.episodes).toBe(6000);expect(started.policy.training.updates).toBe(87903);expect(started.rollout.steps).toBeGreaterThanOrEqual(3);
+ const hud=page.getByRole('region',{name:'Live scope path'});await expect(hud).toBeVisible();
+ await hud.getByRole('button',{name:'Pause',exact:true}).click();const paused=await scene(page);
+ await page.screenshot({path:info.outputPath('default-scope-paused.png')});
+ await page.evaluate(async()=>{for(let i=0;i<12;i++)await new Promise<void>(resolve=>requestAnimationFrame(()=>resolve()));});
+ expect((await scene(page)).camera.position).toEqual(paused.camera.position);
+ await hud.getByRole('button',{name:'Resume',exact:true}).click();
+ await expect.poll(async()=>(await read(page)).planner.lap,{timeout:60000}).toBeGreaterThanOrEqual(3);
+ const looping=await read(page);expect(looping.planner.phase).toBe('playing');expect(looping.planner.blockedMoves).toBe(0);expect(looping.planner.returnSegments).toBeGreaterThan(0);
+ await page.screenshot({path:info.outputPath('default-scope-loop.png')});await hud.getByRole('button',{name:'Stop camera',exact:true}).click();
+ const stopped=await scene(page);expect(stopped.cameraPlanner.phase).toBe('stopped');expect(stopped.organs.map((o:any)=>o.geometrySignature)).toEqual(before.organs.map((o:any)=>o.geometrySignature));
+ const exported=await study(page);await writeFile(info.outputPath('default-policy-study.json'),JSON.stringify(exported));
+ const motion=await finishMotion(page);await writeFile(info.outputPath('default-loop-evidence.json'),JSON.stringify({before,started,paused,looping,stopped,motion,errors},null,2));expect(errors).toEqual([]);
+});
+
+for(const organ of ['liver','gallbladder'])test(`conditioned camera approaches ${organ} from the current pose and holds the inspection view`,async({page},info)=>{
+ const errors=watchErrors(page);await open(page);const before=await scene(page);await monitorMotion(page);
+ await lab(page).getByRole('button',{name:`Go to ${organ}`,exact:true}).click();
+ await expect.poll(async()=>(await read(page))?.origin,{timeout:60000}).toBe('goal');
+ const learned=await read(page);expect(learned.policy.config.episodes).toBe(10000);expect(learned.goal.id).toBe(organ);expect(learned.goalAudit.accepted).toBe(true);expect(learned.goalAudit.successRate).toBe(1);expect(learned.rollout.success).toBe(true);expect(learned.rollout.steps).toBeGreaterThan(0);expect(learned.goal.score).toBeGreaterThan(learned.goal.initialScore);
+ await page.screenshot({path:info.outputPath(`${organ}-approach.png`)});
+ await expect.poll(async()=>(await read(page)).planner.phase,{timeout:60000}).toBe('complete');
+ const end=await scene(page),exported=await study(page),destination=exported.scene.graph.nodes[learned.goal.node].pose.position;
+ expect(Math.hypot(...end.camera.position.map((v:number,i:number)=>v-destination[i]))).toBeLessThan(1e-6);expect(end.cameraPlanner.blockedMoves).toBe(0);expect(anatomy(end)).toEqual(anatomy(before));
+ await page.screenshot({path:info.outputPath(`${organ}-arrival.png`)});await writeFile(info.outputPath(`${organ}-study.json`),JSON.stringify(exported));
+ const motion=await finishMotion(page);expect(end.inspection.cameraLight.intensity).toBeLessThan(before.inspection.cameraLight.intensity);
+ await writeFile(info.outputPath(`${organ}-evidence.json`),JSON.stringify({before,learned,end,motion,errors},null,2));expect(errors).toEqual([]);
+});
+
+test('switching organs from a close view preserves the pivot and learns a guarded retreat and approach',async({page},info)=>{
+ const errors=watchErrors(page);await open(page);await lab(page).getByRole('button',{name:'Go to liver',exact:true}).click();
+ await expect.poll(async()=>(await read(page))?.planner?.phase,{timeout:60000}).toBe('complete');
+ const liver=await read(page),before=await scene(page);await monitorMotion(page);
+ await lab(page).getByRole('button',{name:'Go to gallbladder',exact:true}).click();
+ await expect.poll(async()=>(await read(page))?.goal?.id,{timeout:60000}).toBe('gallbladder');
+ await expect.poll(async()=>(await read(page)).planner.phase,{timeout:60000}).toBe('complete');
+ const gallbladder=await read(page),end=await scene(page),exported=await study(page);
+ expect(gallbladder.planner.port).toEqual(liver.planner.port);expect(exported.scene.graph.nodes[0].pose.position).toEqual(before.camera.position);expect(gallbladder.goalAudit.accepted).toBe(true);expect(gallbladder.planner.blockedMoves).toBe(0);expect(anatomy(end)).toEqual(anatomy(before));
+ const motion=await finishMotion(page);await page.screenshot({path:info.outputPath('changed-organ-arrival.png')});await writeFile(info.outputPath('changed-organ-evidence.json'),JSON.stringify({liver,before,gallbladder,end,motion,errors},null,2));expect(errors).toEqual([]);
+});
+
+test('mobile one-click demonstration keeps the scope controls visible and Escape stops it',async({page},info)=>{
+ const errors=watchErrors(page);await page.setViewportSize({width:390,height:844});await page.goto('?mode=scene&scene=virtamed');await expect(page.locator('[data-scene-ready=true]')).toBeVisible();
+ await lab(page).getByRole('button',{name:'Start camera demonstration',exact:true}).click();await expect.poll(async()=>(await read(page)).planner.phase).toBe('playing');
+ const hud=page.getByRole('region',{name:'Live scope path'});await expect(hud).toBeInViewport();const box=await hud.boundingBox();expect(box!.x).toBeGreaterThanOrEqual(0);expect(box!.x+box!.width).toBeLessThanOrEqual(390);
+ await page.screenshot({path:info.outputPath('mobile-default-scope.png')});await page.keyboard.press('Escape');await expect.poll(async()=>(await read(page)).planner.phase).toBe('stopped');expect(errors).toEqual([]);
+});
+
+test('default policy refuses edited anatomy while goal capture can be cancelled without later motion',async({page},info)=>{
+ const errors=watchErrors(page);await open(page);const editor=page.getByRole('region',{name:'Scene text-to-shape editor'});
+ await editor.getByRole('textbox').fill('liver-cirrhosis, severity 0.65');await editor.getByRole('button',{name:'Apply text',exact:true}).click();await expect(editor).toContainText('Applied shape and appearance to liver');
+ const edited=await scene(page);await lab(page).getByRole('button',{name:'Start camera demonstration',exact:true}).click();await expect(lab(page)).toContainText('The pretrained policy does not match this anatomy or view.');
+ expect((await read(page)).planner.phase).not.toBe('playing');expect(anatomy(await scene(page))).toEqual(anatomy(edited));
+ await lab(page).getByRole('button',{name:'Go to gallbladder',exact:true}).click();await expect.poll(async()=>(await read(page)).planner.captured).toBeGreaterThan(0);await lab(page).getByRole('button',{name:'Cancel training',exact:true}).click();
+ await expect.poll(async()=>(await read(page)).phase).toBe('idle');const cancelled=await scene(page);await page.evaluate(async()=>{for(let i=0;i<20;i++)await new Promise<void>(resolve=>requestAnimationFrame(()=>resolve()));});
+ expect((await scene(page)).camera.position).toEqual(cancelled.camera.position);expect((await read(page)).planner.phase).toBe('stopped');await writeFile(info.outputPath('default-rejection-cancel.json'),JSON.stringify({edited,cancelled,lab:await read(page),errors},null,2));expect(errors).toEqual([]);
+});
 
 test('RGBD camera policy trains, evaluates and replays without altering anatomy',async({page},info)=>{
  const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error'&&/Shader|WebGL|THREE/.test(m.text()))errors.push(m.text());});

@@ -50,6 +50,37 @@ beforeEach(() => {
 afterEach(() => { vi.unstubAllGlobals(); });
 
 describe("camera planner render-thread replay bridge", () => {
+  it("loops 50 times through guarded returns without a teleport, drift or unbounded path storage", () => {
+    const { planner, map, camera, guard, controls } = fixture(), move = vi.spyOn(guard, "move");
+    planner.play(map, [0, 1, 2], { loop: true });
+    let frames = 0, priorLap = 1, wraps = 0;
+    while (planner.snapshot().lap < 51 && frames++ < 15000) {
+      const previous = camera.position.clone(); planner.tick(1 / 30);
+      const state = planner.snapshot();
+      expect(camera.position.distanceTo(previous)).toBeLessThanOrEqual(24 / 30 + 1e-6);
+      expect(state.phase).toBe("playing"); expect(state.blockedMoves).toBe(0); expect(state.path.length).toBeLessThanOrEqual(5);
+      expect(camera.position.clone().normalize().distanceTo(camera.getWorldDirection(new THREE.Vector3()))).toBeLessThan(1e-10);
+      expect(move.mock.results.at(-1)!.value.blocked).toBe(false);
+      if (state.lap !== priorLap) { wraps++; expect(state.returnSegments).toBe(2); expect(state.message).toMatch(/returning/i); priorLap = state.lap; }
+    }
+    expect(wraps).toBe(50); expect(controls.enabled).toBe(false);
+    planner.pause(); const paused = camera.position.clone(); planner.tick(5); expect(camera.position.equals(paused)).toBe(true);
+    planner.pause(); planner.stop(); planner.tick(5); expect(camera.position.equals(paused)).toBe(true); expect(controls.enabled).toBe(true);
+  });
+
+  it("stops a running loop before a newly obstructed return and rejects nonmoving loops", () => {
+    const { planner, map, camera, guard, surfaces } = fixture();
+    expect(() => planner.play(map, [0], { loop: true })).toThrow(/no movement/);
+    planner.play(map, [0, 1, 2], { loop: true });
+    while (planner.snapshot().segment < 2) planner.tick(.05);
+    const wall = new THREE.PlaneGeometry(120, 120).translate(0, 0, -55); wall.computeBoundingBox();
+    surfaces.push({ id: "new-return-obstruction", visible: true, geometry: wall }); guard.invalidate();
+    for (let frame = 0; frame < 200 && planner.playing; frame++) planner.tick(.05);
+    expect(planner.snapshot()).toMatchObject({ phase: "blocked", blockedMoves: 1, lap: 2 });
+    expect(camera.position.z).toBeGreaterThan(-53); const stopped = camera.position.clone();
+    planner.tick(.05); expect(camera.position.equals(stopped)).toBe(true);
+  });
+
   it("executes guarded curve segments around one fixed port without using the renderer", () => {
     const { planner, camera, controls, map, guard, changed } = fixture(), move = vi.spyOn(guard, "move");
     const before = cameraState(camera, controls);

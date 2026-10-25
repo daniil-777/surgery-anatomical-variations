@@ -1,4 +1,4 @@
-import { CameraPlannerScene, type CameraTrainingScene, type CameraPlannerState } from "./cameraPlannerScene";
+import { CameraPlannerScene, type CameraTrainingScene, type CameraPlannerState, type CameraPlaybackOptions, type CameraCaptureOptions } from "./cameraPlannerScene";
 import { applyVirtaMedVessels } from "./virtaMedVesselNetwork";
 import { loadOperativeAppearance, type OperativeAppearance } from "./operativeAppearance";
 import { LaparoscopeLighting } from "./laparoscopeLighting";
@@ -50,8 +50,8 @@ export interface WholeSceneStats {
   bounds: { min: number[]; max: number[] };
 }
 export interface WholeSceneViewportHandle {
-  captureCameraMap: (targets: string[], signal?: AbortSignal) => Promise<CameraTrainingScene>;
-  playCameraPath: (scene: CameraTrainingScene, route: number[]) => void;
+  captureCameraMap: (targets: string[], signal?: AbortSignal, options?: CameraCaptureOptions) => Promise<CameraTrainingScene>;
+  playCameraPath: (scene: CameraTrainingScene, route: number[], options?: CameraPlaybackOptions) => void;
   stopCameraPath: () => void;
   pauseCameraPath: () => void;
   videoView: () => void;
@@ -114,8 +114,8 @@ interface Part {
   geometrySignature: string; materialSignature: string;
 }
 interface Runtime {
-  captureCameraMap: (targets: string[], signal?: AbortSignal) => Promise<CameraTrainingScene>;
-  playCameraPath: (scene: CameraTrainingScene, route: number[]) => void;
+  captureCameraMap: (targets: string[], signal?: AbortSignal, options?: CameraCaptureOptions) => Promise<CameraTrainingScene>;
+  playCameraPath: (scene: CameraTrainingScene, route: number[], options?: CameraPlaybackOptions) => void;
   stopCameraPath: () => void;
   pauseCameraPath: () => void;
   videoView: () => void;
@@ -180,8 +180,8 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
   useImperativeHandle(ref, () => ({
     fit: () => runtime.current?.fit(), focusOrgan: id => runtime.current?.focusOrgan(id), view: preset => runtime.current?.view(preset),
     videoView: () => runtime.current?.videoView(),
-    captureCameraMap: (targets,signal) => runtime.current ? runtime.current.captureCameraMap(targets,signal) : Promise.reject(new Error("The scene is still loading.")),
-    playCameraPath: (scene,route) => runtime.current?.playCameraPath(scene,route),
+    captureCameraMap: (targets,signal,options) => runtime.current ? runtime.current.captureCameraMap(targets,signal,options) : Promise.reject(new Error("The scene is still loading.")),
+    playCameraPath: (scene,route,options) => runtime.current?.playCameraPath(scene,route,options),
     stopCameraPath: () => runtime.current?.stopCameraPath(),
     pauseCameraPath: () => runtime.current?.pauseCameraPath(),
     screenshot: () => runtime.current?.screenshot() ?? "",
@@ -718,18 +718,19 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
     const recordInteraction = (seconds = 20) => recordScene("interaction", seconds);
     cameraPlanner = new CameraPlannerScene({ renderer, scene, camera, controls,
       parts: () => parts, guard: navigationGuard, bounds: () => bounds.clone(),
-      light: candidate => { if (laparoscope.update(candidate, inspectionIntensity || 30000)) renderer.shadowMap.needsUpdate = true; },
+      light: (candidate, intensity) => { if (laparoscope.update(candidate, intensity ?? (inspectionIntensity || 30000))) renderer.shadowMap.needsUpdate = true; },
+      setIntensity: intensity => { inspectionIntensity = intensity; },
       restoreLight: () => { if (laparoscope.update(camera, exploring || operativeCamera ? inspectionIntensity : 0)) renderer.shadowMap.needsUpdate = true; },
       changed: () => { invalidate(true); }, publish: state => { if(alive) latest.current.onCameraPlannerChange?.(state); },
     });
-    runtime.current = { captureCameraMap: (targets,signal) => {
+    runtime.current = { captureCameraMap: (targets,signal,options) => {
         if (!ready || recording || nativeRecording.active) return Promise.reject(new Error("Load the scene and stop recording before mapping camera views."));
         exitExploration(true); tools.release("Camera mapping started; instrument released."); cameraTransition = null;
-        return cameraPlanner!.capture(targets,signal);
-      }, playCameraPath: (map,route) => {
+        return cameraPlanner!.capture(targets,signal,undefined,options);
+      }, playCameraPath: (map,route,options) => {
         if (!ready || recording || nativeRecording.active) throw new Error("Stop recording before starting a camera path.");
         exitExploration(true); tools.release("Camera path started; instrument released."); cameraTransition = null; operativeCamera = true; currentView = "orbit";
-        cameraPlanner!.play(map,route);
+        cameraPlanner!.play(map,route,options);
       }, stopCameraPath: () => cameraPlanner?.stop(), pauseCameraPath: () => cameraPlanner?.pause(),
       invalidateCameraMap: reason => { cameraPlanner?.invalidate(reason); invalidate(true); snapshot(); },
       videoView, fit, focusOrgan, view, captureMetadata, recordTour, stopRecording, applyFat, applyVariation, applyVisibility, applySelection, applyReferenceColors, applyPhysics, pulsePhysics, resetPhysics,

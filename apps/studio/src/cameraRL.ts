@@ -273,3 +273,15 @@ export function rolloutCameraPolicy(graph: CameraViewGraph, policy: CameraPolicy
   requireThat(integer(startNode, 0, graph.nodes.length - 1) && ["learned", "greedy", "random"].includes(mode), "Invalid camera rollout start or mode.");
   return rollout(graph, policy, startNode, mode);
 }
+
+/** Re-score frozen weights against an explicitly compatible fresh observation
+ * graph. This performs no TD updates; callers must verify transfer compatibility. */
+export function evaluateCameraPolicy(graph: CameraViewGraph, policy: CameraPolicy): CameraPolicy {
+  validateCameraGraph(graph); validatePolicyCore(graph, policy);
+  const heldOutStarts = policy.training.holdoutStarts;
+  return validateCameraPolicy(graph, { ...policy, evaluation: { heldOutStarts,
+    learned: summarize(heldOutStarts.map(start => rollout(graph, policy, start, "learned"))),
+    greedy: summarize(heldOutStarts.map(start => rollout(graph, policy, start, "greedy"))),
+    random: summarize(heldOutStarts.map(start => rollout(graph, policy, start, "random"))),
+  } });
+}

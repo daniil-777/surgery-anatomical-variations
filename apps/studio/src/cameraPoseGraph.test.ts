@@ -9,6 +9,16 @@ const workspace = () => new THREE.Box3(new THREE.Vector3(-200, -200, -200), new 
 const v = (value: number[]) => new THREE.Vector3(...value);
 
 describe("fixed-port camera pose graph", () => {
+  it("builds an organ approach from the current pose and retains an established pivot", () => {
+    const guard = new SceneNavigationGuard(() => []), bounds = new THREE.Box3(new THREE.Vector3(-500, -500, -500), new THREE.Vector3(500, 500, 500));
+    const graph = buildCameraPoseGraph(start, guard, bounds, { target: [50, 30, -180] });
+    expect(graph.nodes).toHaveLength(45); expect(graph.nodes[0]!.position).toEqual(start.position);
+    const advanced = graph.nodes.find(p => p.insertionMm > 150)!;
+    const next = buildCameraPoseGraph(advanced, guard, bounds, { target: [-30, 10, -200], port: graph.port });
+    expect(next.port).toEqual(graph.port); expect(next.nodes[0]!.position).toEqual(advanced.position);
+    for (const node of next.nodes) expect(v(node.position).sub(v(node.direction).multiplyScalar(node.insertionMm)).distanceTo(v(graph.port))).toBeLessThan(1e-9);
+    expect(() => buildCameraPoseGraph(start, guard, bounds, { target: [0, 0, -100], port: [100, 0, 0] })).toThrow(/pivot/);
+  });
   it("includes the exact current camera and 27 connected finite poses with only adjacent RCM actions", () => {
     const graph = buildCameraPoseGraph(start, new SceneNavigationGuard(() => []), workspace());
     expect(graph.nodes).toHaveLength(27); expect(graph.port).toEqual([0, 0, 70]); expect(graph.blockedEdges).toBe(0);

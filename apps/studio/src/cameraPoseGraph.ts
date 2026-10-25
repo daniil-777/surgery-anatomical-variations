@@ -50,21 +50,46 @@ export function interpolateScopePose(a: CameraPose, b: CameraPose, port: readonl
  * Swept spheres include a curvature error bound, so the curve between samples
  * retains the requested 2 mm virtual lens clearance. This models a lens and
  * fixed port; it does not claim full shaft, trocar or patient collision safety. */
-export function buildCameraPoseGraph(startPose: CameraPose, guard: SceneNavigationGuard, bounds: THREE.Box3): CameraPoseGraph {
+export function buildCameraPoseGraph(startPose: CameraPose, guard: SceneNavigationGuard, bounds: THREE.Box3, approach?: { target: [number, number, number]; port?: [number, number, number] }): CameraPoseGraph {
   validatePose(startPose);
   if (bounds.isEmpty() || ![...bounds.min.toArray(), ...bounds.max.toArray()].every(Number.isFinite)
     || !bounds.containsPoint(vec(startPose.position))) throw new Error("The camera start must lie in the finite planning workspace.");
-  const forward = vec(startPose.direction).normalize(), port = vec(startPose.position).addScaledVector(forward, -70);
+  const forward = vec(startPose.direction).normalize(), port = approach?.port ? vec(approach.port) : vec(startPose.position).addScaledVector(forward, -70);
+  const initialInsertion = vec(startPose.position).distanceTo(port);
+  if (initialInsertion < 1 || vec(startPose.position).sub(port).normalize().distanceTo(forward) > 1e-6) throw new Error("The scope pose does not match its entry pivot.");
   if ((guard.closest(vec(startPose.position), NAVIGATION_CLEARANCE_MM + .01)?.distanceMm ?? Infinity) < NAVIGATION_CLEARANCE_MM + .005) {
     throw new Error("Move the camera away from tissue before building a camera policy.");
   }
-  const yawOffsets = [-.3, 0, .3], pitchOffsets = [-.22, 0, .22], insertions = [45, 70, 95];
+  let yawOffsets = [-.3, 0, .3], pitchOffsets = [-.22, 0, .22], insertions = [45, 70, 95];
+  let startCoordinate: [number, number, number] = [1, 1, 1];
+  if (approach) {
+    if (!approach.target.every(Number.isFinite)) throw new Error("Invalid camera organ target.");
+    const target = vec(approach.target).sub(port), direction = target.clone().normalize();
+    let yaw = Math.atan2(-direction.x, -direction.z) - Math.atan2(-forward.x, -forward.z);
+    yaw = Math.atan2(Math.sin(yaw), Math.cos(yaw));
+    const pitch = Math.asin(clampUnit(direction.y)) - Math.asin(clampUnit(forward.y));
+    // A bounded 45-view local approach fan includes the CURRENT pose. No
+    // focus/reset teleport is necessary when switching from a running survey.
+    const axis = (angle: number) => Math.abs(angle) < .03 ? [-.08, 0, .08] : [0, THREE.MathUtils.clamp(angle, -.7, .7) / 2, THREE.MathUtils.clamp(angle, -.7, .7)];
+    yawOffsets = axis(yaw); pitchOffsets = axis(pitch);
+    const destination = THREE.MathUtils.clamp(target.length() - 65, Math.max(30, initialInsertion - 90), initialInsertion + 180);
+    const end = Math.abs(destination - initialInsertion) < 15 ? initialInsertion + 20 : destination;
+    // Include a retreat plane so changing organs from a close inspection can
+    // withdraw before pivoting. Fill the largest gaps to retain a bounded map.
+    const retreat = Math.max(25, Math.min(initialInsertion, 70));
+    insertions = [...new Set([retreat, initialInsertion, end])].sort((a, b) => a - b);
+    while (insertions.length < 5) {
+      let widest = 0; for (let i = 1; i < insertions.length - 1; i++) if (insertions[i + 1]! - insertions[i]! > insertions[widest + 1]! - insertions[widest]!) widest = i;
+      insertions.splice(widest + 1, 0, (insertions[widest]! + insertions[widest + 1]!) / 2);
+    }
+    startCoordinate = [yawOffsets.indexOf(0), pitchOffsets.indexOf(0), insertions.indexOf(initialInsertion)];
+  }
   const lattice: { pose: CameraPose; coordinate: [number, number, number] }[] = [];
   // The start node remains index zero even when the supplied pose carries a
   // different insertion convention; this graph establishes its own 70 mm RCM.
-  lattice.push({ pose: { ...startPose, position: [...startPose.position], direction: tuple(forward), up: [...startPose.up], insertionMm: 70, yaw: 0, pitch: 0 }, coordinate: [1, 1, 1] });
-  for (let y = 0; y < 3; y++) for (let p = 0; p < 3; p++) for (let z = 0; z < 3; z++) {
-    if (y === 1 && p === 1 && z === 1) continue;
+  lattice.push({ pose: { ...startPose, position: [...startPose.position], direction: tuple(forward), up: [...startPose.up], insertionMm: initialInsertion, yaw: 0, pitch: 0 }, coordinate: startCoordinate });
+  for (let y = 0; y < yawOffsets.length; y++) for (let p = 0; p < pitchOffsets.length; p++) for (let z = 0; z < insertions.length; z++) {
+    if (y === startCoordinate[0] && p === startCoordinate[1] && z === startCoordinate[2]) continue;
     const yaw = yawOffsets[y]!, pitch = pitchOffsets[p]!, insertionMm = insertions[z]!;
     const direction = forward.clone().applyAxisAngle(WORLD_UP, yaw);
     const right = new THREE.Vector3().crossVectors(direction, WORLD_UP);

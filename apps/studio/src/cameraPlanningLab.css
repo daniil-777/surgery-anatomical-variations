@@ -29,3 +29,28 @@
 .camera-lab-content table { width:100%;border-collapse:collapse;font-size:10px;margin:10px 0; }.camera-lab-content th,.camera-lab-content td { text-align:left;border-bottom:1px solid #375347;padding:7px 3px; }
 .camera-lab-content .camera-lab-caption { font-size:9px;color:#9fc5b0;margin:7px 0; }
 .camera-lab-content .camera-lab-stale { color:#f2ca8c; }.camera-lab-content details { font-size:11px;margin-top:16px;color:#b6cdbf; }
+.camera-default-card { padding:15px 12px;background:linear-gradient(140deg,#223e36,#14252c);border:1px solid #59796c;border-top:0;border-radius:0 0 12px 12px; }
+.camera-default-badge { font-size:8px;letter-spacing:.13em;color:#b6e8cf; }
+.camera-default-card p { font-size:10px;line-height:1.6;color:#b3cdc0;margin:8px 0 12px; }
+.camera-default-card button { display:flex;align-items:center;justify-content:center;gap:7px;width:100%;padding:11px 6px;border:1px solid #afdfc6;border-radius:7px;background:#b9e6cd;color:#142b22;font-size:11px;font-weight:600; }
+.camera-default-card .camera-loop-toggle { display:flex;align-items:center;gap:8px;margin:13px 0 7px;font-size:10px;color:#d0e6d9; }
+.camera-default-card small { display:block;font-size:9px;line-height:1.6;color:#a9c7b7; }
+.camera-goal-actions { display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:15px 0 8px; }
+.camera-default-card .camera-goal-actions button { padding:10px 5px;background:#24473c;color:#d8efdf;border-color:#729884;font-size:10px; }
+.camera-planning-lab.is-open .camera-default-card { border-radius:0; }
+.camera-path-overlay { position:absolute;top:22px;left:22px;width:254px;max-width:calc(100% - 90px);box-sizing:border-box;padding:13px;border:1px solid #719e8d80;border-radius:12px;background:#102126ed;box-shadow:0 10px 30px #0003;color:#d4e9df;z-index:4; }
+.whole-stage:has(.camera-path-overlay) .whole-heading { visibility:hidden; }
+.camera-path-heading { display:flex;align-items:center;gap:7px;font-size:11px; }
+.camera-path-heading>span { width:6px;height:6px;border-radius:50%;background:#abeac9;box-shadow:0 0 8px #8bdcb866; }
+.camera-path-heading>span.paused { background:#e1bd8d;box-shadow:none; }
+.camera-path-heading strong { flex:1; }
+.camera-path-heading button { border:0;background:transparent;color:#b3d2c2;padding:3px;display:flex; }
+.camera-path-overlay p { font-size:10px;margin:8px 0;color:#b3cfc0; }
+.camera-path-overlay>svg { display:block;width:100%;background:#0b1b21;border-radius:6px; }
+.camera-path-legend,.camera-path-telemetry { display:flex;justify-content:space-between;gap:6px;font-size:8px;color:#9fbfb0;margin:7px 0 10px; }
+.camera-path-legend>span:nth-child(2) { color:#d6b789; }
+.camera-path-telemetry { padding-top:8px;border-top:1px solid #40635580; }
+.camera-path-actions { display:flex;align-items:center;gap:6px; }
+.camera-path-actions button { display:flex;align-items:center;gap:5px;padding:8px;border:1px solid #759786;border-radius:5px;background:#28463c;color:#ddf4e7;font-size:10px; }
+.camera-path-actions kbd { margin-left:auto;font-size:8px;color:#96b6a7; }
+@media(max-width:760px) { .camera-path-overlay { top:15px;left:15px;width:218px;padding:10px; }.camera-path-overlay>svg { max-height:104px; } }
