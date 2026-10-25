@@ -1,3 +1,4 @@
+import { appearanceModelLabel, modelMessage } from "../modelNames";
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { publicUrl } from "../api";
@@ -85,17 +86,17 @@ export function NeuralAppearancePanel({ region, suspended = false, onChange }: P
     const version = ++revision.current;
     setLoadingColab(true);
     setError("");
-    setStatus("Checking available Colab models…");
+    setStatus("Checking available generative models…");
     try {
       const catalog = await discoverColabCatalog();
       if (!mounted.current || version !== revision.current) return;
       setColabModels(catalog.appearance_models);
       const chosen = selectBestColabAppearanceModel(catalog.appearance_models, region, preferredId);
-      if (!chosen) throw new Error("No Colab models were found.");
+      if (!chosen) throw new Error("No generative models were found.");
       setSelectedColabId(chosen.id);
-      setStatus(`Loading ${chosen.label}…`);
+      setStatus(`Loading ${appearanceModelLabel(chosen)}…`);
       const response = await fetch(publicUrl(chosen.path), { cache: "no-store" });
-      if (!response.ok) throw new Error(`Colab model unavailable: HTTP ${response.status}`);
+      if (!response.ok) throw new Error(`Generative model unavailable: HTTP ${response.status}`);
       const text = await response.text();
       const loaded = await parseAppearanceModel(text);
       if (!mounted.current || version !== revision.current) return;
@@ -104,7 +105,7 @@ export function NeuralAppearancePanel({ region, suspended = false, onChange }: P
       setSource(text);
       setEnabled(true);
       setCondition(regionIdx >= 0 ? regionIdx : 0);
-      setStatus(`Loaded best Colab model: ${chosen.label}.`);
+      setStatus(`Loaded best generative model: ${appearanceModelLabel(chosen)}.`);
       try { await storeAppearance(text); }
       catch { /* Browser storage is optional. */ }
     } catch (reason) {
@@ -149,15 +150,15 @@ export function NeuralAppearancePanel({ region, suspended = false, onChange }: P
   };
   return <section className="tissue-model-panel" aria-label="Learned tissue appearance">
     <span className="tissue-eyebrow">04 / LEARNED APPEARANCE</span>
-    <button type="button" className="tissue-wide tissue-variation-primary" disabled={loadingColab || busy} onClick={() => void loadColabModel()}>{loadingColab ? "Loading best Colab model…" : "Use Colab models"}</button>
-    {colabModels.length > 0 && <label className="tissue-field">Available Colab models<select aria-label="Available Colab models" value={selectedColabId} disabled={loadingColab || busy} onChange={event => { const nextId = event.target.value; setSelectedColabId(nextId); void loadColabModel(nextId); }}>{colabModels.map(entry => <option key={entry.id} value={entry.id}>{entry.label}</option>)}</select></label>}
-    <label className="tissue-field">Import Colab model<input type="file" aria-label="Import Colab tissue model" accept=".json,application/json" onChange={event => { void importFile(event.target.files?.[0]); event.target.value = ""; }} /></label>
+    <button type="button" className="tissue-wide tissue-variation-primary" disabled={loadingColab || busy} onClick={() => void loadColabModel()}>{loadingColab ? "Loading best generative model…" : "Use generative models"}</button>
+    {colabModels.length > 0 && <label className="tissue-field">Available generative models<select aria-label="Available generative models" value={selectedColabId} disabled={loadingColab || busy} onChange={event => { const nextId = event.target.value; setSelectedColabId(nextId); void loadColabModel(nextId); }}>{colabModels.map(entry => <option key={entry.id} value={entry.id}>{appearanceModelLabel(entry)}</option>)}</select></label>}
+    <label className="tissue-field">Import generative model<input type="file" aria-label="Import generative tissue model" accept=".json,application/json" onChange={event => { void importFile(event.target.files?.[0]); event.target.value = ""; }} /></label>
     <p className="tissue-copy">Import the notebook’s .tissue-model.json export. Inference stays in this browser and generates a texture fixed to the tissue surface.</p>
     {model && <>
       <p className="tissue-copy">{model.artifact.provenance.training_status === "fixture_trained" ? "Contract-test weights · not real tissue training" : "Experimental model · real-data research training"}<br />{Number(model.artifact.provenance.training_steps).toLocaleString()} optimizer steps · {String(model.artifact.provenance.training_native_patch_size)}² training patches</p>
       {model.kind === "spatial" && <p className="tissue-copy">Native detail: {model.artifact.architecture.native_resolution.join(" × ")}. Larger texture sizes interpolate this output.</p>}
       {!matching.length ? <p className="tissue-copy" role="status">This model does not cover {region.replaceAll("_", " ")}. The authored material stays active.</p> : <>
-        <label className="tissue-field">Learned tissue condition<select aria-label="Learned tissue condition" value={selectedCondition} onChange={event => setCondition(Number(event.target.value))}>{matching.map(index => <option key={index} value={index}>{labels[index]}</option>)}</select></label>
+        <label className="tissue-field">Learned tissue condition<select aria-label="Learned tissue condition" value={selectedCondition} onChange={event => setCondition(Number(event.target.value))}>{matching.map(index => <option key={index} value={index}>{modelMessage(labels[index]!)}</option>)}</select></label>
         <label className="tissue-field">Appearance seed<input aria-label="Appearance seed" inputMode="numeric" value={seed} onChange={event => setSeed(event.target.value)} /></label>
         <label className="tissue-field">Learned RGB resolution<select aria-label="Learned RGB resolution" value={resolution} onChange={event => setResolution(Number(event.target.value))}><option value="128">128 × 128</option><option value="256">256 × 256</option><option value="512">512 × 512</option></select></label>
         <label className="tissue-check"><input type="checkbox" checked={enabled} onChange={event => setEnabled(event.target.checked)} />Use learned appearance</label>
@@ -168,7 +169,7 @@ export function NeuralAppearancePanel({ region, suspended = false, onChange }: P
       </>}
       <button className="tissue-wide" onClick={remove}>Remove imported model</button>
     </>}
-    {status && <p className="tissue-copy" role="status">{status}</p>}
-    {error && <p className="tissue-model-error" role="alert">{error}</p>}
+    {status && <p className="tissue-copy" role="status">{modelMessage(status)}</p>}
+    {error && <p className="tissue-model-error" role="alert">{modelMessage(error)}</p>}
   </section>;
 }

@@ -1,3 +1,4 @@
+import { MODEL_NAMES } from "../modelNames";
 import { publicUrl } from "../api";
 
 export interface ColabAppearanceModelEntry {
@@ -38,7 +39,7 @@ export interface TissueColabCatalog {
 export const DEFAULT_COLAB_APPEARANCE_MODELS: readonly ColabAppearanceModelEntry[] = [
   {
     id: "spatial-v3-laparoscopic",
-    label: "Spatial CVAE-GAN v3 · 6 Laparoscopic Organs (Real Data · Best)",
+    label: MODEL_NAMES.appearance3,
     path: "tissue-models/spatial-v3-laparoscopic.tissue-model.json",
     schema: "viscera.tissue-appearance-decoder/v3",
     model_type: "masked-rgb-spatial-cvae-gan-v1",
@@ -59,7 +60,7 @@ export const DEFAULT_COLAB_APPEARANCE_MODELS: readonly ColabAppearanceModelEntry
   },
   {
     id: "directional-v2-detail",
-    label: "Directional Fourier CVAE-GAN v2 · Mucosa & Liver (128² Detail)",
+    label: MODEL_NAMES.appearance2,
     path: "tissue-models/directional-v2-detail.tissue-model.json",
     schema: "viscera.tissue-appearance-decoder/v2",
     model_type: "masked-rgb-directional-cvae-gan-v1",
@@ -73,7 +74,7 @@ export const DEFAULT_COLAB_APPEARANCE_MODELS: readonly ColabAppearanceModelEntry
   },
   {
     id: "periodic-v1-baseline",
-    label: "Periodic Fourier CVAE v1 · Mucosa & Liver (Baseline)",
+    label: MODEL_NAMES.appearance1,
     path: "tissue-models/periodic-v1-baseline.tissue-model.json",
     schema: "viscera.tissue-appearance-decoder/v1",
     model_type: "masked-rgb-periodic-cvae-v1",
@@ -90,7 +91,7 @@ export const DEFAULT_COLAB_APPEARANCE_MODELS: readonly ColabAppearanceModelEntry
 export const DEFAULT_COLAB_PBR_BUNDLES: readonly ColabPbrBundleEntry[] = [
   {
     id: "stablematerials-liver43-refined",
-    label: "StableMaterials PBR · Liver Seed 43 (Refined 512²)",
+    label: `${MODEL_NAMES.pbr} · Liver · 512 × 512`,
     path: "tissue-models/liver-seed43-refined.tissue-pbr.json",
     organ: "liver",
     resolution: [512, 512],
@@ -98,7 +99,7 @@ export const DEFAULT_COLAB_PBR_BUNDLES: readonly ColabPbrBundleEntry[] = [
   },
   {
     id: "lora-guided-liver-s1",
-    label: "SD1.5 Tissue LoRA · Guided Liver Seed 1 (512²)",
+    label: `${MODEL_NAMES.tiles} · Liver · 512 × 512`,
     path: "tissue-materials/learned-guided-liver-s1/preview/liver-seed1.tissue-pbr.json",
     organ: "liver",
     resolution: [512, 512],
@@ -106,7 +107,7 @@ export const DEFAULT_COLAB_PBR_BUNDLES: readonly ColabPbrBundleEntry[] = [
   },
   {
     id: "lora-guided-stomach-s1",
-    label: "SD1.5 Tissue LoRA · Guided Stomach Seed 1 (512²)",
+    label: `${MODEL_NAMES.tiles} · Stomach · 512 × 512`,
     path: "tissue-materials/learned-guided-stomach-s1/preview/stomach-seed1.tissue-pbr.json",
     organ: "stomach",
     resolution: [512, 512],
@@ -114,7 +115,7 @@ export const DEFAULT_COLAB_PBR_BUNDLES: readonly ColabPbrBundleEntry[] = [
   },
   {
     id: "lora-guided-pancreas-s1",
-    label: "SD1.5 Tissue LoRA · Guided Pancreas Seed 1 (512²)",
+    label: `${MODEL_NAMES.tiles} · Pancreas · 512 × 512`,
     path: "tissue-materials/learned-guided-pancreas-s1/preview/pancreas-seed1.tissue-pbr.json",
     organ: "pancreas",
     resolution: [512, 512],
@@ -122,7 +123,7 @@ export const DEFAULT_COLAB_PBR_BUNDLES: readonly ColabPbrBundleEntry[] = [
   },
   {
     id: "lora-guided-small_bowel-s1",
-    label: "SD1.5 Tissue LoRA · Guided Small Bowel Seed 1 (512²)",
+    label: `${MODEL_NAMES.tiles} · Small Bowel · 512 × 512`,
     path: "tissue-materials/learned-guided-small_bowel-s1/preview/small_bowel-seed1.tissue-pbr.json",
     organ: "small_bowel",
     resolution: [512, 512],
@@ -130,7 +131,7 @@ export const DEFAULT_COLAB_PBR_BUNDLES: readonly ColabPbrBundleEntry[] = [
   },
   {
     id: "lora-guided-large_bowel-s1",
-    label: "SD1.5 Tissue LoRA · Guided Large Bowel Seed 1 (512²)",
+    label: `${MODEL_NAMES.tiles} · Large Bowel · 512 × 512`,
     path: "tissue-materials/learned-guided-large_bowel-s1/preview/large_bowel-seed1.tissue-pbr.json",
     organ: "large_bowel",
     resolution: [512, 512],
@@ -138,7 +139,7 @@ export const DEFAULT_COLAB_PBR_BUNDLES: readonly ColabPbrBundleEntry[] = [
   },
   {
     id: "lora-guided-spleen-s1",
-    label: "SD1.5 Tissue LoRA · Guided Spleen Seed 1 (512²)",
+    label: `${MODEL_NAMES.tiles} · Spleen · 512 × 512`,
     path: "tissue-materials/learned-guided-spleen-s1/preview/spleen-seed1.tissue-pbr.json",
     organ: "spleen",
     resolution: [512, 512],

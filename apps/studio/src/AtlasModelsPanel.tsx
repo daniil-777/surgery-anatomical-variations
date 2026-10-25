@@ -1,5 +1,6 @@
+import { jointModelName, modelLaneDisplay, modelMessage } from "./modelNames";
 import { DisplaySettings } from "./DisplaySettings";
-import { apiUrl } from "./api";
+import { apiGet, apiUrl } from "./api";
 import { useEffect, useRef, useState } from "react";
 import { Check, LoaderCircle, Upload, X } from "lucide-react";
 import { atlasError } from "./atlas";
@@ -54,7 +55,7 @@ export function AtlasModelsPanel({ onClose, onLanguageState, onJointState }: { o
   const [clinicalCase, setClinicalCase] = useState<{ id: string; organ: string; patients: number; organVolume: number; lesionVolume: number } | null>(null);
   const refreshVersions = async () => {
     const request = ++historyRequest.current;
-    const response = await fetch(apiUrl("/api/atlas/models/joint/history"));
+    const response = await apiGet("/api/atlas/models/joint/history", {}, "atlas/models/joint/history.json");
     if (!response.ok) return;
     const value = await response.json();
     if (request !== historyRequest.current) return;
@@ -75,7 +76,7 @@ export function AtlasModelsPanel({ onClose, onLanguageState, onJointState }: { o
     const controller = new AbortController();
     // Retained versions are also a recovery path if the active bundle is damaged.
     void refreshVersions().catch(() => {});
-    void fetch(apiUrl("/api/atlas/models"), { signal: controller.signal }).then(async response => {
+    void apiGet("/api/atlas/models", { signal: controller.signal }, "atlas/models.json").then(async response => {
       if (!response.ok) throw await atlasError(response);
       updateStatus(await response.json());
     }).catch(cause => { if (!controller.signal.aborted) setError(cause instanceof Error ? cause.message : "Model status is unavailable."); });
@@ -85,7 +86,7 @@ export function AtlasModelsPanel({ onClose, onLanguageState, onJointState }: { o
     if (busy || (!restore && !file)) return;
     const limit = status?.max_upload_bytes ?? 128 * 1024 * 1024;
     if (!restore && file && (file.size === 0 || file.size > limit || !file.name.toLowerCase().endsWith(".zip"))) {
-      setError(`Choose a nonempty Colab weights ZIP smaller than ${Math.round(limit / 1024 / 1024)} MiB.`); return;
+      setError(`Choose a nonempty model weights ZIP smaller than ${Math.round(limit / 1024 / 1024)} MiB.`); return;
     }
     setPendingAction(restore ? "restore" : "import"); setError(""); setMessage("");
     try {
@@ -136,20 +137,20 @@ export function AtlasModelsPanel({ onClose, onLanguageState, onJointState }: { o
     finally { setPendingAction(null); }
   };
   return <dialog className="atlas-model-dialog" ref={dialog} aria-labelledby="atlas-models-title" onClose={onClose} onCancel={event => { if (busy) event.preventDefault(); }}>
-    <div className="atlas-model-dialog-heading"><div><span>COLAB → STUDIO</span><h2 id="atlas-models-title">Trained models</h2></div><DisplaySettings includeAccount={false} /><button aria-label="Close trained models" disabled={busy} onClick={() => dialog.current?.close()}><X size={18} /></button></div>
-    <p>Load the weight ZIP from a completed Colab run. Studio verifies its data, decoder and reference geometry before activation. Previous model versions remain stored and can be selected below.</p>
+    <div className="atlas-model-dialog-heading"><div><span>MODEL LIBRARY</span><h2 id="atlas-models-title">Trained models</h2></div><DisplaySettings includeAccount={false} /><button aria-label="Close trained models" disabled={busy} onClick={() => dialog.current?.close()}><X size={18} /></button></div>
+    <p>Load the weight ZIP from a completed training run. Studio verifies its data, decoder and reference geometry before activation. Previous model versions remain stored and can be selected below.</p>
     <div className="atlas-model-source"><span className={importedWeights ? "imported" : ""} />{status ? importedWeights ? "Your imported weights are active" : "Packaged default models" : "Checking model status…"}</div>
-    {status && <dl className="atlas-model-lanes">{Object.entries(status.lanes).map(([name, lane]) => <div key={name}><dt>{name}</dt><dd><strong>{friendly[lane.status] ?? lane.status}{lane.method ? ` · ${lane.method}` : ""}</strong><small>{lane.scope}</small></dd></div>)}</dl>}
+    {status && <dl className="atlas-model-lanes">{Object.entries(status.lanes).map(([name, lane]) => { const display = modelLaneDisplay(name, lane.method, status.joint_generation ?? 1); return <div key={name}><dt>{display.label}</dt><dd><strong>{friendly[lane.status] ?? "Status unavailable"}</strong><small>{display.scope}</small></dd></div>; })}</dl>}
     {status?.bundle_sha256 && <p className="atlas-model-hash">Bundle SHA256 <code>{status.bundle_sha256}</code></p>}
     {status?.joint_bundle_sha256 && <p className="atlas-model-hash">Joint model bundle SHA256 <code>{status.joint_bundle_sha256}</code></p>}
     {status?.wording_bundle_sha256 && <p className="atlas-model-hash">Wording model bundle SHA256 <code>{status.wording_bundle_sha256}</code></p>}
-    {versions.length > 0 && <section className="atlas-clinical-cases"><h3>Preserved joint models</h3><label>Model version <select aria-label="Preserved joint model" value={selectedVersion} disabled={busy} onChange={event => setSelectedVersion(event.target.value)}>{versions.map(version => <option key={`${version.generation}:${version.bundle_sha256}`} value={`${version.generation}:${version.bundle_sha256}`} disabled={version.integrity !== "verified"}>{version.generation === 2 ? "Spline flow v2" : "Joint VAE v1"} · {version.runtime?.gpu ?? "CPU"} · {version.bundle_sha256.slice(0, 12)}{version.active ? " · active" : ""}{version.integrity !== "verified" ? " · damaged" : ""}</option>)}</select></label><button className="atlas-btn" disabled={busy || !selectedVersion || versions.some(version => version.active && `${version.generation}:${version.bundle_sha256}` === selectedVersion)} onClick={() => void activateVersion()}>{pendingAction === "version" ? "Validating retained model…" : "Use selected version"}</button></section>}
+    {versions.length > 0 && <section className="atlas-clinical-cases"><h3>Preserved joint models</h3><label>Model version <select aria-label="Preserved joint model" value={selectedVersion} disabled={busy} onChange={event => setSelectedVersion(event.target.value)}>{versions.map(version => <option key={`${version.generation}:${version.bundle_sha256}`} value={`${version.generation}:${version.bundle_sha256}`} disabled={version.integrity !== "verified"}>{jointModelName(version.generation)} · {version.runtime?.gpu ?? "CPU"} · {version.bundle_sha256.slice(0, 12)}{version.active ? " · active" : ""}{version.integrity !== "verified" ? " · damaged" : ""}</option>)}</select></label><button className="atlas-btn" disabled={busy || !selectedVersion || versions.some(version => version.active && `${version.generation}:${version.bundle_sha256}` === selectedVersion)} onClick={() => void activateVersion()}>{pendingAction === "version" ? "Validating retained model…" : "Use selected version"}</button></section>}
     {status?.lanes.clinical?.groups?.length ? <details className="atlas-clinical-cases"><summary>Observed clinical cases</summary><p>Read-only retrieval from the measured training cases. This does not modify the organ in the editor.</p><label>Source group <select aria-label="Clinical source group" value={clinicalGroup} disabled={busy} onChange={event => { setClinicalGroup(Number(event.target.value)); setClinicalCase(null); }}>{status.lanes.clinical.groups.map((group, index) => <option key={`${group.organ}|${group.disease_code}`} value={index}>{group.organ} · {group.disease_code.replaceAll("_", " ")}</option>)}</select></label><button className="atlas-btn" disabled={busy} onClick={() => void retrieveCase()}>{pendingAction === "clinical" ? "Retrieving observed case…" : "Retrieve observed case"}</button>{clinicalCase && <p role="status"><strong>{clinicalCase.id}</strong><br />{clinicalCase.organ} · organ {clinicalCase.organVolume.toFixed(1)} mL · lesion {clinicalCase.lesionVolume.toFixed(1)} mL<br />{clinicalCase.patients} observed training patient{clinicalCase.patients === 1 ? "" : "s"} in this group; no population variance is inferred.</p>}</details> : null}
-    {status?.source === "imported" && !status.wording_bundle_sha256 && status.lanes.language && status.lanes.language.status !== "not_included" && <section className="atlas-language-enable"><p>The optional legacy text adapter proposes shape edits. Contextual disease and appearance edits remain available through the built-in compiler. The first enable may download the pinned Qwen base model (about 1 GB). Every proposal passes validation before application.</p><button className="atlas-btn" disabled={busy || status.language_enabled} onClick={() => void enableLanguage()}>{loadingLanguage ? <LoaderCircle size={15} className="atlas-spinning" /> : null}{status.language_enabled ? "Text adapter enabled" : loadingLanguage ? "Loading text model…" : "Enable text adapter (downloads base model)"}</button></section>}
-    <label className="atlas-model-file"><Upload size={18} /><span>Colab weight archive<input type="file" accept=".zip,application/zip" disabled={busy} aria-label="Colab weight archive" onChange={event => { setFile(event.target.files?.[0] ?? null); setError(""); setMessage(""); }} /></span></label>
+    {status?.source === "imported" && !status.wording_bundle_sha256 && status.lanes.language && status.lanes.language.status !== "not_included" && <section className="atlas-language-enable"><p>The optional legacy text adapter proposes shape edits. Contextual disease and appearance edits remain available through the built-in compiler. The first enable may download the base model for Generative Model 7 (about 1 GB). Every proposal passes validation before application.</p><button className="atlas-btn" disabled={busy || status.language_enabled} onClick={() => void enableLanguage()}>{loadingLanguage ? <LoaderCircle size={15} className="atlas-spinning" /> : null}{status.language_enabled ? "Text adapter enabled" : loadingLanguage ? "Loading text model…" : "Enable text adapter (downloads base model)"}</button></section>}
+    <label className="atlas-model-file"><Upload size={18} /><span>Model weight archive<input type="file" accept=".zip,application/zip" disabled={busy} aria-label="Model weight archive" onChange={event => { setFile(event.target.files?.[0] ?? null); setError(""); setMessage(""); }} /></span></label>
     <p className="atlas-model-scope">Joint variation samples shape, tissue color and the selected disease together. A separate wording model translates contextual text into validated shape, appearance and disease edits. Without wording weights, the built-in compiler handles supported phrases. Joint weight archives do not train text understanding or tissue physics.</p>
-    {error && <p className="atlas-model-error" role="alert">{error}</p>}
-    {message && <p className="atlas-model-success" role="status"><Check size={15} />{message}</p>}
+    {error && <p className="atlas-model-error" role="alert">{modelMessage(error)}</p>}
+    {message && <p className="atlas-model-success" role="status"><Check size={15} />{modelMessage(message)}</p>}
     <div className="atlas-model-actions"><button className="atlas-btn" disabled={busy || (status ? status.source !== "imported" && !status.joint_bundle_sha256 && !status.wording_bundle_sha256 : !error)} onClick={() => void change(true)}>{pendingAction === "restore" ? "Restoring defaults…" : "Restore defaults"}</button><button className="atlas-btn atlas-export" disabled={busy || !file} onClick={() => void change()}>{pendingAction === "import" ? <LoaderCircle size={15} className="atlas-spinning" /> : <Upload size={15} />}{pendingAction === "import" ? "Validating models…" : "Validate & activate"}</button></div>
   </dialog>;
 }

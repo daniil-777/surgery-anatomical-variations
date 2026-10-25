@@ -1,3 +1,4 @@
+import { jointModelName, modelMessage } from "./modelNames";
 import { apiGet, apiUrl } from "./api";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import type { KeyboardEvent } from "react";
@@ -63,7 +64,7 @@ function trainingHardware(version: JointVersion): string {
 }
 
 function modelLabel(version: JointVersion): string {
-  return `${version.generation === 2 ? "Flow v2" : "VAE v1"} · ${trainingHardware(version)}`;
+  return `${jointModelName(version.generation)} · ${trainingHardware(version)}`;
 }
 
 function verifyActivation(value: unknown, selected: JointVersion): void {
@@ -264,8 +265,8 @@ export function AtlasModelSelector({ disabled, revision, onBusyChange, onActivat
         })}
       </div>
       {loading && <p className="atlas-model-picker-note" role="status"><LoaderCircle size={14} className="atlas-spinning" /> Checking saved models…</p>}
-      {!loading && !versions.length && !error && <div className="atlas-model-picker-empty"><Layers3 size={24} /><strong>No imported joint models yet</strong><p>Import a Colab weights ZIP to start generating variations.</p></div>}
-      {error && <div className="atlas-model-picker-error" role="alert"><span>{error}</span><button type="button" disabled={busy || loading || disabled} onClick={() => void refresh()}>Retry</button></div>}
+      {!loading && !versions.length && !error && <div className="atlas-model-picker-empty"><Layers3 size={24} /><strong>No imported joint models yet</strong><p>Import a model weights ZIP to start generating variations.</p></div>}
+      {error && <div className="atlas-model-picker-error" role="alert"><span>{modelMessage(error)}</span><button type="button" disabled={busy || loading || disabled} onClick={() => void refresh()}>Retry</button></div>}
       <p className="atlas-model-picker-note">Switching sets the default for your next joint variation. A100, T4 and CPU identify training hardware.</p>
       <button type="button" className="atlas-model-picker-manage" disabled={busy || loading || disabled} onClick={() => { close(false); onManage(trigger.current); }}>Manage weights & imports <ArrowRight size={15} /></button>
     </div>}

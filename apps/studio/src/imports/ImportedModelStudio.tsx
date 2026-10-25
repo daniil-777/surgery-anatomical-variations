@@ -1,3 +1,4 @@
+import { modelMessage } from "../modelNames";
 import { OPERATIVE_REGIONS } from "../operativeView";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -443,15 +444,15 @@ export default function ImportedModelStudio() {
             </div>
           </div>
           {session && <><dl className="import-stats"><div><dt>Vertices</dt><dd>{count(session.model.stats.vertices)}</dd></div><div><dt>Triangles</dt><dd>{count(session.model.stats.triangles)}</dd></div><div><dt>Organs / Meshes</dt><dd>{count(session.model.stats.meshes)}</dd></div><div><dt>Textures</dt><dd>{count(liveTextures)}</dd></div></dl>
-            {session.model.warnings.map((message, index) => <p className="import-notice" key={index}>{message}</p>)}</>}
+            {session.model.warnings.map((message, index) => <p className="import-notice" key={index}>{modelMessage(message)}</p>)}</>}
         </section>
         <section>
           <div className="import-section-heading"><span>02 / GENERATE</span><Sparkles size={17} /></div>
           <h2>{isMultiOrganScene ? "Multi-organ coupled variations" : "Explore a variation"}</h2>
           <p>{isMultiOrganScene
-            ? "Each organ in the scene receives its own coupled 22-DOF Joint Flow v2 shape, 3D seamless PBR tissue maps and pathology while preserving shared anatomical contact interfaces."
-            : "The bundled trained flow proposes shape and surface controls. Choose a reference style to transfer them onto your mesh."}</p>
-          {modelError ? <p role="alert" className="import-error">{modelError}<button onClick={() => setModelAttempt(value => value + 1)}>Retry model loading</button></p>
+            ? "Each organ in the scene receives its own shape from Generative Model 2, 3D seamless PBR tissue maps and pathology while preserving shared anatomical contact interfaces."
+            : "The Generative Model 2 proposes shape and surface controls. Choose a reference style to transfer them onto your mesh."}</p>
+          {modelError ? <p role="alert" className="import-error">{modelMessage(modelError)}<button onClick={() => setModelAttempt(value => value + 1)}>Retry model loading</button></p>
             : !system && <p role="status" className="import-fine">Loading generative model…</p>}
 
           {session && system && isMultiOrganScene && (
@@ -520,7 +521,7 @@ export default function ImportedModelStudio() {
               </label>
             )}
             {(profileId || isMultiOrganScene) && <label>Disease severity band<select aria-label="Disease severity band" value={severity} onChange={event => setSeverity(event.target.value as typeof severity)}>
-              <option value="auto">Auto (sampled by Joint Flow v2)</option>
+              <option value="auto">Auto (sampled by Generative Model 2)</option>
               <option value="mild">Mild (10–35%)</option>
               <option value="moderate">Moderate (35–70%)</option>
               <option value="severe">Severe (70–100%)</option>
@@ -529,7 +530,7 @@ export default function ImportedModelStudio() {
             <label className="import-checkbox-row"><input type="checkbox" aria-label="Synthesize seamless 3D PBR textures" checked={seamlessTextures} disabled={scope === "shape"} onChange={event => setSeamlessTextures(event.target.checked)} /><span>Synthesize seamless 3D PBR textures (BaseColor + Normal + Roughness)</span></label>
             <label>Shape strength<output>{shapeStrength}%</output><input type="range" aria-label="Shape strength" min="0" max="100" step="5" value={shapeStrength} disabled={scope === "texture"} onChange={event => setShapeStrength(Number(event.target.value))} /></label>
             <label>Texture blend<output>{textureStrength}%</output><input type="range" aria-label="Texture blend" min="0" max="100" step="5" value={textureStrength} disabled={scope === "shape"} onChange={event => setTextureStrength(Number(event.target.value))} /></label>
-            <div className="import-pair"><label>Seed<input aria-label="Variation seed" type="number" min="0" max="4294967295" step="1" value={seed} onChange={event => setSeed(event.target.value)} /></label><label>Temperature<input aria-label="Flow temperature" type="number" min="0.1" max="1.5" step="0.1" value={temperature} onChange={event => setTemperature(Number(event.target.value))} /></label></div>
+            <div className="import-pair"><label>Seed<input aria-label="Variation seed" type="number" min="0" max="4294967295" step="1" value={seed} onChange={event => setSeed(event.target.value)} /></label><label>Temperature<input aria-label="Variation temperature" type="number" min="0.1" max="1.5" step="0.1" value={temperature} onChange={event => setTemperature(Number(event.target.value))} /></label></div>
           </fieldset>
           <div className="import-generate-actions">
             <button className="import-primary" disabled={!ready} onClick={() => void apply("sample")}><Sparkles size={16} />{isMultiOrganScene ? "Generate scene variation" : "Generate variation"}</button>
@@ -564,7 +565,7 @@ export default function ImportedModelStudio() {
             </div>
           </div>
 
-          <details><summary>How multi-organ scene variations work</summary><p>The trained flow proposes shape, surface and optional disease variations for each organ. Nearby surfaces share their overall movement, with local changes reduced near sampled contacts. The results are illustrative anatomical variations; contact damping does not guarantee collision-free geometry.</p>{applied?.report.warnings.map((message, index) => <p key={index}>{message}</p>)}</details>
+          <details><summary>How multi-organ scene variations work</summary><p>Generative Model 2 proposes shape, surface and optional disease variations for each organ. Nearby surfaces share their overall movement, with local changes reduced near sampled contacts. The results are illustrative anatomical variations; contact damping does not guarantee collision-free geometry.</p>{applied?.report.warnings.map((message, index) => <p key={index}>{modelMessage(message)}</p>)}</details>
         </section>
         <section>
           <div className="import-section-heading"><span>03 / DESCRIBE</span></div><h2>Text-guided edits</h2>
@@ -594,7 +595,7 @@ export default function ImportedModelStudio() {
     <footer className="import-status" aria-live="polite">
       {busy ? <><span role="status"><LoaderCircle size={16} className="import-spinner" />{busy}</span><button onClick={() => {
         setAutoVary(false); pending.current?.abort(); ++request.current; setBusy(""); setNotice("Operation cancelled. Your previous result is unchanged.");
-      }}>Cancel operation</button></> : error ? <span role="alert" className="import-error">{error}</span> : <span role="status">{notice && <Check size={16} />}{notice || "Local import · co-registered multi-organ scenes · reversible variations · portable GLB"}</span>}
+      }}>Cancel operation</button></> : error ? <span role="alert" className="import-error">{modelMessage(error)}</span> : <span role="status">{notice && <Check size={16} />}{notice || "Local import · co-registered multi-organ scenes · reversible variations · portable GLB"}</span>}
     </footer>
   </div>;
 }

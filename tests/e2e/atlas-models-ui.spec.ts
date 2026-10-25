@@ -34,7 +34,7 @@ test("Colab weights activate atomically, show lane scope, and restore defaults",
   let posted: Buffer | null = null;
   await page.route("**/api/atlas/models/import", route => { posted = route.request().postDataBuffer(); expect(route.request().headers()["content-type"]).toBe("application/zip"); return route.fulfill({ json: imported }); });
   await page.route("**/api/atlas/models/defaults", route => route.fulfill({ json: defaults }));
-  await page.getByLabel("Colab weight archive").setInputFiles({ name: "viscera-final-weights.zip", mimeType: "application/zip", buffer: Buffer.from("fixture-zip") });
+  await page.getByLabel("Model weight archive").setInputFiles({ name: "viscera-final-weights.zip", mimeType: "application/zip", buffer: Buffer.from("fixture-zip") });
   await page.getByRole("button", { name: "Validate & activate", exact: true }).click();
   await expect(page.getByText("Your imported weights are active", { exact: true })).toBeVisible();
   expect(posted?.toString()).toBe("fixture-zip");
@@ -63,7 +63,7 @@ test("language enable explicitly permits its download and source retrieval never
   await page.route("**/api/atlas/models/import", route => route.fulfill({ json: imported }));
   await page.route("**/api/atlas/models/language/enable", route => { expect(route.request().postDataJSON()).toEqual({ allow_model_download: true }); return route.fulfill({ json: { ...imported, language_enabled: true } }); });
   await page.route("**/api/atlas/models/clinical/sample", route => route.fulfill({ json: { cases: [{ case_id: "observed-case", organ: "pancreas", disease_code: "pancreatic_ductal_adenocarcinoma", sampling: "empirical_case_retrieval", observed_training_patients: 1, measured_features: { organ_volume_ml: 100, lesion_volume_ml: 20 } }] } }));
-  await page.getByLabel("Colab weight archive").setInputFiles({ name: "weights.zip", mimeType: "application/zip", buffer: Buffer.from("fixture") });
+  await page.getByLabel("Model weight archive").setInputFiles({ name: "weights.zip", mimeType: "application/zip", buffer: Buffer.from("fixture") });
   await page.getByRole("button", { name: "Validate & activate", exact: true }).click();
   await page.getByText("Observed clinical cases", { exact: true }).click();
   await page.getByRole("button", { name: "Retrieve observed case", exact: true }).click();
@@ -152,7 +152,7 @@ test("text model loading reports its own action without claiming archive validat
     await pending;
     return route.fulfill({ json: { ...imported, language_enabled: true } });
   });
-  await page.getByLabel("Colab weight archive").setInputFiles({ name: "weights.zip", mimeType: "application/zip", buffer: Buffer.from("fixture") });
+  await page.getByLabel("Model weight archive").setInputFiles({ name: "weights.zip", mimeType: "application/zip", buffer: Buffer.from("fixture") });
   await page.getByRole("button", { name: "Validate & activate", exact: true }).click();
   await page.getByRole("button", { name: "Enable text adapter (downloads base model)", exact: true }).click();
   await expect(page.getByRole("button", { name: "Loading text model…", exact: true })).toBeDisabled();
@@ -168,7 +168,7 @@ test("failed import preserves model status and pending validation cannot close t
   let release!: () => void;
   const pending = new Promise<void>(resolve => { release = resolve; });
   await page.route("**/api/atlas/models/import", async route => { await pending; return route.fulfill({ status: 422, json: { detail: "Weights were not activated: dataset mismatch" } }); });
-  await page.getByLabel("Colab weight archive").setInputFiles({ name: "bad.zip", mimeType: "application/zip", buffer: Buffer.from("bad") });
+  await page.getByLabel("Model weight archive").setInputFiles({ name: "bad.zip", mimeType: "application/zip", buffer: Buffer.from("bad") });
   await page.getByRole("button", { name: "Validate & activate", exact: true }).click();
   await expect(page.getByRole("button", { name: "Validating models…", exact: true })).toBeDisabled();
   await page.keyboard.press("Escape");
@@ -182,10 +182,15 @@ test("failed import preserves model status and pending validation cannot close t
 test("model panel fits mobile and rejects non-ZIP files locally", async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await setup(page);
-  await page.getByLabel("Colab weight archive").setInputFiles({ name: "model.pkl", mimeType: "application/octet-stream", buffer: Buffer.from("not allowed") });
+  await page.getByLabel("Model weight archive").setInputFiles({ name: "model.pkl", mimeType: "application/octet-stream", buffer: Buffer.from("not allowed") });
   await page.getByRole("button", { name: "Validate & activate", exact: true }).click();
-  await expect(page.getByRole("alert")).toContainText("Colab weights ZIP");
+  await expect(page.getByRole("alert")).toContainText("model weights ZIP");
   const box = await page.getByRole("dialog").boundingBox();
   expect(box!.x).toBeGreaterThanOrEqual(0); expect(box!.x + box!.width).toBeLessThanOrEqual(390);
   await page.screenshot({ path: testInfo.outputPath("colab-models-mobile.png") });
+});
+
+// These contract tests model an online service, independent of the preview host.
+test.beforeEach(async ({ page }) => {
+  await page.route("**/api/health", route => route.fulfill({ json: { status: "ok" } }));
 });

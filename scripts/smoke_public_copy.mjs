@@ -75,9 +75,9 @@ await check('atlas', '', 'atlas', async (page) => {
   if (await page.$('.atlas-text-feedback.unsupported')) throw new Error(`text command refused: ${await page.$eval('.atlas-text-feedback', (e) => e.textContent)}`);
   const width = await page.evaluate(() => Number(document.body.innerText.match(/(\d+\.\d) × (\d+\.\d) × (\d+\.\d)/)?.[1] ?? NaN));
   if (Math.abs(width - 260) > 0.05) throw new Error(`text command applied, but the liver is ${width} mm wide`);
-  await flag(page, enabled('Joint flow variation'));
-  if (!await button(page, 'Joint flow variation')) throw new Error('joint flow button unavailable');
-  await flag(page, shown('.atlas-model-status', /Joint flow variation applied/));
+  await flag(page, enabled('Generative Model 2 variation'));
+  if (!await button(page, 'Generative Model 2 variation')) throw new Error('joint flow button unavailable');
+  await flag(page, shown('.atlas-model-status', /Generative Model 2 variation applied/));
   const seed = await page.evaluate(() => document.getElementById('atlas-joint-seed')?.value ?? null);
   await button(page, 'New joint variation');
   await flag(page, `(document.getElementById('atlas-joint-seed')?.value ?? null) !== ${JSON.stringify(seed)} || window.__viscera.errors.length > 0`);
@@ -95,8 +95,8 @@ await check('atlas', '', 'atlas', async (page) => {
   if (!await button(page, 'Generate variation')) throw new Error('disease variation button unavailable');
   await flag(page, `(document.getElementById('atlas-disease-seed')?.value ?? null) !== ${JSON.stringify(diseaseSeed)} || window.__viscera.errors.length > 0`);
   await flag(page, shown('.atlas-disease-panel .atlas-recipe-state', /Preview matches this recipe/));
-  if (!await button(page, 'Joint flow variation')) throw new Error('joint flow button unavailable with a disease');
-  await flag(page, shown('.atlas-model-status', /Joint flow variation applied/));
+  if (!await button(page, 'Generative Model 2 variation')) throw new Error('joint flow button unavailable with a disease');
+  await flag(page, shown('.atlas-model-status', /Generative Model 2 variation applied/));
   if (!await page.$('.atlas-stage-disease')) throw new Error('the joint flow variation dropped the disease');
   await page.evaluate(() => [...document.querySelectorAll('button')].find((b) => b.textContent.trim() === 'Surface')?.click());
   await new Promise((r) => setTimeout(r, 2500));

@@ -56,8 +56,8 @@ async function restoreOriginal(request: APIRequestContext) {
 async function ready(page: Page) {
   await page.goto("/?template=hra-liver-female");
   await expect(trigger(page)).toBeEnabled();
-  await expect(trigger(page)).toContainText("Flow v2 · A100");
-  await expect(page.getByRole("button", { name: "Joint flow variation", exact: true })).toBeEnabled();
+  await expect(trigger(page)).toContainText("Generative Model 2 · A100");
+  await expect(page.getByRole("button", { name: "Generative Model 2 variation", exact: true })).toBeEnabled();
   await expect(page.getByRole("button", { name: "Export GLB", exact: true })).toBeEnabled();
 }
 
@@ -71,13 +71,13 @@ async function choose(page: Page, label: string, model: ModelVersion) {
   expect(await response.json()).toMatchObject({ joint_generation: model.generation, joint_bundle_sha256: model.bundle_sha256 });
   await expect(chooser(page)).toBeHidden();
   await expect(trigger(page)).toContainText(label);
-  await expect(page.getByRole("button", { name: model.generation === 2 ? "Joint flow variation" : "Joint VAE variation", exact: true })).toBeEnabled();
+  await expect(page.getByRole("button", { name: model.generation === 2 ? "Generative Model 2 variation" : "Generative Model 1 variation", exact: true })).toBeEnabled();
 }
 
 async function sample(page: Page, model: ModelVersion, seed: number) {
   await page.getByRole("textbox", { name: "Joint variation seed", exact: true }).fill(String(seed));
   const completed = page.waitForResponse(response => response.url().endsWith("/api/atlas/sample-joint") && response.request().method() === "POST");
-  await page.getByRole("button", { name: model.generation === 2 ? "Joint flow variation" : "Joint VAE variation", exact: true }).click();
+  await page.getByRole("button", { name: model.generation === 2 ? "Generative Model 2 variation" : "Generative Model 1 variation", exact: true }).click();
   const response = await completed;
   expect(response.status(), await response.text()).toBe(200);
   const result = await response.json() as AtlasGeneration;
@@ -116,20 +116,20 @@ test.describe("live generation model selector", () => {
   test("one click switches real flow and VAE weights, and A100 persists on reload", async ({ page }, info) => {
     const errors: string[] = []; page.on("pageerror", error => errors.push(error.message));
     await trigger(page).click();
-    for (const label of ["Flow v2 · A100", "Flow v2 · CPU", "VAE v1 · T4", "VAE v1 · CPU"]) {
+    for (const label of ["Generative Model 2 · A100", "Generative Model 2 · CPU", "Generative Model 1 · T4", "Generative Model 1 · CPU"]) {
       await expect(chooser(page).getByRole("button", { name: `Use ${label}`, exact: true })).toBeVisible();
     }
     await settledChooser(page);
     await page.screenshot({ path: info.outputPath("desktop-model-selector.png") });
-    await choose(page, "Flow v2 · CPU", cpuFlow);
+    await choose(page, "Generative Model 2 · CPU", cpuFlow);
     const cpu = await sample(page, cpuFlow, 72101);
-    await choose(page, "VAE v1 · T4", t4Vae);
+    await choose(page, "Generative Model 1 · T4", t4Vae);
     const vae = await sample(page, t4Vae, 72102);
-    await choose(page, "VAE v1 · CPU", cpuVae);
+    await choose(page, "Generative Model 1 · CPU", cpuVae);
     const cpuVaeSample = await sample(page, cpuVae, 72104);
-    await choose(page, "Flow v2 · A100", a100);
+    await choose(page, "Generative Model 2 · A100", a100);
     await page.reload();
-    await expect(trigger(page)).toContainText("Flow v2 · A100");
+    await expect(trigger(page)).toContainText("Generative Model 2 · A100");
     const restored = await sample(page, a100, 72103);
     const finalHistory = await history(page.request);
     expect(retained(finalHistory)).toEqual(retained(initialHistory));
@@ -150,18 +150,18 @@ test.describe("live generation model selector", () => {
     });
     await trigger(page).click();
     const failed = page.waitForResponse(response => response.url().endsWith("/api/atlas/models/joint/activate") && response.status() === 500);
-    await chooser(page).getByRole("button", { name: "Use Flow v2 · CPU", exact: true }).click();
+    await chooser(page).getByRole("button", { name: "Use Generative Model 2 · CPU", exact: true }).click();
     await failed;
     await expect(chooser(page)).toBeVisible();
     await expect(chooser(page).getByRole("alert")).toContainText("Selector activation test failure");
-    await expect(trigger(page)).toContainText("Flow v2 · A100");
+    await expect(trigger(page)).toContainText("Generative Model 2 · A100");
     expect((await history(page.request)).active_bundle).toBe(originalBundle);
     await page.screenshot({ path: info.outputPath("model-selector-retry.png") });
     await chooser(page).getByRole("button", { name: "Retry", exact: true }).click();
-    await expect(chooser(page).getByRole("button", { name: "Use Flow v2 · CPU", exact: true })).toBeEnabled();
-    await choose(page, "Flow v2 · CPU", cpuFlow);
+    await expect(chooser(page).getByRole("button", { name: "Use Generative Model 2 · CPU", exact: true })).toBeEnabled();
+    await choose(page, "Generative Model 2 · CPU", cpuFlow);
     expect((await history(page.request)).active_bundle).toBe(cpuFlow.bundle_sha256);
-    await choose(page, "Flow v2 · A100", a100);
+    await choose(page, "Generative Model 2 · A100", a100);
     expect(rejected).toBe(true);
     await page.unroute("**/api/atlas/models/joint/activate");
     await writeFile(info.outputPath("model-retry-evidence.json"), JSON.stringify({ rejected: true, priorSelectionPreserved: true, retryActivatedRealWeights: true, restoredBundle: originalBundle }, null, 2));
@@ -176,10 +176,10 @@ test.describe("live generation model selector", () => {
       else { await catalogGate; await route.continue(); }
     });
     await trigger(page).click();
-    await chooser(page).getByRole("button", { name: "Use VAE v1 · T4", exact: true }).click();
+    await chooser(page).getByRole("button", { name: "Use Generative Model 1 · T4", exact: true }).click();
     await expect(chooser(page).getByRole("alert")).toContainText("Studio could not refresh its controls");
     expect((await history(page.request)).active_bundle).toBe(t4Vae.bundle_sha256);
-    await expect(page.getByRole("button", { name: "Joint VAE variation", exact: true })).toBeDisabled();
+    await expect(page.getByRole("button", { name: "Generative Model 1 variation", exact: true })).toBeDisabled();
     const recoveryRequest = page.waitForRequest(request => request.url().endsWith("/api/atlas/catalog"));
     await chooser(page).getByRole("button", { name: "Retry", exact: true }).click();
     await recoveryRequest;
@@ -189,12 +189,12 @@ test.describe("live generation model selector", () => {
     } finally { releaseCatalog(); }
     await settledChooser(page);
     await expect(page.getByRole("alert")).toHaveCount(0);
-    await expect(page.getByRole("button", { name: "Joint VAE variation", exact: true })).toBeEnabled();
+    await expect(page.getByRole("button", { name: "Generative Model 1 variation", exact: true })).toBeEnabled();
     expect(catalogRequests).toBe(2);
     await page.keyboard.press("Escape");
     const recovered = await sample(page, t4Vae, 72201);
     await page.unroute("**/api/atlas/catalog");
-    await choose(page, "Flow v2 · A100", a100);
+    await choose(page, "Generative Model 2 · A100", a100);
     await writeFile(info.outputPath("catalog-recovery-evidence.json"), JSON.stringify({ catalogRequests, recovered, restoredBundle: originalBundle }, null, 2));
   });
 
@@ -203,11 +203,11 @@ test.describe("live generation model selector", () => {
     await page.keyboard.press("Enter");
     await expect(chooser(page)).toBeVisible();
     await settledChooser(page);
-    await expect(chooser(page).getByRole("button", { name: "Use Flow v2 · A100", exact: true })).toBeFocused();
+    await expect(chooser(page).getByRole("button", { name: "Use Generative Model 2 · A100", exact: true })).toBeFocused();
     await page.keyboard.press("ArrowDown");
-    await expect(chooser(page).getByRole("button", { name: "Use Flow v2 · CPU", exact: true })).toBeFocused();
+    await expect(chooser(page).getByRole("button", { name: "Use Generative Model 2 · CPU", exact: true })).toBeFocused();
     await page.keyboard.press("End");
-    await expect(chooser(page).getByRole("button", { name: "Use VAE v1 · CPU", exact: true })).toBeFocused();
+    await expect(chooser(page).getByRole("button", { name: "Use Generative Model 1 · CPU", exact: true })).toBeFocused();
     await page.keyboard.press("Escape");
     await expect(chooser(page)).toBeHidden();
     await expect(trigger(page)).toBeFocused();

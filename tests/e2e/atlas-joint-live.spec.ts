@@ -54,7 +54,7 @@ test("actual full joint VAE weights drive baseline and disease shape/color toget
   const specimens: AtlasGeneration[] = [];
   for (const seed of [2101, 2101, 2102]) {
     await page.getByRole("textbox", { name: "Joint variation seed", exact: true }).fill(String(seed));
-    const value = await responseTo(page, "/api/atlas/sample-joint", () => page.getByRole("button", { name: "Joint VAE variation", exact: true }).click());
+    const value = await responseTo(page, "/api/atlas/sample-joint", () => page.getByRole("button", { name: "Generative Model 1 variation", exact: true }).click());
     assertJoint(value, seed); specimens.push(value);
     expect(value.spec.template_id).toBe(initial.spec.template_id); expect(value.spec.disease).toBeFalsy();
   }
@@ -69,7 +69,7 @@ test("actual full joint VAE weights drive baseline and disease shape/color toget
   const diseased: AtlasGeneration[] = [];
   for (const seed of [3201, 3201, 3202]) {
     await page.getByRole("textbox", { name: "Joint variation seed", exact: true }).fill(String(seed));
-    const value = await responseTo(page, "/api/atlas/sample-joint", () => page.getByRole("button", { name: "Joint VAE variation", exact: true }).click());
+    const value = await responseTo(page, "/api/atlas/sample-joint", () => page.getByRole("button", { name: "Generative Model 1 variation", exact: true }).click());
     assertJoint(value, seed); diseased.push(value);
     expect(value.spec.disease?.profile_id).toBe("liver-hcc");
   }

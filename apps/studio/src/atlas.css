@@ -329,7 +329,7 @@
 .atlas-model-picker-trigger-copy strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 11px; line-height: 1.3; font-weight: 550; }
 .atlas-model-picker-chevron { color: #97b4ad; flex-shrink: 0; transition: transform 150ms; }
 .atlas-model-picker-trigger.is-open .atlas-model-picker-chevron { transform: rotate(180deg); }
-.atlas-model-picker-popover { position: absolute; top: calc(100% + 10px); right: 0; width: 360px; max-height: calc(100dvh - 85px); overflow-y: auto; padding: 12px; border: 1px solid #52666b80; border-radius: 18px; background: #142028; color: #dfebe8; box-shadow: 0 24px 70px #0009, 0 4px 14px #0004, inset 0 1px #ffffff08; animation: atlas-model-picker-enter 140ms ease-out; }
+.atlas-model-picker-popover { position: absolute; top: calc(100% + 10px); left: 0; right: auto; width: 360px; box-sizing: border-box; max-width: calc(100vw - 24px); max-height: calc(100dvh - 85px); overflow-y: auto; padding: 12px; border: 1px solid #52666b80; border-radius: 18px; background: #142028; color: #dfebe8; box-shadow: 0 24px 70px #0009, 0 4px 14px #0004, inset 0 1px #ffffff08; animation: atlas-model-picker-enter 140ms ease-out; }
 .atlas-model-picker-heading { display: flex; justify-content: space-between; align-items: center; padding: 5px 2px 12px 6px; }
 .atlas-model-picker-heading span { color: #9ab4ac; font-size: 9px; letter-spacing: .12em; text-transform: uppercase; }
 .atlas-model-picker-heading h2 { margin: 5px 0 0; font-size: 18px; font-weight: 550; letter-spacing: -.025em; text-wrap: balance; }

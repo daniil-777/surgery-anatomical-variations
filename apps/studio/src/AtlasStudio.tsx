@@ -1,3 +1,4 @@
+import { jointModelName, modelMessage } from "./modelNames";
 import { VideoRecorderButton } from "./VideoRecorderPanel";
 import { WhistleMicButton } from "./whistleMic";
 import { DisplaySettings, SceneResizeHandle } from "./DisplaySettings";
@@ -763,7 +764,7 @@ export default function AtlasStudio({ textureLab = false }: { textureLab?: boole
           {sourceLink && <a href={sourceLink} target="_blank" rel="noreferrer">Open reference source <ExternalLink size={12} /></a>}
         </div>}
         {busy === "preview" ? <div className="atlas-live-progress" role="status"><LoaderCircle size={13} className="atlas-spinning" />Updating preview…</div> : busy && <div className={`atlas-progress ${generated ? "has-preview" : ""}`} role="status"><LoaderCircle size={21} className="atlas-spinning" /><span>{busy === "library" ? "Opening the anatomy library" : busy === "compile" ? "Interpreting your anatomy instruction" : busy === "joint" ? "Sampling shape, color and disease together" : busy === "learned" ? "Sampling the trained shape model" : busy === "disease" ? "Sampling the trained disease prior" : busy === "surface" ? "Preparing tissue appearance" : "Preparing reference geometry"}</span><small>{generated ? "The previous preview remains visible until this one is ready." : "Loading geometry and its source information"}</small></div>}
-        {!generated && !busy && error && <div className="atlas-start-error"><Layers3 size={32} /><h2>The anatomy preview is unavailable</h2><p>{error}</p><button className="atlas-btn" onClick={() => catalog && draft ? void generate(draft) : window.location.reload()}>Try again <ArrowRight size={14} /></button></div>}
+        {!generated && !busy && error && <div className="atlas-start-error"><Layers3 size={32} /><h2>The anatomy preview is unavailable</h2><p>{modelMessage(error)}</p><button className="atlas-btn" onClick={() => catalog && draft ? void generate(draft) : window.location.reload()}>Try again <ArrowRight size={14} /></button></div>}
         <div className="atlas-stage-bottom"><div className="atlas-view-tabs" role="group" aria-label="Camera view">{views.map((item) => <button key={item.id} className={view === item.id ? "active" : ""} onClick={() => { setView(item.id); viewport.current?.view(item.id); }} disabled={!generated}>{item.label}</button>)}</div><span className="atlas-orbit-hint">{sculptEnabled ? "Drag tissue to sculpt · Right-drag to orbit" : "Drag to orbit · Scroll to zoom"}</span></div>
         {generated && <div className="atlas-dimensions"><span>{stats.extentMm.map((n) => n.toFixed(1)).join(" × ")} <small>mm</small></span><span>X × Y × Z bounding size</span></div>}
       </div>
@@ -787,7 +788,7 @@ export default function AtlasStudio({ textureLab = false }: { textureLab?: boole
         </div>
       </section>
       <section className="atlas-prompt-area" aria-label="Text to anatomy">
-        {error && generated && <div className="atlas-inline-error" role="alert"><span>{error}</span><button onClick={() => setError("")} aria-label="Dismiss error"><X size={14} /></button></div>}
+        {error && generated && <div className="atlas-inline-error" role="alert"><span>{modelMessage(error)}</span><button onClick={() => setError("")} aria-label="Dismiss error"><X size={14} /></button></div>}
         <div className="atlas-prompt-label"><Sparkles size={14} /><span>{catalog?.diseases ? "Anatomy with words" : catalog?.materials ? "Shape & surface with words" : "Shape with words"}</span><small>Bounded anatomical edits · Liver &amp; multi-organ surgical compiler</small></div>
         <AtlasPromptTips
           selectedOrganId={selectedOrgan?.id ?? "liver"}
@@ -808,7 +809,7 @@ export default function AtlasStudio({ textureLab = false }: { textureLab?: boole
           />
           <button type="submit" className="atlas-prompt-send" aria-label="Apply text instruction" disabled={!prompt.trim() || !draft || modelSwitching || Boolean(busy)}>{busy === "compile" ? <LoaderCircle size={18} className="atlas-spinning" /> : <ArrowRight size={18} />}</button>
         </form>
-        <div className={`atlas-text-feedback ${textMessage?.accepted === false ? "unsupported" : ""}`} aria-live="polite">{textMessage ? <><span>{textMessage.accepted ? <Check size={12} /> : <CircleHelp size={12} />}</span>{textMessage.text}</> : <span>{catalog?.diseases ? "Describe shape, surface or a supported disease profile." : catalog?.materials ? "Describe shape, tissue finish or pigment." : "Describe size, taper, bend, twist or asymmetry."} Unsupported requests stay unapplied.</span>}</div>
+        <div className={`atlas-text-feedback ${textMessage?.accepted === false ? "unsupported" : ""}`} aria-live="polite">{textMessage ? <><span>{textMessage.accepted ? <Check size={12} /> : <CircleHelp size={12} />}</span>{modelMessage(textMessage.text)}</> : <span>{catalog?.diseases ? "Describe shape, surface or a supported disease profile." : catalog?.materials ? "Describe shape, tissue finish or pigment." : "Describe size, taper, bend, twist or asymmetry."} Unsupported requests stay unapplied.</span>}</div>
       </section>
     </main>
 
@@ -824,8 +825,8 @@ export default function AtlasStudio({ textureLab = false }: { textureLab?: boole
       }}>{(["shape", "surface", "disease", "sculpt"] as const).map(tab => <button key={tab} id={`atlas-tab-${tab}`} role="tab" tabIndex={inspectorTab === tab ? 0 : -1} aria-selected={inspectorTab === tab} aria-controls={`atlas-${tab}-panel`} onClick={() => { setInspectorTab(tab); if (tab === "sculpt") setSculptEnabled(true); }}>{tab[0]!.toUpperCase() + tab.slice(1)}</button>)}</div><button className="atlas-mobile-close" onClick={() => setMobilePanel(null)} aria-label="Close anatomy controls"><X size={16} /></button></div>
       <div className="atlas-inspector-scroll">
         <section className="atlas-joint-controls" aria-label="Joint learned variation" hidden={inspectorTab === "sculpt" || inspectorTab === "surface"}>
-          <div className="atlas-recipe-heading"><span>{jointGeneration === 2 ? "Joint shape + color flow" : "Joint shape + color VAE"}</span></div>
-          {modelNotice && <p className="atlas-model-selection-notice" role="status">{modelNotice}</p>}
+          <div className="atlas-recipe-heading"><span>{jointModelName(jointGeneration)}</span></div>
+          {modelNotice && <p className="atlas-model-selection-notice" role="status">{modelMessage(modelNotice)}</p>}
           <p className="atlas-model-help">{jointAvailable ? "Samples mesh, tissue color and the selected disease together. Choose Baseline in Disease for a disease-free variation." : "The bundled joint model is unavailable. Open Trained models to check its status or select another model."}</p>
           {jointAvailable && <>
             <label className="atlas-seed-label" htmlFor="atlas-joint-seed">Joint variation seed</label>
@@ -833,9 +834,9 @@ export default function AtlasStudio({ textureLab = false }: { textureLab?: boole
             <label className="atlas-control"><span><span>Joint variation temperature</span><output>{jointTemperature.toFixed(1)}</output></span><input type="range" aria-label="Joint variation temperature" min={0.2} max={1.5} step={0.1} value={jointTemperature} disabled={!draft || controlsDisabled} onChange={event => setJointTemperature(Number(event.target.value))} /></label>
             {jointGeneration === 2 && <label className="atlas-variation-range"><span>Disease design range</span><select aria-label="Disease design range" value={jointSeverity} disabled={!draft?.disease || controlsDisabled} onChange={event => setJointSeverity(event.target.value as typeof jointSeverity)}><option value="auto">All ranges</option><option value="mild">Mild appearance</option><option value="moderate">Moderate appearance</option><option value="severe">Severe appearance</option></select><small>Visual design strength, not a clinical stage.</small></label>}
           </>}
-          <button className="atlas-btn atlas-generate" onClick={() => jointVariation()} disabled={!jointAvailable || !draft || controlsDisabled}>{busy === "joint" ? <LoaderCircle size={15} className="atlas-spinning" /> : <Sparkles size={15} />}{jointGeneration === 2 ? "Joint flow variation" : "Joint VAE variation"}</button>
+          <button className="atlas-btn atlas-generate" onClick={() => jointVariation()} disabled={!jointAvailable || !draft || controlsDisabled}>{busy === "joint" ? <LoaderCircle size={15} className="atlas-spinning" /> : <Sparkles size={15} />}{`${jointModelName(jointGeneration)} variation`}</button>
           {jointAvailable && <><button className="atlas-sample" onClick={() => jointVariation(true)} disabled={!draft || controlsDisabled}><Shuffle size={13} />New joint variation</button><p className="atlas-model-help">The same seed and temperature replay the same result. Higher temperature explores more of the trained variation.</p></>}
-          {Boolean(generated?.summary.joint_model) && <p className="atlas-model-status" role="status"><Check size={11} />{generated?.spec.renderer_version === "disease-v2" ? "Joint flow variation applied" : "Joint VAE variation applied"}</p>}
+          {Boolean(generated?.summary.joint_model) && <p className="atlas-model-status" role="status"><Check size={11} />{`${jointModelName(generated?.spec.renderer_version === "disease-v2" ? 2 : 1)} variation applied`}</p>}
         </section>
         {inspectorTab === "sculpt" ? <div id="atlas-sculpt-panel" role="tabpanel" aria-labelledby="atlas-tab-sculpt">
           <div className="atlas-recipe-heading"><span>Shape with your hands</span><Hand size={16} /></div>
@@ -876,9 +877,9 @@ export default function AtlasStudio({ textureLab = false }: { textureLab?: boole
         <button className="atlas-sample" onClick={() => sampleVariation()} disabled={!draft || controlsDisabled}><Shuffle size={13} />Sample shape from seed</button>
         <p className="atlas-model-help">The same seed and range reproduce the same shape. Editing the seed alone does not deform it.</p>
         <div className="atlas-model-controls">
-          <button className="atlas-sample atlas-learned" onClick={learnedVariation} disabled={!draft || controlsDisabled || Boolean(draft.disease) || !learnedAvailable} title={draft?.disease ? jointGeneration === 2 ? "Use Joint flow variation above" : "Use Learned disease variation in the Disease tab" : learnedAvailable ? undefined : "The trained shape model is unavailable"}>{busy === "learned" ? <LoaderCircle size={13} className="atlas-spinning" /> : <Sparkles size={13} />}Learned variation</button>
+          <button className="atlas-sample atlas-learned" onClick={learnedVariation} disabled={!draft || controlsDisabled || Boolean(draft.disease) || !learnedAvailable} title={draft?.disease ? jointGeneration === 2 ? "Use Generative Model 2 variation above" : "Use Learned disease variation in the Disease tab" : learnedAvailable ? undefined : "The trained shape model is unavailable"}>{busy === "learned" ? <LoaderCircle size={13} className="atlas-spinning" /> : <Sparkles size={13} />}Learned variation</button>
           <label className="atlas-model-dimensions"><input type="checkbox" checked={matchDimensions} disabled={!draft || modelSwitching || Boolean(busy) || Boolean(draft.disease) || !learnedAvailable} onChange={(event) => setMatchDimensions(event.target.checked)} />Keep overall dimensions</label>
-          <p className="atlas-model-help">{draft?.disease ? jointGeneration === 2 ? "Use Joint flow variation above to vary shape, colour and the selected disease together." : "Shape-only sampling is unavailable with disease active. Use the Disease tab." : learnedAvailable ? "Trained shape model · synthetic design distribution" : "The trained shape model is unavailable. Open Trained models to check its status."}</p>
+          <p className="atlas-model-help">{draft?.disease ? jointGeneration === 2 ? "Use Generative Model 2 variation above to vary shape, colour and the selected disease together." : "Shape-only sampling is unavailable with disease active. Use the Disease tab." : learnedAvailable ? "Generative Model 3 · shape · synthetic design distribution" : "The trained shape model is unavailable. Open Trained models to check its status."}</p>
           {Boolean(generated?.summary.model) && <p className="atlas-model-status" role="status"><Check size={11} />Model variation applied</p>}
         </div>
         <section className="atlas-specimen-info"><h2>Displayed specimen</h2><dl><dt>Triangles</dt><dd>{generated ? count(stats.triangles) : "—"}</dd><dt>Vertices</dt><dd>{generated ? count(stats.vertices) : "—"}</dd><dt>Seed</dt><dd>{generated?.spec.seed ?? "—"}</dd><dt>Appearance</dt><dd>{modes.find((mode) => mode.id === generated?.spec.appearance)?.label ?? "—"}</dd></dl>

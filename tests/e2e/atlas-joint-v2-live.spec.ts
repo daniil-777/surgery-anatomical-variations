@@ -58,7 +58,7 @@ test("actual v2 flow supports severity bands, preserved models and textured expo
   const specimens: AtlasGeneration[] = [];
   for (const seed of [2101, 2101, 2102]) {
     await page.getByRole("textbox", { name: "Joint variation seed", exact: true }).fill(String(seed));
-    const value = await responseTo(page, "/api/atlas/sample-joint", () => page.getByRole("button", { name: "Joint flow variation", exact: true }).click());
+    const value = await responseTo(page, "/api/atlas/sample-joint", () => page.getByRole("button", { name: "Generative Model 2 variation", exact: true }).click());
     assertJoint(value, seed); specimens.push(value);
     expect(value.spec.template_id).toBe(initial.spec.template_id); expect(value.spec.disease).toBeFalsy();
   }
@@ -74,7 +74,7 @@ test("actual v2 flow supports severity bands, preserved models and textured expo
   const diseased: AtlasGeneration[] = [];
   for (const seed of [3201, 3201, 3202]) {
     await page.getByRole("textbox", { name: "Joint variation seed", exact: true }).fill(String(seed));
-    const value = await responseTo(page, "/api/atlas/sample-joint", () => page.getByRole("button", { name: "Joint flow variation", exact: true }).click());
+    const value = await responseTo(page, "/api/atlas/sample-joint", () => page.getByRole("button", { name: "Generative Model 2 variation", exact: true }).click());
     assertJoint(value, seed); diseased.push(value);
     expect(value.spec.disease?.profile_id).toBe("liver-capsular-cyst");
     expect(value.spec.disease!.severity).toBeGreaterThanOrEqual(0.7);
@@ -87,7 +87,7 @@ test("actual v2 flow supports severity bands, preserved models and textured expo
   expect(diseased[2]!.spec.disease).not.toEqual(diseased[1]!.spec.disease);
   const diseaseFrame = await screenshot(page, info, "02-joint-disease");
   await page.getByRole("combobox", { name: "Disease design range", exact: true }).selectOption("mild");
-  const mild = await responseTo(page, "/api/atlas/sample-joint", () => page.getByRole("button", { name: "Joint flow variation", exact: true }).click());
+  const mild = await responseTo(page, "/api/atlas/sample-joint", () => page.getByRole("button", { name: "Generative Model 2 variation", exact: true }).click());
   expect(mild.spec.disease!.severity).toBeGreaterThanOrEqual(0.1);
   expect(mild.spec.disease!.severity).toBeLessThanOrEqual(0.35);
   expect(mild.spec.disease!.profile_id).toBe("liver-capsular-cyst");
@@ -128,15 +128,15 @@ test("actual v2 flow supports severity bands, preserved models and textured expo
     await page.getByRole("button", { name: "Close trained models" }).click();
   };
   await selectVersion(1, previous.bundle_sha256);
-  await expect(page.getByRole("button", { name: "Joint VAE variation", exact: true })).toBeEnabled();
-  const rollback = await responseTo(page, "/api/atlas/sample-joint", () => page.getByRole("button", { name: "Joint VAE variation", exact: true }).click());
+  await expect(page.getByRole("button", { name: "Generative Model 1 variation", exact: true })).toBeEnabled();
+  const rollback = await responseTo(page, "/api/atlas/sample-joint", () => page.getByRole("button", { name: "Generative Model 1 variation", exact: true }).click());
   expect(rollback.summary.joint_model).toMatchObject({ bundle_sha256: previous.bundle_sha256 });
   expect(rollback.spec.renderer_version).toBeUndefined();
   expect(rollback.spec.disease).toBeFalsy();
   await page.getByRole("button", { name: "Trained models", exact: true }).click();
   await selectVersion(2, expected.bundle);
-  await expect(page.getByRole("button", { name: "Joint flow variation", exact: true })).toBeEnabled();
-  const restored = await responseTo(page, "/api/atlas/sample-joint", () => page.getByRole("button", { name: "Joint flow variation", exact: true }).click());
+  await expect(page.getByRole("button", { name: "Generative Model 2 variation", exact: true })).toBeEnabled();
+  const restored = await responseTo(page, "/api/atlas/sample-joint", () => page.getByRole("button", { name: "Generative Model 2 variation", exact: true }).click());
   expect(restored.summary.joint_model).toMatchObject({ bundle_sha256: expected.bundle });
   expect(restored.spec.renderer_version).toBe("disease-v2");
   const restoredHistory = await (await page.request.get("/api/atlas/models/joint/history")).json();

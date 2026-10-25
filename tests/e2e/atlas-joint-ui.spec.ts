@@ -56,8 +56,8 @@ async function exportSpec(page: Page) { const download = page.waitForEvent("down
 
 test("a fresh browser uses bundled joint defaults without importing, replays seed and updates shape and color", async ({ page }, info) => {
   const { requests, exported, errors } = await setup(page);
-  await expect(page.getByRole("button", { name: "Joint VAE variation", exact: true })).toBeEnabled();
-  await expect(page.getByRole("button", { name: "Choose generation model", exact: true })).toContainText("VAE v1 · CPU");
+  await expect(page.getByRole("button", { name: "Generative Model 1 variation", exact: true })).toBeEnabled();
+  await expect(page.getByRole("button", { name: "Choose generation model", exact: true })).toContainText("Generative Model 1 · CPU");
   await page.getByRole("button", { name: "Trained models", exact: true }).click();
   await expect(page.getByText("Packaged default models", { exact: true })).toBeVisible();
   await expect(page.getByText("Your imported weights are active", { exact: true })).toHaveCount(0);
@@ -65,19 +65,19 @@ test("a fresh browser uses bundled joint defaults without importing, replays see
   await page.getByRole("button", { name: "Close trained models", exact: true }).click();
   await page.getByRole("textbox", { name: "Joint variation seed", exact: true }).fill("201");
   await page.getByRole("slider", { name: "Joint variation temperature", exact: true }).fill("0.7");
-  await page.getByRole("button", { name: "Joint VAE variation", exact: true }).click();
-  await expect(page.getByText("Joint VAE variation applied", { exact: true })).toBeVisible();
+  await page.getByRole("button", { name: "Generative Model 1 variation", exact: true }).click();
+  await expect(page.getByText("Generative Model 1 variation applied", { exact: true })).toBeVisible();
   await exportSpec(page); const first = structuredClone(exported.at(-1)!);
   expect(requests.at(-1)).toMatchObject({ seed: 201, temperature: 0.7 });
   expect(first.controls.bend).not.toBe(0); expect(first.material!.tint).not.toBe(0);
-  await page.getByRole("button", { name: "Joint VAE variation", exact: true }).click();
+  await page.getByRole("button", { name: "Generative Model 1 variation", exact: true }).click();
   await expect(page.getByRole("button", { name: "Export GLB", exact: true })).toBeEnabled();
   await exportSpec(page); expect(exported.at(-1)).toEqual(first);
   await page.getByRole("button", { name: "New joint variation", exact: true }).click();
   await expect(page.getByRole("button", { name: "Export GLB", exact: true })).toBeEnabled();
   await exportSpec(page); expect(exported.at(-1)!.seed).not.toBe(201);
   await page.getByRole("slider", { name: "Bend", exact: true }).fill("0.4");
-  await expect(page.getByText("Joint VAE variation applied", { exact: true })).toHaveCount(0);
+  await expect(page.getByText("Generative Model 1 variation applied", { exact: true })).toHaveCount(0);
   await expect(page.getByRole("button", { name: "Export GLB", exact: true })).toBeEnabled();
   await exportSpec(page); expect(exported.at(-1)!.controls.bend).toBe(0.4);
   expect(errors).toEqual([]);
@@ -90,13 +90,13 @@ test("joint disease variation is available in Disease and refuses a mismatched r
   await page.getByRole("combobox", { name: "Disease profile", exact: true }).selectOption("liver-hcc");
   await expect(page.getByText("Preview matches this recipe", { exact: true })).toBeVisible();
   await page.getByRole("textbox", { name: "Joint variation seed", exact: true }).fill("301");
-  await page.getByRole("button", { name: "Joint VAE variation", exact: true }).click();
-  await expect(page.getByText("Joint VAE variation applied", { exact: true })).toBeVisible();
+  await page.getByRole("button", { name: "Generative Model 1 variation", exact: true }).click();
+  await expect(page.getByText("Generative Model 1 variation applied", { exact: true })).toBeVisible();
   await exportSpec(page); const good = structuredClone(exported.at(-1)!);
   expect(requests.at(-1)!.spec.disease!.profile_id).toBe("liver-hcc");
   expect(good.disease!.severity).not.toBe(0.55); expect(good.disease!.profile_id).toBe("liver-hcc");
   await page.route("**/api/atlas/sample-joint", route => { const result = sampled(route.request().postDataJSON()); (result.summary.joint_model as Record<string, unknown>).request_seed = 0; return route.fulfill({ json: result }); });
-  await page.getByRole("button", { name: "Joint VAE variation", exact: true }).click();
+  await page.getByRole("button", { name: "Generative Model 1 variation", exact: true }).click();
   await expect(page.getByRole("alert")).toContainText("previous preview was preserved");
   await exportSpec(page); expect(exported.at(-1)).toEqual(good);
   expect(errors).toEqual([]);
@@ -105,37 +105,42 @@ test("joint disease variation is available in Disease and refuses a mismatched r
 
 test("a joint import overrides bundled weights and Restore defaults keeps joint sampling available", async ({ page }) => {
   const { requests, errors } = await setup(page);
-  await expect(page.getByRole("button", { name: "Joint VAE variation", exact: true })).toBeEnabled();
+  await expect(page.getByRole("button", { name: "Generative Model 1 variation", exact: true })).toBeEnabled();
   await page.getByRole("button", { name: "Trained models", exact: true }).click();
-  await page.getByLabel("Colab weight archive").setInputFiles({ name: "viscera-joint-weights.zip", mimeType: "application/zip", buffer: Buffer.from("fixture") });
+  await page.getByLabel("Model weight archive").setInputFiles({ name: "viscera-joint-weights.zip", mimeType: "application/zip", buffer: Buffer.from("fixture") });
   await page.getByRole("button", { name: "Validate & activate", exact: true }).click();
   await expect(page.getByText(active.joint_bundle_sha256, { exact: true })).toBeVisible();
   await expect(page.getByText("Your imported weights are active", { exact: true })).toBeVisible();
   await expect(page.getByRole("button", { name: "Restore defaults", exact: true })).toBeEnabled();
   await page.getByRole("button", { name: "Close trained models", exact: true }).click();
-  await expect(page.getByRole("button", { name: "Joint VAE variation", exact: true })).toBeEnabled();
+  await expect(page.getByRole("button", { name: "Generative Model 1 variation", exact: true })).toBeEnabled();
   await page.getByRole("tab", { name: "Disease", exact: true }).click();
-  await expect(page.getByRole("button", { name: "Joint VAE variation", exact: true })).toBeEnabled();
+  await expect(page.getByRole("button", { name: "Generative Model 1 variation", exact: true })).toBeEnabled();
   await page.getByRole("button", { name: "Trained models", exact: true }).click();
   await page.getByRole("button", { name: "Restore defaults", exact: true }).click();
   await expect(page.getByText("Packaged default models", { exact: true })).toBeVisible();
   await expect(page.getByText(defaults.joint_bundle_sha256, { exact: true })).toBeVisible();
   await expect(page.getByText(active.joint_bundle_sha256, { exact: true })).toHaveCount(0);
   await page.getByRole("button", { name: "Close trained models", exact: true }).click();
-  await expect(page.getByRole("button", { name: "Joint VAE variation", exact: true })).toBeEnabled();
-  await page.getByRole("button", { name: "Joint VAE variation", exact: true }).click();
-  await expect(page.getByText("Joint VAE variation applied", { exact: true })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Generative Model 1 variation", exact: true })).toBeEnabled();
+  await page.getByRole("button", { name: "Generative Model 1 variation", exact: true }).click();
+  await expect(page.getByText("Generative Model 1 variation applied", { exact: true })).toBeVisible();
   expect(requests).toHaveLength(1);
   expect(errors).toEqual([]);
 });
 
 test("a minimal deployment without bundled weights still accepts an explicit joint import", async ({ page }) => {
   await setup(page, "missing");
-  await expect(page.getByRole("button", { name: "Joint VAE variation", exact: true })).toBeDisabled();
+  await expect(page.getByRole("button", { name: "Generative Model 1 variation", exact: true })).toBeDisabled();
   await page.getByRole("button", { name: "Trained models", exact: true }).click();
-  await page.getByLabel("Colab weight archive").setInputFiles({ name: "viscera-joint-weights.zip", mimeType: "application/zip", buffer: Buffer.from("fixture") });
+  await page.getByLabel("Model weight archive").setInputFiles({ name: "viscera-joint-weights.zip", mimeType: "application/zip", buffer: Buffer.from("fixture") });
   await page.getByRole("button", { name: "Validate & activate", exact: true }).click();
   await expect(page.getByText("Your imported weights are active", { exact: true })).toBeVisible();
   await page.getByRole("button", { name: "Close trained models", exact: true }).click();
-  await expect(page.getByRole("button", { name: "Joint VAE variation", exact: true })).toBeEnabled();
+  await expect(page.getByRole("button", { name: "Generative Model 1 variation", exact: true })).toBeEnabled();
+});
+
+// These contract tests model an online service, independent of the preview host.
+test.beforeEach(async ({ page }) => {
+  await page.route("**/api/health", route => route.fulfill({ json: { status: "ok" } }));
 });

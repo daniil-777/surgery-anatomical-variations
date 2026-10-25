@@ -1,3 +1,4 @@
+import { modelMessage, pbrModelLabel } from "../modelNames";
 import { VideoRecorderButton } from "../VideoRecorderPanel";
 import { DisplaySettings, SceneResizeHandle } from "../DisplaySettings";
 import { useRegisterAccountWorkspace } from "../account/AccountDialog";
@@ -124,21 +125,21 @@ export default function TissueLab() {
     const revision = ++pbrRevision.current;
     pbrReader.current?.abort(); pbrValidation.current?.abort();
     const validation = new AbortController(); pbrValidation.current = validation;
-    setPbrBusy(true); setPbrError(""); setPbrStatus("Checking available Colab PBR bundles…");
+    setPbrBusy(true); setPbrError(""); setPbrStatus("Checking available generated PBR bundles…");
     try {
       const colabCatalog = await discoverColabCatalog(validation.signal);
       if (revision !== pbrRevision.current) return;
       const activeOrgan = localPbr ? localPbr.bundle.manifest.recipe.organ : (current ? entryFamily(current) : libraryManifest?.recipe.organ) ?? selected;
       const best = selectBestColabPbrBundle(colabCatalog.pbr_bundles, activeOrgan);
-      if (!best) throw new Error("No Colab PBR bundles were found.");
-      setPbrStatus(`Loading ${best.label}…`);
+      if (!best) throw new Error("No generated PBR bundles were found.");
+      setPbrStatus(`Loading ${pbrModelLabel(best)}…`);
       const response = await fetch(publicUrl(best.path), { signal: validation.signal, cache: "no-store" });
-      if (!response.ok) throw new Error(`Colab PBR bundle unavailable: HTTP ${response.status}`);
+      if (!response.ok) throw new Error(`generated PBR bundle unavailable: HTTP ${response.status}`);
       const source = await response.text();
       if (revision !== pbrRevision.current) return;
       const filename = best.path.split("/").pop() ?? `${best.organ}-colab.tissue-pbr.json`;
       await acceptPbrSource(source, filename, revision, validation.signal);
-      if (revision === pbrRevision.current) setPbrStatus(`Loaded best Colab PBR bundle: ${best.label}.`);
+      if (revision === pbrRevision.current) setPbrStatus(`Loaded best generated PBR bundle: ${pbrModelLabel(best)}.`);
     } catch (reason) {
       if (revision === pbrRevision.current) {
         setPbrError(reason instanceof Error ? reason.message : String(reason));
@@ -285,7 +286,7 @@ export default function TissueLab() {
     <main className="tissue-stage"><SceneResizeHandle /><div className="tissue-heading"><span>MATERIAL LIBRARY · {String(catalog.length).padStart(2, "0")} STUDIES</span><h1>{controls.view === "walkthrough" ? "Light, from within." : "Beneath the surface."}</h1><p>{controls.view === "walkthrough" ? "Seeded lumen phantom · camera-mounted illumination" : "Organ-specific surfaces. Fine vessels. Layered membranes."}</p></div>
       {manifest && <TissueViewport ref={viewport} manifest={manifest} directory={directory} controls={controls} organBakeConfig={organBakeConfig} onOrganBaked={setOrganBakeResult} onError={setError} {...(localPbr ? { localFiles: localPbr.bundle.files, importedMaterial: { bundleSha256: localPbr.bundle.digest, sourceFile: localPbr.filename, provenance: localPbr.bundle.manifest.provenance } } : {})} {...(!localPbr && appearance?.region === manifest.recipe.organ ? { appearance } : {})} />}
       {loading && <div className="tissue-loading" role="status">Loading material channels…</div>}
-      {error && <div className="tissue-error" role="alert">{error}</div>}
+      {error && <div className="tissue-error" role="alert">{modelMessage(error)}</div>}
       <div className="tissue-caption"><span>{controls.view === "surface" ? "Drag to orbit · scroll to inspect · 80 × 80 mm coupon" : controls.view === "organ" ? "Atlas exterior · drag to orbit · assumed millimetres" : "18 mm/s · fixed surface coordinates · curved 1600 mm loop"}</span><span>{manifest ? `${manifest.resolution[0]}² maps` : "—"}{localPbr ? " · generated PBR candidate" : appearance && appearance.region === manifest?.recipe.organ ? ` · learned RGB ${appearance.resolution}²` : ""}{controls.view === "organ" && organBakeResult ? ` · 3D ${organBakeResult.organ} seamless bake` : ""} · {controls.study}</span></div>
       <div className="tissue-stage-actions"><button disabled={!manifest || recording} onClick={captureFrame}>Save 4K frame ↗</button>{controls.view !== "surface" && <><button disabled={recording} aria-pressed={controls.playing} onClick={() => edit("playing", !controls.playing)}>{controls.playing ? "Pause camera" : "Start camera"}</button><button disabled={recording || pbrBusy} onClick={() => void record()}>{recording ? "Recording…" : "Record 4K · 5s"}</button></>}</div>
     </main>
@@ -293,20 +294,20 @@ export default function TissueLab() {
       {videoStatus && <p className="tissue-copy" role="status">{videoStatus}</p>}
       <section className="tissue-pbr-panel" aria-label="Generated PBR material">
         <div className="tissue-variation-heading"><h3>Generated PBR</h3><span className="tissue-variation-badge">LOCAL IMPORT</span></div>
-        <button type="button" className="tissue-wide tissue-variation-primary" disabled={pbrBusy || recording} onClick={() => void loadBestColabPbr()}>{pbrBusy ? "Loading Colab PBR…" : "Use Colab PBR model"}</button>
+        <button type="button" className="tissue-wide tissue-variation-primary" disabled={pbrBusy || recording} onClick={() => void loadBestColabPbr()}>{pbrBusy ? "Loading generated PBR…" : "Use generated PBR model"}</button>
         <label className="tissue-field">Import generated PBR material<input type="file" aria-label="Import generated PBR material" accept=".tissue-pbr.json,.json,application/json" onChange={event => { void importPbrFile(event.target.files?.[0]); event.target.value = ""; }} /></label>
         <p className="tissue-variation-help">Import a material bundle from the pretrained PBR notebook. Files stay on this device. This general-domain model produces experimental candidates, without surgeon validation.</p>
         {pbrBusy && <button className="tissue-wide" onClick={cancelPbrImport}>Cancel PBR import</button>}
-        {pbrStatus && <p className="tissue-copy" role="status">{pbrStatus}</p>}
-        {pbrError && <p className="tissue-model-error" role="alert">{pbrError}</p>}
-        {localPbr && <><dl className="tissue-pbr-provenance"><div><dt>Local file</dt><dd>{localPbr.filename}</dd></div><div><dt>Material family</dt><dd>{localPbr.bundle.manifest.recipe.organ.replaceAll("_", " ")}</dd></div><div><dt>Source maps</dt><dd>{localPbr.bundle.manifest.resolution.join(" × ")} · native model output</dd></div><div><dt>Bundle SHA-256</dt><dd title={localPbr.bundle.digest}>{localPbr.bundle.digest}</dd></div></dl><button className="tissue-wide" onClick={downloadPbrBundle}>Export imported PBR bundle</button><button className="tissue-wide" onClick={returnToLibrary}>Return to tissue library</button></>}
+        {pbrStatus && <p className="tissue-copy" role="status">{modelMessage(pbrStatus)}</p>}
+        {pbrError && <p className="tissue-model-error" role="alert">{modelMessage(pbrError)}</p>}
+        {localPbr && <><dl className="tissue-pbr-provenance"><div><dt>Local file</dt><dd>{modelMessage(localPbr.filename)}</dd></div><div><dt>Material family</dt><dd>{localPbr.bundle.manifest.recipe.organ.replaceAll("_", " ")}</dd></div><div><dt>Source maps</dt><dd>{localPbr.bundle.manifest.resolution.join(" × ")} · native model output</dd></div><div><dt>Bundle SHA-256</dt><dd title={localPbr.bundle.digest}>{localPbr.bundle.digest}</dd></div></dl><button className="tissue-wide" onClick={downloadPbrBundle}>Export imported PBR bundle</button><button className="tissue-wide" onClick={returnToLibrary}>Return to tissue library</button></>}
       </section>
-      <label className="tissue-field">Tissue region<select aria-label="Tissue region" disabled={Boolean(localPbr)} value={localPbr ? "imported" : selected} onChange={event => setSelected(event.target.value)}>{localPbr ? <option value="imported">{localPbr.bundle.manifest.recipe.organ.replaceAll("_", " ")} · imported PBR</option> : catalogGroups(catalog).map(group => <optgroup key={group.label} label={group.label}>{group.entries.map(item => <option key={item.id} value={item.id}>{item.label}</option>)}</optgroup>)}</select></label>
+      <label className="tissue-field">Tissue region<select aria-label="Tissue region" disabled={Boolean(localPbr)} value={localPbr ? "imported" : selected} onChange={event => setSelected(event.target.value)}>{localPbr ? <option value="imported">{localPbr.bundle.manifest.recipe.organ.replaceAll("_", " ")} · imported PBR</option> : catalogGroups(catalog).map(group => <optgroup key={group.label} label={modelMessage(group.label)}>{group.entries.map(item => <option key={item.id} value={item.id}>{modelMessage(item.label)}</option>)}</optgroup>)}</select></label>
       <label className="tissue-field">Map resolution<select aria-label="Map resolution" disabled={Boolean(localPbr)} value={localPbr ? "imported" : full && nativeAvailable ? "4096" : "preview"} onChange={event => setFull(event.target.value === "4096" && nativeAvailable)}>{localPbr ? <option value="imported">Native model · {localPbr.bundle.manifest.resolution[0]}</option> : <><option value="preview">Preview · 512</option><option value="4096" disabled={!nativeAvailable}>{nativeAvailable ? "Native 4K · 4096" : learnedStudy ? "Native 4K · none for learned studies" : "Native 4K · not included"}</option></>}</select></label>
       {!localPbr && current && !nativeAvailable && !learnedStudy && <p className="tissue-copy">Public preview · 512 × 512 source maps. Native 4096 × 4096 maps remain in the local library. A 4K frame or video does not add source texture detail.</p>}
-      {!localPbr && current && learnedStudy && <p className="tissue-copy">Learned study · {manifest?.resolution[0]} × {manifest?.resolution[1]} native maps sampled from a research LoRA (illumination-flattened observed RGB, not measured albedo). No native 4K maps exist. Vessel, fascia and fat overlays are empty; the wet coat is a uniform authored film. A 4K frame or video does not add source texture detail.</p>}
+      {!localPbr && current && learnedStudy && <p className="tissue-copy">Learned study · {manifest?.resolution[0]} × {manifest?.resolution[1]} native maps sampled from Generative Model 12 (illumination-flattened observed RGB, not measured albedo). No native 4K maps exist. Vessel, fascia and fat overlays are empty; the wet coat is a uniform authored film. A 4K frame or video does not add source texture detail.</p>}
       {localPbr && (localPbr.bundle.manifest.generator === "viscera.tissue-lora/v1"
-        ? <p className="tissue-copy">Generated learned tile · {localPbr.bundle.manifest.resolution[0]}² native maps from a research LoRA (learned appearance, not measured albedo). Vessel, fascia and fat overlays are empty; the wet coat is a uniform authored film. It lives only in this session: export the bundle to keep it.</p>
+        ? <p className="tissue-copy">Generated learned tile · {localPbr.bundle.manifest.resolution[0]}² native maps from the tile generator (appearance synthesis, not measured albedo). Vessel, fascia and fat overlays are empty; the wet coat is a uniform authored film. It lives only in this session: export the bundle to keep it.</p>
         : <p className="tissue-copy">Imported maps keep their native detail. A 4K frame or video does not add source texture detail. This PBR pilot does not separate vessels, fascia, fat or wet-film layers; their coverage controls have no effect on its empty overlays. Return to the library to change tissue family.</p>)}
       <LearnedTilesPanel catalog={catalog} family={localPbr ? localPbr.bundle.manifest.recipe.organ : current ? entryFamily(current) : undefined} selectedId={localPbr ? "" : selected}
         disabled={pbrBusy || recording} onSelect={id => { if (localPbr) returnToLibrary(); setSelected(id); }} onGenerated={importGeneratedSource}

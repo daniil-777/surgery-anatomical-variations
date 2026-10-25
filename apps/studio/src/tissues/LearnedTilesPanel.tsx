@@ -1,3 +1,4 @@
+import { MODEL_NAMES, modelMessage } from "../modelNames";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { publicUrl } from "../api";
 import type { TissueEntry } from "./contracts";
@@ -6,7 +7,6 @@ import { checkGenerator, generatorBaseUrl, MODE_LABELS, requestGeneratedTile, ty
 import { catalogGroups, learnedForFamily, shortLearnedLabel } from "./learnedCatalog";
 import { exportBakedOrganGlb, exportBakedOrganUnityZip, resolveBakeOrgan, rgbaImageToDataUrl, type OrganMeshBakeResult } from "./organMeshBake";
 
-const SERVER_COMMAND = "scripts/tissue_lora_server.py --model <sd15 snapshot> --lora <checkpoint> --work <jobs dir> --colour-stats <stats.json> --warm";
 
 export type BakedAtlasChannel = "albedo" | "normal" | "roughness";
 
@@ -198,17 +198,17 @@ export function LearnedTilesPanel({
   const cancel = () => { request.current?.abort(); request.current = undefined; setGenerating(false); setConnecting(false); setStatus("Cancelled. The current material is unchanged."); };
 
   return <section className="tissue-learned-panel" aria-labelledby="tissue-learned-title">
-    <div className="tissue-variation-heading"><h3 id="tissue-learned-title">Learned tiles</h3><span className="tissue-variation-badge">RESEARCH LORA</span></div>
-    <p className="tissue-variation-help">Seamless tiles sampled from a LoRA trained on laparoscopic photographs. They are learned appearance, not measured albedo.</p>
+    <div className="tissue-variation-heading"><h3 id="tissue-learned-title">Learned tiles</h3><span className="tissue-variation-badge">{MODEL_NAMES.tiles}</span></div>
+    <p className="tissue-variation-help">Seamless tiles sampled from Generative Model 12 trained on laparoscopic photographs. They are learned appearance, not measured albedo.</p>
     {family && <p className="tissue-learned-count">{tiles.length ? `${tiles.length} learned ${tiles.length === 1 ? "tile" : "tiles"} · ${familyLabel(family)}` : `No learned tiles for ${familyLabel(family)} in this library.`}</p>}
     {tiles.length > 0 && <div className="tissue-learned-gallery" role="group" aria-label={`Learned ${family ? familyLabel(family) : ""} tiles`}>
       {groups.map(group => <div key={group.label}>
-        <span className="tissue-learned-group">{group.label.replace(/^Learned · /, "")}</span>
+        <span className="tissue-learned-group">{modelMessage(group.label.replace(/^Learned · /, ""))}</span>
         <div className="tissue-learned-grid">
           {group.entries.map(entry => <button key={entry.id} type="button" className="tissue-learned-tile" disabled={disabled} aria-pressed={entry.id === selectedId}
-            aria-label={`Show ${entry.label}`} title={entry.label} onClick={() => onSelect(entry.id)}>
+            aria-label={`Show ${modelMessage(entry.label)}`} title={modelMessage(entry.label)} onClick={() => onSelect(entry.id)}>
             <img src={publicUrl(`tissue-materials/${entry.thumbnail ?? entry.preview.replace("manifest.json", "base_color.png")}`)} alt="" loading="lazy" width={64} height={64} />
-            <span>{shortLearnedLabel(entry)}</span>
+            <span>{modelMessage(shortLearnedLabel(entry))}</span>
           </button>)}
         </div>
       </div>)}
@@ -284,11 +284,10 @@ export function LearnedTilesPanel({
     <div className="tissue-generator">
       {!health ? <>
         <button type="button" className="tissue-wide" disabled={connecting || disabled} onClick={() => void connect()}>{connecting ? "Connecting…" : "Connect to local generator"}</button>
-        <p className="tissue-variation-help">Generate new tiles on this computer with the trained model. Start the generator first:</p>
-        <code className="tissue-command">{SERVER_COMMAND}</code>
+        <p className="tissue-variation-help">Connect to your configured local generator, or use the built-in browser generator automatically when it is unavailable.</p>
       </> : <>
         <dl className="tissue-pbr-provenance tissue-generator-status">
-          <div><dt>Generator</dt><dd>{health.run_id ?? "unnamed run"}</dd></div>
+          <div><dt>Generator</dt><dd>{browserFallback ? "Built-in tile generator" : MODEL_NAMES.tiles}</dd></div>
           <div><dt>Data rights</dt><dd>{health.rights.training_profile === "unrestricted" ? "Open-licence training data" : "Research use only (training data licence)"}</dd></div>
         </dl>
         <label className="tissue-field">Tissue family<select aria-label="Generator tissue family" value={targetFamily} disabled={generating} onChange={event => setTargetFamily(event.target.value)}>
@@ -300,8 +299,8 @@ export function LearnedTilesPanel({
         <button type="button" className="tissue-wide" disabled={generating || connecting} onClick={() => void connect()}>Reconnect</button>
       </>}
       {connecting && <button type="button" className="tissue-wide" onClick={cancel}>Cancel</button>}
-      {status && <p className="tissue-copy" role="status">{status}</p>}
-      {error && <p className="tissue-model-error" role="alert">{error}</p>}
+      {status && <p className="tissue-copy" role="status">{modelMessage(status)}</p>}
+      {error && <p className="tissue-model-error" role="alert">{modelMessage(error)}</p>}
     </div>
   </section>;
 }
