@@ -25,6 +25,7 @@ const labels: Partial<Record<AutomaticGraspPhase, string>> = { settling: "Waitin
  * learns a grasp trajectory option, then checks the real coupled response each
  * frame. It is not an end-to-end visual or clinically calibrated robot policy. */
 export class AutomaticGrasp {
+  private waitForRelease = false; private releaseRequested = false;
   private state = initial(); private phaseTime = 0; private lastPublish = 0;
   private controller: AbortController | null = null; private worker: Worker | null = null;
   private finish: { resolve: () => void; reject: (error: Error) => void } | null = null;
@@ -40,10 +41,15 @@ export class AutomaticGrasp {
     this.state.phase = blocked ? "blocked" : "stopped"; this.state.message = message;
     this.c.tools.release(message, true); this.finish?.reject(new Error(message)); this.finish = null; this.publish();
   }
-  async start(signal: AbortSignal, seed = 42) {
+  requestRelease() {
+    if (!this.active || this.state.phase !== "holding" || !this.waitForRelease) throw new Error("The automatic grasper is not awaiting release.");
+    this.releaseRequested = true;
+  }
+  async start(signal: AbortSignal, seed = 42, waitForRelease = false) {
     if (this.active) throw new Error("Stop the current grasp task first.");
     if (signal.aborted || !this.c.tools.enabled || !this.c.physics()) throw new Error("The grasp task is not ready.");
     this.state = initial(); this.lastPublish = 0; this.controller = new AbortController();
+    this.waitForRelease = waitForRelease; this.releaseRequested = false;
     const local = this.controller.signal, abort = () => this.stop("Automatic task cancelled; instrument released.");
     signal.addEventListener("abort", abort, { once: true });
     this.cameraPosition.copy(this.c.camera.position); this.cameraRotation.copy(this.c.camera.quaternion);
@@ -106,7 +112,9 @@ export class AutomaticGrasp {
         const offset = phase === "lifting" ? p.liftMm * smoothGrasp(this.phaseTime / p.rampSeconds) : phase === "holding" ? p.liftMm : p.liftMm * (1 - smoothGrasp(this.phaseTime / p.rampSeconds));
         this.state.targetOffsetMm = offset; this.c.tools.commandAutomaticGrasp(offset, 1);
         if (phase === "holding") this.state.holdDisplacementMm = Math.max(this.state.holdDisplacementMm, Math.hypot(...(tool?.displacementMm ?? [0])));
-        if (this.phaseTime >= (phase === "holding" ? p.holdSeconds : p.rampSeconds)) this.stage(phase === "lifting" ? "holding" : phase === "holding" ? "lowering" : "opening");
+        if (phase === "holding" && this.waitForRelease && this.phaseTime > 15) throw new Error("Release decision timed out");
+        const mayAdvance = phase !== "holding" || !this.waitForRelease || this.releaseRequested;
+        if (mayAdvance && this.phaseTime >= (phase === "holding" ? p.holdSeconds : p.rampSeconds)) this.stage(phase === "lifting" ? "holding" : phase === "holding" ? "lowering" : "opening");
       } else if (phase === "opening") {
         this.state.targetOffsetMm = 0; this.c.tools.commandAutomaticGrasp(0, 1 - smoothGrasp(this.phaseTime / 1));
         if (this.phaseTime >= 1) { this.c.tools.detachAutomaticGrasp(); this.stage("withdrawing"); }

@@ -1,3 +1,4 @@
+import { visualState, visualSceneSignature, type VisualObservation, type VisualSkill } from "./visualPolicy";
 import { CameraPlannerScene, type CameraTrainingScene, type CameraPlannerState, type CameraPlaybackOptions, type CameraCaptureOptions } from "./cameraPlannerScene";
 import { AutomaticGrasp, type AutomaticGraspState } from "./automaticGrasp";
 import { applyVirtaMedVessels } from "./virtaMedVesselNetwork";
@@ -51,8 +52,10 @@ export interface WholeSceneStats {
   bounds: { min: number[]; max: number[] };
 }
 export interface WholeSceneViewportHandle {
-  startAutomaticGrasp: (signal: AbortSignal, seed?: number) => Promise<AutomaticGraspState>;
+  startAutomaticGrasp: (signal: AbortSignal, seed?: number, waitForRelease?: boolean) => Promise<AutomaticGraspState>;
   stopAutomaticGrasp: () => void;
+  releaseAutomaticGrasp: () => void;
+  captureVisualObservation: (previous: VisualSkill | "none") => VisualObservation;
   captureCameraMap: (targets: string[], signal?: AbortSignal, options?: CameraCaptureOptions) => Promise<CameraTrainingScene>;
   playCameraPath: (scene: CameraTrainingScene, route: number[], options?: CameraPlaybackOptions) => void;
   stopCameraPath: () => void;
@@ -118,8 +121,10 @@ interface Part {
   geometrySignature: string; materialSignature: string;
 }
 interface Runtime {
-  startAutomaticGrasp: (signal: AbortSignal, seed?: number) => Promise<AutomaticGraspState>;
+  startAutomaticGrasp: (signal: AbortSignal, seed?: number, waitForRelease?: boolean) => Promise<AutomaticGraspState>;
   stopAutomaticGrasp: () => void;
+  releaseAutomaticGrasp: () => void;
+  captureVisualObservation: (previous: VisualSkill | "none") => VisualObservation;
   captureCameraMap: (targets: string[], signal?: AbortSignal, options?: CameraCaptureOptions) => Promise<CameraTrainingScene>;
   playCameraPath: (scene: CameraTrainingScene, route: number[], options?: CameraPlaybackOptions) => void;
   stopCameraPath: () => void;
@@ -184,8 +189,10 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
   const latest = useRef(props);
   latest.current = props;
   useImperativeHandle(ref, () => ({
-    startAutomaticGrasp: (signal, seed) => runtime.current ? runtime.current.startAutomaticGrasp(signal, seed) : Promise.reject(new Error("The scene is still loading.")),
+    startAutomaticGrasp: (signal, seed, wait) => runtime.current ? runtime.current.startAutomaticGrasp(signal, seed, wait) : Promise.reject(new Error("The scene is still loading.")),
     stopAutomaticGrasp: () => runtime.current?.stopAutomaticGrasp(),
+    releaseAutomaticGrasp: () => runtime.current?.releaseAutomaticGrasp(),
+    captureVisualObservation: previous => { if (!runtime.current) throw new Error("Scene is loading."); return runtime.current.captureVisualObservation(previous); },
     fit: () => runtime.current?.fit(), focusOrgan: id => runtime.current?.focusOrgan(id), view: preset => runtime.current?.view(preset),
     videoView: () => runtime.current?.videoView(),
     captureCameraMap: (targets,signal,options) => runtime.current ? runtime.current.captureCameraMap(targets,signal,options) : Promise.reject(new Error("The scene is still loading.")),
@@ -392,9 +399,20 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
         restBounds: part.restBounds, bounds: boxData(part.mesh.geometry.boundingBox!), ambientOcclusion: part.mesh.userData.ambientOcclusion,
       })),
     });
+    const captureVisualObservation = (previous: VisualSkill | "none"): VisualObservation => {
+      if (!ready || cameraPlanner?.capturing || recording || nativeRecording.active) throw new Error("Wait for a stable scene before visual inference.");
+      draw();
+      const observation = document.createElement("canvas"); observation.width = observation.height = 256;
+      const context = observation.getContext("2d")!; context.fillStyle = "black"; context.fillRect(0, 0, 256, 256);
+      const scale = Math.min(256 / canvas.width, 256 / canvas.height), w = canvas.width * scale, h = canvas.height * scale;
+      context.drawImage(canvas, (256 - w) / 2, (256 - h) / 2, w, h);
+      const metadata = captureMetadata();
+      return { schema: "viscera.visual-skills/1", image: observation.toDataURL("image/jpeg", .92), state: visualState(metadata, previous), capturedAt: performance.now(), sceneSignature: visualSceneSignature(metadata) };
+    };
     // Read-only, on-demand diagnostics avoid DOM publication latency during video review.
-    const diagnostics = window as Window & { __visceraSceneSnapshot?: () => Record<string, unknown> };
+    const diagnostics = window as Window & { __visceraSceneSnapshot?: () => Record<string, unknown>; __visceraVisualObservation?: (previous: VisualSkill | "none") => VisualObservation };
     diagnostics.__visceraSceneSnapshot = captureMetadata;
+    diagnostics.__visceraVisualObservation = captureVisualObservation;
     const snapshot = () => {
       if (!alive) return;
       element.dataset.sceneReady = String(ready);
@@ -747,10 +765,21 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
           responses: isVirtaMed ? VIRTAMED_TISSUE_RESPONSE : {}, attachments: isVirtaMed ? [...(vmInterfaces?.edges ?? []), ...VIRTAMED_AUTHORED_PHYSICS_JOINTS] : [], contact: plan.contact };
       }, publish: state => { if (alive) latest.current.onAutomaticGraspChange?.(state); },
     });
-    runtime.current = { startAutomaticGrasp: (signal, seed) => {
+    runtime.current = { captureVisualObservation, startAutomaticGrasp: async (signal, seed, wait) => {
         if (!isVirtaMed || !ready || recording || nativeRecording.active || cameraPlanner?.busy || latest.current.breathing || latest.current.autoRotate) return Promise.reject(new Error("Finish the camera approach and pause other scene motion before grasping."));
-        cameraTransition = null; return automaticGrasp!.start(signal, seed);
-      }, stopAutomaticGrasp: () => automaticGrasp?.stop(), captureCameraMap: (targets,signal,options) => {
+        // React material assignment and the physics upload can settle on
+        // different frames under GPU load; wait for actual tool readiness.
+        const deadline = performance.now() + 4000, handoverSignature = visualSceneSignature(captureMetadata());
+        while (!tools.enabled || !physics) {
+          signal.throwIfAborted();
+          if (!alive) throw new Error("The scene was closed.");
+          if (performance.now() > deadline) throw new Error("Physics did not become ready for the grasp task.");
+          await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
+        }
+        signal.throwIfAborted();
+        if (!alive || handoverSignature !== visualSceneSignature(captureMetadata()) || cameraPlanner?.busy || recording || nativeRecording.active || latest.current.breathing || latest.current.autoRotate) throw new Error("The scene changed before the instrument was ready.");
+        cameraTransition = null; return automaticGrasp!.start(signal, seed, wait);
+      }, stopAutomaticGrasp: () => automaticGrasp?.stop(), releaseAutomaticGrasp: () => automaticGrasp?.requestRelease(), captureCameraMap: (targets,signal,options) => {
         if (!ready || recording || nativeRecording.active) return Promise.reject(new Error("Load the scene and stop recording before mapping camera views."));
         exitExploration(true); tools.release("Camera mapping started; instrument released."); cameraTransition = null;
         return cameraPlanner!.capture(targets,signal,undefined,options);
@@ -1023,6 +1052,7 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
       controls.removeEventListener("start", onControlStart); controls.removeEventListener("change", onControlChange); controls.removeEventListener("end", snapshot); controls.dispose();
       nativeRecording.dispose(); navigationGuard.invalidate(); fatLayers.dispose(); disposeObject(assembly); tissueVolume.dispose(); if(vmTiles) disposeVirtaMedTiles(vmTiles); vmOperative?.texture.dispose(); operativeEnvelope?.dispose(); laparoscope.dispose(); cameraOptics?.dispose(); environment.dispose(); fatLamp.shadow.dispose(); renderer.dispose(); renderer.forceContextLoss(); canvas.remove(); runtime.current = null;
       if (diagnostics.__visceraSceneSnapshot === captureMetadata) delete diagnostics.__visceraSceneSnapshot;
+      if (diagnostics.__visceraVisualObservation === captureVisualObservation) delete diagnostics.__visceraVisualObservation;
       delete element.dataset.sceneSnapshot; delete element.dataset.sceneReady;
     };
   }, []);

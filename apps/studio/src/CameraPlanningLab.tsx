@@ -1,3 +1,5 @@
+import { VisualTaskLab } from "./VisualTaskLab";
+import { visualSceneSignature } from "./visualPolicy";
 import { useEffect, useRef, useState, type RefObject } from "react";
 import { BrainCircuit, Download, Play, Pause, Route, ScanEye, Square, Upload, X } from "lucide-react";
 import type { WholeSceneViewportHandle } from "./WholeSceneViewport";
@@ -54,10 +56,11 @@ export function CameraPlanningLab({ viewport, ready, disabled, planner, onPrepar
   const [defaultPolicy, setDefaultPolicy] = useState<DefaultCameraPolicy | null>(null), [defaultError, setDefaultError] = useState(""), [reloadDefault, setReloadDefault] = useState(0);
   const [continuous, setContinuous] = useState(true), [origin, setOrigin] = useState<"trained" | "pretrained" | "imported" | "goal">("trained"), [replayStart, setReplayStart] = useState(0);
   const [goalAudit, setGoalAudit] = useState<ReturnType<typeof assessCameraGoal> | null>(null), [jobEpisodes, setJobEpisodes] = useState(3000);
+  const [visualActive, setVisualActive] = useState(false);
   const [taskActive, setTaskActive] = useState(false), taskAbort = useRef<AbortController | null>(null);
   const activeWorker = useRef<Worker | null>(null), captureAbort = useRef<AbortController | null>(null), generation = useRef(0), input = useRef<HTMLInputElement>(null);
   const pendingRevision = useRef<number | null>(null), latestScene = useRef(scene); latestScene.current = scene;
-  const busy = phase === "capturing" || phase === "training", stale = Boolean(scene && planner && scene.revision !== planner.revision);
+  const busy = phase === "capturing" || phase === "training" || visualActive, stale = Boolean(scene && planner && scene.revision !== planner.revision);
   const playing = planner?.phase === "playing" || planner?.phase === "paused";
   useEffect(() => {
     const controller = new AbortController(); setDefaultError("");
@@ -97,7 +100,7 @@ export function CameraPlanningLab({ viewport, ready, disabled, planner, onPrepar
           await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
         }
       }
-      const signature = () => { const metadata = viewport.current!.captureMetadata(); return JSON.stringify({ camera: metadata.camera, organs: (metadata.organs as { geometrySignature: string; materialSignature: string; visible: boolean }[]).map(o => [o.geometrySignature, o.materialSignature, o.visible]) }); };
+      const signature = () => visualSceneSignature(viewport.current!.captureMetadata());
       const arrived = signature();
       setMessage("Inspection view reached. Preparing the grasp skill…");
       await onPrepareGrasp(controller.signal);
@@ -224,6 +227,7 @@ export function CameraPlanningLab({ viewport, ready, disabled, planner, onPrepar
         {automaticGrasp?.policy && !taskActive && <button onClick={() => save({ format: "viscera.automatic-liver-study/1", camera: { scene, policy, rollout }, grasp: automaticGrasp }, "viscera-liver-task.json")}><Download size={14} />Export task study</button>}
       </div>
     </div>
+    <VisualTaskLab viewport={viewport} disabled={!ready || disabled || phase === "capturing" || phase === "training" || taskActive || playing} prepare={onPrepare} prepareGrasp={onPrepareGrasp} onActive={setVisualActive} cancelToken={generation.current} />
     {open && <div className="camera-lab-content">
       <div className="camera-lab-title"><span>RL / VIRTUAL SCOPE PRACTICE</span><button aria-label="Close camera planning lab" onClick={() => { cancel(); setOpen(false); }}><X size={16} /></button></div>
       <p>Practice camera-system planning around visible anatomy. The virtual 0° scope pivots about one inferred entry point and keeps a level horizon.</p>

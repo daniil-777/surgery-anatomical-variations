@@ -11,6 +11,14 @@ function harness() {
   return { feedback, tools, camera, controller, publish };
 }
 describe("automatic instrument execution guards", () => {
+  it("waits for an explicit release decision and enforces a bounded hold", () => {
+    const h = harness(); Reflect.set(h.controller, "waitForRelease", true); Reflect.set(h.controller, "phaseTime", 2);
+    h.controller.tick(.016); expect(h.controller.snapshot().phase).toBe("holding");
+    h.controller.requestRelease(); h.controller.tick(.016); expect(h.controller.snapshot().phase).toBe("lowering");
+    expect(()=>h.controller.requestRelease()).toThrow();
+    const timeout=harness(); Reflect.set(timeout.controller,"waitForRelease",true); Reflect.set(timeout.controller,"phaseTime",15);
+    timeout.controller.tick(.016); expect(timeout.controller.snapshot().phase).toBe("blocked"); expect(timeout.tools.release).toHaveBeenCalledTimes(1);
+  });
   it("commands a held contact only when the measured state passes every limit", () => {
     const h = harness(); h.controller.tick(1 / 60); expect(h.tools.commandAutomaticGrasp).toHaveBeenCalledWith(2, 1); expect(h.tools.release).not.toHaveBeenCalled();
     h.feedback.tool.forceN = [.81, 0, 0]; h.tools.commandAutomaticGrasp.mockClear(); h.controller.tick(1 / 60);
