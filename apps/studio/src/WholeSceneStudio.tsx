@@ -1,3 +1,4 @@
+import { VIRTAMED_DISEASES } from "./virtaMedScene";
 import { OPERATIVE_REGIONS, type OperativeRegion } from "./operativeView";
 import { VideoRecorderButton } from "./VideoRecorderPanel";
 import { DisplaySettings, SceneResizeHandle } from "./DisplaySettings";
@@ -48,8 +49,11 @@ function withoutPlanTarget(plan: WholeBodyColorPlan | null, target: string): Who
 
 export default function WholeSceneStudio({ onBack, textureLab = false }: { onBack: () => void; textureLab?: boolean }) {
   const viewport = useRef<WholeSceneViewportHandle>(null);
+  const isVirtaMed = new URLSearchParams(location.search).get("scene") === "virtamed";
+  const [whiteSurface, setWhiteSurface] = useState(true);
+  const [disease, setDisease] = useState("baseline");
   const [variation, setVariation] = useState(BASELINE_VARIATION);
-  const [fatOptions, setFatOptions] = useState<FatSceneOptions>(() => ({ enabled: new URLSearchParams(location.search).get("fat") === "1", seed: 42, thicknessMm: 5, omentum: true, perirenal: true, lighting: "studio", study: "tissue", wetness: .52 }));
+  const [fatOptions, setFatOptions] = useState<FatSceneOptions>(() => ({ enabled: !isVirtaMed && new URLSearchParams(location.search).get("fat") === "1", seed: 42, thicknessMm: 5, omentum: true, perirenal: true, lighting: "studio", study: "tissue", wetness: .52 }));
   const [fatStatus, setFatStatus] = useState("disabled");
   const [seed, setSeed] = useState("42");
   const [strength, setStrength] = useState(0.65);
@@ -75,7 +79,7 @@ export default function WholeSceneStudio({ onBack, textureLab = false }: { onBac
   const [recording, setRecording] = useState(false);
   const [recordingKind, setRecordingKind] = useState<"tour" | "interaction" | null>(null);
   const [error, setError] = useState("");
-  const [notice, setNotice] = useState("Original atlas arrangement");
+  const [notice, setNotice] = useState(isVirtaMed ? "White video-field reconstruction" : "Original atlas arrangement");
   const [panel, setPanel] = useState<"scene" | "references" | "body">("scene");
   const controlsPanel = useRef<HTMLElement>(null);
   const sceneStage = useRef<HTMLElement>(null);
@@ -135,13 +139,13 @@ export default function WholeSceneStudio({ onBack, textureLab = false }: { onBac
     const controller = new AbortController(); physicsRequest.current = controller;
     setPhysicsLoading(true); setError("");
     try {
-      const response = await fetch(publicUrl("anatomy-scene/learned-materials.json"), { signal: controller.signal });
+      const response = await fetch(publicUrl(isVirtaMed ? "anatomy-scene/virtamed-materials.json" : "anatomy-scene/learned-materials.json"), { signal: controller.signal });
       if (!response.ok) throw new Error("Learned scene materials could not be loaded. The current scene is preserved.");
       const data = readLearnedSceneMaterials(await response.json());
       const assigned = new Set(data.materials.map(material => material.id));
       if (stats?.organs.some(organ => organ.category !== "skeleton" && !assigned.has(organ.id))) throw new Error("Material assignments are incomplete. No physics was applied.");
       setPhysicsMaterials(data); setPhysicsRunning(true); setBreathing(true);
-      setNotice(`Learned materials applied · ${data.materials.length} soft structures`);
+      setNotice(isVirtaMed ? "12 synthetic inverse fits applied · 11 moving tissues and fixed cavity support" : `Learned materials applied · ${data.materials.length} soft structures`);
     } catch (cause) {
       if (!controller.signal.aborted) setError(cause instanceof Error ? cause.message : "Physics could not be applied.");
     } finally { if (!controller.signal.aborted) setPhysicsLoading(false); }
@@ -160,7 +164,7 @@ export default function WholeSceneStudio({ onBack, textureLab = false }: { onBac
   function restore() {
     setAutoVarying(false);
     setReferenceState({ colors: {}, plan: null }); setPreviousReferences(null); setShowPreviousReferences(false);
-    setVariation(BASELINE_VARIATION); setError(""); setNotice("Original atlas arrangement restored");
+    setVariation(BASELINE_VARIATION); setDisease("baseline"); setError(""); setNotice(isVirtaMed ? "Video-field geometry restored" : "Original atlas arrangement restored");
   }
   useEffect(() => {
     if (!autoVarying || !ready || recording) return;
@@ -209,7 +213,7 @@ export default function WholeSceneStudio({ onBack, textureLab = false }: { onBac
     <header className="whole-header">
       <button className="whole-brand" onClick={onBack} aria-label="Back to organ studio"><Activity size={22} /><span>VISCERA <small>ATLAS</small></span></button>
       <nav className="anatomy-workspace-tabs" aria-label="Anatomy workspace"><button onClick={onBack}>Organ studio</button><button aria-current="page">Whole scene</button><button onClick={() => { window.location.href = "?mode=imports"; }}>Import 3D</button><button onClick={() => { window.location.href = "?mode=fat"; }}>Fat lab</button></nav>
-      <DisplaySettings /><VideoRecorderButton /><span className="whole-header-note">A body, in context.</span>
+      <DisplaySettings /><VideoRecorderButton /><span className="whole-header-note">{isVirtaMed ? "VirtaMed scene · video reconstruction" : "A body, in context."}</span>
       <button className="whole-button whole-image-button" disabled={!ready || recording} onClick={capture}><Camera size={14} />Save image</button>
       <button className="whole-button whole-record-button" disabled={!ready || exploring} onClick={() => recording ? viewport.current?.stopRecording() : void record()}><Video size={14} />{recording ? "Stop recording" : "Record tour"}</button>
       <ApiNotice />
@@ -217,7 +221,7 @@ export default function WholeSceneStudio({ onBack, textureLab = false }: { onBac
 
     <main ref={sceneStage} className={`whole-stage${physicsMaterials ? " whole-stage-instruments" : ""}${exploring ? " whole-exploring" : ""}`} aria-label="Connected anatomy scene" onPointerDownCapture={event => { if ((event.target as HTMLElement).tagName === "CANVAS" && toolMode === "orbit") setView("orbit"); }}>
       <SceneResizeHandle />
-      <WholeSceneViewport ref={viewport} fatOptions={fatOptions} onFatStatus={setFatStatus} variation={variation} visibility={visibility} hiddenOrgans={hiddenOrgans} breathing={breathing} photoDetail={photoDetail} autoRotate={autoRotate} selectedOrgan={selected} onSelect={setSelected} onReady={setStats} onError={setError} onRecordingChange={setRecording} physicsMaterials={physicsMaterials} physicsRunning={physicsRunning} referenceColors={displayedReferences.colors} bodyReferencePlan={displayedReferences.plan} toolMode={toolMode} toolRadiusMm={toolRadius} toolDepthMm={toolDepth} continuousPush={continuousPush} pushSpeedMmS={pushSpeed} onToolStatus={setToolStatus} onNavigationChange={setNavigation} />
+      <WholeSceneViewport ref={viewport} sourceScene={isVirtaMed ? "virtamed" : "atlas"} whiteSurface={whiteSurface} disease={disease} fatOptions={fatOptions} onFatStatus={setFatStatus} variation={variation} visibility={visibility} hiddenOrgans={hiddenOrgans} breathing={breathing} photoDetail={photoDetail} autoRotate={autoRotate} selectedOrgan={selected} onSelect={setSelected} onReady={setStats} onError={setError} onRecordingChange={setRecording} physicsMaterials={physicsMaterials} physicsRunning={physicsRunning} referenceColors={displayedReferences.colors} bodyReferencePlan={displayedReferences.plan} toolMode={toolMode} toolRadiusMm={toolRadius} toolDepthMm={toolDepth} continuousPush={continuousPush} pushSpeedMmS={pushSpeed} onToolStatus={setToolStatus} onNavigationChange={setNavigation} />
       {exploring && <section className="whole-exploration" aria-label="Interior camera controls">
         <div className="whole-exploration-heading"><strong>Between-organ inspection</strong><button type="button" aria-label={cameraControlsExpanded ? "Collapse camera controls" : "Expand camera controls"} aria-expanded={cameraControlsExpanded} onClick={() => setCameraControlsExpanded(value => !value)}>{cameraControlsExpanded ? "−" : "+"}</button><button type="button" aria-label="Exit interior exploration" onClick={() => viewport.current?.exitExploration()}><X size={16} /></button></div>
         <div hidden={!cameraControlsExpanded}><p>Drag to look · WASD / Q E to move · arrow keys to look · Escape to exit</p>
@@ -227,7 +231,7 @@ export default function WholeSceneStudio({ onBack, textureLab = false }: { onBac
         <p role="status">{navigation?.blocked ? `Movement stopped near ${navigation.blockedBy ?? 'a surface'}. Turn or move away.` : navigation?.message}</p>
         <button type="button" onClick={() => viewport.current?.resetExploration()}>Reset inspection camera</button></div>
       </section>}
-      <div className="whole-heading"><div className="whole-eyebrow"><span /> HUMAN ANATOMY / OPEN ATLAS</div><h1>The connected body</h1><p>Thorax to pelvis. Explore the body’s connected systems.</p></div>
+      <div className="whole-heading"><div className="whole-eyebrow"><span /> {isVirtaMed ? "VIDEO RECONSTRUCTION / HEPATOCYSTIC FIELD" : "HUMAN ANATOMY / OPEN ATLAS"}</div><h1>{isVirtaMed ? "VirtaMed scene" : "The connected body"}</h1><p>{isVirtaMed ? "Liver, gallbladder and connected soft tissue." : "Thorax to pelvis. Explore the body’s connected systems."}</p></div>
       <div className="whole-stage-actions">
         <button aria-label="Fit whole scene" title="Fit whole scene" disabled={!ready || recording} onClick={() => viewport.current?.fit()}><Focus size={17} /></button>
         <button aria-label="Camera tour" title="Camera tour" aria-pressed={autoRotate} disabled={!ready || recording || exploring} onClick={() => { viewport.current?.releaseTool(); setToolMode("orbit"); setAutoRotate(value => !value); }}>{autoRotate ? <Pause size={16} /> : <Play size={16} />}</button>
@@ -251,6 +255,17 @@ export default function WholeSceneStudio({ onBack, textureLab = false }: { onBac
     </main>
 
     <aside ref={controlsPanel} className="whole-controls" aria-label="Whole scene controls">
+      <section className="virtamed-source" aria-label="Scene library"><label>Scene library<select aria-label="Scene library" value={isVirtaMed ? "virtamed" : "atlas"} onChange={event => { location.href=event.target.value === "virtamed" ? "?mode=scene&scene=virtamed" : "?mode=scene"; }}><option value="atlas">Whole anatomical atlas</option><option value="virtamed">VirtaMed scene</option></select></label></section>
+      {isVirtaMed && <section className="virtamed-workflow" aria-label="VirtaMed scene workflow">
+        <span className="whole-section-label">VIDEO / HEPATOCYSTIC FIELD</span><h2>VirtaMed scene</h2>
+        <p className="whole-copy">Inspect the white reconstruction, apply tissue appearance, then explore variations and force response.</p>
+        <div className="virtamed-actions"><button className="whole-button" disabled={!ready || recording} aria-pressed={whiteSurface} onClick={()=>setWhiteSurface(true)}>White geometry</button><button className="whole-joint" disabled={!ready || recording} aria-pressed={!whiteSurface} onClick={()=>{setWhiteSurface(false);setNotice("Verified learned liver and bowel textures applied; authored optics on other tissues");}}>Apply learned textures</button></div>
+        <button className="whole-button" disabled={!ready || recording} onClick={()=>viewport.current?.videoView()}>Video camera · instruments enabled</button>
+        <a className="whole-button" href={publicUrl("anatomy-scene/virtamed-scene.glb")} download="virtamed-scene.glb">Download white GLB</a>
+        <p className="whole-scope">Reconstructed from the intact 00:08–00:15 field in Full.mp4. Hidden surfaces and scale are inferred. Learned liver and bowel appearance; authored gallbladder, fat and membrane optics.</p>
+        <label>Disease variation<select aria-label="Disease variation" value={disease} disabled={!ready || recording} onChange={e=>setDisease(e.target.value)}>{VIRTAMED_DISEASES.map(d=><option key={d.id} value={d.id}>{d.label}</option>)}</select></label>
+        <p className="whole-scope">Use Joint scene variation below to apply the selected condition. Shape and pigment share the same field and seed.</p>
+      </section>}
       <div className="whole-panel-tabs whole-three-tabs"><button aria-pressed={panel === "scene"} onClick={() => setPanel("scene")}>Scene controls</button><button aria-pressed={panel === "body"} onClick={() => setPanel("body")}>Whole-body colour</button><button aria-pressed={panel === "references"} onClick={() => setPanel("references")}>Atlas references</button></div>
       <div className="whole-panel-scroll">
         <div hidden={panel !== "body"}><WholeBodyReferencePanel organs={stats?.organs ?? []} appliedPlan={referenceState.plan} referenceColors={referenceColors} disabled={!ready || recording} canRestore={Boolean(previousReferences)} showingPrevious={showPreviousReferences && Boolean(previousReferences)} onCompare={previous => {
@@ -263,13 +278,13 @@ export default function WholeSceneStudio({ onBack, textureLab = false }: { onBac
           setReferenceState(previousReferences); setPreviousReferences(null); setShowPreviousReferences(false); setNotice("Previous reference colours restored");
         }} /></div>
         {panel === "scene" ? <>
-          <div className="whole-camera-entry"><strong>Inside the abdomen</strong><p>Choose an entry view, then guide the scope with drag-to-look and small forward or sideways steps.</p><div className="whole-operative-stations">{OPERATIVE_REGIONS.map(region => <button key={region.id} disabled={!ready || recording} onClick={() => enterExploration(region.id)} title={region.description}>{region.label}</button>)}</div><button className="whole-button" disabled={!ready || recording} aria-pressed={exploring} onClick={() => exploring ? viewport.current?.exitExploration() : enterExploration()}>{exploring ? 'Return to orbit' : 'Explore between organs'}</button><p>Regional entries show a camera-lit field with fat and an illustrative peritoneal wall. Each entry is a separate view. Move between visible surfaces; organ lumens are not reconstructed. Motion and tools pause during inspection.</p></div>
+          <div className="whole-camera-entry" hidden={isVirtaMed}><strong>Inside the abdomen</strong><p>Choose an entry view, then guide the scope with drag-to-look and small forward or sideways steps.</p><div className="whole-operative-stations">{OPERATIVE_REGIONS.map(region => <button key={region.id} disabled={!ready || recording} onClick={() => enterExploration(region.id)} title={region.description}>{region.label}</button>)}</div><button className="whole-button" disabled={!ready || recording} aria-pressed={exploring} onClick={() => exploring ? viewport.current?.exitExploration() : enterExploration()}>{exploring ? 'Return to orbit' : 'Explore between organs'}</button><p>Regional entries show a camera-lit field with fat and an illustrative peritoneal wall. Each entry is a separate view. Move between visible surfaces; organ lumens are not reconstructed. Motion and tools pause during inspection.</p></div>
           <div className="whole-section-label">01 <span>THE ASSEMBLY</span></div>
-          <h2>One coordinated specimen</h2><p className="whole-copy">Explore the organs together, with the airways, vessels and ducts that connect them.</p>
-          <div className="whole-dissection" aria-label="Dissection presets">{dissections.map(preset => <button key={preset.id} disabled={!ready || recording} aria-pressed={dissection === preset.id} onClick={() => selectDissection(preset.id)}>{preset.label}</button>)}</div>
+          <h2>One coordinated specimen</h2><p className="whole-copy">{isVirtaMed ? "A focused hepatocystic field: liver, gallbladder, ducts, artery, connected fat, ligament sheets and partly visible bowel." : "Explore the organs together, with the airways, vessels and ducts that connect them."}</p>
+          <div className="whole-dissection" aria-label="Dissection presets" hidden={isVirtaMed}>{dissections.map(preset => <button key={preset.id} disabled={!ready || recording} aria-pressed={dissection === preset.id} onClick={() => selectDissection(preset.id)}>{preset.label}</button>)}</div>
           {dissection && dissection !== "full" && <p className="whole-cutaway-note">Overlying organs hidden for inspection. Positions are preserved.</p>}
           <div className="whole-layers">{categories.map(category => <label key={category.id}><i style={{ background: category.color }} /><span>{category.label}</span><input type="checkbox" checked={visibility[category.id] !== false} onChange={event => { setDissection(null); setVisibility(current => ({ ...current, [category.id]: event.target.checked })); }} /></label>)}</div>
-          <label className="whole-motion"><Layers3 size={15} /><span>Experimental fat layers<small>Omental apron and perirenal pads</small></span><input aria-label="Experimental fat layers" type="checkbox" disabled={!ready || recording} checked={fatOptions.enabled} onChange={event => { const enabled = event.target.checked; setFatOptions(current => ({ ...current, enabled })); const url = new URL(location.href); if (enabled) url.searchParams.set("fat", "1"); else url.searchParams.delete("fat"); history.replaceState(null, "", url); }} /></label>
+          <label className="whole-motion"><Layers3 size={15} /><span>{isVirtaMed ? "Additional atlas fat (not needed for this field)" : "Experimental fat layers"}<small>Omental apron and perirenal pads</small></span><input aria-label="Experimental fat layers" type="checkbox" disabled={isVirtaMed || !ready || recording} checked={fatOptions.enabled} onChange={event => { const enabled = event.target.checked; setFatOptions(current => ({ ...current, enabled })); const url = new URL(location.href); if (enabled) url.searchParams.set("fat", "1"); else url.searchParams.delete("fat"); history.replaceState(null, "", url); }} /></label>
           {fatOptions.enabled && <section aria-label="Adipose layer controls">
             <div className="whole-fat-heading"><span>ADIPOSE / IN CONTEXT</span><h3>Inspect the tissue planes</h3><p>Connected fat bands, thin intercord tissue and a wet surface. Select a depot, then inspect it from any view.</p></div>
             {fatStatus === "building" && <p className="whole-copy" role="status">Generating organ-aware fat layers…</p>}
@@ -289,7 +304,7 @@ export default function WholeSceneStudio({ onBack, textureLab = false }: { onBac
             <button className="whole-button" disabled={recording} onClick={() => setFatOptions(current => ({ ...current, seed: crypto.getRandomValues(new Uint32Array(1))[0]! }))}><Shuffle size={13} />Resample fat layers</button>
             <p className="whole-scope">Authored anatomical depots with sampled clearance checks and local shell-thickness optics. Shared organ motion; fat sliding, gravity and contact are not solved. <a href="?mode=fat">Open fat lab and surgical references ↗</a></p>
           </section>}
-          <label className="whole-motion"><Activity size={15} /><span>Breathing<small>{physicsMaterials ? "Respiratory loading of the soft tissues" : "Gentle illustrative motion"}</small></span><input type="checkbox" checked={breathing} onChange={event => setBreathing(event.target.checked)} /></label>
+          <label className="whole-motion"><Activity size={15} /><span>Breathing<small>{physicsMaterials ? "Respiratory loading of the soft tissues" : isVirtaMed ? "Apply learned physics to enable breathing" : "Gentle illustrative motion"}</small></span><input type="checkbox" disabled={isVirtaMed && !physicsMaterials} checked={breathing} onChange={event => setBreathing(event.target.checked)} /></label>
           {textureLab && <><label className="whole-range"><span>Photo detail<output>{Math.round(photoDetail * 100)}%</output></span><input type="range" min={0} max={2} step={0.01} value={photoDetail} aria-label="Photo detail strength" onChange={event => setPhotoDetail(Number(event.target.value))} /></label>
           <p className="whole-copy">Real tissue detail from licensed surgical photographs (DSAD, CC BY 4.0) over the organs that have one, lighting flattened, no repetition; it modulates each tissue's colour without shifting it.</p></>}
           <div className="whole-section-label">02 <span>JOINT VARIATION</span></div>
@@ -299,7 +314,7 @@ export default function WholeSceneStudio({ onBack, textureLab = false }: { onBac
           <div className="whole-seed-row"><label>Scene seed<input aria-label="Scene seed" type="text" inputMode="numeric" value={seed} onChange={event => setSeed(event.target.value)} /></label><button className="whole-button" disabled={!ready || recording} onClick={() => vary(false)} title="Apply this seed and the selected settings">Replay seed</button></div>
           <button className="whole-joint" disabled={!ready || recording} onClick={() => vary(true)}><Shuffle size={16} /><span>Joint scene variation</span><ChevronRight size={16} /></button>
           <button className="whole-button" aria-pressed={autoVarying} disabled={!ready || recording} onClick={() => { const next = !autoVarying; setAutoVarying(next); if (next) vary(true); }}>{autoVarying ? <Pause size={13} /> : <Play size={13} />}{autoVarying ? "Pause endless variation" : "Auto-vary scene endlessly"}</button>
-          <button className="whole-restore" disabled={!ready || recording} onClick={restore}><RotateCcw size={13} />Restore atlas</button>
+          <button className="whole-restore" disabled={!ready || recording} onClick={restore}><RotateCcw size={13} />{isVirtaMed ? "Restore video geometry" : "Restore atlas"}</button>
           <p className="whole-scope">Disease colours and texture changes are synthetic visual studies. They do not represent a diagnosed patient or a physiological disease simulation.</p>
           {selectedInfo && REFERENCE_ORGAN_IDS[selectedInfo.id] ? <ReferenceMaterialPanel
             key={selectedInfo.id} organ={REFERENCE_ORGAN_IDS[selectedInfo.id]!} organLabel={selectedInfo.label}
@@ -313,12 +328,12 @@ export default function WholeSceneStudio({ onBack, textureLab = false }: { onBac
           <h2>Feel the connected scene</h2><p className="whole-copy">Apply distinct material estimates to every soft structure, then explore their coupled deformation and recovery.</p>
           <button className="whole-joint whole-physics-apply" disabled={!ready || physicsLoading || recording} onClick={() => void applyPhysics()}>{physicsLoading ? <LoaderCircle size={16} className="atlas-spinning" /> : <Activity size={16} />}<span>{physicsLoading ? "Applying learned physics…" : "Apply learned physics to all organs"}</span></button>
           {physicsMaterials && <div className="whole-physics-controls">
-            <p className="whole-physics-status">{physicsMaterials.materials.length} soft structures · {physicsRunning ? "Simulation running" : "Simulation paused"}</p>
+            <p className="whole-physics-status">{isVirtaMed ? "11 moving tissues + fixed wall" : `${physicsMaterials.materials.length} soft structures`} · {physicsRunning ? "Simulation running" : "Simulation paused"}</p>
             <div><button className="whole-button" aria-label={physicsRunning ? "Pause physics" : "Resume physics"} disabled={exploring} onClick={() => setPhysicsRunning(value => !value)}>{physicsRunning ? <Pause size={13} /> : <Play size={13} />}{physicsRunning ? "Pause physics" : "Resume physics"}</button><button className="whole-button" onClick={() => { viewport.current?.resetPhysics(); setNotice("Physics state reset"); }}><RotateCcw size={13} />Reset motion</button></div>
-            <button className="whole-button" disabled={!physicsRunning} onClick={() => { viewport.current?.pulsePhysics(); setNotice("Palpation pulse applied; watch the tissue recover"); }}>Palpate selected organ</button>
+            <button className="whole-button" disabled={!physicsRunning || (isVirtaMed && selected === "abdominal-wall")} onClick={() => { viewport.current?.pulsePhysics(); setNotice("Palpation pulse applied; watch the tissue recover"); }}>Palpate selected organ</button>
             <button className="whole-restore" onClick={() => { viewport.current?.releaseTool(); setToolMode("orbit"); setPhysicsMaterials(null); setPhysicsRunning(false); setBreathing(false); setNotice("Static anatomy restored"); }}>Remove physics</button>
           </div>}
-          <p className="whole-scope">Learned from synthetic material responses. Coupled viscoelastic preview with authored supports and loading; organ-to-organ contact, fluid pressure and validated surgical mechanics are not resolved.</p>
+          <p className="whole-scope">{isVirtaMed ? "Twelve organ/tissue fits from synthetic force histories; fixed cavity wall. The source video supplies no measured forces. " : "Learned from synthetic material responses. "}Coupled viscoelastic preview with authored supports and loading; organ-to-organ contact, fluid pressure and validated surgical mechanics are not resolved.</p>
           <section className="whole-instrument-panel" aria-label="Instrument settings">
             <div className="whole-section-label">04 <span>SURFACE INTERACTION</span></div>
             <h2>Laparoscopic instruments</h2>
@@ -339,7 +354,7 @@ export default function WholeSceneStudio({ onBack, textureLab = false }: { onBac
           <details className="whole-organ-details"><summary>Explore the structures <span>{stats?.organs.length ?? "—"}</span></summary><p className="whole-scope">Select an organ to focus the camera, or hide it to inspect the structures beneath it.</p><div>{stats?.organs.map(organ => <div className="whole-organ-row" key={organ.id}><button aria-pressed={selected === organ.id} onClick={() => setSelected(current => current === organ.id ? null : organ.id)}>{organ.label}{selected === organ.id && <Check size={12} />}</button><button aria-label={`Focus ${organ.label}`} title={`Focus ${organ.label}`} disabled={recording} onClick={() => focusOrgan(organ.id)}><Focus size={12} /></button><button aria-label={`${hiddenOrgans.includes(organ.id) ? "Show" : "Hide"} ${organ.label}`} aria-pressed={!hiddenOrgans.includes(organ.id)} onClick={() => toggleOrgan(organ.id)}>{hiddenOrgans.includes(organ.id) ? <EyeOff size={13} /> : <Eye size={13} />}</button></div>)}</div></details>
         </> : panel === "references" ? <>
           <div className="whole-section-label">OPEN ANATOMY <span>REFERENCE DESK</span></div>
-          <h2>Built in a shared body frame</h2><p className="whole-copy">Abdominal organs, ducts and vessels retain the BodyParts3D body frame. The liver uses a reconstructed display envelope. Heart and lung surfaces are fitted from the Human Reference Atlas; those placements are an approximation.</p>
+          {isVirtaMed && <section><h2>Video field & surgical references</h2><p className="whole-copy">Full.mp4 supplies visible silhouettes and traction examples. This reconstruction uses independently authored surfaces, not simulator assets. Unseen anatomy, dimensions, attachments and loading remain estimates. No video pixels or logos are redistributed.</p><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9837071/" target="_blank" rel="noreferrer">Dresden Surgical Anatomy Dataset · appearance reference</a><p className="whole-scope">Learned RGB tiles are 512 px previews. Normal and roughness response are derived or authored, not measured human optics. Twelve material estimates are fitted from noisy synthetic histories with separate held-out protocols. No clinical validation or measured-force fit is claimed.</p></section>}<div hidden={isVirtaMed}><h2>Built in a shared body frame</h2><p className="whole-copy">Abdominal organs, ducts and vessels retain the BodyParts3D body frame. The liver uses a reconstructed display envelope. Heart and lung surfaces are fitted from the Human Reference Atlas; those placements are an approximation.</p>
           <a className="whole-reference" href="https://dbarchive.biosciencedbc.jp/en/bodyparts3d/desc.html" target="_blank" rel="noreferrer"><Layers3 size={18} /><span><strong>BodyParts3D / Anatomography</strong><small>3D reference · Database Center for Life Science</small></span><ChevronRight size={14} /></a>
           <p className="whole-copy">BodyParts3D, © The Database Center for Life Science. Distributed under <a href="https://dbarchive.biosciencedbc.jp/en/bodyparts3d/lic.html" target="_blank" rel="noreferrer">CC BY 4.0</a>. The viewer adds tissue materials and bounded scene deformations.</p>
           <a className="whole-reference" href="https://humanatlas.io/3d-reference-library" target="_blank" rel="noreferrer"><Layers3 size={18} /><span><strong>Human Reference Atlas / HuBMAP</strong><small>CC BY 4.0 · Fitted heart and lung surfaces</small></span><ChevronRight size={14} /></a><p className="whole-copy"><a href={publicUrl("anatomy-scene/manifest.json")} target="_blank" rel="noreferrer">Full model credits, modifications and source hashes</a></p>
@@ -347,10 +362,10 @@ export default function WholeSceneStudio({ onBack, textureLab = false }: { onBac
           <div className="whole-reference-image"><img src={publicUrl("anatomy-scene/references/accessory-organs.jpg")} alt="Open anatomy illustration showing the digestive organs together" loading="lazy" /><span>OpenStax College (2013) · CC BY 3.0. Accessory digestive organs.</span></div>
           <a className="whole-copy" href="https://commons.wikimedia.org/wiki/File:2422_Accessory_Organs.jpg" target="_blank" rel="noreferrer">Image source & attribution</a><h3>Read the anatomy</h3><ul className="whole-anatomy-notes"><li>The liver occupies the patient’s upper right; the stomach lies mostly to the left.</li><li>The gallbladder sits beneath the liver. Biliary ducts approach the duodenum.</li><li>The pancreas lies behind the stomach; kidneys sit toward the posterior body wall.</li><li>The diaphragm separates the chest from the abdomen.</li></ul>
           <p className="whole-scope">One atlas represents one anatomy. Shared deformation preserves the assembly but does not establish population realism, collision-free disease changes, or validated tissue mechanics.</p>
-        </> : null}
+        </div></> : null}
       </div>
       <div className="whole-panel-footer"><span /><p role="status">{notice}</p></div>
     </aside>
-    <footer className="whole-footer"><span>BodyParts3D · CC BY 4.0</span><span>Registered anatomy · authored tissue appearance</span><button onClick={() => setPanel("references")}>Sources & scope <ArrowLeft size={11} /></button></footer>
+    <footer className="whole-footer"><span>{isVirtaMed ? "Authored video-field reconstruction" : "BodyParts3D · CC BY 4.0"}</span><span>{isVirtaMed ? "Learned appearance · synthetic mechanics estimates" : "Registered anatomy · authored tissue appearance"}</span><button onClick={() => setPanel("references")}>Sources & scope <ArrowLeft size={11} /></button></footer>
   </div>;
 }

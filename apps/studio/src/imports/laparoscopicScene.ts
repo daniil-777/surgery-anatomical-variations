@@ -7,7 +7,7 @@ import { inspectImportedRoot, type ImportedModel } from "./importModel";
 import { ImportResources, checkAbort } from "./importResources";
 import { tubularStructure } from "./tissueDetail";
 
-export type LaparoscopicScenePresetId = "full-laparoscopy" | "hepatobiliary";
+export type LaparoscopicScenePresetId = "full-laparoscopy" | "hepatobiliary" | "virtamed";
 
 export interface LaparoscopicScenePreset {
   id: LaparoscopicScenePresetId;
@@ -19,6 +19,7 @@ export interface LaparoscopicScenePreset {
 }
 
 export const LAPAROSCOPIC_SCENE_PRESETS: readonly LaparoscopicScenePreset[] = [
+  {id:"virtamed",label:"VirtaMed scene · white video reconstruction",shortLabel:"VirtaMed scene",filename:"virtamed-scene.glb",description:"Reconstructed intact hepatocystic field from Full.mp4, 00:08–00:15. Visible silhouettes; hidden geometry and scale inferred.",organIds:["liver","gallbladder","cystic-duct","hepatic-duct","cystic-artery","colon","small-intestine","duodenum","hepatocystic-fat","hepatoduodenal-ligament","falciform-ligament","abdominal-wall"]},
   {
     id: "full-laparoscopy",
     label: "Full laparoscopic abdomen (24 co-registered structures)",
@@ -425,6 +426,13 @@ export async function loadLaparoscopicSceneModel(
   signal?.addEventListener("abort", abort, { once: true });
   try {
     checkAbort(signal);
+    if (presetId === "virtamed") {
+      const {loadVirtaMedAsset} = await import("../virtaMedAsset");
+      checkAbort(signal);
+      const {root,sha256,bytes} = await loadVirtaMedAsset(signal);resources.own(root);
+      checkAbort(signal);
+      return {root,filename:preset.filename,format:"glb",stats:inspectImportedRoot(root),warnings:["Video-derived reconstruction of the visible hepatocystic field; hidden surfaces and scale are inferred.","Open the scene texture & physics lab for verified learned appearance and coupled tissue interaction."],source:{sha256,files:[{path:"virtamed-scene.glb",sha256,bytes}]},dispose(){resources.dispose();root.removeFromParent();}};
+    }
     const response = await fetch(publicUrl("anatomy-scene/bodyparts3d-torso.glb"), signal ? { signal } : undefined);
     if (!response.ok) throw new Error("The bundled co-registered anatomical atlas could not be loaded.");
     const buffer = await response.arrayBuffer();

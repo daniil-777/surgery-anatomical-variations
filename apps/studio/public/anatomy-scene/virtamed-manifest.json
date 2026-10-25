@@ -1,0 +1,84 @@
+{
+  "organs": [
+    {
+      "id": "liver",
+      "label": "Liver canopy",
+      "category": "digestive",
+      "color": "#793d3c"
+    },
+    {
+      "id": "gallbladder",
+      "label": "Gallbladder",
+      "category": "digestive",
+      "color": "#abb1b2"
+    },
+    {
+      "id": "cystic-duct",
+      "label": "Cystic duct",
+      "category": "digestive",
+      "color": "#bba78b"
+    },
+    {
+      "id": "hepatic-duct",
+      "label": "Extrahepatic bile duct",
+      "category": "digestive",
+      "color": "#b9a382"
+    },
+    {
+      "id": "cystic-artery",
+      "label": "Cystic artery",
+      "category": "cardiovascular",
+      "color": "#9b4547"
+    },
+    {
+      "id": "colon",
+      "label": "Partly visible colon",
+      "category": "digestive",
+      "color": "#c68d87"
+    },
+    {
+      "id": "small-intestine",
+      "label": "Foreground bowel",
+      "category": "digestive",
+      "color": "#d5a39a"
+    },
+    {
+      "id": "duodenum",
+      "label": "Duodenal support surface (inferred)",
+      "category": "digestive",
+      "color": "#c5988b"
+    },
+    {
+      "id": "hepatocystic-fat",
+      "label": "Connected fatty apron",
+      "category": "connective",
+      "color": "#cb994f"
+    },
+    {
+      "id": "hepatoduodenal-ligament",
+      "label": "Hepatocystic membrane",
+      "category": "connective",
+      "color": "#c9ad99"
+    },
+    {
+      "id": "falciform-ligament",
+      "label": "Cranial ligament sheet",
+      "category": "connective",
+      "color": "#c8b295"
+    },
+    {
+      "id": "abdominal-wall",
+      "label": "Posterior cavity support (inferred)",
+      "category": "connective",
+      "color": "#663b35"
+    }
+  ],
+  "version": "viscera.video-field/1",
+  "filename": "virtamed-scene.glb",
+  "sha256": "a5d0d3cacab9d596aec80dd2799e5894b7844843cdd861b4c4d89706628af1e3",
+  "bytes": 3609472,
+  "source": "Full.mp4, intact hepatocystic field 00:08–00:15; user-provided visual reference",
+  "construction": "Independently authored connected surfaces; no source simulator geometry, textures or logos",
+  "scale": "Assumed millimetres; monocular video does not determine absolute scale",
+  "hiddenAnatomy": "Inferred; not recovered from the video"
+}

@@ -195,6 +195,11 @@ export default function ImportedModelStudio() {
       if (!system) setSystem(activeSystem);
 
       const discovered = discoverSceneOrgans(state, activeSystem);
+      if (presetId === "virtamed") {
+        setOrganAssignments(discovered);setReferenceId(discovered[0]?.referenceId ?? "hra-liver-female");
+        setSession({model,state});setApplied(null);setLiveTextures(0);setAutoRotate(false);setRevision(value=>value+1);
+        setNotice("VirtaMed scene loaded in white. Inspect or export the geometry; open its texture & physics lab to continue.");return;
+      }
       setOrganAssignments(discovered);
       setReferenceId(discovered[0]?.referenceId ?? "hra-liver-female");
       setSeamlessTextures(true);
@@ -444,6 +449,7 @@ export default function ImportedModelStudio() {
             </div>
           </div>
           {session && <><dl className="import-stats"><div><dt>Vertices</dt><dd>{count(session.model.stats.vertices)}</dd></div><div><dt>Triangles</dt><dd>{count(session.model.stats.triangles)}</dd></div><div><dt>Organs / Meshes</dt><dd>{count(session.model.stats.meshes)}</dd></div><div><dt>Textures</dt><dd>{count(liveTextures)}</dd></div></dl>
+            {session.model.filename === "virtamed-scene.glb" && <a className="import-primary" href="?mode=scene&scene=virtamed">Open scene texture & physics lab ↗</a>}
             {session.model.warnings.map((message, index) => <p className="import-notice" key={index}>{modelMessage(message)}</p>)}</>}
         </section>
         <section>

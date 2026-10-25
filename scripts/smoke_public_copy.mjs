@@ -146,10 +146,25 @@ await check('scene', '?mode=scene', 'scene', async (page) => {
   await flag(page, `JSON.parse(document.querySelector('[data-scene-snapshot]').dataset.sceneSnapshot).camera.navigation.mode==='orbit'`);
   return 'whole scene, operative entry, surrounding fat and return to orbit';
 });
+await check('virtamed', '?mode=scene&scene=virtamed', 'scene', async (page) => {
+  await flag(page, enabled('Apply learned textures'));
+  const read=()=>page.evaluate(()=>JSON.parse(document.querySelector('[data-scene-snapshot]').dataset.sceneSnapshot));
+  const white=await read();
+  if(white.sourceScene!=='virtamed'||white.surfaceMode!=='white'||white.organs.length!==12)throw new Error('Incomplete white video-field scene');
+  await button(page,'Apply learned textures');
+  await flag(page, `JSON.parse(document.querySelector('[data-scene-snapshot]').dataset.sceneSnapshot).surfaceMode==='learned-tissue'`);
+  const tissue=await read();
+  if(tissue.organs.filter(p=>p.appearance?.sha256).length!==4||tissue.organs.some((p,i)=>p.geometrySignature!==white.organs[i].geometrySignature))throw new Error('Learned material switch failed');
+  await button(page,'Apply learned physics to all organs');
+  await flag(page, `JSON.parse(document.querySelector('[data-scene-snapshot]').dataset.sceneSnapshot).physics?.running===true`);
+  const physical=await read();
+  if(!physical.physics.finite||physical.physics.organs.length!==11||physical.physics.organs.some(o=>o.id==='abdominal-wall'))throw new Error('Video-field mechanics failed');
+  return '12-part white GLB, verified learned textures, 11 dynamic tissues and fixed cavity support';
+});
 await check('legacy', '?mode=legacy', 'legacy', async () => 'procedural studio ready');
 await check('textures', 'textures.html', 'textures', async () => { await new Promise((r) => setTimeout(r, 2500)); return 'texture lab ready with its tiles'; });
 
 await browser.close();
 server?.close();
-console.log(`${5 - failures}/5 checks passed · screenshots in ${OUTDIR}`);
+console.log(`${6 - failures}/6 checks passed · screenshots in ${OUTDIR}`);
 process.exit(failures ? 1 : 0);

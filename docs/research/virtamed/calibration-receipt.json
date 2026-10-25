@@ -1,0 +1,27 @@
+{
+  "artifacts": [
+    {
+      "file": "virtamed-materials.json",
+      "bytes": 42657,
+      "sha256": "885ae11a1a9fe816a0f6f64f85543e8108575e657fccb9911ffc08011508aff8",
+      "replay_byte_identical": true
+    },
+    {
+      "file": "virtamed-material-observations.json",
+      "bytes": 219673,
+      "sha256": "8cd1b21d91fad162709c9e4b797309a93fa687c3a3436834af3c8af84558e94b",
+      "replay_byte_identical": true
+    },
+    {
+      "file": "virtamed-material-held-out.json",
+      "bytes": 548864,
+      "sha256": "13d7ffb04b6d59600c720315195562ab62ef0dc9e68a26d379e4ba85e7c98d3f",
+      "replay_byte_identical": true
+    }
+  ],
+  "accepted": 12,
+  "held_out_waveforms": 36,
+  "max_held_out_stress_nrmse": 0.0005044419522953069,
+  "max_parameter_absolute_relative_error": 0.009662485019825695,
+  "all_fits_supported": true
+}

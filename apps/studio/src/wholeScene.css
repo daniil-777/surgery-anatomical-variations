@@ -65,3 +65,7 @@
 .whole-operative-stations { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
 .whole-operative-stations button { border: 1px solid #536961; border-radius: 6px; padding: 8px 10px; background: #172a27; color: #e7eee8; font: inherit; font-size: 12px; cursor: pointer; }
 .whole-operative-stations button:hover { background: #2c4740; }
+
+.virtamed-source,.virtamed-workflow{padding:18px 20px;border-bottom:1px solid #26353b}.virtamed-source label,.virtamed-workflow label{display:grid;gap:8px;font-size:12px;color:#b7c7ce}.virtamed-source select,.virtamed-workflow select{width:100%;min-height:36px;background:#152128;color:#e3ecef;border:1px solid #38505a;border-radius:7px;padding:7px}.virtamed-workflow h2{font-size:23px;margin:10px 0}.virtamed-actions{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}.virtamed-actions .whole-joint{margin:0;flex:1;min-width:150px}.virtamed-workflow [aria-pressed=true]{border-color:#77bdb0;background:#20423c}
+
+.whole-scene-studio [hidden]{display:none!important}
