@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { evaluateGrasp, trainGraspPolicy, graspOffset, graspViolation, smoothGrasp, GRASP_PROFILES, GRASP_LIMITS, type GraspTrainingInput } from "./graspPolicy";
+import { evaluateGrasp, trainGraspPolicy, revalidateGraspPolicy, graspOffset, graspViolation, smoothGrasp, GRASP_PROFILES, GRASP_LIMITS, type GraspTrainingInput, type GraspPolicy } from "./graspPolicy";
+import saved from "./graspDefaultPolicy.json";
 const input = (): GraspTrainingInput => ({
   organs: [{ id: "liver", category: "digestive", bounds: { min: [-80, -45, -30], max: [80, 45, 30] } }],
   materials: { schema_version: "whole-scene-materials-1.0.0", model_id: "a".repeat(64), scope: "unit simulation fixture", materials: [{ id: "liver", young_pa: 3500, relaxation_fraction: .35, relaxation_time_s: .4, density_kg_m3: 1050, accepted_for_application: true, observation_origin: "synthetic-design-history" }] },
@@ -7,6 +8,32 @@ const input = (): GraspTrainingInput => ({
   contact: { mode: "grasp", organId: "liver", restPointMm: [0, 0, 30], targetPointMm: [0, 0, 30], normal: [0, 0, 1], radiusMm: 3 },
 });
 describe("isolated grasp option learning", () => {
+  it("replays the bundled learned policy from its recorded training input", () => {
+    const policy = trainGraspPolicy(saved.trainingInput as unknown as GraspTrainingInput, saved.policy.seed);
+    policy.q.forEach((q, i) => expect(q).toBeCloseTo(saved.policy.q[i]!, 12)); expect(policy.visits).toEqual(saved.policy.visits);
+    expect(policy.action).toBe(saved.policy.action); expect(GRASP_PROFILES[policy.action]!.liftMm).toBe(4);
+    expect(policy.evaluation[1]!.holdDisplacementMm).toBeGreaterThan(3);
+    const gentle = evaluateGrasp(saved.trainingInput as unknown as GraspTrainingInput, 0);
+    expect(policy.evaluation[1]!.holdDisplacementMm).toBeGreaterThan(gentle.holdDisplacementMm * 1.8);
+    expect(policy.evaluation.every(e => e.peakForceN < GRASP_LIMITS.forceN && e.peakGradient < GRASP_LIMITS.gradient && e.recoveryMm < .2)).toBe(true); policy.evaluation.forEach((trial, i) => { for (const [key, value] of Object.entries(trial)) {
+      const expected = (saved.policy.evaluation[i]! as unknown as Record<string, unknown>)[key];
+      if (typeof value === "number") expect(value).toBeCloseTo(expected as number, 12); else expect(value).toBe(expected);
+    } });
+  }, 30000);
+  it("revalidates every stiffness case at the actual new contact without claiming new training", () => {
+    const source = saved.policy as GraspPolicy, before = JSON.stringify(source), changed = input();
+    changed.materials.materials[0]!.young_pa = 6100;
+    const progress: number[] = [], result = revalidateGraspPolicy(changed, source, done => progress.push(done));
+    expect(progress).toEqual([1, 2, 3]); expect(result.episodes).toBe(12); expect(result.q).toEqual(source.q);
+    expect(result.evaluation).toEqual([.8, 1, 1.2].map(scale => evaluateGrasp(changed, source.action, scale)));
+    expect(result.evaluation).not.toEqual(source.evaluation);
+    expect(result.modelId).toBe(changed.materials.model_id); expect(result.revalidation?.sourceModelId).toBe(source.modelId);
+    expect(result.revalidation?.baselineScope).toBe("original training scene"); expect(JSON.stringify(source)).toBe(before);
+    expect(() => revalidateGraspPolicy(changed, { ...source, evaluation: [] })).toThrow();
+    expect(() => revalidateGraspPolicy(changed, { ...source, action: (source.action + 1) % 3 })).toThrow();
+    changed.materials.materials[0]!.young_pa = NaN;
+    expect(() => revalidateGraspPolicy(changed, source)).toThrow();
+  }, 10000);
   it("learns reproducible nonzero action values from actual tissue rollouts and freezes the evaluated policy", () => {
     const source = input(), unchanged = JSON.stringify(source), a = trainGraspPolicy(source, 42), b = trainGraspPolicy(source, 42);
     expect(a.q).toEqual(b.q); expect(a.trials).toEqual(b.trials); expect(a.visits.reduce((sum, n) => sum + n, 0)).toBe(12);

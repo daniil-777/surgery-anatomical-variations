@@ -327,7 +327,9 @@ export class WholeSceneTools {
         }
         if (!blocked && this.collision(base, base.clone().addScaledVector(normal, 4), normal, axis, anchor.part, false, anchor, normal, 1.2).blocked) blocked = true;
         this.jawClosure = 0;
-        const startOffsetMm = 32, start = base.clone().addScaledVector(axis, startOffsetMm);
+        // A short visible insertion avoids a long empty lead-in. The full
+        // instrument and the entire remaining sweep receive unchanged guards.
+        const startOffsetMm = 12, start = base.clone().addScaledVector(axis, startOffsetMm);
         if (blocked || this.collision(start, start, normal, axis, anchor.part, true, anchor, normal, 1.2).blocked || this.collision(start, base, normal, axis, anchor.part, false, anchor, normal, 1.2).blocked) continue;
         // Keep the actual attachment and typed worker input separate: no mesh or
         // Three.js object crosses the worker boundary.

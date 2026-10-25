@@ -9,7 +9,7 @@ export function AutomaticGraspOverlay({ state, stop }: { state: AutomaticGraspSt
   return <section className="camera-path-overlay grasp-task-overlay" aria-label="Live automatic grasp">
     <div className="camera-path-heading">{done ? <Check size={16} /> : <Hand size={16} />}<strong>{done ? "Task complete" : "Automatic liver task"}</strong></div>
     <p role="status">{state.message}</p>
-    {state.phase === "learning" && <progress max={state.total} value={state.progress} aria-label="Grasp learning progress" />}
+    {["validating", "learning"].includes(state.policyStatus) && <progress max={state.total} value={state.progress} aria-label="Grasp response checks" />}
     <div className="grasp-task-metrics"><span>Reaction<strong>{state.forceN.toFixed(3)} <small>N</small></strong></span><span>Displacement<strong>{state.displacementMm.toFixed(2)} <small>mm</small></strong></span></div>
     <small>Simulation limits · {state.limits.forceN} N reaction · {state.limits.displacementMm} mm displacement</small>
     <div className="camera-path-actions">{done ? <button onClick={() => setDismissed(state)}>Dismiss grasp result</button> : <><button onClick={stop}><Square size={14} />Stop & release</button><kbd>Esc</kbd></>}</div>

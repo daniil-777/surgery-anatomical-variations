@@ -1,5 +1,6 @@
 import { expect, test, type Page } from '@playwright/test';
 import { writeFile, readFile } from 'node:fs/promises';
+import { startHandoffTrace, finishHandoffTrace } from './graspHandoff';
 const read=(page:Page)=>page.evaluate(()=>(window as any).__visceraSceneSnapshot());
 const lab=(page:Page)=>page.evaluate(()=>(window as any).__visceraCameraLabSnapshot());
 const cameraLab=(page:Page)=>page.getByRole('region',{name:'Camera planning lab',exact:true});
@@ -8,6 +9,7 @@ async function open(page:Page){await page.goto('?mode=scene&scene=virtamed');awa
 test('camera approach and learned liver grasp complete with visible contact and recovery',async({page},info)=>{
  const errors:string[]=[];page.on('pageerror',error=>errors.push(error.message));await open(page);
  const before=await read(page), stages:any[]=[];
+ await startHandoffTrace(page);
  await cameraLab(page).getByRole('button',{name:'Approach & grasp liver',exact:true}).click();
  try {
    await expect.poll(async()=>{
@@ -18,8 +20,10 @@ test('camera approach and learned liver grasp complete with visible contact and 
      return grasp?.phase;
    },{timeout:200000,intervals:[300]}).toBe('complete');
    const end=await read(page), grasp=end.automaticGrasp;
-   expect(grasp.succeeded).toBe(true);expect(grasp.policy.episodes).toBe(12);expect(grasp.policy.visits.reduce((a:number,b:number)=>a+b,0)).toBe(12);
-   expect(grasp.policy.evaluation.every((e:any)=>e.success)).toBe(true);expect(grasp.holdDisplacementMm).toBeGreaterThanOrEqual(.5);
+   const handoff=await finishHandoffTrace(page); expect(handoff.motionAfterArrivalMs).toBeLessThan(1500); expect(handoff.contactAfterArrivalMs).toBeLessThan(5000);
+   await writeFile(info.outputPath('handoff.json'),JSON.stringify(handoff,null,2));
+   expect(grasp.succeeded).toBe(true);expect(grasp.timing.motionDelayMs).toBeLessThan(1000);expect(grasp.timing.contactDelayMs).toBeLessThan(5000);expect(grasp.timing.source).toBe('saved-revalidated');expect(grasp.policy.episodes).toBe(12);expect(grasp.policy.visits.reduce((a:number,b:number)=>a+b,0)).toBe(12);
+   expect(grasp.policy.evaluation.every((e:any)=>e.success)).toBe(true);expect(grasp.holdDisplacementMm).toBeGreaterThan(2.7); expect(grasp.policy.action).toBe(2);
    expect(grasp.policy.baseline.selectedReward).toBeGreaterThanOrEqual(grasp.policy.baseline.uniformReward);expect(grasp.trainingInput.materials.model_id).toBe(grasp.policy.modelId);
    expect(grasp.peakForceN).toBeLessThanOrEqual(.8);expect(grasp.peakGradient).toBeLessThanOrEqual(.35);expect(grasp.recoveryMm).toBeLessThan(.2);
    expect(end.tools.active).toBe(false);expect(end.tools.instrumentVisible).toBe(false);expect(end.physics.finite).toBe(true);
@@ -31,12 +35,12 @@ test('camera approach and learned liver grasp complete with visible contact and 
  } finally {await writeFile(info.outputPath('task-evidence.json'),JSON.stringify({before,end:await read(page),lab:await lab(page),stages,errors},null,2));}
 });
 
-test('cancellation during camera mapping and grasp learning cannot start a later instrument motion',async({page},info)=>{
+test('cancellation during camera mapping and grasp validation cannot start a later instrument motion',async({page},info)=>{
  await open(page);const start=cameraLab(page).getByRole('button',{name:'Approach & grasp liver',exact:true});
  await start.click();await expect.poll(async()=>(await lab(page)).planner?.captured).toBeGreaterThan(0);await cameraLab(page).getByRole('button',{name:'Stop automatic task',exact:true}).click();
  await expect.poll(async()=>(await lab(page)).taskActive).toBe(false);const cancelled=await read(page);
  await page.waitForTimeout(1000);expect((await read(page)).tools.instrumentVisible).toBe(false);expect((await read(page)).camera.position).toEqual(cancelled.camera.position);
- await start.click();await expect.poll(async()=>(await read(page)).automaticGrasp?.phase,{timeout:75000,intervals:[100]}).toBe('learning');
+ await start.click();await expect.poll(async()=>(await read(page)).automaticGrasp?.policyStatus,{timeout:75000,intervals:[50]}).toBe('validating');
  await cameraLab(page).getByRole('button',{name:'Stop automatic task',exact:true}).click();await expect.poll(async()=>(await lab(page)).taskActive).toBe(false);
  const stopped=await read(page);await page.waitForTimeout(2000);const end=await read(page);
  expect(end.automaticGrasp.phase).toBe('stopped');expect(end.tools.active).toBe(false);expect(end.tools.instrumentVisible).toBe(false);expect(end.physics.tool?.active??false).toBe(false);expect(end.camera.position).toEqual(stopped.camera.position);
@@ -72,9 +76,9 @@ test('mobile automatic task exposes a reachable stop control and cancels cleanly
  await writeFile(info.outputPath('mobile-task.json'),JSON.stringify(await read(page)));
 });
 
-test('a shape edit during isolated learning discards its policy and leaves no active instrument',async({page},info)=>{
+test('a shape edit during isolated validation discards its policy and leaves no active instrument',async({page},info)=>{
  await open(page);await cameraLab(page).getByRole('button',{name:'Approach & grasp liver',exact:true}).click();
- await expect.poll(async()=>(await read(page)).automaticGrasp?.phase,{timeout:90000,intervals:[100]}).toBe('learning');
+ await expect.poll(async()=>(await read(page)).automaticGrasp?.policyStatus,{timeout:90000,intervals:[50]}).toBe('validating');
  const editor=page.getByRole('region',{name:'Scene text-to-shape editor'});await editor.getByRole('textbox').fill('liver-cirrhosis, severity 0.4');await editor.getByRole('button',{name:'Apply text',exact:true}).click();await expect(editor).toContainText('Applied shape and appearance to liver');
  await expect.poll(async()=>(await lab(page)).taskActive).toBe(false);await page.waitForTimeout(1500);
  const end=await read(page);expect(end.automaticGrasp.phase).toBe('stopped');expect(end.tools.active).toBe(false);expect(end.tools.instrumentVisible).toBe(false);expect(end.automaticGrasp.succeeded).toBe(false);

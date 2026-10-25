@@ -1,0 +1,2983 @@
+{
+  "schema": "viscera.grasp-default/1",
+  "source": "Recorded guarded liver contact and coupled scene; retrained with the v2 visible-lift objective using 12 real UCB episodes and three held-out stiffness checks.",
+  "sourceStudySha256": "ed411a5c29db8d8e4391d629626249187b6ab7b6b1e7e5c7ca7eaccbe9682dfc",
+  "trainingInput": {
+    "organs": [
+      {
+        "id": "liver",
+        "category": "digestive",
+        "bounds": {
+          "min": [
+            -161.23338317871094,
+            18.63789176940918,
+            -76.95527648925781
+          ],
+          "max": [
+            160.9855499267578,
+            96.05147552490234,
+            25.995054244995117
+          ]
+        }
+      },
+      {
+        "id": "gallbladder",
+        "category": "digestive",
+        "bounds": {
+          "min": [
+            -106.02256774902344,
+            -23.053319931030273,
+            -19.934494018554688
+          ],
+          "max": [
+            -37.87553024291992,
+            31.056873321533203,
+            63.573909759521484
+          ]
+        }
+      },
+      {
+        "id": "cystic-duct",
+        "category": "digestive",
+        "bounds": {
+          "min": [
+            -49.833927154541016,
+            -27.109375,
+            -26.220977783203125
+          ],
+          "max": [
+            -2.921875,
+            -7.1532769203186035,
+            -7.166862487792969
+          ]
+        }
+      },
+      {
+        "id": "hepatic-duct",
+        "category": "digestive",
+        "bounds": {
+          "min": [
+            -11.442527770996094,
+            -60.43242645263672,
+            -34.42628860473633
+          ],
+          "max": [
+            40.441253662109375,
+            59.43112564086914,
+            -12.398954391479492
+          ]
+        }
+      },
+      {
+        "id": "cystic-artery",
+        "category": "cardiovascular",
+        "bounds": {
+          "min": [
+            -48,
+            -13.378405570983887,
+            -33.39994812011719
+          ],
+          "max": [
+            -7.5207414627075195,
+            29,
+            -9
+          ]
+        }
+      },
+      {
+        "id": "colon",
+        "category": "digestive",
+        "bounds": {
+          "min": [
+            -156.22607421875,
+            -83.75096893310547,
+            -16.649044036865234
+          ],
+          "max": [
+            159.608154296875,
+            12.035867691040039,
+            51.74319076538086
+          ]
+        }
+      },
+      {
+        "id": "small-intestine",
+        "category": "digestive",
+        "bounds": {
+          "min": [
+            -162.4409637451172,
+            -122.54784393310547,
+            18.637855529785156
+          ],
+          "max": [
+            140.86878967285156,
+            -69.77609252929688,
+            76.98283386230469
+          ]
+        }
+      },
+      {
+        "id": "duodenum",
+        "category": "digestive",
+        "bounds": {
+          "min": [
+            -108.44107818603516,
+            -88.9677963256836,
+            -76.59558868408203
+          ],
+          "max": [
+            52.81258010864258,
+            18.6058406829834,
+            -13.431134223937988
+          ]
+        }
+      },
+      {
+        "id": "hepatocystic-fat",
+        "category": "connective",
+        "bounds": {
+          "min": [
+            -176,
+            -93.62228393554688,
+            -20.656572341918945
+          ],
+          "max": [
+            176,
+            31.14301872253418,
+            76.2136459350586
+          ]
+        }
+      },
+      {
+        "id": "hepatoduodenal-ligament",
+        "category": "connective",
+        "bounds": {
+          "min": [
+            -98.05562591552734,
+            -1.0739822387695312,
+            -8.015748023986816
+          ],
+          "max": [
+            -55.79044723510742,
+            44.08946228027344,
+            44.51406478881836
+          ]
+        }
+      },
+      {
+        "id": "falciform-ligament",
+        "category": "connective",
+        "bounds": {
+          "min": [
+            -7,
+            44,
+            -21.006027221679688
+          ],
+          "max": [
+            99,
+            184,
+            36.80324935913086
+          ]
+        }
+      },
+      {
+        "id": "abdominal-wall",
+        "category": "connective",
+        "bounds": {
+          "min": [
+            -255.3579559326172,
+            -221,
+            -122.56812286376953
+          ],
+          "max": [
+            255.3579559326172,
+            209,
+            320
+          ]
+        }
+      }
+    ],
+    "materials": {
+      "schema_version": "whole-scene-materials-1.0.0",
+      "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+      "model_version": "liver-inverse-sls-2.0.0",
+      "scope": "Existing inverse SLS estimator with bounded physical refinement applied to 12 explicit synthetic scene-design histories. Not learned from Full.mp4, biological organ-specific training, measured human properties, or clinical validation.",
+      "observation_origin": "synthetic-design-history",
+      "video_mechanics_calibration": {
+        "performed": false,
+        "reason": "Unknown loads, scale, boundary conditions and camera calibration; a rendered monocular demonstration cannot identify absolute tissue stiffness."
+      },
+      "parameter_intervals_scope": "Synthetic inverse-model uncertainty only; no coverage claim for human tissues or model-form mismatch.",
+      "density_provenance": "Authored mass-density assumptions, never inferred by the inverse model.",
+      "attachment_scope": "This table assigns material responses. Attachments, rigid supports and sliding contacts must be implemented by the scene solver.",
+      "wall_boundary": {
+        "recommended": "fixed_or_tethered",
+        "enforced_by_material_table": false,
+        "explanation": "The v1 material schema has no constraint field. Higher modulus is not a tether."
+      },
+      "inference_method": "Protocol-conditioned neural ensemble proposal followed by existing bounded robust physical refinement; no estimator retraining.",
+      "generation": {
+        "script": "build_virtamed_materials.mjs",
+        "script_sha256": "4778bfe7e02ec4b0f1d016268db4efad88f5a98854bcd998a66fbaaa2a8afc0f",
+        "estimator_weights_sha256": "d8f260c3836d998f61a02fc35714c0df885d10e61c3c582363044809cbb49cf3",
+        "source_sha256": {
+          "apps/studio/src/atlasPhysicsCalibration.ts": "81062b7f73ca938c43853b25d76a16d9e47938fa68cab9dca6e2b75a602ed1bd",
+          "apps/studio/src/trustRegionReflective.ts": "2d82350ce228c6146049ff11547728cf10d56f120dd1169dfc2664b020bb19ba",
+          "apps/studio/src/fusedMultiplyAdd.ts": "f602a45d748f8c08fe178fdfa54a4bcf09ebed2859d3fdb7e913d6e603a4302e",
+          "apps/studio/src/wholeScenePhysics.ts": "0cba243a8c265c42e5fbfea224cc8a1068451420e130a3161862c962fa12958a",
+          "py/viscera_core/physics_learning_v2.py": "b745727e466a56b1f4a33fa220ee04c5a0b4c8e0e63a5fb6427720db44ff3414"
+        },
+        "deterministic_seed_scheme": "First 32 bits of SHA256(viscera-virtamed-design-v1:<organ-id>); xorshift32 and Box-Muller noise.",
+        "fit_samples": 113,
+        "fit_duration_s": 7,
+        "peak_fit_strain": 0.024
+      },
+      "held_out_validation": {
+        "protocols": [
+          "smooth-cycle",
+          "fast-triangle",
+          "slow-ramp-hold-release"
+        ],
+        "accepted_count": 12,
+        "accepted_waveforms": 36,
+        "maximum_stress_nrmse": 0.0005044419522953069,
+        "acceptance_threshold": 0.02,
+        "scope": "New protocols and amplitudes not used in fitting, generated by the same SLS constitutive family. This demonstrates synthetic parameter recovery, not biological validation."
+      },
+      "materials": [
+        {
+          "id": "liver",
+          "young_pa": 4205.543236710774,
+          "relaxation_fraction": 0.40066228200330867,
+          "relaxation_time_s": 0.6969630112928014,
+          "density_kg_m3": 1000,
+          "accepted_for_application": true,
+          "observation_origin": "synthetic-design-history",
+          "category": "digestive",
+          "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+          "design_parameters": {
+            "young_pa": 4200,
+            "relaxation_fraction": 0.4,
+            "relaxation_time_s": 0.7
+          },
+          "design_note": "soft parenchymal design",
+          "density_provenance": "Authored mass-density assumption, not inferred from data or video.",
+          "neural_parameters": {
+            "young_pa": 4431.676259898382,
+            "relaxation_fraction": 0.38113764216387064,
+            "relaxation_time_s": 0.714884945096634
+          },
+          "parameter_intervals_90": {
+            "young_pa": {
+              "lower": 4074.9301198783196,
+              "upper": 4340.342875958791
+            },
+            "relaxation_fraction": {
+              "lower": 0.3930048694622947,
+              "upper": 0.4083196945443226
+            },
+            "relaxation_time_s": {
+              "lower": 0.6607756713664542,
+              "upper": 0.7351321487151685
+            }
+          },
+          "parameter_absolute_relative_errors": {
+            "young_pa": 0.0013198182644700296,
+            "relaxation_fraction": 0.001655705008271502,
+            "relaxation_time_s": 0.004338555295998026
+          },
+          "fit_stress_nrmse": 0.0020331833980896745,
+          "held_out_waveform_stress_nrmse": 0.0003128594830128535,
+          "held_out_protocols": [
+            {
+              "id": "smooth-cycle",
+              "samples": 101,
+              "duration_s": 5.2,
+              "peak_strain": 0.017,
+              "stress_nrmse": 0.00017352470359119902,
+              "accepted": true
+            },
+            {
+              "id": "fast-triangle",
+              "samples": 113,
+              "duration_s": 3.5,
+              "peak_strain": 0.01591304347826087,
+              "stress_nrmse": 0.0003128594830128535,
+              "accepted": true
+            },
+            {
+              "id": "slow-ramp-hold-release",
+              "samples": 185,
+              "duration_s": 11.5,
+              "peak_strain": 0.035,
+              "stress_nrmse": 0.00014555037736167632,
+              "accepted": true
+            }
+          ],
+          "diagnostics": {
+            "status": "supported",
+            "reasons": [],
+            "condition_number": 14.696070060308815,
+            "minimum_sensitivity": 1.572722279172918,
+            "noise_fraction_estimate": 0.002044064506412865,
+            "excitation": {
+              "peak_strain": 0.024,
+              "duration_s": 7,
+              "total_variation_over_amplitude": 2,
+              "peak_strain_rate_s_inv": 0.030000000000000027
+            },
+            "ood_scope": "Checks excitation support, fitted bounds, residual mismatch and local sensitivity; does not detect every biological model mismatch."
+          },
+          "provenance": "Synthetic scene design experiment for liver: SLS simulator, deterministic seed 3371881196, authored target E=4200 Pa, g=0.4, tau=0.7 s. soft parenchymal design. L0=20 mm and A0=100 mm^2 are synthetic metric assumptions. Full.mp4 is unknown-force visual reference only and supplied no mechanical observations. Not human calibration."
+        },
+        {
+          "id": "gallbladder",
+          "young_pa": 2799.210294805109,
+          "relaxation_fraction": 0.4397827847965063,
+          "relaxation_time_s": 0.8490746613367679,
+          "density_kg_m3": 1000,
+          "accepted_for_application": true,
+          "observation_origin": "synthetic-design-history",
+          "category": "digestive",
+          "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+          "design_parameters": {
+            "young_pa": 2800,
+            "relaxation_fraction": 0.44,
+            "relaxation_time_s": 0.85
+          },
+          "design_note": "compliant thin-wall design; no lumen pressure",
+          "density_provenance": "Authored mass-density assumption, not inferred from data or video.",
+          "neural_parameters": {
+            "young_pa": 2780.6859682878153,
+            "relaxation_fraction": 0.4145097862628724,
+            "relaxation_time_s": 0.8925387408587793
+          },
+          "parameter_intervals_90": {
+            "young_pa": {
+              "lower": 2712.289578488663,
+              "upper": 2888.9165584262687
+            },
+            "relaxation_fraction": {
+              "lower": 0.4321472635427696,
+              "upper": 0.44741830605024296
+            },
+            "relaxation_time_s": {
+              "lower": 0.8050578957550105,
+              "upper": 0.8954980558858274
+            }
+          },
+          "parameter_absolute_relative_errors": {
+            "young_pa": 0.00028203756960398785,
+            "relaxation_fraction": 0.0004936709170311193,
+            "relaxation_time_s": 0.0010886337214495168
+          },
+          "fit_stress_nrmse": 0.002017332429174926,
+          "held_out_waveform_stress_nrmse": 0.00021196402380447074,
+          "held_out_protocols": [
+            {
+              "id": "smooth-cycle",
+              "samples": 101,
+              "duration_s": 5.2,
+              "peak_strain": 0.017,
+              "stress_nrmse": 0.00021196402380447074,
+              "accepted": true
+            },
+            {
+              "id": "fast-triangle",
+              "samples": 113,
+              "duration_s": 3.5,
+              "peak_strain": 0.01591304347826087,
+              "stress_nrmse": 0.00015630065363227589,
+              "accepted": true
+            },
+            {
+              "id": "slow-ramp-hold-release",
+              "samples": 185,
+              "duration_s": 11.5,
+              "peak_strain": 0.035,
+              "stress_nrmse": 0.00018292856772158145,
+              "accepted": true
+            }
+          ],
+          "diagnostics": {
+            "status": "supported",
+            "reasons": [],
+            "condition_number": 11.469317902461265,
+            "minimum_sensitivity": 1.969399644647745,
+            "noise_fraction_estimate": 0.0022014294731639234,
+            "excitation": {
+              "peak_strain": 0.024,
+              "duration_s": 7,
+              "total_variation_over_amplitude": 2,
+              "peak_strain_rate_s_inv": 0.030000000000000027
+            },
+            "ood_scope": "Checks excitation support, fitted bounds, residual mismatch and local sensitivity; does not detect every biological model mismatch."
+          },
+          "provenance": "Synthetic scene design experiment for gallbladder: SLS simulator, deterministic seed 4099717578, authored target E=2800 Pa, g=0.44, tau=0.85 s. compliant thin-wall design; no lumen pressure. L0=20 mm and A0=100 mm^2 are synthetic metric assumptions. Full.mp4 is unknown-force visual reference only and supplied no mechanical observations. Not human calibration."
+        },
+        {
+          "id": "cystic-duct",
+          "young_pa": 6792.797717021167,
+          "relaxation_fraction": 0.26919011371995605,
+          "relaxation_time_s": 0.5250244922103093,
+          "density_kg_m3": 1000,
+          "accepted_for_application": true,
+          "observation_origin": "synthetic-design-history",
+          "category": "digestive",
+          "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+          "design_parameters": {
+            "young_pa": 6800,
+            "relaxation_fraction": 0.27,
+            "relaxation_time_s": 0.52
+          },
+          "design_note": "narrow duct design; no lumen mechanics",
+          "density_provenance": "Authored mass-density assumption, not inferred from data or video.",
+          "neural_parameters": {
+            "young_pa": 7323.826484791704,
+            "relaxation_fraction": 0.2528430683346961,
+            "relaxation_time_s": 0.5265820814723824
+          },
+          "parameter_intervals_90": {
+            "young_pa": {
+              "lower": 6581.571118532824,
+              "upper": 7010.803346702127
+            },
+            "relaxation_fraction": {
+              "lower": 0.2613659772750942,
+              "upper": 0.27701425016481784
+            },
+            "relaxation_time_s": {
+              "lower": 0.49716394725100826,
+              "upper": 0.554446312820673
+            }
+          },
+          "parameter_absolute_relative_errors": {
+            "young_pa": 0.0010591592615930567,
+            "relaxation_fraction": 0.002999578814977699,
+            "relaxation_time_s": 0.009662485019825695
+          },
+          "fit_stress_nrmse": 0.0020962383480133107,
+          "held_out_waveform_stress_nrmse": 0.00035971179249859265,
+          "held_out_protocols": [
+            {
+              "id": "smooth-cycle",
+              "samples": 101,
+              "duration_s": 5.2,
+              "peak_strain": 0.017,
+              "stress_nrmse": 0.0003344564048267612,
+              "accepted": true
+            },
+            {
+              "id": "fast-triangle",
+              "samples": 113,
+              "duration_s": 3.5,
+              "peak_strain": 0.01591304347826087,
+              "stress_nrmse": 0.00035971179249859265,
+              "accepted": true
+            },
+            {
+              "id": "slow-ramp-hold-release",
+              "samples": 185,
+              "duration_s": 11.5,
+              "peak_strain": 0.035,
+              "stress_nrmse": 0.00025010243104918103,
+              "accepted": true
+            }
+          ],
+          "diagnostics": {
+            "status": "supported",
+            "reasons": [],
+            "condition_number": 29.052088082473286,
+            "minimum_sensitivity": 0.866740519863113,
+            "noise_fraction_estimate": 0.0021337173037630467,
+            "excitation": {
+              "peak_strain": 0.024,
+              "duration_s": 7,
+              "total_variation_over_amplitude": 2,
+              "peak_strain_rate_s_inv": 0.030000000000000027
+            },
+            "ood_scope": "Checks excitation support, fitted bounds, residual mismatch and local sensitivity; does not detect every biological model mismatch."
+          },
+          "provenance": "Synthetic scene design experiment for cystic-duct: SLS simulator, deterministic seed 2157556625, authored target E=6800 Pa, g=0.27, tau=0.52 s. narrow duct design; no lumen mechanics. L0=20 mm and A0=100 mm^2 are synthetic metric assumptions. Full.mp4 is unknown-force visual reference only and supplied no mechanical observations. Not human calibration."
+        },
+        {
+          "id": "hepatic-duct",
+          "young_pa": 7201.946875513912,
+          "relaxation_fraction": 0.2596645657302937,
+          "relaxation_time_s": 0.4910364193122206,
+          "density_kg_m3": 1000,
+          "accepted_for_application": true,
+          "observation_origin": "synthetic-design-history",
+          "category": "digestive",
+          "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+          "design_parameters": {
+            "young_pa": 7200,
+            "relaxation_fraction": 0.26,
+            "relaxation_time_s": 0.49
+          },
+          "design_note": "narrow duct design; no lumen mechanics",
+          "density_provenance": "Authored mass-density assumption, not inferred from data or video.",
+          "neural_parameters": {
+            "young_pa": 7708.146493877216,
+            "relaxation_fraction": 0.2419266611831564,
+            "relaxation_time_s": 0.49567403353954553
+          },
+          "parameter_intervals_90": {
+            "young_pa": {
+              "lower": 6977.997576679838,
+              "upper": 7433.083521132942
+            },
+            "relaxation_fraction": {
+              "lower": 0.2518307063456575,
+              "upper": 0.2674984251149299
+            },
+            "relaxation_time_s": {
+              "lower": 0.46494151093487956,
+              "upper": 0.5185959081307717
+            }
+          },
+          "parameter_absolute_relative_errors": {
+            "young_pa": 0.0002703993769321844,
+            "relaxation_fraction": 0.0012901318065627887,
+            "relaxation_time_s": 0.0021151414535114377
+          },
+          "fit_stress_nrmse": 0.0019905451053012753,
+          "held_out_waveform_stress_nrmse": 0.0005044419522953069,
+          "held_out_protocols": [
+            {
+              "id": "smooth-cycle",
+              "samples": 101,
+              "duration_s": 5.2,
+              "peak_strain": 0.017,
+              "stress_nrmse": 0.0004646787698035825,
+              "accepted": true
+            },
+            {
+              "id": "fast-triangle",
+              "samples": 113,
+              "duration_s": 3.5,
+              "peak_strain": 0.01591304347826087,
+              "stress_nrmse": 0.0002969653638496557,
+              "accepted": true
+            },
+            {
+              "id": "slow-ramp-hold-release",
+              "samples": 185,
+              "duration_s": 11.5,
+              "peak_strain": 0.035,
+              "stress_nrmse": 0.0005044419522953069,
+              "accepted": true
+            }
+          ],
+          "diagnostics": {
+            "status": "supported",
+            "reasons": [],
+            "condition_number": 31.938942473288396,
+            "minimum_sensitivity": 0.7921262030179288,
+            "noise_fraction_estimate": 0.002,
+            "excitation": {
+              "peak_strain": 0.024,
+              "duration_s": 7,
+              "total_variation_over_amplitude": 2,
+              "peak_strain_rate_s_inv": 0.030000000000000027
+            },
+            "ood_scope": "Checks excitation support, fitted bounds, residual mismatch and local sensitivity; does not detect every biological model mismatch."
+          },
+          "provenance": "Synthetic scene design experiment for hepatic-duct: SLS simulator, deterministic seed 963780386, authored target E=7200 Pa, g=0.26, tau=0.49 s. narrow duct design; no lumen mechanics. L0=20 mm and A0=100 mm^2 are synthetic metric assumptions. Full.mp4 is unknown-force visual reference only and supplied no mechanical observations. Not human calibration."
+        },
+        {
+          "id": "cystic-artery",
+          "young_pa": 9017.713320475108,
+          "relaxation_fraction": 0.2814342992679184,
+          "relaxation_time_s": 0.4259765192099341,
+          "density_kg_m3": 1000,
+          "accepted_for_application": true,
+          "observation_origin": "synthetic-design-history",
+          "category": "cardiovascular",
+          "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+          "design_parameters": {
+            "young_pa": 9000,
+            "relaxation_fraction": 0.28,
+            "relaxation_time_s": 0.43
+          },
+          "design_note": "vessel design; no blood pressure or anisotropy",
+          "density_provenance": "Authored mass-density assumption, not inferred from data or video.",
+          "neural_parameters": {
+            "young_pa": 9454.72204647483,
+            "relaxation_fraction": 0.2645053094968363,
+            "relaxation_time_s": 0.42050996276157115
+          },
+          "parameter_intervals_90": {
+            "young_pa": {
+              "lower": 8737.129816619563,
+              "upper": 9307.30746103724
+            },
+            "relaxation_fraction": {
+              "lower": 0.2735524345314287,
+              "upper": 0.2893161640044082
+            },
+            "relaxation_time_s": {
+              "lower": 0.4033344727543722,
+              "upper": 0.4498896255483639
+            }
+          },
+          "parameter_absolute_relative_errors": {
+            "young_pa": 0.001968146719456554,
+            "relaxation_fraction": 0.005122497385422697,
+            "relaxation_time_s": 0.00935693206992061
+          },
+          "fit_stress_nrmse": 0.0019612174278545802,
+          "held_out_waveform_stress_nrmse": 0.000367510412210567,
+          "held_out_protocols": [
+            {
+              "id": "smooth-cycle",
+              "samples": 101,
+              "duration_s": 5.2,
+              "peak_strain": 0.017,
+              "stress_nrmse": 0.00020595698019183162,
+              "accepted": true
+            },
+            {
+              "id": "fast-triangle",
+              "samples": 113,
+              "duration_s": 3.5,
+              "peak_strain": 0.01591304347826087,
+              "stress_nrmse": 0.000367510412210567,
+              "accepted": true
+            },
+            {
+              "id": "slow-ramp-hold-release",
+              "samples": 185,
+              "duration_s": 11.5,
+              "peak_strain": 0.035,
+              "stress_nrmse": 0.000137053280595165,
+              "accepted": true
+            }
+          ],
+          "diagnostics": {
+            "status": "supported",
+            "reasons": [],
+            "condition_number": 33.30683845238735,
+            "minimum_sensitivity": 0.7599238555148413,
+            "noise_fraction_estimate": 0.002,
+            "excitation": {
+              "peak_strain": 0.024,
+              "duration_s": 7,
+              "total_variation_over_amplitude": 2,
+              "peak_strain_rate_s_inv": 0.030000000000000027
+            },
+            "ood_scope": "Checks excitation support, fitted bounds, residual mismatch and local sensitivity; does not detect every biological model mismatch."
+          },
+          "provenance": "Synthetic scene design experiment for cystic-artery: SLS simulator, deterministic seed 936957850, authored target E=9000 Pa, g=0.28, tau=0.43 s. vessel design; no blood pressure or anisotropy. L0=20 mm and A0=100 mm^2 are synthetic metric assumptions. Full.mp4 is unknown-force visual reference only and supplied no mechanical observations. Not human calibration."
+        },
+        {
+          "id": "colon",
+          "young_pa": 4806.5021523038795,
+          "relaxation_fraction": 0.4009430711134528,
+          "relaxation_time_s": 0.7480663265622295,
+          "density_kg_m3": 1000,
+          "accepted_for_application": true,
+          "observation_origin": "synthetic-design-history",
+          "category": "digestive",
+          "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+          "design_parameters": {
+            "young_pa": 4800,
+            "relaxation_fraction": 0.4,
+            "relaxation_time_s": 0.75
+          },
+          "design_note": "bowel-wall design; no lumen pressure",
+          "density_provenance": "Authored mass-density assumption, not inferred from data or video.",
+          "neural_parameters": {
+            "young_pa": 5126.449108500975,
+            "relaxation_fraction": 0.38062324386148144,
+            "relaxation_time_s": 0.7706932092996915
+          },
+          "parameter_intervals_90": {
+            "young_pa": {
+              "lower": 4657.227105014505,
+              "upper": 4960.561814824754
+            },
+            "relaxation_fraction": {
+              "lower": 0.39328780392662166,
+              "upper": 0.40859833830028397
+            },
+            "relaxation_time_s": {
+              "lower": 0.7092180582147419,
+              "upper": 0.7890425553248779
+            }
+          },
+          "parameter_absolute_relative_errors": {
+            "young_pa": 0.00135461506330814,
+            "relaxation_fraction": 0.0023576777836318286,
+            "relaxation_time_s": 0.0025782312503607185
+          },
+          "fit_stress_nrmse": 0.002166503702247092,
+          "held_out_waveform_stress_nrmse": 0.00037022982181540324,
+          "held_out_protocols": [
+            {
+              "id": "smooth-cycle",
+              "samples": 101,
+              "duration_s": 5.2,
+              "peak_strain": 0.017,
+              "stress_nrmse": 0.00034156739068110935,
+              "accepted": true
+            },
+            {
+              "id": "fast-triangle",
+              "samples": 113,
+              "duration_s": 3.5,
+              "peak_strain": 0.01591304347826087,
+              "stress_nrmse": 0.00037022982181540324,
+              "accepted": true
+            },
+            {
+              "id": "slow-ramp-hold-release",
+              "samples": 185,
+              "duration_s": 11.5,
+              "peak_strain": 0.035,
+              "stress_nrmse": 0.00023192133675772997,
+              "accepted": true
+            }
+          ],
+          "diagnostics": {
+            "status": "supported",
+            "reasons": [],
+            "condition_number": 14.003049394738868,
+            "minimum_sensitivity": 1.6531844262449968,
+            "noise_fraction_estimate": 0.002137180376083598,
+            "excitation": {
+              "peak_strain": 0.024,
+              "duration_s": 7,
+              "total_variation_over_amplitude": 2,
+              "peak_strain_rate_s_inv": 0.030000000000000027
+            },
+            "ood_scope": "Checks excitation support, fitted bounds, residual mismatch and local sensitivity; does not detect every biological model mismatch."
+          },
+          "provenance": "Synthetic scene design experiment for colon: SLS simulator, deterministic seed 1226058994, authored target E=4800 Pa, g=0.4, tau=0.75 s. bowel-wall design; no lumen pressure. L0=20 mm and A0=100 mm^2 are synthetic metric assumptions. Full.mp4 is unknown-force visual reference only and supplied no mechanical observations. Not human calibration."
+        },
+        {
+          "id": "small-intestine",
+          "young_pa": 3500.353902379114,
+          "relaxation_fraction": 0.45016919611758494,
+          "relaxation_time_s": 0.7985784838231572,
+          "density_kg_m3": 1000,
+          "accepted_for_application": true,
+          "observation_origin": "synthetic-design-history",
+          "category": "digestive",
+          "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+          "design_parameters": {
+            "young_pa": 3500,
+            "relaxation_fraction": 0.45,
+            "relaxation_time_s": 0.8
+          },
+          "design_note": "compliant bowel-wall design; no lumen pressure",
+          "density_provenance": "Authored mass-density assumption, not inferred from data or video.",
+          "neural_parameters": {
+            "young_pa": 3583.7841033321943,
+            "relaxation_fraction": 0.4300349023196632,
+            "relaxation_time_s": 0.8398715948859983
+          },
+          "parameter_intervals_90": {
+            "young_pa": {
+              "lower": 3391.676661459707,
+              "upper": 3612.5134158948704
+            },
+            "relaxation_fraction": {
+              "lower": 0.4425422822907174,
+              "upper": 0.4577961099444524
+            },
+            "relaxation_time_s": {
+              "lower": 0.7572312837688501,
+              "upper": 0.8421833705169043
+            }
+          },
+          "parameter_absolute_relative_errors": {
+            "young_pa": 0.00010111496546105769,
+            "relaxation_fraction": 0.00037599137241084435,
+            "relaxation_time_s": 0.0017768952210535094
+          },
+          "fit_stress_nrmse": 0.0020974130432874056,
+          "held_out_waveform_stress_nrmse": 0.000249754335815573,
+          "held_out_protocols": [
+            {
+              "id": "smooth-cycle",
+              "samples": 101,
+              "duration_s": 5.2,
+              "peak_strain": 0.017,
+              "stress_nrmse": 0.000249754335815573,
+              "accepted": true
+            },
+            {
+              "id": "fast-triangle",
+              "samples": 113,
+              "duration_s": 3.5,
+              "peak_strain": 0.01591304347826087,
+              "stress_nrmse": 0.00016204962262577642,
+              "accepted": true
+            },
+            {
+              "id": "slow-ramp-hold-release",
+              "samples": 185,
+              "duration_s": 11.5,
+              "peak_strain": 0.035,
+              "stress_nrmse": 0.0002201202002550469,
+              "accepted": true
+            }
+          ],
+          "diagnostics": {
+            "status": "supported",
+            "reasons": [],
+            "condition_number": 11.505834210355706,
+            "minimum_sensitivity": 1.9516641303577449,
+            "noise_fraction_estimate": 0.002,
+            "excitation": {
+              "peak_strain": 0.024,
+              "duration_s": 7,
+              "total_variation_over_amplitude": 2,
+              "peak_strain_rate_s_inv": 0.030000000000000027
+            },
+            "ood_scope": "Checks excitation support, fitted bounds, residual mismatch and local sensitivity; does not detect every biological model mismatch."
+          },
+          "provenance": "Synthetic scene design experiment for small-intestine: SLS simulator, deterministic seed 3605986822, authored target E=3500 Pa, g=0.45, tau=0.8 s. compliant bowel-wall design; no lumen pressure. L0=20 mm and A0=100 mm^2 are synthetic metric assumptions. Full.mp4 is unknown-force visual reference only and supplied no mechanical observations. Not human calibration."
+        },
+        {
+          "id": "duodenum",
+          "young_pa": 4297.921860425551,
+          "relaxation_fraction": 0.4000001245395389,
+          "relaxation_time_s": 0.7010697619848747,
+          "density_kg_m3": 1000,
+          "accepted_for_application": true,
+          "observation_origin": "synthetic-design-history",
+          "category": "digestive",
+          "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+          "design_parameters": {
+            "young_pa": 4300,
+            "relaxation_fraction": 0.4,
+            "relaxation_time_s": 0.7
+          },
+          "design_note": "bowel-wall design; no lumen pressure",
+          "density_provenance": "Authored mass-density assumption, not inferred from data or video.",
+          "neural_parameters": {
+            "young_pa": 4535.852032287353,
+            "relaxation_fraction": 0.3803148801837278,
+            "relaxation_time_s": 0.7168777404772513
+          },
+          "parameter_intervals_90": {
+            "young_pa": {
+              "lower": 4164.448586334171,
+              "upper": 4435.673039388932
+            },
+            "relaxation_fraction": {
+              "lower": 0.39234664657212837,
+              "upper": 0.40765360250694943
+            },
+            "relaxation_time_s": {
+              "lower": 0.6646818535897201,
+              "upper": 0.7394497209681764
+            }
+          },
+          "parameter_absolute_relative_errors": {
+            "young_pa": 0.00048328827312760225,
+            "relaxation_fraction": 3.1134884714845157e-7,
+            "relaxation_time_s": 0.001528231406964009
+          },
+          "fit_stress_nrmse": 0.001851752831555026,
+          "held_out_waveform_stress_nrmse": 0.0002604355981077489,
+          "held_out_protocols": [
+            {
+              "id": "smooth-cycle",
+              "samples": 101,
+              "duration_s": 5.2,
+              "peak_strain": 0.017,
+              "stress_nrmse": 0.00017496290198767405,
+              "accepted": true
+            },
+            {
+              "id": "fast-triangle",
+              "samples": 113,
+              "duration_s": 3.5,
+              "peak_strain": 0.01591304347826087,
+              "stress_nrmse": 0.00011322166523474731,
+              "accepted": true
+            },
+            {
+              "id": "slow-ramp-hold-release",
+              "samples": 185,
+              "duration_s": 11.5,
+              "peak_strain": 0.035,
+              "stress_nrmse": 0.0002604355981077489,
+              "accepted": true
+            }
+          ],
+          "diagnostics": {
+            "status": "supported",
+            "reasons": [],
+            "condition_number": 14.668215196512117,
+            "minimum_sensitivity": 1.5756408619906364,
+            "noise_fraction_estimate": 0.002,
+            "excitation": {
+              "peak_strain": 0.024,
+              "duration_s": 7,
+              "total_variation_over_amplitude": 2,
+              "peak_strain_rate_s_inv": 0.030000000000000027
+            },
+            "ood_scope": "Checks excitation support, fitted bounds, residual mismatch and local sensitivity; does not detect every biological model mismatch."
+          },
+          "provenance": "Synthetic scene design experiment for duodenum: SLS simulator, deterministic seed 2431665856, authored target E=4300 Pa, g=0.4, tau=0.7 s. bowel-wall design; no lumen pressure. L0=20 mm and A0=100 mm^2 are synthetic metric assumptions. Full.mp4 is unknown-force visual reference only and supplied no mechanical observations. Not human calibration."
+        },
+        {
+          "id": "hepatocystic-fat",
+          "young_pa": 2201.667962532594,
+          "relaxation_fraction": 0.5503582189752049,
+          "relaxation_time_s": 1.1983394024346838,
+          "density_kg_m3": 950,
+          "accepted_for_application": true,
+          "observation_origin": "synthetic-design-history",
+          "category": "connective",
+          "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+          "design_parameters": {
+            "young_pa": 2200,
+            "relaxation_fraction": 0.55,
+            "relaxation_time_s": 1.2
+          },
+          "design_note": "soft synthetic adipose preview; not calibrated adipose law",
+          "density_provenance": "Authored mass-density assumption, not inferred from data or video.",
+          "neural_parameters": {
+            "young_pa": 2183.4339692911576,
+            "relaxation_fraction": 0.5566614330645353,
+            "relaxation_time_s": 1.2216807617999488
+          },
+          "parameter_intervals_90": {
+            "young_pa": {
+              "lower": 2133.340830265293,
+              "upper": 2272.1834919550247
+            },
+            "relaxation_fraction": {
+              "lower": 0.5427595869512762,
+              "upper": 0.5579568509991335
+            },
+            "relaxation_time_s": {
+              "lower": 1.1364410460135348,
+              "upper": 1.2636091669381786
+            }
+          },
+          "parameter_absolute_relative_errors": {
+            "young_pa": 0.0007581647875427588,
+            "relaxation_fraction": 0.0006513072276450593,
+            "relaxation_time_s": 0.0013838313044300943
+          },
+          "fit_stress_nrmse": 0.0018114444211929862,
+          "held_out_waveform_stress_nrmse": 0.0002563991949080963,
+          "held_out_protocols": [
+            {
+              "id": "smooth-cycle",
+              "samples": 101,
+              "duration_s": 5.2,
+              "peak_strain": 0.017,
+              "stress_nrmse": 0.0002563991949080963,
+              "accepted": true
+            },
+            {
+              "id": "fast-triangle",
+              "samples": 113,
+              "duration_s": 3.5,
+              "peak_strain": 0.01591304347826087,
+              "stress_nrmse": 0.00024198712750821838,
+              "accepted": true
+            },
+            {
+              "id": "slow-ramp-hold-release",
+              "samples": 185,
+              "duration_s": 11.5,
+              "peak_strain": 0.035,
+              "stress_nrmse": 0.00015087073750005478,
+              "accepted": true
+            }
+          ],
+          "diagnostics": {
+            "status": "supported",
+            "reasons": [],
+            "condition_number": 7.311459044144374,
+            "minimum_sensitivity": 3.0142858295591313,
+            "noise_fraction_estimate": 0.002,
+            "excitation": {
+              "peak_strain": 0.024,
+              "duration_s": 7,
+              "total_variation_over_amplitude": 2,
+              "peak_strain_rate_s_inv": 0.030000000000000027
+            },
+            "ood_scope": "Checks excitation support, fitted bounds, residual mismatch and local sensitivity; does not detect every biological model mismatch."
+          },
+          "provenance": "Synthetic scene design experiment for hepatocystic-fat: SLS simulator, deterministic seed 1165732806, authored target E=2200 Pa, g=0.55, tau=1.2 s. soft synthetic adipose preview; not calibrated adipose law. L0=20 mm and A0=100 mm^2 are synthetic metric assumptions. Full.mp4 is unknown-force visual reference only and supplied no mechanical observations. Not human calibration."
+        },
+        {
+          "id": "hepatoduodenal-ligament",
+          "young_pa": 11997.43732354094,
+          "relaxation_fraction": 0.2203996161939774,
+          "relaxation_time_s": 0.5035234403924428,
+          "density_kg_m3": 1000,
+          "accepted_for_application": true,
+          "observation_origin": "synthetic-design-history",
+          "category": "connective",
+          "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+          "design_parameters": {
+            "young_pa": 12000,
+            "relaxation_fraction": 0.22,
+            "relaxation_time_s": 0.5
+          },
+          "design_note": "tether-like material design; actual attachments must be supplied separately",
+          "density_provenance": "Authored mass-density assumption, not inferred from data or video.",
+          "neural_parameters": {
+            "young_pa": 12722.173556159914,
+            "relaxation_fraction": 0.2041052211228982,
+            "relaxation_time_s": 0.5303349921437027
+          },
+          "parameter_intervals_90": {
+            "young_pa": {
+              "lower": 11624.284179648585,
+              "upper": 12382.569120625616
+            },
+            "relaxation_fraction": {
+              "lower": 0.21251314208325467,
+              "upper": 0.2282860903047002
+            },
+            "relaxation_time_s": {
+              "lower": 0.4763433395959217,
+              "upper": 0.5322544348782421
+            }
+          },
+          "parameter_absolute_relative_errors": {
+            "young_pa": 0.0002135563715882638,
+            "relaxation_fraction": 0.001816437245351965,
+            "relaxation_time_s": 0.0070468807848855786
+          },
+          "fit_stress_nrmse": 0.0019434209735688238,
+          "held_out_waveform_stress_nrmse": 0.0004862099385706116,
+          "held_out_protocols": [
+            {
+              "id": "smooth-cycle",
+              "samples": 101,
+              "duration_s": 5.2,
+              "peak_strain": 0.017,
+              "stress_nrmse": 0.0003872364474952637,
+              "accepted": true
+            },
+            {
+              "id": "fast-triangle",
+              "samples": 113,
+              "duration_s": 3.5,
+              "peak_strain": 0.01591304347826087,
+              "stress_nrmse": 0.00021880706676387176,
+              "accepted": true
+            },
+            {
+              "id": "slow-ramp-hold-release",
+              "samples": 185,
+              "duration_s": 11.5,
+              "peak_strain": 0.035,
+              "stress_nrmse": 0.0004862099385706116,
+              "accepted": true
+            }
+          ],
+          "diagnostics": {
+            "status": "supported",
+            "reasons": [],
+            "condition_number": 37.044551116954196,
+            "minimum_sensitivity": 0.6979431103342878,
+            "noise_fraction_estimate": 0.002089855473600649,
+            "excitation": {
+              "peak_strain": 0.024,
+              "duration_s": 7,
+              "total_variation_over_amplitude": 2,
+              "peak_strain_rate_s_inv": 0.030000000000000027
+            },
+            "ood_scope": "Checks excitation support, fitted bounds, residual mismatch and local sensitivity; does not detect every biological model mismatch."
+          },
+          "provenance": "Synthetic scene design experiment for hepatoduodenal-ligament: SLS simulator, deterministic seed 3805495033, authored target E=12000 Pa, g=0.22, tau=0.5 s. tether-like material design; actual attachments must be supplied separately. L0=20 mm and A0=100 mm^2 are synthetic metric assumptions. Full.mp4 is unknown-force visual reference only and supplied no mechanical observations. Not human calibration."
+        },
+        {
+          "id": "falciform-ligament",
+          "young_pa": 9508.556443922596,
+          "relaxation_fraction": 0.2502406342292843,
+          "relaxation_time_s": 0.5969106973238779,
+          "density_kg_m3": 1000,
+          "accepted_for_application": true,
+          "observation_origin": "synthetic-design-history",
+          "category": "connective",
+          "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+          "design_parameters": {
+            "young_pa": 9500,
+            "relaxation_fraction": 0.25,
+            "relaxation_time_s": 0.6
+          },
+          "design_note": "tether-like material design; actual attachments must be supplied separately",
+          "density_provenance": "Authored mass-density assumption, not inferred from data or video.",
+          "neural_parameters": {
+            "young_pa": 10107.692231777733,
+            "relaxation_fraction": 0.23163474709134943,
+            "relaxation_time_s": 0.6031720065949456
+          },
+          "parameter_intervals_90": {
+            "young_pa": {
+              "lower": 9213.08864209649,
+              "upper": 9813.500028008832
+            },
+            "relaxation_fraction": {
+              "lower": 0.2424779097277301,
+              "upper": 0.25800335873083846
+            },
+            "relaxation_time_s": {
+              "lower": 0.565341139546542,
+              "upper": 0.6302431499421164
+            }
+          },
+          "parameter_absolute_relative_errors": {
+            "young_pa": 0.0009006783076417335,
+            "relaxation_fraction": 0.0009625369171371023,
+            "relaxation_time_s": 0.005148837793536809
+          },
+          "fit_stress_nrmse": 0.0020042800396904304,
+          "held_out_waveform_stress_nrmse": 0.0003472506949129861,
+          "held_out_protocols": [
+            {
+              "id": "smooth-cycle",
+              "samples": 101,
+              "duration_s": 5.2,
+              "peak_strain": 0.017,
+              "stress_nrmse": 0.00022336390929880124,
+              "accepted": true
+            },
+            {
+              "id": "fast-triangle",
+              "samples": 113,
+              "duration_s": 3.5,
+              "peak_strain": 0.01591304347826087,
+              "stress_nrmse": 0.00017079601956943277,
+              "accepted": true
+            },
+            {
+              "id": "slow-ramp-hold-release",
+              "samples": 185,
+              "duration_s": 11.5,
+              "peak_strain": 0.035,
+              "stress_nrmse": 0.0003472506949129861,
+              "accepted": true
+            }
+          ],
+          "diagnostics": {
+            "status": "supported",
+            "reasons": [],
+            "condition_number": 28.34346352224037,
+            "minimum_sensitivity": 0.8932990983745824,
+            "noise_fraction_estimate": 0.002,
+            "excitation": {
+              "peak_strain": 0.024,
+              "duration_s": 7,
+              "total_variation_over_amplitude": 2,
+              "peak_strain_rate_s_inv": 0.030000000000000027
+            },
+            "ood_scope": "Checks excitation support, fitted bounds, residual mismatch and local sensitivity; does not detect every biological model mismatch."
+          },
+          "provenance": "Synthetic scene design experiment for falciform-ligament: SLS simulator, deterministic seed 1709448298, authored target E=9500 Pa, g=0.25, tau=0.6 s. tether-like material design; actual attachments must be supplied separately. L0=20 mm and A0=100 mm^2 are synthetic metric assumptions. Full.mp4 is unknown-force visual reference only and supplied no mechanical observations. Not human calibration."
+        },
+        {
+          "id": "abdominal-wall",
+          "young_pa": 17491.183653295764,
+          "relaxation_fraction": 0.1995274962514635,
+          "relaxation_time_s": 0.398766062422348,
+          "density_kg_m3": 1000,
+          "accepted_for_application": true,
+          "observation_origin": "synthetic-design-history",
+          "category": "connective",
+          "model_id": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+          "design_parameters": {
+            "young_pa": 17500,
+            "relaxation_fraction": 0.2,
+            "relaxation_time_s": 0.4
+          },
+          "design_note": "supported wall design; stiffness alone does not implement a fixed boundary",
+          "density_provenance": "Authored mass-density assumption, not inferred from data or video.",
+          "neural_parameters": {
+            "young_pa": 15870.260951981558,
+            "relaxation_fraction": 0.18063320731856258,
+            "relaxation_time_s": 0.4532624512351
+          },
+          "parameter_intervals_90": {
+            "young_pa": {
+              "lower": 16946.489396293287,
+              "upper": 18053.385479368968
+            },
+            "relaxation_fraction": {
+              "lower": 0.1914671622352524,
+              "upper": 0.20758783026767463
+            },
+            "relaxation_time_s": {
+              "lower": 0.37664090474844003,
+              "upper": 0.42219092651667867
+            }
+          },
+          "parameter_absolute_relative_errors": {
+            "young_pa": 0.0005037912402420242,
+            "relaxation_fraction": 0.0023625187426825622,
+            "relaxation_time_s": 0.00308484394413
+          },
+          "fit_stress_nrmse": 0.001728042065762304,
+          "held_out_waveform_stress_nrmse": 0.00020452798622289353,
+          "held_out_protocols": [
+            {
+              "id": "smooth-cycle",
+              "samples": 101,
+              "duration_s": 5.2,
+              "peak_strain": 0.017,
+              "stress_nrmse": 0.00019399327154059383,
+              "accepted": true
+            },
+            {
+              "id": "fast-triangle",
+              "samples": 113,
+              "duration_s": 3.5,
+              "peak_strain": 0.01591304347826087,
+              "stress_nrmse": 0.00020452798622289353,
+              "accepted": true
+            },
+            {
+              "id": "slow-ramp-hold-release",
+              "samples": 185,
+              "duration_s": 11.5,
+              "peak_strain": 0.035,
+              "stress_nrmse": 0.00013930657320350225,
+              "accepted": true
+            }
+          ],
+          "diagnostics": {
+            "status": "supported",
+            "reasons": [],
+            "condition_number": 50.39421119397151,
+            "minimum_sensitivity": 0.5219281966322861,
+            "noise_fraction_estimate": 0.002,
+            "excitation": {
+              "peak_strain": 0.024,
+              "duration_s": 7,
+              "total_variation_over_amplitude": 2,
+              "peak_strain_rate_s_inv": 0.030000000000000027
+            },
+            "ood_scope": "Checks excitation support, fitted bounds, residual mismatch and local sensitivity; does not detect every biological model mismatch."
+          },
+          "provenance": "Synthetic scene design experiment for abdominal-wall: SLS simulator, deterministic seed 2184541298, authored target E=17500 Pa, g=0.2, tau=0.4 s. supported wall design; stiffness alone does not implement a fixed boundary. L0=20 mm and A0=100 mm^2 are synthetic metric assumptions. Full.mp4 is unknown-force visual reference only and supplied no mechanical observations. Not human calibration.",
+          "recommended_boundary": "fixed_or_tethered",
+          "boundary_is_enforced_by_this_material_table": false
+        }
+      ]
+    },
+    "responses": {
+      "abdominal-wall": {
+        "strainStiffening": 36,
+        "localDampingRatio": 1.05,
+        "supportRadiusRatio": 0.3,
+        "fixedGlobalSupport": true
+      },
+      "liver": {
+        "strainStiffening": 14,
+        "localDampingRatio": 0.9,
+        "supportRadiusRatio": 0.9
+      },
+      "gallbladder": {
+        "strainStiffening": 24,
+        "localDampingRatio": 0.95,
+        "supportRadiusRatio": 0.75
+      },
+      "cystic-duct": {
+        "strainStiffening": 32,
+        "localDampingRatio": 0.9,
+        "supportRadiusRatio": 0.65
+      },
+      "hepatic-duct": {
+        "strainStiffening": 32,
+        "localDampingRatio": 0.9,
+        "supportRadiusRatio": 0.65
+      },
+      "cystic-artery": {
+        "strainStiffening": 40,
+        "localDampingRatio": 0.9,
+        "supportRadiusRatio": 0.6
+      },
+      "colon": {
+        "strainStiffening": 18,
+        "localDampingRatio": 0.95,
+        "supportRadiusRatio": 0.9
+      },
+      "small-intestine": {
+        "strainStiffening": 18,
+        "localDampingRatio": 0.95,
+        "supportRadiusRatio": 0.9
+      },
+      "duodenum": {
+        "strainStiffening": 18,
+        "localDampingRatio": 0.95,
+        "supportRadiusRatio": 0.9
+      },
+      "hepatocystic-fat": {
+        "strainStiffening": 28,
+        "localDampingRatio": 1.05,
+        "supportRadiusRatio": 0.9
+      },
+      "hepatoduodenal-ligament": {
+        "strainStiffening": 55,
+        "localDampingRatio": 0.9,
+        "supportRadiusRatio": 0.75
+      },
+      "falciform-ligament": {
+        "strainStiffening": 55,
+        "localDampingRatio": 0.9,
+        "supportRadiusRatio": 0.75
+      }
+    },
+    "attachments": [
+      {
+        "id": "cystic-duct~hepatic-duct",
+        "a": "hepatic-duct",
+        "b": "cystic-duct",
+        "widthMm": 5,
+        "kind": "duct-continuity",
+        "roots": [
+          [
+            -3.7109375,
+            -24.0390625,
+            -19.700624465942383
+          ],
+          [
+            -3.274212121963501,
+            -25.0625,
+            -19.484375
+          ],
+          [
+            -2.921875,
+            -25.0625,
+            -19.52739715576172
+          ],
+          [
+            -3.7109375,
+            -23.015625,
+            -19.796998977661133
+          ],
+          [
+            -5.2890625,
+            -21.9921875,
+            -19.714948654174805
+          ],
+          [
+            -4.5,
+            -21.9921875,
+            -19.78369903564453
+          ],
+          [
+            -6.078125,
+            -21.28857421875,
+            -19.484375
+          ],
+          [
+            -5.2890625,
+            -20.96875,
+            -19.620908737182617
+          ],
+          [
+            -3.7109375,
+            -25.0625,
+            -19.427309036254883
+          ],
+          [
+            -3.7109375,
+            -25.67456817626953,
+            -19.1484375
+          ],
+          [
+            -6.8671875,
+            -20.96875,
+            -19.224075317382812
+          ],
+          [
+            -6.078125,
+            -20.96875,
+            -19.314790725708008
+          ],
+          [
+            -5.676082134246826,
+            -20.96875,
+            -19.484375
+          ],
+          [
+            -6.8671875,
+            -20.85861587524414,
+            -19.1484375
+          ],
+          [
+            -6.078125,
+            -19.9453125,
+            -19.223678588867188
+          ],
+          [
+            -4.039284706115723,
+            -26.0859375,
+            -18.8125
+          ],
+          [
+            -6.8671875,
+            -20.470142364501953,
+            -18.8125
+          ],
+          [
+            -6.161072254180908,
+            -19.9453125,
+            -19.1484375
+          ],
+          [
+            -4.5,
+            -26.2329158782959,
+            -18.4765625
+          ],
+          [
+            -3.7109375,
+            -26.283374786376953,
+            -18.8125
+          ],
+          [
+            -6.8671875,
+            -20.188913345336914,
+            -18.4765625
+          ],
+          [
+            -4.5,
+            -26.522262573242188,
+            -18.140625
+          ],
+          [
+            -6.8671875,
+            -19.99208641052246,
+            -18.140625
+          ],
+          [
+            -4.5,
+            -26.752416610717773,
+            -17.8046875
+          ],
+          [
+            -6.8671875,
+            -19.9453125,
+            -18.020416259765625
+          ],
+          [
+            -6.978497505187988,
+            -19.9453125,
+            -17.8046875
+          ],
+          [
+            -4.5,
+            -26.929288864135742,
+            -17.46875
+          ],
+          [
+            -7.05495023727417,
+            -19.9453125,
+            -17.46875
+          ],
+          [
+            -4.5,
+            -27.05817222595215,
+            -17.1328125
+          ],
+          [
+            -7.0535125732421875,
+            -19.9453125,
+            -17.1328125
+          ],
+          [
+            -5.2890625,
+            -26.64966583251953,
+            -16.796875
+          ],
+          [
+            -6.993537902832031,
+            -19.9453125,
+            -16.796875
+          ],
+          [
+            -5.2890625,
+            -26.653186798095703,
+            -16.4609375
+          ],
+          [
+            -4.602639675140381,
+            -27.109375,
+            -16.4609375
+          ],
+          [
+            -6.887819290161133,
+            -19.9453125,
+            -16.4609375
+          ],
+          [
+            -5.2890625,
+            -26.6167049407959,
+            -16.125
+          ],
+          [
+            -4.599521636962891,
+            -27.109375,
+            -16.125
+          ],
+          [
+            -6.8671875,
+            -20.10809326171875,
+            -16.125
+          ],
+          [
+            -5.2890625,
+            -26.53751564025879,
+            -15.7890625
+          ],
+          [
+            -4.544835090637207,
+            -27.109375,
+            -15.7890625
+          ],
+          [
+            -6.8671875,
+            -20.394184112548828,
+            -15.7890625
+          ],
+          [
+            -5.2890625,
+            -26.411794662475586,
+            -15.453125
+          ],
+          [
+            -4.5,
+            -27.058422088623047,
+            -15.453125
+          ],
+          [
+            -6.8671875,
+            -20.79952049255371,
+            -15.453125
+          ],
+          [
+            -5.2890625,
+            -26.234970092773438,
+            -15.1171875
+          ],
+          [
+            -4.5,
+            -26.91683006286621,
+            -15.1171875
+          ],
+          [
+            -6.8671875,
+            -20.96875,
+            -15.342325210571289
+          ],
+          [
+            -6.652635097503662,
+            -20.96875,
+            -15.1171875
+          ],
+          [
+            -5.191028594970703,
+            -26.0859375,
+            -14.78125
+          ],
+          [
+            -4.5,
+            -26.716506958007812,
+            -14.78125
+          ],
+          [
+            -6.8671875,
+            -21.79140281677246,
+            -14.78125
+          ],
+          [
+            -6.31580924987793,
+            -20.96875,
+            -14.78125
+          ],
+          [
+            -5.2890625,
+            -25.660722732543945,
+            -14.4453125
+          ],
+          [
+            -4.875948905944824,
+            -26.0859375,
+            -14.4453125
+          ],
+          [
+            -6.078125,
+            -21.25576400756836,
+            -14.4453125
+          ],
+          [
+            -4.52783203125,
+            -26.0859375,
+            -14.109375
+          ],
+          [
+            -6.078125,
+            -21.9921875,
+            -14.207742691040039
+          ],
+          [
+            -5.944952964782715,
+            -21.9921875,
+            -14.109375
+          ],
+          [
+            -4.989015102386475,
+            -25.0625,
+            -13.7734375
+          ],
+          [
+            -5.686200141906738,
+            -23.015625,
+            -13.7734375
+          ],
+          [
+            -5.2890625,
+            -24.0390625,
+            -13.63037109375
+          ],
+          [
+            -4.971807479858398,
+            -24.0390625,
+            -13.4375
+          ],
+          [
+            -5.2890625,
+            -23.015625,
+            -13.531336784362793
+          ]
+        ]
+      },
+      {
+        "id": "cystic-duct~gallbladder",
+        "a": "gallbladder",
+        "b": "cystic-duct",
+        "widthMm": 5,
+        "kind": "duct-continuity",
+        "roots": [
+          [
+            -40.228370666503906,
+            -14.7847318649292,
+            -17.452146530151367
+          ],
+          [
+            -40.413150787353516,
+            -14.777005195617676,
+            -17.638681411743164
+          ],
+          [
+            -40.60689163208008,
+            -14.771522521972656,
+            -17.79319190979004
+          ],
+          [
+            -40.80879592895508,
+            -14.731563568115234,
+            -17.986644744873047
+          ],
+          [
+            -40.97792053222656,
+            -14.652585983276367,
+            -18.184431076049805
+          ],
+          [
+            -41.147178649902344,
+            -14.552287101745605,
+            -18.338407516479492
+          ],
+          [
+            -41.307308197021484,
+            -14.444217681884766,
+            -18.536741256713867
+          ],
+          [
+            -41.45527648925781,
+            -14.311400413513184,
+            -18.705005645751953
+          ],
+          [
+            -41.6159553527832,
+            -14.154772758483887,
+            -18.879379272460938
+          ],
+          [
+            -41.74383544921875,
+            -13.985538482666016,
+            -19.038631439208984
+          ],
+          [
+            -41.875667572021484,
+            -13.74989128112793,
+            -19.214519500732422
+          ],
+          [
+            -41.94684600830078,
+            -13.521327018737793,
+            -19.338916778564453
+          ],
+          [
+            -42.01911926269531,
+            -13.289941787719727,
+            -19.464534759521484
+          ],
+          [
+            -42.070823669433594,
+            -13.043769836425781,
+            -19.598468780517578
+          ],
+          [
+            -42.139984130859375,
+            -12.738357543945312,
+            -19.728546142578125
+          ],
+          [
+            -42.12965393066406,
+            -12.469103813171387,
+            -19.788896560668945
+          ],
+          [
+            -42.10430908203125,
+            -12.195194244384766,
+            -19.858076095581055
+          ],
+          [
+            -42.085567474365234,
+            -11.9230318069458,
+            -19.915266036987305
+          ],
+          [
+            -42.0289306640625,
+            -11.593099594116211,
+            -19.934494018554688
+          ],
+          [
+            -41.94183349609375,
+            -11.330423355102539,
+            -19.923194885253906
+          ],
+          [
+            -41.853355407714844,
+            -11.066999435424805,
+            -19.912879943847656
+          ],
+          [
+            -41.75092697143555,
+            -10.805418968200684,
+            -19.904495239257812
+          ],
+          [
+            -41.611358642578125,
+            -10.537403106689453,
+            -19.835426330566406
+          ],
+          [
+            -41.44789123535156,
+            -10.320709228515625,
+            -19.75105857849121
+          ],
+          [
+            -41.29273223876953,
+            -10.114751815795898,
+            -19.662343978881836
+          ],
+          [
+            -41.125179290771484,
+            -9.921025276184082,
+            -19.556642532348633
+          ],
+          [
+            -40.95421600341797,
+            -9.739099502563477,
+            -19.45554542541504
+          ],
+          [
+            -40.76361846923828,
+            -9.588808059692383,
+            -19.320510864257812
+          ],
+          [
+            -40.572113037109375,
+            -9.474799156188965,
+            -19.172929763793945
+          ],
+          [
+            -40.374053955078125,
+            -9.387843132019043,
+            -19.02124786376953
+          ],
+          [
+            -40.17743682861328,
+            -9.29931926727295,
+            -18.859920501708984
+          ],
+          [
+            -39.984527587890625,
+            -9.236458778381348,
+            -18.705463409423828
+          ],
+          [
+            -39.78500747680664,
+            -9.21626091003418,
+            -18.529329299926758
+          ],
+          [
+            -39.58697509765625,
+            -9.22260856628418,
+            -18.362060546875
+          ],
+          [
+            -39.39175033569336,
+            -9.232033729553223,
+            -18.174144744873047
+          ],
+          [
+            -39.20635986328125,
+            -9.265941619873047,
+            -18.002880096435547
+          ],
+          [
+            -39.02363967895508,
+            -9.342428207397461,
+            -17.81937599182129
+          ],
+          [
+            -38.855926513671875,
+            -9.450172424316406,
+            -17.640966415405273
+          ],
+          [
+            -38.68003463745117,
+            -9.550080299377441,
+            -17.46265983581543
+          ],
+          [
+            -38.519432067871094,
+            -9.679408073425293,
+            -17.285497665405273
+          ],
+          [
+            -38.37812805175781,
+            -9.849337577819824,
+            -17.115381240844727
+          ],
+          [
+            -38.25655746459961,
+            -10.040632247924805,
+            -16.956451416015625
+          ],
+          [
+            -38.149784088134766,
+            -10.251437187194824,
+            -16.801450729370117
+          ],
+          [
+            -38.05528259277344,
+            -10.471105575561523,
+            -16.656700134277344
+          ],
+          [
+            -37.96265411376953,
+            -10.688949584960938,
+            -16.511943817138672
+          ],
+          [
+            -37.920806884765625,
+            -10.979187965393066,
+            -16.394412994384766
+          ],
+          [
+            -37.89711380004883,
+            -11.245598793029785,
+            -16.303239822387695
+          ],
+          [
+            -37.87586975097656,
+            -11.510480880737305,
+            -16.21031951904297
+          ],
+          [
+            -37.87553024291992,
+            -11.829094886779785,
+            -16.114072799682617
+          ],
+          [
+            -37.92854690551758,
+            -12.104045867919922,
+            -16.094310760498047
+          ],
+          [
+            -37.98456954956055,
+            -12.378328323364258,
+            -16.072080612182617
+          ],
+          [
+            -38.04298400878906,
+            -12.649076461791992,
+            -16.047632217407227
+          ],
+          [
+            -38.148563385009766,
+            -12.960260391235352,
+            -16.078227996826172
+          ],
+          [
+            -38.26898956298828,
+            -13.203147888183594,
+            -16.12371063232422
+          ],
+          [
+            -38.39121627807617,
+            -13.44735336303711,
+            -16.169485092163086
+          ],
+          [
+            -38.545066833496094,
+            -13.678966522216797,
+            -16.220745086669922
+          ],
+          [
+            -38.70701599121094,
+            -13.907153129577637,
+            -16.316722869873047
+          ],
+          [
+            -38.88111114501953,
+            -14.087546348571777,
+            -16.439638137817383
+          ],
+          [
+            -39.05381393432617,
+            -14.249600410461426,
+            -16.559682846069336
+          ],
+          [
+            -39.25678634643555,
+            -14.406185150146484,
+            -16.672937393188477
+          ],
+          [
+            -39.44049835205078,
+            -14.528393745422363,
+            -16.83209800720215
+          ],
+          [
+            -39.634063720703125,
+            -14.608601570129395,
+            -16.973691940307617
+          ],
+          [
+            -39.82652282714844,
+            -14.697515487670898,
+            -17.110130310058594
+          ],
+          [
+            -40.036903381347656,
+            -14.762762069702148,
+            -17.28548812866211
+          ]
+        ]
+      },
+      {
+        "id": "gallbladder~hepatoduodenal-ligament",
+        "a": "gallbladder",
+        "b": "hepatoduodenal-ligament",
+        "widthMm": 7,
+        "kind": "capsule-insertion",
+        "roots": [
+          [
+            -98.05562591552734,
+            22.855518341064453,
+            44.51406478881836
+          ],
+          [
+            -97.91364288330078,
+            23.316640853881836,
+            43.47064208984375
+          ],
+          [
+            -95.82010650634766,
+            25.389949798583984,
+            42.18039321899414
+          ],
+          [
+            -95.55773162841797,
+            25.724117279052734,
+            41.12646484375
+          ],
+          [
+            -95.0359878540039,
+            26.21040153503418,
+            39.18576431274414
+          ],
+          [
+            -94.81285858154297,
+            26.378585815429688,
+            38.356170654296875
+          ],
+          [
+            -92.28922271728516,
+            27.785573959350586,
+            37.38174057006836
+          ],
+          [
+            -91.9927978515625,
+            27.838348388671875,
+            36.48904037475586
+          ],
+          [
+            -91.66657257080078,
+            27.81643295288086,
+            35.59227752685547
+          ],
+          [
+            -90.95681762695312,
+            27.617908477783203,
+            33.78900909423828
+          ],
+          [
+            -90.57763671875,
+            27.454938888549805,
+            32.88401794433594
+          ],
+          [
+            -89.76730346679688,
+            27.006671905517578,
+            31.078960418701172
+          ],
+          [
+            -89.34260559082031,
+            26.742259979248047,
+            30.174612045288086
+          ],
+          [
+            -86.83912658691406,
+            27.573673248291016,
+            29.91614532470703
+          ],
+          [
+            -85.95909118652344,
+            26.93805503845215,
+            28.107648849487305
+          ],
+          [
+            -85.49658203125,
+            26.574371337890625,
+            27.218727111816406
+          ],
+          [
+            -86.4866714477539,
+            24.664440155029297,
+            24.80689811706543
+          ],
+          [
+            -85.9479751586914,
+            24.223011016845703,
+            23.952903747558594
+          ],
+          [
+            -84.83313751220703,
+            23.315343856811523,
+            22.26078224182129
+          ],
+          [
+            -84.2528305053711,
+            22.838943481445312,
+            21.43378257751465
+          ],
+          [
+            -83.6530532836914,
+            22.33412742614746,
+            20.634117126464844
+          ],
+          [
+            -82.38534545898438,
+            21.257930755615234,
+            19.03821563720703
+          ],
+          [
+            -81.75349426269531,
+            20.7095947265625,
+            18.268339157104492
+          ],
+          [
+            -80.51105499267578,
+            19.613664627075195,
+            16.783863067626953
+          ],
+          [
+            -79.89478302001953,
+            19.049203872680664,
+            16.08378028869629
+          ],
+          [
+            -79.27809143066406,
+            18.464824676513672,
+            15.418747901916504
+          ],
+          [
+            -78.04059600830078,
+            17.22675132751465,
+            14.207414627075195
+          ],
+          [
+            -75.97303009033203,
+            17.586450576782227,
+            14.228490829467773
+          ],
+          [
+            -74.81986236572266,
+            16.25093650817871,
+            13.132439613342285
+          ],
+          [
+            -74.24604034423828,
+            15.572944641113281,
+            12.610628128051758
+          ],
+          [
+            -73.10699462890625,
+            14.248239517211914,
+            11.552852630615234
+          ],
+          [
+            -72.5399169921875,
+            13.59273910522461,
+            11.02574348449707
+          ],
+          [
+            -71.97345733642578,
+            12.929455757141113,
+            10.515687942504883
+          ],
+          [
+            -70.84306335449219,
+            11.595492362976074,
+            9.526701927185059
+          ],
+          [
+            -70.27951049804688,
+            10.936357498168945,
+            9.032785415649414
+          ],
+          [
+            -69.15494537353516,
+            9.64468002319336,
+            8.031386375427246
+          ],
+          [
+            -69.56800842285156,
+            8.310273170471191,
+            7.088799476623535
+          ],
+          [
+            -68.97521209716797,
+            7.710243225097656,
+            6.5876240730285645
+          ],
+          [
+            -67.78683471679688,
+            6.487720966339111,
+            5.648166179656982
+          ],
+          [
+            -67.19248962402344,
+            5.874857425689697,
+            5.195654392242432
+          ],
+          [
+            -66.01126861572266,
+            4.697988033294678,
+            4.250452995300293
+          ],
+          [
+            -65.42445373535156,
+            4.134696960449219,
+            3.7585554122924805
+          ],
+          [
+            -64.24935150146484,
+            3.0035643577575684,
+            2.817056894302368
+          ],
+          [
+            -63.66094970703125,
+            2.4387879371643066,
+            2.3622183799743652
+          ],
+          [
+            -63.075557708740234,
+            1.8958029747009277,
+            1.8897372484207153
+          ],
+          [
+            -61.912086486816406,
+            0.8644688129425049,
+            0.911246657371521
+          ],
+          [
+            -61.330772399902344,
+            0.3605203330516815,
+            0.42617958784103394
+          ],
+          [
+            -60.170501708984375,
+            -0.6106629371643066,
+            -0.5508460402488708
+          ],
+          [
+            -59.59250259399414,
+            -1.0739822387695312,
+            -1.0454020500183105
+          ]
+        ]
+      },
+      {
+        "id": "hepatoduodenal-ligament~liver",
+        "a": "liver",
+        "b": "hepatoduodenal-ligament",
+        "widthMm": 7,
+        "kind": "capsule-insertion",
+        "roots": [
+          [
+            -92.49625396728516,
+            43.909751892089844,
+            17.77094268798828
+          ],
+          [
+            -92.50293731689453,
+            43.9110107421875,
+            17.770545959472656
+          ],
+          [
+            -90.8650131225586,
+            44.08946228027344,
+            18.252761840820312
+          ],
+          [
+            -90.74198913574219,
+            43.882999420166016,
+            18.115581512451172
+          ],
+          [
+            -90.5371322631836,
+            43.60724639892578,
+            17.94084358215332
+          ],
+          [
+            -90.44386291503906,
+            43.43879699707031,
+            17.820743560791016
+          ],
+          [
+            -88.63299560546875,
+            43.44837951660156,
+            18.213973999023438
+          ],
+          [
+            -88.27334594726562,
+            43.197505950927734,
+            18.077348709106445
+          ],
+          [
+            -87.9805908203125,
+            42.79204177856445,
+            17.79677391052246
+          ],
+          [
+            -87.96131134033203,
+            42.20635223388672,
+            17.30048179626465
+          ],
+          [
+            -87.6831283569336,
+            41.939208984375,
+            17.114301681518555
+          ],
+          [
+            -86.78059387207031,
+            40.89389419555664,
+            16.324810028076172
+          ],
+          [
+            -86.32320404052734,
+            40.51138687133789,
+            16.050640106201172
+          ],
+          [
+            -83.99415588378906,
+            40.1186637878418,
+            16.175649642944336
+          ],
+          [
+            -82.99398803710938,
+            39.10248565673828,
+            15.469569206237793
+          ],
+          [
+            -82.71546173095703,
+            38.5964469909668,
+            15.037569046020508
+          ],
+          [
+            -83.33116912841797,
+            37.3427619934082,
+            13.586265563964844
+          ],
+          [
+            -82.96295166015625,
+            36.775638580322266,
+            13.034907341003418
+          ],
+          [
+            -82.32080841064453,
+            36.409523010253906,
+            12.789541244506836
+          ],
+          [
+            -81.82837677001953,
+            35.14293670654297,
+            11.196126937866211
+          ],
+          [
+            -81.61446380615234,
+            34.96640396118164,
+            11.03461742401123
+          ],
+          [
+            -80.46180725097656,
+            34.346805572509766,
+            10.375012397766113
+          ],
+          [
+            -80.07474517822266,
+            34.02033233642578,
+            9.950846672058105
+          ],
+          [
+            -79.02970886230469,
+            33.335506439208984,
+            9.049028396606445
+          ],
+          [
+            -78.4022445678711,
+            32.92026138305664,
+            8.431447982788086
+          ],
+          [
+            -77.70838928222656,
+            32.35507583618164,
+            7.566530227661133
+          ],
+          [
+            -76.37779998779297,
+            31.813583374023438,
+            6.785881042480469
+          ],
+          [
+            -74.36263275146484,
+            31.71358871459961,
+            7.040842056274414
+          ],
+          [
+            -73.14405059814453,
+            30.83939552307129,
+            5.6775054931640625
+          ],
+          [
+            -72.5403060913086,
+            30.35335922241211,
+            4.874795913696289
+          ],
+          [
+            -71.39442443847656,
+            29.680683135986328,
+            3.8325300216674805
+          ],
+          [
+            -70.85063171386719,
+            29.351228713989258,
+            3.2780728340148926
+          ],
+          [
+            -70.31412506103516,
+            29.09214973449707,
+            2.854872703552246
+          ],
+          [
+            -68.6088638305664,
+            28.364351272583008,
+            1.7059326171875
+          ],
+          [
+            -67.98392486572266,
+            28.2203426361084,
+            1.5647401809692383
+          ],
+          [
+            -66.52946472167969,
+            27.589740753173828,
+            0.6391739845275879
+          ],
+          [
+            -66.969482421875,
+            27.369977951049805,
+            -0.09597261250019073
+          ],
+          [
+            -66.36478424072266,
+            27.05091667175293,
+            -0.7240562438964844
+          ],
+          [
+            -65.34696960449219,
+            26.717809677124023,
+            -1.3011517524719238
+          ],
+          [
+            -64.7115478515625,
+            26.445539474487305,
+            -1.8706622123718262
+          ],
+          [
+            -63.75621032714844,
+            26.192974090576172,
+            -2.3490262031555176
+          ],
+          [
+            -63.13558578491211,
+            25.950857162475586,
+            -2.9266505241394043
+          ],
+          [
+            -62.43311309814453,
+            25.809370040893555,
+            -3.2104854583740234
+          ],
+          [
+            -61.813819885253906,
+            25.620389938354492,
+            -3.7404863834381104
+          ],
+          [
+            -61.27623748779297,
+            25.524280548095703,
+            -3.9550247192382812
+          ],
+          [
+            -59.5615348815918,
+            25.01778221130371,
+            -5.414847373962402
+          ],
+          [
+            -58.72563552856445,
+            24.890945434570312,
+            -5.574485778808594
+          ],
+          [
+            -56.71308517456055,
+            24.3663330078125,
+            -6.603494644165039
+          ],
+          [
+            -55.79044723510742,
+            23.853496551513672,
+            -8.015748023986816
+          ]
+        ]
+      },
+      {
+        "id": "falciform-ligament~liver",
+        "a": "liver",
+        "b": "falciform-ligament",
+        "widthMm": 13,
+        "kind": "capsule-insertion",
+        "roots": [
+          [
+            -7,
+            58,
+            18.25811004638672
+          ],
+          [
+            -5.666666507720947,
+            55.76388931274414,
+            17.865535736083984
+          ],
+          [
+            -4.333333492279053,
+            53.72222137451172,
+            17.33724021911621
+          ],
+          [
+            -3,
+            51.875,
+            16.4757080078125
+          ],
+          [
+            -1.6666666269302368,
+            50.22222137451172,
+            15.372580528259277
+          ],
+          [
+            -0.3333333432674408,
+            48.76388931274414,
+            14.034035682678223
+          ],
+          [
+            1,
+            47.5,
+            12.277874946594238
+          ],
+          [
+            2.3333332538604736,
+            46.43055725097656,
+            10.457462310791016
+          ],
+          [
+            3.6666667461395264,
+            45.55555725097656,
+            8.447275161743164
+          ],
+          [
+            5,
+            44.875,
+            6.878027439117432
+          ],
+          [
+            6.333333492279053,
+            44.38888931274414,
+            5.737102031707764
+          ],
+          [
+            7.666666507720947,
+            44.09722137451172,
+            4.993973255157471
+          ],
+          [
+            9,
+            44,
+            5.278541088104248
+          ],
+          [
+            10.333333015441895,
+            44.09722137451172,
+            5.947127342224121
+          ],
+          [
+            11.666666984558105,
+            44.38888931274414,
+            7.225931644439697
+          ],
+          [
+            13,
+            44.875,
+            8.655170440673828
+          ],
+          [
+            14.333333015441895,
+            45.55555725097656,
+            10.226788520812988
+          ],
+          [
+            15.666666984558105,
+            46.43055725097656,
+            11.566594123840332
+          ],
+          [
+            17,
+            47.5,
+            12.773755073547363
+          ],
+          [
+            18.33333396911621,
+            48.76388931274414,
+            13.922350883483887
+          ],
+          [
+            19.66666603088379,
+            50.22222137451172,
+            14.849946022033691
+          ],
+          [
+            21,
+            51.875,
+            15.615655899047852
+          ],
+          [
+            22.33333396911621,
+            53.72222137451172,
+            16.17597007751465
+          ],
+          [
+            23.66666603088379,
+            55.76388931274414,
+            16.545108795166016
+          ],
+          [
+            25,
+            58,
+            16.751087188720703
+          ]
+        ]
+      },
+      {
+        "id": "cystic-artery-neck-insertion",
+        "a": "cystic-artery",
+        "b": "gallbladder",
+        "centerlinePointMm": [
+          -48,
+          -10,
+          -9
+        ],
+        "provenance": "Authored artery tip buried inside the gallbladder neck; proximal continuation lies inside its connected liver host."
+      },
+      {
+        "id": "bile-duct-duodenal-insertion",
+        "a": "hepatic-duct",
+        "b": "duodenum",
+        "centerlinePointMm": [
+          37,
+          -57,
+          -27
+        ],
+        "provenance": "Authored distal bile-duct centreline buried inside the descending duodenal envelope; no resolved mucosal lumen."
+      }
+    ],
+    "contact": {
+      "mode": "grasp",
+      "organId": "liver",
+      "restPointMm": [
+        0.4400883072667283,
+        39.738794271065785,
+        3.9750421438496284
+      ],
+      "normal": [
+        0.5442081917429993,
+        -0.7126258693598282,
+        0.4427209215284092
+      ],
+      "targetPointMm": [
+        0.4400883072667283,
+        39.738794271065785,
+        3.9750421438496284
+      ],
+      "radiusMm": 3,
+      "attachment": {
+        "verticesMm": [
+          [
+            2.8947322368621826,
+            40.278411865234375,
+            1.8263027667999268
+          ],
+          [
+            0.3543553948402405,
+            39.963722229003906,
+            4.442483425140381
+          ],
+          [
+            -0.7885338664054871,
+            38.92592239379883,
+            4.176868438720703
+          ]
+        ],
+        "barycentric": [
+          0.15198935596593666,
+          0.5851878685572848,
+          0.26282277547677857
+        ]
+      }
+    }
+  },
+  "policy": {
+    "version": "viscera.grasp-bandit/2",
+    "seed": 42,
+    "episodes": 12,
+    "q": [
+      3.0902821170312147,
+      3.78362492406318,
+      4.429383723653504
+    ],
+    "visits": [
+      1,
+      3,
+      8
+    ],
+    "action": 2,
+    "trials": [
+      {
+        "action": 0,
+        "stiffnessScale": 0.9257035524351522,
+        "reward": 3.0902821170312147,
+        "success": true,
+        "peakForceN": 0.07968168698501006,
+        "peakDisplacementMm": 1.6174405926007542,
+        "peakGradient": 0.04910716972055419,
+        "holdDisplacementMm": 1.612145491001235,
+        "recoveryMm": 0.04839378857045538,
+        "peakResidualMm": 0.44267603880561146,
+        "finite": true
+      },
+      {
+        "action": 1,
+        "stiffnessScale": 0.8764375136233866,
+        "reward": 3.831512990931743,
+        "success": true,
+        "peakForceN": 0.11206036198173318,
+        "peakDisplacementMm": 2.451027254979282,
+        "peakGradient": 0.07441390237432331,
+        "holdDisplacementMm": 2.4431337148952093,
+        "recoveryMm": 0.05744808026325272,
+        "peakResidualMm": 0.6225575665651844,
+        "finite": true
+      },
+      {
+        "action": 2,
+        "stiffnessScale": 1.023184359469451,
+        "reward": 4.428693352940989,
+        "success": true,
+        "peakForceN": 0.16916341299576929,
+        "peakDisplacementMm": 3.1648336479294294,
+        "peakGradient": 0.0960796574339355,
+        "holdDisplacementMm": 3.154520178932528,
+        "recoveryMm": 0.07545182907433291,
+        "peakResidualMm": 0.939796738865385,
+        "finite": true
+      },
+      {
+        "action": 2,
+        "stiffnessScale": 0.9167662797961383,
+        "reward": 4.4763558858665675,
+        "success": true,
+        "peakForceN": 0.15545340829336818,
+        "peakDisplacementMm": 3.2356865113098165,
+        "peakGradient": 0.09823006128436948,
+        "holdDisplacementMm": 3.2252372975466965,
+        "recoveryMm": 0.07623313784924445,
+        "peakResidualMm": 0.8636300460742676,
+        "finite": true
+      },
+      {
+        "action": 2,
+        "stiffnessScale": 0.9626980591332539,
+        "reward": 4.483912850846625,
+        "success": true,
+        "peakForceN": 0.16145679521432307,
+        "peakDisplacementMm": 3.2047165809417653,
+        "peakGradient": 0.09729011593456027,
+        "holdDisplacementMm": 3.194326441275272,
+        "recoveryMm": 0.07589475750032838,
+        "peakResidualMm": 0.8969821956351284,
+        "finite": true
+      },
+      {
+        "action": 1,
+        "stiffnessScale": 0.8576991714537143,
+        "reward": 3.84504595399505,
+        "success": true,
+        "peakForceN": 0.11016185571682015,
+        "peakDisplacementMm": 2.460781496838724,
+        "peakGradient": 0.07471000141428319,
+        "holdDisplacementMm": 2.4528696654286906,
+        "recoveryMm": 0.05755243086225043,
+        "peakResidualMm": 0.6120103095378897,
+        "finite": true
+      },
+      {
+        "action": 2,
+        "stiffnessScale": 0.9841843857662752,
+        "reward": 4.464131048269581,
+        "success": true,
+        "peakForceN": 0.16421987962971665,
+        "peakDisplacementMm": 3.1904335680721037,
+        "peakGradient": 0.09685661966057142,
+        "holdDisplacementMm": 3.180070807529015,
+        "recoveryMm": 0.07573710917636003,
+        "peakResidualMm": 0.912332664609537,
+        "finite": true
+      },
+      {
+        "action": 2,
+        "stiffnessScale": 0.8855380011256784,
+        "reward": 4.463310683914786,
+        "success": true,
+        "peakForceN": 0.15129471549959103,
+        "peakDisplacementMm": 3.2570896973440684,
+        "peakGradient": 0.09887964785510528,
+        "holdDisplacementMm": 3.2465998850860314,
+        "recoveryMm": 0.07646447265535762,
+        "peakResidualMm": 0.8405261972199501,
+        "finite": true
+      },
+      {
+        "action": 2,
+        "stiffnessScale": 1.1121441117255018,
+        "reward": 4.350046415268384,
+        "success": true,
+        "peakForceN": 0.18010564307737867,
+        "peakDisplacementMm": 3.107980016826435,
+        "peakGradient": 0.0943546636458734,
+        "holdDisplacementMm": 3.0977577014231414,
+        "recoveryMm": 0.0748044114677033,
+        "peakResidualMm": 1.000586905985437,
+        "finite": true
+      },
+      {
+        "action": 2,
+        "stiffnessScale": 1.1483902825973928,
+        "reward": 4.318843450292892,
+        "success": true,
+        "peakForceN": 0.1844359156432873,
+        "peakDisplacementMm": 3.085408461337012,
+        "peakGradient": 0.09366957742270252,
+        "holdDisplacementMm": 3.075215281579467,
+        "recoveryMm": 0.07454166442092651,
+        "peakResidualMm": 1.0246439757960406,
+        "finite": true
+      },
+      {
+        "action": 1,
+        "stiffnessScale": 1.105960817099549,
+        "reward": 3.6743158272627463,
+        "success": true,
+        "peakForceN": 0.13401499513923862,
+        "peakDisplacementMm": 2.337537555314462,
+        "peakGradient": 0.07096920746457518,
+        "holdDisplacementMm": 2.329845817541224,
+        "recoveryMm": 0.05618958641714336,
+        "peakResidualMm": 0.7445277507735478,
+        "finite": true
+      },
+      {
+        "action": 2,
+        "stiffnessScale": 0.9999030184466391,
+        "reward": 4.449776101828207,
+        "success": true,
+        "peakForceN": 0.16622336362262086,
+        "peakDisplacementMm": 3.180065660867205,
+        "peakGradient": 0.09654194749286436,
+        "holdDisplacementMm": 3.1697228290734487,
+        "recoveryMm": 0.07562200292504315,
+        "peakResidualMm": 0.9234631312367826,
+        "finite": true
+      }
+    ],
+    "evaluation": [
+      {
+        "action": 2,
+        "stiffnessScale": 0.8,
+        "reward": 4.426732149306487,
+        "success": true,
+        "peakForceN": 0.1395818480258455,
+        "peakDisplacementMm": 3.3172070526923134,
+        "peakGradient": 0.10070418340969138,
+        "holdDisplacementMm": 3.3066041546418217,
+        "recoveryMm": 0.07710530928808297,
+        "peakResidualMm": 0.7754547112546972,
+        "finite": true
+      },
+      {
+        "action": 2,
+        "stiffnessScale": 1,
+        "reward": 4.44968783759849,
+        "success": true,
+        "peakForceN": 0.16623567831401992,
+        "peakDisplacementMm": 3.180001903325041,
+        "peakGradient": 0.09654001241027503,
+        "holdDisplacementMm": 3.16965919422653,
+        "recoveryMm": 0.07562129328724636,
+        "peakResidualMm": 0.9235315461889996,
+        "finite": true
+      },
+      {
+        "action": 2,
+        "stiffnessScale": 1.2,
+        "reward": 4.275223705018199,
+        "success": true,
+        "peakForceN": 0.1904788922900479,
+        "peakDisplacementMm": 3.053833217288231,
+        "peakGradient": 0.0927112064551359,
+        "holdDisplacementMm": 3.043681489598295,
+        "recoveryMm": 0.07416838555851886,
+        "peakResidualMm": 1.058216068278044,
+        "finite": true
+      }
+    ],
+    "baseline": {
+      "nominalByAction": [
+        {
+          "action": 0,
+          "stiffnessScale": 1,
+          "reward": 3.0557390113367173,
+          "success": true,
+          "peakForceN": 0.0845593122439287,
+          "peakDisplacementMm": 1.5926132166667053,
+          "peakGradient": 0.048353409857376385,
+          "holdDisplacementMm": 1.5873576358245751,
+          "recoveryMm": 0.04798362620228887,
+          "peakResidualMm": 0.469773956910715,
+          "finite": true
+        },
+        {
+          "action": 1,
+          "stiffnessScale": 1,
+          "reward": 3.744971499604811,
+          "success": true,
+          "peakForceN": 0.12417188993014236,
+          "peakDisplacementMm": 2.3885904970823537,
+          "peakGradient": 0.07251855772770964,
+          "holdDisplacementMm": 2.380815279465096,
+          "recoveryMm": 0.056767135306471025,
+          "peakResidualMm": 0.6898438329452354,
+          "finite": true
+        },
+        {
+          "action": 2,
+          "stiffnessScale": 1,
+          "reward": 4.44968783759849,
+          "success": true,
+          "peakForceN": 0.16623567831401992,
+          "peakDisplacementMm": 3.180001903325041,
+          "peakGradient": 0.09654001241027503,
+          "holdDisplacementMm": 3.16965919422653,
+          "recoveryMm": 0.07562129328724636,
+          "peakResidualMm": 0.9235315461889996,
+          "finite": true
+        }
+      ],
+      "selectedReward": 4.44968783759849,
+      "uniformReward": 3.750132782846672
+    },
+    "trainingMs": 9895.883,
+    "modelId": "949e8725e5839eaaa73d6e33e9cbe179ad75614231cd9fb92e2e290f6b48476e",
+    "scope": "UCB episodic option selection on the current coupled synthetic-material solver; geometric contact selection and stage supervision are authored; no clinical or visual-policy generalization."
+  },
+  "trainingInputSha256": "b18c503b230133ebcba3ab212bd684cb9f9b1a3d378dc28c6b9e1f1d2999401c",
+  "objective": {
+    "targetHoldMm": 3.2,
+    "profiles": [
+      {
+        "liftMm": 2,
+        "rampSeconds": 2.5,
+        "holdSeconds": 1.5
+      },
+      {
+        "liftMm": 3,
+        "rampSeconds": 3,
+        "holdSeconds": 1.5
+      },
+      {
+        "liftMm": 4,
+        "rampSeconds": 3,
+        "holdSeconds": 1.5
+      }
+    ]
+  }
+}

@@ -1,5 +1,6 @@
 import { test,expect,type Page } from "@playwright/test";
 import { writeFile } from "node:fs/promises";
+import { startHandoffTrace, finishHandoffTrace } from "./graspHandoff";
 const panel=(page:Page)=>page.getByRole("region",{name:"Visual action policy",exact:true});
 const snapshot=(page:Page)=>page.evaluate(()=>({task:(window as any).__visceraVisualTaskSnapshot(),scene:(window as any).__visceraSceneSnapshot()}));
 // Disposable test contexts explicitly grant the same permission the browser asks
@@ -12,9 +13,12 @@ for(const [index,instruction,severity] of [[0,0,0],[1,1,.28],[2,2,.47],[3,0,.62]
   const errors:string[]=[];page.on('pageerror',error=>errors.push(error.message));await open(page);
   if(severity){const editor=page.getByRole('region',{name:'Scene text-to-shape editor'});await editor.getByRole('textbox').fill(`liver-cirrhosis, severity ${severity}`);await editor.getByRole('button',{name:'Apply text',exact:true}).click();await expect(editor).toContainText('Applied shape and appearance to liver');}
   await connect(page);await panel(page).getByRole('combobox',{name:'Visual task instruction'}).selectOption({index:instruction});
+  await startHandoffTrace(page);
   await panel(page).getByRole('button',{name:'Run visual liver task',exact:true}).click();const stages:any[]=[];
   await expect.poll(async()=>{const s=await snapshot(page);if(stages.at(-1)?.task.state.phase!==s.task.state.phase){stages.push(s);await page.screenshot({path:info.outputPath(`phase-${s.task.state.phase}.png`)});}if(['blocked','stopped'].includes(s.task.state.phase))throw new Error(s.task.state.message);return s.task.state.phase;},{timeout:200000,intervals:[200]}).toBe('complete');
   const end=await snapshot(page);expect(end.task.state.succeeded).toBe(true);expect(end.task.state.decisions.map((d:any)=>d.skill)).toEqual(['look','grasp','release','finish']);
+  const handoff=await finishHandoffTrace(page);expect(handoff.motionAfterArrivalMs).toBeLessThan(2200);expect(handoff.contactAfterArrivalMs).toBeLessThan(6000);
+  expect(end.scene.automaticGrasp.timing.source).toBe('saved-revalidated');expect(end.scene.automaticGrasp.policy.action).toBe(2);expect(end.scene.automaticGrasp.holdDisplacementMm).toBeGreaterThan(2.7);await writeFile(info.outputPath('handoff.json'),JSON.stringify(handoff,null,2));
   expect(end.task.state.decisions.every((d:any)=>d.accepted&&d.margin>=.5&&d.inferenceMs<1500&&d.roundTripMs<7000)).toBe(true);
   expect(end.scene.tools.active).toBe(false);expect(end.scene.tools.instrumentVisible).toBe(false);expect(end.scene.automaticGrasp.peakForceN).toBeLessThan(.8);expect(end.scene.automaticGrasp.recoveryMm).toBeLessThan(.2);expect(end.scene.physics.finite).toBe(true);expect(errors).toEqual([]);
   await writeFile(info.outputPath('visual-task.json'),JSON.stringify({end,stages,errors},null,2));

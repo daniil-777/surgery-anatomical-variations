@@ -3,10 +3,13 @@ import type { SceneTissueResponse } from "./sceneTissueResponse";
 
 /** Simulation budgets, not clinical tissue-damage or jaw-pressure thresholds. */
 export const GRASP_LIMITS = Object.freeze({ forceN: .8, displacementMm: 5, gradient: .35, residualMm: 2, liftMm: 4, targetSpeedMmS: 3 });
+// Prefer a clearly visible lift, with the same hard force/strain budgets.
+// v2 changes the reward objective and the strongest option's ramp duration.
+export const GRASP_TARGET_HOLD_MM = 3.2;
 export const GRASP_PROFILES = Object.freeze([
   { liftMm: 2, rampSeconds: 2.5, holdSeconds: 1.5 },
   { liftMm: 3, rampSeconds: 3, holdSeconds: 1.5 },
-  { liftMm: 4, rampSeconds: 4, holdSeconds: 1.5 },
+  { liftMm: 4, rampSeconds: 3, holdSeconds: 1.5 },
 ]);
 export interface GraspTrainingInput {
   organs: ScenePhysicsOrgan[]; materials: LearnedSceneMaterials;
@@ -19,10 +22,11 @@ export interface GraspTrial {
   holdDisplacementMm: number; recoveryMm: number; peakResidualMm: number; finite: boolean;
 }
 export interface GraspPolicy {
-  version: "viscera.grasp-bandit/1"; seed: number; episodes: number; q: number[]; visits: number[]; action: number;
+  version: "viscera.grasp-bandit/2"; seed: number; episodes: number; q: number[]; visits: number[]; action: number;
   trials: GraspTrial[]; evaluation: GraspTrial[]; trainingMs: number;
   baseline: { nominalByAction: GraspTrial[]; selectedReward: number; uniformReward: number };
   modelId: string; scope: string;
+  revalidation?: { sourceModelId: string; validationMs: number; baselineScope: "original training scene" };
 }
 export const smoothGrasp = (t: number) => { const x = Math.max(0, Math.min(1, t)); return Math.max(0, Math.min(1, x * x * x * (10 + x * (-15 + 6 * x)))); };
 export function graspOffset(action: number, time: number) {
@@ -66,7 +70,7 @@ export function evaluateGrasp(input: GraspTrainingInput, action: number, stiffne
     out.recoveryMm = state.displacement_mm;
   }
   out.success &&= out.holdDisplacementMm >= .5 && out.recoveryMm < .2;
-  out.reward = out.success ? 5 - Math.abs(out.holdDisplacementMm - 1.5) - 2 * out.peakForceN - .025 * duration : -5;
+  out.reward = out.success ? 5 - Math.abs(out.holdDisplacementMm - GRASP_TARGET_HOLD_MM) - 2 * out.peakForceN - .025 * duration : -5;
   return out;
 }
 export function trainGraspPolicy(input: GraspTrainingInput, seed = 42, progress?: (done: number, total: number) => void): GraspPolicy {
@@ -86,11 +90,24 @@ export function trainGraspPolicy(input: GraspTrainingInput, seed = 42, progress?
   // Frozen-policy checks use stiffness values outside the training interval,
   // plus nominal parameters. They are local robustness, not patient validation.
   const evaluation = [.8, 1, 1.2].map((scale, i) => { const result = evaluateGrasp(input, action, scale); progress?.(13 + i, 17); return result; });
-  if (!evaluation.every(e => e.success)) throw new Error("No grasp option passed the local physics checks. No tool motion was started.");
+  if (!evaluation.every(e => e.success)) throw new Error("No grasp option passed the local physics checks. No tissue contact was started.");
   let checks = 15;
   const nominalByAction = GRASP_PROFILES.map((_, candidate) => { if (candidate === action) return evaluation[1]!; const trial = evaluateGrasp(input, candidate); progress?.(++checks, 17); return trial; });
   const baseline = { nominalByAction, selectedReward: evaluation[1]!.reward, uniformReward: nominalByAction.reduce((sum, trial) => sum + trial.reward, 0) / nominalByAction.length };
   if (baseline.selectedReward < baseline.uniformReward) throw new Error("The learned grasp option did not outperform the uniform-option baseline.");
-  return { version: "viscera.grasp-bandit/1", seed, episodes: trials.length, q, visits, action, trials, evaluation, baseline, trainingMs: performance.now() - began, modelId: input.materials.model_id,
+  return { version: "viscera.grasp-bandit/2", seed, episodes: trials.length, q, visits, action, trials, evaluation, baseline, trainingMs: performance.now() - began, modelId: input.materials.model_id,
     scope: "UCB episodic option selection on the current coupled synthetic-material solver; geometric contact selection and stage supervision are authored; no clinical or visual-policy generalization." };
+}
+
+/** Reuse learned action values, never a stale contact or tissue evaluation.
+ * Three fresh solver rollouts cover the same nominal and held-out stiffness
+ * checks as training. Baseline/Q statistics still describe the source study. */
+export function revalidateGraspPolicy(input: GraspTrainingInput, source: GraspPolicy, progress?: (done: number, total: number) => void): GraspPolicy {
+  if (source.version !== "viscera.grasp-bandit/2" || source.episodes !== 12 || source.q.length !== GRASP_PROFILES.length || source.q.some(q => !Number.isFinite(q)) || source.action !== source.q.indexOf(Math.max(...source.q)) || !GRASP_PROFILES[source.action] || source.visits.reduce((sum, n) => sum + n, 0) !== source.episodes || source.evaluation.length !== 3 || !source.evaluation.every((e, i) => e.success && e.action === source.action && e.stiffnessScale === [.8, 1, 1.2][i]) || source.baseline.selectedReward < source.baseline.uniformReward) throw new Error("The saved grasp policy has not passed its training checks.");
+  const began = performance.now();
+  const evaluation = [.8, 1, 1.2].map((scale, i) => { const result = evaluateGrasp(input, source.action, scale); progress?.(i + 1, 3); return result; });
+  if (!evaluation.every(e => e.success)) throw new Error("The saved grasp option does not pass this tissue's checks.");
+  return { ...structuredClone(source), evaluation, modelId: input.materials.model_id,
+    revalidation: { sourceModelId: source.modelId, validationMs: performance.now() - began, baselineScope: "original training scene" },
+    scope: "Saved UCB grasp option revalidated on the current contact and coupled tissue solver at 0.8, 1.0 and 1.2 stiffness. Q values, training trials and baseline refer to the source study. No clinical or visual-policy generalization." };
 }
