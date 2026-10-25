@@ -1,0 +1,18 @@
+Visual Policy 1 — Viscera simulator skill adapter
+
+This adapter was fine-tuned on 25 October 2026 from:
+  https://huggingface.co/lerobot/smolvla_base
+  revision 5e8d12a6e2975b0e5e5fce7c8caf47c371d257b6 (Apache-2.0)
+using Hugging Face LeRobot 0.4.4 (Apache-2.0).
+
+Modifications: rank-eight residual adapters on the action expert's query/value
+projections, and fine-tuned state/action/time projections for five simulator
+skills: look, grasp, release, finish and wait. This is not the original
+pretrained checkpoint. The full base checkpoint is downloaded separately.
+
+The accompanying LICENSE.txt preserves the upstream LeRobot licence and notices.
+The research/model card and exact artifact hashes are in manifest.json and:
+  docs/research/virtamed/visual-policy-model-card.md
+
+No endorsement by the upstream authors is implied. This adapter selects guarded
+simulator skills and has not been clinically validated.
