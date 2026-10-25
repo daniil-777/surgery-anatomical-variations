@@ -12,7 +12,7 @@ function texturesPage(): Plugin {
   return {
     name: "viscera-textures-page",
     configResolved(config) { outDir = resolve(config.root, config.build.outDir); },
-    closeBundle() {
+    writeBundle() {
       const index = readFileSync(resolve(outDir, "index.html"), "utf8");
       const page = index
         .replace(/<title>[^<]*<\/title>/, "<title>VISCERA — Texture lab</title>")

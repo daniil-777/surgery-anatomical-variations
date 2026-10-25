@@ -4,6 +4,7 @@
  * A shared trilinear displacement lattice keeps coincident attachments together.
  */
 import type { WholeSceneCategory } from "./wholeSceneModel";
+import { solveStrainStiffening, type SceneTissueResponse } from "./sceneTissueResponse";
 export interface SceneLearnedMaterial {
   id: string; young_pa: number; relaxation_fraction: number; relaxation_time_s: number;
   density_kg_m3: number; accepted_for_application: true; observation_origin: "synthetic-design-history";
@@ -28,6 +29,7 @@ export interface ScenePhysicsBinding { indices: Uint16Array; weights: Float32Arr
 interface Mode {
   id: string; category: WholeSceneCategory; center: number[]; radius: number; mass: number; k: number; fraction: number; tau: number;
   q: Float64Array; v: Float64Array; memory: Float64Array; material: SceneLearnedMaterial;
+  characteristicLength: number; response?: SceneTissueResponse | undefined;
 }
 export interface SceneToolContactInput {
   mode: "push" | "grasp"; organId: string; restPointMm: number[]; normal: number[];
@@ -39,6 +41,7 @@ interface LocalToolMode {
   q: Float64Array; v: Float64Array; memory: Float64Array; force: Float64Array;
   mass: number; k: number; fraction: number; tau: number; materialMode: number;
   limits: number; clamped: boolean;
+  cubic: number; dampingRatio: number;
 }
 const H = 1 / 120;
 const MAX_FRAME_TIME = .1;
@@ -67,14 +70,21 @@ export class WholeScenePhysics {
   private tools: LocalToolMode[] = [];
   private selectedTool: LocalToolMode | null = null;
   private localScale = 1;
+  // A contact's rest-space footprint does not change during its hold/recovery.
+  // Cache its exact Float64 weights per binding, instead of evaluating sqrt/pow
+  // for every displayed vertex every frame. Sliding replaces the contact object.
+  private contactWeights = new WeakMap<ScenePhysicsBinding, { rest: Float32Array; weights: Map<LocalToolMode, Float64Array> }>();
   readonly modelId: string;
-  constructor(organs: ScenePhysicsOrgan[], source: LearnedSceneMaterials) {
+  constructor(organs: ScenePhysicsOrgan[], source: LearnedSceneMaterials, responses: Record<string, SceneTissueResponse> = {}) {
     const materials = readLearnedSceneMaterials(source);
     if (!organs.length || organs.some(o => o.bounds.min.length !== 3 || o.bounds.max.length !== 3 || ![...o.bounds.min, ...o.bounds.max].every(Number.isFinite) || o.bounds.min.some((v, a) => v >= o.bounds.max[a]!))) throw new Error("Physics requires finite, nonempty anatomical bounds.");
     this.modelId = materials.model_id;
     const soft = organs.filter(o => o.category !== "skeleton");
     if (!soft.length) throw new Error("No soft organs are available for physics.");
     const map = new Map(materials.materials.map(m => [m.id, m]));
+    for (const [id, response] of Object.entries(responses)) {
+      if (!soft.some(o => o.id === id) || ![response.strainStiffening, response.localDampingRatio, response.supportRadiusRatio].every(Number.isFinite) || response.strainStiffening < 0 || response.strainStiffening > 80 || response.localDampingRatio < .5 || response.localDampingRatio > 1.5 || response.supportRadiusRatio < .2 || response.supportRadiusRatio > 2) throw new Error("Invalid authored tissue-response parameters.");
+    }
     this.modes = soft.map(organ => {
       const material = map.get(organ.id); if (!material) throw new Error(`No accepted learned material for ${organ.id}; no partial assignment was applied.`);
       const extent = organ.bounds.max.map((v, a) => v - organ.bounds.min[a]!);
@@ -82,7 +92,7 @@ export class WholeScenePhysics {
       const mass = Math.max(.025, Math.min(2.5, material.density_kg_m3 * extent[0]! * extent[1]! * extent[2]! * 1e-9 * .35));
       return { id: organ.id, category: organ.category, center: extent.map((v, a) => organ.bounds.min[a]! + v / 2), radius: Math.max(55, Math.hypot(...extent) * .65), mass,
         k: material.young_pa * length * .001 * .35, fraction: material.relaxation_fraction, tau: material.relaxation_time_s,
-        q: new Float64Array(3), v: new Float64Array(3), memory: new Float64Array(3), material };
+        q: new Float64Array(3), v: new Float64Array(3), memory: new Float64Array(3), material, characteristicLength: length, response: responses[organ.id] ? { ...responses[organ.id]! } : undefined };
     });
     this.minimum = [0, 1, 2].map(a => Math.min(...organs.map(o => o.bounds.min[a]!)) - 5);
     const maximum = [0, 1, 2].map(a => Math.max(...organs.map(o => o.bounds.max[a]!)) + 5);
@@ -124,6 +134,21 @@ export class WholeScenePhysics {
   }
   deform(rest: Float32Array, out: Float32Array, binding: ScenePhysicsBinding) {
     if (rest.length !== out.length || rest.length !== binding.vertices * 3) throw new Error("Physics binding no longer matches the scene.");
+    let cache = this.contactWeights.get(binding);
+    if (!cache || cache.rest !== rest) {
+      cache = { rest, weights: new Map() }; this.contactWeights.set(binding, cache);
+    }
+    for (const tool of cache.weights.keys()) if (!this.tools.includes(tool)) cache.weights.delete(tool);
+    const local = this.tools.filter(tool => tool.q.some(q => q !== 0)).map(tool => {
+      let weights = cache.weights.get(tool);
+      if (!weights) {
+        weights = new Float64Array(binding.vertices);
+        const p = tool.input.restPointMm;
+        for (let v = 0; v < binding.vertices; v++) weights[v] = compactWeight(Math.hypot(rest[v * 3]! - p[0]!, rest[v * 3 + 1]! - p[1]!, rest[v * 3 + 2]! - p[2]!), tool.radius) * 1000;
+        cache.weights.set(tool, weights);
+      }
+      return { weights, x: tool.q[0]! * this.localScale, y: tool.q[1]! * this.localScale, z: tool.q[2]! * this.localScale };
+    });
     // Accumulate in registers, then store each Float32 coordinate once. This is
     // the same shared trilinear field, with less roundoff and memory traffic.
     for (let v = 0; v < binding.vertices; v++) {
@@ -135,9 +160,9 @@ export class WholeScenePhysics {
         y += this.lattice[id + 1]! * w;
         z += this.lattice[id + 2]! * w;
       }
-      for (const tool of this.tools) {
-        const w = compactWeight(Math.hypot(rest[position]! - tool.input.restPointMm[0]!, rest[position + 1]! - tool.input.restPointMm[1]!, rest[position + 2]! - tool.input.restPointMm[2]!), tool.radius) * 1000 * this.localScale;
-        x += tool.q[0]! * w; y += tool.q[1]! * w; z += tool.q[2]! * w;
+      for (const tool of local) {
+        const w = tool.weights[v]!;
+        x += tool.x * w; y += tool.y * w; z += tool.z * w;
       }
       out[position] = x; out[position + 1] = y; out[position + 2] = z;
     }
@@ -175,12 +200,15 @@ export class WholeScenePhysics {
     this.releaseToolContact();
     const normalLength = Math.hypot(...input.normal);
     const copy: SceneToolContactInput = { ...input, restPointMm: [...input.restPointMm], targetPointMm: [...input.targetPointMm], normal: input.normal.map(v => v / normalLength), attachment: attachment ? { verticesMm: attachment.verticesMm.map(p => [...p]) as [number[], number[], number[]], barycentric: [...attachment.barycentric] } : undefined };
-    const minimumSupport = input.mode === "grasp" ? 85 : Math.max(38, input.radiusMm * 7);
+    const mode = this.modes[modeIndex]!, response = mode.response;
+    const legacySupport = input.mode === "grasp" ? 85 : Math.max(38, input.radiusMm * 7);
+    const minimumSupport = response ? Math.min(legacySupport, Math.max(input.radiusMm * 3, mode.characteristicLength * response.supportRadiusRatio)) : legacySupport;
     const vertexRadius = attachment ? Math.max(...attachment.verticesMm.map(p => Math.hypot(...p.map((v, a) => v - input.restPointMm[a]!)))) : 0;
     const radius = Math.max(minimumSupport, vertexRadius * 2 + input.radiusMm);
     const anchorFactor = attachment ? attachment.verticesMm.reduce((sum, p, i) => sum + attachment.barycentric[i]! * compactWeight(Math.hypot(...p.map((v, a) => v - input.restPointMm[a]!)), radius), 0) : 1;
-    const material = this.modes[modeIndex]!.material;
-    const tool: LocalToolMode = { input: copy, active: true, radius, anchorFactor, q: new Float64Array(3), v: new Float64Array(3), memory: new Float64Array(3), force: new Float64Array(3), mass: Math.max(.015, Math.min(.3, material.density_kg_m3 * (radius * .001) ** 3 * .3)), k: material.young_pa * radius * .001 * .22, fraction: material.relaxation_fraction, tau: material.relaxation_time_s, materialMode: modeIndex, limits: 0, clamped: false };
+    const material = mode.material, k = material.young_pa * radius * .001 * .22;
+    const tool: LocalToolMode = { input: copy, active: true, radius, anchorFactor, q: new Float64Array(3), v: new Float64Array(3), memory: new Float64Array(3), force: new Float64Array(3), mass: Math.max(response ? .001 : .015, Math.min(.3, material.density_kg_m3 * (radius * .001) ** 3 * .3)), k, fraction: material.relaxation_fraction, tau: material.relaxation_time_s, materialMode: modeIndex, limits: 0, clamped: false,
+      cubic: k * (1 - material.relaxation_fraction) * (response?.strainStiffening ?? 0) / (radius * .001) ** 2, dampingRatio: response?.localDampingRatio ?? .9 };
     // Released local modes keep recovering instead of disappearing at a new grab.
     this.tools.push(tool); this.selectedTool = tool;
     this.moveToolTarget(copy.targetPointMm);
@@ -204,6 +232,11 @@ export class WholeScenePhysics {
     }
   }
   releaseToolContact() { if (this.selectedTool) { this.selectedTool.active = false; this.selectedTool.force.fill(0); } }
+  /** Rendering sleep only: the fixed-step material history keeps integrating.
+   * Sub-micrometre residuals need no repeated GPU upload or shadow redraw. */
+  get motionActive() {
+    return this.time < this.pulseUntil || this.tools.some(tool => tool.active) || this.maxDisplacement > 1e-4 || this.maxSpeed > 1e-7;
+  }
   toolSnapshot() {
     const tool = this.selectedTool; if (!tool) return null;
     const actual = this.toolAnchor(tool), residual = tool.input.targetPointMm.map((v, a) => v - actual[a]!);
@@ -218,6 +251,7 @@ export class WholeScenePhysics {
     for (const mode of this.modes) { mode.q.fill(0); mode.v.fill(0); mode.memory.fill(0); }
     this.lattice.fill(0); this.time = 0; this.accumulator = 0; this.dropped = 0; this.limits = 0; this.pulseUntil = 0; this.pulseMode = -1; this.peakDisplacement = 0; this.maxDisplacement = 0; this.maxSpeed = 0; this.gradientBound = 0;
     this.tools = []; this.selectedTool = null; this.localScale = 1;
+    this.contactWeights = new WeakMap();
   }
   step(dt: number, breathing: boolean) {
     if (!Number.isFinite(dt) || dt < 0) throw new Error("Invalid physics time step.");
@@ -280,7 +314,7 @@ export class WholeScenePhysics {
     for (const tool of this.tools) {
       const previous = tool.q.slice(), decay = Math.exp(-H / tool.tau);
       const branch = tool.k * tool.fraction * tool.tau * (1 - decay) / H;
-      const damping = 2 * .9 * Math.sqrt(tool.k * tool.mass);
+      const damping = 2 * tool.dampingRatio * Math.sqrt(tool.k * tool.mass);
       const denominator = tool.mass / H ** 2 + damping / H + tool.k * (1 - tool.fraction) + branch;
       const rhs = Array.from(tool.q, (q, a) => tool.mass / H ** 2 * (q + H * tool.v[a]!) + (damping / H + branch) * q - decay * tool.memory[a]!);
       const g = tool.anchorFactor * this.localScale;
@@ -304,6 +338,7 @@ export class WholeScenePhysics {
         const force = Math.min(0, stiffness * (desiredNormal - g * freeNormal) / (1 + stiffness * g * g / denominator));
         for (let a = 0; a < 3; a++) tool.q[a] = free[a]! + g * force * n[a]! / denominator;
       } else for (let a = 0; a < 3; a++) tool.q[a] = rhs[a]! / denominator;
+      if (tool.cubic > 0) solveStrainStiffening(tool.q, rhs, denominator, tool.cubic, tool.active ? tool.input.mode : "none", stiffness, g, desired, tool.input.normal);
       const norm = Math.hypot(...tool.q), max = Math.min(tool.input.mode === "grasp" ? .018 : .010, tool.radius * .001 * .36 / 2.109375);
       if (norm > max) { for (let a = 0; a < 3; a++) tool.q[a]! *= max / norm; tool.clamped = true; tool.limits++; }
       if (tool.active) {
@@ -354,10 +389,10 @@ export class WholeScenePhysics {
     this.peakDisplacement = Math.max(this.peakDisplacement, this.maxDisplacement);
   }
   snapshot() {
-    return { solver: "coupled-modal-SLS-local-tool-field-2.0.0", scope: "Synthetic material estimates; authored supports and local tool compliance. Triangle tool contact is separate; no resolved organ-organ collision, fluid pressure, cutting or validated surgical mechanics.",
+    return { solver: "coupled-modal-SLS-local-tool-field-2.1.0", scope: "Synthetic material estimates; authored supports, local strain stiffening and tool compliance. Triangle tool contact is separate; no resolved organ-organ collision, fluid pressure, cutting or validated surgical mechanics.",
       model_id: this.modelId, time_s: this.time, fixed_step_s: H, dropped_time_s: this.dropped, displacement_mm: this.maxDisplacement, peak_displacement_mm: this.peakDisplacement, maximum_speed_m_s: this.maxSpeed, speed_scope: "Sum bound of coarse modal and local modal velocities; excludes repositioning of a sliding pressure footprint and projection-scale changes.", maximum_local_mode_speed_m_s: this.tools.reduce((sum, tool) => sum + Math.hypot(...tool.v) * this.localScale, 0), displacement_gradient_bound: this.gradientBound, stabilization_count: this.limits,
       finite: this.modes.every(m => [...m.q, ...m.v, ...m.memory].every(Number.isFinite)) && this.tools.every(m => [...m.q, ...m.v, ...m.memory].every(Number.isFinite)), tool: this.toolSnapshot(), local_modes: this.tools.length,
-      organs: this.modes.map(m => ({ id: m.id, parameters: m.material, displacement_mm: Array.from(m.q, q => q * 1000), mass_kg: m.mass, effective_stiffness_n_m: m.k })),
+      organs: this.modes.map(m => ({ id: m.id, parameters: m.material, response: m.response ?? null, response_provenance: m.response ? "authored nonlinear extension; not inverse-fit or patient calibrated" : "linear SLS", displacement_mm: Array.from(m.q, q => q * 1000), mass_kg: m.mass, effective_stiffness_n_m: m.k })),
     };
   }
 }

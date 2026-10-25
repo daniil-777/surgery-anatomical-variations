@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { interfaceMaterialRecipe as tissueRecipe, interfaceVariation, VIRTAMED_INTERFACE_VERSION, type InterfaceField } from "./virtaMedInterfaces";
 import { publicUrl } from "./api";
 import { synthesizeSeamlessOrganTile, type RgbaImage } from "./tissues/organMeshBake";
 import { VIRTAMED_ORGANS, whiteVirtaMedMaterial, type VirtaMedVariation } from "./virtaMedScene";
@@ -35,71 +36,108 @@ export async function loadVirtaMedTiles(signal?:AbortSignal):Promise<VirtaMedTil
     return result;
   }catch(error){disposeVirtaMedTiles(result);throw error;}
 }
-export function disposeVirtaMedTiles(tiles:VirtaMedTiles){for(const t of Object.values(tiles)){t.color.dispose();t.normal.dispose();t.roughness.dispose();}}
-export function makeVirtaMedMaterial(id:string,white:boolean,tiles:VirtaMedTiles|null,volume:THREE.Data3DTexture,sample:VirtaMedVariation|null) {
-  const info=VIRTAMED_ORGANS.find(x=>x.id===id)!;
-  const tile=tiles?.[bundles[id]!];
-  const material=white?whiteVirtaMedMaterial():new THREE.MeshPhysicalMaterial({
-    color:info.color,metalness:0,roughness:id==="abdominal-wall"?.7:id==="liver"?.34:.39,ior:1.37,
-    clearcoat:id==="abdominal-wall"?.04:.38,clearcoatRoughness:.24,specularIntensity:.5,envMapIntensity:.25,side:THREE.DoubleSide,
-    transparent:id==="hepatoduodenal-ligament",opacity:id==="hepatoduodenal-ligament"?.8:1,
-    depthWrite:id!=="hepatoduodenal-ligament",
+const arrays=new WeakMap<VirtaMedTiles,{color:THREE.DataArrayTexture;surface:THREE.DataArrayTexture}>();
+function tissueArrays(tiles:VirtaMedTiles) {
+  let result=arrays.get(tiles);if(result)return result;
+  const families=["liver","large_bowel","small_bowel"],size=512*512*4;
+  const color=new Uint8Array(size*3),surface=new Uint8Array(size*3);
+  families.forEach((family,layer)=>{const tile=tiles[family]!;color.set(tile.color.image.data as Uint8Array,layer*size);
+    const normal=tile.normal.image.data as Uint8Array,rough=tile.roughness.image.data as Uint8Array;
+    for(let i=0;i<size;i+=4){surface.set(normal.subarray(i,i+3),layer*size+i);surface[layer*size+i+3]=rough[i+1]!;}
   });
+  const make=(data:Uint8Array,srgb:boolean)=>{const t=new THREE.DataArrayTexture(data,512,512,3);t.colorSpace=srgb?THREE.SRGBColorSpace:THREE.NoColorSpace;t.wrapS=t.wrapT=THREE.RepeatWrapping;t.magFilter=THREE.LinearFilter;t.minFilter=THREE.LinearMipmapLinearFilter;t.generateMipmaps=true;t.anisotropy=8;t.needsUpdate=true;return t;};
+  result={color:make(color,true),surface:make(surface,false)};arrays.set(tiles,result);return result;
+}
+export function disposeVirtaMedTiles(tiles:VirtaMedTiles){const a=arrays.get(tiles);a?.color.dispose();a?.surface.dispose();arrays.delete(tiles);for(const t of Object.values(tiles)){t.color.dispose();t.normal.dispose();t.roughness.dispose();}}
+
+export function makeVirtaMedMaterial(id:string,white:boolean,tiles:VirtaMedTiles|null,volume:THREE.Data3DTexture,sample:VirtaMedVariation|null,fields:InterfaceField[]=[]) {
+  const info=VIRTAMED_ORGANS.find(x=>x.id===id)!,tile=tiles?.[bundles[id]!],tissueIndex=(name:string)=>VIRTAMED_ORGANS.findIndex(o=>o.id===name);
+  const material=white?whiteVirtaMedMaterial():new THREE.MeshPhysicalMaterial({color:info.color,metalness:0,roughness:.35,ior:1.37,clearcoat:.48,clearcoatRoughness:.19,specularIntensity:.6,envMapIntensity:.25,side:THREE.DoubleSide});
   material.userData.selectionUniform={value:0};
-  material.userData.appearance={mode:white?"white geometry":tile?"verified learned RGB; derived normal and assumed roughness":"authored tissue optics",bundle:tile?.bundle??null,sha256:tile?.sha256??null,resolution:tile?512:null};
-  const disease=sample?.variation.baseline?"baseline":sample?.disease??"baseline";
-  const severity=sample?.variation.severity??0;
-  const affected=disease.startsWith("liver")?id==="liver":disease.startsWith("gallbladder")?id==="gallbladder":false;
-  const kind=disease==="liver-steatotic-enlargement"?1:disease==="liver-cirrhosis"?2:disease==="liver-metastases"?3:4;
-  const color=disease==="liver-steatotic-enlargement"?"#ae8752":disease==="liver-cirrhosis"?"#997e62":disease==="liver-metastases"?"#c2b49a":disease==="gallbladder-cholecystitis"?"#ac6860":"#afa880";
-  // Shape, pigmentation and wetness are conditioned by the same sampled recipe.
-  const organRecipe=sample?.recipes?.[id] ?? sample?.recipe;
-  const learnedWet=organRecipe ? 1-organRecipe.material.wetness : undefined;
-  if(!white&&typeof learnedWet==="number")material.roughness=THREE.MathUtils.clamp(.85*material.roughness+.15*learnedWet,.26,.55);
-  material.customProgramCacheKey=()=>`virtamed-v1:${white}:${Boolean(tile)}:${id}:${affected}:${kind}`;
+  material.userData.appearance={mode:white?"white geometry":tile?"verified learned RGB; derived normal and assumed roughness":"authored tissue optics",bundle:tile?.bundle??null,sha256:tile?.sha256??null,resolution:tile?512:null,interfaces:fields.map(f=>({id:f.edge.id,...interfaceVariation(f.edge,sample)}))};
+  const disease=sample?.variation.baseline?"baseline":sample?.disease??"baseline",severity=sample?.variation.baseline?0:sample?.variation.severity??0;
+  const kind=disease==="liver-steatotic-enlargement"?1:disease==="liver-cirrhosis"?2:disease==="liver-metastases"?3:disease==="gallbladder-cholecystitis"?4:disease==="gallbladder-distension"?5:0;
+  const palette=VIRTAMED_ORGANS.map(o=>new THREE.Color(o.color)),optics:THREE.Vector4[]=[],patterns:THREE.Vector4[]=[];
+  for(const organ of VIRTAMED_ORGANS){const recipe=tissueRecipe(organ.id,sample),wall=organ.id==="abdominal-wall",rough=wall?.7:organ.id==="liver"?.29:.35;
+    optics.push(new THREE.Vector4(THREE.MathUtils.clamp(.85*rough+.15*(1-recipe.wetness),.26,.7),wall?.04:.4+.14*recipe.wetness,.16+.06*(1-recipe.wetness),THREE.MathUtils.clamp(recipe.pigment_contrast,.6,1.5)));
+    patterns.push(new THREE.Vector4(recipe.tint,recipe.fine_detail,0,0));
+  }
+  const edgeRecipes=fields.map(f=>({edge:f.edge.id,a:tissueRecipe(f.edge.a,sample),b:tissueRecipe(f.edge.b,sample),...interfaceVariation(f.edge,sample)}));
+  material.customProgramCacheKey=()=>`virtamed-interface-v1:${white}:${Boolean(tiles)}:${id}:${fields.map(f=>f.edge.id).join(":")}`;
   material.onBeforeCompile=shader=>{
     shader.uniforms.uVmSelect=material.userData.selectionUniform;
-    shader.vertexShader=shader.vertexShader.replace("#include <common>","#include <common>\nattribute vec3 sceneRestPosition;varying vec3 vVmRest;").replace("#include <begin_vertex>","#include <begin_vertex>\nvVmRest=sceneRestPosition;");
-    shader.fragmentShader=shader.fragmentShader.replace("#include <common>","#include <common>\nvarying vec3 vVmRest;uniform float uVmSelect;");
-    shader.fragmentShader=shader.fragmentShader.replace("#include <color_fragment>","#include <color_fragment>\ndiffuseColor.rgb=mix(diffuseColor.rgb,vec3(.6,.8,.9),uVmSelect*.09);");
-    if(white)return;
-    Object.assign(shader.uniforms,{uVmVolume:{value:volume},uVmVessels:{value:volume.userData.vascularTexture},uVmSeverity:{value:affected?severity:0},uVmDiseaseColor:{value:new THREE.Color(color)},uVmOffset:{value:sample?.variation.baseline?0:((sample?.variation.seed??0)%997)/31},uVmContrast:{value:organRecipe ? THREE.MathUtils.clamp(organRecipe.material.pigment_contrast,.6,1.5) : 1}});
+    shader.vertexShader=shader.vertexShader.replace("#include <common>","#include <common>\nattribute vec3 sceneRestPosition;attribute vec3 sceneRestNormal;attribute vec4 sceneInterfaceDistance;attribute vec3 sceneCoverDistance;varying vec3 vVmCoverDistance;varying vec3 vVmRest;varying vec3 vVmRestNormal;varying vec4 vVmInterfaceDistance;").replace("#include <begin_vertex>","#include <begin_vertex>\nvVmRest=sceneRestPosition;vVmRestNormal=sceneRestNormal;vVmInterfaceDistance=sceneInterfaceDistance;vVmCoverDistance=sceneCoverDistance;");
+    shader.fragmentShader=shader.fragmentShader.replace("#include <common>","#include <common>\nvarying vec3 vVmRest;varying vec3 vVmRestNormal;varying vec4 vVmInterfaceDistance;varying vec3 vVmCoverDistance;uniform float uVmSelect;");
+    if(white){shader.fragmentShader=shader.fragmentShader.replace("#include <color_fragment>","#include <color_fragment>\ndiffuseColor.rgb=mix(diffuseColor.rgb,vec3(.6,.8,.9),uVmSelect*.09);");return;}
+    const atlas=tiles?tissueArrays(tiles):null;
+    Object.assign(shader.uniforms,{uVmVolume:{value:volume},uVmVessels:{value:volume.userData.vascularTexture},uVmColorArray:{value:atlas?.color},uVmSurfaceArray:{value:atlas?.surface},uVmPalette:{value:palette},uVmOptics:{value:optics},uVmPattern:{value:patterns},uVmMeans:{value:["liver","large_bowel","small_bowel"].map(f=>tiles?.[f]?.mean??new THREE.Vector3(1,1,1))},uVmDisease:{value:kind},uVmSeverity:{value:severity},uVmOffset:{value:sample?.variation.baseline?0:((sample?.variation.seed??0)%997)/31},uVmWidth:{value:new THREE.Vector4(...[0,1,2,3].map(i=>fields[i]?interfaceVariation(fields[i]!.edge,sample).widthMm:1) as [number,number,number,number])}});
     shader.fragmentShader=shader.fragmentShader.replace("#include <common>",`#include <common>
-      precision highp sampler3D;
+      precision highp sampler3D;precision highp sampler2DArray;
       uniform sampler3D uVmVolume;uniform sampler2D uVmVessels;
-      uniform float uVmSeverity;uniform vec3 uVmDiseaseColor;uniform float uVmOffset;uniform float uVmContrast;
-      ${tile?"uniform sampler2D uVmColor;uniform sampler2D uVmRough;uniform sampler2D uVmNormal;uniform vec3 uVmMean;":""}
-      vec3 vmWeights(vec3 p){vec3 n=abs(normalize(cross(dFdx(p),dFdy(p))));vec3 w=pow(n,vec3(5.));return w/max(dot(w,vec3(1.)),.001);}
-      vec4 vmSample(sampler2D m,vec3 p,vec3 w){return texture2D(m,p.yz)*w.x+texture2D(m,p.xz+vec2(.23,.37))*w.y+texture2D(m,p.xy+vec2(.61,.19))*w.z;}
+      uniform sampler2DArray uVmColorArray;uniform sampler2DArray uVmSurfaceArray;
+      uniform vec3 uVmPalette[12];uniform vec4 uVmOptics[12];uniform vec4 uVmPattern[12];uniform vec3 uVmMeans[3];
+      uniform int uVmDisease;uniform float uVmSeverity;uniform float uVmOffset;uniform vec4 uVmWidth;
+      struct VmSurface {vec3 color;vec3 gradient;float height;float roughness;float coat;float coatRoughness;};
+      VmSurface vmMix(VmSurface a,VmSurface b,float w){return VmSurface(mix(a.color,b.color,w),mix(a.gradient,b.gradient,w),mix(a.height,b.height,w),mix(a.roughness,b.roughness,w),mix(a.coat,b.coat,w),mix(a.coatRoughness,b.coatRoughness,w));}
+      vec3 vmWeights(vec3 n){vec3 w=pow(abs(normalize(n+vec3(1e-8))),vec3(4.));return w/max(dot(w,vec3(1.)),.001);}
+      vec4 vmProjection(sampler2D t,vec3 p,vec3 w,vec3 dx,vec3 dy){return textureGrad(t,p.yz,dx.yz,dy.yz)*w.x+textureGrad(t,p.xz+vec2(.23,.37),dx.xz,dy.xz)*w.y+textureGrad(t,p.xy+vec2(.61,.19),dx.xy,dy.xy)*w.z;}
+      vec3 vmBump(vec3 n,vec2 slope,float face){vec3 dx=dFdx(-vViewPosition),dy=dFdy(-vViewPosition),r1=cross(dy,n),r2=cross(n,dx);float det=dot(dx,r1)*face;if(abs(det)<1e-12)return n;return normalize(abs(det)*n-sign(det)*(slope.x*r1+slope.y*r2));}
+      VmSurface vmEvaluate(int organ,vec3 p,vec3 w,vec3 dx,vec3 dy,vec4 cloud,vec4 fine,float fade,float vessels){
+        vec4 optics=uVmOptics[organ];vec4 pattern=uVmPattern[organ];vec3 rgb=uVmPalette[organ]*(.9+.2*cloud.r),gradient=vec3(0.);float roughness=optics.x;
+        int layer=organ==0?0:organ==5?1:(organ==6||organ==7)?2:-1;
+        ${tiles?`if(layer>=0){vec3 tp=p/51.2+vec3(uVmOffset*.13,uVmOffset*.07,uVmOffset*.11);vec3 tx=dx/51.2,ty=dy/51.2;
+          vec3 color=textureGrad(uVmColorArray,vec3(tp.yz,float(layer)),tx.yz,ty.yz).rgb*w.x+textureGrad(uVmColorArray,vec3(tp.xz+vec2(.23,.37),float(layer)),tx.xz,ty.xz).rgb*w.y+textureGrad(uVmColorArray,vec3(tp.xy+vec2(.61,.19),float(layer)),tx.xy,ty.xy).rgb*w.z;
+          rgb=uVmPalette[organ]*mix(vec3(1.),clamp(color/max(uVmMeans[layer],vec3(.025)),vec3(.55),vec3(1.6)),(organ==0?.45:.7)*optics.w);
+          vec4 sx=textureGrad(uVmSurfaceArray,vec3(tp.yz,float(layer)),tx.yz,ty.yz),sy=textureGrad(uVmSurfaceArray,vec3(tp.xz+vec2(.23,.37),float(layer)),tx.xz,ty.xz),sz=textureGrad(uVmSurfaceArray,vec3(tp.xy+vec2(.61,.19),float(layer)),tx.xy,ty.xy);
+          vec3 nx=sx.xyz*2.-1.,ny=sy.xyz*2.-1.,nz=sz.xyz*2.-1.;vec2 gx=-nx.xy/max(nx.z,.15),gy=-ny.xy/max(ny.z,.15),gz=-nz.xy/max(nz.z,.15);
+          gradient=vec3(gy.x*w.y+gz.x*w.z,gx.x*w.x+gz.y*w.z,gx.y*w.x+gy.y*w.y)*(.008+.008*pattern.y)*fade;
+          roughness=clamp(roughness*(.8+.4*(sx.a*w.x+sy.a*w.y+sz.a*w.z)),.26,.55);
+        }`:""}
+        rgb*=1.+(fine.r-.5)*.1*fade;
+        if(organ!=0&&organ!=11)rgb=mix(rgb,rgb*vec3(.6,.16,.21),vessels*(organ==1?.22:organ==8?.6:.85));
+        if(organ==0)rgb*=.91+.16*cloud.r+.09*(1.-smoothstep(.025,.16,cloud.b));
+        if(organ==8){rgb*=.85+.3*cloud.g;rgb=mix(rgb,rgb*vec3(1.05,.91,.82),(1.-smoothstep(.035,.2,cloud.b))*.22);}
+        if(organ==9||organ==10){float fibers=pow(sin(p.x*2.+p.y*.38+cloud.a*6.)*.5+.5,6.);rgb*=.92+.16*fibers;}
+        if(organ==1){float mottle=smoothstep(.15,.85,cloud.r+(fine.a-.5)*.2);rgb=mix(vec3(.3712,.3515,.4233),vec3(.5149,.4678,.4072),mottle*.8)*(.93+.14*fine.r);float fibrils=pow(.5+.5*sin(p.x*2.7+p.y*1.2+cloud.a*9.),8.);rgb*=1.+fibrils*.08*fade;}
+        rgb*=vec3(1.+pattern.x*.08,1.+pattern.x*.025,1.-pattern.x*.035);
+        float mask=1.;vec3 diseaseColor=vec3(0.);
+        if(organ==0&&uVmDisease>0&&uVmDisease<=3){
+          if(uVmDisease==1)diseaseColor=vec3(.4233,.2423,.0844);
+          if(uVmDisease==2){diseaseColor=vec3(.3185,.2086,.1221);mask=.35+.65*(sin(p.x*.43)*sin(p.y*.39)*sin(p.z*.37)*.5+.5);}
+          if(uVmDisease==3){diseaseColor=vec3(.5395,.4564,.3231);vec3 a=(p-vec3(-85.,53.,19.))/vec3(9.,10.,15.),b=(p-vec3(36.,54.,9.))/vec3(9.,10.,15.),c=(p-vec3(-28.,31.,18.))/vec3(9.,10.,15.);mask=exp(-dot(a,a))+exp(-dot(b,b))+exp(-dot(c,c));}
+          rgb=mix(rgb,diseaseColor,clamp(mask*uVmSeverity*.65,0.,.8));
+        }
+        if(organ==1&&uVmDisease>=4)rgb=mix(rgb,uVmDisease==4?vec3(.4125,.1384,.1170):vec3(.4287,.3916,.2159),uVmSeverity*.65);
+        float height=organ==11?0.:fine.r*(organ==8?.065:organ==1?.025:.035)*(.6+.8*pattern.y)*fade+(organ==0?0.:vessels*.012);
+        return VmSurface(rgb,gradient,height,roughness,optics.y,optics.z);
+      }
     `);
-    if(tile)Object.assign(shader.uniforms,{uVmColor:{value:tile.color},uVmRough:{value:tile.roughness},uVmNormal:{value:tile.normal},uVmMean:{value:tile.mean}});
     shader.fragmentShader=shader.fragmentShader.replace("#include <color_fragment>",`#include <color_fragment>
-      vec3 vmP=vVmRest/51.2+vec3(uVmOffset*.13,uVmOffset*.07,uVmOffset*.11);vec3 vmW=vmWeights(vVmRest);
-      vec4 vmCloud=texture(uVmVolume,fract(vVmRest/75.));
-      ${tile?`vec3 vmRgb=vmSample(uVmColor,vmP,vmW).rgb; diffuseColor.rgb*=mix(vec3(1.),clamp(vmRgb/max(uVmMean,vec3(.025)),vec3(.55),vec3(1.6)),${id === "liver" ? ".28*uVmContrast" : ".65*uVmContrast"});`:"diffuseColor.rgb*=.93+.14*vmCloud.r;"}
-      ${id!=="liver"&&id!=="abdominal-wall"?`float vmV=vmSample(uVmVessels,vVmRest/${id.includes("fat")?83:115}.,vmW).r;diffuseColor.rgb=mix(diffuseColor.rgb,diffuseColor.rgb*vec3(.72,.35,.30),vmV*${id.includes("fat")?".42":".6"});`:""}
-      ${id.includes("fat") ? "vec4 lobule=texture(uVmVolume,fract(vVmRest/35.));diffuseColor.rgb*=.85+.3*lobule.g;diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.55,.39,.22),(.5-lobule.b)*.08);" : ""}
-      ${id.includes("ligament") ? "float fibers=sin(vVmRest.x*2.+vmCloud.a*6.)*.5+.5;diffuseColor.rgb*=.99+.02*fibers;" : ""}
-      ${id==="gallbladder" ? "vec4 capsule=texture(uVmVolume,fract(vVmRest/23.));diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.51,.49,.45),capsule.r*.25);" : ""}
-      float vmMask=1.;
-      ${kind===2?"vmMask=.35+.65*(sin(vVmRest.x*.43)*sin(vVmRest.y*.39)*sin(vVmRest.z*.37)*.5+.5);":""}
-      ${kind===3?"vmMask=exp(-dot((vVmRest-vec3(-85.,53.,19.))/vec3(9.,10.,15.),(vVmRest-vec3(-85.,53.,19.))/vec3(9.,10.,15.)))+exp(-dot((vVmRest-vec3(36.,54.,9.))/vec3(9.,10.,15.),(vVmRest-vec3(36.,54.,9.))/vec3(9.,10.,15.)))+exp(-dot((vVmRest-vec3(-28.,31.,18.))/vec3(9.,10.,15.),(vVmRest-vec3(-28.,31.,18.))/vec3(9.,10.,15.)));":""}
-      diffuseColor.rgb=mix(diffuseColor.rgb,uVmDiseaseColor,clamp(vmMask*uVmSeverity*.65,0.,.8));
+      vec3 vmDx=dFdx(vVmRest),vmDy=dFdy(vVmRest),vmW=vmWeights(vVmRestNormal);
+      float vmFade=1.-smoothstep(.25,1.2,max(length(vmDx),length(vmDy)));
+      vec4 vmCloud=texture(uVmVolume,fract(vVmRest/24.)),vmFine=texture(uVmVolume,fract(vVmRest/7.5));
+      vec2 vmVascular=vmProjection(uVmVessels,vVmRest/100.,vmW,vmDx/100.,vmDy/100.).rg;
+      vec2 vmCapillary=vmProjection(uVmVessels,vVmRest/43.+vec3(.31,.47,.13),vmW,vmDx/43.,vmDy/43.).rg;
+      float vmV=clamp(max(vmVascular.r,vmVascular.g*.85)+max(vmCapillary.r,vmCapillary.g)*.38,0.,1.);
+      VmSurface vmS=vmEvaluate(${tissueIndex(id)},vVmRest,vmW,vmDx,vmDy,vmCloud,vmFine,vmFade,vmV);float vmTotal=1.;
+      ${fields.map((f,i)=>`if(vVmInterfaceDistance[${i}]<uVmWidth[${i}]){
+        float w=1.-smoothstep(0.,uVmWidth[${i}],vVmInterfaceDistance[${i}]);float strength=w/max(1.-w,.00001);
+        VmSurface a=vmEvaluate(${tissueIndex(f.edge.a)},vVmRest,vmW,vmDx,vmDy,vmCloud,vmFine,vmFade,vmV);
+        VmSurface b=vmEvaluate(${tissueIndex(f.edge.b)},vVmRest,vmW,vmDx,vmDy,vmCloud,vmFine,vmFade,vmV);
+        VmSurface joint=vmMix(a,b,.5);vmS=vmMix(vmS,joint,strength/(vmTotal+strength));vmTotal+=strength;
+      }`).join("\n")}
+      ${id==="hepatocystic-fat"?[5,6,7].map((organ,i)=>`if(vVmCoverDistance[${i}]<6.){
+        float width=4.8+.6*(uVmOptics[8].y+uVmOptics[${organ}].y)+.3*(uVmPattern[8].y+uVmPattern[${organ}].y);
+        float coverage=(1.-smoothstep(0.,width,vVmCoverDistance[${i}]))*.9;
+        VmSurface under=vmEvaluate(${organ},vVmRest,vmW,vmDx,vmDy,vmCloud,vmFine,vmFade,vmV);vmS=vmMix(vmS,under,coverage);
+      }`).join("\n"):""}
+      diffuseColor.rgb=mix(vmS.color,vec3(.6,.8,.9),uVmSelect*.09);
+      vec2 vmSlope=vec2(dot(vmS.gradient,vmDx)+dFdx(vmS.height),dot(vmS.gradient,vmDy)+dFdy(vmS.height));
     `);
-    if(tile){
-      shader.fragmentShader=shader.fragmentShader.replace("#include <roughnessmap_fragment>","#include <roughnessmap_fragment>\nroughnessFactor=clamp(roughnessFactor*(.8+.4*vmSample(uVmRough,vmP,vmW).g),.26,.55);");
-      shader.fragmentShader=shader.fragmentShader.replace("#include <normal_fragment_maps>","#include <normal_fragment_maps>\nvec3 vmN=vmSample(uVmNormal,vmP,vmW).xyz*2.-1.;normal=normalize(normal+vec3(vmN.xy,0.)*.025);");
-    }
-    // Micrometre-scale authored relief in rest millimetres, attenuated when
-    // smaller than a pixel. The wet coat remains smooth over this substrate.
-    if(id!=="abdominal-wall")shader.fragmentShader=shader.fragmentShader.replace("#include <normal_fragment_maps>",`#include <normal_fragment_maps>
-      float vmFootprint=max(length(dFdx(vVmRest)),length(dFdy(vVmRest)));
-      float vmHeight=texture(uVmVolume,fract(vVmRest/7.5)).r*${id.includes("fat")?".045":".012"}*(1.-smoothstep(.12,.8,vmFootprint));
-      vec3 vmDx=dFdx(-vViewPosition),vmDy=dFdy(-vViewPosition);
-      vec3 vmR1=cross(vmDy,normal),vmR2=cross(normal,vmDx);
-      float vmDet=dot(vmDx,vmR1)*faceDirection;
-      normal=normalize(abs(vmDet)*normal-sign(vmDet)*(dFdx(vmHeight)*vmR1+dFdy(vmHeight)*vmR2));
-    `);
+    shader.fragmentShader=shader.fragmentShader.replace("#include <roughnessmap_fragment>","#include <roughnessmap_fragment>\nroughnessFactor=vmS.roughness;");
+    shader.fragmentShader=shader.fragmentShader.replace("#include <normal_fragment_maps>","#include <normal_fragment_maps>\nnormal=vmBump(normal,vmSlope,faceDirection);");
+    shader.fragmentShader=shader.fragmentShader.replace("#include <clearcoat_normal_fragment_maps>","#include <clearcoat_normal_fragment_maps>\n#ifdef USE_CLEARCOAT\nclearcoatNormal=vmBump(clearcoatNormal,vmSlope*.55,faceDirection);\n#endif");
+    shader.fragmentShader=shader.fragmentShader.replace("#include <lights_physical_fragment>","#include <lights_physical_fragment>\n#ifdef USE_CLEARCOAT\nmaterial.clearcoat=vmS.coat;material.clearcoatRoughness=clamp(vmS.coatRoughness+geometryRoughness,.0525,1.);\n#endif");
   };
-  return {material,signature:JSON.stringify({id,white,tile:tile?.sha256,disease,severity,seed:sample?.variation.seed})};
+  return {material,signature:JSON.stringify({id,white,tile:tile?.sha256,disease,severity,seed:sample?.variation.seed,interfaces:edgeRecipes,covers:id==="hepatocystic-fat"?["colon","small-intestine","duodenum"].map(i=>tissueRecipe(i,sample)):[],interfaceVersion:VIRTAMED_INTERFACE_VERSION})};
 }

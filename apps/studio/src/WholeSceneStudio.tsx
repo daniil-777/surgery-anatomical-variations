@@ -333,7 +333,7 @@ export default function WholeSceneStudio({ onBack, textureLab = false }: { onBac
             <button className="whole-button" disabled={!physicsRunning || (isVirtaMed && selected === "abdominal-wall")} onClick={() => { viewport.current?.pulsePhysics(); setNotice("Palpation pulse applied; watch the tissue recover"); }}>Palpate selected organ</button>
             <button className="whole-restore" onClick={() => { viewport.current?.releaseTool(); setToolMode("orbit"); setPhysicsMaterials(null); setPhysicsRunning(false); setBreathing(false); setNotice("Static anatomy restored"); }}>Remove physics</button>
           </div>}
-          <p className="whole-scope">{isVirtaMed ? "Twelve organ/tissue fits from synthetic force histories; fixed cavity wall. The source video supplies no measured forces. " : "Learned from synthetic material responses. "}Coupled viscoelastic preview with authored supports and loading; organ-to-organ contact, fluid pressure and validated surgical mechanics are not resolved.</p>
+          <p className="whole-scope">{isVirtaMed ? "Synthetic small-strain fits with tissue-specific, authored strain stiffening and recovery; fixed cavity wall. The source video supplies no measured forces. " : "Learned from synthetic material responses. "}Coupled viscoelastic preview with authored supports and loading; organ-to-organ contact, fluid pressure and validated surgical mechanics are not resolved.</p>
           <section className="whole-instrument-panel" aria-label="Instrument settings">
             <div className="whole-section-label">04 <span>SURFACE INTERACTION</span></div>
             <h2>Laparoscopic instruments</h2>

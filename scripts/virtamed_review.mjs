@@ -4,7 +4,7 @@ import path from 'node:path';
 const out=path.resolve(process.env.REVIEW_OUTPUT??'/tmp/virtamed-review/pass-2');
 await mkdir(out,{recursive:true});
 const browser=await chromium.launch({headless:true,executablePath:process.env.CHROME_BIN??'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',args:['--use-angle=metal']});
-const context=await browser.newContext({viewport:{width:1600,height:1100},recordVideo:{dir:path.join(out,'motion'),size:{width:1600,height:1100}}});
+const context=await browser.newContext({viewport:{width:1600,height:1100},deviceScaleFactor:1.5,recordVideo:{dir:path.join(out,'motion'),size:{width:1600,height:1100}}});
 const page=await context.newPage(),errors=[],requests=[],cases=[];
 page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error'&&/WebGL|Shader|THREE/.test(m.text()))errors.push(m.text());});
 page.on('response',r=>{if(r.status()>=400)requests.push({url:r.url(),status:r.status()});});
@@ -24,11 +24,18 @@ try {
   }
   await click('Video camera · instruments enabled');
   await page.getByRole('textbox',{name:'Scene seed',exact:true}).fill('319');
+  const severity=page.getByRole('slider',{name:'Disease appearance',exact:true});await severity.press('End');for(let i=0;i<4;i++)await severity.press('ArrowLeft');
   for(const condition of ['gallbladder-cholecystitis','gallbladder-distension','liver-steatotic-enlargement','liver-cirrhosis','liver-metastases']){
     await page.getByRole('combobox',{name:'Disease variation',exact:true}).selectOption(condition);
-    await click('Replay seed');await capture(`05-${condition}`);
+    await click('Video camera · instruments enabled');await click('Replay seed');await capture(`05-${condition}-front`);
     const a=await snapshot();await click('Replay seed');const b=await snapshot();
     if(a.organs.some((p,i)=>p.geometrySignature!==b.organs[i].geometrySignature||p.materialSignature!==b.organs[i].materialSignature))throw new Error('Seed replay drift');
+    if(a.severity<.75)throw new Error('High-severity review was not applied');
+    if(a.videoReconstruction.interfaces.edges.length!==4||!a.videoReconstruction.interfaces.covers.length)throw new Error('Missing tissue transition fields');
+    for(const [angle,dx,dy] of [['left',65,12],['right',-125,-20]]){
+      await page.mouse.move(box.x+box.width*.65,box.y+box.height*.48);await page.mouse.down();await page.mouse.move(box.x+box.width*.65+dx,box.y+box.height*.48+dy,{steps:18});await page.mouse.up();await page.waitForTimeout(550);await capture(`05-${condition}-${angle}`);
+    }
+    await click('Video camera · instruments enabled');await page.mouse.move(box.x+box.width*.55,box.y+box.height*.38);await page.mouse.wheel(0,-260);await page.waitForTimeout(600);await capture(`05-${condition}-close`);
   }
   await click('Restore video geometry');await click('Video camera · instruments enabled');
   await click('Apply learned physics to all organs');

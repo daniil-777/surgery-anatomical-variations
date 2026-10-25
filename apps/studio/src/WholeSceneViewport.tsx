@@ -1,3 +1,4 @@
+import { buildVirtaMedInterfaces, interfaceSnapshot, reconcileInterfaceNormals, type InterfaceGraph } from "./virtaMedInterfaces";
 import { loadVirtaMedAsset } from "./virtaMedAsset";
 import { sampleVirtaMedVariation, warpVirtaMedPositions, type VirtaMedVariation } from "./virtaMedScene";
 import { loadVirtaMedTiles, disposeVirtaMedTiles, makeVirtaMedMaterial, type VirtaMedTiles } from "./virtaMedMaterials";
@@ -16,6 +17,8 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { MeshoptDecoder } from "three/examples/jsm/libs/meshopt_decoder.module.js";
+import { updateSceneBounds, updateSceneNormals } from "./sceneSurfaceUpdate";
+import { VIRTAMED_TISSUE_RESPONSE } from "./sceneTissueResponse";
 import { WholeScenePhysics, type LearnedSceneMaterials, type ScenePhysicsBinding } from "./wholeScenePhysics";
 import { WholeSceneTools, type WholeSceneToolMode, type WholeSceneToolState } from "./wholeSceneTools";
 import { createWholeSceneTissueVolume, makeWholeSceneTissueMaterial, makeWholeSceneDepthMaterial, WHOLE_SCENE_MATERIAL_VERSION } from "./wholeSceneMaterials";
@@ -117,33 +120,7 @@ const boxData = (box: THREE.Box3) => ({ min: box.min.toArray(), max: box.max.toA
  * incident face by its corner angle avoids letting its longest triangles flatten
  * the shading; source positions and connectivity remain byte-for-byte unchanged. */
 function updateTissueNormals(geometry: THREE.BufferGeometry, id: string) {
-  if (!/^(liver|hepatocystic-fat|stomach|gallbladder|spleen|duodenum|pancreas|.*kidney|colon|small-intestine)$/.test(id)) { geometry.computeVertexNormals(); return; }
-  const positions = geometry.getAttribute("position"), index = geometry.index;
-  let normals = geometry.getAttribute("normal") as THREE.BufferAttribute | undefined;
-  if (!normals || normals.itemSize !== 3 || normals.count !== positions.count) {
-    normals = new THREE.BufferAttribute(new Float32Array(positions.count * 3), 3); geometry.setAttribute("normal", normals);
-  }
-  const sums = new Float32Array(positions.count * 3);
-  const a = new THREE.Vector3(), b = new THREE.Vector3(), c = new THREE.Vector3();
-  const ab = new THREE.Vector3(), ac = new THREE.Vector3(), ba = new THREE.Vector3(), bc = new THREE.Vector3(), n = new THREE.Vector3();
-  const count = index?.count ?? positions.count;
-  for (let f = 0; f < count; f += 3) {
-    const ia = index ? index.getX(f) : f, ib = index ? index.getX(f + 1) : f + 1, ic = index ? index.getX(f + 2) : f + 2;
-    a.fromBufferAttribute(positions, ia); b.fromBufferAttribute(positions, ib); c.fromBufferAttribute(positions, ic);
-    ab.subVectors(b, a); ac.subVectors(c, a); n.crossVectors(ab, ac);
-    const area2 = n.length(); if (area2 < 1e-12) continue;
-    n.multiplyScalar(1 / area2); ba.subVectors(a, b); bc.subVectors(c, b);
-    const angleA = Math.atan2(area2, ab.dot(ac)), angleB = Math.atan2(area2, ba.dot(bc));
-    const angles = [angleA, angleB, Math.max(0, Math.PI - angleA - angleB)];
-    for (const [corner, vertex] of [ia, ib, ic].entries()) {
-      sums[3 * vertex]! += n.x * angles[corner]!; sums[3 * vertex + 1]! += n.y * angles[corner]!; sums[3 * vertex + 2]! += n.z * angles[corner]!;
-    }
-  }
-  for (let i = 0; i < positions.count; i++) {
-    const length = Math.hypot(sums[3 * i]!, sums[3 * i + 1]!, sums[3 * i + 2]!);
-    if (length > 1e-12) normals.setXYZ(i, sums[3 * i]! / length, sums[3 * i + 1]! / length, sums[3 * i + 2]! / length);
-  }
-  normals.needsUpdate = true;
+  updateSceneNormals(geometry, /^(liver|hepatocystic-fat|stomach|gallbladder|spleen|duodenum|pancreas|.*kidney|colon|small-intestine)$/.test(id));
 }
 function disposeObject(root: THREE.Object3D) {
   root.traverse(object => {
@@ -204,6 +181,7 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
     let vmTiles: VirtaMedTiles | null = null;
     let vmSystem: ImportedVariationSystem | null = null;
     let vmSample: VirtaMedVariation | null = null;
+    let vmInterfaces: InterfaceGraph | null = null;
     let operativeCamera = false;
     const element = host.current;
     if (!element) return;
@@ -239,12 +217,12 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
     const invalidate = (shadows = false) => { renderPending = true; sceneRevision++; if (shadows) renderer.shadowMap.needsUpdate = true; };
     const draw = () => {
       if (exploring || operativeCamera) {
+        if (!inspectionLight.position.equals(camera.position) || !inspectionLight.target.position.equals(controls.target)) renderer.shadowMap.needsUpdate = true;
         inspectionLight.position.copy(camera.position); inspectionLight.target.position.copy(controls.target);
-        renderer.shadowMap.needsUpdate = true;
       }
       if (fatLamp.visible && fatLamp.intensity > 0) {
+        if (!fatLamp.position.equals(camera.position) || !fatLamp.target.position.equals(controls.target)) renderer.shadowMap.needsUpdate = true;
         fatLamp.position.copy(camera.position); fatLamp.target.position.copy(controls.target);
-        renderer.shadowMap.needsUpdate = true;
       }
       renderer.render(scene, camera); renderedFrames++; renderedRevision = sceneRevision; renderPending = false;
       if (snapshotAfterDraw) { snapshotAfterDraw = false; snapshot(); }
@@ -290,6 +268,8 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
     const parts: Part[] = [];
     const breath = { value: 0 };
     let physics: WholeScenePhysics | null = null, physicsSteps = 0, physicsFailed = false;
+    let geometryUploads = 0, surfaceCpuMs = 0, solverCpuMs = 0;
+    let wasPhysicsMoving = false;
     const fatLayers = new FatSceneLayerView(assembly, () => parts.map(part => ({ id: part.info.id, mesh: part.mesh, rest: part.rest })), latest.current.variation, () => { invalidate(true); snapshotAfterDraw = true; latest.current.onFatStatus?.(fatLayers.snapshot().status); }, message => latest.current.onError(message));
     const applyFat = () => { updateFatLighting(); if (parts.length) fatLayers.configure(latest.current.fatOptions ?? { enabled: false, seed: 42, thicknessMm: 5, omentum: true, perirenal: true }); };
     let manifest: Manifest | null = null, fitRadius = 400;
@@ -342,7 +322,7 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
     });
     const captureMetadata = (): Record<string, unknown> => ({
       sourceScene: isVirtaMed ? "virtamed" : "atlas", surfaceMode: isVirtaMed ? latest.current.whiteSurface ? "white" : "learned-tissue" : "atlas",
-      videoReconstruction: isVirtaMed ? { source: "Full.mp4 00:08–00:15", visibleFieldOnly: true, hiddenSurfacesInferred: true, scale: "assumed mm", recipe: vmSample?.recipe.provenance, organRecipes: Object.fromEntries(Object.entries(vmSample?.recipes ?? {}).map(([id,recipe])=>[id,recipe.provenance])), disease: vmSample?.disease, supportedWall: "fixed", textures: Object.values(vmTiles ?? {}).map(t => ({bundle:t.bundle,sha256:t.sha256,resolution:512})) } : null,
+      videoReconstruction: isVirtaMed ? { source: "Full.mp4 00:08–00:15", visibleFieldOnly: true, hiddenSurfacesInferred: true, scale: "assumed mm", recipe: vmSample?.recipe.provenance, organRecipes: Object.fromEntries(Object.entries(vmSample?.recipes ?? {}).map(([id,recipe])=>[id,recipe.provenance])), disease: vmSample?.disease, supportedWall: "fixed", interfaces: interfaceSnapshot(vmInterfaces,vmSample), textures: Object.values(vmTiles ?? {}).map(t => ({bundle:t.bundle,sha256:t.sha256,resolution:512})) } : null,
       version: "bodyparts3d-whole-scene-v2", ready, renderedFrames, animationFrames, wall_time_ms: performance.now(),
       ...latest.current.variation,
       referenceColors: latest.current.referenceColors ?? {},
@@ -350,9 +330,9 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
       fat: fatLayers.snapshot(),
       coordinateSystem: "+X patient left; +Y superior; +Z anterior; millimetres",
       atlasBounds: boxData(bounds),
-      rendering: { mode: "on-demand", renderPending, sceneRevision, renderedRevision, cameraTransition: Boolean(cameraTransition), materialVersion: WHOLE_SCENE_MATERIAL_VERSION, tissueCoordinates: "undeformed atlas rest millimetres", tissueVolumeSize: 64, bowelSidedness: bowelFrontSide ? "front" : "double", stomachNormalWeighting: "corner-angle", environmentIntensity: scene.environmentIntensity, lastImageCapture, lights: { fatCamera: { enabled: fatLamp.visible && fatLamp.intensity > 0, intensity: fatLamp.intensity, position: fatLamp.position.toArray() }, key: { intensity: key.intensity, position: key.position.toArray() }, fill: { intensity: fill.intensity, position: fill.position.toArray() }, rim: { intensity: rim.intensity, position: rim.position.toArray() } }, shadows: renderer.shadowMap.enabled, shadowMapSize: 2048, shadowNormalBiasMm: key.shadow.normalBias, shadowDepthBias: key.shadow.bias, exposure: renderer.toneMappingExposure },
+      rendering: { mode: "on-demand", geometryUploads, surfaceCpuMs, solverCpuMs, surfaceTargetHz: isVirtaMed ? 60 : 20, renderPending, sceneRevision, renderedRevision, cameraTransition: Boolean(cameraTransition), materialVersion: WHOLE_SCENE_MATERIAL_VERSION, tissueCoordinates: "undeformed atlas rest millimetres", tissueVolumeSize: 64, bowelSidedness: bowelFrontSide ? "front" : "double", stomachNormalWeighting: "corner-angle", environmentIntensity: scene.environmentIntensity, lastImageCapture, lights: { fatCamera: { enabled: fatLamp.visible && fatLamp.intensity > 0, intensity: fatLamp.intensity, position: fatLamp.position.toArray() }, key: { intensity: key.intensity, position: key.position.toArray() }, fill: { intensity: fill.intensity, position: fill.position.toArray() }, rim: { intensity: rim.intensity, position: rim.position.toArray() } }, shadows: renderer.shadowMap.enabled, shadowMapSize: 2048, shadowNormalBiasMm: key.shadow.normalBias, shadowDepthBias: key.shadow.bias, exposure: renderer.toneMappingExposure },
       registration: isVirtaMed ? "Authored video-field reconstruction in shared assumed millimetres. Broad learned controls and localized phenotype fields are shared across neighboring structures." : "BodyParts3D structures retain source registration; HRA heart and lung surfaces are fitted to atlas bounds (see manifest). Every structure then uses one shared invertible variation map.",
-      sourceConnections: "Atlas-derived ducts and vessels; coincident points remain coincident. Source endpoint attachment is not inferred or certified.",
+      sourceConnections: isVirtaMed ? "Registered gallbladder–duct ring, gallbladder–liver membrane, cranial sheet roots and internal fatty bridge. Coincident attachment coordinates share the disease and physics maps; concealed anatomy is inferred." : "Atlas-derived ducts and vessels; coincident points remain coincident. Source endpoint attachment is not inferred or certified.",
       camera: { view: currentView, focusedOrgan, position: camera.position.toArray(), target: controls.target.toArray(), up: camera.up.toArray(), fov: camera.fov, aspect: camera.aspect, navigation: navigationSnapshot() },
       inspection: { surfaceScope: "visible atlas triangles, generated fat and illustrative peritoneal enclosure; no reconstructed organ lumens", radiusMm: NAVIGATION_CLEARANCE_MM,
         cameraLight: { enabled: exploring || operativeCamera, intensity: inspectionLight.intensity, positionMm: inspectionLight.position.toArray(), targetMm: inspectionLight.target.position.toArray() } },
@@ -555,7 +535,7 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
       bounds: boxData(bounds),
     });
     const sceneMaterial = (info: WholeSceneOrgan) => isVirtaMed
-      ? makeVirtaMedMaterial(info.id, latest.current.whiteSurface ?? true, vmTiles, tissueVolume, vmSample)
+      ? makeVirtaMedMaterial(info.id, latest.current.whiteSurface ?? true, vmTiles, tissueVolume, vmSample, vmInterfaces?.fields.get(info.id))
       : makeWholeSceneTissueMaterial(info, latest.current.variation, breath, tissueVolume, { bowelFrontSide, reference: latest.current.referenceColors?.[info.id] });
     const applyVariation = () => {
       if (!parts.length) return;
@@ -567,7 +547,7 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
         part.variant = positions;
         const attribute = part.mesh.geometry.getAttribute("position") as THREE.BufferAttribute;
         (attribute.array as Float32Array).set(positions); attribute.needsUpdate = true;
-        updateTissueNormals(part.mesh.geometry, part.info.id); part.mesh.geometry.computeBoundingBox(); part.mesh.geometry.computeBoundingSphere();
+        updateTissueNormals(part.mesh.geometry, part.info.id); updateSceneBounds(part.mesh.geometry);
         const tissue = sceneMaterial(part.info);
         part.mesh.material.dispose(); part.mesh.material = tissue.material; attachPhoto(tissue.material, part.info.id);
         part.geometrySignature = sceneBufferSignature(positions); part.materialSignature = tissue.signature;
@@ -585,10 +565,12 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
       }
       applySelection(); snapshot(); draw();
     };
-    const syncPhysicsGeometry = (normals: boolean) => {
+    const syncPhysicsGeometry = (normals: boolean, normalPhase = -1) => {
+      const started = performance.now();
       navigationGuard.invalidate();
       invalidate(true);
-      for (const part of parts) {
+      for (let partIndex = 0; partIndex < parts.length; partIndex++) {
+        const part = parts[partIndex]!;
         // Bone is a fixed scaffold; avoid rebuilding its substantial mesh every physics frame.
         if (part.info.category === "skeleton" || (isVirtaMed && part.info.id === "abdominal-wall")) continue;
         const attribute = part.mesh.geometry.getAttribute("position") as THREE.BufferAttribute;
@@ -596,28 +578,30 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
         if (physics && part.binding) physics.deform(part.variant, positions, part.binding);
         else positions.set(part.variant);
         attribute.needsUpdate = true;
-        if (normals) {
+        if (normals || partIndex % 3 === normalPhase) {
           updateTissueNormals(part.mesh.geometry, part.info.id);
         }
         // Picking and instrument broad phases must bound the CURRENT surface,
         // including frames between normal recomputations.
-        part.mesh.geometry.computeBoundingBox(); part.mesh.geometry.computeBoundingSphere();
+        updateSceneBounds(part.mesh.geometry);
       }
+      if(vmInterfaces)reconcileInterfaceNormals(parts.map(p=>({id:p.info.id,geometry:p.mesh.geometry})),vmInterfaces);
       fatLayers.sync(normals);
       currentSceneBounds(parts.map(part => part.mesh.geometry), bounds);
       tools.geometryChanged();
+      geometryUploads++; surfaceCpuMs += performance.now() - started;
     };
     const applyPhysics = () => {
       if (!parts.length) return;
       exitExploration();
       tools.release("Physics assignment changed; choose a new contact.");
-      physics = null; fatLayers.bind(null); physicsFailed = false; physicsSteps = 0;
+      physics = null; fatLayers.bind(null); physicsFailed = false; physicsSteps = 0; wasPhysicsMoving = false;
       parts.forEach(part => { part.binding = null; });
       syncPhysicsGeometry(true);
       const materials = latest.current.physicsMaterials;
       if (materials) {
         try {
-          const candidate = new WholeScenePhysics(parts.map(part => ({ id: part.info.id, category: isVirtaMed && part.info.id === "abdominal-wall" ? "skeleton" : part.info.category, bounds: boxData(part.mesh.geometry.boundingBox!) })), materials);
+          const candidate = new WholeScenePhysics(parts.map(part => ({ id: part.info.id, category: isVirtaMed && part.info.id === "abdominal-wall" ? "skeleton" : part.info.category, bounds: boxData(part.mesh.geometry.boundingBox!) })), materials, isVirtaMed ? VIRTAMED_TISSUE_RESPONSE : {});
           // Build every binding before assigning the model; rejected material tables never partially apply.
           const bindings = parts.map(part => part.info.category === "skeleton" || (isVirtaMed && part.info.id === "abdominal-wall") ? null : candidate.bind(part.variant));
           physics = candidate;
@@ -783,11 +767,15 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
       if (!exploring && physics && latest.current.physicsRunning && !physicsFailed) {
         try {
           // Integrate every display frame; mesh upload cadence must not discard physical time.
-          physics.step(elapsed, latest.current.breathing);
-          if (now - lastPhysicsTime >= 50) {
+          const solveStarted = performance.now(); physics.step(elapsed, latest.current.breathing); solverCpuMs += performance.now() - solveStarted;
+          const moving = !isVirtaMed || latest.current.breathing || physics.motionActive;
+          if ((moving || wasPhysicsMoving) && now - lastPhysicsTime >= (isVirtaMed ? 1000 / 60 - 2 : 50)) {
             physicsSteps++;
-            syncPhysicsGeometry(physicsSteps % 3 === 0);
+            // Spread exact normal work across frames; positions and collision
+            // bounds always update together. Atlas retains its previous cadence.
+            syncPhysicsGeometry(!isVirtaMed && physicsSteps % 3 === 0, isVirtaMed ? physicsSteps % 3 : -1);
             lastPhysicsTime = now;
+            wasPhysicsMoving = moving;
           }
         } catch (error) { physicsFailed = true; latest.current.onError(`The physical simulation stopped: ${error instanceof Error ? error.message : String(error)}`); }
       } else lastPhysicsTime = now;
@@ -822,7 +810,7 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
       const controlsChanged = exploring || tools.engaged || recording?.kind === "interaction" ? false : controls.update(delta);
       updatingControls = false;
       if (controlsChanged) invalidate();
-      const activeMotion = Boolean(nativeRecording.active || recording || cameraTransition || (!exploring && (latest.current.autoRotate || (!isVirtaMed && !physics && latest.current.breathing) || (physics && latest.current.physicsRunning && !physicsFailed))));
+      const activeMotion = Boolean(nativeRecording.active || recording || cameraTransition || (!exploring && (latest.current.autoRotate || (!isVirtaMed && !physics && latest.current.breathing) || (physics && latest.current.physicsRunning && !physicsFailed && (!isVirtaMed || latest.current.breathing || physics.motionActive)))));
       if (renderPending || activeMotion) draw();
       if (now - lastSnapshot > 500) { snapshot(); lastSnapshot = now; }
       frame = requestAnimationFrame(animate);
@@ -883,8 +871,8 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
           geometry.setAttribute("sceneTissueOcclusion", occlusion);
           geometry.computeBoundingBox(); geometry.computeBoundingSphere();
           const tissue = sceneMaterial(info);
-          const mesh = new THREE.Mesh(geometry, tissue.material); mesh.name = info.id; mesh.userData.organId = info.id; attachPhoto(tissue.material, info.id);
-          const opaqueTissue = isVirtaMed ? info.id !== "hepatoduodenal-ligament" : info.category !== "skeleton" && info.category !== "connective";
+          const mesh = new THREE.Mesh(geometry, tissue.material); mesh.name = info.id; mesh.userData = {...object.userData,organId:info.id}; attachPhoto(tissue.material, info.id);
+          const opaqueTissue = isVirtaMed ? true : info.category !== "skeleton" && info.category !== "connective";
           mesh.castShadow = opaqueTissue; mesh.receiveShadow = opaqueTissue;
           if (opaqueTissue) mesh.customDepthMaterial = makeWholeSceneDepthMaterial(breath);
           let minimumOcclusion = 1, maximumOcclusion = 0;
@@ -901,6 +889,7 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
         disposeObject(loaded); loaded = null;
         if (!parts.length) throw new Error("The anatomical atlas contains no renderable surfaces.");
         if (parts.length !== manifest.organs.length) throw new Error("The anatomy manifest and rendered structure count do not match.");
+        if(isVirtaMed)vmInterfaces=buildVirtaMedInterfaces(parts.map(p=>({id:p.info.id,geometry:p.mesh.geometry,attachments:p.mesh.userData.attachments,coverRange:p.mesh.userData.coverRange})));
         applyVariation(); applyVisibility(); fit(); ready = true; applyFat(); tools.syncOptions(); snapshot();
         if (isVirtaMed) videoView();
         latest.current.onReady?.(stats()); publishNavigation();

@@ -4,13 +4,13 @@
       "id": "liver",
       "label": "Liver canopy",
       "category": "digestive",
-      "color": "#793d3c"
+      "color": "#995251"
     },
     {
       "id": "gallbladder",
       "label": "Gallbladder",
       "category": "digestive",
-      "color": "#abb1b2"
+      "color": "#ada9b4"
     },
     {
       "id": "cystic-duct",
@@ -34,7 +34,7 @@
       "id": "colon",
       "label": "Partly visible colon",
       "category": "digestive",
-      "color": "#c68d87"
+      "color": "#cb858a"
     },
     {
       "id": "small-intestine",
@@ -52,7 +52,7 @@
       "id": "hepatocystic-fat",
       "label": "Connected fatty apron",
       "category": "connective",
-      "color": "#cb994f"
+      "color": "#ce9871"
     },
     {
       "id": "hepatoduodenal-ligament",
@@ -64,7 +64,7 @@
       "id": "falciform-ligament",
       "label": "Cranial ligament sheet",
       "category": "connective",
-      "color": "#c8b295"
+      "color": "#dbc2a3"
     },
     {
       "id": "abdominal-wall",
@@ -73,10 +73,10 @@
       "color": "#663b35"
     }
   ],
-  "version": "viscera.video-field/1",
+  "version": "viscera.video-field/2",
   "filename": "virtamed-scene.glb",
-  "sha256": "a5d0d3cacab9d596aec80dd2799e5894b7844843cdd861b4c4d89706628af1e3",
-  "bytes": 3609472,
+  "sha256": "ba6aea527f3af0401444fa9bdfd80cdf089e6fc923786d77a24787bae4401627",
+  "bytes": 4508832,
   "source": "Full.mp4, intact hepatocystic field 00:08–00:15; user-provided visual reference",
   "construction": "Independently authored connected surfaces; no source simulator geometry, textures or logos",
   "scale": "Assumed millimetres; monocular video does not determine absolute scale",

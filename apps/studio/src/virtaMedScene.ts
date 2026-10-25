@@ -4,22 +4,23 @@ import { mergeVertices } from "three/examples/jsm/utils/BufferGeometryUtils.js";
 import type { WholeSceneCategory, WholeSceneVariation } from "./wholeSceneModel";
 import { warpScenePositions } from "./wholeSceneModel";
 import { sampleNeuralVariation, type ImportedVariationSystem, type ImportedVariationRecipe } from "./imports/variations";
+import { anatomicalNoise, attachDuct, cranialAttachment, detailCapsule, drapedFat, hepaticAttachment, joinedFat } from "./virtaMedSurfaceDetail";
 
-export const VIRTAMED_VERSION = "viscera.video-field/1";
+export const VIRTAMED_VERSION = "viscera.video-field/2";
 /** Authored reconstruction of the visible 00:08–00:15 field, not source simulator assets.
  * Hidden surfaces and millimetre scale are estimates. No logo/video pixels are bundled. */
 export const VIRTAMED_ORGANS: { id: string; label: string; category: WholeSceneCategory; color: string }[] = [
-  { id: "liver", label: "Liver canopy", category: "digestive", color: "#793d3c" },
-  { id: "gallbladder", label: "Gallbladder", category: "digestive", color: "#abb1b2" },
+  { id: "liver", label: "Liver canopy", category: "digestive", color: "#995251" },
+  { id: "gallbladder", label: "Gallbladder", category: "digestive", color: "#ada9b4" },
   { id: "cystic-duct", label: "Cystic duct", category: "digestive", color: "#bba78b" },
   { id: "hepatic-duct", label: "Extrahepatic bile duct", category: "digestive", color: "#b9a382" },
   { id: "cystic-artery", label: "Cystic artery", category: "cardiovascular", color: "#9b4547" },
-  { id: "colon", label: "Partly visible colon", category: "digestive", color: "#c68d87" },
+  { id: "colon", label: "Partly visible colon", category: "digestive", color: "#cb858a" },
   { id: "small-intestine", label: "Foreground bowel", category: "digestive", color: "#d5a39a" },
   { id: "duodenum", label: "Duodenal support surface (inferred)", category: "digestive", color: "#c5988b" },
-  { id: "hepatocystic-fat", label: "Connected fatty apron", category: "connective", color: "#cb994f" },
+  { id: "hepatocystic-fat", label: "Connected fatty apron", category: "connective", color: "#ce9871" },
   { id: "hepatoduodenal-ligament", label: "Hepatocystic membrane", category: "connective", color: "#c9ad99" },
-  { id: "falciform-ligament", label: "Cranial ligament sheet", category: "connective", color: "#c8b295" },
+  { id: "falciform-ligament", label: "Cranial ligament sheet", category: "connective", color: "#dbc2a3" },
   { id: "abdominal-wall", label: "Posterior cavity support (inferred)", category: "connective", color: "#663b35" },
 ];
 type V3 = [number, number, number];
@@ -72,16 +73,13 @@ function loft(points: V3[], radius: (t:number,a:number)=>number, segments=100, s
   const curve=new THREE.CatmullRomCurve3(points.map(vec));
   const frames=curve.computeFrenetFrames(segments,false), p:number[]=[], uv:number[]=[], indices:number[]=[];
   for(let i=0;i<=segments;i++) { const t=i/segments,c=curve.getPointAt(t); for(let j=0;j<=sides;j++) {
-    const a=j/sides*Math.PI*2,r=radius(t,a), q=c.clone().addScaledVector(frames.normals[i]!,r*Math.cos(a)).addScaledVector(frames.binormals[i]!,r*Math.sin(a)*flatten);
+    const a=j===sides?0:j/sides*Math.PI*2,r=radius(t,a), q=c.clone().addScaledVector(frames.normals[i]!,r*Math.cos(a)).addScaledVector(frames.binormals[i]!,r*Math.sin(a)*flatten);
     p.push(q.x,q.y,q.z); uv.push(j/sides,t*2);
     if(i<segments&&j<sides){const k=i*(sides+1)+j;indices.push(k,k+1,k+sides+1,k+1,k+sides+2,k+sides+1);}
   }}
   const g=new THREE.BufferGeometry();g.setAttribute("position",new THREE.Float32BufferAttribute(p,3));g.setAttribute("uv",new THREE.Float32BufferAttribute(uv,2));g.setIndex(indices);g.computeVertexNormals();return g;
 }
 const cap=(t:number)=>Math.pow(Math.max(0,Math.sin(Math.PI*t)),.24);
-function sheet(points: V3[], width:(t:number)=>number, thickness:number) {
-  return loft(points,(t,a)=>cap(t)*width(t)/Math.sqrt(Math.cos(a)**2+Math.sin(a)**2*(width(t)/thickness)**2),72,40,1);
-}
 export function createVirtaMedScene() {
   const root=new THREE.Group();root.name="VirtaMed scene";
   root.userData={sceneVersion:VIRTAMED_VERSION,source:"User-provided Full.mp4, intact field 00:08–00:15",geometryEvidence:"Visible silhouettes reconstructed by hand; hidden surfaces and physical scale inferred",units:"mm (assumed)",scenePreset:"virtamed"};
@@ -90,27 +88,39 @@ export function createVirtaMedScene() {
     {c:[-65,60,-25],r:[96,36,51]}, {c:[19,59,-30],r:[77,30,47]},
     {c:[87,65,-33],r:[74,23,37]}, {c:[-7,43,-41],r:[36,17,32]},
   ],[-173,-4,-91],[173,119,39],13,94);
-  geometries.gallbladder=loft([[-88,13,51],[-80,9,44],[-70,3,26],[-56,-6,0],[-40,-12,-18]],t=>cap(t)*(27*(1-t)**.55+3),100,64,.9);
-  const gb=geometries.gallbladder.getAttribute("position");for(let i=0;i<gb.count;i++)gb.setXYZ(i,-40+(gb.getX(i)+40)*1.08,-12+(gb.getY(i)+12)*.85,gb.getZ(i));geometries.gallbladder.computeVertexNormals();
-  geometries["cystic-duct"]=loft([[-40,-12,-18],[-30,-18,-14],[-12,-21,-10],[-2,-24,-16]],t=>cap(t)*2.9,56,24,1);
+  detailCapsule(geometries.liver,"liver");
+  geometries.gallbladder=loft([[-91,5,60],[-84,5,47],[-76,2,29],[-57,-7,1],[-40,-12,-18]],(t,a)=>{
+    const tail=Math.max(0,Math.min(1,(t-.23)/.77)),ease=tail*tail*(3-2*tail);
+    const r=t<.23?27*Math.sqrt(Math.max(0,1-(1-t/.23)**2)):2.9+24.1*(1-ease)**1.6;
+    return r*(1+.035*Math.cos(a*3+t*5)*Math.sin(Math.PI*t));
+  },112,64,.94);
+  detailCapsule(geometries.gallbladder,"gallbladder");
+  geometries["cystic-duct"]=loft([[-40,-12,-18],[-30,-18,-14],[-12,-21,-10],[-2,-24,-16]],t=>2.9-.35*Math.sin(t*Math.PI),56,64,1);
+  attachDuct(geometries.gallbladder,geometries["cystic-duct"]);
   geometries["hepatic-duct"]=loft([[-8,51,-30],[-5,-10,-21],[-2,-24,-16],[9,-53,-29]],t=>cap(t)*3.6,64,24,1);
   geometries["cystic-artery"]=loft([[-4,-37,-26],[-14,-24,-13],[-37,-8,-15],[-53,1,-2]],t=>cap(t)*(1.4-.4*t),64,20,1);
-  geometries.colon=loft([[-156,-72,-2],[-91,-63,13],[-30,-44,22],[36,-30,25],[95,-16,11],[159,-15,-9]],(t,a)=>cap(t)*(20+14*Math.exp(-1*((t-.69)/.22)**2)+.8*Math.cos(t*Math.PI*18))*(1+.025*Math.cos(3*a)),150,56,.86);
-  geometries["small-intestine"]=loft([[-162,-108,35],[-95,-102,54],[-14,-92,57],[63,-91,43],[141,-97,27]],(t,a)=>cap(t)*(21+1.1*Math.cos(t*Math.PI*18))*(1+.025*Math.cos(4*a)),140,48,.88);
+  geometries.colon=loft([[-156,-72,-2],[-91,-63,13],[-30,-44,22],[36,-30,25],[95,-16,11],[159,-15,-9]],(t,a)=>{
+    const fold=Math.exp(-1*(Math.sin(t*28+Math.sin(t*13)*.7+a*.24)/.24)**2)*(1+.45*Math.sin(a*2+t*9));
+    return cap(t)*(20+14*Math.exp(-1*((t-.69)/.22)**2)-1.05*fold+.65*Math.sin(t*39+a*2))*(1+.035*Math.cos(3*a+t*3));
+  },200,64,.86);
+  geometries["small-intestine"]=loft([[-162,-108,35],[-95,-102,54],[-14,-92,57],[63,-91,43],[141,-97,27]],(t,a)=>cap(t)*(21+.75*Math.sin(t*32+Math.sin(t*17)+a*.4)-.7*Math.exp(-1*(Math.sin(t*49+a*.3)/.24)**2))*(1+.035*Math.cos(4*a+t*4)),180,56,.88);
   geometries.duodenum=loft([[22,-34,-35],[38,-53,-24],[16,-70,-17],[-15,-69,-22]],t=>cap(t)*13,72,40,1);
-  const fat:{c:V3;r:V3}[]=[];
-  for(let row=-1;row<=1;row++)for(let i=0;i<25;i++){const t=i/24;fat.push({c:[-157+314*t+3*Math.sin(i*2+row),-80+31*t+row*10+3*Math.sin(t*17+row),49+10*Math.sin(t*4)+2*Math.sin(i*2.7+row)],r:[11+2*Math.sin(i*1.7),9+1.5*Math.sin(i*2.3),7+2*Math.cos(i*1.3+row)]});}
-  fat.push({c:[-22,2,-7],r:[45,29,15]});
-  for(let i=0;i<10;i++){const t=i/9;fat.push({c:[-53+76*t,-12-7*Math.sin(t*7),3+3*Math.cos(t*5)],r:[14,15,10]});}
-  for(let i=0;i<10;i++){const t=i/9;fat.push({c:[-53-45*t,-26-46*t,3+39*t],r:[12,12,7]});}
-  geometries["hepatocystic-fat"]=implicit(fat,[-180,-111,-35],[181,41,80],5,88);
-  geometries["hepatoduodenal-ligament"]=sheet([[-40,40,-25],[-28,-6,-13],[-3,-28,-22],[15,-44,-28]],t=>15+10*Math.sin(t*Math.PI),.65);
-  geometries["falciform-ligament"]=sheet([[8,39,6],[12,45,24],[16,65,27],[28,103,19],[70,153,1]],t=>19+19*t,1.6);
+  for(const id of ["colon","small-intestine","duodenum"])detailCapsule(geometries[id]!,"bowel");
+  const fat:{c:V3;r:V3}[]=[{c:[-22,2,-10],r:[45,29,10]}];
+  for(let i=0;i<10;i++){const t=i/9;fat.push({c:[-53+76*t,-12-7*Math.sin(t*7),-1+3*Math.cos(t*5)],r:[14,15,6]});}
+  for(let i=0;i<10;i++){const t=i/9;fat.push({c:[-53-45*t,-26-46*t,-1+39*t],r:[12,12,4]});}
+  const pad=implicit(fat,[-115,-89,-27],[70,38,47],4,88),pp=pad.getAttribute("position"),pn=pad.getAttribute("normal");
+  for(let i=0;i<pp.count;i++){const x=pp.getX(i),y=pp.getY(i),z=pp.getZ(i),w=.55*anatomicalNoise(x/4,y/4,z/4)+.4*Math.sin(x*.42+y*.19)*Math.sin(y*.31);pp.setXYZ(i,x+pn.getX(i)*w,y+pn.getY(i)*w,z+pn.getZ(i)*w);}
+  pad.computeVertexNormals();
+  geometries["hepatocystic-fat"]=joinedFat(pad,drapedFat([geometries.colon,geometries["small-intestine"],geometries.duodenum]));
+  geometries["hepatoduodenal-ligament"]=hepaticAttachment(geometries.liver,geometries.gallbladder);
+  geometries["falciform-ligament"]=cranialAttachment(geometries.liver);
+  geometries.liver.computeVertexNormals();
   const wall=new THREE.SphereGeometry(1,112,64,0,Math.PI*2,0,Math.PI/2);
   // Inward-facing bowl with an open anterior rim, beyond the operative frame.
   const wp=wall.getAttribute("position");for(let i=0;i<wp.count;i++){const x=wp.getX(i),y=wp.getZ(i),depth=wp.getY(i);wp.setXYZ(i,x*260,y*235,-125+170*(1-depth)+2*Math.sin(x*17)*Math.sin(y*19));}
   wall.computeVertexNormals();geometries["abdominal-wall"]=wall;
-  for(const info of VIRTAMED_ORGANS){const geometry=geometries[info.id]!;geometry.computeBoundingBox();geometry.computeBoundingSphere();const mesh=new THREE.Mesh(geometry,whiteVirtaMedMaterial());mesh.name=info.id;mesh.userData={id:info.id,organId:info.id,scenePreset:"virtamed",label:info.label};root.add(mesh);}
+  for(const info of VIRTAMED_ORGANS){const geometry=geometries[info.id]!;geometry.computeBoundingBox();geometry.computeBoundingSphere();const mesh=new THREE.Mesh(geometry,whiteVirtaMedMaterial());mesh.name=info.id;mesh.userData={id:info.id,organId:info.id,scenePreset:"virtamed",label:info.label,...geometry.userData};root.add(mesh);}
   return {root,manifest:{organs:VIRTAMED_ORGANS,version:VIRTAMED_VERSION}};
 }
 export function whiteVirtaMedMaterial() {return new THREE.MeshPhysicalMaterial({color:0xeeeae3,roughness:.68,metalness:0,clearcoat:.08,side:THREE.DoubleSide});}
