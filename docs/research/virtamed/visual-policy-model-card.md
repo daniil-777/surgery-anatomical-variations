@@ -55,9 +55,17 @@ artifacts/visual-policy-1/runtime/bin/python scripts/setup_visual_policy_models.
 artifacts/visual-policy-1/runtime/bin/python scripts/visual_policy_server.py --models artifacts/visual-policy-1/models --run artifacts/visual-policy-1/trained
 ```
 
-Open the deployed VirtaMed scene, select **Connect local policy**, then **Run visual liver task**. The supported command is shown in the instruction selector. **Export visual task study** saves actual model decisions, inference/round-trip latency and final simulator evidence.
+For persistent operation on macOS, install the per-user background service from the repository:
 
-On the first connection, allow the browser's **Apps on this device** / local-network permission for this site. If it was previously denied, change that permission in the browser's site settings and connect again. [Chrome requires this permission for public pages connecting to loopback services](https://developer.chrome.com/blog/local-network-access); CORS headers alone cannot grant it. The connection UI allows 30 seconds for the prompt and explains denial without enabling execution. Published-site browser tests grant permission only in disposable test contexts and separately check the real denied-permission behavior; no browser security feature is disabled.
+```sh
+python3 scripts/install_visual_policy_service.py --assets artifacts/visual-policy-1
+```
+
+This installs the pinned Python runtime and verified model under `~/Library/Application Support/Viscera/visual-policy-1`, outside iCloud, and registers `com.viscera.visual-policy` under the user's LaunchAgents. It starts at login and restarts after failure. No administrator privileges are needed; inference remains loopback-only. The existing base weights are reused when present, and required pinned assets are downloaded if absent. Logs are in the installed `logs` directory. Stop the background job with `launchctl bootout gui/$(id -u)/com.viscera.visual-policy`; bootstrapping its plist starts it again.
+
+Open the deployed VirtaMed scene and select **Run visual liver task**. The button connects, verifies fresh policy readiness, then starts the existing guarded sequence. **Connect local policy** remains available as a connection check. The supported command is shown in the instruction selector. **Export visual task study** saves actual model decisions, inference/round-trip latency and final simulator evidence.
+
+On the first connection, allow the browser's **Apps on this device** / local-network permission for this site. If it was previously denied, change that permission in the browser's site settings and connect again. [Chrome requires this permission for public pages connecting to loopback services](https://developer.chrome.com/blog/local-network-access); CORS headers alone cannot grant it. The connection UI allows 30 seconds for the prompt. Unavailable, unready or denied services block motion and leave Run available for a new connection attempt. Stop and Escape also cancel an outstanding connection. Published-site browser tests grant permission only in disposable test contexts and separately check the real denied-permission behavior; no browser security feature is disabled.
 
 To regenerate demonstrations, serve the static build and set `MODEL_NAMES_URL`, `VLA_DATA`, `START`, `EPISODES` and optional `CONCURRENCY` (bounded to two) before running `node scripts/collect_visual_policy.mjs`. Run `scripts/train_visual_policy.py --models <pinned-model-root> --data <recordings> --out <new-run> --steps 800`; the output directory must be new. Keep the raw recordings and generated dataset manifest alongside the trained run. The adapter is stored as safetensors, not executable pickle.
 

@@ -12,7 +12,8 @@ for(const [index,instruction,severity] of [[0,0,0],[1,1,.28],[2,2,.47],[3,0,.62]
  test(`real local visual policy completes liver sequence ${index}`,async({page},info)=>{
   const errors:string[]=[];page.on('pageerror',error=>errors.push(error.message));await open(page);
   if(severity){const editor=page.getByRole('region',{name:'Scene text-to-shape editor'});await editor.getByRole('textbox').fill(`liver-cirrhosis, severity ${severity}`);await editor.getByRole('button',{name:'Apply text',exact:true}).click();await expect(editor).toContainText('Applied shape and appearance to liver');}
-  await connect(page);await panel(page).getByRole('combobox',{name:'Visual task instruction'}).selectOption({index:instruction});
+  await expect(panel(page).getByRole('button',{name:'Run visual liver task',exact:true})).toBeEnabled();
+  await panel(page).getByRole('combobox',{name:'Visual task instruction'}).selectOption({index:instruction});
   await startHandoffTrace(page);
   await panel(page).getByRole('button',{name:'Run visual liver task',exact:true}).click();const stages:any[]=[];
   await expect.poll(async()=>{const s=await snapshot(page);if(stages.at(-1)?.task.state.phase!==s.task.state.phase){stages.push(s);await page.screenshot({path:info.outputPath(`phase-${s.task.state.phase}.png`)});}if(['blocked','stopped'].includes(s.task.state.phase))throw new Error(s.task.state.message);return s.task.state.phase;},{timeout:200000,intervals:[200]}).toBe('complete');
@@ -52,13 +53,13 @@ test('mobile keeps a visible stop control while the model is deciding',async({pa
  await page.screenshot({path:info.outputPath('mobile.png')});await hud.getByRole('button',{name:'Stop & release',exact:true}).click();await expect.poll(async()=>(await snapshot(page)).task.active).toBe(false);
  expect((await snapshot(page)).scene.tools.active).toBe(false);
 });
-test('denied local access keeps execution disabled and explains recovery',async({page,context})=>{
+test('denied local access blocks motion and leaves a retryable run button',async({page,context})=>{
  await open(page);
  if(new URL(page.url()).protocol==='https:')await context.clearPermissions();
  else await page.route('http://127.0.0.1:8877/health',route=>route.abort('accessdenied'));
- await panel(page).getByRole('button',{name:'Connect local policy',exact:true}).click();
- await expect(panel(page)).toContainText("In the browser's site settings, allow Apps on this device");
- await expect(panel(page).getByRole('button',{name:'Run visual liver task',exact:true})).toBeDisabled();
+ await panel(page).getByRole('button',{name:'Run visual liver task',exact:true}).click();
+ await expect(panel(page)).toContainText("allow Apps on this device");
+ await expect(panel(page).getByRole('button',{name:'Run visual liver task',exact:true})).toBeEnabled();
  const s=await snapshot(page);expect(s.task.active).toBe(false);expect(s.scene.tools.active).toBe(false);
 });
 test('frame telemetry digit changes do not resize the surgical camera',async({page})=>{
@@ -73,4 +74,42 @@ test('frame telemetry digit changes do not resize the surgical camera',async({pa
   [fps.textContent,ms.textContent]=saved;return result;
  });
  for(const size of dimensions)expect(size).toEqual(dimensions[0]);
+});
+
+
+test('one-click start rejects an unready service and can retry without camera motion',async({page})=>{
+ await open(page);let healthChecks=0,predictions=0;
+ await page.route('http://127.0.0.1:8877/health',route=>{healthChecks++;return route.fulfill({json:{schema:'viscera.visual-skills/1',ready:false,modelId:'test-policy'}});});
+ await page.route('http://127.0.0.1:8877/predict',route=>{predictions++;return route.abort();});
+ for(let attempt=1;attempt<=2;attempt++){
+  await panel(page).getByRole('button',{name:'Run visual liver task',exact:true}).click();
+  await expect.poll(async()=>(await snapshot(page)).task.state.phase).toBe('blocked');
+  await expect.poll(()=>healthChecks).toBe(attempt);
+  await expect(panel(page).getByRole('button',{name:'Run visual liver task',exact:true})).toBeEnabled();
+ }
+ const s=await snapshot(page);expect(predictions).toBe(0);expect(s.scene.tools.active).toBe(false);expect(s.scene.cameraPlanner.captured).toBe(0);
+});
+
+test('cancelling the connection prevents a late ready response from starting motion',async({page})=>{
+ await open(page);let pending:any,predictions=0;
+ await page.route('http://127.0.0.1:8877/health',route=>{pending=route;});
+ await page.route('http://127.0.0.1:8877/predict',route=>{predictions++;return route.abort();});
+ await panel(page).getByRole('button',{name:'Run visual liver task',exact:true}).click();
+ await expect.poll(()=>Boolean(pending)).toBe(true);
+ await panel(page).getByRole('button',{name:'Stop visual task & release'}).click();
+ await expect.poll(async()=>(await snapshot(page)).task.active).toBe(false);
+ await pending.fulfill({json:{schema:'viscera.visual-skills/1',ready:true,modelId:'test-policy'}}).catch(()=>{});
+ await page.waitForTimeout(400);
+ const s=await snapshot(page);expect(s.task.state.phase).toBe('stopped');expect(predictions).toBe(0);expect(s.scene.tools.active).toBe(false);expect(s.scene.cameraPlanner.captured).toBe(0);
+});
+
+
+test('an offline Mac service explains the missing connection and keeps retry available',async({page})=>{
+ await open(page);
+ await page.route('http://127.0.0.1:8877/health',route=>route.abort('connectionrefused'));
+ await panel(page).getByRole('button',{name:'Run visual liver task',exact:true}).click();
+ await expect(panel(page)).toContainText('not reachable at 127.0.0.1:8877');
+ await expect(panel(page)).toContainText('No camera or tool motion was started');
+ await expect(panel(page).getByRole('button',{name:'Run visual liver task',exact:true})).toBeEnabled();
+ const s=await snapshot(page);expect(s.task.active).toBe(false);expect(s.scene.tools.active).toBe(false);expect(s.scene.cameraPlanner.captured).toBe(0);
 });
