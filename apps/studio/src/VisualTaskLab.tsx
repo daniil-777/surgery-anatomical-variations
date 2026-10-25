@@ -19,11 +19,12 @@ export function VisualTaskLab({viewport,disabled,prepare,prepareGrasp,onActive,c
   useEffect(()=>{(window as any).__visceraVisualTaskSnapshot=()=>({state,service,active});return()=>{delete (window as any).__visceraVisualTaskSnapshot;};},[state,service,active]);
   async function connect(){
     setConnecting(true);
+    setService({ready:false,modelId:"",message:"Connecting to this Mac. Allow the browser's Apps on this device or local network prompt if shown."});
     try{
-      const response=await fetch(`${VISUAL_SERVICE_URL}/health`,{signal:AbortSignal.timeout(5000)}); if(!response.ok)throw new Error("unavailable");
+      const response=await fetch(`${VISUAL_SERVICE_URL}/health`,{signal:AbortSignal.timeout(location.protocol==="https:"?30000:5000)}); if(!response.ok)throw new Error("unavailable");
       const result=await response.json(); if(result.schema!=="viscera.visual-skills/1"||typeof result.modelId!=="string")throw new Error("incompatible");
       if(alive.current)setService({ready:result.ready===true,modelId:result.modelId,message:result.ready?"Local trained policy connected.":"The local policy has not passed its evaluation checks."});
-    }catch{if(alive.current)setService({ready:false,modelId:"",message:"Start the local visual-policy service on this Mac, then connect again."});}
+    }catch{if(alive.current)setService({ready:false,modelId:"",message:"Start the local visual-policy service on this Mac. In the browser's site settings, allow Apps on this device or local network access, then connect again."});}
     finally{if(alive.current)setConnecting(false);}
   }
   async function start(){

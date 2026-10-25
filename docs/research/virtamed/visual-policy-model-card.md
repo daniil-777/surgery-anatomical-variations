@@ -55,6 +55,8 @@ artifacts/visual-policy-1/runtime/bin/python scripts/visual_policy_server.py --m
 
 Open the deployed VirtaMed scene, select **Connect local policy**, then **Run visual liver task**. The supported command is shown in the instruction selector. **Export visual task study** saves actual model decisions, inference/round-trip latency and final simulator evidence.
 
+On the first connection, allow the browser's **Apps on this device** / local-network permission for this site. If it was previously denied, change that permission in the browser's site settings and connect again. [Chrome requires this permission for public pages connecting to loopback services](https://developer.chrome.com/blog/local-network-access); CORS headers alone cannot grant it. The connection UI allows 30 seconds for the prompt and explains denial without enabling execution. Published-site browser tests grant permission only in disposable test contexts and separately check the real denied-permission behavior; no browser security feature is disabled.
+
 To regenerate demonstrations, serve the static build and set `MODEL_NAMES_URL`, `VLA_DATA`, `START`, `EPISODES` and optional `CONCURRENCY` (bounded to two) before running `node scripts/collect_visual_policy.mjs`. Run `scripts/train_visual_policy.py --models <pinned-model-root> --data <recordings> --out <new-run> --steps 800`; the output directory must be new. Keep the raw recordings and generated dataset manifest alongside the trained run. The adapter is stored as safetensors, not executable pickle.
 
 ## Sources, licence and rollback

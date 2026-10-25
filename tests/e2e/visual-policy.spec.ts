@@ -2,6 +2,9 @@ import { test,expect,type Page } from "@playwright/test";
 import { writeFile } from "node:fs/promises";
 const panel=(page:Page)=>page.getByRole("region",{name:"Visual action policy",exact:true});
 const snapshot=(page:Page)=>page.evaluate(()=>({task:(window as any).__visceraVisualTaskSnapshot(),scene:(window as any).__visceraSceneSnapshot()}));
+// Disposable test contexts explicitly grant the same permission the browser asks
+// the user for. Do not disable Chromium's local-network security checks.
+test.beforeEach(async({context,baseURL})=>{if(baseURL?.startsWith('https:'))await context.grantPermissions(['local-network-access'],{origin:new URL(baseURL).origin});});
 async function open(page:Page){await page.goto("?mode=scene&scene=virtamed");await expect(page.locator("[data-scene-ready=true]")).toBeVisible();}
 async function connect(page:Page){await panel(page).getByRole('button',{name:'Connect local policy',exact:true}).click();await expect(panel(page)).toContainText('Local trained policy connected.');}
 for(const [index,instruction,severity] of [[0,0,0],[1,1,.28],[2,2,.47],[3,0,.62]] as const){
@@ -44,4 +47,13 @@ test('mobile keeps a visible stop control while the model is deciding',async({pa
  const hud=page.getByRole('region',{name:'Live visual policy',exact:true});await expect(hud).toBeInViewport();await expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
  await page.screenshot({path:info.outputPath('mobile.png')});await hud.getByRole('button',{name:'Stop & release',exact:true}).click();await expect.poll(async()=>(await snapshot(page)).task.active).toBe(false);
  expect((await snapshot(page)).scene.tools.active).toBe(false);
+});
+test('denied local access keeps execution disabled and explains recovery',async({page,context})=>{
+ await open(page);
+ if(new URL(page.url()).protocol==='https:')await context.clearPermissions();
+ else await page.route('http://127.0.0.1:8877/health',route=>route.abort('accessdenied'));
+ await panel(page).getByRole('button',{name:'Connect local policy',exact:true}).click();
+ await expect(panel(page)).toContainText("In the browser's site settings, allow Apps on this device");
+ await expect(panel(page).getByRole('button',{name:'Run visual liver task',exact:true})).toBeDisabled();
+ const s=await snapshot(page);expect(s.task.active).toBe(false);expect(s.scene.tools.active).toBe(false);
 });
