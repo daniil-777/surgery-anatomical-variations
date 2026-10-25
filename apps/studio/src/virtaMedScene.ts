@@ -134,8 +134,15 @@ export const VIRTAMED_DISEASES=[
   {id:"liver-cirrhosis",label:"Nodular liver / fibrosis",organ:"liver"},
   {id:"liver-metastases",label:"Focal hepatic lesions",organ:"liver"},
 ] as const;
-export interface VirtaMedVariation {recipes?:Record<string,ImportedVariationRecipe>;recipe:ImportedVariationRecipe; variation:WholeSceneVariation; disease:string}
-export function sampleVirtaMedVariation(system:ImportedVariationSystem,variation:WholeSceneVariation,disease:string):VirtaMedVariation {
+export interface VirtaMedVariation {recipes?:Record<string,ImportedVariationRecipe>;recipe:ImportedVariationRecipe; variation:WholeSceneVariation; disease:string;textEdit?:boolean}
+export function sampleVirtaMedVariation(system:ImportedVariationSystem,variation:WholeSceneVariation,disease:string,textRecipe?:ImportedVariationRecipe|null):VirtaMedVariation {
+  if(textRecipe) {
+    const profile=textRecipe.disease?.profile_id??"baseline";
+    if(!VIRTAMED_DISEASES.some(item=>item.id===profile))throw new Error("This disease is not supported in the connected VirtaMed scene.");
+    const baseline=sampleVirtaMedVariation(system,{seed:0,strength:0,severity:0,baseline:true},"baseline");
+    return {recipe:textRecipe,recipes:{...baseline.recipes,[textRecipe.reference.organ]:textRecipe},textEdit:true,
+      variation:{...variation,baseline:false,severity:textRecipe.disease?.severity??0},disease:profile};
+  }
   const condition=VIRTAMED_DISEASES.find(d=>d.id===disease)??VIRTAMED_DISEASES[0]!;
   const reference=system.references.find(r=>r.organ===condition.organ);if(!reference)throw new Error("No supported organ variation reference.");
   const recipe=sampleNeuralVariation(system,{referenceId:reference.id,seed:variation.seed,temperature:.65,profileId:condition.id==="baseline"?null:condition.id,severity:variation.severity>.66?"severe":variation.severity>.33?"moderate":"mild"});
@@ -151,6 +158,21 @@ export function sampleVirtaMedVariation(system:ImportedVariationSystem,variation
  * fields drive both capsule displacement and pigment at the same rest point. */
 export function warpVirtaMedPositions(rest:Float32Array,sample:VirtaMedVariation) {
   if(sample.variation.baseline)return rest.slice();
+  if(sample.textEdit) {
+    const c=sample.recipe.controls,gb=sample.recipe.reference.organ==="gallbladder";
+    const center=gb?[-70,5,28]:[-20,60,-25],r=gb?45:120,out=new Float32Array(rest.length);
+    // One smooth map for every attached tissue, evaluated in immutable scene coordinates.
+    for(let i=0;i<rest.length;i+=3){
+      const x=rest[i]!,y=rest[i+1]!,z=rest[i+2]!,px=x-center[0]!,py=y-center[1]!,pz=z-center[2]!;
+      const w=Math.exp(-(px*px+py*py+pz*pz)/(r*r)),a=.16*c.twist!*Math.tanh(py/r);
+      const taper=1+.1*c.taper!*Math.tanh(py/r),sx=px*Math.exp(.14*c.scale_x!)*taper,sz=pz*Math.exp(.14*c.scale_z!)*taper;
+      const dx=sx*Math.cos(a)-sz*Math.sin(a)-px+3*c.bend!*Math.sin(py/r)+2*c.asymmetry!*Math.sin(pz/r);
+      const dz=sx*Math.sin(a)+sz*Math.cos(a)-pz;
+      const d=virtaMedDiseaseField(x,y,z,sample.disease,sample.variation.severity);
+      out[i]=x+w*dx+d.dx;out[i+1]=y+w*py*(Math.exp(.14*c.scale_y!)-1)+d.dy;out[i+2]=z+w*dz+d.dz;
+    }
+    return out;
+  }
   const v={...sample.variation,strength:sample.variation.strength*.15,severity:0};
   const out=warpScenePositions(rest,v),c=sample.recipe.controls,s=sample.variation.strength;
   for(let i=0;i<out.length;i+=3){const x=rest[i]!,y=rest[i+1]!,z=rest[i+2]!;

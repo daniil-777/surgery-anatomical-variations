@@ -568,7 +568,7 @@ export function WhistleMicButton({
   onStatusChange?: (message: string, phase: WhistlePhase) => void;
 }) {
   const [phase, setPhase] = useState<WhistlePhase>("idle");
-  const [statusTitle, setStatusTitle] = useState("Speak a 3D shape description — local Cactus Whistle speech-to-text");
+  const [statusTitle, setStatusTitle] = useState("Speak an anatomy instruction — local speech recognition");
 
   const active = phase === "loading" || phase === "listening" || phase === "transcribing";
 
@@ -578,7 +578,7 @@ export function WhistleMicButton({
       keywords,
       onStatus: (msg, nextPhase) => {
         setPhase(nextPhase);
-        if (msg) setStatusTitle(msg);
+        if (msg) setStatusTitle(msg.replace(/Cactus Whistle|Whistle|Needle3?/gi, "speech model"));
         onStatusChange?.(msg, nextPhase);
       },
       onPartial: liveText => {
@@ -599,7 +599,7 @@ export function WhistleMicButton({
       data-testid="whistle-mic-button"
       data-phase={phase}
       aria-pressed={active}
-      aria-label="Voice to 3D shape (Cactus Whistle)"
+      aria-label="Voice to 3D shape"
       title={statusTitle}
       disabled={Boolean(disabled && !active)}
       onClick={handleClick}

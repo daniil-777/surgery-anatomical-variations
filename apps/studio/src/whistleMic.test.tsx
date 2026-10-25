@@ -80,7 +80,7 @@ describe("Cactus Whistle speech-to-text utilities", () => {
   it("renders WhistleMicButton markup with accessible label and phase attributes", () => {
     const onTranscript = vi.fn();
     const html = renderToStaticMarkup(<WhistleMicButton onTranscript={onTranscript} disabled={false} />);
-    expect(html).toContain('aria-label="Voice to 3D shape (Cactus Whistle)"');
+    expect(html).toContain('aria-label="Voice to 3D shape"');
     expect(html).toContain('data-phase="idle"');
     expect(html).toContain('data-testid="whistle-mic-button"');
   });

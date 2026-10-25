@@ -7,7 +7,7 @@ import { buildVirtaMedInterfaces, interfaceSnapshot, reconcileInterfaceNormals, 
 import { loadVirtaMedAsset } from "./virtaMedAsset";
 import { sampleVirtaMedVariation, warpVirtaMedPositions, type VirtaMedVariation } from "./virtaMedScene";
 import { loadVirtaMedTiles, disposeVirtaMedTiles, makeVirtaMedMaterial, type VirtaMedTiles } from "./virtaMedMaterials";
-import { loadImportedVariationSystem, type ImportedVariationSystem } from "./imports/variations";
+import { loadImportedVariationSystem, type ImportedVariationSystem, type ImportedVariationRecipe } from "./imports/variations";
 import { pnSubdivideGeometry, computeAngleWeightedNormals, fairSurfaceConcavityOutliers } from "./imports/laparoscopicScene";
 import { createOperativeEnvelope, operativeEntry, type OperativeRegion } from "./operativeView";
 import { reportReady } from "./api";
@@ -74,6 +74,7 @@ export interface WholeSceneViewportProps {
   whiteSurface?: boolean;
   operativeResidue?: number;
   disease?: string;
+  textRecipe?: ImportedVariationRecipe | null;
   fatOptions?: FatSceneOptions;
   onFatStatus?: (status: string) => void;
   referenceColors?: Record<string, ReferenceColor>;
@@ -558,7 +559,7 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
       if (!parts.length) return;
       exitExploration(); navigationGuard.invalidate();
       tools.release("Surface variation changed; choose a new contact.");
-      vmSample = isVirtaMed && vmSystem ? sampleVirtaMedVariation(vmSystem, latest.current.variation, latest.current.disease ?? "baseline") : null;
+      vmSample = isVirtaMed && vmSystem ? sampleVirtaMedVariation(vmSystem, latest.current.variation, latest.current.disease ?? "baseline",latest.current.textRecipe) : null;
       for (const part of parts) {
         const positions = part.info.id === "abdominal-wall" && isVirtaMed ? part.rest.slice() : vmSample ? warpVirtaMedPositions(part.rest, vmSample) : warpScenePositions(part.rest, latest.current.variation);
         part.variant = positions;
@@ -938,7 +939,7 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
     };
   }, []);
   useEffect(() => { runtime.current?.applyFat(); }, [props.fatOptions]);
-  useEffect(() => { runtime.current?.applyVariation(); }, [props.variation, props.disease]);
+  useEffect(() => { runtime.current?.applyVariation(); }, [props.variation, props.disease, props.textRecipe]);
   useEffect(() => { runtime.current?.applyReferenceColors(); }, [props.referenceColors, props.bodyReferencePlan, props.whiteSurface, props.operativeResidue]);
   useEffect(() => { runtime.current?.applyVisibility(); }, [props.visibility, props.hiddenOrgans]);
   useEffect(() => { runtime.current?.applySelection(); }, [props.selectedOrgan]);

@@ -1,0 +1,20 @@
+.scene-text-editor { padding:16px; border:1px solid #47635e; border-radius:12px; background:#162529; color:#dce8e4; min-width:0; }
+.scene-text-heading,.scene-text-actions { display:flex; align-items:center; gap:8px; }
+.scene-text-editor h2 { margin:0; font-size:16px; }
+.scene-text-editor p { font-size:12px; line-height:1.55; color:#b6cbc5; margin:10px 0; }
+.scene-text-editor label { display:grid; gap:6px; font-size:12px; }
+.scene-text-editor select,.scene-text-editor textarea { width:100%; box-sizing:border-box; background:#0f1c20; color:#eef5f1; border:1px solid #506963; border-radius:6px; padding:9px; font:inherit; }
+.scene-text-editor textarea { resize:vertical; min-height:78px; font-size:13px; }
+.scene-text-editor button { border:1px solid #506963; background:#243e38; color:#e9f5ef; border-radius:6px; padding:8px 10px; font:inherit; font-size:12px; cursor:pointer; }
+.scene-text-editor button:disabled { opacity:.45; cursor:default; }
+.scene-text-editor :is(button,select,textarea):focus-visible { outline:2px solid #b6e8ce; outline-offset:3px; }
+.scene-text-hints { display:flex; flex-wrap:wrap; gap:6px; margin:12px 0; max-height:170px; overflow:auto; }
+.scene-text-actions { margin-top:8px; }
+.scene-text-actions button { display:flex; align-items:center; gap:7px; }
+.scene-text-feedback { min-height:36px; }
+.whole-controls .scene-text-editor { margin:0 0 20px; }
+
+/* A single sidebar scroll surface keeps the editor usable at laptop heights. */
+.whole-controls:has(.scene-text-editor) { display:block; overflow-y:auto; }
+.whole-controls:has(.scene-text-editor) .whole-panel-scroll { overflow:visible; }
+.whole-controls > .scene-text-editor { margin:14px 16px; }

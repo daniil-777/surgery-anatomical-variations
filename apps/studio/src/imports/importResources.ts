@@ -4,10 +4,16 @@ import * as THREE from "three";
 export const IMPORT_LIMITS = Object.freeze({
   files: 256, sourceBytes: 128 * 1024 * 1024, jsonBytes: 16 * 1024 * 1024,
   decodedBufferBytes: 128 * 1024 * 1024, vertices: 2_000_000, triangles: 2_000_000,
-  meshes: 512, materials: 256, textures: 64, nodes: 4096,
+  // A 39-part scene can contain three 512² PBR maps per part (117 maps),
+  // still within the unchanged 32-megapixel decoded-image budget.
+  meshes: 512, materials: 256, textures: 128, nodes: 4096,
   imageSide: 8192, imagePixels: 32 * 1024 * 1024,
 });
 export type Triple = [number, number, number];
+export function texturePixelCount(texture: THREE.Texture): number {
+  const image = texture.image as { width?: number; height?: number } | null;
+  return Math.max(0, Number(image?.width) || 0) * Math.max(0, Number(image?.height) || 0);
+}
 export function checkAbort(signal?: AbortSignal): void {
   if (signal?.aborted) throw new DOMException("Model import cancelled.", "AbortError");
 }

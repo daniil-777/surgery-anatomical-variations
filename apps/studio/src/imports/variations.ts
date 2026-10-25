@@ -3,7 +3,7 @@
  * There is no mesh encoder, tissue inference, patient prior, or learned texture image here. */
 import {
   Box3, BufferAttribute, Color, DataTexture, LinearFilter, LinearMipmapLinearFilter,
-  Matrix3, Matrix4, Mesh, NoColorSpace, RepeatWrapping, RGBAFormat, SRGBColorSpace,
+  Matrix3, Matrix4, Mesh, Group, NoColorSpace, RepeatWrapping, RGBAFormat, SRGBColorSpace,
   Texture, UnsignedByteType, Vector2, Vector3,
   type BufferGeometry, type Material, type Object3D,
 } from "three";
@@ -16,6 +16,7 @@ import type { AtlasDiseaseSpec } from "../atlasDisease";
 import { Pcg64 } from "../numpyRandom";
 import { computeAngleWeightedNormals } from "./laparoscopicScene";
 import { buildSurfacePhenotype } from "./surfacePhenotypes";
+import { IMPORT_LIMITS, texturePixelCount } from "./importResources";
 import { configureTissueOptics, periodicTissueNoise, buildVascularTable, TISSUE_MAP_SIZE, tissueUv, tubularStructure, updateTissueTangents } from "./tissueDetail";
 
 export interface ImportedReference {
@@ -274,7 +275,7 @@ export function compileImportedText(system: ImportedVariationSystem, referenceId
     }
   }
   validateAtlasMaterial(material, reference.organ);
-  return { controls, material, reference, provenance: {
+  return { ...baseline, controls, material, reference, provenance: {
     ...baseline.provenance, method: "deterministic-text-controls", text,
     // Preserve a learned starting recipe's origin, but never invent one for text-only edits.
     modelSha256: baseline.provenance.modelSha256,
@@ -1108,6 +1109,50 @@ export interface SceneOrganAssignment {
   organ: string;
   profileId: string | null;
   detectionMethod: "name-match" | "spatial-morphology-prior";
+}
+
+/** Prepare a selected mesh off-scene, then commit atomically. Other mesh edits and
+ * their resources survive. All edits start from immutable uploaded geometry. */
+export async function applyTargetedVariation(state: ImportedVariationState, meshIndices: readonly number[],
+  recipe: ImportedVariationRecipe, options: VariationOptions): Promise<VariationReport> {
+  if (state.disposed || !meshIndices.length || new Set(meshIndices).size !== meshIndices.length ||
+      meshIndices.some(index => !Number.isInteger(index) || !state.meshes[index])) throw new Error("Choose a valid mesh target.");
+  const epoch = ++state.epoch, root = new Group();
+  state.root.updateWorldMatrix(true, true);
+  for (const index of meshIndices) {
+    const rest = state.meshes[index]!;
+    if (!rest.mesh.matrixWorld.equals(rest.world)) throw new Error("The uploaded transforms changed. Reload before editing.");
+    const mesh = new Mesh(rest.geometry, rest.material); mesh.name = rest.mesh.name;
+    mesh.matrix.copy(rest.world); mesh.matrixAutoUpdate = false; root.add(mesh);
+  }
+  const staged = createVariationState(root);
+  try {
+    const report = await applyVariation(staged, recipe, options);
+    aborted(options.signal);
+    if (state.disposed || state.epoch !== epoch) throw new DOMException("The text edit was superseded.", "AbortError");
+    const candidateMaterials = new Set(state.meshes.flatMap((rest, index) => {
+      const slot = meshIndices.indexOf(index), material = slot < 0 ? rest.mesh.material : staged.meshes[slot]!.mesh.material;
+      return Array.isArray(material) ? material : [material];
+    }));
+    const candidateTextures = new Set([...candidateMaterials].flatMap(material => Object.values(material).filter((value): value is Texture => value instanceof Texture)));
+    const pixels = [...candidateTextures].reduce((sum, texture) => sum + texturePixelCount(texture), 0);
+    if (candidateMaterials.size > IMPORT_LIMITS.materials || candidateTextures.size > IMPORT_LIMITS.textures || pixels > IMPORT_LIMITS.imagePixels)
+      throw new Error("This edit would exceed the scene texture budget. Turn off seamless texture synthesis or use a smaller scene. No edit was applied.");
+    meshIndices.forEach((index, slot) => {
+      const source = staged.meshes[slot]!.mesh, destination = state.meshes[index]!.mesh;
+      destination.geometry = source.geometry; destination.material = source.material;
+    });
+    state.ownedGeometry.push(...staged.ownedGeometry); state.ownedMaterials.push(...staged.ownedMaterials);
+    state.ownedTextures = [...(state.ownedTextures ?? []), ...(staged.ownedTextures ?? [])];
+    staged.ownedGeometry = []; staged.ownedMaterials = []; staged.ownedTextures = [];
+    const activeGeometry = new Set(state.meshes.map(rest => rest.mesh.geometry));
+    const activeMaterials = new Set(state.meshes.flatMap(rest => Array.isArray(rest.mesh.material) ? rest.mesh.material : [rest.mesh.material]));
+    const activeTextures = new Set([...activeMaterials].flatMap(material => Object.values(material).filter((value): value is Texture => value instanceof Texture)));
+    state.ownedGeometry = state.ownedGeometry.filter(resource => { if (activeGeometry.has(resource)) return true; resource.dispose(); return false; });
+    state.ownedMaterials = state.ownedMaterials.filter(resource => { if (activeMaterials.has(resource)) return true; resource.dispose(); return false; });
+    state.ownedTextures = state.ownedTextures.filter(resource => { if (activeTextures.has(resource)) return true; resource.dispose(); return false; });
+    return report;
+  } finally { disposeVariationState(staged); }
 }
 
 export interface MultiOrganSceneVariationOptions extends VariationOptions {

@@ -4,7 +4,7 @@ import { MTLLoader, type MaterialInfo } from "three/examples/jsm/loaders/MTLLoad
 import { STLLoader } from "three/examples/jsm/loaders/STLLoader.js";
 import { GLTFExporter } from "three/examples/jsm/exporters/GLTFExporter.js";
 import { loadGltf } from "./importGltf";
-import { IMPORT_LIMITS, ImportResources, LocalFiles, checkAbort, decodeImages, sourceIdentity, textOf, type SelectedFile, type Triple } from "./importResources";
+import { IMPORT_LIMITS, texturePixelCount, ImportResources, LocalFiles, checkAbort, decodeImages, sourceIdentity, textOf, type SelectedFile, type Triple } from "./importResources";
 export { IMPORT_LIMITS } from "./importResources";
 
 export interface ImportedModelStats {
@@ -86,6 +86,8 @@ export function inspectImportedRoot(root: THREE.Object3D): ImportedModelStats {
   });
   if (!meshes || !triangles) throw new Error("No triangle surface was found in this model.");
   if (materials.size > IMPORT_LIMITS.materials || textures.size > IMPORT_LIMITS.textures) throw new Error("Model exceeds the material or texture budget.");
+  const pixels = [...textures].reduce((sum, texture) => sum + texturePixelCount(texture), 0);
+  if (pixels > IMPORT_LIMITS.imagePixels) throw new Error("Decoded textures exceed the 32 megapixel import budget.");
   const bounds = new THREE.Box3().setFromObject(root, true), size = bounds.getSize(new THREE.Vector3());
   if (![...bounds.min.toArray(), ...bounds.max.toArray()].every(v => Number.isFinite(v) && Math.abs(v) <= 1e9) || size.lengthSq() === 0) throw new Error("Model bounds are invalid or empty.");
   return { vertices, triangles, meshes, materials: materials.size, textures: textures.size,

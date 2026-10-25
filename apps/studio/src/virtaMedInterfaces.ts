@@ -78,8 +78,8 @@ export function interfaceMaterialRecipe(id:string,sample:VirtaMedVariation|null)
   const direct=sample?.recipes?.[id]?.material;if(direct)return direct;
   const sources=id==="hepatoduodenal-ligament"?["liver","gallbladder"]:id==="falciform-ligament"?["liver"]:id.includes("duct")?["gallbladder"]:id.includes("fat")?["colon","small-intestine"]:[];
   const values=sources.map(s=>sample?.recipes?.[s]?.material).filter(v=>v!==undefined);
-  const mean=(key:"wetness"|"pigment_contrast"|"fine_detail"|"tint",fallback:number)=>values.length?values.reduce((sum,v)=>sum+v[key],0)/values.length:fallback;
-  return {wetness:mean("wetness",.6),pigment_contrast:mean("pigment_contrast",1),fine_detail:mean("fine_detail",.5),tint:mean("tint",0)};
+  const mean=(key:"wetness"|"pigment_contrast"|"fine_detail"|"tint"|"mottle_scale_mm"|"structure_strength",fallback:number)=>values.length?values.reduce((sum,v)=>sum+v[key],0)/values.length:fallback;
+  return {wetness:mean("wetness",.6),pigment_contrast:mean("pigment_contrast",1),fine_detail:mean("fine_detail",.5),tint:mean("tint",0),mottle_scale_mm:mean("mottle_scale_mm",10),structure_strength:mean("structure_strength",.5)};
 }
 
 /** Variation uses BOTH endpoints. Width is a bounded visual design parameter,

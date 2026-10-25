@@ -1,3 +1,6 @@
+import { SceneTextEditor } from "./SceneTextEditor";
+import { compileSceneText, sceneTextHints, validateConnectedSceneDisease } from "./sceneTextEdits";
+import { loadImportedVariationSystem, type ImportedVariationRecipe, type ImportedVariationSystem } from "./imports/variations";
 import { VIRTAMED_DISEASES } from "./virtaMedScene";
 import { OPERATIVE_REGIONS, type OperativeRegion } from "./operativeView";
 import { VideoRecorderButton } from "./VideoRecorderPanel";
@@ -53,6 +56,37 @@ export default function WholeSceneStudio({ onBack, textureLab = false }: { onBac
   const [whiteSurface, setWhiteSurface] = useState(true);
   const [operativeResidue, setOperativeResidue] = useState(.5);
   const [disease, setDisease] = useState("baseline");
+  const [textSystem, setTextSystem] = useState<ImportedVariationSystem | null>(null);
+  const [textRecipe, setTextRecipe] = useState<ImportedVariationRecipe | null>(null);
+  const [textTarget, setTextTarget] = useState("liver");
+  const [textVersion, setTextVersion] = useState(0);
+  const [textBusy, setTextBusy] = useState(false);
+  const [textMessage, setTextMessage] = useState("");
+  const textRequest = useRef(0);
+  useEffect(() => { let active = true; if (isVirtaMed) void loadImportedVariationSystem().then(value => { if (active) setTextSystem(value); }).catch(() => { if (active) setTextMessage("Disease hints could not load. Applying a typed instruction will retry."); });
+    return () => { active = false; ++textRequest.current; }; }, [isVirtaMed]);
+  async function applyText(text: string) {
+    if (!ready || recording || textBusy) return;
+    const request = ++textRequest.current; setTextBusy(true); setTextMessage(""); setAutoVarying(false);
+    try {
+      const system = textSystem ?? await loadImportedVariationSystem();
+      if (request !== textRequest.current) return;
+      setTextSystem(system);
+      const ref = system.references.find(item => item.organ === textTarget)!;
+      const recipe = await compileSceneText(system, ref.id, text, textRecipe?.reference.id === ref.id ? textRecipe : undefined);
+      if (request !== textRequest.current) return;
+      const profile = recipe.disease?.profile_id ?? "baseline";
+      await validateConnectedSceneDisease(recipe, VIRTAMED_DISEASES.map(item=>item.id));
+      if (request !== textRequest.current) return;
+      viewport.current?.releaseTool(); setToolMode("orbit"); setAutoRotate(false);
+      setTextRecipe(recipe); setDisease(profile); setWhiteSurface(false); setError("");
+      const amount = recipe.disease?.severity ?? 0; setSeverity(amount);
+      setVariation(createWholeSceneVariation(recipe.provenance.seed, 1, amount));
+      setTextMessage(`Applied shape and appearance to ${textTarget}. Connected tissues and transition materials follow the edit.`);
+      setNotice(`Text variation · ${textTarget}`);
+    } catch (cause) { if (request === textRequest.current) setTextMessage(cause instanceof Error ? cause.message : "The text edit could not be applied."); }
+    finally { if (request === textRequest.current) setTextBusy(false); }
+  }
   const [variation, setVariation] = useState(BASELINE_VARIATION);
   const [fatOptions, setFatOptions] = useState<FatSceneOptions>(() => ({ enabled: !isVirtaMed && new URLSearchParams(location.search).get("fat") === "1", seed: 42, thicknessMm: 5, omentum: true, perirenal: true, lighting: "studio", study: "tissue", wetness: .52 }));
   const [fatStatus, setFatStatus] = useState("disabled");
@@ -158,11 +192,13 @@ export default function WholeSceneStudio({ onBack, textureLab = false }: { onBac
       setError("Enter a whole-number seed between 0 and 4,294,967,295."); return;
     }
     const next = fresh && parsed === variation.seed ? (parsed + 1) >>> 0 : parsed;
+    ++textRequest.current; setTextVersion(value=>value+1); setTextBusy(false); setTextRecipe(null); setTextMessage("");
     setSeed(String(next)); setError("");
     setVariation(createWholeSceneVariation(next, strength, severity));
     setNotice(`Joint variation · seed ${next}`);
   }
   function restore() {
+    ++textRequest.current; setTextVersion(value=>value+1); setTextBusy(false); setTextRecipe(null); setTextMessage("");
     setAutoVarying(false);
     setReferenceState({ colors: {}, plan: null }); setPreviousReferences(null); setShowPreviousReferences(false);
     setVariation(BASELINE_VARIATION); setDisease("baseline"); setError(""); setNotice(isVirtaMed ? "Video-field geometry restored" : "Original atlas arrangement restored");
@@ -171,7 +207,7 @@ export default function WholeSceneStudio({ onBack, textureLab = false }: { onBac
     if (!autoVarying || !ready || recording) return;
     const timer = window.setInterval(() => {
       const next = crypto.getRandomValues(new Uint32Array(1))[0]!;
-      setSeed(String(next));
+      setTextRecipe(null); setTextMessage(""); setTextVersion(value=>value+1); setSeed(String(next));
       setVariation(createWholeSceneVariation(next, strength, severity));
       setNotice(`Endless joint variation · seed ${next}`);
     }, 2400);
@@ -222,7 +258,7 @@ export default function WholeSceneStudio({ onBack, textureLab = false }: { onBac
 
     <main ref={sceneStage} className={`whole-stage${physicsMaterials ? " whole-stage-instruments" : ""}${exploring ? " whole-exploring" : ""}`} aria-label="Connected anatomy scene" onPointerDownCapture={event => { if ((event.target as HTMLElement).tagName === "CANVAS" && toolMode === "orbit") setView("orbit"); }}>
       <SceneResizeHandle />
-      <WholeSceneViewport ref={viewport} sourceScene={isVirtaMed ? "virtamed" : "atlas"} whiteSurface={whiteSurface} operativeResidue={operativeResidue} disease={disease} fatOptions={fatOptions} onFatStatus={setFatStatus} variation={variation} visibility={visibility} hiddenOrgans={hiddenOrgans} breathing={breathing} photoDetail={photoDetail} autoRotate={autoRotate} selectedOrgan={selected} onSelect={setSelected} onReady={setStats} onError={setError} onRecordingChange={setRecording} physicsMaterials={physicsMaterials} physicsRunning={physicsRunning} referenceColors={displayedReferences.colors} bodyReferencePlan={displayedReferences.plan} toolMode={toolMode} toolRadiusMm={toolRadius} toolDepthMm={toolDepth} continuousPush={continuousPush} pushSpeedMmS={pushSpeed} onToolStatus={setToolStatus} onNavigationChange={setNavigation} />
+      <WholeSceneViewport ref={viewport} sourceScene={isVirtaMed ? "virtamed" : "atlas"} whiteSurface={whiteSurface} operativeResidue={operativeResidue} disease={disease} textRecipe={textRecipe} fatOptions={fatOptions} onFatStatus={setFatStatus} variation={variation} visibility={visibility} hiddenOrgans={hiddenOrgans} breathing={breathing} photoDetail={photoDetail} autoRotate={autoRotate} selectedOrgan={selected} onSelect={setSelected} onReady={setStats} onError={setError} onRecordingChange={setRecording} physicsMaterials={physicsMaterials} physicsRunning={physicsRunning} referenceColors={displayedReferences.colors} bodyReferencePlan={displayedReferences.plan} toolMode={toolMode} toolRadiusMm={toolRadius} toolDepthMm={toolDepth} continuousPush={continuousPush} pushSpeedMmS={pushSpeed} onToolStatus={setToolStatus} onNavigationChange={setNavigation} />
       {exploring && <section className="whole-exploration" aria-label="Interior camera controls">
         <div className="whole-exploration-heading"><strong>Between-organ inspection</strong><button type="button" aria-label={cameraControlsExpanded ? "Collapse camera controls" : "Expand camera controls"} aria-expanded={cameraControlsExpanded} onClick={() => setCameraControlsExpanded(value => !value)}>{cameraControlsExpanded ? "−" : "+"}</button><button type="button" aria-label="Exit interior exploration" onClick={() => viewport.current?.exitExploration()}><X size={16} /></button></div>
         <div hidden={!cameraControlsExpanded}><p>Drag to look · WASD / Q E to move · arrow keys to look · Escape to exit</p>
@@ -257,6 +293,10 @@ export default function WholeSceneStudio({ onBack, textureLab = false }: { onBac
 
     <aside ref={controlsPanel} className="whole-controls" aria-label="Whole scene controls">
       <section className="virtamed-source" aria-label="Scene library"><label>Scene library<select aria-label="Scene library" value={isVirtaMed ? "virtamed" : "atlas"} onChange={event => { location.href=event.target.value === "virtamed" ? "?mode=scene&scene=virtamed" : "?mode=scene"; }}><option value="atlas">Whole anatomical atlas</option><option value="virtamed">VirtaMed scene</option></select></label></section>
+          {isVirtaMed && <SceneTextEditor targets={[{id:"liver",label:"Liver"},{id:"gallbladder",label:"Gallbladder"}]}
+            target={textTarget} onTarget={id=>{++textRequest.current;setTextBusy(false);setTextTarget(id);setTextMessage("");}}
+            hints={sceneTextHints(textSystem,textTarget,VIRTAMED_DISEASES.map(item=>item.id))}
+            disabled={!ready || recording || textBusy} busy={textBusy} version={textVersion} onApply={text=>void applyText(text)} message={textMessage} />}
       {isVirtaMed && <section className="virtamed-workflow" aria-label="VirtaMed scene workflow">
         <span className="whole-section-label">VIDEO / HEPATOCYSTIC FIELD</span><h2>VirtaMed scene</h2>
         <p className="whole-copy">Inspect the white reconstruction, apply tissue appearance, then explore variations and force response.</p>
@@ -266,7 +306,7 @@ export default function WholeSceneStudio({ onBack, textureLab = false }: { onBac
         <button className="whole-button" disabled={!ready || recording} onClick={()=>viewport.current?.videoView()}>Video camera · instruments enabled</button>
         <a className="whole-button" href={publicUrl("anatomy-scene/virtamed-scene.glb")} download="virtamed-scene.glb">Download white GLB</a>
         <p className="whole-scope">Reconstructed from the intact 00:08–00:15 field in Full.mp4. Hidden surfaces and scale are inferred. Learned liver and bowel appearance; authored gallbladder, fat and membrane optics.</p>
-        <label>Disease variation<select aria-label="Disease variation" value={disease} disabled={!ready || recording} onChange={e=>setDisease(e.target.value)}>{VIRTAMED_DISEASES.map(d=><option key={d.id} value={d.id}>{d.label}</option>)}</select></label>
+        <label>Disease variation<select aria-label="Disease variation" value={disease} disabled={!ready || recording} onChange={e=>{++textRequest.current;setTextVersion(value=>value+1);setTextBusy(false);setTextRecipe(null);setTextMessage("");setDisease(e.target.value);}}>{VIRTAMED_DISEASES.map(d=><option key={d.id} value={d.id}>{d.label}</option>)}</select></label>
         <p className="whole-scope">Use Joint scene variation below to apply the selected condition. Shape and pigment share the same field and seed.</p>
       </section>}
       <div className="whole-panel-tabs whole-three-tabs"><button aria-pressed={panel === "scene"} onClick={() => setPanel("scene")}>Scene controls</button><button aria-pressed={panel === "body"} onClick={() => setPanel("body")}>Whole-body colour</button><button aria-pressed={panel === "references"} onClick={() => setPanel("references")}>Atlas references</button></div>
@@ -281,6 +321,7 @@ export default function WholeSceneStudio({ onBack, textureLab = false }: { onBac
           setReferenceState(previousReferences); setPreviousReferences(null); setShowPreviousReferences(false); setNotice("Previous reference colours restored");
         }} /></div>
         {panel === "scene" ? <>
+
           <div className="whole-camera-entry"><strong>Inside the abdomen</strong><p>Choose an entry view, then guide the scope with drag-to-look and small forward or sideways steps.</p><div className="whole-operative-stations" hidden={isVirtaMed}>{OPERATIVE_REGIONS.map(region => <button key={region.id} disabled={!ready || recording} onClick={() => enterExploration(region.id)} title={region.description}>{region.label}</button>)}</div><button className="whole-button" disabled={!ready || recording} aria-pressed={exploring} onClick={() => exploring ? viewport.current?.exitExploration() : enterExploration()}>{exploring ? 'Return to orbit' : isVirtaMed ? 'Explore cavity' : 'Explore between organs'}</button><p>{isVirtaMed ? "Inspect the surrounding cavity lining from the current camera. Choose Use this view for instruments to palpate an exposed surface." : "Regional entries show a camera-lit field with fat and an illustrative peritoneal wall. Each entry is a separate view. Move between visible surfaces; organ lumens are not reconstructed."} Motion and tools pause during inspection.</p></div>
           <div className="whole-section-label">01 <span>THE ASSEMBLY</span></div>
           <h2>One coordinated specimen</h2><p className="whole-copy">{isVirtaMed ? "A focused hepatocystic field: liver, gallbladder, ducts, artery, connected fat, ligament sheets and partly visible bowel." : "Explore the organs together, with the airways, vessels and ducts that connect them."}</p>

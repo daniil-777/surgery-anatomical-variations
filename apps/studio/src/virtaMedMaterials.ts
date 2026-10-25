@@ -1,7 +1,7 @@
 import { operativeBloodTexture, OPERATIVE_BLOOD_GLSL, OPERATIVE_BLOOD_PROVENANCE } from "./operativeBloodOptics";
 import { OPERATIVE_APPEARANCE_VERSION, OPERATIVE_REGION_GLSL, OPERATIVE_LAYER_GLSL, operativeStrength, type OperativeAppearance } from "./operativeAppearance";
 import * as THREE from "three";
-export const VIRTAMED_SURFACE_VERSION = "serosal-geodesic/4";
+export const VIRTAMED_SURFACE_VERSION = "serosal-geodesic/5";
 import { interfaceMaterialRecipe as tissueRecipe, interfaceVariation, VIRTAMED_INTERFACE_VERSION, type InterfaceField } from "./virtaMedInterfaces";
 import { publicUrl } from "./api";
 import { synthesizeSeamlessOrganTile, type RgbaImage } from "./tissues/organMeshBake";
@@ -66,7 +66,7 @@ export function makeVirtaMedMaterial(id:string,white:boolean,tiles:VirtaMedTiles
   const palette=VIRTAMED_ORGANS.map(o=>new THREE.Color(o.color)),optics:THREE.Vector4[]=[],patterns:THREE.Vector4[]=[];
   for(const organ of VIRTAMED_ORGANS){const recipe=tissueRecipe(organ.id,sample),wall=organ.id==="abdominal-wall",rough=wall?.48:organ.id==="liver"?.29:.35;
     optics.push(new THREE.Vector4(THREE.MathUtils.clamp(.85*rough+.15*(1-recipe.wetness),.26,.7),wall?.28:.65+.28*recipe.wetness,.11+.08*(1-recipe.wetness),THREE.MathUtils.clamp(recipe.pigment_contrast,.6,1.5)));
-    patterns.push(new THREE.Vector4(recipe.tint,recipe.fine_detail,0,0));
+    patterns.push(new THREE.Vector4(recipe.tint,recipe.fine_detail,recipe.mottle_scale_mm,recipe.structure_strength));
   }
   const edgeRecipes=fields.map(f=>({edge:f.edge.id,a:tissueRecipe(f.edge.a,sample),b:tissueRecipe(f.edge.b,sample),...interfaceVariation(f.edge,sample)}));
   material.customProgramCacheKey=()=>`${VIRTAMED_SURFACE_VERSION}:${OPERATIVE_APPEARANCE_VERSION}:${Boolean(operative)}:${white}:${Boolean(tiles)}:${id}:${fields.map(f=>f.edge.id).join(":")}`;
@@ -76,7 +76,7 @@ export function makeVirtaMedMaterial(id:string,white:boolean,tiles:VirtaMedTiles
     shader.fragmentShader=shader.fragmentShader.replace("#include <common>","#include <common>\nvarying vec3 vVmRest;varying vec3 vVmRestNormal;varying vec4 vVmInterfaceDistance;varying vec3 vVmCoverDistance;uniform float uVmSelect;");
     if(white){shader.fragmentShader=shader.fragmentShader.replace("#include <color_fragment>","#include <color_fragment>\ndiffuseColor.rgb=mix(diffuseColor.rgb,vec3(.6,.8,.9),uVmSelect*.09);");return;}
     const atlas=tiles?tissueArrays(tiles):null;
-    Object.assign(shader.uniforms,{uVmOperativeThreshold:{value:operative?.redThreshold??.33},uVmOperative:{value:operative?.texture},uVmOperativeStrength:{value:operative?operativeLevel:0},uOperativeBlood:{value:operativeBloodTexture(volume)},uVmVolume:{value:volume},uVmColorArray:{value:atlas?.color},uVmSurfaceArray:{value:atlas?.surface},uVmPalette:{value:palette},uVmOptics:{value:optics},uVmPattern:{value:patterns},uVmMeans:{value:["liver","large_bowel","small_bowel"].map(f=>tiles?.[f]?.mean??new THREE.Vector3(1,1,1))},uVmDisease:{value:kind},uVmSeverity:{value:severity},uVmOffset:{value:sample?.variation.baseline?0:((sample?.variation.seed??0)%997)/31},uVmWidth:{value:new THREE.Vector4(...[0,1,2,3].map(i=>fields[i]?interfaceVariation(fields[i]!.edge,sample).widthMm:1) as [number,number,number,number])}});
+    Object.assign(shader.uniforms,{uVmOperativeThreshold:{value:operative?.redThreshold??.33},uVmOperative:{value:operative?.texture},uVmOperativeStrength:{value:operative?operativeLevel:0},uOperativeBlood:{value:operativeBloodTexture(volume)},uVmVolume:{value:volume},uVmColorArray:{value:atlas?.color},uVmSurfaceArray:{value:atlas?.surface},uVmPalette:{value:palette},uVmOptics:{value:optics},uVmPattern:{value:patterns},uVmMeans:{value:["liver","large_bowel","small_bowel"].map(f=>tiles?.[f]?.mean??new THREE.Vector3(1,1,1))},uVmDisease:{value:kind},uVmSeverity:{value:severity},uVmOffset:{value:sample?.variation.baseline||sample?.textEdit?0:((sample?.variation.seed??0)%997)/31},uVmWidth:{value:new THREE.Vector4(...[0,1,2,3].map(i=>fields[i]?interfaceVariation(fields[i]!.edge,sample).widthMm:1) as [number,number,number,number])}});
     shader.fragmentShader=shader.fragmentShader.replace("#include <common>",`#include <common>
       precision highp sampler3D;precision highp sampler2DArray;
       ${OPERATIVE_BLOOD_GLSL}
@@ -92,7 +92,9 @@ export function makeVirtaMedMaterial(id:string,white:boolean,tiles:VirtaMedTiles
       vec4 vmProjection(sampler2D t,vec3 p,vec3 w,vec3 dx,vec3 dy){return textureGrad(t,p.yz,dx.yz,dy.yz)*w.x+textureGrad(t,p.xz+vec2(.23,.37),dx.xz,dy.xz)*w.y+textureGrad(t,p.xy+vec2(.61,.19),dx.xy,dy.xy)*w.z;}
       vec3 vmBump(vec3 n,vec2 slope,float face){vec3 dx=dFdx(-vViewPosition),dy=dFdy(-vViewPosition),r1=cross(dy,n),r2=cross(n,dx);float det=dot(dx,r1)*face;if(abs(det)<1e-12)return n;return normalize(abs(det)*n-sign(det)*(slope.x*r1+slope.y*r2));}
       VmSurface vmEvaluate(int organ,vec3 p,vec3 w,vec3 dx,vec3 dy,vec4 cloud,vec4 fine,float fade){
-        vec4 optics=uVmOptics[organ];vec4 pattern=uVmPattern[organ];vec3 rgb=uVmPalette[organ]*(.9+.2*cloud.r),gradient=vec3(0.);float roughness=optics.x;
+        vec4 optics=uVmOptics[organ];vec4 pattern=uVmPattern[organ];
+        cloud=texture(uVmVolume,fract(p/max(4.8,pattern.z*2.4)));
+        vec3 rgb=uVmPalette[organ]*(.9+.2*cloud.r),gradient=vec3(0.);float roughness=optics.x;
         int layer=organ==0?0:organ==5?1:(organ==6||organ==7)?2:-1;
         ${tiles?`if(layer>=0){vec3 tp=p/51.2+vec3(uVmOffset*.13,uVmOffset*.07,uVmOffset*.11);vec3 tx=dx/51.2,ty=dy/51.2;
           vec3 color=textureGrad(uVmColorArray,vec3(tp.yz,float(layer)),tx.yz,ty.yz).rgb*w.x+textureGrad(uVmColorArray,vec3(tp.xz+vec2(.23,.37),float(layer)),tx.xz,ty.xz).rgb*w.y+textureGrad(uVmColorArray,vec3(tp.xy+vec2(.61,.19),float(layer)),tx.xy,ty.xy).rgb*w.z;
@@ -120,7 +122,7 @@ export function makeVirtaMedMaterial(id:string,white:boolean,tiles:VirtaMedTiles
           roughness=mix(.47,.39,wallFat)+.06*(1.-cloud.a);
         }
         if(organ==1){float mottle=smoothstep(.15,.85,cloud.r+(fine.a-.5)*.2);rgb=mix(vec3(.3712,.3515,.4233),vec3(.5149,.4678,.4072),mottle*.8)*(.93+.14*fine.r);rgb*=.97+.06*fine.a*fade;}
-        rgb*=vec3(1.+pattern.x*.08,1.+pattern.x*.025,1.-pattern.x*.035);
+        rgb*=vec3(1.+pattern.x*.08,1.+pattern.x*.025,1.-pattern.x*.035)*(1.+(fibers-.5)*.08*(pattern.w-.5));
         float mask=1.;vec3 diseaseColor=vec3(0.);
         if(organ==0&&uVmDisease>0&&uVmDisease<=3){
           if(uVmDisease==1)diseaseColor=vec3(.4233,.2423,.0844);
@@ -131,6 +133,7 @@ export function makeVirtaMedMaterial(id:string,white:boolean,tiles:VirtaMedTiles
         if(organ==1&&uVmDisease>=4)rgb=mix(rgb,uVmDisease==4?vec3(.4125,.1384,.1170):vec3(.4287,.3916,.2159),uVmSeverity*.65);
         float relief=organ==8?.038:organ==1?.009:(organ==9||organ==10)?.012:.016;
         float height=organ==11?(cloud.r*.012+fine.r*.003+cloud.a*.006)*fade:(fine.r*relief+cloud.r*(organ==8?.06:.035)+cloud.a*(organ==0?.025:organ==1?.03:.06))*(.6+.8*pattern.y)*fade;
+        height*=.9+.2*pattern.w;
         if(organ==9||organ==10)height+=fibers*.045*fade;
         // A spatially varying wet film breaks up a uniform plastic highlight.
         float film=clamp(.38+.62*cloud.a+.18*(fine.a-.5)*fade,0.,1.);
@@ -163,5 +166,5 @@ export function makeVirtaMedMaterial(id:string,white:boolean,tiles:VirtaMedTiles
     shader.fragmentShader=shader.fragmentShader.replace("#include <clearcoat_normal_fragment_maps>","#include <clearcoat_normal_fragment_maps>\n#ifdef USE_CLEARCOAT\nclearcoatNormal=vmBump(clearcoatNormal,vmSlope*(.8*(1.-vmFilmLevel*.8))+vmFilmSlope,faceDirection);\n#endif");
     shader.fragmentShader=shader.fragmentShader.replace("#include <lights_physical_fragment>","#include <lights_physical_fragment>\n#ifdef USE_CLEARCOAT\nmaterial.specularColor=mix(material.specularColor,vec3(.0001874),vmFilmLevel);material.specularColorBlended=material.specularColor;material.clearcoatF0=vec3(.02037);material.clearcoat=vmS.coat;material.clearcoatRoughness=clamp(vmS.coatRoughness+geometryRoughness,.0525,1.);\n#endif");
   };
-  return {material,signature:JSON.stringify({id,white,tile:tile?.sha256,disease,severity,seed:sample?.variation.seed,interfaces:edgeRecipes,covers:id==="hepatocystic-fat"?["colon","small-intestine","duodenum"].map(i=>tissueRecipe(i,sample)):[],interfaceVersion:VIRTAMED_INTERFACE_VERSION,surfaceVersion:VIRTAMED_SURFACE_VERSION,operativeVersion:OPERATIVE_APPEARANCE_VERSION,operativeAmount:operativeLevel,operativeHash:operative?.sha256})};
+  return {material,signature:JSON.stringify({id,white,recipe:tissueRecipe(id,sample),tile:tile?.sha256,disease,severity,seed:sample?.variation.seed,interfaces:edgeRecipes,covers:id==="hepatocystic-fat"?["colon","small-intestine","duodenum"].map(i=>tissueRecipe(i,sample)):[],interfaceVersion:VIRTAMED_INTERFACE_VERSION,surfaceVersion:VIRTAMED_SURFACE_VERSION,operativeVersion:OPERATIVE_APPEARANCE_VERSION,operativeAmount:operativeLevel,operativeHash:operative?.sha256})};
 }

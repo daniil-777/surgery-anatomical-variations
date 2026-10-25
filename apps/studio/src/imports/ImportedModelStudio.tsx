@@ -7,12 +7,13 @@ import {
 } from "lucide-react";
 import { DisplaySettings, SceneResizeHandle } from "../DisplaySettings";
 import { VideoRecorderButton } from "../VideoRecorderPanel";
-import { WhistleMicButton } from "../whistleMic";
+import { SceneTextEditor } from "../SceneTextEditor";
+import { compileSceneText, sceneTextHints } from "../sceneTextEdits";
 import { ImportedViewport, type ImportedCameraPreset, type ImportedViewportHandle } from "./ImportedViewport";
 import { exportImportedModelGLB, inspectImportedRoot, loadImportedModel, type ImportedModel } from "./importModel";
 import { LAPAROSCOPIC_SCENE_PRESETS, loadLaparoscopicSceneModel, type LaparoscopicScenePresetId } from "./laparoscopicScene";
 import {
-  applySceneVariation, applyVariation, compileImportedText, createVariationState,
+  applySceneVariation, applyVariation, applyTargetedVariation, createVariationState,
   discoverSceneOrgans, disposeVariationState, loadImportedVariationSystem,
   resetVariation, sampleNeuralVariation,
   type MultiOrganSceneVariationReport, type SceneOrganAssignment,
@@ -81,7 +82,15 @@ export default function ImportedModelStudio() {
   const [seed, setSeed] = useState("42"), [temperature, setTemperature] = useState(0.7);
   const [scope, setScope] = useState<"both" | "shape" | "texture">("both");
   const [shapeStrength, setShapeStrength] = useState(35), [textureStrength, setTextureStrength] = useState(35);
-  const [prompt, setPrompt] = useState(""), [applied, setApplied] = useState<Applied | null>(null);
+  const [applied, setApplied] = useState<Applied | null>(null);
+  const [textVersion, setTextVersion] = useState(0);
+  const [textTarget, setTextTarget] = useState("");
+  const [textRecipes, setTextRecipes] = useState<Record<string, Recipe>>({});
+  const [textBase, setTextBase] = useState<Applied | null>(null);
+  const textSlot = organAssignments.find(item => item.slotId === textTarget) ?? organAssignments[0];
+  const textReference = organAssignments.length > 1 ? textSlot?.referenceId ?? referenceId : referenceId;
+  useEffect(() => { setTextVersion(value=>value+1); }, [textReference]);
+  useEffect(() => { setTextTarget(""); setTextRecipes({}); setTextBase(null); setTextVersion(value=>value+1); }, [session]);
   const [autoVary, setAutoVary] = useState(false);
   const [autoVaryIntervalMs, setAutoVaryIntervalMs] = useState(1800);
   const [autoVaryCount, setAutoVaryCount] = useState(0);
@@ -247,17 +256,34 @@ export default function ImportedModelStudio() {
 
   const apply = async (kind: "sample" | "next" | "text", overridePrompt?: string) => {
     if (!session || !system || !referenceId || busy) return;
-    const textPrompt = overridePrompt ?? prompt;
-    if (overridePrompt !== undefined) setPrompt(overridePrompt);
+    const textPrompt = overridePrompt ?? "";
+    if (kind === "text") setAutoVary(false);
+    else setTextVersion(value=>value+1);
     const task = begin(kind === "text" ? "Applying text edits…" : isMultiOrganScene ? `Varying ${organAssignments.length} scene organs…` : "Generating variation…");
     try {
       if (!/^\d+$/.test(seed) || !Number.isSafeInteger(Number(seed)) || Number(seed) > 0xffffffff)
         throw new Error("Variation seed must be a whole number from 0 to 4,294,967,295.");
       const value = kind === "next" ? (Number(seed) + 1) % 0x100000000 : Number(seed);
-      const shape = scope === "texture" ? 0 : shapeStrength / 100;
-      const texture = scope === "shape" ? 0 : textureStrength / 100;
+      const shape = kind === "text" ? 1 : scope === "texture" ? 0 : shapeStrength / 100;
+      const texture = kind === "text" ? 1 : scope === "shape" ? 0 : textureStrength / 100;
 
-      if (isMultiOrganScene && kind !== "text") {
+      if (kind === "text") {
+        const key = isMultiOrganScene ? textSlot!.slotId : "model";
+        const current = textRecipes[key]?.reference.id === textReference ? textRecipes[key] : undefined;
+        const recipe = await compileSceneText(system, textReference, textPrompt, current);
+        if (!task.current()) return;
+        const report = await applyTargetedVariation(session.state,
+          isMultiOrganScene ? textSlot!.meshIndices : session.state.meshes.map((_, index) => index), recipe,
+          { shapeStrength: 1, textureStrength: 1, synthesizeSeamlessTextures: seamlessTextures, signal: task.controller.signal });
+        if (!task.current()) return;
+        if (!Object.keys(textRecipes).length) setTextBase(applied);
+        setTextRecipes(previous => ({ ...previous, [key]: recipe }));
+        setApplied({ recipe, report, shapeStrength: 1, textureStrength: 1, prompt: textPrompt });
+        setLiveTextures(inspectImportedRoot(session.model.root).textures); setRevision(previous => previous + 1);
+        setNotice(`Shape and appearance applied to ${isMultiOrganScene ? textSlot!.label : session.model.filename}.`);
+        return;
+      }
+      if (isMultiOrganScene) {
         const sceneReport = await applySceneVariation(session.state, system, {
           seed: value,
           temperature,
@@ -280,15 +306,13 @@ export default function ImportedModelStudio() {
           textureStrength: texture,
           multiOrganCount: organAssignments.length,
         });
-        setAutoVaryCount(c => c + 1);
+        setTextRecipes({}); setTextBase(null); setAutoVaryCount(c => c + 1);
         setRevision(previous => previous + 1);
         setNotice(`Scene variation ${value} applied across ${organAssignments.length} co-registered organs (${updatedStats.textures} PBR maps).`);
         return;
       }
 
-      const recipe = kind === "text"
-        ? compileImportedText(system, referenceId, textPrompt, applied?.recipe.reference.id === referenceId ? applied.recipe : undefined)
-        : sampleNeuralVariation(system, {
+      const recipe = sampleNeuralVariation(system, {
             referenceId,
             seed: value,
             temperature,
@@ -304,11 +328,10 @@ export default function ImportedModelStudio() {
       if (kind === "next") setSeed(String(value));
       const updatedStats = inspectImportedRoot(session.model.root);
       setLiveTextures(updatedStats.textures);
-      setApplied({ recipe, report, shapeStrength: shape, textureStrength: texture, ...(kind === "text" ? { prompt: textPrompt } : {}) });
-      setAutoVaryCount(c => c + 1);
+      setApplied({ recipe, report, shapeStrength: shape, textureStrength: texture });
+      setTextRecipes({}); setTextBase(null); setAutoVaryCount(c => c + 1);
       setRevision(previous => previous + 1);
-      setNotice(kind === "text" ? "Text edits applied. Export the GLB or restore the original at any time."
-        : `Variation ${value} applied. The same seed and settings reproduce this result.`);
+      setNotice(`Variation ${value} applied. The same seed and settings reproduce this result.`);
     } catch (cause) { if (task.current()) setError(readable(cause)); }
     finally { if (task.current()) setBusy(""); }
   };
@@ -346,7 +369,7 @@ export default function ImportedModelStudio() {
     setAutoVary(false);
     resetVariation(session.state);
     setLiveTextures(session.model.stats.textures);
-    setApplied(null); setRevision(value => value + 1);
+    setApplied(null); setTextRecipes({}); setTextBase(null); setTextVersion(value=>value+1); setRevision(value => value + 1);
     setError(""); setNotice("Original geometry, colours and materials restored.");
   };
 
@@ -368,7 +391,7 @@ export default function ImportedModelStudio() {
   const exportRecipe = () => {
     if (!session || !applied) return;
     save(new Blob([JSON.stringify({ schema: "viscera.import-variation/v1", source: session.model.source,
-      filename: session.model.filename, ...applied }, null, 2)], { type: "application/json" }), "viscera-variation.json");
+      filename: session.model.filename, ...applied, textRecipes, baseVariation: textBase, targets: organAssignments }, null, 2)], { type: "application/json" }), "viscera-variation.json");
   };
 
   const setCameraView = (preset: ImportedCameraPreset) => {
@@ -452,6 +475,11 @@ export default function ImportedModelStudio() {
             {session.model.filename === "virtamed-scene.glb" && <a className="import-primary" href="?mode=scene&scene=virtamed">Open scene texture & physics lab ↗</a>}
             {session.model.warnings.map((message, index) => <p className="import-notice" key={index}>{modelMessage(message)}</p>)}</>}
         </section>
+        <SceneTextEditor targets={isMultiOrganScene ? organAssignments.map(slot => ({ id: slot.slotId, label: slot.label })) : [{ id: "model", label: session?.model.filename ?? "Upload a model" }]}
+          target={isMultiOrganScene ? textSlot?.slotId ?? "" : "model"} onTarget={setTextTarget}
+          hints={sceneTextHints(system, system?.references.find(item => item.id === textReference)?.organ ?? "liver")}
+          disabled={!ready} busy={Boolean(busy)} version={textVersion}
+          onApply={text => void apply("text", text)} message={error ? modelMessage(error) : notice} />
         <section>
           <div className="import-section-heading"><span>02 / GENERATE</span><Sparkles size={17} /></div>
           <h2>{isMultiOrganScene ? "Multi-organ coupled variations" : "Explore a variation"}</h2>
@@ -572,24 +600,6 @@ export default function ImportedModelStudio() {
           </div>
 
           <details><summary>How multi-organ scene variations work</summary><p>Generative Model 2 proposes shape, surface and optional disease variations for each organ. Nearby surfaces share their overall movement, with local changes reduced near sampled contacts. The results are illustrative anatomical variations; contact damping does not guarantee collision-free geometry.</p>{applied?.report.warnings.map((message, index) => <p key={index}>{modelMessage(message)}</p>)}</details>
-        </section>
-        <section>
-          <div className="import-section-heading"><span>03 / DESCRIBE</span></div><h2>Text-guided edits</h2>
-          <label className="import-prompt-label">Describe a variation<textarea aria-label="Describe a variation" value={prompt} onChange={event => setPrompt(event.target.value)} maxLength={1000} rows={3} placeholder="wider; flatter; twist 0.2; wetter" disabled={Boolean(busy)} /></label>
-          <p className="import-fine">Supported commands edit the recipe; they do not create new parts or topology. Unrecognised instructions are rejected.</p>
-          <div className="import-describe-actions">
-            <button disabled={!ready || !prompt.trim()} onClick={() => void apply("text")}><Sparkles size={16} />Apply text</button>
-            <WhistleMicButton
-              className="import-prompt-mic whistle-mic-btn"
-              disabled={Boolean(busy)}
-              onTranscript={(liveText) => setPrompt(liveText)}
-              onCommit={(cleanText) => {
-                setPrompt(cleanText);
-                if (ready) void apply("text", cleanText);
-              }}
-            />
-          </div>
-          <details><summary>Supported text commands</summary><p>Try “wider”, “narrower”, “taller”, “shorter”, “deeper”, “flatter”, “wetter” or “drier”. Separate edits with semicolons. Explicit controls such as “twist 0.2” use values from −1 to 1. Percentages and physical dimensions are not supported.</p></details>
         </section>
         <section>
           <div className="import-section-heading"><span>04 / KEEP</span><ArrowDownToLine size={17} /></div><h2>Take it with you</h2>

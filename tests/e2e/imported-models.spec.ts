@@ -110,7 +110,7 @@ async function openWorkspace(page: Page) {
 async function upload(page: Page, names = ["colour-pbr-multipart.glb"]) {
   await page.getByLabel("3D model files", { exact: true }).setInputFiles(names.map(fixture));
   await expect(page.locator("[data-import-ready=true]")).toHaveCount(1);
-  await expect(page.locator(".import-status")).toContainText("Original geometry and materials are ready.");
+  await expect(page.locator(".import-status")).toContainText("Opened ");
   await expect(page.getByRole("button", { name: "Export GLB", exact: true })).toBeEnabled();
 }
 async function exported(page: Page, info: TestInfo, label: string): Promise<Export> {
@@ -129,7 +129,7 @@ async function recipe(page: Page, info: TestInfo, label: string) {
   return JSON.parse(await readFile(destination, "utf8"));
 }
 async function chooseReference(page: Page) {
-  const select = page.getByLabel("Reference style", { exact: true });
+  const select = page.getByRole("combobox", { name: /^Reference (style|for )/ }).first();
   await expect(select).toBeEnabled();
   await expect.poll(() => select.locator("option").count()).toBeGreaterThan(1);
   const value = await select.locator("option").evaluateAll(options => {
@@ -141,8 +141,8 @@ async function chooseReference(page: Page) {
 }
 async function generate(page: Page, seed: number, next = false) {
   await page.getByRole("spinbutton", { name: "Variation seed", exact: true }).fill(String(seed));
-  await page.getByRole("button", { name: next ? "Next variation" : "Generate variation", exact: true }).click();
-  await expect(page.locator(".import-status")).toContainText(`Variation ${next ? (seed + 1) >>> 0 : seed} applied.`);
+  await page.getByRole("button", { name: next ? "Next variation" : /^Generate (scene )?variation$/, exact: true }).click();
+  await expect(page.locator(".import-status")).toContainText(new RegExp(`[Vv]ariation ${next ? (seed + 1) >>> 0 : seed} applied`));
 }
 function shape(value: Export) { return value.semantic.meshes.map(mesh => mesh.worldPositions); }
 function colors(value: Export) { return value.semantic.meshes.map(mesh => mesh.colors); }
@@ -250,7 +250,7 @@ test("actual bundled learned weights produce seed42→43→42 replay with source
   await generate(page, 42); const first = await exported(page, info, "seed42");
   const provenance = await recipe(page, info, "seed42");
   expect(provenance.schema).toBe("viscera.import-variation/v1");
-  expect(provenance.recipe.provenance).toMatchObject({ method: "joint-flow-recipe-transfer", seed: 42,
+  expect(provenance.recipe.provenance).toMatchObject({ method: "joint-flow-recipe-transfer", seed: provenance.multiOrganCount ? 42 + 997 : 42,
     referenceId: reference, meshEncoding: false, diseaseInference: false });
   expect(provenance.recipe.provenance.modelSha256).toMatch(/^[a-f0-9]{64}$/);
   const actual = await page.request.get(new URL(`${entry.replace(/\/?$/, "/")}models/joint-v2/model.json`, page.url()).href);
@@ -291,14 +291,14 @@ test("zero strengths and strict text failure are atomic; supported commands edit
   await page.getByRole("slider", { name: "Texture blend", exact: true }).fill("50");
   await page.getByLabel("Describe a variation", { exact: true }).fill("wider; flatter; twist 0.2; wetter");
   await page.getByRole("button", { name: "Apply text", exact: true }).click();
-  await expect(page.locator(".import-status")).toContainText("Text edits applied.");
+  await expect(page.locator(".import-status")).toContainText("Shape and appearance applied to");
   const edited = await exported(page, info, "text-edited"), textRecipe = await recipe(page, info, "text");
   expect(textRecipe.recipe.provenance.method).toBe("deterministic-text-controls");
   expect(textRecipe.recipe.controls.twist).toBe(.2);
   expect(shape(edited)).not.toEqual(shape(original));
   await page.getByLabel("Describe a variation", { exact: true }).fill("wider; add a new surgical robot");
   await page.getByRole("button", { name: "Apply text", exact: true }).click();
-  await expect(page.locator(".import-status [role=alert]")).toContainText("Unsupported edit");
+  await expect(page.locator(".import-status [role=alert]")).toContainText(/No partial edit was applied/i);
   expect((await exported(page, info, "after-text-error")).semantic).toEqual(edited.semantic);
   expect((await recipe(page, info, "after-text-error")).recipe).toEqual(textRecipe.recipe);
 });
@@ -332,7 +332,7 @@ test("failed real model-weight fetch leaves original import/export usable and re
   await page.route("**/models/joint-v2/weights.bin", route => route.abort("failed"));
   await openWorkspace(page); await upload(page);
   await expect(page.getByRole("button", { name: "Retry model loading", exact: true })).toBeVisible();
-  await expect(page.getByRole("button", { name: "Generate variation", exact: true })).toBeDisabled();
+  await expect(page.getByRole("button", { name: /^Generate (scene )?variation$/, exact: true })).toBeDisabled();
   expect((await exported(page, info, "without-generative-model")).semantic.meshes).toHaveLength(2);
   await page.unroute("**/models/joint-v2/weights.bin");
   await page.getByRole("button", { name: "Retry model loading", exact: true }).click();
@@ -346,9 +346,9 @@ test("375px at200% text exposes usable upload, variation, recorder and export co
   const controls = [
     page.getByRole("button", { name: "Display settings", exact: true }),
     page.getByRole("button", { name: "Video recorder", exact: true }),
-    page.getByRole("button", { name: "Replace model", exact: true }),
-    page.getByLabel("Reference style", { exact: true }),
-    page.getByRole("button", { name: "Generate variation", exact: true }),
+    page.getByRole("button", { name: "Replace / upload files", exact: true }),
+    page.getByRole("combobox", { name: /^Reference (style|for )/ }).first(),
+    page.getByRole("button", { name: /^Generate (scene )?variation$/, exact: true }),
     page.getByRole("button", { name: "Export GLB", exact: true }),
   ];
   for (const control of controls) {
@@ -391,8 +391,8 @@ test("loaded PBR scene remains usable across desktop and tablet layouts", async 
   for (const width of [1440, 768]) {
     await page.setViewportSize({ width, height: 1000 });
     await page.locator(".import-scene").scrollIntoViewIfNeeded();
-    await expect(page.getByRole("button", { name: "Fit model", exact: true })).toBeVisible();
-    await page.getByRole("button", { name: "Fit model", exact: true }).click();
+    await expect(page.getByRole("button", { name: "Fit", exact: true })).toBeVisible();
+    await page.getByRole("button", { name: "Fit", exact: true }).click();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
     const canvas = page.locator(".import-viewport canvas");
     expect((await canvas.boundingBox())!.height).toBeGreaterThanOrEqual(400);
@@ -450,7 +450,7 @@ test("actual 39-part anatomical torso imports, varies, exports and restores at r
   const began = Date.now();
   await page.getByLabel("3D model files", { exact: true }).setInputFiles(sourcePath);
   await expect(page.locator("[data-import-ready=true]")).toHaveCount(1);
-  await expect(page.locator(".import-status")).toContainText("Original geometry and materials are ready.");
+  await expect(page.locator(".import-status")).toContainText("Opened ");
   const loadedAt = Date.now(); await chooseReference(page);
   await page.evaluate(() => {
     (window as any).__importHeartbeat = { ticks: 0, maxGapMs: 0, previous: performance.now() };
@@ -473,7 +473,7 @@ test("actual 39-part anatomical torso imports, varies, exports and restores at r
   expect(varied.mesh.every((mesh: any) => mesh.colors !== null)).toBe(true);
   const provenance = await recipe(page, info, "torso-varied");
   expect(provenance.recipe.provenance.method).toBe("joint-flow-recipe-transfer");
-  await page.getByRole("button", { name: "Fit model", exact: true }).click();
+  await page.getByRole("button", { name: "Fit", exact: true }).click();
   await page.screenshot({ path: info.outputPath("torso-varied.png") });
   await page.getByRole("button", { name: "Restore original", exact: true }).click();
   await expect(page.locator(".import-status")).toContainText("Original geometry, colours and materials restored.");
