@@ -1,3 +1,7 @@
+import { loadOperativeAppearance, type OperativeAppearance } from "./operativeAppearance";
+import { LaparoscopeLighting } from "./laparoscopeLighting";
+import { LaparoscopeOptics } from "./laparoscopeOptics";
+import { VIRTAMED_SURFACE_VERSION } from "./virtaMedVasculature";
 import { buildVirtaMedInterfaces, interfaceSnapshot, reconcileInterfaceNormals, type InterfaceGraph } from "./virtaMedInterfaces";
 import { loadVirtaMedAsset } from "./virtaMedAsset";
 import { sampleVirtaMedVariation, warpVirtaMedPositions, type VirtaMedVariation } from "./virtaMedScene";
@@ -66,6 +70,7 @@ export interface WholeSceneViewportHandle {
 export interface WholeSceneViewportProps {
   sourceScene?: "atlas" | "virtamed";
   whiteSurface?: boolean;
+  operativeResidue?: number;
   disease?: string;
   fatOptions?: FatSceneOptions;
   onFatStatus?: (status: string) => void;
@@ -179,6 +184,7 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
   useEffect(() => {
     const isVirtaMed = props.sourceScene === "virtamed";
     let vmTiles: VirtaMedTiles | null = null;
+    let vmOperative: OperativeAppearance | null = null;
     let vmSystem: ImportedVariationSystem | null = null;
     let vmSample: VirtaMedVariation | null = null;
     let vmInterfaces: InterfaceGraph | null = null;
@@ -216,15 +222,12 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
     controls.screenSpacePanning = true; controls.autoRotateSpeed = 0.9;
     const invalidate = (shadows = false) => { renderPending = true; sceneRevision++; if (shadows) renderer.shadowMap.needsUpdate = true; };
     const draw = () => {
-      if (exploring || operativeCamera) {
-        if (!inspectionLight.position.equals(camera.position) || !inspectionLight.target.position.equals(controls.target)) renderer.shadowMap.needsUpdate = true;
-        inspectionLight.position.copy(camera.position); inspectionLight.target.position.copy(controls.target);
-      }
+      if (laparoscope.update(camera, exploring || operativeCamera ? inspectionIntensity : 0)) renderer.shadowMap.needsUpdate = true;
       if (fatLamp.visible && fatLamp.intensity > 0) {
         if (!fatLamp.position.equals(camera.position) || !fatLamp.target.position.equals(controls.target)) renderer.shadowMap.needsUpdate = true;
         fatLamp.position.copy(camera.position); fatLamp.target.position.copy(controls.target);
       }
-      renderer.render(scene, camera); renderedFrames++; renderedRevision = sceneRevision; renderPending = false;
+      if (cameraOptics && (exploring || operativeCamera)) cameraOptics.render(scene, camera); else renderer.render(scene, camera); renderedFrames++; renderedRevision = sceneRevision; renderPending = false;
       if (snapshotAfterDraw) { snapshotAfterDraw = false; snapshot(); }
     };
     const room = new RoomEnvironment(), pmrem = new THREE.PMREMGenerator(renderer);
@@ -288,10 +291,10 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
     const atlasSurfaces = () => parts.map(part => ({ id: part.info.id, visible: part.mesh.visible, geometry: part.mesh.geometry }));
     let operativeEnvelope: ReturnType<typeof createOperativeEnvelope> = null;
     const navigationGuard = new SceneNavigationGuard(() => [...atlasSurfaces(), ...fatLayers.navigationSurfaces(), ...(operativeEnvelope && exploring ? [{id: operativeEnvelope.mesh.name, visible: true, geometry: operativeEnvelope.mesh.geometry}] : [])]);
+    let inspectionIntensity = 0;
     const inspectionLight = new THREE.SpotLight(0xfff0e5, 0, 1000, 1.05, .8, 2);
-    inspectionLight.castShadow = true; inspectionLight.shadow.mapSize.set(2048, 2048);
-    inspectionLight.shadow.camera.near = .5; inspectionLight.shadow.camera.far = 1200;
-    inspectionLight.shadow.bias = -.00004; inspectionLight.shadow.normalBias = .04; scene.add(inspectionLight, inspectionLight.target);
+    const laparoscope = new LaparoscopeLighting(scene, inspectionLight);
+    const cameraOptics = renderer.extensions.has("EXT_color_buffer_float") ? new LaparoscopeOptics(renderer) : null;
     const navigationSnapshot = (): WholeSceneNavigationState => ({
       mode: exploring ? "explore" : "orbit", ready, blocked: navigationBlockedBy !== null, blockedBy: navigationBlockedBy,
       positionMm: camera.position.toArray(), direction: camera.getWorldDirection(new THREE.Vector3()).toArray(),
@@ -330,12 +333,12 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
       fat: fatLayers.snapshot(),
       coordinateSystem: "+X patient left; +Y superior; +Z anterior; millimetres",
       atlasBounds: boxData(bounds),
-      rendering: { mode: "on-demand", geometryUploads, surfaceCpuMs, solverCpuMs, surfaceTargetHz: isVirtaMed ? 60 : 20, renderPending, sceneRevision, renderedRevision, cameraTransition: Boolean(cameraTransition), materialVersion: WHOLE_SCENE_MATERIAL_VERSION, tissueCoordinates: "undeformed atlas rest millimetres", tissueVolumeSize: 64, bowelSidedness: bowelFrontSide ? "front" : "double", stomachNormalWeighting: "corner-angle", environmentIntensity: scene.environmentIntensity, lastImageCapture, lights: { fatCamera: { enabled: fatLamp.visible && fatLamp.intensity > 0, intensity: fatLamp.intensity, position: fatLamp.position.toArray() }, key: { intensity: key.intensity, position: key.position.toArray() }, fill: { intensity: fill.intensity, position: fill.position.toArray() }, rim: { intensity: rim.intensity, position: rim.position.toArray() } }, shadows: renderer.shadowMap.enabled, shadowMapSize: 2048, shadowNormalBiasMm: key.shadow.normalBias, shadowDepthBias: key.shadow.bias, exposure: renderer.toneMappingExposure },
+      rendering: { mode: "on-demand", geometryUploads, surfaceCpuMs, solverCpuMs, surfaceTargetHz: isVirtaMed ? 60 : 20, renderPending, sceneRevision, renderedRevision, cameraTransition: Boolean(cameraTransition), materialVersion: isVirtaMed ? VIRTAMED_SURFACE_VERSION : WHOLE_SCENE_MATERIAL_VERSION, laparoscope: laparoscope.snapshot(), optics: cameraOptics ? {...cameraOptics.snapshot(),active:exploring||operativeCamera} : {hdr:false,reason:"floating-point render targets unavailable"}, tissueCoordinates: "undeformed atlas rest millimetres", tissueVolumeSize: 64, bowelSidedness: bowelFrontSide ? "front" : "double", stomachNormalWeighting: "corner-angle", environmentIntensity: scene.environmentIntensity, lastImageCapture, lights: { fatCamera: { enabled: fatLamp.visible && fatLamp.intensity > 0, intensity: fatLamp.intensity, position: fatLamp.position.toArray() }, key: { intensity: key.intensity, position: key.position.toArray() }, fill: { intensity: fill.intensity, position: fill.position.toArray() }, rim: { intensity: rim.intensity, position: rim.position.toArray() } }, shadows: renderer.shadowMap.enabled, shadowMapSize: 2048, shadowNormalBiasMm: key.shadow.normalBias, shadowDepthBias: key.shadow.bias, exposure: renderer.toneMappingExposure },
       registration: isVirtaMed ? "Authored video-field reconstruction in shared assumed millimetres. Broad learned controls and localized phenotype fields are shared across neighboring structures." : "BodyParts3D structures retain source registration; HRA heart and lung surfaces are fitted to atlas bounds (see manifest). Every structure then uses one shared invertible variation map.",
       sourceConnections: isVirtaMed ? "Registered gallbladder–duct ring, gallbladder–liver membrane, cranial sheet roots and internal fatty bridge. Coincident attachment coordinates share the disease and physics maps; concealed anatomy is inferred." : "Atlas-derived ducts and vessels; coincident points remain coincident. Source endpoint attachment is not inferred or certified.",
       camera: { view: currentView, focusedOrgan, position: camera.position.toArray(), target: controls.target.toArray(), up: camera.up.toArray(), fov: camera.fov, aspect: camera.aspect, navigation: navigationSnapshot() },
       inspection: { surfaceScope: "visible atlas triangles, generated fat and illustrative peritoneal enclosure; no reconstructed organ lumens", radiusMm: NAVIGATION_CLEARANCE_MM,
-        cameraLight: { enabled: exploring || operativeCamera, intensity: inspectionLight.intensity, positionMm: inspectionLight.position.toArray(), targetMm: inspectionLight.target.position.toArray() } },
+        cameraLight: { enabled: exploring || operativeCamera, intensity: inspectionIntensity, positionMm: inspectionLight.position.toArray(), targetMm: inspectionLight.target.position.toArray() } },
       motion: { breathing: latest.current.breathing, phase: breath.value, autoRotate: latest.current.autoRotate, recording: Boolean(recording), recordingKind: recording?.kind ?? null },
       tools: tools.snapshot(),
       physics: physics ? { ...physics.snapshot(), running: Boolean(latest.current.physicsRunning) && !physicsFailed,
@@ -359,10 +362,8 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
     const applyNavigationPose = () => {
       const forward = navigationDirection(navigationYaw, navigationPitch);
       camera.up.set(0, 1, 0); controls.target.copy(camera.position).addScaledVector(forward, 20); camera.lookAt(controls.target);
-      inspectionLight.position.copy(camera.position); inspectionLight.target.position.copy(controls.target);
       const workingDistance = THREE.MathUtils.clamp(navigationGuard.rayDistance(camera.position, forward, 120), 22, 100);
-      inspectionLight.intensity = workingDistance * workingDistance * 3.4;
-      inspectionLight.angle = Math.min(1.25, Math.atan(Math.tan(camera.fov * Math.PI / 360) * Math.max(1, camera.aspect)) * 1.15);
+      inspectionIntensity = workingDistance * workingDistance * 3.4;
       currentView = "orbit"; invalidate(); snapshotAfterDraw = true;
     };
     const moveNavigation = (delta: THREE.Vector3) => {
@@ -385,7 +386,7 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
     };
     const exitExploration = () => {
       if (!exploring) return;
-      exploring = false; navigationKeys.clear(); releaseLookPointer(); inspectionLight.intensity = operativeCamera ? 130000 : 0;
+      exploring = false; navigationKeys.clear(); releaseLookPointer(); inspectionIntensity = operativeCamera ? 155000 : 0;
       operativeEnvelope?.dispose(); operativeEnvelope = null; navigationGuard.invalidate(); updateFatLighting();
       canvas.setAttribute("aria-label", orbitDescription);
       if (savedOrbit) {
@@ -435,7 +436,7 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
       exitExploration(); tools.release(); cameraTransition = null; operativeCamera = true;
       camera.fov = 46; camera.position.set(-4,-32,247); controls.target.set(-4,1,0); camera.up.set(0,1,0);
       camera.near = .1; camera.far = 4000; camera.updateProjectionMatrix(); controls.minDistance=12; controls.maxDistance=1500;
-      inspectionLight.intensity=130000; inspectionLight.angle=1.05; updateFatLighting();
+      inspectionIntensity=155000; updateFatLighting();
       controls.update(); invalidate(true); draw(); snapshot();
     };
     const fit = () => {
@@ -535,7 +536,7 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
       bounds: boxData(bounds),
     });
     const sceneMaterial = (info: WholeSceneOrgan) => isVirtaMed
-      ? makeVirtaMedMaterial(info.id, latest.current.whiteSurface ?? true, vmTiles, tissueVolume, vmSample, vmInterfaces?.fields.get(info.id))
+      ? makeVirtaMedMaterial(info.id, latest.current.whiteSurface ?? true, vmTiles, tissueVolume, vmSample, vmInterfaces?.fields.get(info.id), vmOperative, latest.current.operativeResidue ?? .5)
       : makeWholeSceneTissueMaterial(info, latest.current.variation, breath, tissueVolume, { bowelFrontSide, reference: latest.current.referenceColors?.[info.id] });
     const applyVariation = () => {
       if (!parts.length) return;
@@ -677,7 +678,7 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
         try {
           renderer.setPixelRatio(1); renderer.setSize(width, height, false); draw();
           const result = canvas.toDataURL("image/png");
-          lastImageCapture = { width, height, materialVersion: WHOLE_SCENE_MATERIAL_VERSION };
+          lastImageCapture = { width, height, materialVersion: isVirtaMed ? VIRTAMED_SURFACE_VERSION : WHOLE_SCENE_MATERIAL_VERSION };
           return result;
         } catch (error) {
           latest.current.onError(`The high-resolution image could not be saved: ${error instanceof Error ? error.message : String(error)}`);
@@ -822,6 +823,7 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
         const prefix = `${import.meta.env.BASE_URL}anatomy-scene/`;
         if (isVirtaMed) {
           vmTiles = await loadVirtaMedTiles(abort.signal);
+          vmOperative = await loadOperativeAppearance(abort.signal);
           vmSystem = await loadImportedVariationSystem(abort.signal);
           if (!alive) return;
           const authored = await loadVirtaMedAsset(abort.signal); manifest = authored.manifest as Manifest; loaded = authored.root;
@@ -913,13 +915,13 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
       window.removeEventListener("keyup", onNavigationKeyUp); window.removeEventListener("blur", clearNavigationInput);
       canvas.removeEventListener("pointerdown", onPointerDown); canvas.removeEventListener("pointerup", onPointerUp); canvas.removeEventListener("webglcontextlost", onContextLost);
       controls.removeEventListener("start", onControlStart); controls.removeEventListener("change", onControlChange); controls.removeEventListener("end", snapshot); controls.dispose();
-      nativeRecording.dispose(); navigationGuard.invalidate(); fatLayers.dispose(); disposeObject(assembly); tissueVolume.dispose(); if(vmTiles) disposeVirtaMedTiles(vmTiles); operativeEnvelope?.dispose(); inspectionLight.shadow.dispose(); environment.dispose(); fatLamp.shadow.dispose(); renderer.dispose(); renderer.forceContextLoss(); canvas.remove(); runtime.current = null;
+      nativeRecording.dispose(); navigationGuard.invalidate(); fatLayers.dispose(); disposeObject(assembly); tissueVolume.dispose(); if(vmTiles) disposeVirtaMedTiles(vmTiles); vmOperative?.texture.dispose(); operativeEnvelope?.dispose(); laparoscope.dispose(); cameraOptics?.dispose(); environment.dispose(); fatLamp.shadow.dispose(); renderer.dispose(); renderer.forceContextLoss(); canvas.remove(); runtime.current = null;
       delete element.dataset.sceneSnapshot; delete element.dataset.sceneReady;
     };
   }, []);
   useEffect(() => { runtime.current?.applyFat(); }, [props.fatOptions]);
   useEffect(() => { runtime.current?.applyVariation(); }, [props.variation, props.disease]);
-  useEffect(() => { runtime.current?.applyReferenceColors(); }, [props.referenceColors, props.bodyReferencePlan, props.whiteSurface]);
+  useEffect(() => { runtime.current?.applyReferenceColors(); }, [props.referenceColors, props.bodyReferencePlan, props.whiteSurface, props.operativeResidue]);
   useEffect(() => { runtime.current?.applyVisibility(); }, [props.visibility, props.hiddenOrgans]);
   useEffect(() => { runtime.current?.applySelection(); }, [props.selectedOrgan]);
   useEffect(() => { runtime.current?.applyPhysics(); }, [props.physicsMaterials]);

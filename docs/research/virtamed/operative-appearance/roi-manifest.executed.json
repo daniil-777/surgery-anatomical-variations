@@ -1,0 +1,329 @@
+{
+  "coordinate_space": "original 1280x1024 pixels, top-left origin, xyxy bounds end-exclusive",
+  "fit_surgery_ids": [
+    "04",
+    "22",
+    "28",
+    "29"
+  ],
+  "holdout_surgery_ids": [
+    "10",
+    "23",
+    "31"
+  ],
+  "disallowed": "Do not add adjacent frames from holdout surgeries to fit. No GynSurg data in fit or deployment. No automatic ROI is blood truth. Do not interpret raw RGB as calibrated reflectance.",
+  "pixel_exclusion": "Exclude (minRGB > 180 and maxRGB > 230) or (maxRGB-minRGB < 22 and maxRGB > 210) or maxRGB < 30 or minRGB < 8. Threshold is heuristic glare/shadow mask, not physical separation.",
+  "rois": [
+    {
+      "id": "fat-clean-04",
+      "source_image": "/tmp/viscera-operative-data-research/dsad/abdominal_wall-04-0-image.png",
+      "source_sha256": "ee588608e1f7c64d68e615eab92fbe396ce0e5216d21ee9ed688a9bf67703069",
+      "dataset": "nct-tso/dsad",
+      "source_split": "train",
+      "research_partition": "fit",
+      "surgery_id": "04",
+      "frame_id": "0",
+      "bounds_xyxy_exclusive": [
+        140,
+        570,
+        320,
+        700
+      ],
+      "visual_class": "clean_adipose",
+      "annotation_author": "assistant visual review; not expert clinical ground truth",
+      "notes": "Intact orange adipose; a few fine vascular lines, no instruments or overlays.",
+      "eligible_pixels": 22715,
+      "excluded_fraction": 0.02927,
+      "median_srgb8": [
+        158,
+        60,
+        18
+      ],
+      "median_chromaticity": [
+        0.669388,
+        0.254902,
+        0.08
+      ]
+    },
+    {
+      "id": "film-thin-04",
+      "source_image": "/tmp/viscera-operative-data-research/dsad/colon-04-44-image.png",
+      "source_sha256": "d9b2038ff184d456952716cc4ac804841271c98a33486c15a479847429d65bf1",
+      "dataset": "nct-tso/dsad",
+      "source_split": "train",
+      "research_partition": "fit",
+      "surgery_id": "04",
+      "frame_id": "44",
+      "bounds_xyxy_exclusive": [
+        465,
+        359,
+        570,
+        470
+      ],
+      "visual_class": "thin_red_film",
+      "annotation_author": "assistant visual review; not expert clinical ground truth",
+      "notes": "Red surface streaking on pale serosa. Mix of substrate and stain, not a pure blood mask.",
+      "eligible_pixels": 11625,
+      "excluded_fraction": 0.00257,
+      "median_srgb8": [
+        163,
+        79,
+        70
+      ],
+      "median_chromaticity": [
+        0.52,
+        0.253776,
+        0.225904
+      ]
+    },
+    {
+      "id": "blood-dark-04",
+      "source_image": "/tmp/viscera-operative-data-research/dsad/colon-04-44-image.png",
+      "source_sha256": "d9b2038ff184d456952716cc4ac804841271c98a33486c15a479847429d65bf1",
+      "dataset": "nct-tso/dsad",
+      "source_split": "train",
+      "research_partition": "fit",
+      "surgery_id": "04",
+      "frame_id": "44",
+      "bounds_xyxy_exclusive": [
+        398,
+        745,
+        444,
+        795
+      ],
+      "visual_class": "dark_blood_appearance",
+      "annotation_author": "assistant visual review; not expert clinical ground truth",
+      "notes": "Small dark red deposit on fat. Visual class only; no temporal verification of coagulation.",
+      "eligible_pixels": 1977,
+      "excluded_fraction": 0.14043,
+      "median_srgb8": [
+        142,
+        24,
+        17
+      ],
+      "median_chromaticity": [
+        0.774869,
+        0.129944,
+        0.096774
+      ]
+    },
+    {
+      "id": "fascia-29",
+      "source_image": "/tmp/viscera-operative-data-research/dsad/colon-29-15-image.png",
+      "source_sha256": "bc284620b64ed18379f5f9cabc27c2a7c5c0f938383153f0f482a8a65d162b29",
+      "dataset": "nct-tso/dsad",
+      "source_split": "train",
+      "research_partition": "fit",
+      "surgery_id": "29",
+      "frame_id": "15",
+      "bounds_xyxy_exclusive": [
+        445,
+        145,
+        600,
+        235
+      ],
+      "visual_class": "exposed_fibrous",
+      "annotation_author": "assistant visual review; not expert clinical ground truth",
+      "notes": "Pale stretched connective strands with underlying yellow tissue; exclude residual bright pixels.",
+      "eligible_pixels": 13950,
+      "excluded_fraction": 0.0,
+      "median_srgb8": [
+        145.0,
+        106.0,
+        87.0
+      ],
+      "median_chromaticity": [
+        0.428571,
+        0.310705,
+        0.25625
+      ]
+    },
+    {
+      "id": "dissected-22",
+      "source_image": "/tmp/viscera-operative-data-research/dsad/pancreas-22-51-image.png",
+      "source_sha256": "62b865a74c9bb521b6461f3f3905dbda74d224759ccec0e21dfb99020c56ee64",
+      "dataset": "nct-tso/dsad",
+      "source_split": "train",
+      "research_partition": "fit",
+      "surgery_id": "22",
+      "frame_id": "51",
+      "bounds_xyxy_exclusive": [
+        90,
+        500,
+        270,
+        670
+      ],
+      "visual_class": "exposed_lobular",
+      "annotation_author": "assistant visual review; not expert clinical ground truth",
+      "notes": "Irregular lobular pink/red dissection surface; regional anatomy not asserted from appearance.",
+      "eligible_pixels": 30576,
+      "excluded_fraction": 0.00078,
+      "median_srgb8": [
+        184.0,
+        87.0,
+        66.0
+      ],
+      "median_chromaticity": [
+        0.54386,
+        0.259045,
+        0.19403
+      ]
+    },
+    {
+      "id": "liver-clean-28",
+      "source_image": "/tmp/viscera-operative-data-research/dsad/liver-28-2-image.png",
+      "source_sha256": "bf59196a81d39789687346cb6639edb7862b957c535e624f73fc45a8dbd67fb4",
+      "dataset": "nct-tso/dsad",
+      "source_split": "train",
+      "research_partition": "fit",
+      "surgery_id": "28",
+      "frame_id": "2",
+      "bounds_xyxy_exclusive": [
+        410,
+        580,
+        650,
+        735
+      ],
+      "visual_class": "clean_capsule",
+      "annotation_author": "assistant visual review; not expert clinical ground truth",
+      "notes": "Fine mottled liver capsule away from dominant glare and retractor.",
+      "eligible_pixels": 37200,
+      "excluded_fraction": 0.0,
+      "median_srgb8": [
+        139.0,
+        57.0,
+        54.0
+      ],
+      "median_chromaticity": [
+        0.554688,
+        0.229008,
+        0.218487
+      ]
+    },
+    {
+      "id": "serosa-clean-23",
+      "source_image": "/tmp/viscera-operative-data-research/dsad/small_intestine-23-42-image.png",
+      "source_sha256": "6c3005051ae38ff207c49e2fc0b7722b95c565fcc66b8eb80e4ebaff3e9e3724",
+      "dataset": "nct-tso/dsad",
+      "source_split": "train",
+      "research_partition": "holdout",
+      "surgery_id": "23",
+      "frame_id": "42",
+      "bounds_xyxy_exclusive": [
+        610,
+        608,
+        790,
+        745
+      ],
+      "visual_class": "clean_serosa",
+      "annotation_author": "assistant visual review; not expert clinical ground truth",
+      "notes": "Intact pale serosa and small vessels adjacent to exposed red wound bed; excludes gauze.",
+      "eligible_pixels": 24638,
+      "excluded_fraction": 0.00089,
+      "median_srgb8": [
+        219.0,
+        120.0,
+        112.0
+      ],
+      "median_chromaticity": [
+        0.483461,
+        0.266936,
+        0.249406
+      ]
+    },
+    {
+      "id": "film-thin-31",
+      "source_image": "/tmp/viscera-operative-data-research/dsad/stomach-31-11-image.png",
+      "source_sha256": "327531532eaee95dc078227cb255f7dc59046849b67d56ff748b4fe7d4b41c0d",
+      "dataset": "nct-tso/dsad",
+      "source_split": "train",
+      "research_partition": "holdout",
+      "surgery_id": "31",
+      "frame_id": "11",
+      "bounds_xyxy_exclusive": [
+        965,
+        740,
+        1130,
+        870
+      ],
+      "visual_class": "thin_red_film",
+      "annotation_author": "assistant visual review; not expert clinical ground truth",
+      "notes": "Red smears following pale fibrous tissue; instrument remains left of ROI.",
+      "eligible_pixels": 21450,
+      "excluded_fraction": 0.0,
+      "median_srgb8": [
+        112.0,
+        42.0,
+        42.0
+      ],
+      "median_chromaticity": [
+        0.567708,
+        0.215909,
+        0.219101
+      ]
+    },
+    {
+      "id": "fascia-31",
+      "source_image": "/tmp/viscera-operative-data-research/dsad/stomach-31-11-image.png",
+      "source_sha256": "327531532eaee95dc078227cb255f7dc59046849b67d56ff748b4fe7d4b41c0d",
+      "dataset": "nct-tso/dsad",
+      "source_split": "train",
+      "research_partition": "holdout",
+      "surgery_id": "31",
+      "frame_id": "11",
+      "bounds_xyxy_exclusive": [
+        826,
+        666,
+        921,
+        731
+      ],
+      "visual_class": "exposed_fibrous",
+      "annotation_author": "assistant visual review; not expert clinical ground truth",
+      "notes": "Pale fibrous band across red background away from hook and shaft.",
+      "eligible_pixels": 6139,
+      "excluded_fraction": 0.00583,
+      "median_srgb8": [
+        178,
+        129,
+        121
+      ],
+      "median_chromaticity": [
+        0.41629,
+        0.301235,
+        0.283063
+      ]
+    },
+    {
+      "id": "fat-clean-10",
+      "source_image": "/tmp/viscera-operative-data-research/dsad/intestinal_veins-10-0-image.png",
+      "source_sha256": "679d75196b306e220304186c201a0281ba90b19e99f0daac8d6915904b1d436d",
+      "dataset": "nct-tso/dsad",
+      "source_split": "train",
+      "research_partition": "holdout",
+      "surgery_id": "10",
+      "frame_id": "0",
+      "bounds_xyxy_exclusive": [
+        998,
+        707,
+        1165,
+        790
+      ],
+      "visual_class": "clean_adipose",
+      "annotation_author": "assistant visual review; not expert clinical ground truth",
+      "notes": "Orange fat fold below instrument and above text overlay.",
+      "eligible_pixels": 13861,
+      "excluded_fraction": 0.0,
+      "median_srgb8": [
+        215,
+        124,
+        80
+      ],
+      "median_chromaticity": [
+        0.513253,
+        0.297674,
+        0.190931
+      ]
+    }
+  ],
+  "source_representation": "HF viewer JPEG previews; use only explicitly compression-aware low-frequency image statistics; not original PNG/radiometry."
+}

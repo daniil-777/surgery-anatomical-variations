@@ -1,0 +1,46 @@
+{
+  "schema": "viscera.operative-statistics/v1",
+  "model": "generative-operative-statistics-1",
+  "method": "train-only multiscale log-red-chromaticity residual statistics; no neural training",
+  "texture": {
+    "file": "morphology.png",
+    "sha256": "c60ac504eff34eb25aaee6e0f7c8b20aea65e0520adf9911ac61ea8a090304fa",
+    "resolution": [
+      512,
+      512
+    ],
+    "colorSpace": "linear data",
+    "channels": {
+      "r": "statistically synthesized red-chromaticity residual",
+      "g": "authored independent wetness field",
+      "b": "authored fine field",
+      "a": "constant 1"
+    },
+    "redThreshold": 0.33056334755127437,
+    "redResidualRange": [
+      -0.3520836691107331,
+      1.1403396904064977
+    ]
+  },
+  "source": {
+    "title": "The Dresden Surgical Anatomy Dataset for abdominal organ segmentation in surgical data science",
+    "authors": "Carstens, Rinner, Bodenstedt, Jenke, Weitz, Distler, Speidel and Kolbinger",
+    "year": 2023,
+    "url": "https://huggingface.co/datasets/nct-tso/dsad",
+    "doi": "10.1038/s41597-022-01719-2",
+    "license": "CC-BY-4.0 per original Figshare and official HF metadata",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+    "qualification": "Paper Usage Notes also say non-commercial. This discrepancy is preserved; no legal clearance is claimed.",
+    "rendition": "Official viewer JPEG, not lossless original",
+    "fitRoi": "film-thin-04",
+    "surgery": "04",
+    "frame": "44",
+    "sourceSha256": "d9b2038ff184d456952716cc4ac804841271c98a33486c15a479847429d65bf1",
+    "changes": "Glare/shadow exclusion, coarse illumination removal, statistical fit of residual bands and marginal distribution, randomized synthesis. No source pixel layouts or camera highlights are copied."
+  },
+  "limitations": [
+    "Tiny statistical pilot; only one fit and one held-out film region.",
+    "Film thickness, anatomical support, physical scale and wetness are authored.",
+    "No neural model retraining, measured BRDF, active bleeding or clinical validation."
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "checks": {
+    "model_replay_exact": true,
+    "png_replay_exact": true,
+    "adjacent_seed_differs": true,
+    "model_seed_independent": true,
+    "split_disjoint": true,
+    "all_finite": true,
+    "alpha_opaque": true
+  },
+  "all_pass": true,
+  "source_script_sha256": "acd28947395010aa48c518504e31dfc7888bcdd8879c83fee10afe3381e86ed1",
+  "model_sha256": "c77d5dca2233d1dc91a0cef1b9eb7be2882bbcbad4cd58a89057390de24d45a3",
+  "r_threshold_80percent": 0.33056334755127437,
+  "marginal_spectrum_ablation": {
+    "baseline": "equal six-band target, same learned marginal; isolated spectrum ablation, not current renderer",
+    "learned_vs_heldout": {
+      "band_energy_fraction_L1": 0.3968071570732081,
+      "log_std_ratio": 0.40846119026524835,
+      "red_residual_quantile_W1": 0.06235351376607889,
+      "coverage_error_at_frozen_fit_threshold": 0.03534767133094771,
+      "anisotropy_abs_error": 0.38203835373416184
+    },
+    "equal_band_vs_heldout": {
+      "band_energy_fraction_L1": 0.8128651576764901,
+      "log_std_ratio": 0.4034421009975956,
+      "red_residual_quantile_W1": 0.061966945116708555,
+      "coverage_error_at_frozen_fit_threshold": 0.036381454289932086,
+      "anisotropy_abs_error": 0.37774048906678775
+    }
+  }
+}

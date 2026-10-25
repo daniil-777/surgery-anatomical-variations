@@ -69,6 +69,28 @@
   "sourceDataLocation": "blood/optics/data",
   "generator": "scripts/generate_blood_optics.py",
   "documentation": "blood/OPTICS.md",
+  "operativeSceneAppearance": {
+    "schema": "viscera.operative-blood-attribution/v1",
+    "modelId": "operative-spectral-film/1",
+    "parentModel": "bosschaart-oxygenation45-d65-two-stream-experimental-v1",
+    "title": "Operative scene surface-film optical adapter",
+    "derivedDataLicense": {
+      "identifier": "CC-BY-SA-4.0",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "scope": "The resampled R/T texture retains the derived spectral lookup license and all parent-source attribution. This section describes the optical adapter, not the license of all application source code."
+    },
+    "parentSources": "experimentalAppearance and sources[0..2] in this document",
+    "changes": [
+      "Sample one authored oxygenation slice of the existing attributed 512-thickness by 65-oxygenation spectral LUT into a 512 by 2 RGBA float texture.",
+      "Explicitly interpolate adjacent thickness nodes in the shader; compose top-lit substrate reflectance as R + T*T*s/(1-R*s) in linear RGB before scene lighting.",
+      "Scene millimetres are converted to metres for optical lookup; the default oxygenation fraction 0.75 is an authored assumption, not measured from surgical imagery."
+    ],
+    "limitations": [
+      "Retains all parent spectral-model limitations, including fixed hematocrit 45%, D65/CIE observer and approximate two-stream transport.",
+      "Optical appearance only; no fluid volume transport, coagulation, measured thickness, surgical camera calibration or clinical validation is implied."
+    ],
+    "adapter": "apps/studio/src/operativeBloodOptics.ts"
+  },
   "experimentalAppearance": {
     "schema": "viscera.blood-appearance-attribution/v1",
     "modelId": "bosschaart-oxygenation45-d65-two-stream-experimental-v1",
