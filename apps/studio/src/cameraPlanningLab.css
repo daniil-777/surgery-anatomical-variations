@@ -54,3 +54,13 @@
 .camera-path-actions button { display:flex;align-items:center;gap:5px;padding:8px;border:1px solid #759786;border-radius:5px;background:#28463c;color:#ddf4e7;font-size:10px; }
 .camera-path-actions kbd { margin-left:auto;font-size:8px;color:#96b6a7; }
 @media(max-width:760px) { .camera-path-overlay { top:15px;left:15px;width:218px;padding:10px; }.camera-path-overlay>svg { max-height:104px; } }
+.camera-grasp-task{margin-top:16px;padding-top:16px;border-top:1px solid #5b8b7638;display:grid;gap:10px}
+.camera-grasp-task .camera-default-start{background:linear-gradient(120deg,#3d6b60,#25493f);border-color:#85bea3;color:#ecfff5}
+.camera-grasp-task .camera-task-stop{background:#4b302b;border-color:#cf927b;color:#ffe3d7}
+.grasp-task-overlay{border-color:#89bda270}
+.grasp-task-overlay progress{width:100%;accent-color:#9ee4c3}
+.grasp-task-overlay>small{font-size:10px;line-height:1.45;color:#acbdb6;display:block}
+.grasp-task-metrics{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}
+.grasp-task-metrics>span{font-size:10px;color:#a6bbb2;background:#a1d5b909;padding:8px;border-radius:6px}
+.grasp-task-metrics strong{display:block;font:500 19px ui-monospace,monospace;color:#ddf4e9;margin-top:4px}
+.grasp-task-metrics small{font-size:11px;color:#a8bfb4}

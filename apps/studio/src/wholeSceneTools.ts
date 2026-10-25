@@ -16,7 +16,7 @@ export interface WholeSceneToolState {
 }
 interface SurfacePart {
   info: { id: string; label: string; category: string };
-  mesh: THREE.Mesh<THREE.BufferGeometry, THREE.MeshPhysicalMaterial>; variant: Float32Array;
+  mesh: { geometry: THREE.BufferGeometry; material: { side: THREE.Side }; visible: boolean }; variant: Float32Array;
 }
 interface Options {
   mode: WholeSceneToolMode; radius: number; depth: number; running: boolean; ready: boolean;
@@ -26,8 +26,14 @@ interface Options {
 interface Context {
   scene: THREE.Scene; camera: THREE.PerspectiveCamera; controls: OrbitControls; canvas: HTMLCanvasElement;
   parts: () => SurfacePart[]; physics: () => WholeScenePhysics | null; options: () => Options;
+  obstacles?: () => SurfacePart[];
   invalidate: (shadows?: boolean) => void; select: (id: string) => void;
   status: (state: WholeSceneToolState) => void;
+  interrupt?: (reason: string) => void;
+}
+export interface AutomaticGraspPlan {
+  contact: SceneToolContactInput; axis: [number, number, number]; startOffsetMm: number;
+  triangleIndex: number; candidateCount: number;
 }
 interface Anchor extends SceneSurfaceHit { part: SurfacePart }
 interface Contact {
@@ -68,6 +74,9 @@ export class WholeSceneTools {
   private message = "Apply and run learned physics to use an instrument.";
   private guard: Guard = clearGuard();
   private jawClosure = 0;
+  private automaticJaw: number | null = null;
+  private automaticAnchor: Anchor | null = null;
+  private preview: { plan: AutomaticGraspPlan; point: THREE.Vector3 } | null = null;
   private lastStatus = -Infinity;
   private lastHover = -Infinity;
   private disposed = false;
@@ -108,6 +117,13 @@ export class WholeSceneTools {
   private get holdingPush() { return Boolean(this.c.options().continuousPush && this.contact?.mode === "push" && this.contact.pointer !== null); }
   get available() { const o = this.c.options(); return o.ready && Boolean(this.c.physics()); }
   get enabled() { const o = this.c.options(); return this.available && o.running && o.mode !== "orbit" && o.recording !== "tour"; }
+  lensClear(radiusMm = 2.01) {
+    for (const part of [...this.c.parts(), ...(this.c.obstacles?.() ?? [])]) {
+      if (!part.mesh.visible || (part.mesh.geometry.boundingBox && part.mesh.geometry.boundingBox.distanceToPoint(this.c.camera.position) > radiusMm)) continue;
+      if (this.partSurface(part).closestPoint(array(this.c.camera.position), radiusMm)) return false;
+    }
+    return true;
+  }
   private partSurface(part: SurfacePart) {
     let cached = this.cache.get(part.info.id);
     if (!cached || cached.variant !== part.variant) {
@@ -149,13 +165,13 @@ export class WholeSceneTools {
     // collision obstacle. Hide it in the inspection UI to expose deeper surfaces.
     let nearest: Anchor | null = null;
     const origin = array(this.ray.ray.origin), direction = array(this.ray.ray.direction);
-    for (const part of this.c.parts()) {
+    for (const part of [...this.c.parts(), ...(this.c.obstacles?.() ?? [])]) {
       if (!part.mesh.visible || (part.mesh.geometry.boundingBox && !this.ray.ray.intersectsBox(part.mesh.geometry.boundingBox))) continue;
       const side = part.mesh.material.side === THREE.FrontSide ? "front" : part.mesh.material.side === THREE.BackSide ? "back" : "double";
       const hit = this.partSurface(part).raycast(origin, direction, side, nearest?.distanceMm ?? Infinity);
       if (hit && (!nearest || hit.distanceMm < nearest.distanceMm)) nearest = { ...hit, part };
     }
-    return nearest?.part.info.category === "skeleton" ? null : nearest;
+    return nearest && ["skeleton", "occluder"].includes(nearest.part.info.category) ? null : nearest;
   }
   private triangle(anchor: Anchor) {
     const p = anchor.part.mesh.geometry.getAttribute("position");
@@ -183,24 +199,24 @@ export class WholeSceneTools {
     if (direction.dot(normal) < .4) direction.addScaledVector(normal, .9).normalize();
     return direction;
   }
-  private collision(from: THREE.Vector3, to: THREE.Vector3, normal: THREE.Vector3, axis: THREE.Vector3, selected: SurfacePart, initial = false, anchor: Anchor | null = this.contact?.anchor ?? null, fromNormal: THREE.Vector3 = normal): Guard {
+  private collision(from: THREE.Vector3, to: THREE.Vector3, normal: THREE.Vector3, axis: THREE.Vector3, selected: SurfacePart, initial = false, anchor: Anchor | null = this.contact?.anchor ?? null, fromNormal: THREE.Vector3 = normal, marginMm = 0): Guard {
     const radius = this.c.options().radius, push = this.c.options().mode === "push";
     const tipFrom = from.clone().addScaledVector(fromNormal, push ? radius : 0), tipTo = to.clone().addScaledVector(normal, push ? radius : 0);
     const originFrom = push ? tipFrom.clone().addScaledVector(axis, -radius) : from.clone();
     const originTo = push ? tipTo.clone().addScaledVector(axis, -radius) : to.clone();
     const cameraClearance = cameraInstrumentClearance(this.c.camera.position, originFrom, originTo, axis, push ? "push" : "grasp", radius, this.jawClosure);
-    if(cameraClearance.clearanceMm < 0) return {blocked:true,organId:"camera",kind:cameraClearance.kind,clearanceMm:cameraClearance.clearanceMm,time:0,reason:"The instrument would intersect the camera clearance envelope.",conservative:true};
+    if(cameraClearance.clearanceMm < marginMm) return {blocked:true,organId:"camera",kind:cameraClearance.kind,clearanceMm:cameraClearance.clearanceMm,time:0,reason:"The instrument would intersect the camera clearance envelope.",conservative:true};
     const orientation = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 0, 1), axis);
     const envelopes = instrumentContactEnvelopes(push ? "push" : "grasp", radius, this.jawClosure).map(envelope => {
       const start = vec(envelope.startMm).applyQuaternion(orientation), end = vec(envelope.endMm).applyQuaternion(orientation);
-      return { ...envelope, fromStart: start.clone().add(originFrom), fromEnd: end.clone().add(originFrom), toStart: start.clone().add(originTo), toEnd: end.clone().add(originTo) };
+      return { ...envelope, radiusMm: envelope.radiusMm + marginMm, fromStart: start.clone().add(originFrom), fromEnd: end.clone().add(originFrom), toStart: start.clone().add(originTo), toEnd: end.clone().add(originTo) };
     });
     let result = clearGuard();
     const queryBox = new THREE.Box3().setFromPoints([tipFrom, tipTo, ...envelopes.flatMap(envelope => [envelope.fromStart, envelope.fromEnd, envelope.toStart, envelope.toEnd])]).expandByScalar(Math.max(push ? radius : 0, ...envelopes.map(e => e.radiusMm)));
     const accept = (hit: Guard) => {
       if (!result.blocked || hit.time < result.time - 1e-8 || (Math.abs(hit.time - result.time) <= 1e-8 && hit.clearanceMm < result.clearanceMm)) result = hit;
     };
-    for (const part of this.c.parts()) {
+    for (const part of [...this.c.parts(), ...(this.c.obstacles?.() ?? [])]) {
       if (!part.mesh.visible) continue;
       const box = part.mesh.geometry.boundingBox;
       if (box && !queryBox.intersectsBox(box)) continue;
@@ -232,9 +248,9 @@ export class WholeSceneTools {
     }
     return result;
   }
-  private engage(anchor: Anchor, x: number, y: number, pointer: number | null) {
+  private engage(anchor: Anchor, x: number, y: number, pointer: number | null, automaticAxis?: THREE.Vector3) {
     if (!this.enabled) return;
-    this.release(""); this.guard = clearGuard();
+    this.release("", Boolean(automaticAxis)); this.guard = clearGuard();
     // A finite ball can first touch an adjacent face/edge before its centre reaches
     // the ray-picked triangle. Attach the pressure patch to that exact swept hit.
     if (this.c.options().mode === "push") {
@@ -242,13 +258,13 @@ export class WholeSceneTools {
       const hit = this.partSurface(anchor.part).sweepSphere(array(picked.clone().addScaledVector(n, radius + 35)), array(picked.clone().addScaledVector(n, radius)), radius);
       if (hit) anchor = { ...hit, part: anchor.part };
     }
-    const normal = vec(anchor.normal), base = this.renderedPoint(anchor), axis = this.approachAxis(normal);
+    const normal = vec(anchor.normal), base = this.renderedPoint(anchor), axis = automaticAxis?.clone() ?? this.approachAxis(normal);
     this.guard = this.collision(base, base, normal, axis, anchor.part, true, anchor);
     // Camera and instrument occupy separate access paths. The earlier direct
     // camera-axis fallback could put the lens inside the shaft or blue handle.
     // Try modest lateral offsets before wider alternatives; every candidate
     // receives the same full tissue and camera-clearance guards.
-    if (this.guard.blocked) {
+    if (this.guard.blocked && !automaticAxis) {
       const towardCamera = this.c.camera.position.clone().sub(base).normalize();
       const right = new THREE.Vector3(1,0,0).applyQuaternion(this.c.camera.quaternion);
       const up = new THREE.Vector3(0,1,0).applyQuaternion(this.c.camera.quaternion);
@@ -269,7 +285,8 @@ export class WholeSceneTools {
     // A new contact's displayed tip may receive an outward clearance projection,
     // even when its tissue revision matches the previously released contact.
     this.guardRevision = -1;
-    this.c.select(anchor.organId); this.c.controls.enabled = false;
+    if (!automaticAxis) this.c.select(anchor.organId); this.c.controls.enabled = false;
+    if (automaticAxis) this.automaticJaw = 0;
     this.message = `${mode === "push" ? "Pushing" : "Grasping"} ${anchor.part.info.label}. Move laterally; scroll for depth; Escape releases.`;
     if (pointer !== null) { try { this.c.canvas.setPointerCapture(pointer); } catch { /* A released native pointer can race this synchronous capture. */ } }
     this.c.canvas.focus({ preventScroll: true }); this.c.invalidate(true); this.publish(true);
@@ -279,6 +296,77 @@ export class WholeSceneTools {
     const anchor = this.pick(x, y);
     if (anchor) this.engage(anchor, x, y, null);
     else { this.message = "No exposed soft surface at the view centre. Orbit, focus, or hide an overlying structure."; this.publish(true); }
+  }
+  /** Current visible triangles only. All poses, closure samples and the complete
+   * insertion/traction sweep use the production instrument + camera guards. */
+  async planAutomaticGrasp(organId: string, signal: AbortSignal): Promise<AutomaticGraspPlan> {
+    if (!this.enabled || this.c.options().mode !== "grasp" || organId !== "liver") throw new Error("Run liver physics and enable the grasper before planning contact.");
+    this.release("", true); this.jawClosure = 0;
+    const candidates = this.pickCandidates(organId);
+    let tried = 0;
+    for (const candidate of candidates) {
+      await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
+      signal.throwIfAborted();
+      const anchor = this.pick(Number(candidate.clientX), Number(candidate.clientY));
+      if (!anchor || anchor.organId !== organId) continue;
+      const base = this.renderedPoint(anchor), normal = this.displayedNormal(anchor);
+      const toward = this.c.camera.position.clone().sub(base).normalize();
+      const right = new THREE.Vector3(1, 0, 0).applyQuaternion(this.c.camera.quaternion), up = new THREE.Vector3(0, 1, 0).applyQuaternion(this.c.camera.quaternion);
+      const axes = [this.approachAxis(normal)];
+      for (const offset of [.32, .6, .9]) for (const angle of [0, Math.PI / 2, Math.PI, Math.PI * 1.5]) axes.push(toward.clone().addScaledVector(right, offset * Math.cos(angle)).addScaledVector(up, offset * Math.sin(angle)).normalize());
+      for (const axis of axes) {
+        tried++;
+        if (axis.dot(normal) < .35) continue;
+        let blocked = false;
+        // 1.2 mm extra planning clearance covers the <.42 mm jaw-tip arc
+        // between closure samples and leaves room for small coupled motion.
+        for (let step = 0; step <= 20; step++) {
+          const closure = step / 20;
+          this.jawClosure = closure;
+          if (this.collision(base, base, normal, axis, anchor.part, true, anchor, normal, 1.2).blocked) { blocked = true; break; }
+        }
+        if (!blocked && this.collision(base, base.clone().addScaledVector(normal, 4), normal, axis, anchor.part, false, anchor, normal, 1.2).blocked) blocked = true;
+        this.jawClosure = 0;
+        const startOffsetMm = 32, start = base.clone().addScaledVector(axis, startOffsetMm);
+        if (blocked || this.collision(start, start, normal, axis, anchor.part, true, anchor, normal, 1.2).blocked || this.collision(start, base, normal, axis, anchor.part, false, anchor, normal, 1.2).blocked) continue;
+        // Keep the actual attachment and typed worker input separate: no mesh or
+        // Three.js object crosses the worker boundary.
+        this.automaticAnchor = anchor;
+        return { contact: { mode: "grasp", organId, restPointMm: [...anchor.restPointMm], normal: array(normal), targetPointMm: array(base), radiusMm: 3,
+          attachment: { verticesMm: [vertex(anchor.part.variant, anchor.vertexIndices[0]), vertex(anchor.part.variant, anchor.vertexIndices[1]), vertex(anchor.part.variant, anchor.vertexIndices[2])], barycentric: [...anchor.barycentric] } },
+          axis: array(axis), startOffsetMm, triangleIndex: anchor.triangleIndex, candidateCount: tried };
+      }
+    }
+    this.jawClosure = 0;
+    throw new Error("No exposed liver patch admits the full grasper from this view. Change the scope angle and try again.");
+  }
+  previewAutomaticGrasp(plan: AutomaticGraspPlan, offsetMm: number, closure = 0) {
+    const anchor = this.automaticAnchor;
+    if (!this.enabled || !anchor || anchor.triangleIndex !== plan.triangleIndex || !anchor.part.mesh.visible || !Number.isFinite(offsetMm) || offsetMm < 0 || offsetMm > plan.startOffsetMm || !Number.isFinite(closure) || closure < 0 || closure > 1) throw new Error("The grasp approach is no longer available.");
+    const axis = vec(plan.axis), normal = vec(plan.contact.normal), point = vec(plan.contact.targetPointMm).addScaledVector(axis, offsetMm);
+    this.jawClosure = closure;
+    const guard = this.collision(this.preview?.point ?? point, point, normal, axis, anchor.part, !this.preview, anchor);
+    if (guard.blocked) { this.guard = guard; throw new Error(`Grasper approach blocked by ${guard.organId} (${guard.kind}).`); }
+    this.preview = { plan, point }; this.c.controls.enabled = false; this.c.invalidate(true);
+  }
+  attachAutomaticGrasp(plan: AutomaticGraspPlan) {
+    const anchor = this.automaticAnchor;
+    if (!anchor || anchor.triangleIndex !== plan.triangleIndex || this.renderedPoint(anchor).distanceTo(vec(plan.contact.targetPointMm)) > .15) throw new Error("Tissue moved before grasp attachment. Plan a fresh task.");
+    const rect = this.c.canvas.getBoundingClientRect();
+    this.engage(anchor, rect.left + rect.width / 2, rect.top + rect.height / 2, null, vec(plan.axis));
+    this.automaticAnchor = anchor;
+    if (!this.contact) throw new Error(this.message);
+  }
+  commandAutomaticGrasp(offsetMm: number, closure: number) {
+    if (!this.contact || this.automaticJaw === null || !this.enabled) throw new Error("Automatic grasp contact was interrupted.");
+    if (!Number.isFinite(offsetMm) || offsetMm < 0 || offsetMm > 4 || !Number.isFinite(closure) || closure < 0 || closure > 1) throw new Error("Automatic grasp command exceeds its bounded action space.");
+    this.automaticJaw = closure;
+    if (!this.moveTarget(this.contact.base.clone().addScaledVector(this.contact.normal, offsetMm))) throw new Error(this.message);
+    this.contact.depth = -offsetMm;
+  }
+  detachAutomaticGrasp() {
+    const anchor = this.automaticAnchor;
+    this.release("Tissue released; withdrawing the grasper.", true); this.automaticAnchor = anchor;
   }
   private moveTarget(target: THREE.Vector3) {
     const contact = this.contact; if (!contact) return false;
@@ -290,6 +378,7 @@ export class WholeSceneTools {
     this.c.invalidate(true); return true;
   }
   adjustDepth(delta: number, publish = true) {
+    if (this.automaticJaw !== null || this.preview) this.c.interrupt?.("Manual depth control selected; automatic task stopped.");
     if (!this.contact || !this.enabled || !Number.isFinite(delta)) return;
     const c = this.contact, previous = c.depth;
     c.depth = THREE.MathUtils.clamp(c.depth + delta, -20, 20);
@@ -336,7 +425,9 @@ export class WholeSceneTools {
     }
     this.c.invalidate(true);
   }
-  release(message = "Instrument released; the tissue recovers through its learned viscoelastic response.") {
+  release(message = "Instrument released; the tissue recovers through its learned viscoelastic response.", automatic = false) {
+    if (!automatic) this.c.interrupt?.(message || "Manual instrument control selected.");
+    this.preview = null; this.automaticJaw = null;
     const contact = this.contact; this.contact = null; this.rebaseOnReentry = false;
     if (contact) { this.lastAnchor = contact.anchor; this.c.physics()?.releaseToolContact(); }
     if (contact?.pointer !== null && contact?.pointer !== undefined) { try { if (this.c.canvas.hasPointerCapture(contact.pointer)) this.c.canvas.releasePointerCapture(contact.pointer); } catch { /* Native cancellation may already have released it. */ } }
@@ -353,6 +444,7 @@ export class WholeSceneTools {
   private consume(event: Event) { event.preventDefault(); event.stopImmediatePropagation(); }
   private onDown = (event: PointerEvent) => {
     if (!this.enabled || event.button !== 0) return;
+    this.c.interrupt?.("Manual instrument control selected.");
     this.consume(event);
     if (this.contact) {
       const contact = this.contact;
@@ -376,6 +468,7 @@ export class WholeSceneTools {
   };
   private onMove = (event: PointerEvent) => {
     if (!this.enabled) return;
+    if (this.automaticJaw !== null || this.preview) return;
     if (this.contact) {
       this.consume(event);
       if (this.contact.latched && this.rebaseOnReentry) {
@@ -415,6 +508,7 @@ export class WholeSceneTools {
   private onWheel = (event: WheelEvent) => { if (this.contact && this.enabled) { this.consume(event); this.adjustDepth(Math.sign(event.deltaY) * .75); } };
   private onKey = (event: KeyboardEvent) => {
     if (document.activeElement !== this.c.canvas) return;
+    if ((this.automaticJaw !== null || this.preview) && ["Escape", "Enter", "PageDown", "PageUp", "ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(event.key)) { this.consume(event); this.c.interrupt?.("Manual keyboard control selected; automatic task stopped."); return; }
     if (!this.contact) { if (event.key === "Enter" && this.enabled) { this.consume(event); this.engageSelected(); } return; }
     const amount = event.shiftKey ? .5 : 2;
     if (["Escape", "Enter", "PageDown", "PageUp", "ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(event.key)) this.consume(event); else return;
@@ -426,6 +520,16 @@ export class WholeSceneTools {
   tick(now: number, delta: number) {
     if (this.disposed) return;
     const o = this.c.options();
+    if (this.preview) {
+      if (!this.enabled || o.mode !== "grasp") { this.release("Automatic approach interrupted by scene settings."); return; }
+      const { plan, point } = this.preview;
+      this.poseOrigin.copy(point); this.tipCenter.copy(point); this.visualTip.copy(point); this.lastAxis.fromArray(plan.axis); this.lastNormal.fromArray(plan.contact.normal);
+      this.grasper.group.position.copy(point); this.grasper.group.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), this.lastAxis);
+      this.grasper.setJawClosure(this.jawClosure); this.grasper.group.visible = true; this.probe.group.visible = false; this.c.controls.enabled = false;
+      this.requestedMarker.visible = this.targetLine.visible = false;
+      if (now - this.lastStatus > 100) this.publish(true);
+      return;
+    }
     if (this.contact && (!this.enabled || !this.contact.anchor.part.mesh.visible || o.mode !== this.contact.mode)) this.release("Instrument released after scene settings changed.");
     // Advance the existing displacement-controlled contact even when the pointer
     // stays still. Every increment uses the same finite instrument sweep and
@@ -439,7 +543,7 @@ export class WholeSceneTools {
     }
     this.c.controls.enabled = !this.contact && o.recording !== "interaction";
     const anchor = this.contact?.anchor ?? null;
-    const previousJaw = this.jawClosure; this.jawClosure = THREE.MathUtils.damp(this.jawClosure, this.contact?.mode === "grasp" ? 1 : 0, 20, delta);
+    const previousJaw = this.jawClosure; this.jawClosure = this.automaticJaw ?? THREE.MathUtils.damp(this.jawClosure, this.contact?.mode === "grasp" ? 1 : 0, 20, delta);
     if (Math.abs(previousJaw - this.jawClosure) > .0001) this.c.invalidate(true);
     this.grasper.setJawClosure(this.jawClosure);
     this.probe.group.visible = Boolean(anchor && o.mode === "push"); this.grasper.group.visible = Boolean(anchor && o.mode === "grasp");
@@ -504,8 +608,8 @@ export class WholeSceneTools {
       reactionN: this.contact && solver ? Math.hypot(...solver.forceN) : 0, penetrationMm: this.contact ? this.measuredPenetration : 0, slipMm: this.contact && solver ? solver.residualMm : 0, message: this.message };
   }
   private publish(force: boolean) { if (!force || this.disposed) return; this.lastStatus = performance.now(); this.c.status(this.state()); }
-  private pickCandidates() {
-    const o = this.c.options(); if (!this.enabled || !o.selected || this.contact) return this.candidates;
+  private pickCandidates(organId?: string) {
+    const o = { ...this.c.options(), selected: organId ?? this.c.options().selected }; if (!this.enabled || !o.selected || this.contact) return this.candidates;
     const stamp = `${o.selected}:${this.c.camera.position.toArray().map(v => v.toFixed(1))}:${this.c.controls.target.toArray().map(v => v.toFixed(1))}:${this.c.parts().filter(p => p.mesh.visible).map(p => p.info.id).join()}`;
     if (stamp === this.candidateStamp && performance.now() - this.candidateTime < 1200) return this.candidates;
     this.candidateStamp = stamp; this.candidateTime = performance.now(); this.candidates = [];
@@ -525,14 +629,14 @@ export class WholeSceneTools {
       const hit = this.pick(rect.left + x, rect.top + y); if (!hit || hit.organId !== part.info.id) continue;
       if (this.candidates.some(c => c.faceIndex === hit.triangleIndex || Math.hypot(Number(c.canvasX) - x, Number(c.canvasY) - y) < 24)) continue;
       this.candidates.push({ organId: hit.organId, faceIndex: hit.triangleIndex, clientX: rect.left + x, clientY: rect.top + y, canvasX: x, canvasY: y, pointMm: hit.pointMm, barycentric: hit.barycentric, triangleMm: this.triangle(hit), surfaceRevision: this.revision, generatedAtMs: this.candidateTime });
-      if (this.candidates.length >= 8) break;
+      if (this.candidates.length >= (organId ? 18 : 8)) break;
     }
     return this.candidates;
   }
   snapshot() {
-    const o = this.c.options(), anchor = this.contact?.anchor ?? this.lastAnchor, solver = this.c.physics()?.toolSnapshot();
+    const o = this.c.options(), anchor = this.contact?.anchor ?? (this.preview ? this.automaticAnchor : this.lastAnchor), solver = this.c.physics()?.toolSnapshot();
     const point = anchor ? this.renderedPoint(anchor) : null;
-    const cameraClearance = this.contact && (this.probe.group.visible || this.grasper.group.visible) ? cameraInstrumentClearance(this.c.camera.position,this.poseOrigin,this.poseOrigin,this.lastAxis,o.mode === "push" ? "push" : "grasp",o.radius,this.jawClosure) : null;
+    const cameraClearance = (this.contact || this.preview) && (this.probe.group.visible || this.grasper.group.visible) ? cameraInstrumentClearance(this.c.camera.position,this.poseOrigin,this.poseOrigin,this.lastAxis,o.mode === "push" ? "push" : "grasp",o.radius,this.jawClosure) : null;
     return { ...this.state(), available: this.available, enabled: this.enabled, engaged: Boolean(this.contact), latched: this.contact?.latched ?? false, phase: this.contact ? "contact" : this.guard.blocked ? "blocked" : this.hover ? "hover" : "idle",
       organId: anchor?.organId ?? null, faceIndex: anchor?.triangleIndex ?? null, vertexIndices: anchor?.vertexIndices ?? null, barycentric: anchor?.barycentric ?? null,
       restTriangleMm: anchor ? anchor.vertexIndices.map(i => vertex(anchor.part.variant, i)) : null, surfaceTriangleMm: anchor ? this.triangle(anchor) : null,

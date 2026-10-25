@@ -73,6 +73,11 @@ describe("whole-scene visible instrument guard coverage", () => {
         expect(guard.kind).toBe("shaft");
         expect(guard.clearanceMm).toBeLessThan(-2.5);
 
+        // Generated fat is an occluding collision surface even though it is not
+        // an individually graspable organ with a learned material assignment.
+        const external = { ...harness, c: { ...harness.c, parts: () => [], obstacles: () => [obstacle] } };
+        expect(queryGuard.call(external, origin, origin, axis, axis, {}, true, null).blocked).toBe(true);
+
         // Failure witness: the previous shaft-only interval started at z=30,
         // so it missed this physically occupied neck/clevis section entirely.
         expect(surface.closestCapsule([0, 0, 30], [0, 0, 240], 2.6)).toBeNull();
@@ -130,6 +135,15 @@ describe("instrument input continuity", () => {
       expect(h.controller.snapshot().instrumentVisible).toBe(false);
       expect(h.controller.snapshot().guard).toMatchObject({ blocked: true, organId: "camera", kind: "handle" });
       expect(h.physics.releaseToolContact).toHaveBeenCalledTimes(1);
+    } finally { h.cleanup(); }
+  });
+  it("checks stationary lens clearance against current visible tissue", () => {
+    const h = harness("grasp");
+    try {
+      expect(h.controller.lensClear()).toBe(true);
+      const context = Reflect.get(h.controller, "c"); context.camera.position.set(0, 0, 1);
+      expect(h.controller.lensClear()).toBe(false); context.parts()[0].mesh.visible = false;
+      expect(h.controller.lensClear()).toBe(true);
     } finally { h.cleanup(); }
   });
   for (const hz of [20, 60]) it(`advances a stationary held push at the selected speed at ${hz} Hz and stops on release`, () => {

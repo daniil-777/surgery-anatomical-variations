@@ -1,5 +1,7 @@
 import { CameraPlanningLab } from "./CameraPlanningLab";
 import { CameraPathOverlay } from "./CameraPathOverlay";
+import { AutomaticGraspOverlay } from "./AutomaticGraspOverlay";
+import type { AutomaticGraspState } from "./automaticGrasp";
 import type { CameraPlannerState } from "./cameraPlannerScene";
 import { SceneTextEditor } from "./SceneTextEditor";
 import { compileSceneText, sceneTextHints, validateConnectedSceneDisease } from "./sceneTextEdits";
@@ -57,6 +59,7 @@ export default function WholeSceneStudio({ onBack, textureLab = false }: { onBac
   const viewport = useRef<WholeSceneViewportHandle>(null);
   const isVirtaMed = new URLSearchParams(location.search).get("scene") === "virtamed";
   const [cameraPlanner, setCameraPlanner] = useState<CameraPlannerState | null>(null);
+  const [automaticGrasp, setAutomaticGrasp] = useState<AutomaticGraspState | null>(null);
   const [whiteSurface, setWhiteSurface] = useState(true);
   const [operativeResidue, setOperativeResidue] = useState(.5);
   const [disease, setDisease] = useState("baseline");
@@ -189,6 +192,21 @@ export default function WholeSceneStudio({ onBack, textureLab = false }: { onBac
       if (!controller.signal.aborted) setError(cause instanceof Error ? cause.message : "Physics could not be applied.");
     } finally { if (!controller.signal.aborted) setPhysicsLoading(false); }
   }
+  async function prepareAutomaticGrasp(signal: AbortSignal) {
+    signal.throwIfAborted();
+    if (!physicsMaterials) {
+      setPhysicsLoading(true);
+      try {
+        const response = await fetch(publicUrl("anatomy-scene/virtamed-materials.json"), { signal });
+        if (!response.ok) throw new Error("The learned tissue materials could not be loaded.");
+        const data = readLearnedSceneMaterials(await response.json()); signal.throwIfAborted();
+        const assigned = new Set(data.materials.map(material => material.id));
+        if (stats?.organs.some(organ => organ.category !== "skeleton" && !assigned.has(organ.id))) throw new Error("The scene has incomplete tissue assignments.");
+        setPhysicsMaterials(data);
+      } finally { setPhysicsLoading(false); }
+    }
+    signal.throwIfAborted(); setAutoVarying(false); setAutoRotate(false); setBreathing(false); setSelected(null); setToolMode("grasp"); setPhysicsRunning(true);
+  }
 
   function vary(fresh: boolean) {
     const parsed = fresh ? crypto.getRandomValues(new Uint32Array(1))[0]! : Number(seed);
@@ -262,8 +280,9 @@ export default function WholeSceneStudio({ onBack, textureLab = false }: { onBac
 
     <main ref={sceneStage} className={`whole-stage${physicsMaterials ? " whole-stage-instruments" : ""}${exploring ? " whole-exploring" : ""}`} aria-label="Connected anatomy scene" onPointerDownCapture={event => { if ((event.target as HTMLElement).tagName === "CANVAS" && toolMode === "orbit") setView("orbit"); }}>
       <SceneResizeHandle />
-      <WholeSceneViewport ref={viewport} onCameraPlannerChange={setCameraPlanner} sourceScene={isVirtaMed ? "virtamed" : "atlas"} whiteSurface={whiteSurface} operativeResidue={operativeResidue} disease={disease} textRecipe={textRecipe} fatOptions={fatOptions} onFatStatus={setFatStatus} variation={variation} visibility={visibility} hiddenOrgans={hiddenOrgans} breathing={breathing} photoDetail={photoDetail} autoRotate={autoRotate} selectedOrgan={selected} onSelect={setSelected} onReady={setStats} onError={setError} onRecordingChange={setRecording} physicsMaterials={physicsMaterials} physicsRunning={physicsRunning} referenceColors={displayedReferences.colors} bodyReferencePlan={displayedReferences.plan} toolMode={toolMode} toolRadiusMm={toolRadius} toolDepthMm={toolDepth} continuousPush={continuousPush} pushSpeedMmS={pushSpeed} onToolStatus={setToolStatus} onNavigationChange={setNavigation} />
-      <CameraPathOverlay state={cameraPlanner} pause={() => viewport.current?.pauseCameraPath()} stop={() => viewport.current?.stopCameraPath()} />
+      <WholeSceneViewport ref={viewport} onAutomaticGraspChange={setAutomaticGrasp} onCameraPlannerChange={setCameraPlanner} sourceScene={isVirtaMed ? "virtamed" : "atlas"} whiteSurface={whiteSurface} operativeResidue={operativeResidue} disease={disease} textRecipe={textRecipe} fatOptions={fatOptions} onFatStatus={setFatStatus} variation={variation} visibility={visibility} hiddenOrgans={hiddenOrgans} breathing={breathing} photoDetail={photoDetail} autoRotate={autoRotate} selectedOrgan={selected} onSelect={setSelected} onReady={setStats} onError={setError} onRecordingChange={setRecording} physicsMaterials={physicsMaterials} physicsRunning={physicsRunning} referenceColors={displayedReferences.colors} bodyReferencePlan={displayedReferences.plan} toolMode={toolMode} toolRadiusMm={toolRadius} toolDepthMm={toolDepth} continuousPush={continuousPush} pushSpeedMmS={pushSpeed} onToolStatus={setToolStatus} onNavigationChange={setNavigation} />
+      <AutomaticGraspOverlay state={cameraPlanner && ["playing", "paused"].includes(cameraPlanner.phase) ? null : automaticGrasp} stop={() => viewport.current?.stopAutomaticGrasp()} />
+      <CameraPathOverlay state={automaticGrasp && !["idle", "stopped", "blocked", "complete"].includes(automaticGrasp.phase) ? null : cameraPlanner} pause={() => viewport.current?.pauseCameraPath()} stop={() => viewport.current?.stopCameraPath()} />
       {exploring && <section className="whole-exploration" aria-label="Interior camera controls">
         <div className="whole-exploration-heading"><strong>Between-organ inspection</strong><button type="button" aria-label={cameraControlsExpanded ? "Collapse camera controls" : "Expand camera controls"} aria-expanded={cameraControlsExpanded} onClick={() => setCameraControlsExpanded(value => !value)}>{cameraControlsExpanded ? "−" : "+"}</button><button type="button" aria-label="Exit interior exploration" onClick={() => viewport.current?.exitExploration()}><X size={16} /></button></div>
         <div hidden={!cameraControlsExpanded}><p>Drag to look · WASD / Q E to move · arrow keys to look · Escape to exit</p>
@@ -298,7 +317,7 @@ export default function WholeSceneStudio({ onBack, textureLab = false }: { onBac
 
     <aside ref={controlsPanel} className="whole-controls" aria-label="Whole scene controls">
       <section className="virtamed-source" aria-label="Scene library"><label>Scene library<select aria-label="Scene library" value={isVirtaMed ? "virtamed" : "atlas"} onChange={event => { location.href=event.target.value === "virtamed" ? "?mode=scene&scene=virtamed" : "?mode=scene"; }}><option value="atlas">Whole anatomical atlas</option><option value="virtamed">VirtaMed scene</option></select></label></section>
-      {isVirtaMed && <CameraPlanningLab viewport={viewport} ready={ready} disabled={recording} planner={cameraPlanner}
+      {isVirtaMed && <CameraPlanningLab automaticGrasp={automaticGrasp} onPrepareGrasp={prepareAutomaticGrasp} viewport={viewport} ready={ready} disabled={recording} planner={cameraPlanner}
         onFreeze={() => { setAutoVarying(false); setAutoRotate(false); setBreathing(false); setPhysicsRunning(false); setToolMode("orbit"); setSelected(null); viewport.current?.releaseTool(); }}
         onPrepareGoal={() => { setAutoVarying(false); setAutoRotate(false); setBreathing(false); setPhysicsRunning(false); setToolMode("orbit"); setSelected(null); setWhiteSurface(false); viewport.current?.releaseTool(); }}
         onPrepare={() => { setAutoVarying(false); setAutoRotate(false); setBreathing(false); setPhysicsRunning(false); setToolMode("orbit"); setSelected(null); setWhiteSurface(false); viewport.current?.videoView(); }} />}

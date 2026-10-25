@@ -1,4 +1,5 @@
 import { CameraPlannerScene, type CameraTrainingScene, type CameraPlannerState, type CameraPlaybackOptions, type CameraCaptureOptions } from "./cameraPlannerScene";
+import { AutomaticGrasp, type AutomaticGraspState } from "./automaticGrasp";
 import { applyVirtaMedVessels } from "./virtaMedVesselNetwork";
 import { loadOperativeAppearance, type OperativeAppearance } from "./operativeAppearance";
 import { LaparoscopeLighting } from "./laparoscopeLighting";
@@ -50,6 +51,8 @@ export interface WholeSceneStats {
   bounds: { min: number[]; max: number[] };
 }
 export interface WholeSceneViewportHandle {
+  startAutomaticGrasp: (signal: AbortSignal, seed?: number) => Promise<AutomaticGraspState>;
+  stopAutomaticGrasp: () => void;
   captureCameraMap: (targets: string[], signal?: AbortSignal, options?: CameraCaptureOptions) => Promise<CameraTrainingScene>;
   playCameraPath: (scene: CameraTrainingScene, route: number[], options?: CameraPlaybackOptions) => void;
   stopCameraPath: () => void;
@@ -75,6 +78,7 @@ export interface WholeSceneViewportHandle {
   lookExploration: (yawDeltaDeg: number, pitchDeltaDeg: number) => void;
 }
 export interface WholeSceneViewportProps {
+  onAutomaticGraspChange?: (state: AutomaticGraspState) => void;
   onCameraPlannerChange?: (state: CameraPlannerState) => void;
   sourceScene?: "atlas" | "virtamed";
   whiteSurface?: boolean;
@@ -114,6 +118,8 @@ interface Part {
   geometrySignature: string; materialSignature: string;
 }
 interface Runtime {
+  startAutomaticGrasp: (signal: AbortSignal, seed?: number) => Promise<AutomaticGraspState>;
+  stopAutomaticGrasp: () => void;
   captureCameraMap: (targets: string[], signal?: AbortSignal, options?: CameraCaptureOptions) => Promise<CameraTrainingScene>;
   playCameraPath: (scene: CameraTrainingScene, route: number[], options?: CameraPlaybackOptions) => void;
   stopCameraPath: () => void;
@@ -178,6 +184,8 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
   const latest = useRef(props);
   latest.current = props;
   useImperativeHandle(ref, () => ({
+    startAutomaticGrasp: (signal, seed) => runtime.current ? runtime.current.startAutomaticGrasp(signal, seed) : Promise.reject(new Error("The scene is still loading.")),
+    stopAutomaticGrasp: () => runtime.current?.stopAutomaticGrasp(),
     fit: () => runtime.current?.fit(), focusOrgan: id => runtime.current?.focusOrgan(id), view: preset => runtime.current?.view(preset),
     videoView: () => runtime.current?.videoView(),
     captureCameraMap: (targets,signal,options) => runtime.current ? runtime.current.captureCameraMap(targets,signal,options) : Promise.reject(new Error("The scene is still loading.")),
@@ -210,6 +218,7 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
     let vmAsset: { sha256: string; bytes: number; version: string } | null = null;
     let operativeCamera = false;
     let cameraPlanner: CameraPlannerScene | null = null;
+    let automaticGrasp: AutomaticGrasp | null = null;
     const element = host.current;
     if (!element) return;
     let renderer: THREE.WebGLRenderer;
@@ -295,8 +304,9 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
     let physics: WholeScenePhysics | null = null, physicsSteps = 0, physicsFailed = false;
     let geometryUploads = 0, surfaceCpuMs = 0, solverCpuMs = 0;
     let wasPhysicsMoving = false;
-    const fatLayers = new FatSceneLayerView(assembly, () => parts.map(part => ({ id: part.info.id, mesh: part.mesh, rest: part.rest })), latest.current.variation, () => { cameraPlanner?.invalidate("Generated surrounding tissue changed. Capture a fresh camera map."); navigationGuard?.invalidate(); invalidate(true); snapshotAfterDraw = true; latest.current.onFatStatus?.(fatLayers.snapshot().status); }, message => latest.current.onError(message));
+    const fatLayers = new FatSceneLayerView(assembly, () => parts.map(part => ({ id: part.info.id, mesh: part.mesh, rest: part.rest })), latest.current.variation, () => { automaticGrasp?.stop("Generated surrounding tissue changed; automatic task stopped."); cameraPlanner?.invalidate("Generated surrounding tissue changed. Capture a fresh camera map."); navigationGuard?.invalidate(); invalidate(true); snapshotAfterDraw = true; latest.current.onFatStatus?.(fatLayers.snapshot().status); }, message => latest.current.onError(message));
     const applyFat = () => {
+      automaticGrasp?.stop("Surrounding tissue settings changed; automatic task stopped.");
       cameraPlanner?.invalidate("Surrounding tissue changed. Capture a fresh camera map."); updateFatLighting(); if (parts.length) fatLayers.configure(latest.current.fatOptions ?? { enabled: false, seed: 42, thicknessMm: 5, omentum: true, perirenal: true }); };
     let manifest: Manifest | null = null, fitRadius = 400;
     let currentView: WholeSceneView | "orbit" = "front";
@@ -341,10 +351,13 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
     const nativeRecording = registerSceneRecordingSource({ renderer, camera, host: element, label: "Whole anatomy scene", draw, available: () => ready && !recorder && !cameraPlanner?.busy });
     let lastSnapshot = 0;
     const tools = new WholeSceneTools({ scene, camera, controls, canvas, parts: () => parts, physics: () => physics,
+      obstacles: () => fatLayers.navigationSurfaces().map(surface => ({ info: { id: surface.id, label: surface.id, category: "occluder" }, variant: surface.geometry.getAttribute("position").array as Float32Array,
+        mesh: { geometry: surface.geometry, visible: surface.visible, material: { side: THREE.DoubleSide } } })),
       options: () => ({ mode: exploring ? "orbit" : latest.current.toolMode ?? "orbit", radius: latest.current.toolRadiusMm ?? 6, depth: latest.current.toolDepthMm ?? 2,
         continuousPush: latest.current.continuousPush ?? false, pushSpeedMmS: latest.current.pushSpeedMmS ?? 3,
         running: !exploring && Boolean(latest.current.physicsRunning) && !physicsFailed, ready: ready && !physicsFailed, selected: latest.current.selectedOrgan ?? null, recording: recording?.kind ?? null }),
       invalidate, select: id => latest.current.onSelect?.(id), status: state => { if (alive) latest.current.onToolStatus?.(state); },
+      interrupt: reason => automaticGrasp?.stop(reason),
     });
     const captureMetadata = (): Record<string, unknown> => ({
       sourceScene: isVirtaMed ? "virtamed" : "atlas", surfaceMode: isVirtaMed ? latest.current.whiteSurface ? "white" : "learned-tissue" : "atlas",
@@ -360,6 +373,7 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
       registration: isVirtaMed ? "Authored video-field reconstruction in shared assumed millimetres. Broad learned controls and localized phenotype fields are shared across neighboring structures." : "BodyParts3D structures retain source registration; HRA heart and lung surfaces are fitted to atlas bounds (see manifest). Every structure then uses one shared invertible variation map.",
       sourceConnections: isVirtaMed ? "Registered gallbladder–duct ring, gallbladder–liver membrane, cranial sheet roots and internal fatty bridge. Coincident attachment coordinates share the disease and physics maps; concealed anatomy is inferred." : "Atlas-derived ducts and vessels; coincident points remain coincident. Source endpoint attachment is not inferred or certified.",
       cameraPlanner: cameraPlanner?.snapshot() ?? null,
+      automaticGrasp: automaticGrasp?.snapshot() ?? null,
       camera: { view: currentView, focusedOrgan, position: camera.position.toArray(), target: controls.target.toArray(), up: camera.up.toArray(), fov: camera.fov, aspect: camera.aspect, navigation: navigationSnapshot() },
       inspection: { surfaceScope: "visible atlas triangles, generated fat and illustrative peritoneal enclosure; no reconstructed organ lumens", radiusMm: NAVIGATION_CLEARANCE_MM,
         cameraLight: { enabled: exploring || operativeCamera, intensity: inspectionIntensity, positionMm: inspectionLight.position.toArray(), targetMm: inspectionLight.target.position.toArray() } },
@@ -661,7 +675,7 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
       fatLayers.bind(physics);
       tools.syncOptions(); snapshot();
     };
-    const pulsePhysics = () => { physics?.pulse(latest.current.selectedOrgan); snapshot(); };
+    const pulsePhysics = () => { automaticGrasp?.stop("Manual palpation selected; automatic task stopped."); physics?.pulse(latest.current.selectedOrgan); snapshot(); };
     const resetPhysics = () => { exitExploration(); tools.release("Motion reset; choose a new contact."); physics?.reset(); physicsFailed = false; syncPhysicsGeometry(true); snapshot(); draw(); };
     const stopRecording = () => { if (recorder && recorder.state !== "inactive") recorder.stop(); };
     const recordScene = (kind: "tour" | "interaction", durationSeconds: number): Promise<Blob> => {
@@ -723,7 +737,20 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
       restoreLight: () => { if (laparoscope.update(camera, exploring || operativeCamera ? inspectionIntensity : 0)) renderer.shadowMap.needsUpdate = true; },
       changed: () => { invalidate(true); }, publish: state => { if(alive) latest.current.onCameraPlannerChange?.(state); },
     });
-    runtime.current = { captureCameraMap: (targets,signal,options) => {
+    automaticGrasp = new AutomaticGrasp({ tools, camera, physics: () => physics,
+      // Reuse the tool's refitted BVHs rather than rebuilding navigation trees
+      // after every deforming frame.
+      lensClear: () => tools.lensClear(),
+      trainingInput: plan => {
+        if (!latest.current.physicsMaterials || !physics) throw new Error("Accepted physics materials are required for grasp learning.");
+        return { organs: parts.map(part => ({ id: part.info.id, category: part.info.category, bounds: boxData(new THREE.Box3().setFromBufferAttribute(new THREE.BufferAttribute(part.variant, 3))) })), materials: latest.current.physicsMaterials,
+          responses: isVirtaMed ? VIRTAMED_TISSUE_RESPONSE : {}, attachments: isVirtaMed ? [...(vmInterfaces?.edges ?? []), ...VIRTAMED_AUTHORED_PHYSICS_JOINTS] : [], contact: plan.contact };
+      }, publish: state => { if (alive) latest.current.onAutomaticGraspChange?.(state); },
+    });
+    runtime.current = { startAutomaticGrasp: (signal, seed) => {
+        if (!isVirtaMed || !ready || recording || nativeRecording.active || cameraPlanner?.busy || latest.current.breathing || latest.current.autoRotate) return Promise.reject(new Error("Finish the camera approach and pause other scene motion before grasping."));
+        cameraTransition = null; return automaticGrasp!.start(signal, seed);
+      }, stopAutomaticGrasp: () => automaticGrasp?.stop(), captureCameraMap: (targets,signal,options) => {
         if (!ready || recording || nativeRecording.active) return Promise.reject(new Error("Load the scene and stop recording before mapping camera views."));
         exitExploration(true); tools.release("Camera mapping started; instrument released."); cameraTransition = null;
         return cameraPlanner!.capture(targets,signal,undefined,options);
@@ -731,7 +758,7 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
         if (!ready || recording || nativeRecording.active) throw new Error("Stop recording before starting a camera path.");
         exitExploration(true); tools.release("Camera path started; instrument released."); cameraTransition = null; operativeCamera = true; currentView = "orbit";
         cameraPlanner!.play(map,route,options);
-      }, stopCameraPath: () => cameraPlanner?.stop(), pauseCameraPath: () => cameraPlanner?.pause(),
+      }, stopCameraPath: () => { cameraPlanner?.stop(); automaticGrasp?.stop(); }, pauseCameraPath: () => cameraPlanner?.pause(),
       invalidateCameraMap: reason => { cameraPlanner?.invalidate(reason); invalidate(true); snapshot(); },
       videoView, fit, focusOrgan, view, captureMetadata, recordTour, stopRecording, applyFat, applyVariation, applyVisibility, applySelection, applyReferenceColors, applyPhysics, pulsePhysics, resetPhysics,
       enterExploration, exitExploration, resetExploration, moveExploration, lookExploration,
@@ -812,7 +839,7 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
       if (!movementKeys.has(event.code)) return;
       consumeNavigation(event); navigationKeys.add(event.code);
     };
-    const onPlannerEscape = (event: KeyboardEvent) => { if (event.code === "Escape" && cameraPlanner?.busy) { event.preventDefault(); cameraPlanner.stop("Camera path stopped with Escape."); } };
+    const onPlannerEscape = (event: KeyboardEvent) => { if (event.code === "Escape") { automaticGrasp?.stop("Automatic task stopped with Escape."); if (cameraPlanner?.busy) { event.preventDefault(); cameraPlanner.stop("Camera path stopped with Escape."); } } };
     const onNavigationKeyUp = (event: KeyboardEvent) => { if (navigationKeys.delete(event.code)) publishNavigation(); };
     const clearNavigationInput = () => { navigationKeys.clear(); releaseLookPointer(); if (exploring) publishNavigation(); };
     const onNavigationWheel = (event: WheelEvent) => {
@@ -853,6 +880,9 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
           }
         } catch (error) { physicsFailed = true; latest.current.onError(`The physical simulation stopped: ${error instanceof Error ? error.message : String(error)}`); }
       } else lastPhysicsTime = now;
+      automaticGrasp?.tick(delta);
+      // Apply the accepted command before updating the visible instrument pose;
+      // otherwise an uneven frame interval introduces one frame of display lag.
       tools.tick(now, delta);
       if (exploring) {
         controls.enabled = false;
@@ -878,10 +908,10 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
         camera.position.set(controls.target.x + Math.sin(angle) * recording.distance, controls.target.y + recording.elevation, controls.target.z + Math.cos(angle) * recording.distance);
         currentView = "orbit";
       }
-      controls.autoRotate = !cameraPlanner?.busy && !exploring && latest.current.autoRotate && !recording && !cameraTransition && !tools.engaged;
+      controls.autoRotate = !automaticGrasp?.active && !cameraPlanner?.busy && !exploring && latest.current.autoRotate && !recording && !cameraTransition && !tools.engaged;
       if (controls.autoRotate) currentView = "orbit";
       updatingControls = true;
-      const controlsChanged = cameraPlanner?.busy || exploring || tools.engaged || recording?.kind === "interaction" ? false : controls.update(delta);
+      const controlsChanged = automaticGrasp?.active || cameraPlanner?.busy || exploring || tools.engaged || recording?.kind === "interaction" ? false : controls.update(delta);
       updatingControls = false;
       if (controlsChanged) invalidate();
       const activeMotion = Boolean(cameraPlanner?.moving || nativeRecording.active || recording || cameraTransition || (!exploring && (latest.current.autoRotate || (!isVirtaMed && !physics && latest.current.breathing) || (physics && latest.current.physicsRunning && !physicsFailed && (!isVirtaMed || latest.current.breathing || physics.motionActive)))));
@@ -980,6 +1010,7 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
     void load();
     return () => {
       cameraPlanner?.dispose();
+      automaticGrasp?.dispose();
       alive = false; abort.abort(); cancelAnimationFrame(frame); observer.disconnect();
       if (recordingTimer) clearTimeout(recordingTimer); stopRecording(); recordingStream?.getTracks().forEach(track => track.stop());
       tools.dispose();
