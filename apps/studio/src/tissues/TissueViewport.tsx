@@ -101,14 +101,17 @@ export const TissueViewport = forwardRef<TissueViewportHandle, Props>(function T
           const tileScaleMm = bakeCfg?.tileScaleMm ?? props.manifest.recipe.tile_size_mm;
           const blendSharpness = bakeCfg?.blendSharpness ?? 6;
           const atlasResolution = bakeCfg?.atlasResolution ?? 256;
-          const nextBakeKey = `${targetOrgan}:${latest.current.appearance?.modelId ?? ""}:${latest.current.appearance?.seed ?? ""}:${atlasResolution}:${tileScaleMm}:${blendSharpness}`;
+          const sourceTexture = latest.current.appearance?.texture ?? textureSet.maps.substrate;
+          // Same model/seed can produce a different image after changing condition,
+          // resolution or weights. Cache the texture actually consumed by the bake.
+          const nextBakeKey = `${targetOrgan}:${sourceTexture.uuid}:${sourceTexture.version}:${atlasResolution}:${tileScaleMm}:${blendSharpness}:${control.wetness}`;
           if (nextBakeKey !== lastBakeKey || !organBakeResult) {
             organBakeResult?.dispose();
             const maxAniso = renderer.capabilities.getMaxAnisotropy();
             organBakeResult = bakeOrganMeshTextures(
               targetOrgan,
               organSurface,
-              { substrate: extractRgbaFromTexture(latest.current.appearance?.texture ?? textureSet.maps.substrate) },
+              { substrate: extractRgbaFromTexture(sourceTexture) },
               { atlasResolution, tileScaleMm, blendSharpness, variancePreserving: true, wetness: control.wetness },
             );
             organBakeResult.seamlessTileTexture.anisotropy = maxAniso;
@@ -170,7 +173,7 @@ export const TissueViewport = forwardRef<TissueViewportHandle, Props>(function T
       // Air-filled inspection phantom: no invented volumetric fog.
       scene.fog = null;
       const appearance = latest.current.appearance;
-      element.dataset.tissueSnapshot = JSON.stringify({ organ: props.manifest.recipe.organ, resolution: props.manifest.resolution, ...control, geometry: inside ? "curved-lumen-phantom-v3" : control.view === "organ" ? "source-atlas-exterior-v1" : "80-mm-surface-coupon", temporalBinding: control.view === "organ" ? "object-mm-triplanar" : "fixed-rest-uv", importedMaterial: latest.current.importedMaterial ?? null, atlas: control.view === "organ" ? { ...organSurface!.provenance, nodes: organSurface!.nodes, projection: "surface-gradient triplanar; assumed atlas mm", orbitPeriodSeconds: 24 } : null, organBake: control.view === "organ" && organBakeResult ? organBakeResult.metrics : null, materialRevision: "spatial-film-v4-wet-interface-ablation-v1-material-variation-v1", editableRelief: Boolean(props.manifest.channels.layer_relief), opticsRevision: "camera-rig-cavity-fill-v3", indirectLight: "authored constant cavity fill; not measured scattering", appearance: appearance ? { seed: appearance.seed, region: appearance.region, condition: appearance.condition, modelId: appearance.modelId, resolution: appearance.resolution, evidence: appearance.evidence } : null, exposure: renderer.toneMappingExposure, trajectory: path ? { lengthMm: path.lengthMm, speedMmPerSecond: SPEED_MM_PER_SECOND, periodSeconds: path.lengthMm / SPEED_MM_PER_SECOND } : null });
+      element.dataset.tissueSnapshot = JSON.stringify({ organ: props.manifest.recipe.organ, resolution: props.manifest.resolution, ...control, geometry: inside ? "curved-lumen-phantom-v3" : control.view === "organ" ? "source-atlas-exterior-v1" : "80-mm-surface-coupon", temporalBinding: control.view === "organ" ? "object-mm-triplanar" : "fixed-rest-uv", importedMaterial: latest.current.importedMaterial ?? null, atlas: control.view === "organ" ? { ...organSurface!.provenance, nodes: organSurface!.nodes, projection: "surface-gradient triplanar; assumed atlas mm", orbitPeriodSeconds: 24 } : null, organBake: control.view === "organ" && organBakeResult ? { ...organBakeResult.metrics, source: appearance ? { kind: "generated-appearance", modelId: appearance.modelId, seed: appearance.seed, condition: appearance.condition, resolution: appearance.resolution } : { kind: props.manifest.generator === "viscera.tissue-lora/v1" ? "learned-tile" : "material", directory: props.directory, substrateSha256: props.manifest.channels.substrate?.sha256, seed: props.manifest.recipe.seed } } : null, materialRevision: "spatial-film-v4-wet-interface-ablation-v1-material-variation-v1", editableRelief: Boolean(props.manifest.channels.layer_relief), opticsRevision: "camera-rig-cavity-fill-v3", indirectLight: "authored constant cavity fill; not measured scattering", appearance: appearance ? { seed: appearance.seed, region: appearance.region, condition: appearance.condition, modelId: appearance.modelId, resolution: appearance.resolution, evidence: appearance.evidence } : null, exposure: renderer.toneMappingExposure, trajectory: path ? { lengthMm: path.lengthMm, speedMmPerSecond: SPEED_MM_PER_SECOND, periodSeconds: path.lengthMm / SPEED_MM_PER_SECOND } : null });
     };
     const resize = () => { if (capture.recording || nativeRecording.active) return; renderer.setSize(element.clientWidth, element.clientHeight); camera.aspect = element.clientWidth / Math.max(1, element.clientHeight); camera.updateProjectionMatrix(); };
     const captureFrame: TissueViewportHandle["capture"] = (...args) => {
@@ -222,6 +225,7 @@ export const TissueViewport = forwardRef<TissueViewportHandle, Props>(function T
     renderer.domElement.addEventListener("webglcontextlost", contextLost);
     return () => {
       disposed = true; nativeRecording.dispose(); controller.abort(); capture.dispose(); cancelAnimationFrame(frame); observer.disconnect(); orbit.dispose();
+      latest.current.onOrganBaked?.(undefined);
       geometry?.dispose(); organBakeResult?.dispose(); organSurface?.geometry.dispose(); organMaterialSet?.dispose(); materialSet?.dispose(); textureSet?.dispose(); lighting.dispose(); env.dispose();
       renderer.domElement.removeEventListener("webglcontextlost", contextLost); renderer.dispose(); renderer.forceContextLoss(); renderer.domElement.remove(); runtime.current = null;
       delete (element as HTMLDivElement & { captureTissueFrame?: unknown }).captureTissueFrame;

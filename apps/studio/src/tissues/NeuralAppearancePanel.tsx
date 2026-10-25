@@ -17,9 +17,9 @@ export interface NeuralSurfaceAppearance {
   region: string;
   seed: string;
 }
-interface Props { region: string; suspended?: boolean; onChange: (appearance: NeuralSurfaceAppearance | undefined) => void }
+interface Props { region: string; suspended?: boolean; selectionKey?: string; onActivate?: () => void; onChange: (appearance: NeuralSurfaceAppearance | undefined) => void }
 
-export function NeuralAppearancePanel({ region, suspended = false, onChange }: Props) {
+export function NeuralAppearancePanel({ region, suspended = false, selectionKey = region, onActivate, onChange }: Props) {
   const [model, setModel] = useState<AppearanceModel>(), [source, setSource] = useState("");
   const [seed, setSeed] = useState("42"), [condition, setCondition] = useState(0), [resolution, setResolution] = useState(512);
   const [enabled, setEnabled] = useState(true), [status, setStatus] = useState(""), [error, setError] = useState("");
@@ -28,6 +28,7 @@ export function NeuralAppearancePanel({ region, suspended = false, onChange }: P
   const [colabModels, setColabModels] = useState<readonly ColabAppearanceModelEntry[]>(DEFAULT_COLAB_APPEARANCE_MODELS);
   const [selectedColabId, setSelectedColabId] = useState<string>(DEFAULT_COLAB_APPEARANCE_MODELS[0]!.id);
   const [loadingColab, setLoadingColab] = useState(false);
+  const previousSelection = useRef(selectionKey);
   const callback = useRef(onChange); callback.current = onChange;
   const operation = useRef<AbortController | undefined>(undefined), revision = useRef(0), mounted = useRef(true);
   const labels = model?.artifact.architecture.condition_labels ?? [];
@@ -56,6 +57,14 @@ export function NeuralAppearancePanel({ region, suspended = false, onChange }: P
     }).catch(() => { /* Browser storage is optional; importing still works for this session. */ });
     return () => { mounted.current = false; catalogController.abort(); operation.current?.abort(); };
   }, []);
+
+  useEffect(() => {
+    if (previousSelection.current === selectionKey) return;
+    previousSelection.current = selectionKey;
+    // A later tile selection wins over any pending model download or storage restore.
+    revision.current++;
+    setLoadingColab(false);
+  }, [selectionKey]);
 
   useEffect(() => () => appearance?.texture.dispose(), [appearance]);
   useEffect(() => { callback.current(!suspended && enabled && appearance?.region === region ? appearance : undefined); }, [appearance, enabled, region, suspended]);
@@ -105,6 +114,7 @@ export function NeuralAppearancePanel({ region, suspended = false, onChange }: P
       if ((chosen.bytes !== undefined && new TextEncoder().encode(text).length !== chosen.bytes) || (chosen.sha256 && await sha256(new TextEncoder().encode(text)) !== chosen.sha256)) throw new Error("Generative model download failed integrity verification.");
       const loaded = await parseAppearanceModel(text);
       if (!mounted.current || version !== revision.current) return;
+      onActivate?.();
       const regionIdx = loaded.artifact.architecture.condition_regions.indexOf(region);
       setModel(loaded);
       setSource(text);
@@ -130,6 +140,7 @@ export function NeuralAppearancePanel({ region, suspended = false, onChange }: P
       if (!file.size || file.size > MAX_MODEL_FILE_BYTES) throw new Error("Choose a nonempty .tissue-model.json file below 32 MiB.");
       const text = await file.text(), loaded = await parseAppearanceModel(text);
       if (!mounted.current || version !== revision.current) return;
+      onActivate?.();
       setModel(loaded); setSource(text); setEnabled(true); setCondition(0);
       try { await storeAppearance(text); }
       catch { if (mounted.current && version === revision.current) setStatus("Model imported for this session; browser storage is unavailable."); }
@@ -156,6 +167,8 @@ export function NeuralAppearancePanel({ region, suspended = false, onChange }: P
   return <section className="tissue-model-panel" aria-label="Learned tissue appearance">
     <span className="tissue-eyebrow">04 / LEARNED APPEARANCE</span>
     <button type="button" className="tissue-wide tissue-variation-primary" disabled={loadingColab || busy} onClick={() => void loadColabModel()}>{loadingColab ? "Loading best generative model…" : "Use generative models"}</button>
+    {suspended && <p className="tissue-copy" role="status">The selected tile is active. Use generative models to switch to a generated appearance.</p>}
+    <div hidden={suspended}>
     {colabModels.length > 0 && <label className="tissue-field">Available generative models<select aria-label="Available generative models" value={selectedColabId} disabled={loadingColab || busy} onChange={event => { const nextId = event.target.value; setSelectedColabId(nextId); void loadColabModel(nextId); }}>{colabModels.map(entry => <option key={entry.id} value={entry.id}>{appearanceModelLabel(entry)}</option>)}</select></label>}
     <label className="tissue-field">Import generative model<input type="file" aria-label="Import generative tissue model" accept=".json,application/json" onChange={event => { void importFile(event.target.files?.[0]); event.target.value = ""; }} /></label>
     <p className="tissue-copy">Import the notebook’s .tissue-model.json export. Inference stays in this browser and generates a texture fixed to the tissue surface.</p>
@@ -174,7 +187,8 @@ export function NeuralAppearancePanel({ region, suspended = false, onChange }: P
       </>}
       <button className="tissue-wide" onClick={remove}>Remove imported model</button>
     </>}
-    {status && <p className="tissue-copy" role="status">{modelMessage(status)}</p>}
+    </div>
+    {!suspended && status && <p className="tissue-copy" role="status">{modelMessage(status)}</p>}
     {error && <p className="tissue-model-error" role="alert">{modelMessage(error)}</p>}
   </section>;
 }

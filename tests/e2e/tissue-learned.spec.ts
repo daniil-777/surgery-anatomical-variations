@@ -171,3 +171,56 @@ test("Bake onto 3D organ mesh seamlessly bakes learned tiles onto the correspond
   await expect(bakeCard.getByText(/Exported Unity PBR package: liver-unity-pbr-package\.zip/i)).toBeVisible();
   expect(errors).toEqual([]);
 });
+
+test('selected learned tiles replace an active model on the baked liver and survive a late model response', async ({page}) => {
+  const errors = monitor(page);
+  await page.goto(entryUrl); await ready(page);
+  await page.getByRole('button', {name:'Use generative models', exact:true}).click();
+  await expect.poll(async() => (await snapshot(page)).appearance?.evidence).toBe('exemplar_fitted');
+  const tiles = page.locator('.tissue-learned-tile');
+  const region = page.getByLabel('Tissue region', {exact:true});
+  const atlas = page.getByRole('img', {name:'Baked liver albedo UV atlas', exact:true});
+  await tiles.nth(0).click(); await ready(page);
+  const firstId = await region.inputValue();
+  await page.getByRole('button', {name:/Bake onto 3D liver mesh/}).click();
+  await expect.poll(async() => (await snapshot(page)).organBake?.source.kind).toBe('learned-tile');
+  expect((await snapshot(page)).appearance).toBeNull();
+  const firstAtlas = await atlas.getAttribute('src');
+  const firstSource = (await snapshot(page)).organBake.source.substrateSha256;
+  await tiles.nth(1).click(); await ready(page);
+  await expect.poll(async() => (await snapshot(page)).organBake?.source.substrateSha256).not.toBe(firstSource);
+  const secondAtlas = await atlas.getAttribute('src');
+  expect(secondAtlas).not.toBe(firstAtlas);
+  expect((await snapshot(page)).appearance).toBeNull();
+  await tiles.nth(0).click(); await ready(page);
+  await expect.poll(() => atlas.getAttribute('src')).toBe(firstAtlas);
+  await expect(region).toHaveValue(firstId);
+
+  // A delayed model download must not undo a newer explicit gallery selection.
+  let release!: () => void;
+  let requested!: () => void;
+  const pending = new Promise<void>(resolve => {release = resolve});
+  const started = new Promise<void>(resolve => {requested = resolve});
+  await page.route('**/tissue-models/exemplar-liver.tissue-model.json', async route => {
+    const response = await route.fetch(); requested(); await pending; await route.fulfill({response});
+  });
+  await page.getByRole('button', {name:'Use generative models',exact:true}).click();
+  await started;
+  await tiles.nth(1).click(); await ready(page);
+  const secondId = await region.inputValue();
+  const delivered = page.waitForResponse(r => r.url().endsWith('/exemplar-liver.tissue-model.json'));
+  release(); await delivered;
+  await expect.poll(() => atlas.getAttribute('src')).toBe(secondAtlas);
+  await expect(region).toHaveValue(secondId);
+  expect((await snapshot(page)).appearance).toBeNull();
+  await page.unroute('**/tissue-models/exemplar-liver.tissue-model.json');
+
+  await page.getByRole('button', {name:'Use generative models',exact:true}).click();
+  await expect(region).toHaveValue('liver');
+  await expect.poll(async() => (await snapshot(page)).organBake?.source.kind).toBe('generated-appearance');
+  const generatedAtlas = await atlas.getAttribute('src');
+  await page.getByLabel('Learned RGB resolution', {exact:true}).selectOption('256');
+  await expect.poll(async() => (await snapshot(page)).organBake?.source.resolution).toBe(256);
+  expect(await atlas.getAttribute('src')).not.toBe(generatedAtlas);
+  expect(errors).toEqual([]);
+});

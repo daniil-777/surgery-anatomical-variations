@@ -14,7 +14,7 @@ import { defaultMaterialVariation, newMaterialSeed, validateMaterialVariation, t
 import { importTissuePbrBundle } from "./pbrBundle";
 import { discoverColabCatalog, selectBestColabPbrBundle } from "./colabModels";
 import { LearnedTilesPanel } from "./LearnedTilesPanel";
-import { catalogGroups, entryFamily, learnedForFamily } from "./learnedCatalog";
+import { catalogGroups, entryFamily, isLearnedEntry, learnedForFamily } from "./learnedCatalog";
 import "./tissues.css";
 
 function Slider({ label, value, onChange }: { label: string; value: number; onChange: (value: number) => void }) {
@@ -52,6 +52,12 @@ export default function TissueLab() {
   const outputName = localPbr ? `${manifest!.recipe.organ}-generated-pbr` : selected;
   const editableRelief = Boolean(manifest?.channels.substrate_normal && manifest?.channels.layer_relief);
   const current = catalog.find(item => item.id === selected);
+  // A gallery selection is an explicit material source, even while its manifest loads.
+  const selectedLearnedTile = Boolean(current && isLearnedEntry(current));
+  const activeAppearance = !localPbr && !selectedLearnedTile && appearance?.region === manifest?.recipe.organ ? appearance : undefined;
+  const activateGeneratedAppearance = () => {
+    if (current && isLearnedEntry(current)) setSelected(entryFamily(current));
+  };
   const nativeAvailable = nativeTissueAvailable(current);
   const luminal = localPbr ? isLuminalRegion(localPbr.bundle.manifest.recipe.organ) : Boolean(current?.luminal);
   const edit = <K extends keyof TissueControls>(key: K, value: TissueControls[K]) => setControls(previous => ({ ...previous, [key]: value }));
@@ -81,7 +87,7 @@ export default function TissueLab() {
     const activeFamily = localPbr ? localPbr.bundle.manifest.recipe.organ : current ? entryFamily(current) : manifest?.recipe.organ;
     const familyTiles = learnedForFamily(catalog, activeFamily);
     setOrganBakeConfig(previous => ({ ...previous, enabled: true }));
-    if (!localPbr && !learnedStudy && familyTiles.length > 0) {
+    if (!localPbr && !selectedLearnedTile && !activeAppearance && familyTiles.length > 0) {
       pendingRestoredControls.current = { view: "organ" };
       setSelected(familyTiles[0]!.id);
     } else {
@@ -259,7 +265,6 @@ export default function TissueLab() {
   }, [current, full, localPbr]);
   const saveRecipe = () => {
     if (!manifest) return;
-    const activeAppearance = !localPbr && appearance?.region === manifest.recipe.organ ? appearance : undefined;
     const blob = new Blob([serializeDisplayRecipe(manifestSource, controls, `Research appearance study. ${editableRelief ? "Coverage controls both color and separate layer relief." : "Coverage changes color; relief remains the authored baseline."} Lumen geometry and optics are authored; atlas exteriors are approximate. ${localPbr ? `Imported generated PBR candidate; original bundle SHA-256: ${localPbr.bundle.digest}. Optical parameters are not measured and surgical realism is unqualified.` : "Learned RGB retains source illumination and is not calibrated albedo."}`, activeAppearance)], { type: "application/json" });
     const url = URL.createObjectURL(blob), link = document.createElement("a"); link.href = url; link.download = `${outputName}-display-recipe.json`; link.click(); setTimeout(() => URL.revokeObjectURL(url), 1000);
   };
@@ -284,10 +289,10 @@ export default function TissueLab() {
   return <div className="tissue-lab">
     <header className="tissue-header"><a className="tissue-brand" href="?mode=atlas">VISCERA <span>TISSUE LAB</span></a><nav aria-label="Anatomy workspace"><a href="?mode=atlas">Organs</a><a href="?mode=textures">Photo textures</a><a href="?mode=fat">Adipose</a><a href="?mode=tissues" aria-current="page">Layered tissue</a></nav><DisplaySettings /><VideoRecorderButton /><span className="tissue-tag">RESEARCH / 03</span></header>
     <main className="tissue-stage"><SceneResizeHandle /><div className="tissue-heading"><span>MATERIAL LIBRARY · {String(catalog.length).padStart(2, "0")} STUDIES</span><h1>{controls.view === "walkthrough" ? "Light, from within." : "Beneath the surface."}</h1><p>{controls.view === "walkthrough" ? "Seeded lumen phantom · camera-mounted illumination" : "Organ-specific surfaces. Fine vessels. Layered membranes."}</p></div>
-      {manifest && <TissueViewport ref={viewport} manifest={manifest} directory={directory} controls={controls} organBakeConfig={organBakeConfig} onOrganBaked={setOrganBakeResult} onError={setError} {...(localPbr ? { localFiles: localPbr.bundle.files, importedMaterial: { bundleSha256: localPbr.bundle.digest, sourceFile: localPbr.filename, provenance: localPbr.bundle.manifest.provenance } } : {})} {...(!localPbr && appearance?.region === manifest.recipe.organ ? { appearance } : {})} />}
+      {manifest && <TissueViewport ref={viewport} manifest={manifest} directory={directory} controls={controls} organBakeConfig={organBakeConfig} onOrganBaked={setOrganBakeResult} onError={setError} {...(localPbr ? { localFiles: localPbr.bundle.files, importedMaterial: { bundleSha256: localPbr.bundle.digest, sourceFile: localPbr.filename, provenance: localPbr.bundle.manifest.provenance } } : {})} {...(activeAppearance ? { appearance: activeAppearance } : {})} />}
       {loading && <div className="tissue-loading" role="status">Loading material channels…</div>}
       {error && <div className="tissue-error" role="alert">{modelMessage(error)}</div>}
-      <div className="tissue-caption"><span>{controls.view === "surface" ? "Drag to orbit · scroll to inspect · 80 × 80 mm coupon" : controls.view === "organ" ? "Atlas exterior · drag to orbit · assumed millimetres" : "18 mm/s · fixed surface coordinates · curved 1600 mm loop"}</span><span>{manifest ? `${manifest.resolution[0]}² maps` : "—"}{localPbr ? " · generated PBR candidate" : appearance && appearance.region === manifest?.recipe.organ ? ` · learned RGB ${appearance.resolution}²` : ""}{controls.view === "organ" && organBakeResult ? ` · 3D ${organBakeResult.organ} seamless bake` : ""} · {controls.study}</span></div>
+      <div className="tissue-caption"><span>{controls.view === "surface" ? "Drag to orbit · scroll to inspect · 80 × 80 mm coupon" : controls.view === "organ" ? "Atlas exterior · drag to orbit · assumed millimetres" : "18 mm/s · fixed surface coordinates · curved 1600 mm loop"}</span><span>{manifest ? `${manifest.resolution[0]}² maps` : "—"}{localPbr ? " · generated PBR candidate" : activeAppearance ? ` · learned RGB ${activeAppearance.resolution}²` : ""}{controls.view === "organ" && organBakeResult ? ` · 3D ${organBakeResult.organ} seamless bake` : ""} · {controls.study}</span></div>
       <div className="tissue-stage-actions"><button disabled={!manifest || recording} onClick={captureFrame}>Save 4K frame ↗</button>{controls.view !== "surface" && <><button disabled={recording} aria-pressed={controls.playing} onClick={() => edit("playing", !controls.playing)}>{controls.playing ? "Pause camera" : "Start camera"}</button><button disabled={recording || pbrBusy} onClick={() => void record()}>{recording ? "Recording…" : "Record 4K · 5s"}</button></>}</div>
     </main>
     <aside className="tissue-panel" inert={recording}><span className="tissue-eyebrow">01 / SPECIMEN</span><h2>Build the surface</h2><p className="tissue-copy">Inspect each layer under a moving light. Separate appearance from relief and illumination.</p>
@@ -313,6 +318,7 @@ export default function TissueLab() {
         disabled={pbrBusy || recording} onSelect={id => { if (localPbr) returnToLibrary(); setSelected(id); }} onGenerated={importGeneratedSource}
         organBakeActive={controls.view === "organ" && (organBakeConfig.enabled || learnedStudy)}
         organBakeResult={controls.view === "organ" ? organBakeResult : undefined}
+        organBakeSourceLabel={activeAppearance ? `Generated appearance · seed ${activeAppearance.seed}` : localPbr?.filename ?? current?.label}
         organBakeTileScaleMm={organBakeConfig.tileScaleMm ?? manifest?.recipe.tile_size_mm ?? 51.2}
         organBakeSharpness={organBakeConfig.blendSharpness ?? 6}
         onBakeOntoOrgan={bakeOntoOrganMesh}
@@ -346,7 +352,7 @@ export default function TissueLab() {
       <label className="tissue-field">Lighting<select aria-label="Lighting" value={controls.lighting} onChange={event => edit("lighting", event.target.value as TissueControls["lighting"])}><option value="camera">Camera-mounted light</option><option value="grazing">Grazing light · coupon</option></select></label>
       <button className="tissue-wide" disabled={!manifest} onClick={saveRecipe}>Export material + display recipe</button>
       {!localPbr && current && <div className="tissue-downloads">{["base_color", "substrate", "normal", "roughness", "height", "thickness", ...(editableRelief ? ["substrate_normal", "layer_relief"] : [])].map(channel => <a key={channel} href={publicUrl(`tissue-materials/${(nativeAvailable ? current.manifest! : current.preview).replace("manifest.json", "")}${channel}.png`)} download>{channel.replace("_", " ")} {nativeAvailable ? "4K" : "512"} ↓</a>)}</div>}
-      <div hidden={Boolean(localPbr)}><NeuralAppearancePanel region={libraryManifest?.recipe.organ ?? selected} suspended={Boolean(localPbr)} onChange={setAppearance} /></div>
+      <div hidden={Boolean(localPbr)}><NeuralAppearancePanel region={libraryManifest?.recipe.organ ?? selected} suspended={Boolean(localPbr) || selectedLearnedTile} selectionKey={selected} onActivate={activateGeneratedAppearance} onChange={setAppearance} /></div>
       <p className="tissue-note">Research materials with authored geometry and optics. Imported models predict RGB appearance, not measured optical properties. 4K describes output sampling; anatomical and surgical validation remain outstanding.</p>
     </aside><footer className="tissue-footer">SURFACE / VESSELS / MEMBRANES / LIGHT<span>Reproducible materials · independent fat pipeline</span></footer>
   </div>;

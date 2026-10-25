@@ -20,6 +20,7 @@ interface LearnedTilesPanelProps {
   onGenerated: (source: string, filename: string) => Promise<boolean>;
   organBakeActive?: boolean | undefined;
   organBakeResult?: OrganMeshBakeResult | undefined;
+  organBakeSourceLabel?: string | undefined;
   organBakeTileScaleMm?: number | undefined;
   organBakeSharpness?: number | undefined;
   onBakeOntoOrgan?: () => void;
@@ -37,6 +38,7 @@ export function LearnedTilesPanel({
   onGenerated,
   organBakeActive,
   organBakeResult,
+  organBakeSourceLabel,
   organBakeTileScaleMm = 51.2,
   organBakeSharpness = 6,
   onBakeOntoOrgan,
@@ -233,6 +235,7 @@ export function LearnedTilesPanel({
               <span className="tissue-organ-bake-title">3D {familyLabel(organBakeResult.organ)} bake</span>
               <span className="tissue-organ-bake-badge">{(organBakeResult.metrics.seamContinuity * 100).toFixed(1)}% seam-free</span>
             </div>
+            {organBakeSourceLabel && <p className="tissue-copy">Source: {modelMessage(organBakeSourceLabel)}</p>}
             <div className="tissue-organ-bake-preview-row">
               {atlasPreviewUrl && <img className="tissue-organ-bake-thumb" src={atlasPreviewUrl} alt={`Baked ${organBakeResult.organ} ${atlasChannel} UV atlas`} width={96} height={96} />}
               <div className="tissue-organ-bake-meta">
