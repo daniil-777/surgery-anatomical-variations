@@ -42,6 +42,8 @@ Each browser request has an identity, cancellation signal and seven-second deadl
 
 The physics handover waits for actual tool readiness rather than assuming two render frames are sufficient. Scene comparison uses geometry/material/visibility and physical camera pose/projection, excluding changing navigation-status text; positions are compared at one-millionth of a millimetre precision to ignore numerical round-off.
 
+The first published-site evaluation caught a layout race: changing FPS/frame-time digit widths wrapped the header and changed the camera aspect ratio during inference. The prediction was correctly rejected. Fixed telemetry field widths remove that unintentional projection change; a browser regression reproduces the old failure and checks the stable projection. Deliberate viewport, camera or scene changes still invalidate an outstanding decision.
+
 ## Reproduce
 
 Use Python 3.11 and the pinned Mac runtime in `deploy/visual-policy-requirements.lock`:

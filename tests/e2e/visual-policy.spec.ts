@@ -57,3 +57,16 @@ test('denied local access keeps execution disabled and explains recovery',async(
  await expect(panel(page).getByRole('button',{name:'Run visual liver task',exact:true})).toBeDisabled();
  const s=await snapshot(page);expect(s.task.active).toBe(false);expect(s.scene.tools.active).toBe(false);
 });
+test('frame telemetry digit changes do not resize the surgical camera',async({page})=>{
+ await open(page);await page.evaluate(()=>document.fonts.ready.then(()=>undefined));
+ const dimensions=await page.evaluate(async()=>{
+  const fps=document.querySelector('.whole-header .display-fps-value')!,ms=document.querySelector('.whole-header .display-fps-ms')!,stage=document.querySelector('.whole-stage')!;
+  const saved=[fps.textContent,ms.textContent],result=[];
+  for(const [f,t] of [['7','4.2 ms'],['144','122.5 ms'],['29','9999.9 ms'],['60','16.7 ms']]){
+   fps.textContent=f;ms.textContent=t;await new Promise<void>(resolve=>requestAnimationFrame(()=>requestAnimationFrame(()=>resolve())));
+   const box=stage.getBoundingClientRect();result.push({width:box.width,height:box.height,aspect:(window as any).__visceraSceneSnapshot().camera.aspect});
+  }
+  [fps.textContent,ms.textContent]=saved;return result;
+ });
+ for(const size of dimensions)expect(size).toEqual(dimensions[0]);
+});
