@@ -1,3 +1,4 @@
+import { CameraPlannerScene, type CameraTrainingScene, type CameraPlannerState } from "./cameraPlannerScene";
 import { applyVirtaMedVessels } from "./virtaMedVesselNetwork";
 import { loadOperativeAppearance, type OperativeAppearance } from "./operativeAppearance";
 import { LaparoscopeLighting } from "./laparoscopeLighting";
@@ -49,6 +50,10 @@ export interface WholeSceneStats {
   bounds: { min: number[]; max: number[] };
 }
 export interface WholeSceneViewportHandle {
+  captureCameraMap: (targets: string[], signal?: AbortSignal) => Promise<CameraTrainingScene>;
+  playCameraPath: (scene: CameraTrainingScene, route: number[]) => void;
+  stopCameraPath: () => void;
+  pauseCameraPath: () => void;
   videoView: () => void;
   fit: () => void;
   focusOrgan: (id: string) => void;
@@ -70,6 +75,7 @@ export interface WholeSceneViewportHandle {
   lookExploration: (yawDeltaDeg: number, pitchDeltaDeg: number) => void;
 }
 export interface WholeSceneViewportProps {
+  onCameraPlannerChange?: (state: CameraPlannerState) => void;
   sourceScene?: "atlas" | "virtamed";
   whiteSurface?: boolean;
   operativeResidue?: number;
@@ -108,6 +114,10 @@ interface Part {
   geometrySignature: string; materialSignature: string;
 }
 interface Runtime {
+  captureCameraMap: (targets: string[], signal?: AbortSignal) => Promise<CameraTrainingScene>;
+  playCameraPath: (scene: CameraTrainingScene, route: number[]) => void;
+  stopCameraPath: () => void;
+  pauseCameraPath: () => void;
   videoView: () => void;
   fit: () => void; focusOrgan: (id: string) => void; view: (preset: WholeSceneView) => void;
   screenshot: () => string; captureMetadata: () => Record<string, unknown>;
@@ -116,6 +126,7 @@ interface Runtime {
   releaseTool: () => void; adjustToolDepth: (deltaMm: number) => void; engageSelectedTool: () => void; syncToolOptions: () => void;
   applyVariation: () => void; applyVisibility: () => void; applySelection: () => void;
   applyReferenceColors: () => void;
+  invalidateCameraMap: (reason: string) => void;
   applyFat: () => void;
   applyPhysics: () => void; pulsePhysics: () => void; resetPhysics: () => void;
   enterExploration: (region?: OperativeRegion) => void; exitExploration: (keepCamera?: boolean) => void; resetExploration: () => void;
@@ -151,13 +162,14 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
     const entry = { material, organ: tileOrgan };
     photoMaterials.current.push(entry);
     material.addEventListener("dispose", () => { photoMaterials.current = photoMaterials.current.filter((e) => e !== entry); });
-    if (photoStrength > 0) void photoDetailFor(tileOrgan).then((detail) => { if (photoMaterials.current.includes(entry)) installScenePhotoDetail(material, detail, photoStrength); }).catch(() => {});
+    if (photoStrength > 0) void photoDetailFor(tileOrgan).then((detail) => { if (photoMaterials.current.includes(entry)) { installScenePhotoDetail(material, detail, photoStrength); runtime.current?.invalidateCameraMap("Photographic tissue detail changed. Capture a fresh camera map."); } }).catch(() => {});
   };
   useEffect(() => {
     let live = true;
+    runtime.current?.invalidateCameraMap("Photographic tissue detail changed. Capture a fresh camera map.");
     for (const entry of photoMaterials.current) {
       if (photoStrength <= 0) { installScenePhotoDetail(entry.material, null, 0); continue; }
-      void photoDetailFor(entry.organ).then((detail) => { if (live && photoMaterials.current.includes(entry)) installScenePhotoDetail(entry.material, detail, photoStrength); }).catch(() => {});
+      void photoDetailFor(entry.organ).then((detail) => { if (live && photoMaterials.current.includes(entry)) { installScenePhotoDetail(entry.material, detail, photoStrength); runtime.current?.invalidateCameraMap("Photographic tissue detail loaded. Capture a fresh camera map."); } }).catch(() => {});
     }
     return () => { live = false; };
   }, [photoStrength]);
@@ -168,6 +180,10 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
   useImperativeHandle(ref, () => ({
     fit: () => runtime.current?.fit(), focusOrgan: id => runtime.current?.focusOrgan(id), view: preset => runtime.current?.view(preset),
     videoView: () => runtime.current?.videoView(),
+    captureCameraMap: (targets,signal) => runtime.current ? runtime.current.captureCameraMap(targets,signal) : Promise.reject(new Error("The scene is still loading.")),
+    playCameraPath: (scene,route) => runtime.current?.playCameraPath(scene,route),
+    stopCameraPath: () => runtime.current?.stopCameraPath(),
+    pauseCameraPath: () => runtime.current?.pauseCameraPath(),
     screenshot: () => runtime.current?.screenshot() ?? "",
     captureMetadata: () => runtime.current?.captureMetadata() ?? {},
     recordTour: seconds => runtime.current ? runtime.current.recordTour(seconds) : Promise.reject(new Error("The anatomy is still loading.")),
@@ -193,6 +209,7 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
     let vmInterfaces: InterfaceGraph | null = null;
     let vmAsset: { sha256: string; bytes: number; version: string } | null = null;
     let operativeCamera = false;
+    let cameraPlanner: CameraPlannerScene | null = null;
     const element = host.current;
     if (!element) return;
     let renderer: THREE.WebGLRenderer;
@@ -226,6 +243,7 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
     controls.screenSpacePanning = true; controls.autoRotateSpeed = 0.9;
     const invalidate = (shadows = false) => { renderPending = true; sceneRevision++; if (shadows) renderer.shadowMap.needsUpdate = true; };
     const draw = () => {
+      if (cameraPlanner?.capturing) return;
       if (laparoscope.update(camera, exploring || operativeCamera ? inspectionIntensity : 0)) renderer.shadowMap.needsUpdate = true;
       if (fatLamp.visible && fatLamp.intensity > 0) {
         if (!fatLamp.position.equals(camera.position) || !fatLamp.target.position.equals(controls.target)) renderer.shadowMap.needsUpdate = true;
@@ -278,7 +296,8 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
     let geometryUploads = 0, surfaceCpuMs = 0, solverCpuMs = 0;
     let wasPhysicsMoving = false;
     const fatLayers = new FatSceneLayerView(assembly, () => parts.map(part => ({ id: part.info.id, mesh: part.mesh, rest: part.rest })), latest.current.variation, () => { invalidate(true); snapshotAfterDraw = true; latest.current.onFatStatus?.(fatLayers.snapshot().status); }, message => latest.current.onError(message));
-    const applyFat = () => { updateFatLighting(); if (parts.length) fatLayers.configure(latest.current.fatOptions ?? { enabled: false, seed: 42, thicknessMm: 5, omentum: true, perirenal: true }); };
+    const applyFat = () => {
+      cameraPlanner?.invalidate("Surrounding tissue changed. Capture a fresh camera map."); updateFatLighting(); if (parts.length) fatLayers.configure(latest.current.fatOptions ?? { enabled: false, seed: 42, thicknessMm: 5, omentum: true, perirenal: true }); };
     let manifest: Manifest | null = null, fitRadius = 400;
     let currentView: WholeSceneView | "orbit" = "front";
     let focusedOrgan: string | null = null;
@@ -319,7 +338,7 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
     let recording: { kind: "tour" | "interaction"; started: number; duration: number; angle: number; distance: number; elevation: number } | null = null;
     let recordingTimer: ReturnType<typeof setTimeout> | null = null;
     let recordingStream: MediaStream | null = null;
-    const nativeRecording = registerSceneRecordingSource({ renderer, camera, host: element, label: "Whole anatomy scene", draw, available: () => ready && !recorder });
+    const nativeRecording = registerSceneRecordingSource({ renderer, camera, host: element, label: "Whole anatomy scene", draw, available: () => ready && !recorder && !cameraPlanner?.busy });
     let lastSnapshot = 0;
     const tools = new WholeSceneTools({ scene, camera, controls, canvas, parts: () => parts, physics: () => physics,
       options: () => ({ mode: exploring ? "orbit" : latest.current.toolMode ?? "orbit", radius: latest.current.toolRadiusMm ?? 6, depth: latest.current.toolDepthMm ?? 2,
@@ -340,6 +359,7 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
       rendering: { mode: "on-demand", geometryUploads, surfaceCpuMs, solverCpuMs, surfaceTargetHz: isVirtaMed ? 60 : 20, renderPending, sceneRevision, renderedRevision, cameraTransition: Boolean(cameraTransition), materialVersion: isVirtaMed ? VIRTAMED_SURFACE_VERSION : WHOLE_SCENE_MATERIAL_VERSION, laparoscope: laparoscope.snapshot(), optics: cameraOptics ? {...cameraOptics.snapshot(),active:exploring||operativeCamera} : {hdr:false,reason:"floating-point render targets unavailable"}, tissueCoordinates: "undeformed atlas rest millimetres", tissueVolumeSize: 64, bowelSidedness: bowelFrontSide ? "front" : "double", stomachNormalWeighting: "corner-angle", environmentIntensity: scene.environmentIntensity, lastImageCapture, lights: { fatCamera: { enabled: fatLamp.visible && fatLamp.intensity > 0, intensity: fatLamp.intensity, position: fatLamp.position.toArray() }, key: { intensity: key.intensity, position: key.position.toArray() }, fill: { intensity: fill.intensity, position: fill.position.toArray() }, rim: { intensity: rim.intensity, position: rim.position.toArray() } }, shadows: renderer.shadowMap.enabled, shadowMapSize: 2048, shadowNormalBiasMm: key.shadow.normalBias, shadowDepthBias: key.shadow.bias, exposure: renderer.toneMappingExposure },
       registration: isVirtaMed ? "Authored video-field reconstruction in shared assumed millimetres. Broad learned controls and localized phenotype fields are shared across neighboring structures." : "BodyParts3D structures retain source registration; HRA heart and lung surfaces are fitted to atlas bounds (see manifest). Every structure then uses one shared invertible variation map.",
       sourceConnections: isVirtaMed ? "Registered gallbladder–duct ring, gallbladder–liver membrane, cranial sheet roots and internal fatty bridge. Coincident attachment coordinates share the disease and physics maps; concealed anatomy is inferred." : "Atlas-derived ducts and vessels; coincident points remain coincident. Source endpoint attachment is not inferred or certified.",
+      cameraPlanner: cameraPlanner?.snapshot() ?? null,
       camera: { view: currentView, focusedOrgan, position: camera.position.toArray(), target: controls.target.toArray(), up: camera.up.toArray(), fov: camera.fov, aspect: camera.aspect, navigation: navigationSnapshot() },
       inspection: { surfaceScope: "visible atlas triangles, generated fat and illustrative peritoneal enclosure; no reconstructed organ lumens", radiusMm: NAVIGATION_CLEARANCE_MM,
         cameraLight: { enabled: exploring || operativeCamera, intensity: inspectionIntensity, positionMm: inspectionLight.position.toArray(), targetMm: inspectionLight.target.position.toArray() } },
@@ -415,12 +435,14 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
       tools.syncOptions(); invalidate(); snapshotAfterDraw = true; publishNavigation();
     };
     const resetExploration = () => {
+      if (cameraPlanner?.busy) cameraPlanner.stop("Camera view changed; planner stopped.");
       if (!exploring || !entryPose) return;
       navigationKeys.clear(); camera.position.copy(entryPose.position); navigationYaw = entryPose.yaw; navigationPitch = entryPose.pitch;
       navigationBlockedBy = null; navigationMessage = "Inspection entry pose restored.";
       applyNavigationPose(); publishNavigation();
     };
     const enterExploration = (region?: OperativeRegion) => {
+      if (cameraPlanner?.busy) cameraPlanner.stop("Manual camera inspection selected.");
       if (!ready || recording) return;
       if (exploring) { if (!region) return; exitExploration(); }
       tools.release("Instrument released for between-organ camera inspection."); cameraTransition = null;
@@ -447,6 +469,7 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
       applyNavigationPose(); draw(); canvas.focus({ preventScroll: true }); publishNavigation();
     };
     const videoView = () => {
+      if (cameraPlanner?.busy) cameraPlanner.stop("Camera view changed; planner stopped.");
       if (!isVirtaMed || !parts.length) return;
       exitExploration(); tools.release(); cameraTransition = null; operativeCamera = true;
       camera.fov = 46; camera.position.set(-4,-32,247); controls.target.set(-4,1,0); camera.up.set(0,1,0);
@@ -455,6 +478,7 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
       controls.update(); invalidate(true); draw(); snapshot();
     };
     const fit = () => {
+      if (cameraPlanner?.busy) cameraPlanner.stop("Camera view changed; planner stopped.");
       if (!parts.length) return;
       operativeCamera=false;
       exitExploration();
@@ -480,6 +504,7 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
       controls.minDistance = fitRadius * .25; controls.maxDistance = fitRadius * 12; controls.update(); snapshot();
     };
     const view = (preset: WholeSceneView) => {
+      if (cameraPlanner?.busy) cameraPlanner.stop("Manual camera view selected.");
       exitExploration();
       const directions: Record<WholeSceneView, [number, number, number]> = {
         front: [0, 0, 1], back: [0, 0, -1], left: [1, 0, 0], right: [-1, 0, 0], top: [0, 1, 0.0001], bottom: [0, -1, 0.0001], oblique: [.65, .18, 1],
@@ -506,6 +531,7 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
       }
     };
     const focusOrgan = (id: string) => {
+      if (cameraPlanner?.busy) cameraPlanner.stop("Manual organ focus selected.");
       const part = parts.find(item => item.info.id === id);
       const targetBounds = part?.mesh.geometry.boundingBox ?? fatLayers.bounds(id);
       if (!targetBounds || recording) return;
@@ -527,6 +553,7 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
       snapshot();
     };
     const applySelection = () => {
+      cameraPlanner?.invalidate("Anatomy highlighting changed. Capture a fresh camera map.");
       invalidate();
       parts.forEach(part => {
         const selected = part.info.id === latest.current.selectedOrgan;
@@ -536,6 +563,7 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
       });
     };
     const applyVisibility = () => {
+      cameraPlanner?.invalidate("Anatomy visibility changed. Capture a fresh camera map.");
       exitExploration();
       tools.release("Visible anatomy changed; choose a new contact.");
       invalidate(true);
@@ -556,6 +584,7 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
       if(isVirtaMed&&geometry)applyVirtaMedVessels(geometry,tissue.material,source?.surfaceVessels,latest.current.whiteSurface??true);
       return tissue; };
     const applyVariation = () => {
+      cameraPlanner?.invalidate("Anatomy shape changed. Capture a fresh camera map.");
       if (!parts.length) return;
       exitExploration(); navigationGuard.invalidate();
       tools.release("Surface variation changed; choose a new contact.");
@@ -575,6 +604,7 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
       tools.geometryChanged(true); applyPhysics(); applySelection(); snapshot(); draw();
     };
     const applyReferenceColors = () => {
+      cameraPlanner?.invalidate("Tissue appearance changed. Capture a fresh camera map.");
       // Material-only mutation: leave deformed buffers, camera and solver history intact.
       for (const part of parts) {
         const tissue = sceneMaterial(part.info,part.mesh.geometry,part.mesh.userData);
@@ -584,6 +614,7 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
       applySelection(); snapshot(); draw();
     };
     const syncPhysicsGeometry = (normals: boolean, normalPhase = -1) => {
+      cameraPlanner?.invalidate("Tissue deformation changed the camera map.");
       const started = performance.now();
       navigationGuard.invalidate();
       invalidate(true);
@@ -610,6 +641,7 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
       geometryUploads++; surfaceCpuMs += performance.now() - started;
     };
     const applyPhysics = () => {
+      cameraPlanner?.invalidate("Physics assignment changed. Capture a fresh camera map.");
       if (!parts.length) return;
       exitExploration();
       tools.release("Physics assignment changed; choose a new contact.");
@@ -634,6 +666,7 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
     const stopRecording = () => { if (recorder && recorder.state !== "inactive") recorder.stop(); };
     const recordScene = (kind: "tour" | "interaction", durationSeconds: number): Promise<Blob> => {
       if (!ready) return Promise.reject(new Error("Wait for the anatomy scene to finish loading."));
+      if (cameraPlanner?.busy) return Promise.reject(new Error("Stop camera mapping or path replay before recording."));
       if (exploring) return Promise.reject(new Error("Return to orbit before starting a camera tour or instrument recording."));
       if (recorder || nativeRecording.active) return Promise.reject(new Error("A scene recording is already in progress."));
       if (kind === "interaction" && (!physics || !latest.current.physicsRunning || physicsFailed)) return Promise.reject(new Error("Apply and run learned physics before recording instrument interaction."));
@@ -683,10 +716,27 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
     };
     const recordTour = (seconds = 12) => recordScene("tour", seconds);
     const recordInteraction = (seconds = 20) => recordScene("interaction", seconds);
-    runtime.current = { videoView, fit, focusOrgan, view, captureMetadata, recordTour, stopRecording, applyFat, applyVariation, applyVisibility, applySelection, applyReferenceColors, applyPhysics, pulsePhysics, resetPhysics,
+    cameraPlanner = new CameraPlannerScene({ renderer, scene, camera, controls,
+      parts: () => parts, guard: navigationGuard, bounds: () => bounds.clone(),
+      light: candidate => { if (laparoscope.update(candidate, inspectionIntensity || 30000)) renderer.shadowMap.needsUpdate = true; },
+      restoreLight: () => { if (laparoscope.update(camera, exploring || operativeCamera ? inspectionIntensity : 0)) renderer.shadowMap.needsUpdate = true; },
+      changed: () => { invalidate(true); }, publish: state => { if(alive) latest.current.onCameraPlannerChange?.(state); },
+    });
+    runtime.current = { captureCameraMap: (targets,signal) => {
+        if (!ready || recording || nativeRecording.active) return Promise.reject(new Error("Load the scene and stop recording before mapping camera views."));
+        exitExploration(true); tools.release("Camera mapping started; instrument released."); cameraTransition = null;
+        return cameraPlanner!.capture(targets,signal);
+      }, playCameraPath: (map,route) => {
+        if (!ready || recording || nativeRecording.active) throw new Error("Stop recording before starting a camera path.");
+        exitExploration(true); tools.release("Camera path started; instrument released."); cameraTransition = null; operativeCamera = true; currentView = "orbit";
+        cameraPlanner!.play(map,route);
+      }, stopCameraPath: () => cameraPlanner?.stop(), pauseCameraPath: () => cameraPlanner?.pause(),
+      invalidateCameraMap: reason => { cameraPlanner?.invalidate(reason); invalidate(true); snapshot(); },
+      videoView, fit, focusOrgan, view, captureMetadata, recordTour, stopRecording, applyFat, applyVariation, applyVisibility, applySelection, applyReferenceColors, applyPhysics, pulsePhysics, resetPhysics,
       enterExploration, exitExploration, resetExploration, moveExploration, lookExploration,
-      recordInteraction, releaseTool: () => tools.release(), adjustToolDepth: delta => tools.adjustDepth(delta), engageSelectedTool: () => tools.engageSelected(), syncToolOptions: () => { if (exploring && (latest.current.autoRotate || latest.current.physicsRunning || (latest.current.toolMode ?? "orbit") !== "orbit")) exitExploration(); if (latest.current.autoRotate) tools.release("Instrument released for camera rotation."); tools.syncOptions(); if (exploring) controls.enabled = false; snapshot(); },
+      recordInteraction, releaseTool: () => tools.release(), adjustToolDepth: delta => tools.adjustDepth(delta), engageSelectedTool: () => tools.engageSelected(), syncToolOptions: () => { if (cameraPlanner?.busy && (latest.current.autoRotate || latest.current.physicsRunning || (latest.current.toolMode ?? "orbit") !== "orbit")) cameraPlanner.stop("Manual simulation controls selected; camera planner stopped."); if (exploring && (latest.current.autoRotate || latest.current.physicsRunning || (latest.current.toolMode ?? "orbit") !== "orbit")) exitExploration(); if (latest.current.autoRotate) tools.release("Instrument released for camera rotation."); tools.syncOptions(); if (exploring) controls.enabled = false; snapshot(); },
       screenshot: () => {
+        if (cameraPlanner?.capturing) { latest.current.onError("Wait for camera mapping to finish before saving an image."); return ""; }
         if (nativeRecording.active) { latest.current.onError("Stop scene recording before saving a still image."); return ""; }
         const previousSize = renderer.getSize(new THREE.Vector2()), previousRatio = renderer.getPixelRatio();
         const longEdge = Math.min(4096, renderer.capabilities.maxTextureSize);
@@ -715,7 +765,7 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
     const observer = new ResizeObserver(resize); observer.observe(element); resize();
     const raycaster = new THREE.Raycaster(), pointer = new THREE.Vector2();
     let pointerDown: [number, number] | null = null;
-    const onPointerDown = (event: PointerEvent) => { if (!exploring) pointerDown = [event.clientX, event.clientY]; };
+    const onPointerDown = (event: PointerEvent) => { if (cameraPlanner?.busy) cameraPlanner.stop("Manual camera control resumed."); if (!exploring) pointerDown = [event.clientX, event.clientY]; };
     const onPointerUp = (event: PointerEvent) => {
       if (exploring || !pointerDown || Math.hypot(event.clientX - pointerDown[0], event.clientY - pointerDown[1]) > 5) { pointerDown = null; return; }
       pointerDown = null;
@@ -726,11 +776,12 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
       const hit = raycaster.intersectObjects(candidates, false)[0];
       latest.current.onSelect?.(hit ? String(hit.object.userData.organId) : null);
     };
-    const onControlStart = () => { cameraTransition = null; currentView = "orbit"; };
+    const onControlStart = () => { if (cameraPlanner?.busy) cameraPlanner.stop("Manual camera control resumed."); cameraTransition = null; currentView = "orbit"; };
     // Wheel/pan handlers update OrbitControls synchronously before the next RAF;
     // listening only to the RAF update return value misses those camera changes.
     const onControlChange = () => { invalidate(); if (!updatingControls) snapshotAfterDraw = true; };
     const onContextLost = (event: Event) => {
+      cameraPlanner?.invalidate("Graphics context lost; camera planner stopped.");
       event.preventDefault(); ready = false; physicsFailed = true; exitExploration(); navigationKeys.clear(); releaseLookPointer();
       tools.release("Graphics context lost; instrument released."); stopRecording(); tools.syncOptions(); snapshot(); publishNavigation();
       latest.current.onError("The browser lost its 3D graphics context. Reload the scene tab to restart it.");
@@ -754,14 +805,17 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
     };
     const movementKeys = new Set(["KeyW", "KeyS", "KeyA", "KeyD", "KeyQ", "KeyE", "ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"]);
     const onNavigationKey = (event: KeyboardEvent) => {
+      if (event.code === "Escape" && cameraPlanner?.busy) { consumeNavigation(event); cameraPlanner.stop("Camera path stopped with Escape."); return; }
       if (!exploring) return;
       if (event.code === "Escape") { consumeNavigation(event); exitExploration(); return; }
       if (!movementKeys.has(event.code)) return;
       consumeNavigation(event); navigationKeys.add(event.code);
     };
+    const onPlannerEscape = (event: KeyboardEvent) => { if (event.code === "Escape" && cameraPlanner?.busy) { event.preventDefault(); cameraPlanner.stop("Camera path stopped with Escape."); } };
     const onNavigationKeyUp = (event: KeyboardEvent) => { if (navigationKeys.delete(event.code)) publishNavigation(); };
     const clearNavigationInput = () => { navigationKeys.clear(); releaseLookPointer(); if (exploring) publishNavigation(); };
     const onNavigationWheel = (event: WheelEvent) => {
+      if (cameraPlanner?.busy) cameraPlanner.stop("Manual camera zoom resumed.");
       if (!exploring) return;
       consumeNavigation(event); moveExploration(event.deltaY < 0 ? "forward" : "back", Math.min(30, Math.abs(event.deltaY) * .04));
     };
@@ -769,7 +823,7 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
     canvas.addEventListener("pointerup", onLookEnd, true); canvas.addEventListener("pointercancel", onLookEnd, true); canvas.addEventListener("lostpointercapture", onLookEnd, true);
     canvas.addEventListener("keydown", onNavigationKey, true); canvas.addEventListener("blur", clearNavigationInput);
     canvas.addEventListener("wheel", onNavigationWheel, { capture: true, passive: false });
-    window.addEventListener("keyup", onNavigationKeyUp); window.addEventListener("blur", clearNavigationInput);
+    window.addEventListener("keydown", onPlannerEscape); window.addEventListener("keyup", onNavigationKeyUp); window.addEventListener("blur", clearNavigationInput);
     canvas.addEventListener("pointerdown", onPointerDown); canvas.addEventListener("pointerup", onPointerUp); canvas.addEventListener("webglcontextlost", onContextLost);
     controls.addEventListener("start", onControlStart); controls.addEventListener("change", onControlChange); controls.addEventListener("end", snapshot);
     let previousTime = performance.now(), lastPhysicsTime = previousTime;
@@ -779,10 +833,11 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
       if (navigationPublishPending) publishNavigation(false);
       const elapsed = Math.max(0, (now - previousTime) / 1000);
       const delta = Math.min(elapsed, .1); previousTime = now;
+      cameraPlanner?.tick(delta);
       const nextBreath = !isVirtaMed && !exploring && !physics && latest.current.breathing ? (Math.sin(now / 1000 * Math.PI * 2 / 4.8) + 1) * .5 : 0;
       if (nextBreath !== breath.value) { invalidate(true); fatLayers.sync(false, nextBreath); }
       breath.value = nextBreath;
-      if (!exploring && physics && latest.current.physicsRunning && !physicsFailed) {
+      if (!exploring && !cameraPlanner?.busy && physics && latest.current.physicsRunning && !physicsFailed) {
         try {
           // Integrate every display frame; mesh upload cadence must not discard physical time.
           const solveStarted = performance.now(); physics.step(elapsed, latest.current.breathing); solverCpuMs += performance.now() - solveStarted;
@@ -822,13 +877,13 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
         camera.position.set(controls.target.x + Math.sin(angle) * recording.distance, controls.target.y + recording.elevation, controls.target.z + Math.cos(angle) * recording.distance);
         currentView = "orbit";
       }
-      controls.autoRotate = !exploring && latest.current.autoRotate && !recording && !cameraTransition && !tools.engaged;
+      controls.autoRotate = !cameraPlanner?.busy && !exploring && latest.current.autoRotate && !recording && !cameraTransition && !tools.engaged;
       if (controls.autoRotate) currentView = "orbit";
       updatingControls = true;
-      const controlsChanged = exploring || tools.engaged || recording?.kind === "interaction" ? false : controls.update(delta);
+      const controlsChanged = cameraPlanner?.busy || exploring || tools.engaged || recording?.kind === "interaction" ? false : controls.update(delta);
       updatingControls = false;
       if (controlsChanged) invalidate();
-      const activeMotion = Boolean(nativeRecording.active || recording || cameraTransition || (!exploring && (latest.current.autoRotate || (!isVirtaMed && !physics && latest.current.breathing) || (physics && latest.current.physicsRunning && !physicsFailed && (!isVirtaMed || latest.current.breathing || physics.motionActive)))));
+      const activeMotion = Boolean(cameraPlanner?.moving || nativeRecording.active || recording || cameraTransition || (!exploring && (latest.current.autoRotate || (!isVirtaMed && !physics && latest.current.breathing) || (physics && latest.current.physicsRunning && !physicsFailed && (!isVirtaMed || latest.current.breathing || physics.motionActive)))));
       if (renderPending || activeMotion) draw();
       if (now - lastSnapshot > 500) { snapshot(); lastSnapshot = now; }
       frame = requestAnimationFrame(animate);
@@ -923,6 +978,7 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
     };
     void load();
     return () => {
+      cameraPlanner?.dispose();
       alive = false; abort.abort(); cancelAnimationFrame(frame); observer.disconnect();
       if (recordingTimer) clearTimeout(recordingTimer); stopRecording(); recordingStream?.getTracks().forEach(track => track.stop());
       tools.dispose();
@@ -930,7 +986,7 @@ export const WholeSceneViewport = forwardRef<WholeSceneViewportHandle, WholeScen
       canvas.removeEventListener("pointerdown", onLookStart, true); canvas.removeEventListener("pointermove", onLookMove, true);
       canvas.removeEventListener("pointerup", onLookEnd, true); canvas.removeEventListener("pointercancel", onLookEnd, true); canvas.removeEventListener("lostpointercapture", onLookEnd, true);
       canvas.removeEventListener("keydown", onNavigationKey, true); canvas.removeEventListener("blur", clearNavigationInput); canvas.removeEventListener("wheel", onNavigationWheel, true);
-      window.removeEventListener("keyup", onNavigationKeyUp); window.removeEventListener("blur", clearNavigationInput);
+      window.removeEventListener("keydown", onPlannerEscape); window.removeEventListener("keyup", onNavigationKeyUp); window.removeEventListener("blur", clearNavigationInput);
       canvas.removeEventListener("pointerdown", onPointerDown); canvas.removeEventListener("pointerup", onPointerUp); canvas.removeEventListener("webglcontextlost", onContextLost);
       controls.removeEventListener("start", onControlStart); controls.removeEventListener("change", onControlChange); controls.removeEventListener("end", snapshot); controls.dispose();
       nativeRecording.dispose(); navigationGuard.invalidate(); fatLayers.dispose(); disposeObject(assembly); tissueVolume.dispose(); if(vmTiles) disposeVirtaMedTiles(vmTiles); vmOperative?.texture.dispose(); operativeEnvelope?.dispose(); laparoscope.dispose(); cameraOptics?.dispose(); environment.dispose(); fatLamp.shadow.dispose(); renderer.dispose(); renderer.forceContextLoss(); canvas.remove(); runtime.current = null;

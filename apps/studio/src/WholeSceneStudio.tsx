@@ -1,3 +1,5 @@
+import { CameraPlanningLab } from "./CameraPlanningLab";
+import type { CameraPlannerState } from "./cameraPlannerScene";
 import { SceneTextEditor } from "./SceneTextEditor";
 import { compileSceneText, sceneTextHints, validateConnectedSceneDisease } from "./sceneTextEdits";
 import { loadImportedVariationSystem, type ImportedVariationRecipe, type ImportedVariationSystem } from "./imports/variations";
@@ -53,6 +55,7 @@ function withoutPlanTarget(plan: WholeBodyColorPlan | null, target: string): Who
 export default function WholeSceneStudio({ onBack, textureLab = false }: { onBack: () => void; textureLab?: boolean }) {
   const viewport = useRef<WholeSceneViewportHandle>(null);
   const isVirtaMed = new URLSearchParams(location.search).get("scene") === "virtamed";
+  const [cameraPlanner, setCameraPlanner] = useState<CameraPlannerState | null>(null);
   const [whiteSurface, setWhiteSurface] = useState(true);
   const [operativeResidue, setOperativeResidue] = useState(.5);
   const [disease, setDisease] = useState("baseline");
@@ -258,7 +261,7 @@ export default function WholeSceneStudio({ onBack, textureLab = false }: { onBac
 
     <main ref={sceneStage} className={`whole-stage${physicsMaterials ? " whole-stage-instruments" : ""}${exploring ? " whole-exploring" : ""}`} aria-label="Connected anatomy scene" onPointerDownCapture={event => { if ((event.target as HTMLElement).tagName === "CANVAS" && toolMode === "orbit") setView("orbit"); }}>
       <SceneResizeHandle />
-      <WholeSceneViewport ref={viewport} sourceScene={isVirtaMed ? "virtamed" : "atlas"} whiteSurface={whiteSurface} operativeResidue={operativeResidue} disease={disease} textRecipe={textRecipe} fatOptions={fatOptions} onFatStatus={setFatStatus} variation={variation} visibility={visibility} hiddenOrgans={hiddenOrgans} breathing={breathing} photoDetail={photoDetail} autoRotate={autoRotate} selectedOrgan={selected} onSelect={setSelected} onReady={setStats} onError={setError} onRecordingChange={setRecording} physicsMaterials={physicsMaterials} physicsRunning={physicsRunning} referenceColors={displayedReferences.colors} bodyReferencePlan={displayedReferences.plan} toolMode={toolMode} toolRadiusMm={toolRadius} toolDepthMm={toolDepth} continuousPush={continuousPush} pushSpeedMmS={pushSpeed} onToolStatus={setToolStatus} onNavigationChange={setNavigation} />
+      <WholeSceneViewport ref={viewport} onCameraPlannerChange={setCameraPlanner} sourceScene={isVirtaMed ? "virtamed" : "atlas"} whiteSurface={whiteSurface} operativeResidue={operativeResidue} disease={disease} textRecipe={textRecipe} fatOptions={fatOptions} onFatStatus={setFatStatus} variation={variation} visibility={visibility} hiddenOrgans={hiddenOrgans} breathing={breathing} photoDetail={photoDetail} autoRotate={autoRotate} selectedOrgan={selected} onSelect={setSelected} onReady={setStats} onError={setError} onRecordingChange={setRecording} physicsMaterials={physicsMaterials} physicsRunning={physicsRunning} referenceColors={displayedReferences.colors} bodyReferencePlan={displayedReferences.plan} toolMode={toolMode} toolRadiusMm={toolRadius} toolDepthMm={toolDepth} continuousPush={continuousPush} pushSpeedMmS={pushSpeed} onToolStatus={setToolStatus} onNavigationChange={setNavigation} />
       {exploring && <section className="whole-exploration" aria-label="Interior camera controls">
         <div className="whole-exploration-heading"><strong>Between-organ inspection</strong><button type="button" aria-label={cameraControlsExpanded ? "Collapse camera controls" : "Expand camera controls"} aria-expanded={cameraControlsExpanded} onClick={() => setCameraControlsExpanded(value => !value)}>{cameraControlsExpanded ? "−" : "+"}</button><button type="button" aria-label="Exit interior exploration" onClick={() => viewport.current?.exitExploration()}><X size={16} /></button></div>
         <div hidden={!cameraControlsExpanded}><p>Drag to look · WASD / Q E to move · arrow keys to look · Escape to exit</p>
@@ -293,6 +296,9 @@ export default function WholeSceneStudio({ onBack, textureLab = false }: { onBac
 
     <aside ref={controlsPanel} className="whole-controls" aria-label="Whole scene controls">
       <section className="virtamed-source" aria-label="Scene library"><label>Scene library<select aria-label="Scene library" value={isVirtaMed ? "virtamed" : "atlas"} onChange={event => { location.href=event.target.value === "virtamed" ? "?mode=scene&scene=virtamed" : "?mode=scene"; }}><option value="atlas">Whole anatomical atlas</option><option value="virtamed">VirtaMed scene</option></select></label></section>
+      {isVirtaMed && <CameraPlanningLab viewport={viewport} ready={ready} disabled={recording} planner={cameraPlanner}
+        onFreeze={() => { setAutoVarying(false); setAutoRotate(false); setBreathing(false); setPhysicsRunning(false); setToolMode("orbit"); setSelected(null); viewport.current?.releaseTool(); }}
+        onPrepare={() => { setAutoVarying(false); setAutoRotate(false); setBreathing(false); setPhysicsRunning(false); setToolMode("orbit"); setSelected(null); setWhiteSurface(false); viewport.current?.videoView(); }} />}
           {isVirtaMed && <SceneTextEditor targets={[{id:"liver",label:"Liver"},{id:"gallbladder",label:"Gallbladder"}]}
             target={textTarget} onTarget={id=>{++textRequest.current;setTextBusy(false);setTextTarget(id);setTextMessage("");}}
             hints={sceneTextHints(textSystem,textTarget,VIRTAMED_DISEASES.map(item=>item.id))}
