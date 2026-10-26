@@ -19,7 +19,7 @@ def build(out: Path, origin: str):
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow"><meta name="referrer" content="no-referrer">
 <title>Sign in · Viscera Studio</title>
-<style>body{{margin:0;min-height:100vh;display:grid;place-items:center;background:#f4f3ef;color:#192728;font:18px system-ui,sans-serif}}main{{max-width:34rem;padding:2rem}}h1{{font-size:2rem}}a{{color:inherit;text-underline-offset:4px}}p{{line-height:1.6}}</style>
+<style>body{{margin:0;min-height:100vh;display:grid;place-items:center;background:#eaf3e2;color:#213b2c;font:18px system-ui,sans-serif}}main{{max-width:34rem;padding:2rem}}h1{{font-size:2rem}}a{{color:inherit;text-underline-offset:4px}}p{{line-height:1.6}}</style>
 </head><body><main><h1>Viscera Studio</h1><p>Sign in to enter your workspace.</p>
 <p><a id="signin" href="{html.escape(login, quote=True)}">Continue to sign in</a></p>
 <p>The studio is hosted temporarily. If it is unavailable, please try again later.</p></main>

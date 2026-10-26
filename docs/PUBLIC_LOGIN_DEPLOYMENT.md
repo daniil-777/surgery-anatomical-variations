@@ -3,7 +3,7 @@
 Public login: https://shuttle-sample-peripheral-ace.trycloudflare.com/auth/login
 
 The existing address, https://daniil-777.github.io/surgery-anatomical-variations/,
-is being changed to a redirect to the protected studio. GitHub Pages must contain
+now redirects to the protected studio. GitHub Pages must contain
 only the files from `scripts/build_login_gateway.py`; publishing `public-copy`
 there would expose an unauthenticated copy of the app.
 
@@ -13,8 +13,12 @@ accounts, change the password, or publish credentials. The server protects all
 studio entry points, JavaScript bundles, model files, and API paths. HTTPS
 sessions use Secure, HttpOnly, SameSite=Strict cookies and server-side revocation.
 
-The served build is the installed `app-recorder-2026-10-26` browser studio, with
-1,204 files (342 MB), including its existing scene, labs and recorder. This is
+The served build starts from the installed `app-recorder-2026-10-26` browser
+studio (1,204 files, 342 MB), including its scene, labs and recorder. The login
+uses the requested light-green palette: `#eaf3e2` background, dark green text
+and button, coordinated focus rings and form fields. Text contrast is at least
+4.95:1; input borders are 3.66:1. Previous login files are retained in the
+runtime rollback directory. This is
 the browser build; API-dependent generation features are not added by this
 deployment. The authenticated local studio remains on port 5180. The separate
 public process listens on loopback port 5182 and checks the public Host and
@@ -57,7 +61,9 @@ does not restrict material already published in Git history.
 The existing authentication and recorder HTTP tests passed (40 tests). Public
 HTTPS checks confirmed login/UI assets return 200, studio navigation redirects
 to login, and direct model/catalog/session requests return 401, with no-store
-and HTTPS security headers. The login browser checks and authenticated session
-smoke test are recorded under `artifacts/public-login-deployment-2026-10-26/`.
+and HTTPS security headers. All 13 live login browser checks passed, including four viewport sizes,
+keyboard operation, reduced motion and artwork failure. The previous Pages
+model/catalog URLs return 404, and its entry URL preserves the requested
+workspace through the login redirect. Browser verification is recorded under `artifacts/public-login-deployment-2026-10-26/`.
 
 Official hosting reference: https://developers.cloudflare.com/tunnel/get-started/quick-tunnels/

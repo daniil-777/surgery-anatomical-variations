@@ -2,7 +2,7 @@
 
 The studio now requires one configured username and password. All workspaces share the session, including direct links to the VirtaMed scene, imports, organ studio, textures, tissue, fat, blood and the original procedural studio. Login does not create or alter saved-study accounts.
 
-**Public HTTPS deployment prepared on 26 October 2026.** The installed browser studio is served behind this same authentication boundary through a temporary Cloudflare tunnel. GitHub Pages now builds only a sign-in redirect, never the application or model files. See [public deployment operations](PUBLIC_LOGIN_DEPLOYMENT.md) for the active addresses, verification, and hosting limits.
+**Public HTTPS deployment live since 26 October 2026.** The installed browser studio is served behind this same authentication boundary through a temporary Cloudflare tunnel. GitHub Pages now builds only a sign-in redirect, never the application or model files. See [public deployment operations](PUBLIC_LOGIN_DEPLOYMENT.md) for the active addresses, verification, and hosting limits.
 
 ## Configure
 

@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#eaf3e2">
+  <title>VISCERA — Enter the studio</title>
+  <link rel="icon" href="/auth/ui/mark.svg" type="image/svg+xml">
+  <link rel="preload" href="/auth/ui/inter-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/auth/ui/login.css">
+  <script src="/auth/ui/login.js" defer></script>
+  <script src="/auth/recorder/launcher.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#username">Skip to sign in</a>
+  <div class="entrance">
+    <header class="masthead">
+      <a class="wordmark" href="/auth/login" aria-label="Viscera studio sign in"><img src="/auth/ui/mark.svg" width="31" height="31" alt=""><span>VISCERA<span class="wordmark-sub">ANATOMY STUDIO</span></span></a>
+      <a class="access-link" href="#sign-in" aria-label="Jump to sign in"><span class="status-dot" aria-hidden="true"></span>Sign in <span aria-hidden="true">↗</span></a>
+    </header>
+    <main class="entrance-main">
+      <section class="showcase" aria-labelledby="showcase-title">
+        <p class="eyebrow"><span class="short-rule" aria-hidden="true"></span>FORM. SURFACE. RESPONSE.</p>
+        <h1 id="showcase-title">Anatomy, <br>in extraordinary <em>detail.</em></h1>
+        <p class="intro">Explore lifelike organs. Shape their variations.<br class="desktop-break"> Bring tissue, physics, and materials together.</p>
+        <div class="studies-heading"><p>Inside the studio</p><button id="toggle-previews" type="button" aria-controls="studio-previews" aria-label="Play previews" hidden><span class="motion-icon" aria-hidden="true">▶</span><span class="motion-label">Play previews</span></button></div>
+        <div class="studies" id="studio-previews" aria-label="Four recorded studio workflows">
+          <figure class="study"><div class="study-image"><img src="/auth/ui/shape-preview.jpg" data-poster="/auth/ui/shape-preview.jpg" data-motion-src="/auth/ui/shape.gif" width="560" height="350" alt="Recorded liver samples changing both organ shape and tissue appearance" fetchpriority="high"></div><figcaption><span class="study-index">01</span><span><strong>Shape &amp; texture</strong><small>Joint anatomy variations</small></span></figcaption></figure>
+          <figure class="study"><div class="study-image"><img src="/auth/ui/physics-preview.jpg" data-poster="/auth/ui/physics-preview.jpg" data-motion-src="/auth/ui/physics.gif" width="560" height="350" alt="A simulated grasper lifts and stretches a liver, then releases it"></div><figcaption><span class="study-index">02</span><span><strong>Tissue physics</strong><small>Grasp, deform &amp; release</small></span></figcaption></figure>
+          <figure class="study"><div class="study-image"><img src="/auth/ui/grasp-preview.jpg" data-poster="/auth/ui/grasp-preview.jpg" data-motion-src="/auth/ui/grasp.gif" width="560" height="350" alt="An autonomous camera approaches the liver and a simulated instrument grasps and releases it"></div><figcaption><span class="study-index">03</span><span><strong>Autonomous grasping</strong><small>Approach, grasp &amp; release <span class="playback-rate">· 6×</span></small></span></figcaption></figure>
+          <figure class="study"><div class="study-image"><img src="/auth/ui/materials-preview.jpg" data-poster="/auth/ui/materials-preview.jpg" data-motion-src="/auth/ui/materials.gif" width="560" height="350" alt="A layered tissue sample changes pigment, fat coverage and wet surface reflections"></div><figcaption><span class="study-index">04</span><span><strong>Material variations</strong><small>Pigment, layers &amp; light</small></span></figcaption></figure>
+        </div>
+        <p class="render-note"><span aria-hidden="true">↳</span> Recorded in Viscera. Simulation, in motion.</p>
+      </section>
+      <section class="access-panel" id="sign-in" aria-labelledby="sign-in-title">
+        <div class="access-inner">
+          <div class="access-symbol" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="5" y="10" width="14" height="11" rx="3"/><path d="M8 10V6a4 4 0 0 1 8 0v4M12 14v3"/></svg></div>
+          <p class="eyebrow">YOUR PRIVATE WORKSPACE</p>
+          <h2 id="sign-in-title">Welcome back.</h2>
+          <p class="sign-in-intro">Sign in to enter the studio.</p>
+          <form id="login-form" action="/auth/login" method="post" aria-label="Studio sign in">
+            <div class="field"><label for="username">Username</label><input id="username" name="username" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" maxlength="128" required placeholder="Your username" aria-describedby="form-feedback"></div>
+            <div class="field"><label for="password">Password</label><div class="password-wrap"><input id="password" name="password" type="password" autocomplete="current-password" maxlength="512" required placeholder="Your password" aria-describedby="caps-hint form-feedback"><button id="toggle-password" class="reveal" type="button" aria-label="Show password" aria-pressed="false"><svg class="eye-open" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg><svg class="eye-closed" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m3 3 18 18M10.5 5.1 12 5c6.5 0 10 7 10 7a21 21 0 0 1-3 3.8M6.1 6.1C3.4 8.3 2 12 2 12s3.5 7 10 7a11 11 0 0 0 5-1.2"/></svg></button></div><span id="caps-hint" class="caps-hint" hidden>Caps Lock is on.</span></div>
+            <div class="feedback-space"><p id="form-feedback" role="status" aria-live="polite" aria-atomic="true"></p></div>
+            <button id="submit-login" class="enter-button" type="submit"><span id="submit-label">Enter studio</span><svg class="enter-arrow" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg><span class="spinner" aria-hidden="true"></span></button>
+          </form>
+          <p id="script-required" class="no-script">Enable JavaScript to sign in and use the 3D studio.</p>
+          <div class="access-footnote"><span class="footnote-rule"></span><p>A dedicated space to create,<br>inspect, and experiment.</p></div>
+        </div>
+      </section>
+    </main>
+    <footer class="entrance-footer"><span>VISCERA <span class="footer-divider">/</span> Generative anatomy studio</span><span>Made for exploration. <a href="/auth/ui/credits.html">Image credits</a></span></footer>
+  </div>
+</body>
+</html>
