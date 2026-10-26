@@ -422,6 +422,7 @@ export interface AtlasPromptTipsProps {
   selectedOrganLabel?: string;
   selectedTemplateId?: string;
   currentPrompt: string;
+  appliedPrompt?: string;
   disabled?: boolean;
   onSelectPrompt: (prompt: string, organId: string, applyImmediately: boolean) => void;
 }
@@ -438,13 +439,13 @@ export function AtlasPromptTips({
   selectedOrganLabel = "Liver",
   selectedTemplateId,
   currentPrompt,
+  appliedPrompt,
   disabled = false,
   onSelectPrompt,
 }: AtlasPromptTipsProps) {
   const [open, setOpen] = useState(false);
   const [category, setCategory] = useState<PromptTipCategory>("all");
   const [keepOpenOnApply, setKeepOpenOnApply] = useState(false);
-  const [lastAppliedId, setLastAppliedId] = useState<string | null>(null);
 
   const quickTips = useMemo(() => {
     const organMatch = SURGICAL_PROMPT_TIPS.find(
@@ -466,7 +467,6 @@ export function AtlasPromptTips({
 
   const handleApply = (tip: PromptTipItem, immediate: boolean) => {
     const resolved = resolveTipPrompt(tip, selectedTemplateId);
-    setLastAppliedId(tip.id);
     onSelectPrompt(resolved, tip.organId, immediate);
     if (immediate && !keepOpenOnApply) {
       setOpen(false);
@@ -494,7 +494,7 @@ export function AtlasPromptTips({
         <div className="atlas-prompt-quick-chips-scroll">
           {quickTips.map((tip) => {
             const resolved = resolveTipPrompt(tip, selectedTemplateId);
-            const isActive = currentPrompt.trim() === resolved.trim() || lastAppliedId === tip.id;
+            const isActive = currentPrompt.trim() === resolved.trim();
             return (
               <button
                 key={tip.id}
@@ -580,7 +580,8 @@ export function AtlasPromptTips({
           <div className="atlas-prompt-tips-grid" data-testid="atlas-prompt-tips-grid">
             {visibleTips.map((tip) => {
               const resolvedPrompt = resolveTipPrompt(tip, selectedTemplateId);
-              const isSelected = currentPrompt.trim() === resolvedPrompt.trim() || lastAppliedId === tip.id;
+              const isSelected = currentPrompt.trim() === resolvedPrompt.trim();
+              const isApplied = appliedPrompt?.trim() === resolvedPrompt.trim();
               return (
                 <article
                   key={tip.id}
@@ -614,8 +615,8 @@ export function AtlasPromptTips({
                       disabled={disabled}
                       onClick={() => handleApply(tip, true)}
                     >
-                      {isSelected ? <Check size={13} /> : <Play size={13} />}
-                      <span>{isSelected ? "Applied to 3D Organ" : "Apply to 3D Organ"}</span>
+                      {isApplied ? <Check size={13} /> : <Play size={13} />}
+                      <span>{isApplied ? "Applied to 3D Organ" : "Apply to 3D Organ"}</span>
                     </button>
                     <button
                       type="button"

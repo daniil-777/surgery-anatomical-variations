@@ -112,7 +112,7 @@ export default function AtlasStudio({ textureLab = false }: { textureLab?: boole
   const [vesselRadiusScale, setVesselRadiusScale] = useState(1.15);
   const [vesselSeed, setVesselSeed] = useState(42);
   const [error, setError] = useState("");
-  const [textMessage, setTextMessage] = useState<{ accepted: boolean; text: string } | null>(null);
+  const [textMessage, setTextMessage] = useState<{ accepted: boolean; text: string; prompt?: string } | null>(null);
   const [wireframe, setWireframe] = useState(false);
   const [matchDimensions, setMatchDimensions] = useState(false);
   const [modelsOpen, setModelsOpen] = useState(false);
@@ -283,7 +283,7 @@ export default function AtlasStudio({ textureLab = false }: { textureLab?: boole
     const controller = new AbortController();
     activeRequest.current = controller;
     const joint = options.jointTemperature !== undefined;
-    setBusy(options.preview ? "preview" : joint ? "joint" : options.learned ? "learned" : options.sampleDisease ? "disease" : options.surfaceOnly ? "surface" : "generate"); setError("");
+    setBusy(options.preview ? "preview" : joint ? "joint" : options.learned ? "learned" : options.sampleDisease ? "disease" : options.surfaceOnly ? "surface" : "generate"); setError(""); setTextMessage(null);
     const expectedGeometry = options.surfaceOnly ? committed.current?.scene.metadata?.geometry_sha256 : undefined;
     try {
       let result: unknown;
@@ -643,7 +643,7 @@ export default function AtlasStudio({ textureLab = false }: { textureLab?: boole
       }
       validateAtlasSpec(result.spec, catalog);
       const succeeded = await generate(result.spec);
-      if (succeeded) setTextMessage({ accepted: true, text: result.message });
+      if (succeeded) setTextMessage({ accepted: true, text: result.message.replace(/^Prepared\b/, "Applied"), prompt: text });
     } catch (cause) {
       if (id === requestId.current && !controller.signal.aborted) setError(errorText(cause));
     } finally { if (id === requestId.current) setBusy(null); }
@@ -699,7 +699,7 @@ export default function AtlasStudio({ textureLab = false }: { textureLab?: boole
     <header className="atlas-header">
       <a className="atlas-brand" href={textureLab ? "?mode=textures" : "?mode=atlas"} aria-label="VISCERA Atlas home"><Activity size={22} /><span>VISCERA <small>{textureLab ? "TEXTURE LAB" : "ATLAS"}</small></span></a>
       <div className="atlas-header-divider" />
-      <nav className="anatomy-workspace-tabs" aria-label="Anatomy workspace"><button aria-current="page">Organ studio</button><button onClick={() => { window.location.href = "?mode=imports"; }}>Import 3D</button><button onClick={() => switchWorkspace(true)}>Whole scene</button><button onClick={() => { window.location.href = "?mode=fat"; }}>Fat lab</button><button onClick={() => { window.location.href = "?mode=tissues"; }}>Tissue lab</button><button onClick={() => { window.location.href = "?mode=blood"; }}>Blood lab</button></nav>
+      <nav className="anatomy-workspace-tabs" aria-label="Anatomy workspace"><button aria-current="page">Organ studio</button><button onClick={() => { window.location.href = "?mode=imports"; }}>Import 3D</button><button onClick={() => switchWorkspace(true)}>Whole scene</button><button onClick={() => { window.location.href = "?mode=scene&scene=virtamed"; }}>VirtaMed scene</button><button onClick={() => { window.location.href = "?mode=fat"; }}>Fat lab</button><button onClick={() => { window.location.href = "?mode=tissues"; }}>Tissue lab</button><button onClick={() => { window.location.href = "?mode=blood"; }}>Blood lab</button></nav>
       <div className="atlas-header-fill" /><DisplaySettings /><VideoRecorderButton />
       <AtlasModelSelector disabled={Boolean(busy) || exporting || modelsOpen} revision={modelRevision} onBusyChange={handleModelBusy} onActivated={handleModelActivated} onManage={trigger => { modelsFocusReturn.current = trigger; setModelsOpen(true); }} />
       <button ref={modelsButton} className="atlas-btn atlas-models-button" disabled={modelSwitching || Boolean(busy) || exporting} onClick={() => { modelsFocusReturn.current = modelsButton.current; setModelsOpen(true); }}>Trained models</button>
@@ -795,21 +795,22 @@ export default function AtlasStudio({ textureLab = false }: { textureLab?: boole
           selectedOrganLabel={selectedOrgan?.label ?? "Liver"}
           {...(draft?.template_id ? { selectedTemplateId: draft.template_id } : {})}
           currentPrompt={prompt}
+          {...(textMessage?.accepted && textMessage.prompt ? { appliedPrompt: textMessage.prompt } : {})}
           disabled={!draft || modelSwitching || Boolean(busy)}
           onSelectPrompt={selectPromptTip}
         />
         {textAdapterAvailable && <label className="atlas-text-model-toggle"><input type="checkbox" checked={useTextAdapter} disabled={modelSwitching || Boolean(busy)} onChange={event => setUseTextAdapter(event.target.checked)} />Use trained text adapter · shape edits, compiler guarded</label>}
         <form className="atlas-prompt-box" onSubmit={(event) => { event.preventDefault(); void compile(); }}>
-          <textarea aria-label="Describe an anatomy variation" placeholder={`Try “Make the ${(selectedOrgan?.label ?? "organ").toLowerCase()} slightly wider and ${catalog?.materials ? "wetter" : "less tapered"}”`} value={prompt} disabled={!draft || modelSwitching || Boolean(busy)} onChange={(event) => setPrompt(event.target.value)} rows={2} maxLength={2000} onKeyDown={(event) => { if (event.key === "Enter" && !event.shiftKey) { event.preventDefault(); void compile(); } }} />
+          <textarea aria-label="Describe an anatomy variation" placeholder={`Try “Make the ${(selectedOrgan?.label ?? "organ").toLowerCase()} slightly wider and ${catalog?.materials ? "wetter" : "less tapered"}”`} value={prompt} disabled={!draft || modelSwitching || Boolean(busy)} onChange={(event) => { setPrompt(event.target.value); setTextMessage(null); }} rows={2} maxLength={2000} onKeyDown={(event) => { if (event.key === "Enter" && !event.shiftKey) { event.preventDefault(); void compile(); } }} />
           <WhistleMicButton
             className="atlas-prompt-mic whistle-mic-btn"
             disabled={!draft || modelSwitching || Boolean(busy)}
-            onTranscript={(liveText) => setPrompt(liveText)}
+            onTranscript={(liveText) => { setPrompt(liveText); setTextMessage(null); }}
             onCommit={(cleanText) => { setPrompt(cleanText); void compile(cleanText); }}
           />
           <button type="submit" className="atlas-prompt-send" aria-label="Apply text instruction" disabled={!prompt.trim() || !draft || modelSwitching || Boolean(busy)}>{busy === "compile" ? <LoaderCircle size={18} className="atlas-spinning" /> : <ArrowRight size={18} />}</button>
         </form>
-        <div className={`atlas-text-feedback ${textMessage?.accepted === false ? "unsupported" : ""}`} aria-live="polite">{textMessage ? <><span>{textMessage.accepted ? <Check size={12} /> : <CircleHelp size={12} />}</span>{modelMessage(textMessage.text)}</> : <span>{catalog?.diseases ? "Describe shape, surface or a supported disease profile." : catalog?.materials ? "Describe shape, tissue finish or pigment." : "Describe size, taper, bend, twist or asymmetry."} Unsupported requests stay unapplied.</span>}</div>
+        <div className={`atlas-text-feedback ${textMessage?.accepted === false ? "unsupported" : ""}`} aria-live="polite">{textMessage ? <><span>{textMessage.accepted ? <Check size={12} /> : <CircleHelp size={12} />}</span>{modelMessage(textMessage.text)}</> : <span>{prompt.trim() ? "Ready to apply. Press Enter or use the arrow to update the 3D organ." : catalog?.diseases ? "Describe shape, surface or a supported disease profile." : catalog?.materials ? "Describe shape, tissue finish or pigment." : "Describe size, taper, bend, twist or asymmetry."} Unsupported requests stay unapplied.</span>}</div>
       </section>
     </main>
 
