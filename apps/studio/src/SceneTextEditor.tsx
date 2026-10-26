@@ -5,7 +5,8 @@ import { modelMessage } from "./modelNames";
 import type { SceneTextHint } from "./sceneTextEdits";
 import "./sceneTextEditor.css";
 
-export function SceneTextEditor({ targets, target, onTarget, hints, disabled, busy, onApply, message, version = 0 }: {
+export function SceneTextEditor({ id, targets, target, onTarget, hints, disabled, busy, onApply, message, version = 0 }: {
+  id?: string;
   targets: { id: string; label: string }[]; target: string; onTarget: (id: string) => void;
   hints: SceneTextHint[]; disabled: boolean; busy?: boolean; onApply: (text: string) => void;
   message?: string; version?: number;
@@ -17,7 +18,7 @@ export function SceneTextEditor({ targets, target, onTarget, hints, disabled, bu
   const speechTarget = useRef({ target, version });
   useEffect(() => { setPrompt(""); setSpeech(""); }, [target, version]);
   const apply = (text: string) => { if (!disabled && !busy && text.trim()) onApply(text); };
-  return <section className="scene-text-editor" aria-label="Scene text-to-shape editor">
+  return <section id={id} tabIndex={id ? -1 : undefined} className={`scene-text-editor${id ? " scene-shortcut-destination" : ""}`} aria-label="Scene text-to-shape editor">
     <div className="scene-text-heading"><Sparkles size={16} /><h2>Anatomy with words</h2></div>
     <p>Describe a disease, shape or surface change. Apply a hint, type an instruction, or use your voice.</p>
     <label>Edit target<select aria-label="Text edit target" value={target} disabled={disabled || listening} onChange={event => onTarget(event.target.value)}>

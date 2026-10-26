@@ -1,0 +1,32 @@
+/* A single persistent navigation row, contained in the controls rather than the surgical view. */
+html .whole-controls:has(.scene-section-nav) { display:block; overflow-y:auto; }
+.scene-section-nav {
+  position:sticky; top:0; z-index:12; display:grid; grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:6px; padding:10px 12px; background:#112126; border-bottom:1px solid #46605b;
+  box-shadow:0 4px 12px #0002; isolation:isolate;
+}
+.scene-section-nav button {
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px;
+  min-width:0; min-height:76px; padding:8px 4px; border:1px solid #47605d; border-radius:10px;
+  background:#1a3034; color:#e2efea; font:600 calc(12px * var(--ui-text-scale,1))/1.3 Inter,sans-serif;
+  text-align:center; text-wrap:balance; cursor:pointer;
+  transition:background-color 140ms,border-color 140ms,transform 140ms;
+}
+.scene-section-nav button:hover { background:#29453f; border-color:#8bb9a9; }
+.scene-section-nav button:active { transform:translateY(1px); }
+.scene-section-nav button[aria-current=location] { background:#2c4d42; border-color:#afd7c4; color:#f2fff8; }
+.scene-section-nav button:focus-visible { outline:2px solid #d3f4e4; outline-offset:2px; }
+.scene-shortcut-icon { display:grid; place-items:center; width:32px; height:32px; flex:none; }
+.scene-shortcut-icon svg { width:29px; height:29px; }
+.scene-shortcut-variation { color:#b6e2cd; }
+.scene-shortcut-actions { color:#b3d8ed; }
+.scene-shortcut-disease { color:#efc2b3; }
+.scene-shortcut-destination { scroll-margin-top:calc(var(--scene-shortcuts-height,98px) + 12px); }
+.scene-shortcut-destination:focus { outline:2px solid #91c3af; outline-offset:4px; border-radius:8px; }
+@media(max-width:760px) {
+  html .whole-controls:has(.scene-section-nav) { overflow:visible; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .scene-section-nav button { transition:none; }
+  .scene-section-nav button:active { transform:none; }
+}

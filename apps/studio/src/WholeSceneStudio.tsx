@@ -3,6 +3,7 @@ import { CameraPathOverlay } from "./CameraPathOverlay";
 import { AutomaticGraspOverlay } from "./AutomaticGraspOverlay";
 import type { AutomaticGraspState } from "./automaticGrasp";
 import type { CameraPlannerState } from "./cameraPlannerScene";
+import { SceneSectionNav } from "./SceneSectionNav";
 import { SceneTextEditor } from "./SceneTextEditor";
 import { compileSceneText, sceneTextHints, validateConnectedSceneDisease } from "./sceneTextEdits";
 import { loadImportedVariationSystem, type ImportedVariationRecipe, type ImportedVariationSystem } from "./imports/variations";
@@ -316,12 +317,13 @@ export default function WholeSceneStudio({ onBack, textureLab = false }: { onBac
     </main>
 
     <aside ref={controlsPanel} className="whole-controls" aria-label="Whole scene controls">
+      {isVirtaMed && <SceneSectionNav scenePanelVisible={panel === "scene"} revealScenePanel={() => setPanel("scene")} />}
       <section className="virtamed-source" aria-label="Scene library"><label>Scene library<select aria-label="Scene library" value={isVirtaMed ? "virtamed" : "atlas"} onChange={event => { location.href=event.target.value === "virtamed" ? "?mode=scene&scene=virtamed" : "?mode=scene"; }}><option value="atlas">Whole anatomical atlas</option><option value="virtamed">VirtaMed scene</option></select></label></section>
       {isVirtaMed && <CameraPlanningLab automaticGrasp={automaticGrasp} onPrepareGrasp={prepareAutomaticGrasp} viewport={viewport} ready={ready} disabled={recording} planner={cameraPlanner}
         onFreeze={() => { setAutoVarying(false); setAutoRotate(false); setBreathing(false); setPhysicsRunning(false); setToolMode("orbit"); setSelected(null); viewport.current?.releaseTool(); }}
         onPrepareGoal={() => { setAutoVarying(false); setAutoRotate(false); setBreathing(false); setPhysicsRunning(false); setToolMode("orbit"); setSelected(null); setWhiteSurface(false); viewport.current?.releaseTool(); }}
         onPrepare={() => { setAutoVarying(false); setAutoRotate(false); setBreathing(false); setPhysicsRunning(false); setToolMode("orbit"); setSelected(null); setWhiteSurface(false); viewport.current?.videoView(); }} />}
-          {isVirtaMed && <SceneTextEditor targets={[{id:"liver",label:"Liver"},{id:"gallbladder",label:"Gallbladder"}]}
+          {isVirtaMed && <SceneTextEditor id="scene-disease" targets={[{id:"liver",label:"Liver"},{id:"gallbladder",label:"Gallbladder"}]}
             target={textTarget} onTarget={id=>{++textRequest.current;setTextBusy(false);setTextTarget(id);setTextMessage("");}}
             hints={sceneTextHints(textSystem,textTarget,VIRTAMED_DISEASES.map(item=>item.id))}
             disabled={!ready || recording || textBusy} busy={textBusy} version={textVersion} onApply={text=>void applyText(text)} message={textMessage} />}
@@ -379,6 +381,7 @@ export default function WholeSceneStudio({ onBack, textureLab = false }: { onBac
           <label className="whole-motion"><Activity size={15} /><span>Breathing<small>{physicsMaterials ? "Respiratory loading of the soft tissues" : isVirtaMed ? "Apply learned physics to enable breathing" : "Gentle illustrative motion"}</small></span><input type="checkbox" disabled={isVirtaMed && !physicsMaterials} checked={breathing} onChange={event => setBreathing(event.target.checked)} /></label>
           {textureLab && <><label className="whole-range"><span>Photo detail<output>{Math.round(photoDetail * 100)}%</output></span><input type="range" min={0} max={2} step={0.01} value={photoDetail} aria-label="Photo detail strength" onChange={event => setPhotoDetail(Number(event.target.value))} /></label>
           <p className="whole-copy">Real tissue detail from licensed surgical photographs (DSAD, CC BY 4.0) over the organs that have one, lighting flattened, no repetition; it modulates each tissue's colour without shifting it.</p></>}
+          <section id="scene-joint-variation" className="scene-shortcut-destination" tabIndex={-1} aria-label="Joint shape and texture variation">
           <div className="whole-section-label">02 <span>JOINT VARIATION</span></div>
           <h2>Shape, colour & disease</h2><p className="whole-copy">Vary the entire scene in one step. A shared spatial deformation keeps the atlas structures together.</p>
           <label className="whole-range"><span>Shape variation<output>{Math.round(strength * 100)}%</output></span><input aria-label="Shape variation" type="range" min="0.05" max="1" step="0.05" value={strength} onChange={event => setStrength(Number(event.target.value))} /></label>
@@ -388,6 +391,7 @@ export default function WholeSceneStudio({ onBack, textureLab = false }: { onBac
           <button className="whole-button" aria-pressed={autoVarying} disabled={!ready || recording} onClick={() => { const next = !autoVarying; setAutoVarying(next); if (next) vary(true); }}>{autoVarying ? <Pause size={13} /> : <Play size={13} />}{autoVarying ? "Pause endless variation" : "Auto-vary scene endlessly"}</button>
           <button className="whole-restore" disabled={!ready || recording} onClick={restore}><RotateCcw size={13} />{isVirtaMed ? "Restore video geometry" : "Restore atlas"}</button>
           <p className="whole-scope">Disease colours and texture changes are synthetic visual studies. They do not represent a diagnosed patient or a physiological disease simulation.</p>
+          </section>
           {selectedInfo && REFERENCE_ORGAN_IDS[selectedInfo.id] ? <ReferenceMaterialPanel
             key={selectedInfo.id} organ={REFERENCE_ORGAN_IDS[selectedInfo.id]!} organLabel={selectedInfo.label}
             reference={referenceColors[selectedInfo.id]} disabled={!ready || recording}

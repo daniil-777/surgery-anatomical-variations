@@ -217,7 +217,7 @@ export function CameraPlanningLab({ viewport, ready, disabled, planner, onPrepar
       <small>Learned inspection + guarded return. Runs until you stop it.</small>
       <div className="camera-goal-actions" aria-label="Organ camera destinations"><button disabled={!ready || disabled || busy || taskActive} onClick={() => { setOpen(true); void train("liver"); }}><Route size={14} />Go to liver</button><button disabled={!ready || disabled || busy || taskActive} onClick={() => { setOpen(true); void train("gallbladder"); }}><Route size={14} />Go to gallbladder</button></div>
       <small>Learn an approach from your current position, then hold the organ view.</small>
-      <div className="camera-grasp-task" aria-label="Automatic liver task">
+      <div id="scene-actions" tabIndex={-1} role="region" className="camera-grasp-task scene-shortcut-destination" aria-label="Automatic liver task">
         <span className="camera-default-badge">CAMERA + INSTRUMENT</span>
         <button className="camera-default-start" disabled={!ready || disabled || busy || taskActive} onClick={() => { setOpen(true); void train("liver", true); }}><Play size={16} />Approach & grasp liver</button>
         <small>Approach · close · controlled lift · hold · release. Rechecks a learned grasp option while the instrument approaches.</small>
