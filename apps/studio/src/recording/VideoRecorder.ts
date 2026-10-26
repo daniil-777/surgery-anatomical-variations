@@ -140,8 +140,11 @@ export class VideoRecorder {
       // This call is deliberately before the first await, preserving the Start click's activation.
       const displayRequest = options.source.kind === "display" ? this.platform.getDisplayMedia({ audio: false,
         // A picker preference only; production still requires the user's explicit selection.
-        ...(options.source.surfaceHint === "browser" ? { preferCurrentTab: true } : {}),
-        video: { frameRate: { ideal: fps, max: fps }, ...(options.source.surfaceHint ? { displaySurface: options.source.surfaceHint } : {}) } }) : null;
+        ...(options.source.native ? { selfBrowserSurface: "exclude", surfaceSwitching: "include" }
+          : options.source.surfaceHint === "browser" ? { preferCurrentTab: true } : {}),
+        video: { frameRate: { ideal: fps, max: fps },
+          ...(options.source.native ? { width: { ideal: profile.width, max: profile.width }, height: { ideal: profile.height, max: profile.height } } : {}),
+          ...(options.source.surfaceHint ? { displaySurface: options.source.surfaceHint } : {}) } }) : null;
       let input: MediaStream;
       if (options.source.kind === "scene") {
         const source = options.source;
@@ -206,7 +209,14 @@ export class VideoRecorder {
         sourceSettings.width === profile.width && sourceSettings.height === profile.height;
       let output = input;
       let context: CanvasRenderingContext2D | null = null;
-      if (nativeCanvas) {
+      if (options.source.kind === "display" && options.source.native) {
+        // A background popup cannot rely on requestAnimationFrame: it is throttled or suspended.
+        // Keep the browser-owned video track intact and report its actual negotiated dimensions.
+        if (!(sourceSettings.width && sourceSettings.height)) throw new Error("The shared source did not report its recording dimensions. Choose another tab or window.");
+        this.state.capturePath = "native-display";
+        this.state.width = this.state.sourceWidth = sourceSettings.width;
+        this.state.height = this.state.sourceHeight = sourceSettings.height;
+      } else if (nativeCanvas) {
         // A native renderer lease owns the exact buffer size. Avoid video decoding and a full 2D copy.
         this.state.capturePath = "native-canvas";
         this.state.sourceWidth = profile.width; this.state.sourceHeight = profile.height;
@@ -235,7 +245,7 @@ export class VideoRecorder {
         // Fixed membership before start; enabled=false mutes without changing the stream's track set.
         output = this.platform.createStream([...output.getVideoTracks(), session.microphoneTrack]);
       }
-      this.startEncoder(session, output, recordingBitrate(profile.width, profile.height, fps));
+      this.startEncoder(session, output, recordingBitrate(this.state.width, this.state.height, fps));
       if (!this.current(session)) return;
       session.startedAt = this.platform.now(); session.activeSince = session.startedAt;
       this.state.status = "recording";
@@ -250,7 +260,7 @@ export class VideoRecorder {
         }
         session.frameId = this.platform.requestFrame(frame);
       };
-      session.frameId = this.platform.requestFrame(frame);
+      if (this.state.capturePath !== "native-display") session.frameId = this.platform.requestFrame(frame);
       const tick = () => {
         if (!this.current(session) || this.state.status === "stopping") return;
         if (!this.checkSource(session)) return;

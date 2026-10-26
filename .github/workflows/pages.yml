@@ -24,6 +24,8 @@ jobs:
         with: { node-version: 24 }
       - run: corepack enable && corepack prepare pnpm@10.17.1 --activate
       - run: pnpm install --frozen-lockfile
+      - name: Verify shared app recorder
+        run: node scripts/build_app_recorder.mjs --check
       - uses: astral-sh/setup-uv@v6
         with: { enable-cache: true }
       # the CPU wheels the deploy image pins (torch from PyTorch's CPU index); uv.lock resolves CUDA torch on linux

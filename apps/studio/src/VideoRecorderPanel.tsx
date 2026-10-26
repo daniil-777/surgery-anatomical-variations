@@ -35,17 +35,19 @@ function keepDialogFocus(event: KeyboardEvent<HTMLDialogElement>) {
   else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
 }
 
-export function VideoRecorderProvider({ children }: { children: ReactNode }) {
+export const useVideoRecorder = () => useContext(RecorderContext);
+
+export function VideoRecorderProvider({ children, appWindow = false }: { children: ReactNode; appWindow?: boolean }) {
   const engine = useRef<VideoRecorder | null>(null), dialog = useRef<HTMLDialogElement>(null);
   const trigger = useRef<HTMLButtonElement | null>(null), scope = useRef<HTMLElement | null>(null);
   const mounted = useRef(false), deviceScan = useRef(0), microphoneAccess = useRef(false);
   const discoveryStream = useRef<MediaStream | null>(null), discoveryEpoch = useRef(0);
   const [state, setState] = useState<RecorderState | null>(null);
-  const [opened, setOpened] = useState(false), [source, setSource] = useState<"scene" | "display">("scene");
+  const [opened, setOpened] = useState(appWindow), [source, setSource] = useState<"scene" | "display">(appWindow ? "display" : "scene");
   const [resolution, setResolution] = useState<RecordingResolution>("fhd"), [fps, setFps] = useState<24 | 30 | 60>(30);
   const [result, setResult] = useState<RecordingResult | null>(null), [resultUrl, setResultUrl] = useState("");
   const [canvas, setCanvas] = useState<HTMLCanvasElement | null>(null), [localError, setLocalError] = useState("");
-  const [microphoneEnabled, setMicrophoneEnabled] = useState(false), [microphoneId, setMicrophoneId] = useState("default");
+  const [microphoneEnabled, setMicrophoneEnabled] = useState(appWindow), [microphoneId, setMicrophoneId] = useState("default");
   const [microphones, setMicrophones] = useState<MediaDeviceInfo[]>([]), [microphonePermission, setMicrophonePermission] = useState(false);
   const [requestingMicrophone, setRequestingMicrophone] = useState(false), [microphoneError, setMicrophoneError] = useState("");
   const heading = useId(), active = busy(state);
@@ -97,11 +99,11 @@ export function VideoRecorderProvider({ children }: { children: ReactNode }) {
     else if (!opened) { if (dialog.current?.open) dialog.current.close(); cancelMicrophoneDiscovery(); }
   }, [opened, cancelMicrophoneDiscovery]);
   useEffect(() => {
-    if (!opened || active) return;
+    if (!opened || active || appWindow) return;
     const refresh = () => setCanvas(sceneCanvas(scope.current?.isConnected ? scope.current : null));
     refresh(); const interval = window.setInterval(refresh, 500);
     return () => clearInterval(interval);
-  }, [opened, active]);
+  }, [opened, active, appWindow]);
   useEffect(() => {
     if (!active) return;
     const warn = (event: BeforeUnloadEvent) => { event.preventDefault(); event.returnValue = ""; };
@@ -155,13 +157,13 @@ export function VideoRecorderProvider({ children }: { children: ReactNode }) {
   };
   const start = () => {
     setLocalError("");
-    const selected = source === "scene" ? canvas && getSceneRecordingSource(canvas) : { kind: "display" as const, surfaceHint: "browser" as const };
+    const selected = source === "scene" ? canvas && getSceneRecordingSource(canvas) : { kind: "display" as const, surfaceHint: "browser" as const, ...(appWindow ? { native: true } : {}) };
     if (!selected || !engine.current) { setLocalError("The scene is still loading. Wait until it is visible, then try again."); return; }
     // Keep this call in the click handler: screen capture needs a fresh user gesture.
     const recorder = engine.current;
     const starting = recorder.start({ source: selected, resolution, fps, maxDurationMs: 600_000, maxBytes: 256 * 1024 * 1024,
       ...(microphoneEnabled ? { microphone: { deviceId: microphoneId } } : {}) });
-    setOpened(false);
+    setOpened(appWindow);
     void starting.catch(error => { if (engine.current === recorder) { setLocalError(error instanceof Error ? error.message : String(error)); setOpened(true); } });
   };
   const details = () => {
@@ -172,14 +174,14 @@ export function VideoRecorderProvider({ children }: { children: ReactNode }) {
   };
   return <RecorderContext.Provider value={{ state, open, pause, stop, mute }}>
     {children}
-    <dialog ref={dialog} className="video-recorder-dialog" aria-labelledby={heading} onKeyDown={keepDialogFocus} onCancel={event => { event.preventDefault(); event.stopPropagation(); setOpened(false); }}
+    <dialog ref={dialog} className={`video-recorder-dialog${appWindow ? " app-recorder-dialog" : ""}`} aria-labelledby={heading} onKeyDown={keepDialogFocus} onCancel={event => { event.preventDefault(); event.stopPropagation(); if (!appWindow) setOpened(false); }}
       onClose={event => {
         event.stopPropagation();
         // `opened` owns this dialog. A queued close event from Start must not
         // overwrite a later engine error/completion that has reopened it.
         if (!opened && !event.currentTarget.open && trigger.current?.isConnected) trigger.current.focus();
       }}>
-      <header className="recorder-heading"><div className="recorder-heading-icon"><Film size={22} /></div><div><span className="recorder-eyebrow">VISCERA / CAPTURE STUDIO</span><h2 id={heading}>Video recorder</h2></div><button type="button" className="recorder-close" aria-label="Close video recorder" onClick={() => setOpened(false)}><X size={20} /></button></header>
+      <header className="recorder-heading"><div className="recorder-heading-icon"><Film size={22} /></div><div><span className="recorder-eyebrow">{appWindow ? "GENERATION LAB / CAPTURE" : "VISCERA / CAPTURE STUDIO"}</span><h2 id={heading}>Video recorder</h2></div>{!appWindow && <button type="button" className="recorder-close" aria-label="Close video recorder" onClick={() => setOpened(false)}><X size={20} /></button>}</header>
       {result && !active ? <section className="recorder-result" aria-label="Finished recording">
         <div className="recorder-ready"><Check size={16} /><strong>Your recording is ready</strong><span>{result.extension.toUpperCase()}</span></div>
         <video src={resultUrl || undefined} controls playsInline preload="metadata" aria-label="Recording preview" />
@@ -197,18 +199,20 @@ export function VideoRecorderProvider({ children }: { children: ReactNode }) {
         <div className="recorder-downloads"><a className="recorder-primary" href={resultUrl || undefined} download={result.filename}><ArrowDownToLine size={17} />Download {result.extension.toUpperCase()}</a><button type="button" onClick={details}>Capture details</button></div>
         <footer><p>Download before starting another recording.</p><button type="button" onClick={() => { setResult(null); setLocalError(""); }}>Record another</button></footer>
       </section> : <>
-        <p className="recorder-intro">Capture a clean scene or demonstrate the entire app. Preview and download your video when you finish.</p>
-        <fieldset disabled={active} className="recorder-source"><legend>What to record</legend><div className="recorder-source-options">
+        <p className="recorder-intro">{appWindow ? "Record your whole workflow, with your voice. Choose the lab tab to follow page navigation, or a browser window / screen to include other tabs. Keep this recording window open." : "Capture a clean scene or demonstrate the entire app. Preview and download your video when you finish."}</p>
+        {!appWindow && <fieldset disabled={active} className="recorder-source"><legend>What to record</legend><div className="recorder-source-options">
           <button type="button" aria-pressed={source === "scene"} onClick={() => setSource("scene")}><Video size={19} /><span><strong>Scene only</strong><small>Clean render, without controls</small></span></button>
           <button type="button" aria-pressed={source === "display"} disabled={!displaySupported} onClick={() => setSource("display")}><Monitor size={19} /><span><strong>App / browser tab</strong><small>Include interface and interactions</small></span></button>
         </div><p className="recorder-note">{source === "scene" ? "The current scene renders at the selected resolution. Move the camera or play an animation while recording." : "Choose this app’s tab or a window in your browser’s sharing picker. Source proportions are preserved; smaller sources are scaled."}</p>
           {source === "scene" && <p className="recorder-note"><strong>Current source:</strong> {active ? state?.sourceLabel : canvas ? getSceneRecordingSource(canvas)?.label ?? "Scene" : "Waiting for the scene to load…"}</p>}
           {!displaySupported && <p className="recorder-note">App/tab sharing is unavailable in this browser. Use Scene only.</p>}
-        </fieldset>
-        <fieldset disabled={active} className="recorder-quality"><legend>Recording quality</legend><div role="radiogroup" aria-label="Recording quality">{RECORDING_PROFILES.map(item => <label key={item.id} className={resolution === item.id ? "selected" : ""}>
+        </fieldset>}
+        {appWindow && !displaySupported && <p className="recorder-message" role="alert">Screen sharing is unavailable here. Open this page in a desktop browser on HTTPS or localhost.</p>}
+        <fieldset disabled={active} className="recorder-quality"><legend>{appWindow ? "Maximum recording size" : "Recording quality"}</legend><div role="radiogroup" aria-label="Recording quality">{RECORDING_PROFILES.map(item => <label key={item.id} className={resolution === item.id ? "selected" : ""}>
           <input type="radio" name={`${heading}-quality`} value={item.id} checked={resolution === item.id} onChange={() => setResolution(item.id)} aria-label={item.label} />
           <strong>{({ hd: "HD", fhd: "Full HD", qhd: "2K / QHD", uhd: "4K" })[item.id]}</strong><span>{item.width} × {item.height}</span><small>{({ hd: "Compact", fhd: "Everyday", qhd: "Detailed", uhd: "Maximum" })[item.id]}</small>
         </label>)}</div></fieldset>
+        {appWindow && <p className="recorder-note">The browser preserves the shared surface’s proportions. Your download uses its actual size, up to the selected maximum; small sources are not enlarged.</p>}
         <div className="recorder-options"><label>Frame rate<select aria-label="Recording frame rate" disabled={active} value={fps} onChange={event => setFps(Number(event.target.value) as 24 | 30 | 60)}><option value={24}>24 FPS</option><option value={30}>30 FPS</option><option value={60}>60 FPS</option></select></label><div><span>Format</span><strong>MP4 / WebM</strong><small>Best supported encoder</small></div></div>
         <fieldset disabled={active || requestingMicrophone} className="recorder-audio">
           <legend>Audio</legend>
@@ -231,10 +235,10 @@ export function VideoRecorderProvider({ children }: { children: ReactNode }) {
         {state?.warning && active && <p className="recorder-message" role="status">{state.warning}</p>}
         {!mediaSupported && <p className="recorder-message" role="alert">Video recording is unavailable in this browser. Try an up-to-date browser with canvas video recording support.</p>}
         {(localError || state?.status === "error") && <p className="recorder-message" role="alert">{localError || state?.error || "Recording could not start. Please try again."}</p>}
-        <footer className="recorder-actions">{active ? <><button type="button" onClick={() => setOpened(false)}>Back to the app</button><div>{(state?.status === "recording" || state?.status === "paused") && <>
+        <footer className="recorder-actions">{active ? <>{appWindow ? <span>Switch back to the lab to demonstrate.</span> : <button type="button" onClick={() => setOpened(false)}>Back to the app</button>}<div>{(state?.status === "recording" || state?.status === "paused") && <>
           {state.audioEnabled && <button type="button" aria-label={state.microphoneMuted ? "Unmute microphone" : "Mute microphone"} aria-pressed={state.microphoneMuted} onClick={mute}>{state.microphoneMuted ? <MicOff size={16} /> : <Mic size={16} />}{state.microphoneMuted ? "Unmute" : "Mute"}</button>}
           <button type="button" onClick={pause}>{state.status === "paused" ? <Play size={16} /> : <Pause size={16} />}{state.status === "paused" ? "Resume" : "Pause"}</button>
-        </>}<button type="button" className="recorder-primary" disabled={state?.status === "stopping"} onClick={stop}><Square size={14} />{state?.status === "acquiring" ? "Cancel" : "Stop & preview"}</button></div></> : <><span>{profile.width} × {profile.height} · {fps} FPS target</span><button type="button" className="recorder-primary" disabled={!mediaSupported || requestingMicrophone || missingMicrophone || (microphoneEnabled && !microphoneSupported) || (source === "scene" && !canvas) || (source === "display" && !displaySupported)} onClick={start}><Circle size={14} fill="currentColor" />Start recording</button></>}</footer>
+        </>}<button type="button" className="recorder-primary" disabled={state?.status === "stopping"} onClick={stop}><Square size={14} />{state?.status === "acquiring" ? "Cancel" : "Stop & preview"}</button></div></> : <><span>{appWindow ? "Up to " : ""}{profile.width} × {profile.height} · {fps} FPS target</span><button type="button" className="recorder-primary" disabled={!mediaSupported || requestingMicrophone || missingMicrophone || (microphoneEnabled && !microphoneSupported) || (source === "scene" && !canvas) || (source === "display" && !displaySupported)} onClick={start}><Circle size={14} fill="currentColor" />Start recording</button></>}</footer>
       </>}
     </dialog>
   </RecorderContext.Provider>;
@@ -243,9 +247,11 @@ export function VideoRecorderProvider({ children }: { children: ReactNode }) {
 export function VideoRecorderButton() {
   const { state, open, pause, stop, mute } = useContext(RecorderContext);
   const active = busy(state);
+  const appCapture = document.documentElement.hasAttribute("data-lab-recorder-owner");
   return <div className={`recorder-toolbar${active ? " is-active" : ""}`} role="group" aria-label="Video recording">
-    <button type="button" className="recorder-trigger" aria-label="Video recorder" aria-description={active && state?.warning ? state.warning : undefined} title={active && state?.warning ? state.warning : "Record the scene or app in HD, Full HD, 2K or 4K"} onClick={event => open(event.currentTarget)}>
-      {active && state?.warning ? <AlertTriangle className="recorder-warning-icon" size={16} aria-label="Recording input warning" /> : <span className={`recorder-dot${state?.status === "paused" ? " paused" : ""}`} />}<span>{active ? clock(state?.elapsedMs ?? 0) : "Record video"}</span>
+    <span data-lab-recorder-slot />
+    <button type="button" className="recorder-trigger" aria-label="Video recorder" aria-description={active && state?.warning ? state.warning : undefined} title={active && state?.warning ? state.warning : appCapture ? "Record scene only" : "Record the scene or app in HD, Full HD, 2K or 4K"} onClick={event => open(event.currentTarget)}>
+      {active && state?.warning ? <AlertTriangle className="recorder-warning-icon" size={16} aria-label="Recording input warning" /> : <span className={`recorder-dot${state?.status === "paused" ? " paused" : ""}`} />}<span>{active ? clock(state?.elapsedMs ?? 0) : appCapture ? "Scene video" : "Record video"}</span>
     </button>
     {(state?.status === "recording" || state?.status === "paused") && <button type="button" className="recorder-inline-control" aria-label={state.status === "paused" ? "Resume video recording" : "Pause video recording"} onClick={pause}>{state.status === "paused" ? <Play size={16} /> : <Pause size={16} />}</button>}
     {(state?.status === "recording" || state?.status === "paused") && state.audioEnabled && <button type="button" className="recorder-inline-control" aria-label={state.microphoneMuted ? "Unmute microphone" : "Mute microphone"} title={state.microphoneMuted ? "Unmute microphone" : "Mute microphone"} aria-pressed={state.microphoneMuted} onClick={mute}>{state.microphoneMuted ? <MicOff size={16} /> : <Mic size={16} />}</button>}

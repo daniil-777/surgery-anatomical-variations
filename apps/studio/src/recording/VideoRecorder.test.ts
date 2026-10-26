@@ -534,3 +534,30 @@ describe("bounded encoding and failure cleanup", () => {
     const h = harness(), recorder = new VideoRecorder({}, h.platform); await expect(recorder.start({ ...h.options, maxDurationMs })).rejects.toThrow(/Invalid/); expect(h.captures).toHaveLength(0);
   });
 });
+
+
+describe("persistent full-app capture", () => {
+  it("encodes the display track directly without background animation frames or canvas copies", async () => {
+    const h = harness(), recorder = new VideoRecorder({}, h.platform);
+    await recorder.start({ ...h.options, source: { kind: "display", native: true, surfaceHint: "browser" }, microphone: {} });
+    expect(h.platform.getDisplayMedia).toHaveBeenCalledWith({ audio:false, selfBrowserSurface:"exclude", surfaceSwitching:"include", video:{ frameRate:{ideal:30,max:30}, width:{ideal:1920,max:1920}, height:{ideal:1080,max:1080}, displaySurface:"browser" } });
+    expect(h.canvases).toHaveLength(0); expect(h.videos).toHaveLength(0); expect(h.frames.size).toBe(0);
+    expect(vi.mocked(h.platform.createRecorder).mock.calls[0]![0].getVideoTracks()[0]).toBe(h.tracks[0]);
+    expect(vi.mocked(h.platform.createRecorder).mock.calls[0]![0].getAudioTracks()).toHaveLength(1);
+    h.advance(1000); recorder.pause(); h.advance(500); recorder.resume(); recorder.setMicrophoneMuted(true); h.advance(1000);
+    expect((await recorder.stop())?.metrics).toMatchObject({ capturePath:"native-display", width:1920, height:1200, sourceWidth:1920, sourceHeight:1200, compositedFrames:0, durationMs:2000, audioEnabled:true, microphoneMuted:true });
+    expect(h.tracks.every(t => t.readyState === "ended")).toBe(true);
+  });
+  it("finalizes when browser sharing ends, without waiting for an animation frame", async () => {
+    const h = harness(), recorder = new VideoRecorder({}, h.platform);
+    await recorder.start({ ...h.options, source: { kind:"display", native:true } });
+    h.advance(500); h.tracks[0]!.end(); await flush();
+    expect((await recorder.stop())?.metrics).toMatchObject({ stopReason:"source-ended", durationMs:500, capturePath:"native-display" });
+  });
+  it("retains the duration guard while the controller is in the background", async () => {
+    const h = harness(), recorder = new VideoRecorder({}, h.platform);
+    await recorder.start({ ...h.options, source: { kind:"display", native:true }, maxDurationMs:1000 });
+    h.advance(1500); await flush();
+    expect((await recorder.stop())?.metrics.stopReason).toBe("duration-limit");
+  });
+});

@@ -1,0 +1,15 @@
+:root { color-scheme:dark; font-family:Inter,system-ui,-apple-system,sans-serif; background:#0d191f; color:#e7efeb; }
+body { margin:0; }
+html .app-recorder-dialog { width:100%; max-width:760px; max-height:100dvh; border:0; border-radius:0; font-size:15px; }
+html .app-recorder-dialog::backdrop { background:#0d191f; }
+html .app-recorder-dialog .recorder-intro { font-size:15px; }
+html .app-recorder-dialog .recorder-note { font-size:13px; }
+html .app-recorder-dialog .recorder-eyebrow { font-size:11px; }
+html .app-recorder-dialog legend { font-size:15px; }
+html .app-recorder-dialog .recorder-actions { position:sticky; bottom:0; z-index:2; background:#122129; box-shadow:0 -8px 20px #122129; }
+html .app-recorder-dialog .recorder-quality span,html .app-recorder-dialog .recorder-quality small { font-size:12px; }
+.recorder-duplicate { max-width:560px; margin:12vh auto; padding:24px; line-height:1.6; }
+.recorder-duplicate button { margin:8px 12px 8px 0; min-height:44px; padding:10px 16px; color:#16302a; background:#d1e2c9; border:1px solid #c4dbba; border-radius:8px; cursor:pointer; font:inherit; }
+.recorder-duplicate button:focus-visible { outline:3px solid #ffb39d; outline-offset:4px; }
+@media(max-width:420px) { html .app-recorder-dialog .recorder-actions { flex-direction:column; align-items:stretch; } }
+html .app-recorder-dialog .recorder-quality label.selected small { color:#1c342d; background:#d1e2c9; opacity:1; }

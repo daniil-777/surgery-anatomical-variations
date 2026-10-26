@@ -1,0 +1,18 @@
+:host { display:inline-flex; position:fixed; inset:auto auto 18px 18px; z-index:1500; max-width:calc(100vw - 36px); font:600 13px/1.4 Inter,system-ui,-apple-system,sans-serif; color:#f8e7e2; }
+:host([inline]) { position:relative; inset:auto; z-index:auto; max-width:100%; }
+* { box-sizing:border-box; }
+.capture { display:flex; align-items:center; gap:3px; padding:3px; border:1px solid #a36d63; border-radius:12px; background:#2d2327; box-shadow:0 5px 20px #0003; }
+button { display:inline-flex; align-items:center; justify-content:center; gap:9px; min-height:42px; border:0; border-radius:8px; color:#f8e7e2; background:transparent; font:inherit; cursor:pointer; }
+button:hover { background:#523733; }
+button:focus-visible { outline:3px solid #dbebbb; outline-offset:2px; }
+button:disabled { opacity:.5; cursor:default; }
+.record { padding:8px 12px; white-space:nowrap; }
+.dot { width:9px; height:9px; border:2px solid #f2a393; border-radius:50%; flex:none; }
+.active .dot { background:#ff9c88; box-shadow:0 0 0 4px #ff9c8826; }
+.paused .dot { background:#e5c784; border-color:#e5c784; }
+.control { width:42px; font-size:17px; }
+.stop { color:#ffbba7; }
+[hidden] { display:none!important; }
+.message { position:absolute; bottom:100%; left:0; width:260px; max-width:90vw; padding:12px; border:1px solid #a36d63; border-radius:8px; background:#2d2327; box-shadow:0 5px 20px #0003; font-weight:400; }
+:host([inline]) .message { bottom:auto; top:100%; z-index:2000; }
+@media(max-width:480px) { :host { inset:auto auto 12px 12px; max-width:calc(100vw - 24px); } :host([inline]) { inset:auto; } }

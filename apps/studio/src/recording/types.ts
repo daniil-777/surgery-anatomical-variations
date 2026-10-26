@@ -6,7 +6,7 @@ export const RECORDING_PROFILES = [
   { id: "uhd", label: "4K · 3840 × 2160", width: 3840, height: 2160 },
 ] as const;
 export type RecordingResolution = typeof RECORDING_PROFILES[number]["id"];
-export type RecordingCapturePath = "native-canvas" | "compositor";
+export type RecordingCapturePath = "native-canvas" | "native-display" | "compositor";
 export type RecordingPhase = "idle" | "acquiring" | "recording" | "paused" | "stopping" | "completed" | "error" | "disposed";
 export type RecordingStopReason = "user" | "source-ended" | "microphone-ended" | "source-detached" | "context-lost" | "memory-limit" | "duration-limit";
 export interface SceneRecordingLease { restore(): void }
@@ -19,6 +19,8 @@ export interface SceneRecordingSource {
 }
 export interface DisplayRecordingSource {
   kind: "display";
+  /** Encode the browser track directly, including while a separate controller is in the background. */
+  native?: boolean;
   /** A browser preference, never a restriction on the user's native source picker. */
   surfaceHint?: "browser" | "window" | "monitor";
   label?: string;

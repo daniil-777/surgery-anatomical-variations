@@ -1,0 +1,41 @@
+--- a/services/web/studio_access.py
++++ b/services/web/studio_access.py
+@@ -18,6 +18,7 @@
+ from urllib.parse import quote, unquote, urlsplit
+ 
+ from fastapi import Request
++from .recording_assets import recording_asset
+ from starlette.concurrency import run_in_threadpool
+ from starlette.middleware.base import BaseHTTPMiddleware
+ from starlette.responses import FileResponse, JSONResponse, RedirectResponse, Response
+@@ -187,6 +188,11 @@
+                 "default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; "
+                 "font-src 'self'; connect-src 'self'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'"
+             )
++        if request.url.path.startswith("/auth/recorder/"):
++            response.headers["Content-Security-Policy"] = (
++                "default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; "
++                "media-src blob:; font-src 'self'; connect-src 'self'; base-uri 'none'; frame-ancestors 'none'"
++            )
+         if self.config.secure:
+             response.headers["Strict-Transport-Security"] = "max-age=31536000"
+         return response
+@@ -197,6 +203,8 @@
+         path = request.url.path
+         if request.method not in {"GET", "HEAD", "OPTIONS"} and request.headers.get("origin") != self.config.origin:
+             return JSONResponse({"detail": "This request must come from the studio."}, 403)
++        if path.startswith("/auth/recorder/") and request.method in {"GET", "HEAD"}:
++            return recording_asset(path.removeprefix("/auth/recorder/"))
+         if path.startswith("/auth/ui/") and request.method in {"GET", "HEAD"}:
+             asset = path.removeprefix("/auth/ui/")
+             return FileResponse(UI / asset) if asset in PUBLIC_ASSETS else Response(status_code=404)
+--- a/services/web/login/index.html
++++ b/services/web/login/index.html
+@@ -10,6 +10,7 @@
+   <link rel="preload" href="/auth/ui/inter-400.woff2" as="font" type="font/woff2" crossorigin>
+   <link rel="stylesheet" href="/auth/ui/login.css">
+   <script src="/auth/ui/login.js" defer></script>
++  <script src="/auth/recorder/launcher.js" defer></script>
+ </head>
+ <body>
+   <a class="skip-link" href="#username">Skip to sign in</a>
