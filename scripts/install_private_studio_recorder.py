@@ -15,6 +15,7 @@ import urllib.request
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--build', type=Path, required=True)
+parser.add_argument('--application', choices=['viscera', 'generation-lab'], default='viscera')
 args = parser.parse_args()
 source = Path(__file__).resolve().parents[1]
 for file in ['services/web/studio_access.py', 'services/web/private_preview.py', 'services/web/recording_assets.py', 'data/studio-access.json']:
@@ -22,9 +23,14 @@ for file in ['services/web/studio_access.py', 'services/web/private_preview.py',
         raise SystemExit(f'Private workspace missing required file: {file}')
 if not (args.build / 'recorder/manifest.json').is_file():
     raise SystemExit('Build does not contain the tested recorder.')
-base = Path.home() / 'Library/Application Support/Viscera/private-studio'
+is_lab = args.application == 'generation-lab'
+port = 5181 if is_lab else 5180
+label = 'com.generation-lab.private-studio' if is_lab else 'com.viscera.private-studio'
+app_directory = 'GenerationLab' if is_lab else 'Viscera'
+base = Path.home() / 'Library/Application Support' / app_directory / 'private-studio'
+origin = f'http://127.0.0.1:{port}'
 release = base / 'releases/app-recorder-2026-10-26'
-agent = Path.home() / 'Library/LaunchAgents/com.viscera.private-studio.plist'
+agent = Path.home() / 'Library/LaunchAgents' / f'{label}.plist'
 if agent.exists() or release.exists():
     raise SystemExit('A private studio installation already exists; inspect it before replacing it.')
 base.mkdir(parents=True, exist_ok=True)
@@ -43,14 +49,14 @@ subprocess.run([uv, 'venv', str(base / 'runtime'), '--python', '3.11'], check=Tr
 python = base / 'runtime/bin/python'
 subprocess.run([uv, 'pip', 'install', '--python', str(python), 'fastapi==0.115.12', 'uvicorn==0.34.3'], check=True)
 config = {
-    'Label':'com.viscera.private-studio',
-    'ProgramArguments':[str(python),'-m','uvicorn','services.web.private_preview:app','--host','127.0.0.1','--port','5180'],
+    'Label':label,
+    'ProgramArguments':[str(python),'-m','uvicorn','services.web.private_preview:app','--host','127.0.0.1','--port',str(port)],
     'WorkingDirectory':str(release), 'RunAtLoad':True, 'KeepAlive':True, 'ThrottleInterval':10,
     'StandardOutPath':str(base/'server.log'), 'StandardErrorPath':str(base/'server.log'),
     'EnvironmentVariables':{
         'PYTHONPATH':str(release), 'PYTHONDONTWRITEBYTECODE':'1', 'PYTHONUNBUFFERED':'1',
         'VISCERA_AUTH_CONFIG':str(base/'data/studio-access.json'), 'VISCERA_AUTH_DB':str(base/'data/studio-access.sqlite'),
-        'VISCERA_AUTH_ORIGIN':'http://127.0.0.1:5180', 'VISCERA_WEB_DIST':str(release/'public-copy'),
+        'VISCERA_AUTH_ORIGIN':origin, 'VISCERA_WEB_DIST':str(release/'public-copy'),
     },
 }
 agent.parent.mkdir(parents=True,exist_ok=True)
@@ -59,12 +65,12 @@ os.chmod(agent,0o600)
 subprocess.run(['launchctl','bootstrap',f'gui/{os.getuid()}',str(agent)],check=True)
 for _ in range(50):
     try:
-        with urllib.request.urlopen('http://127.0.0.1:5180/auth/recorder/manifest.json',timeout=2) as response:
+        with urllib.request.urlopen(origin+'/auth/recorder/manifest.json',timeout=2) as response:
             manifest=json.load(response)
             if manifest == json.loads((release/'apps/studio/public/recorder/manifest.json').read_text()):
-                print('Private studio available at http://127.0.0.1:5180/auth/login; recorder assets verified.')
+                print(f'Private studio available at {origin}/auth/login; recorder assets verified.')
                 break
     except Exception:
         time.sleep(.2)
 else: raise SystemExit('Private studio did not become ready; inspect its server.log.')
-(base/'installation.json').write_text(json.dumps({'url':'http://127.0.0.1:5180/auth/login','release':str(release),'recorder':manifest,'existingLoginConfigurationReused':True},indent=2)+'\n')
+(base/'installation.json').write_text(json.dumps({'url':origin+'/auth/login','release':str(release),'recorder':manifest,'existingLoginConfigurationReused':True},indent=2)+'\n')
