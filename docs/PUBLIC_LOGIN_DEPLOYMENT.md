@@ -64,6 +64,10 @@ to login, and direct model/catalog/session requests return 401, with no-store
 and HTTPS security headers. All 13 live login browser checks passed, including four viewport sizes,
 keyboard operation, reduced motion and artwork failure. The previous Pages
 model/catalog URLs return 404, and its entry URL preserves the requested
-workspace through the login redirect. Browser verification is recorded under `artifacts/public-login-deployment-2026-10-26/`.
+workspace through the login redirect. All four live session smoke checks passed:
+invalid credentials are rejected, a server-issued five-minute QA session renders
+the requested scene, refresh retains the session, and sign-out revokes it and
+blocks models again. The QA session was revoked after testing. Browser
+verification is recorded under `artifacts/public-login-deployment-2026-10-26/`.
 
 Official hosting reference: https://developers.cloudflare.com/tunnel/get-started/quick-tunnels/
