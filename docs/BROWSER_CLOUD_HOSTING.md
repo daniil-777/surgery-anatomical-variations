@@ -1,9 +1,9 @@
 # VISCERA browser hosting
 
-Status: image and configuration prepared on 27 October 2026; activation is
-pending explicit authorization to transfer the existing login configuration.
-The public gateway still uses the working Mac-hosted studio until cloud
-verification is complete. The configuration below describes the cloud target.
+Activated on 27 October 2026 after explicit authorization to transfer the
+existing username and password hash to Fly's encrypted secrets. The cloud login
+and protected assets are verified. The public gateway uses the fixed cloud
+origin; the temporary Mac tunnel is retired after gateway rollout.
 
 The cloud target is `viscera-studio-daniil`, in Frankfurt (`fra`). Its fixed origin
 is `https://viscera-studio-daniil.fly.dev`. The GitHub Pages address remains a
@@ -96,3 +96,24 @@ The old Mac tunnel can then be stopped; the local private app remains separate.
 Before release, run the authentication/recorder/cloud Python tests and
 `node --test tests/browser-cloud-gateway.test.mjs`. Validate a machine restart
 before switching the public gateway, including volume persistence and recovery.
+
+## Initial release verification
+
+Image: `registry.fly.io/viscera-studio-daniil:deployment-01M5YVQBS15GDPTCZQS9JKB2BJ`
+
+Digest: `sha256:9537d3ea17ccb25dad94deb4ec0514662732a3ee09d9c43730c46e87443eea35`
+
+Machine: `48edd237c45648`; volume: `vol_r1j7w383o07oxqpr`.
+
+The 45 authentication, recorder and recovery tests and three gateway behavior
+tests passed. Live checks verified invalid-login rejection, an authenticated
+five-minute QA session, byte-identical app/scene/model/recorder assets, and logout
+revocation. The QA session was revoked. The HTTP worker runs as uid 1000 without
+the raw Fly secret in its environment; the private runtime configuration is 0600.
+
+A controlled HTTP-worker crash triggered the supervisor and Fly restart policy.
+Fly recorded exit, automatic restart and a started machine 1.67 seconds later;
+the HTTP health check passed afterward. The session database and a temporary
+volume marker survived. The marker was removed. Normal-DNS public HTTPS checks
+passed after the initial DNS propagation period. The temporary build server was
+removed; exactly one 512 MB app machine remains provisioned.

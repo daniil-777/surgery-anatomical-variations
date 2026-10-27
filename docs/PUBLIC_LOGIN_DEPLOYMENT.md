@@ -1,82 +1,82 @@
-# Public login deployment — 26 October 2026
+# Public login deployment — 27 October 2026
 
-Public login: https://exclusive-haven-significance-playstation.trycloudflare.com/auth/login
+Permanent login: <https://viscera-studio-daniil.fly.dev/auth/login>
 
-27 October 2026 recovery: the previous server and tunnel processes had stopped.
-Restarted the existing supervisor with the same installed release and login
-configuration. The replacement public login returned HTTP 200 with its login
-form; the unauthenticated atlas API returned HTTP 401. The GitHub Pages gateway
-origin was updated to the replacement tunnel, and the publicly served `gateway.js`
-was verified to point to the new login. Normal-DNS HTTPS login also returned 200.
-The old `shuttle-sample-peripheral-ace`
-address is expired. This remains temporary hosting with the lifetime described below.
+Existing entry link: <https://daniil-777.github.io/surgery-anatomical-variations/>
 
-The existing address, https://daniil-777.github.io/surgery-anatomical-variations/,
-now redirects to the protected studio. GitHub Pages must contain
-only the files from `scripts/build_login_gateway.py`; publishing `public-copy`
-there would expose an unauthenticated copy of the app.
+2D / 3D Generation Lab: <https://daniil-777.github.io/generation-lab/>
 
-Everyone can reach the login page. Entering the studio requires the existing
-configured username and password. This deployment does not create visitor
-accounts, change the password, or publish credentials. The server protects all
-studio entry points, JavaScript bundles, model files, and API paths. HTTPS
-sessions use Secure, HttpOnly, SameSite=Strict cookies and server-side revocation.
+VISCERA now runs on Fly.io in Frankfurt independently of the Mac, Wi-Fi, and
+temporary Cloudflare tunnels. Sign in with the existing username and password.
+The owner explicitly authorized transferring the username and password hash to
+Fly's encrypted secrets. The plaintext password was not transferred, and the
+credential configuration is excluded from the image, frontend, repository and
+deployment receipt.
 
-The served build starts from the installed `app-recorder-2026-10-26` browser
-studio (1,204 files, 342 MB), including its scene, labs and recorder. The login
-uses the requested light-green palette: `#eaf3e2` background, dark green text
-and button, coordinated focus rings and form fields. Text contrast is at least
-4.95:1; input borders are 3.66:1. Previous login files are retained in the
-runtime rollback directory. This is
-the browser build; API-dependent generation features are not added by this
-deployment. The authenticated local studio remains on port 5180. The separate
-public process listens on loopback port 5182 and checks the public Host and
-Origin before handling requests. Its session database is separate.
+The served release is the installed `app-recorder-2026-10-26` browser studio,
+including its current scenes, labs, models and recorder. This deployment keeps
+the existing browser features; it does not add GPU inference or the heavyweight
+generation API. The local private studio on port 5180 remains separate.
 
-## Hosting lifetime
+## Hosting and recovery
 
-This is a temporary Cloudflare Quick Tunnel, not permanent cloud hosting. The
-Mac must remain awake and connected, and both the tunnel and server processes
-must keep running. Restarting the tunnel creates a different hostname. There
-is no uptime guarantee. For a permanent address, configure a named Cloudflare
-tunnel and domain or deploy the Python server to an authenticated server host.
+One always-on shared CPU / 512 MB machine serves the protected app. SQLite
+sessions and login rate limits use a 1 GB encrypted volume with daily snapshots
+retained for five days. The app validates its fixed HTTPS origin, rejects
+unconfigured access, and protects studio HTML, JavaScript, models and API paths.
+Sessions retain Secure, HttpOnly and SameSite=Strict cookies and server-side
+revocation.
 
-The runtime and status are under `~/Library/Application Support/Viscera/public-studio/`:
+The platform checks the login page every 30 seconds. A supervisor checks both
+the login form and authentication boundary and requests a restart after three
+consecutive failures. Fly automatically restarts an exited process. GitHub
+Actions schedules additional public checks every five minutes, subject to
+GitHub's scheduling delays and repository-inactivity rules.
 
-- `deployment.json`: current origin and process IDs, no secrets.
-- `sessions.sqlite`: private public-endpoint sessions; never upload this file.
-- `runner.log`, `server.log`, `tunnel.log`: operational logs; access logging is disabled.
-- `serve_public_studio.py`, `cloudflared`: the supervisor and verified official client.
+The Pages gateway checks availability before redirecting and preserves the
+chosen workspace query. During an outage it offers retry and the Generation
+Lab link. It contains only four gateway files; never publish `public-copy` to
+Pages, because that would expose an unauthenticated app copy.
 
-`scripts/serve_public_studio.py` supervises the server and tunnel together and
-stops both if either exits. To restart, stop the old runner using its recorded
-PID, verify port 5182 is free, and run the script with `--cloudflared` and
-`--state` pointing to that runtime directory. It reuses the installed login
-configuration without printing or changing credentials.
+The estimated VISCERA cost is about $4.41/month before traffic and tax, or
+$6.41 with 100 GB European outbound traffic. This is within the requested
+$10/month budget at that usage level, not a hard billing cap. Fly bills extra
+traffic. One regional machine and volume cannot guarantee zero downtime during
+provider outages or deployments.
 
-After a hostname change, set the GitHub repository variable
-`VISCERA_STUDIO_ORIGIN` to the new HTTPS origin and run the `pages` workflow.
-The workflow publishes only a tiny redirect, preserving workspace query
-parameters. Its build rejects an invalid origin or a nonempty output directory.
-Do not restore the old Pages application workflow as a rollback: it bypasses
-login. If the protected host is down, retain the gateway while restoring it.
-
-The portfolio repository has GitHub Pages disabled; this deployment does not
-enable it. The Viscera source repository remains public; web authentication
-does not restrict material already published in Git history.
+See [BROWSER_CLOUD_HOSTING.md](BROWSER_CLOUD_HOSTING.md) for configuration,
+deployment commands, the initial image reference, recovery and cost details.
 
 ## Verification
 
-The existing authentication and recorder HTTP tests passed (40 tests). Public
-HTTPS checks confirmed login/UI assets return 200, studio navigation redirects
-to login, and direct model/catalog/session requests return 401, with no-store
-and HTTPS security headers. All 13 live login browser checks passed, including four viewport sizes,
-keyboard operation, reduced motion and artwork failure. The previous Pages
-model/catalog URLs return 404, and its entry URL preserves the requested
-workspace through the login redirect. All four live session smoke checks passed:
-invalid credentials are rejected, a server-issued five-minute QA session renders
-the requested scene, refresh retains the session, and sign-out revokes it and
-blocks models again. The QA session was revoked after testing. Browser
-verification is recorded under `artifacts/public-login-deployment-2026-10-26/`.
+The 45 authentication/recorder/cloud tests and three gateway behavior tests
+passed. Live cloud checks confirmed the login is public, invalid credentials
+are rejected, and unauthenticated model/catalog/session requests return 401.
+A short-lived server-issued QA session retrieved byte-identical application,
+scene, model and recorder assets. Logout revoked it and blocked assets again.
+The QA session was removed after verification.
 
-Official hosting reference: https://developers.cloudflare.com/tunnel/get-started/quick-tunnels/
+A deliberate HTTP-worker crash triggered automatic recovery. Fly recorded a
+started machine 1.67 seconds after exit, and the health check passed afterward.
+The persistent session database survived the restart. Normal-DNS HTTPS login
+and authentication checks passed from the Mac. The gateway's online redirect,
+preserved scene query, offline retry message, timeout and recovery were checked
+with unit tests and a browser preview.
+
+Secret-free deployment evidence is retained locally under
+`artifacts/browser-cloud-hosting-2026-10-27/`.
+
+## Retired temporary hosting
+
+The previous `shuttle-sample-peripheral-ace.trycloudflare.com` hostname expired
+when its server and tunnel stopped. The replacement
+`exclusive-haven-significance-playstation.trycloudflare.com` was only an interim
+recovery endpoint. The Fly origin replaces both; do not distribute old tunnel
+links. The old public runtime directory is retained locally for historical
+logs, independently of the private local app.
+
+Repository variable `VISCERA_STUDIO_ORIGIN` now points to the fixed Fly origin.
+Rollback uses a known-good protected cloud image with the same secret and
+volume; it must never restore the public Pages app assets. The portfolio
+repository's Pages settings remain unchanged. The VISCERA source repository
+is public; web authentication does not restrict material already in Git history.
