@@ -8,8 +8,9 @@ import signal
 import subprocess
 import sys
 import tempfile
+from types import SimpleNamespace
 import unittest
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -32,15 +33,20 @@ class CloudTests(unittest.TestCase):
                 entry.configure_access(Path(directory) / "data", Path(directory) / "private")
 
     def test_private_credentials_and_no_child_environment_secret(self):
-        from services.web.studio_access import password_hash
-        payload = {"username": "cloud-fixture", "password_hash": password_hash("fixture-only")}
+        # Credential parsing itself belongs to the installed service's auth
+        # suite. This unit test checks the deployment boundary and delegation,
+        # without requiring a locally installed browser release in a checkout.
+        validator = Mock()
+        auth = SimpleNamespace(AccessConfig=SimpleNamespace(from_env=validator))
+        payload = {"username": "cloud-fixture", "password_hash": "fixture-only-placeholder"}
         encoded = base64.b64encode(json.dumps(payload).encode()).decode()
-        with tempfile.TemporaryDirectory() as directory, patch.dict(os.environ, {"VISCERA_ACCESS_CONFIG_B64": encoded, "VISCERA_AUTH_ORIGIN": "https://fixture.fly.dev"}):
+        with tempfile.TemporaryDirectory() as directory, patch.dict(os.environ, {"VISCERA_ACCESS_CONFIG_B64": encoded, "VISCERA_AUTH_ORIGIN": "https://fixture.fly.dev"}), patch.dict(sys.modules, {"services.web.studio_access": auth}):
             entry.configure_access(Path(directory) / "data", Path(directory) / "private")
             self.assertNotIn("VISCERA_ACCESS_CONFIG_B64", os.environ)
             path = Path(os.environ["VISCERA_AUTH_CONFIG"])
             self.assertEqual(path.stat().st_mode & 0o777, 0o600)
             self.assertEqual(json.loads(path.read_text()), payload)
+            validator.assert_called_once_with()
 
     def test_dead_server_requests_platform_restart(self):
         previous = {sig: signal.getsignal(sig) for sig in (signal.SIGTERM, signal.SIGINT)}
