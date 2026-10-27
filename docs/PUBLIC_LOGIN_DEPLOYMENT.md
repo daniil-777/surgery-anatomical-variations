@@ -49,7 +49,7 @@ deployment commands, the initial image reference, recovery and cost details.
 
 ## Verification
 
-The 45 authentication/recorder/cloud tests and three gateway behavior tests
+The 45 authentication/recorder/cloud tests and four gateway behavior tests
 passed. Live cloud checks confirmed the login is public, invalid credentials
 are rejected, and unauthenticated model/catalog/session requests return 401.
 A short-lived server-issued QA session retrieved byte-identical application,

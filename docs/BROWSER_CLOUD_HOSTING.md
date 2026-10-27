@@ -45,6 +45,8 @@ build context. Do not configure Fly `[[statics]]`: it bypasses web middleware.
 - The Pages gateway probes the public login artwork before redirecting. During
   an outage it shows a retry message, retries after 30 seconds, and keeps a
   link to the generation portal. A failed probe times out after eight seconds.
+  The script URL changes with its content so a new destination does not reuse
+  an old cached redirect script.
 
 One machine and one regional volume cannot provide zero downtime during a host
 or regional outage. Deployments/restarts may briefly interrupt service. The
@@ -105,7 +107,7 @@ Digest: `sha256:9537d3ea17ccb25dad94deb4ec0514662732a3ee09d9c43730c46e87443eea35
 
 Machine: `48edd237c45648`; volume: `vol_r1j7w383o07oxqpr`.
 
-The 45 authentication, recorder and recovery tests and three gateway behavior
+The 45 authentication, recorder and recovery tests and four gateway behavior
 tests passed. Live checks verified invalid-login rejection, an authenticated
 five-minute QA session, byte-identical app/scene/model/recorder assets, and logout
 revocation. The QA session was revoked. The HTTP worker runs as uid 1000 without

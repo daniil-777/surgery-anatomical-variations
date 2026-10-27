@@ -1,5 +1,6 @@
 """Build only a sign-in redirect for GitHub Pages, never the unprotected studio."""
 import argparse
+import hashlib
 import html
 import json
 from pathlib import Path
@@ -66,6 +67,10 @@ function checkStudio() {{
 document.querySelector('#retry').addEventListener('click', checkStudio);
 checkStudio();
 '''
+    # Address changes must load their matching script instead of a browser's
+    # cached redirect to a retired endpoint. Pages still contains four files.
+    version = hashlib.sha256(script.encode()).hexdigest()[:16]
+    document = document.replace('gateway.js"></script>', f'gateway.js?v={version}"></script>')
     (out / "index.html").write_text(document)
     (out / "404.html").write_text(document)
     (out / "gateway.js").write_text(script)

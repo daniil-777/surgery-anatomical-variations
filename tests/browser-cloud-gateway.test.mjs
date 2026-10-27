@@ -6,10 +6,11 @@ import path from 'node:path';
 import vm from 'node:vm';
 import test from 'node:test';
 
-function fixture() {
+function fixture(origin = 'https://fixture.example') {
   const output = mkdtempSync(path.join(tmpdir(), 'viscera-gateway-'));
-  execFileSync('python3', ['scripts/build_login_gateway.py', '--out', output, '--origin', 'https://fixture.example']);
+  execFileSync('python3', ['scripts/build_login_gateway.py', '--out', output, '--origin', origin]);
   const source = readFileSync(path.join(output, 'gateway.js'), 'utf8');
+  const html = readFileSync(path.join(output, 'index.html'), 'utf8');
   assert.deepEqual(readdirSync(output).sort(), ['.nojekyll', '404.html', 'gateway.js', 'index.html']);
   rmSync(output, { recursive: true });
   const images = [], redirects = [], timers = new Map();
@@ -23,8 +24,17 @@ function fixture() {
     setTimeout: (fn, ms) => { timers.set(++timerId, { fn, ms }); return timerId; },
     clearTimeout: id => timers.delete(id),
   });
-  return { images, redirects, elements, timers };
+  return { images, redirects, elements, timers, html };
 }
+
+test('changing the destination loads a new script URL instead of a cached redirect', () => {
+  const before = fixture();
+  const after = fixture('https://replacement.example');
+  const scriptUrl = html => html.match(/<script src="([^"]+)"/)[1];
+  assert.notEqual(scriptUrl(before.html), scriptUrl(after.html));
+  after.images[0].onload();
+  assert.equal(new URL(after.redirects[0]).origin, 'https://replacement.example');
+});
 
 test('a healthy studio preserves the requested workspace through login', () => {
   const f = fixture();
