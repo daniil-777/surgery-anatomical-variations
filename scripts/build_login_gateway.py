@@ -22,7 +22,9 @@ def build(out: Path, origin: str):
 <style>body{{margin:0;min-height:100vh;display:grid;place-items:center;background:#eaf3e2;color:#213b2c;font:18px system-ui,sans-serif}}main{{max-width:34rem;padding:2rem}}h1{{font-size:2rem}}a{{color:inherit;text-underline-offset:4px}}p{{line-height:1.6}}</style>
 </head><body><main><h1>Viscera Studio</h1><p>Sign in to enter your workspace.</p>
 <p><a id="signin" href="{html.escape(login, quote=True)}">Continue to sign in</a></p>
-<p>The studio is hosted temporarily. If it is unavailable, please try again later.</p></main>
+<p id="status" role="status" aria-live="polite">Checking the studio…</p>
+<button id="retry" type="button" hidden>Try again</button>
+<p><a href="https://daniil-777.github.io/generation-lab/">Open 2D / 3D Generation Lab</a></p></main>
 <script src="/surgery-anatomical-variations/gateway.js"></script></body></html>'''
     script = f'''const destination = new URL({json.dumps(login)});
 const prefix = '/surgery-anatomical-variations';
@@ -30,7 +32,39 @@ const route = location.pathname.startsWith(prefix + '/') ? location.pathname.sli
 const next = route + location.search;
 destination.searchParams.set('next', next);
 document.querySelector('#signin').href = destination.href;
-location.replace(destination.href);
+let attempt = 0;
+let retryTimer;
+function checkStudio() {{
+  const current = ++attempt;
+  clearTimeout(retryTimer);
+  const status = document.querySelector('#status');
+  const retry = document.querySelector('#retry');
+  status.textContent = 'Checking the studio…';
+  retry.hidden = true;
+  // A public login image verifies a real response without CORS privileges,
+  // authentication cookies, or navigating away from the working gateway.
+  const probe = new Image();
+  probe.referrerPolicy = 'no-referrer';
+  let finished = false;
+  const finish = (online) => {{
+    if (finished || current !== attempt) return;
+    finished = true;
+    clearTimeout(timeout);
+    if (online) {{
+      location.replace(destination.href);
+    }} else {{
+      status.textContent = 'The studio is temporarily unavailable. We will try again shortly.';
+      retry.hidden = false;
+      retryTimer = setTimeout(checkStudio, 30000);
+    }}
+  }};
+  const timeout = setTimeout(() => finish(false), 8000);
+  probe.onload = () => finish(true);
+  probe.onerror = () => finish(false);
+  probe.src = new URL('/auth/ui/mark.svg?availability=' + Date.now(), destination).href;
+}}
+document.querySelector('#retry').addEventListener('click', checkStudio);
+checkStudio();
 '''
     (out / "index.html").write_text(document)
     (out / "404.html").write_text(document)

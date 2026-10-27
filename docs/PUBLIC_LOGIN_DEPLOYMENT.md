@@ -1,6 +1,15 @@
 # Public login deployment — 26 October 2026
 
-Public login: https://shuttle-sample-peripheral-ace.trycloudflare.com/auth/login
+Public login: https://exclusive-haven-significance-playstation.trycloudflare.com/auth/login
+
+27 October 2026 recovery: the previous server and tunnel processes had stopped.
+Restarted the existing supervisor with the same installed release and login
+configuration. The replacement public login returned HTTP 200 with its login
+form; the unauthenticated atlas API returned HTTP 401. The GitHub Pages gateway
+origin was updated to the replacement tunnel, and the publicly served `gateway.js`
+was verified to point to the new login. Normal-DNS HTTPS login also returned 200.
+The old `shuttle-sample-peripheral-ace`
+address is expired. This remains temporary hosting with the lifetime described below.
 
 The existing address, https://daniil-777.github.io/surgery-anatomical-variations/,
 now redirects to the protected studio. GitHub Pages must contain

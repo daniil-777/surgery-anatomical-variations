@@ -1,0 +1,22 @@
+name: VISCERA availability
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: viscera-availability
+  cancel-in-progress: false
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: scripts
+      - name: Verify public login and authentication boundary
+        env:
+          STUDIO_ORIGIN: ${{ vars.VISCERA_STUDIO_ORIGIN }}
+        run: python3 scripts/check_browser_uptime.py --origin "$STUDIO_ORIGIN"

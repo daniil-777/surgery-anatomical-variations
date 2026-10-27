@@ -18,6 +18,8 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
+      - name: Verify gateway outage and recovery behavior
+        run: node --test tests/browser-cloud-gateway.test.mjs
       - name: Build sign-in gateway only
         env:
           VISCERA_STUDIO_ORIGIN: ${{ vars.VISCERA_STUDIO_ORIGIN }}
