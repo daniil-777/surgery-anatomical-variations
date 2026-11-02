@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#eaf3e2">
+  <title>VISCERA — Enter the studio</title>
+  <link rel="icon" href="/auth/ui/mark.svg" type="image/svg+xml">
+  <link rel="preload" href="/auth/ui/inter-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/auth/ui/login.css">
+  <link rel="stylesheet" href="/auth/ui/welcome.css">
+  <script src="/auth/ui/welcome.js" defer></script>
+  <script src="/auth/recorder/launcher.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#welcome-button">Skip to Welcome</a>
+  <div class="entrance">
+    <header class="masthead">
+      <a class="wordmark" href="/auth/login" aria-label="Viscera studio home"><img src="/auth/ui/mark.svg" width="31" height="31" alt=""><span>VISCERA<span class="wordmark-sub">ANATOMY STUDIO</span></span></a>
+      <a class="access-link" href="#welcome" aria-label="Jump to Welcome"><span class="status-dot" aria-hidden="true"></span>Welcome <span aria-hidden="true">↗</span></a>
+    </header>
+    <main class="entrance-main">
+      <section class="showcase" aria-labelledby="showcase-title">
+        <p class="eyebrow"><span class="short-rule" aria-hidden="true"></span>FORM. SURFACE. RESPONSE.</p>
+        <h1 id="showcase-title">Anatomy, <br>in extraordinary <em>detail.</em></h1>
+        <p class="intro">Explore lifelike organs. Shape their variations.<br class="desktop-break"> Bring tissue, physics, and materials together.</p>
+        <div class="studies-heading"><p>Inside the studio</p><button id="toggle-previews" type="button" aria-controls="studio-previews" aria-label="Play previews" hidden><span class="motion-icon" aria-hidden="true">▶</span><span class="motion-label">Play previews</span></button></div>
+        <div class="studies" id="studio-previews" aria-label="Four recorded studio workflows">
+          <figure class="study"><div class="study-image"><img src="/auth/ui/shape-preview.jpg" data-poster="/auth/ui/shape-preview.jpg" data-motion-src="/auth/ui/shape.gif" width="560" height="350" alt="Recorded liver samples changing both organ shape and tissue appearance" fetchpriority="high"></div><figcaption><span class="study-index">01</span><span><strong>Shape &amp; texture</strong><small>Joint anatomy variations</small></span></figcaption></figure>
+          <figure class="study"><div class="study-image"><img src="/auth/ui/physics-preview.jpg" data-poster="/auth/ui/physics-preview.jpg" data-motion-src="/auth/ui/physics.gif" width="560" height="350" alt="A simulated grasper lifts and stretches a liver, then releases it"></div><figcaption><span class="study-index">02</span><span><strong>Tissue physics</strong><small>Grasp, deform &amp; release</small></span></figcaption></figure>
+          <figure class="study"><div class="study-image"><img src="/auth/ui/grasp-preview.jpg" data-poster="/auth/ui/grasp-preview.jpg" data-motion-src="/auth/ui/grasp.gif" width="560" height="350" alt="An autonomous camera approaches the liver and a simulated instrument grasps and releases it"></div><figcaption><span class="study-index">03</span><span><strong>Autonomous grasping</strong><small>Approach, grasp &amp; release <span class="playback-rate">· 6×</span></small></span></figcaption></figure>
+          <figure class="study"><div class="study-image"><img src="/auth/ui/materials-preview.jpg" data-poster="/auth/ui/materials-preview.jpg" data-motion-src="/auth/ui/materials.gif" width="560" height="350" alt="A layered tissue sample changes pigment, fat coverage and wet surface reflections"></div><figcaption><span class="study-index">04</span><span><strong>Material variations</strong><small>Pigment, layers &amp; light</small></span></figcaption></figure>
+        </div>
+        <p class="render-note"><span aria-hidden="true">↳</span> Recorded in Viscera. Simulation, in motion.</p>
+      </section>
+      <section class="access-panel welcome-panel" id="welcome" aria-labelledby="welcome-title">
+        <div class="access-inner">
+          <div class="access-symbol welcome-symbol" aria-hidden="true"><svg viewBox="0 0 32 32" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M16 3 28 10v12L16 29 4 22V10Z"/><path d="m4 10 12 7 12-7M16 17v12M16 3v14"/></svg></div>
+          <p class="eyebrow">A SPACE TO EXPLORE</p>
+          <h2 id="welcome-title">Curiosity starts here.</h2>
+          <p class="sign-in-intro">Step inside. Discover anatomy in detail,<br class="desktop-break"> and make it your own.</p>
+          <form id="welcome-form" action="/auth/enter" method="post" aria-label="Enter Viscera Studio">
+            <button id="welcome-button" class="welcome-button" type="submit"><span id="welcome-label">Welcome</span><span class="welcome-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></span></button>
+            <p id="welcome-feedback" role="status" aria-live="polite" aria-atomic="true"></p>
+          </form>
+          <p id="script-required" class="no-script">Enable JavaScript to enter and use the 3D studio.</p>
+          <div class="access-footnote"><span class="footnote-rule"></span><p>Open to everyone.<br>Shape, inspect, and experiment.</p></div>
+        </div>
+      </section>
+    </main>
+    <footer class="entrance-footer"><span>VISCERA <span class="footer-divider">/</span> Generative anatomy studio</span><span>Made for exploration. <a href="/auth/ui/credits.html">Image credits</a></span></footer>
+  </div>
+</body>
+</html>

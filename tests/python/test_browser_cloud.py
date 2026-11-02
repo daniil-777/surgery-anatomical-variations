@@ -2,6 +2,7 @@
 import base64
 import importlib.util
 import json
+import io
 import os
 from pathlib import Path
 import signal
@@ -10,6 +11,7 @@ import sys
 import tempfile
 from types import SimpleNamespace
 import unittest
+import urllib.error
 from unittest.mock import Mock, patch
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -27,6 +29,15 @@ stager = module("browser_stage", ROOT / "scripts/stage_browser_cloud.py")
 
 
 class CloudTests(unittest.TestCase):
+    def test_public_welcome_health_and_password_regression(self):
+        for document, expected in [(b'<button id="welcome-button">Welcome</button>', True),
+                                   (b'<input type="password">', False)]:
+            response = io.BytesIO(document)
+            response.status = 200
+            unauthorized = urllib.error.HTTPError("http://fixture/auth/session", 401, "Unauthorized", {}, None)
+            with patch.dict(os.environ, {"VISCERA_PUBLIC_WELCOME": "1"}), patch.object(entry.urllib.request, "urlopen", side_effect=[response, unauthorized]):
+                self.assertEqual(entry.healthy(8080, "https://fixture.fly.dev"), expected)
+
     def test_missing_secret_fails_closed(self):
         with tempfile.TemporaryDirectory() as directory, patch.dict(os.environ, {}, clear=True):
             with self.assertRaisesRegex(RuntimeError, "secret is missing"):

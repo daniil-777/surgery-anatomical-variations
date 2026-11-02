@@ -11,7 +11,7 @@ import shutil
 SOURCE = Path(__file__).resolve().parents[1]
 
 
-def stage(release: Path, out: Path, app: str, region: str = "fra") -> dict:
+def stage(release: Path, out: Path, app: str, region: str = "fra", *, public_welcome: bool = False) -> dict:
     if not re.fullmatch(r"[a-z][a-z0-9-]{2,60}", app) or not re.fullmatch(r"[a-z]{3}", region):
         raise ValueError("Use a valid Fly app name and three-letter region.")
     if out.exists() and any(out.iterdir()):
@@ -36,6 +36,12 @@ def stage(release: Path, out: Path, app: str, region: str = "fra") -> dict:
             shutil.copyfile(source, target)
     for name in ("Dockerfile", "entrypoint.py", "requirements.txt"):
         shutil.copyfile(SOURCE / "deploy/browser" / name, out / name)
+    if public_welcome:
+        # Preserve the installed studio bundles; update only its entrance.
+        for name in ("services/web/studio_access.py", "services/web/login/welcome.html",
+                     "services/web/login/welcome.js", "services/web/login/welcome.css"):
+            shutil.copyfile(SOURCE / name, out / name)
+    welcome_env = '  VISCERA_PUBLIC_WELCOME = "1"\n' if public_welcome else ''
     (out / ".dockerignore").write_text(".git\n*.sqlite\n*.sqlite-*\n.env*\n*access*.json\ncloud-manifest.json\n")
     (out / "fly.toml").write_text(f'''app = "{app}"
 primary_region = "{region}"
@@ -46,6 +52,7 @@ kill_timeout = "20s"
   dockerfile = "Dockerfile"
 [env]
   PORT = "8080"
+{welcome_env}\
   VISCERA_AUTH_ORIGIN = "https://{app}.fly.dev"
 [[mounts]]
   source = "viscera_sessions"
@@ -80,7 +87,8 @@ kill_timeout = "20s"
              for path in sorted(out.rglob("*")) if path.is_file()}
     receipt = {"schema": "viscera.browser-cloud/v1", "source_release": release.name,
                "app": app, "region": region, "files": files,
-               "bytes": sum(item["bytes"] for item in files.values()), "credentials_included": False}
+               "bytes": sum(item["bytes"] for item in files.values()), "credentials_included": False,
+               "public_welcome": public_welcome}
     (out / "cloud-manifest.json").write_text(json.dumps(receipt, indent=2) + "\n")
     return receipt
 
@@ -91,6 +99,7 @@ if __name__ == "__main__":
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--app", required=True)
     parser.add_argument("--region", default="fra")
+    parser.add_argument("--public-welcome", action="store_true", help="Replace credentials with a public Welcome entrance")
     args = parser.parse_args()
-    receipt = stage(args.release, args.out, args.app, args.region)
+    receipt = stage(args.release, args.out, args.app, args.region, public_welcome=args.public_welcome)
     print(json.dumps({key: value for key, value in receipt.items() if key != "files"}, indent=2))

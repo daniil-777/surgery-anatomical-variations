@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           sparse-checkout: scripts
-      - name: Verify public login and authentication boundary
+      - name: Verify studio entrance and session boundary
         env:
           STUDIO_ORIGIN: ${{ vars.VISCERA_STUDIO_ORIGIN }}
         run: python3 scripts/check_browser_uptime.py --origin "$STUDIO_ORIGIN"

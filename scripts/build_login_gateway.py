@@ -19,10 +19,10 @@ def build(out: Path, origin: str):
     document = f'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow"><meta name="referrer" content="no-referrer">
-<title>Sign in · Viscera Studio</title>
+<title>Welcome · Viscera Studio</title>
 <style>body{{margin:0;min-height:100vh;display:grid;place-items:center;background:#eaf3e2;color:#213b2c;font:18px system-ui,sans-serif}}main{{max-width:34rem;padding:2rem}}h1{{font-size:2rem}}a{{color:inherit;text-underline-offset:4px}}p{{line-height:1.6}}</style>
-</head><body><main><h1>Viscera Studio</h1><p>Sign in to enter your workspace.</p>
-<p><a id="signin" href="{html.escape(login, quote=True)}">Continue to sign in</a></p>
+</head><body><main><h1>Viscera Studio</h1><p>Your anatomy workspace is ready to explore.</p>
+<p><a id="signin" href="{html.escape(login, quote=True)}">Welcome — open the studio</a></p>
 <p id="status" role="status" aria-live="polite">Checking the studio…</p>
 <button id="retry" type="button" hidden>Try again</button>
 <p><a href="https://daniil-777.github.io/generation-lab/">Open 2D / 3D Generation Lab</a></p></main>

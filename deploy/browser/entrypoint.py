@@ -65,7 +65,10 @@ def healthy(port: int, origin: str) -> bool:
     try:
         request = urllib.request.Request(f"http://127.0.0.1:{port}/auth/login", headers=headers)
         with urllib.request.urlopen(request, timeout=4) as response:
-            if response.status != 200 or b'type="password"' not in response.read(256_000):
+            document = response.read(256_000)
+            public = os.environ.get("VISCERA_PUBLIC_WELCOME") == "1"
+            expected = b'id="welcome-button"' if public else b'type="password"'
+            if response.status != 200 or expected not in document or (public and b'type="password"' in document):
                 return False
         request = urllib.request.Request(f"http://127.0.0.1:{port}/auth/session", headers=headers)
         try:

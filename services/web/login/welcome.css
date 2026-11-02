@@ -1,0 +1,16 @@
+/* The public entrance shares the existing sage gallery and typography. */
+.welcome-panel{padding-top:56px;padding-bottom:56px}
+.welcome-symbol{width:64px;height:64px;border-radius:20px;background:linear-gradient(145deg,#f6faef,#dcebcf);box-shadow:0 2px 3px #213b2c06,0 10px 24px #213b2c08}
+.welcome-panel h2{text-wrap:balance;font-size:clamp(32px,3vw,42px);line-height:1.14;max-width:340px}
+.welcome-panel .sign-in-intro{text-wrap:pretty;margin-top:18px;margin-bottom:30px}
+.welcome-button{display:flex;align-items:center;justify-content:space-between;gap:24px;width:100%;min-height:72px;padding:12px 15px 12px 25px;border:1px solid #28553a;border-radius:18px;background:linear-gradient(120deg,#38734b,#234d34);color:#fff;font-size:20px;font-weight:500;letter-spacing:-.025em;box-shadow:inset 0 1px 0 #ffffff26,0 3px 6px #213b2c0c,0 12px 28px #213b2c1a;transition:transform .18s ease,box-shadow .18s ease,background .18s ease}
+.welcome-arrow{display:grid;place-items:center;width:42px;height:42px;flex-shrink:0;border:1px solid #ffffff26;border-radius:12px;background:#ffffff10;transition:transform .18s ease,background .18s ease}
+.welcome-button:hover:not(:disabled){transform:translateY(-2px);box-shadow:inset 0 1px 0 #ffffff26,0 4px 8px #213b2c12,0 16px 32px #213b2c26}
+.welcome-button:hover:not(:disabled) .welcome-arrow{transform:translateX(2px);background:#ffffff20}
+.welcome-button:active:not(:disabled){transform:translateY(0) scale(.985)}
+.welcome-button:focus-visible{outline:3px solid #38734b;outline-offset:5px}
+#welcome-feedback{font-size:14px;line-height:1.6;color:#9c3d31;margin:12px 0 0}
+#welcome-feedback:empty{display:none}
+@media(max-width:900px){.welcome-panel{padding:36px 0 0}.welcome-panel .access-symbol{display:flex}.welcome-panel h2{max-width:none}}
+@media(max-width:480px){.welcome-panel{padding-top:30px}.welcome-button{min-height:68px;padding-left:22px}}
+@media(prefers-reduced-motion:reduce){.welcome-button,.welcome-arrow{transition:none!important;transform:none!important}}
